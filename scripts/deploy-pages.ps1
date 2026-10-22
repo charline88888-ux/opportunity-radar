@@ -1,4 +1,4 @@
-# deploy-pages.ps1 — 把冻结版本发布到 GitHub Pages（v0.2.0）
+﻿# deploy-pages.ps1 — 把冻结版本发布到 GitHub Pages（v0.2.0）
 # 用法：
 #   $env:GITHUB_TOKEN = "ghp_xxx"
 #   powershell -ExecutionPolicy Bypass -File scripts/deploy-pages.ps1 -Version v0.2.0

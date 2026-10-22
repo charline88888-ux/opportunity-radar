@@ -52,6 +52,7 @@ import { ACTIVE_CAPACITY, experimentReviewInfo, useExperiments } from '@/lib/exp
 import { useProfile, profileSummaryRows, CAPABILITY_LABELS, type CapabilityVector } from '@/lib/profile'
 import { recommendTop } from '@/lib/recommend'
 import { recordRecEvent } from '@/lib/rec_log'
+import { freshness } from '@/lib/freshness'
 import { useAlerts } from '@/lib/alerts'
 import { cn, fmtCny, fmtInt, fmtPct, fmtScore, gradeColor } from '@/lib/utils'
 
@@ -130,6 +131,7 @@ export default function Dashboard() {
   const { items: experiments } = useExperiments()
   const { profile, capability } = useProfile()
   const alertCenter = useAlerts()
+  const fresh = freshness()
   const countryCoverage = useMemo(() => new Set(opportunities.flatMap((o) => o.target_countries)).size, [])
   const recTop = useMemo(() => recommendTop(profile, 3), [profile])
   useEffect(() => {
@@ -339,7 +341,9 @@ export default function Dashboard() {
             <Badge tone="signal">
               <ShieldCheck className="h-3 w-3" /> 契约自检 {dataMeta.validation?.failed ? 'FAIL' : 'PASS'}
             </Badge>
-            <Badge tone="neutral">数据基准 {dataAsOf}</Badge>
+            <Badge tone={fresh.level === 'fresh' ? 'signal' : fresh.level === 'warning' ? 'amber' : 'danger'}>
+              数据基准 {fresh.asOf} · 距今 {fresh.days} 天
+            </Badge>
             <Link
               to="/lab"
               className={cn(

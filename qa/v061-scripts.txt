@@ -1,0 +1,15 @@
+
+== scripts-check ==
+  · scripts/*.ps1 语法解析：5 个全部通过（未执行计划任务）✅
+  · daily-run.ps1 关键步骤齐全（pipeline --all/--as-of、validate、pnpm build、current 复制、ALERT、fetch 可选）✅
+  · install-daily-task.ps1 已指向 daily-run.ps1 ✅
+  · build_site 根 index.html = releases/v0.6.0/dist（逐字节）✅
+  · versions.json latest=v0.6.0，版本 8 个 ✅
+  · build_site 归档校验：8 个版本逐字节一致、404/.nojekyll 齐全 ✅
+  · build_site.py 双跑字节一致（确定性）✅
+  · ci.yml：validate + unittest + pnpm build + build_site 步骤齐全 ✅
+  · deploy-pages.yml：tag 触发 + 冻结 release 校验 + build_site + gh-pages 发布 ✅
+  · YAML 解析器：PyYAML 可用
+
+P0 = 0  P1 = 0  P2 = 0
+RESULT: PASS

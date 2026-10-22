@@ -90,9 +90,20 @@ const ROADMAP = [
 
 const HISTORY = [
   {
-    version: 'v0.6.0',
+    version: 'v0.6.1',
     date: '2026-10-22',
     tag: '当前版本',
+    items: [
+      '数据新鲜度：指挥台显示基准日与距今天数；3–7 天琥珀、>7 天红色全站提示，可关闭（本次会话）',
+      '/alerts 新增「数据过期」规则：>7 天高、3–7 天中，id 含 as_of，数据更新后自动恢复；Dashboard 预警数包含',
+      'About 新增「数据更新方式」：daily-run.ps1、pipeline --all --as-of、--fetch→outbox 人工复核、release.ps1/CI',
+      '/data 显示当前数据基准日/最新采集时间，并提示每日任务输出 current/index.html；版本升 0.6.1',
+    ],
+  },
+  {
+    version: 'v0.6.0',
+    date: '2026-10-22',
+    tag: '上一版本',
     items: [
       '适配 80+ 机会库：四窗口、筛选、详情、推荐、预警、校准与年鉴在更大库上验证；新增「国家/地区覆盖」KPI（目标 ≥50）',
       '年鉴新增指标：月度等级分布、信息差月度热度、窗口衰减统计、实验漏斗/成功率；与后端 yearbook.py 指标口径对齐',
@@ -203,7 +214,13 @@ const EN_DOCS: Array<[string, string, string]> = [
 ]
 
 const EN_HISTORY = [
-  { version: 'v0.6.0', date: '2026-10-22', tag: 'Current', items: [
+  { version: 'v0.6.1', date: '2026-10-22', tag: 'Current', items: [
+    'Data freshness: dashboard baseline date + age; 3–7 days amber, >7 days red site-wide warning (dismissible for this session)',
+    'Alerts add a “Data stale” rule: >7 days critical, 3–7 days warning, id includes as_of; Dashboard alert count includes it',
+    'About “Data updates”: daily-run.ps1, pipeline --all --as-of, --fetch→outbox manual review, release.ps1/CI',
+    '/data shows baseline date/latest collection time and notes the daily task output current/index.html; version 0.6.1',
+  ]},
+  { version: 'v0.6.0', date: '2026-10-22', tag: 'Previous', items: [
     '80+ opportunity library: validated rankings, filters, detail, recommendations, alerts, calibration, and yearbook at larger scale; new “Countries / regions” KPI (target ≥50)',
     'Yearbook metrics: monthly grade mix, monthly gap heat, window decay stats, experiment funnel/success rate; aligned with backend yearbook.py',
     'i18n bilingual wrap-up; About v0.6.0; data 0.6.0 quota/version synced',
@@ -306,19 +323,23 @@ function AboutEn() {
             </a>
           </div>
           <div className="mt-2 rounded border border-signal/20 bg-signal/[0.03] px-2.5 py-2">
-            <div className="mono-label text-signal">v0.6.0 changes</div>
+            <div className="mono-label text-signal">v0.6.1 changes</div>
             <div className="mt-0.5 text-[10.5px] leading-relaxed text-muted">
-              80+ opportunity library validated across rankings/detail/recommendations/alerts/calibration/yearbook · new countries/regions KPI · yearbook monthly grade/gap heat/window decay/experiment funnel · i18n polish · version 0.6.0.
+              Data freshness dashboard/banner (3–7d amber, &gt;7d red) · data-stale alert rule with as_of fingerprint · About data-update commands · /data baseline/latest collection + current/index.html note · version 0.6.1.
             </div>
           </div>
           <div className="mt-2 rounded border border-amber/25 bg-amber/[0.04] px-2.5 py-2 text-[10.5px] leading-relaxed text-amber">
-            Bilingual note: all static UI strings switch between Chinese and English. Opportunity content (titles, one-liners, evidence, seven Q&A) intentionally remains Chinese in v0.6.0 and is marked in the UI. Switching language does not reload the page or reset routes, filters, or profile state.
+            Bilingual note: all static UI strings switch between Chinese and English. Opportunity content (titles, one-liners, evidence, seven Q&A) intentionally remains Chinese in v0.6.1 and is marked in the UI. Switching language does not reload the page or reset routes, filters, or profile state.
           </div>
           <div className="mt-3 rounded border border-line/70 bg-black/20 px-2.5 py-2 font-mono text-[10px] leading-relaxed text-dim">
             <div>sync: node app/scripts/sync-data.mjs --strict</div>
             <div>build: cd app &amp;&amp; pnpm install &amp;&amp; pnpm build</div>
             <div>out: app/dist/index.html (double-click for offline use)</div>
             <div>calibration: python scanner/calibrate.py --experiments &lt;export.json&gt;</div>
+          </div>
+          <div className="mt-2 rounded border border-line/70 bg-black/20 px-2.5 py-2 text-[10px] leading-relaxed text-dim">
+            <div className="mono-label mb-1">Data updates</div>
+            Daily task <span className="font-mono">scripts/daily-run.ps1</span> (as_of → pipeline --all → validate → build → current/index.html); manual <span className="font-mono">python scanner/pipeline.py --all --as-of YYYY-MM-DD</span>; <span className="font-mono">--fetch</span> writes candidates to outbox for human review, never auto-imported; release via <span className="font-mono">scripts/release.ps1</span> / CI.
           </div>
         </SectionCard>
         <div className="space-y-3 xl:col-span-5">
@@ -474,17 +495,21 @@ export default function About() {
             </a>
           </div>
           <div className="mt-2 rounded border border-signal/20 bg-signal/[0.03] px-2.5 py-2">
-            <div className="mono-label text-signal">v0.6.0 本轮变更</div>
+            <div className="mono-label text-signal">v0.6.1 本轮变更</div>
             <div className="mt-0.5 text-[10.5px] leading-relaxed text-muted">
-              适配 80+ 机会库（榜单/详情/推荐/预警/校准/年鉴）· 新增「国家/地区覆盖」KPI · 年鉴新增月度等级分布、信息差热度、窗口衰减、实验漏斗 · i18n 收尾 · 版本 0.6.0。
+              数据新鲜度（基准日 + 距今天数；3–7 天琥珀、&gt;7 天红色全站提示）· /alerts 数据过期规则（id 含 as_of）· About 更新方式说明 · /data 基准日/最新采集时间与 current/index.html 提示 · 版本 0.6.1。
             </div>
           </div>
           <div className="mt-2 rounded border border-amber/25 bg-amber/[0.04] px-2.5 py-2 text-[10.5px] leading-relaxed text-amber">
-            双语说明 / Bilingual note：全部静态 UI 文案支持中英切换；机会内容（标题、一句话、证据、七问答案）保持中文，EN 模式下页面顶部有明确标注。v0.5.0 新增 /yearbook 与 /data 均完整双语；数据包只在本机处理。</div>
+            双语说明 / Bilingual note：全部静态 UI 文案支持中英切换；机会内容（标题、一句话、证据、七问答案）保持中文，EN 模式下页面顶部有明确标注。v0.6.1 新增数据新鲜度提示、数据过期预警与更新方式说明；数据包只在本机处理。</div>
           <div className="mt-3 rounded border border-line/70 bg-black/20 px-2.5 py-2 font-mono text-[10px] leading-relaxed text-dim">
             <div>sync: node app/scripts/sync-data.mjs --strict</div>
             <div>build: cd app &amp;&amp; pnpm install &amp;&amp; pnpm build</div>
             <div>out: app/dist/index.html（双击即可离线打开）</div>
+          </div>
+          <div className="mt-2 rounded border border-line/70 bg-black/20 px-2.5 py-2 text-[10px] leading-relaxed text-dim">
+            <div className="mono-label mb-1">数据更新方式 / Data updates</div>
+            每日自动任务 <span className="font-mono">scripts/daily-run.ps1</span>（as_of → pipeline --all → validate → build → current/index.html）；手动 <span className="font-mono">python scanner/pipeline.py --all --as-of YYYY-MM-DD</span>；<span className="font-mono">--fetch</span> 采集结果进 outbox 人工复核、不自动入库；发布用 <span className="font-mono">scripts/release.ps1</span> / CI。
           </div>
           <div className="mt-2 flex items-start gap-1.5 text-[10px] leading-relaxed text-dim">
             <Info className="mt-0.5 h-3 w-3 shrink-0 text-cyan" />

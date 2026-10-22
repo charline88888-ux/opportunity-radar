@@ -2,6 +2,35 @@
 
 格式：`data_version` + 日期 + 变更内容 + 影响面。契约变更（字段/枚举/公式）必须同步更新 `docs/12-数据契约与字段字典.md` 并通知 Lead、前端、红队。
 
+## data-v0.6.1 · 2026-10-22 · PATCH（`--as-of` 真实每日运行 + V08 配额规则调整）
+
+> 向后兼容：默认行为不变（仍以 `DEFAULT_AS_OF=2026-10-22` 为基准）；新增可选 `--as-of`；机会库/榜单字段不变，版本号升 0.6.1。
+
+### `pipeline.py --as-of YYYY-MM-DD`（作用于 --all/rank/stats/history/report 等）
+- 新增 `resolve_as_of()`：`None → config.DEFAULT_AS_OF`，显式日期解析，非法日期 exit 2；`--all/--rank/--stats` 的窗口归属、历史快照文件名/内容、`rankings.meta.as_of`、`stats.meta.as_of` 全部按该日。
+- `--replay-as-of` 与 `--as-of` 互不影响：replay 基于 `--as-of` 往前推（`replay_base ≤ as_of` 校验保留）。
+- `report.py --period ... --as-of D`：报告文件名与 `generated_at` 跟随该日（`build_window_data` 支持 as_of 覆盖）。
+- `yearbook.py`：`generated_at`/年份数据跟随 `rankings.meta.as_of`（每日运行后自动取最新数据日）。
+- 同输入重复运行字节级确定性；测试不同日期后须用 `--all` 恢复基准日。
+
+### validate V08 配额规则调整（V07/V19 使用 meta.as_of）
+- `_as_of()` 优先取 `rankings.meta.as_of`（`--as-of` 每日运行），缺失回退 taxonomy（基准日）——V07/V09/V14/V19 等日期规则不再硬编码。
+- **V08 完整配额（day≥10/week≥20/month≥30/year≥80）只在基准发布日 `as_of == 2026-10-22` 强制**；其他 as_of 只校验结构（rank 连续、rank_score 降序、opp_id 存在、change 合法），允许条数为 0，并在结果明细标注「非基准日 as_of=…，仅校验结构、允许空榜」。
+- 单测：as_of=2026-10-23（day 0 / week 49 / month 57 / year 80）、2026-11-01（month 0）、2027-01-01（year 0）在临时目录/纯函数下验证不崩溃且 validate 通过；基准日空榜仍应 FAIL（保证发布日配额）。
+
+### 验证结果（2026-10-22 实测）
+- 基准日：`--all` → day 17 / week 49 / month 57 / year 80；validate **20/20 PASS**；unittest **64/64 OK**；`--all` 幂等。
+- `--as-of 2026-10-23`：day=0 / week=49 / month=57 / year=80，validate 20/20（V08 结构模式、V19 最新快照=10-23）。
+- `--as-of 2026-11-01`：day=0/week=0/month=0/year=80，validate 20/20。
+- `--as-of 2027-01-01`：四窗口全 0，validate 20/20。
+- 测试产生的临时快照/报告已清理，仓库 data 已恢复基准日 2026-10-22 状态。
+- 数据版本升 **0.6.1**（全部 meta）；四窗口报告 8 文件、校准报告、年鉴按 0.6.1 重生成；`radar.db` 重建（80/156/468/8 行）。
+- 指纹（SHA256 前 16）：opportunities `88FDA5AB84B7F826`、rankings `5A89046173507CD7`、history-10-20 `C3062497B40003F3`、history-10-21 `579029757BEA1A0A`、history-10-22 `71BF1115A112DBAE`、stats `607FBCA64EFBFA92`、source-health `C199113DDF570B85`、sources `AFB1FDC10EAFEC60`、radar.db `1D248A1DA534F200`、yearbook html `49ACD2DAE3CFF73F`、calibration html `C22053F7AAF04081`。
+
+### 已知不足
+- `--as-of` 只改变「按日期派生」的窗口/榜单/统计/快照/报告日期，不会凭空产生新信号；真实新增仍依赖 `--fetch` 或人工扩库。
+- 非基准日历史快照仅用于本地每日运行验证，不应提交到仓库（仓库保持 10-20/10-21/10-22 三份）。
+
 ## data-v0.6.0 · 2026-10-22 · MINOR 增量（机会库 46→80、配额提高、年鉴指标细化）
 
 > 向后兼容：字段不变；数量/覆盖要求与榜单配额提高。机会库 46 → **80 条**（新增 34 条，id 047–080）。

@@ -1,4 +1,4 @@
-# release.ps1 — 冻结发布一个新版本（旧版本永不修改）
+﻿# release.ps1 — 冻结发布一个新版本（旧版本永不修改）
 # 用法：
 #   powershell -ExecutionPolicy Bypass -File scripts/release.ps1 -Version v0.1.0
 #   powershell -ExecutionPolicy Bypass -File scripts/release.ps1 -Version v0.1.1 -SkipData -NoGit

@@ -4,6 +4,7 @@ import { dataMeta, opportunities, sourceHealth } from './data'
 import { useExperiments, type Experiment } from './experiments'
 import { capitalCap, useProfile, type Profile } from './profile'
 import { scoreOpportunity } from './recommend'
+import { freshness } from './freshness'
 
 /**
  * 本地预警规则引擎（v0.3.1：告警 id 带数据版本指纹，升版自动重提醒）。
@@ -32,7 +33,7 @@ export const ALERT_RULES = {
 } as const
 
 export type AlertSeverity = 'critical' | 'warning' | 'info'
-export type AlertType = 'window' | 'experiment' | 'source' | 'unverified' | 'high-match'
+export type AlertType = 'window' | 'experiment' | 'source' | 'unverified' | 'high-match' | 'data-stale'
 
 export interface AlertItem {
   id: string
@@ -52,6 +53,7 @@ export const ALERT_TYPE_META: Record<AlertType, { label: string; color: string }
   source: { label: '采集源失败', color: '#ff5d5d' },
   unverified: { label: '未核验证据', color: '#4cc9f0' },
   'high-match': { label: '高匹配未行动', color: '#3ddc97' },
+  'data-stale': { label: '数据过期', color: '#ff5d5d' },
 }
 
 export const ALERT_SEVERITY: Record<AlertSeverity, { label: string; color: string; tone: 'danger' | 'amber' | 'cyan' }> = {
@@ -240,6 +242,21 @@ export function buildAlerts(input: {
         createdAt: now.toISOString(),
       })
     }
+  }
+
+  const fresh = freshness()
+  if (fresh.level !== 'fresh') {
+    alerts.push({
+      id: alertId('data-stale', fresh.asOf),
+      type: 'data-stale',
+      severity: fresh.level === 'stale' ? 'critical' : 'warning',
+      title: `数据已 ${fresh.days} 天未更新（as_of ${fresh.asOf}）`,
+      detail: `数据基准日 ${fresh.asOf}，距今 ${fresh.days} 天；建议运行每日任务 scripts/daily-run.ps1，或手动 python scanner/pipeline.py --all --as-of YYYY-MM-DD 更新数据与构建。`,
+      actionLabel: '查看数据页',
+      actionHref: '/data',
+      targetId: fresh.asOf,
+      createdAt: now.toISOString(),
+    })
   }
 
   return alerts.sort(

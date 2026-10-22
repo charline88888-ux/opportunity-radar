@@ -78,9 +78,16 @@ def _name_maps(taxonomy: dict[str, Any]) -> dict[str, dict[str, str]]:
     }
 
 
-def build_window_data(period: str, taxonomy: dict[str, Any], opportunities: list[dict[str, Any]], rankings: dict[str, Any]) -> dict[str, Any]:
+def build_window_data(
+    period: str,
+    taxonomy: dict[str, Any],
+    opportunities: list[dict[str, Any]],
+    rankings: dict[str, Any],
+    as_of: str | None = None,
+) -> dict[str, Any]:
     names = _name_maps(taxonomy)
     opp_map = {opp["id"]: opp for opp in opportunities}
+    data_as_of = as_of or rankings["meta"]["as_of"]
     window = rankings["windows"][period]
     rows = []
     for item in window["items"]:
@@ -122,9 +129,9 @@ def build_window_data(period: str, taxonomy: dict[str, Any], opportunities: list
         "rows": rows,
         "grade_counts": counts,
         "avg_total": avg_total,
-        "as_of": rankings["meta"]["as_of"],
+        "as_of": data_as_of,
         # 确定性逻辑生成时间（同日重跑字节一致；真实运行时间见 pipeline 日志）
-        "generated_at": f"{rankings['meta']['as_of']}{config.SNAPSHOT_TIME_SUFFIX}",
+        "generated_at": f"{data_as_of}{config.SNAPSHOT_TIME_SUFFIX}",
         "data_version": rankings["meta"].get("data_version", config.DATA_VERSION),
         "disclaimer": config.DISCLAIMER,
     }
@@ -297,7 +304,7 @@ def generate(periods: list[str], as_of: str | None = None, reports_dir: Path | N
     output_dir.mkdir(parents=True, exist_ok=True)
     written: list[dict[str, str]] = []
     for period in periods:
-        data = build_window_data(period, taxonomy, opportunities, rankings)
+        data = build_window_data(period, taxonomy, opportunities, rankings, as_of=as_of)
         html_path = output_dir / f"report-{period}-{as_of}.html"
         md_path = output_dir / f"report-{period}-{as_of}.md"
         html_path.write_text(render_html(data), encoding="utf-8")
@@ -309,12 +316,22 @@ def generate(periods: list[str], as_of: str | None = None, reports_dir: Path | N
 def main(argv: list[str] | None = None) -> int:
     argv = list(sys.argv[1:] if argv is None else argv)
     periods: list[str] = []
+    as_of: str | None = None
     index = 0
     while index < len(argv):
         token = argv[index]
         if token == "--all":
             periods = list(WINDOWS)
             break
+        if token == "--as-of" and index + 1 < len(argv):
+            as_of = argv[index + 1]
+            try:
+                common.parse_date(as_of)
+            except ValueError:
+                print(f"--as-of 非法日期：{as_of}")
+                return 2
+            index += 2
+            continue
         if token == "--period" and index + 1 < len(argv):
             value = argv[index + 1]
             if value not in WINDOWS:
@@ -326,7 +343,7 @@ def main(argv: list[str] | None = None) -> int:
         index += 1
     if not periods:
         periods = list(WINDOWS)
-    results = generate(periods)
+    results = generate(periods, as_of=as_of)
     for row in results:
         print(f"[report] {row['period']:>5} {row['count']:>3} 条 → {row['html']} / {row['md']}")
     return 0

@@ -1,0 +1,23 @@
+
+== asof-check ==
+  · data 基线备份：27 个文件 → qa\tmp\v061-data-backup
+  · --as-of 2026-10-23：四窗口报告 8 文件文件名/基准日跟随 ✅
+  · --as-of 2026-10-23：yearbook 自动跟随 as_of ✅（2026 年，0 机会也可空态生成）
+  · --as-of 2026-10-23：窗口 {'day': 0, 'week': 49, 'month': 57, 'year': 80} · validate 20/20 · 双跑一致 · 快照/meta/年鉴跟随 ✅
+  · 非法日期 --as-of 2026-13-40 → exit 2 ✅
+  · --replay-as-of + --as-of 组合：3 份回放快照 replay_as_of≤as_of ✅
+  · --as-of 2026-11-01：四窗口报告 8 文件文件名/基准日跟随 ✅
+  · --as-of 2026-11-01：yearbook 自动跟随 as_of ✅（2026 年，0 机会也可空态生成）
+  · --as-of 2026-11-01：窗口 {'day': 0, 'week': 0, 'month': 0, 'year': 80} · validate 20/20 · 双跑一致 · 快照/meta/年鉴跟随 ✅
+  · 非法日期 --as-of 2026-13-40 → exit 2 ✅
+  · --replay-as-of + --as-of 组合：3 份回放快照 replay_as_of≤as_of ✅
+  · --as-of 2027-01-01：四窗口报告 8 文件文件名/基准日跟随 ✅
+  · --as-of 2027-01-01：yearbook 自动跟随 as_of ✅（2027 年，0 机会也可空态生成）
+  · --as-of 2027-01-01：窗口 {'day': 0, 'week': 0, 'month': 0, 'year': 0} · validate 20/20 · 双跑一致 · 快照/meta/年鉴跟随 ✅
+  · 非法日期 --as-of 2026-13-40 → exit 2 ✅
+  · --replay-as-of + --as-of 组合：3 份回放快照 replay_as_of≤as_of ✅
+  · 最终恢复：27 个 data 文件 SHA256 与基线全部一致 ✅
+  · 恢复后 validate 20/20 ✅
+
+P0 = 0  P1 = 0  P2 = 0
+RESULT: PASS

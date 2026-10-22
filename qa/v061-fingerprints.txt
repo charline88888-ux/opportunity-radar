@@ -1,0 +1,12 @@
+data/opportunities.json 88fda5ab84b7f826
+data/rankings.json 5a89046173507cd7
+data/history/rankings-2026-10-20.json c3062497b40003f3
+data/history/rankings-2026-10-21.json 579029757bea1a0a
+data/history/rankings-2026-10-22.json 71bf1115a112dbae
+data/stats.json 607fbca64efbfa92
+data/source-health.json c199113ddf570b85
+data/sources.json afb1fdc10eafec60
+data/radar.db 1d248a1da534f200
+data/reports/yearbook-2026.html 49acd2dae3cff73f
+data/reports/calibration-2026-10-22.html c22053f7aaf04081
+rankings as_of=2026-10-22 version=0.6.1 counts={'day': 17, 'week': 49, 'month': 57, 'year': 80}

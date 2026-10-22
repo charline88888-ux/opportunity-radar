@@ -20,3 +20,6 @@ scanner/cache/
 scanner/logs/
 data/radar.db
 data/reports/*.tmp
+current/
+_site/
+qa/tmp/_site_test/

@@ -31,6 +31,7 @@ from scanner import (  # noqa: E402
     history,
     materialize,
     normalize,
+    pipeline,
     rank,
     report,
     score,
@@ -1212,6 +1213,85 @@ class TestEnrichMockAndOnline(unittest.TestCase):
             self.assertEqual(calibrate_code, 0)
             self.assertTrue((root / "out-yb" / "yearbook-2026.html").exists())
             self.assertTrue((root / "out-cal" / "calibration-2026-10-22.html").exists())
+
+
+class TestAsOf(unittest.TestCase):
+    """v0.6.1：pipeline --as-of / validate V08 配额按基准日 / report+yearbook 日期跟随。"""
+
+    def test_resolve_as_of(self):
+        self.assertEqual(pipeline.resolve_as_of(None), date(2026, 10, 22))
+        self.assertEqual(pipeline.resolve_as_of("2026-10-23"), date(2026, 10, 23))
+        with self.assertRaises(ValueError):
+            pipeline.resolve_as_of("2026-13-01")
+
+    def test_rank_windows_shift_with_as_of(self):
+        opps = common.load_json(config.OPPORTUNITIES_PATH)
+        base = pipeline.resolve_as_of(None)
+        counts0 = rank.build_rankings(opps, base)["meta"]["counts"]
+        # 次日：day 归零（当天无 last_activity），week/month/year 不变
+        r1 = rank.build_rankings(opps, date(2026, 10, 23))
+        self.assertEqual(r1["meta"]["as_of"], "2026-10-23")
+        self.assertEqual(r1["windows"]["day"]["key"], "2026-10-23")
+        self.assertEqual(r1["meta"]["counts"]["day"], 0)
+        self.assertEqual(r1["meta"]["counts"]["week"], counts0["week"])
+        self.assertEqual(r1["meta"]["counts"]["month"], counts0["month"])
+        self.assertEqual(r1["meta"]["counts"]["year"], counts0["year"])
+        # 下月：month 归零
+        r2 = rank.build_rankings(opps, date(2026, 11, 1))
+        self.assertEqual(r2["meta"]["counts"]["month"], 0)
+        self.assertEqual(r2["meta"]["counts"]["year"], counts0["year"])
+        # 下一年：year 归零
+        r3 = rank.build_rankings(opps, date(2027, 1, 1))
+        self.assertEqual(sum(r3["meta"]["counts"].values()), 0)
+
+    def test_validate_v08_quota_only_baseline(self):
+        empty_windows = {window: {"items": []} for window in config.WINDOW_QUOTAS}
+        ctx_next_day = {
+            "opportunities": [],
+            "rankings": {"meta": {"as_of": "2026-10-23"}, "windows": empty_windows},
+        }
+        detail = validate._v08(ctx_next_day)
+        self.assertIn("非基准日", detail)
+        ctx_baseline = {
+            "opportunities": [],
+            "rankings": {"meta": {"as_of": "2026-10-22"}, "windows": empty_windows},
+        }
+        with self.assertRaises(validate.CheckFailure):
+            validate._v08(ctx_baseline)
+
+    def test_validate_as_of_prefers_rankings_meta(self):
+        taxonomy = _load_taxonomy()
+        ctx = {"taxonomy": taxonomy, "rankings": {"meta": {"as_of": "2026-10-23"}}}
+        self.assertEqual(validate._as_of(ctx), date(2026, 10, 23))
+        ctx_fallback = {"taxonomy": taxonomy, "rankings": None}
+        self.assertEqual(validate._as_of(ctx_fallback), common.parse_as_of(taxonomy))
+
+    def test_yearbook_uses_rankings_as_of(self):
+        taxonomy = _load_taxonomy()
+        opps = common.load_json(config.OPPORTUNITIES_PATH)
+        rankings = {"meta": {"as_of": "2026-10-23"}, "windows": {}}
+
+        def fake_load(path: Path):
+            if Path(path) == config.TAXONOMY_PATH:
+                return taxonomy
+            if Path(path) == config.OPPORTUNITIES_PATH:
+                return opps
+            if Path(path) == config.RANKINGS_PATH:
+                return rankings
+            raise AssertionError(f"unexpected path {path}")
+
+        with mock.patch.object(yearbook.common, "load_json", side_effect=fake_load):
+            inputs = yearbook.load_inputs(2026)
+        self.assertEqual(inputs["as_of"], date(2026, 10, 23))
+
+    def test_report_as_of_override(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            rows = report.generate(["day"], as_of="2026-10-23", reports_dir=Path(tmp))
+            html_path = Path(rows[0]["html"])
+            self.assertIn("2026-10-23", html_path.name)
+            html_text = html_path.read_text(encoding="utf-8")
+            self.assertIn("2026-10-23", html_text)
+            self.assertIn("生成于 2026-10-23", html_text)  # as_of 覆盖已渲染进页面
 
 
 if __name__ == "__main__":

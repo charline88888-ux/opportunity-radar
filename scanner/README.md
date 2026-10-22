@@ -11,6 +11,10 @@ python scanner/pipeline.py --replay-as-of 2026-10-22 --replay-days 2
 # 一键（离线）：采集 → 归一 → 去重 → 评分 → 排榜(+历史快照) → 统计 → SQLite → 校验
 python scanner/pipeline.py --all               # 退出码 0 = 20/20 通过；幂等
 
+# 真实每日运行（v0.6.1）：所有日期派生按 --as-of（窗口/快照/meta/报告）
+python scanner/pipeline.py --all --as-of 2026-10-23   # day 归零是正确结果（当天无新信号）
+python scanner/report.py --period day --as-of 2026-10-23
+
 # 只校验（V01–V20，任一失败退出码 1）
 python scanner/validate.py
 
@@ -39,7 +43,7 @@ python scanner/calibrate.py --experiments scanner/fixtures/experiments-sample.js
 python scanner/yearbook.py --year 2026
 python scanner/yearbook.py --year 2026 --experiments scanner/fixtures/experiments-sample.json --sample
 
-# 单元测试（标准库 unittest，55 条）
+# 单元测试（标准库 unittest，64 条）
 python -m unittest discover -s scanner/tests -v
 ```
 

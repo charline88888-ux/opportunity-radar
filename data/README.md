@@ -1,10 +1,20 @@
-# data/ 数据底座使用说明（data-v0.6.0）
+# data/ 数据底座使用说明（data-v0.6.1）
 
-> 唯一接口标准：`docs/12-数据契约与字段字典.md`（data-v0.6.0 增量已冻结）。本目录所有 JSON 必须通过 `python scanner/validate.py`（V01–V20，退出码 0）。
-> 数据基准日 `as_of = 2026-10-22`（Asia/Shanghai），当前周 `2026-W43`（10-19～10-25），当前月 `2026-10`，当前年 `2026`。
-> **v0.6.0 MINOR 增量**：机会库 46 → **80 条**（14 行业各 ≥2、11 区域全覆盖、12 信息差全覆盖、目标国家/地区 53、中国角度 42、`verified:true` 32）；榜单配额提高为 day ≥10 / week ≥20 / month ≥30 / year ≥80；年鉴新增月度等级分布/信息差热度/窗口衰减/实验漏斗；数据版本升 0.6.0。
+> 唯一接口标准：`docs/12-数据契约与字段字典.md`（data-v0.6.1 增量已冻结）。本目录所有 JSON 必须通过 `python scanner/validate.py`（V01–V20，退出码 0）。
+> 数据基准日 `as_of = 2026-10-22`（Asia/Shanghai），当前周 `2026-W43`（10-19～10-25），当前月 `2026-10`，当前年 `2026`；支持 `--as-of YYYY-MM-DD` 覆盖做真实每日运行。
+> **v0.6.1 PATCH**：`pipeline.py --as-of`（窗口/快照/统计/报告/年鉴日期全部按该日）+ V08 配额只在基准日强制（其他 as_of 允许空榜）+ report/yearbook 日期跟随 rankings.meta.as_of；机会库/榜单口径不变。
+> **v0.6.0 基线**：机会库 46 → **80 条**（14 行业各 ≥2、11 区域全覆盖、12 信息差全覆盖、目标国家/地区 53、中国角度 42、`verified:true` 32）；榜单配额 day ≥10 / week ≥20 / month ≥30 / year ≥80。
 
-## 1. 文件清单与规模（data-v0.6.0）
+## 0. 每日运行语义（v0.6.1）
+
+- 每天运行：`python scanner/pipeline.py --all --as-of <今天>`（默认仍是基准日 `2026-10-22`）。
+- `day` 窗口 = `last_activity == as_of`；若当天没有新机会/新证据，**日榜为空（day=0）是正确结果，不是故障**；week/month/year 按 ISO 周/自然月/自然年计算。
+- 全量配额（day≥10/week≥20/month≥30/year≥80）只在基准发布日 `as_of == 2026-10-22` 强制；其他日期只校验结构（rank 连续、排序、opp_id 合法），允许空榜。
+- 报告/年鉴日期跟随 `rankings.meta.as_of`：`report.py --all [--as-of D]`、`yearbook.py --year Y`（自动取数据 as_of）。
+- 同输入重复运行字节级确定性；测试不同 as_of 后请用 `--all` 恢复基准日状态（勿保留非基准日快照进仓库）。
+
+
+## 1. 文件清单与规模（data-v0.6.1）
 
 | 文件 | 作用 | 规模 | 生产者 | 消费者 |
 |---|---|---|---|---|
@@ -126,16 +136,18 @@ V01–V18（V18 支持 history/adjacent 双口径）· **V19**（所有历史快
 ```powershell
 python scanner/pipeline.py --replay-as-of 2026-10-22 --replay-days 2   # 生成 10-20/10-21 回放 + 重算当前榜单(history delta)
 python scanner/pipeline.py --all                                       # 离线全链路（幂等，20/20）
+python scanner/pipeline.py --all --as-of 2026-10-23                    # v0.6.1：真实每日运行（day 归零，week/month/year 保持）
 python scanner/pipeline.py --fetch --no-cache                          # 真实采集刷新 source-health v2（联网）
 python scanner/report.py --all                                         # 4 窗口报告（确定性）
+python scanner/report.py --period day --as-of 2026-10-23               # 报告日期跟随 --as-of
 python scanner/enrich.py                                               # AI 富化 outbox（offline-template，永不自动入库）
-python scanner/enrich.py --provider mock --limit 5                      # v0.5.1：本地模拟在线（不联网）
-python scanner/enrich.py --provider online --limit 5                    # v0.5.1：真实 LLM（需 LLM_API_KEY）
+python scanner/enrich.py --provider mock --limit 5                      # 本地模拟在线（不联网）
+python scanner/enrich.py --provider online --limit 5                    # 真实 LLM（需 LLM_API_KEY）
 python scanner/calibrate.py --experiments scanner/fixtures/experiments-sample.json --sample  # 校准报告（样例）
 python scanner/yearbook.py --year 2026                                 # 年度年鉴（无实验摘要版本）
 python scanner/yearbook.py --year 2026 --experiments scanner/fixtures/experiments-sample.json --sample  # 年鉴（含样例实验摘要）
 python scanner/db.py --rebuild                                         # SQLite 重建
-python -m unittest discover -s scanner/tests                           # 58 条单测
+python -m unittest discover -s scanner/tests                           # 64 条单测
 ```
 
 ## 13. 免责

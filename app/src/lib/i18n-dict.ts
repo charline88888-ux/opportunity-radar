@@ -1218,4 +1218,8 @@ export const UI_EN: Record<string, string> = {
   '目标国家/地区': 'Target countries / regions',
   '国家/地区覆盖数': 'Country/region coverage',
   '窗口收窄': 'Window narrowing',
+  '数据过期': 'Data stale',
+  '距今': 'age',
+  '· 距今': '· age',
+  '距今 >7 天为高、3–7 天为中；数据更新后自动恢复。': '>7 days critical, 3–7 days warning; clears automatically after a data update.',
 }

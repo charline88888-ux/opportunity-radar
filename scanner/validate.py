@@ -122,6 +122,16 @@ def _taxonomy(ctx: dict[str, Any]) -> dict[str, Any]:
 
 
 def _as_of(ctx: dict[str, Any]) -> date:
+    """v0.6.1：优先取 rankings.meta.as_of（`--as-of` 每日运行的真实基准日），
+    缺失时回退 taxonomy.meta.as_of（默认基准日）。"""
+    rankings = ctx.get("rankings")
+    if isinstance(rankings, dict):
+        raw = (rankings.get("meta") or {}).get("as_of")
+        if raw:
+            try:
+                return common.parse_date(str(raw))
+            except ValueError:
+                pass
     return common.parse_as_of(_taxonomy(ctx))
 
 
@@ -368,7 +378,12 @@ def _rankings(ctx: dict[str, Any]) -> dict[str, Any]:
 
 
 def _v08(ctx: dict[str, Any]) -> str:
+    """v0.6.1：完整配额（day≥10/week≥20/month≥30/year≥80）只在基准发布日
+    （as_of == config.DEFAULT_AS_OF）强制；其他 as_of 只校验结构（rank 连续、
+    排序、opp_id 合法），允许条数为 0（真实每日运行当天无新信号时为空是正确结果）。"""
     rankings = _rankings(ctx)
+    as_of = _as_of(ctx)
+    baseline = as_of == common.parse_date(config.DEFAULT_AS_OF)
     opp_ids = {opp["id"] for opp in _opps(ctx)}
     windows = rankings.get("windows") or {}
     counts = {}
@@ -377,7 +392,8 @@ def _v08(ctx: dict[str, Any]) -> str:
         _require(isinstance(data, dict), f"rankings.windows.{window} 缺失")
         items = data.get("items") or []
         counts[window] = len(items)
-        _require(len(items) >= quota, f"{window} 榜单 {len(items)} 条 < 配额 {quota}")
+        if baseline:
+            _require(len(items) >= quota, f"{window} 榜单 {len(items)} 条 < 配额 {quota}")
         ranks = [item.get("rank") for item in items]
         _require(ranks == list(range(1, len(items) + 1)), f"{window} rank 未从 1 连续")
         scores = [float(item.get("rank_score", 0)) for item in items]
@@ -385,7 +401,10 @@ def _v08(ctx: dict[str, Any]) -> str:
         for item in items:
             _require(item.get("opp_id") in opp_ids, f"{window} 引用不存在的 opp_id {item.get('opp_id')}")
             _require(item.get("change") in {"new", "up", "down", "flat"}, f"{window} change 非法")
-    return " / ".join(f"{window}={count}" for window, count in counts.items())
+    summary = " / ".join(f"{window}={count}" for window, count in counts.items())
+    if not baseline:
+        summary += f"（非基准日 as_of={as_of.isoformat()}，仅校验结构、允许空榜）"
+    return summary
 
 
 def _v09(ctx: dict[str, Any]) -> str:
@@ -837,17 +856,17 @@ def _advisories(ctx: dict[str, Any], report: Report) -> None:
     countries = {country for opp in opportunities for country in (opp.get("target_countries") or [])}
     if len(region_ids) < 11:
         report.warnings.append(f"区域覆盖 {len(region_ids)}/11")
-    if len(countries) < 30:
-        report.warnings.append(f"目标国家/地区 {len(countries)} < 30")
+    if len(countries) < 50:
+        report.warnings.append(f"目标国家/地区 {len(countries)} < 50")
     china_angle = [opp for opp in opportunities if "china-advantage" in (opp.get("tags") or [])]
-    if len(china_angle) < 12:
-        report.warnings.append(f"中国供应链/中文市场角度 {len(china_angle)} < 12")
+    if len(china_angle) < 25:
+        report.warnings.append(f"中国供应链/中文市场角度 {len(china_angle)} < 25")
     _ = taxonomy
 
 
 # ---------------------------------------------------------------- 入口
-def run_validation() -> Report:
-    ctx = _load_all()
+def run_validation(ctx: dict[str, Any] | None = None) -> Report:
+    ctx = ctx if ctx is not None else _load_all()
     report = Report()
     report.check("V01", "枚举引用完整性", lambda: _v01(ctx))
     report.check("V02", "机会数量与行业/区域覆盖", lambda: _v02(ctx))

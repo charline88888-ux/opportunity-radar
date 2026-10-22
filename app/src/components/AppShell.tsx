@@ -24,6 +24,7 @@ import { appVersion, dataAsOf, dataMeta, isMockData, opportunities, stats } from
 import { useExperiments } from '@/lib/experiments'
 import { useAlerts } from '@/lib/alerts'
 import { EN_CONTENT_NOTICE, useI18n } from '@/lib/i18n'
+import { freshness, freshnessCommand } from '@/lib/freshness'
 import { Badge, InfoTip } from './ui'
 
 const NAV = [
@@ -409,6 +410,22 @@ function Footer() {
 
 export default function AppShell({ children }: { children: React.ReactNode }) {
   const { lang } = useI18n()
+  const fresh = freshness()
+  const [dismissed, setDismissed] = useState(() => {
+    try {
+      return sessionStorage.getItem(`radar:freshness-dismissed:${fresh.asOf}`) === '1'
+    } catch {
+      return false
+    }
+  })
+  const closeFreshness = () => {
+    try {
+      sessionStorage.setItem(`radar:freshness-dismissed:${fresh.asOf}`, '1')
+    } catch {
+      /* file:// / privacy mode */
+    }
+    setDismissed(true)
+  }
   return (
     <div className="min-h-screen bg-bg text-ink">
       <div className="pointer-events-none fixed inset-0 z-0 grid-bg opacity-[0.35]" aria-hidden="true" />
@@ -418,8 +435,26 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
         <MobileNav />
         {lang === 'en' && (
           <div className="border-b border-amber/25 bg-amber/[0.06] px-4 py-1.5 text-[10.5px] leading-relaxed text-amber sm:px-6 lg:px-8">
-            <span className="font-mono text-[9px] tracking-wider text-amber/80">EN · V0.6.0 </span>
+            <span className="font-mono text-[9px] tracking-wider text-amber/80">EN · V0.6.1 </span>
             {EN_CONTENT_NOTICE}
+          </div>
+        )}
+        {fresh.level !== 'fresh' && !dismissed && (
+          <div
+            className={cn(
+              'flex items-center gap-2 border-b px-4 py-1.5 text-[10.5px] leading-relaxed sm:px-6 lg:px-8',
+              fresh.level === 'stale' ? 'border-danger/35 bg-danger/[0.08] text-danger' : 'border-amber/35 bg-amber/[0.07] text-amber',
+            )}
+          >
+            <span className="font-mono text-[9px] tracking-wider opacity-80">{fresh.level === 'stale' ? 'STALE' : 'AGING'}</span>
+            <span className="min-w-0 flex-1">
+              {lang === 'en'
+                ? `${fresh.labelEn}. Run the daily task: ${freshnessCommand()}`
+                : `${fresh.label}，建议运行每日任务：${freshnessCommand()}`}
+            </span>
+            <button type="button" onClick={closeFreshness} className="shrink-0 rounded border border-current/30 px-1.5 text-[10px] opacity-80 hover:opacity-100" aria-label={lang === 'en' ? 'Dismiss freshness warning' : '关闭新鲜度提示'}>
+              ×
+            </button>
           </div>
         )}
         <main className="mx-auto w-full max-w-[1560px] flex-1 overflow-x-clip px-4 py-5 sm:px-6 lg:px-8">{children}</main>

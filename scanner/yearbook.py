@@ -71,7 +71,12 @@ def load_inputs(year: int) -> dict[str, Any]:
     taxonomy = common.load_json(config.TAXONOMY_PATH)
     opportunities = common.load_json(config.OPPORTUNITIES_PATH)
     rankings = common.load_json(config.RANKINGS_PATH)
-    as_of = common.parse_as_of(taxonomy)
+    # v0.6.1：优先用 rankings.meta.as_of（--as-of 每日运行的真实基准日），缺失回退 taxonomy
+    raw_as_of = (rankings.get("meta") or {}).get("as_of")
+    try:
+        as_of = common.parse_date(str(raw_as_of)) if raw_as_of else common.parse_as_of(taxonomy)
+    except ValueError:
+        as_of = common.parse_as_of(taxonomy)
     in_year = [
         opp for opp in opportunities if str(opp.get("last_activity", "")).startswith(f"{year}-")
     ]

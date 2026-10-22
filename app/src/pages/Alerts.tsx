@@ -44,6 +44,7 @@ const TYPE_ICONS: Record<AlertType, React.ComponentType<{ className?: string }>>
   source: Database,
   unverified: ShieldAlert,
   'high-match': Target,
+  'data-stale': Clock3,
 }
 
 function AlertCard({ alert, ignored, read, onRead, onIgnore, onUnignore }: {
@@ -241,6 +242,10 @@ export default function Alerts() {
               <div className="flex items-start gap-2">
                 <Target className="mt-0.5 h-3.5 w-3.5 shrink-0 text-signal" />
                 <span><b className="text-ink">高匹配未行动</b>：画像 <span className="font-mono text-dim">fit ≥ {ALERT_RULES.HIGH_MATCH_FIT}</span>、无硬约束且尚未加入实验；最多 {ALERT_RULES.HIGH_MATCH_LIMIT} 条。</span>
+              </div>
+              <div className="flex items-start gap-2">
+                <Clock3 className="mt-0.5 h-3.5 w-3.5 shrink-0 text-danger" />
+                <span><b className="text-ink">数据过期</b>：<span className="font-mono text-dim">rankings.meta.as_of</span> 距今 &gt;7 天为高、3–7 天为中；数据更新后自动恢复。</span>
               </div>
             </div>
             <div className="mt-2 rounded border border-line/60 bg-black/15 px-2 py-1.5 text-[9.5px] leading-relaxed text-dim">

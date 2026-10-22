@@ -1,7 +1,8 @@
-"""扫描流水线命令行入口（Python 3.11，纯标准库）— data-v0.2.0。
+"""扫描流水线命令行入口（Python 3.11，纯标准库）— data-v0.6.1。
 
 用法：
     python scanner/pipeline.py --all            # 离线：采集→归一→去重→评分→排榜(+历史快照)→统计→SQLite→校验
+    python scanner/pipeline.py --all --as-of 2026-10-23   # 真实每日运行：所有日期派生按该日（窗口/快照/meta）
     python scanner/pipeline.py --db-rebuild     # 仅从 data/*.json 重建 data/radar.db
     python scanner/pipeline.py --fetch          # 真实在线采集（唯一联网命令；写 outbox + source-health）
     python scanner/pipeline.py --report         # 生成四窗口 HTML/MD 报告
@@ -57,6 +58,19 @@ def _load_opportunities() -> list[dict[str, Any]]:
 
 def _as_of(taxonomy: dict[str, Any]) -> date:
     return common.parse_as_of(taxonomy)
+
+
+def resolve_as_of(value: str | None) -> date:
+    """v0.6.1：解析 `--as-of`；默认 config.DEFAULT_AS_OF（基准发布日）。
+
+    非法日期抛 ValueError（由 main 统一转成 exit 2）。
+    """
+    if not value:
+        return common.parse_date(config.DEFAULT_AS_OF)
+    try:
+        return date.fromisoformat(value)
+    except ValueError as exc:
+        raise ValueError(f"--as-of 非法日期（需 YYYY-MM-DD）：{value}") from exc
 
 
 # ---------------------------------------------------------------- 各阶段
@@ -194,8 +208,8 @@ def stage_fetch(as_of: date, limit: int, cache_enabled: bool) -> dict[str, Any]:
     return result
 
 
-def stage_report(periods: list[str]) -> list[dict[str, str]]:
-    written = report.generate(periods)
+def stage_report(periods: list[str], as_of: date) -> list[dict[str, str]]:
+    written = report.generate(periods, as_of=as_of.isoformat())
     for row in written:
         log(
             f"报告已生成：{row['period']:<5} {row['count']:>3} 条 → "
@@ -272,19 +286,29 @@ def main(argv: list[str] | None = None) -> int:
     )
     parser.add_argument("--validate", action="store_true", help="运行 V01–V20 数据校验")
     parser.add_argument("--fix", action="store_true", help="兼容别名：评分回写现在总是自动执行")
+    parser.add_argument(
+        "--as-of",
+        type=str,
+        default=None,
+        help=f"数据基准日 YYYY-MM-DD（v0.6.1；默认 {config.DEFAULT_AS_OF}；影响窗口/快照/统计/报告日期）",
+    )
     args = parser.parse_args(argv)
 
     flags = [
         args.all, args.collect, args.normalize, args.dedupe, args.score, args.rank, args.stats,
         args.db_rebuild, args.fetch, args.report, args.validate,
-        args.replay_as_of is not None,
+        args.replay_as_of is not None, args.as_of is not None,
     ]
     if not any(flags):
         parser.print_help()
         return 0
 
     taxonomy = _load_taxonomy()
-    as_of = _as_of(taxonomy)
+    try:
+        as_of = resolve_as_of(args.as_of)
+    except ValueError as exc:
+        log(str(exc))
+        return 2
     log(f"数据版本 {config.DATA_VERSION} / 基准日 {as_of.isoformat()}")
 
     # 仅数据库重建 / 仅真实采集 / 仅报告：互不阻塞
@@ -296,7 +320,7 @@ def main(argv: list[str] | None = None) -> int:
         return 0
     if args.report and not any([args.all, args.collect, args.rank, args.stats, args.validate]):
         periods = args.period or ["day", "week", "month", "year"]
-        stage_report(periods)
+        stage_report(periods, as_of)
         return 0
 
     full = args.all
@@ -330,7 +354,7 @@ def main(argv: list[str] | None = None) -> int:
     if args.fetch:
         stage_fetch(as_of, args.fetch_limit, cache_enabled=not args.no_cache)
     if args.report or (full and args.period):
-        stage_report(args.period or ["day", "week", "month", "year"])
+        stage_report(args.period or ["day", "week", "month", "year"], as_of)
     if args.validate or full:
         return stage_validate()
     return 0

@@ -11,7 +11,7 @@ export const DOC_TITLE = {
 } as const
 
 export const EN_CONTENT_NOTICE =
-  'Opportunity content (titles, one-liners, evidence, Q&A) is Chinese-only in v0.6.0.'
+  'Opportunity content (titles, one-liners, evidence, Q&A) is Chinese-only in v0.6.1.'
 
 let currentLang: Lang = loadLang()
 
@@ -94,6 +94,15 @@ function patternTranslate(raw: string): string | null {
       .replace(/）。$/, ').')
   }
   if ((m = text.match(/^全部有效 (\d+) 条$/))) return `${m[1]} active`
+  if ((m = text.match(/^数据基准 (.+) · 距今 (\d+) 天$/))) return `Data as-of ${m[1]} · ${m[2]} days ago`
+  if ((m = text.match(/^数据已 (\d+) 天未更新（as_of (.+)）$/))) return `Data is ${m[1]} days old (as_of ${m[2]})`
+  if (text.startsWith('数据基准日 ')) {
+    return text
+      .replace(/^数据基准日 /, 'Data as-of ')
+      .replace(/，距今 /, ', age ')
+      .replace(/ 天；建议运行每日任务 /, ' days; run the daily task ')
+      .replace(/，或手动 python scanner\/pipeline.py --all --as-of YYYY-MM-DD 更新数据与构建。/, ', or manually run python scanner/pipeline.py --all --as-of YYYY-MM-DD to rebuild.')
+  }
   if ((m = text.match(/^(\d+) 天验证动作清单$/))) return `${m[1]}-day validation checklist`
   if (text === '勾选即本地保存（localStorage），不联网、不上传。') return 'Checked items save in localStorage; no network, no upload.'
   if (text === '区域 × 类别覆盖热力') return 'Region × category coverage heatmap'
