@@ -89,6 +89,8 @@ async function probe(route, lang) {
     textLen: (document.body.innerText || '').length,
     banner: (document.body.innerText || '').includes('Chinese-only'),
     bodyCJK: (document.body.innerText || '').match(/[\\u4e00-\\u9fff]/g)?.length || 0,
+    horizontalOverflow: document.documentElement.scrollWidth > innerWidth + 1,
+    docScrollWidth: document.documentElement.scrollWidth, innerWidth,
   }))()`)
   const runs = cjkRuns(info.text)
   const unexplained = runs.filter((r) => !isDataText(r))
@@ -138,11 +140,13 @@ await ev(`(() => { const b = [...document.querySelectorAll('button')].find((e) =
 await sleep(1200)
 const backZh = await ev(`(() => ({ lang: document.documentElement.lang, hasZh: (document.body.innerText || '').includes('排行榜') }))()`)
 check('I14', '切回中文即时生效', String(backZh.lang).startsWith('zh') && backZh.hasZh, JSON.stringify(backZh))
+const enOverflow = enPages.filter((p) => p.horizontalOverflow)
+check('I16', 'EN 12 路由无横向溢出', enOverflow.length === 0, `overflow=${enOverflow.map((p) => p.route).join(',') || 'none'}`)
 check('I15', 'EN 全路由无 console error', consoleErrors.length === 0, consoleErrors.slice(0, 3).join('; ') || '0')
 
 const summary = { pass: results.filter((r) => r.pass).length, fail: results.filter((r) => !r.pass).length, total: results.length, enUnexplainedCJK: uiCJKCount }
 fs.mkdirSync(path.join(root, 'qa/tmp'), { recursive: true })
-fs.writeFileSync(path.join(root, 'qa/tmp/i18n-check.json'), JSON.stringify({ results, summary, enPages: enPages.map((p) => ({ route: p.route, textLen: p.textLen, bodyCJK: p.bodyCJK, runs: p.runs, unexplained: p.unexplained.length, samples: p.unexplained.slice(0, 12) })) }, null, 2))
+fs.writeFileSync(path.join(root, 'qa/tmp/i18n-check.json'), JSON.stringify({ results, summary, enPages: enPages.map((p) => ({ route: p.route, textLen: p.textLen, bodyCJK: p.bodyCJK, runs: p.runs, unexplained: p.unexplained.length, samples: p.unexplained.slice(0, 12), horizontalOverflow: p.horizontalOverflow })) }, null, 2))
 console.log(JSON.stringify({ results, summary }, null, 2))
 ws.close()
 process.exit(0)

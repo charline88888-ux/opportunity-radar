@@ -779,3 +779,121 @@ pwsh -File qa/online-check.ps1 -Version v0.3.1     # 线上/冻结 hash 一致�
 ## 14.9 与历史版本关系
 
 - v0.1.0/v0.2.0/v0.3.0 冻结产物与线上归档未被修改（hash 核对）；本章为 v0.3.1 PATCH 独立验收，不覆盖历史章节。
+
+---
+
+# 第 15 章 · v0.4.0 红队独立验收（2026-10-22 19:10）
+
+> 项目版本：v0.4.0（app 0.4.0 / data 0.4.0）　｜　验收人：redteam　｜　任务：task-22
+> 冻结：`releases/v0.4.0/`（git tag v0.4.0 → 1fe1dd8，内容提交 0b8bb51）｜dist 2,233,063 B / `45E5A1D3…E78992`
+> 结论：**P0=0 / P1=0 / P2=3（均不阻塞）；冻结产物/线上逐字节一致 → 可发布 ✅**
+
+## 15.1 结论
+
+| 项 | 结果 |
+|---|---|
+| P0（阻塞） | **0** |
+| P1（发布前应修） | **0**（v0.3.1 的 docs/04 历史快照 P1 已在 v0.4.0 文档快照修复：`docs-snapshot/04` 含 v0.3.1-r1 修订，Brier 已实现/clamp/schema@0.3.1/O1–O5 闭环；v0.3.1 冻结快照按不可变策略保留） |
+| P2（建议修，不阻塞） | 3（LLM 在线模式未实际调用；校准报告为样例数据；桌面通知在 headless 下无法授权，仅验证降级路径） |
+| 数据 | `pipeline --all` exit 0 且 **25 个 data 文件（JSON+history+reports+db）字节级幂等**；validate **V01–V20 20/20 PASS**；unittest **45/45 OK**；data-qa-v04 **P0/P1/P2=0**；replay-check PASS；数据版本 0.4.0 六文件一致；报告 8 文件 data-v0.4.0 |
+| AI 富化 `enrich.py` | `qa/enrich-check.py` **PASS**：offline 实测 211 信号 → 211 候选/0 跳过；schema 10 必填字段+七问草稿（待人工补充）+`needs_human=true`；**opportunities.json SHA256 不变**；REVIEW.md 覆盖 211/211；重复运行 candidates 一致；`--dry-run` 零落盘；`--online` 无 key **exit 2** 且提示 LLM_API_KEY、零落盘；空 outbox exit 0；非法 JSON 可控失败；outbox/REVIEW 均 gitignore |
+| 校准 `calibrate.py` | `qa/calibrate-check.py` **PASS**：样例 fixture（6 实验/5 有效）**独立复算 Brier=0.2338 = 报告 MD/HTML**；样例标注「样例数据 sample」；两次运行报告字节一致；n=2/n=0/非法 JSON 边界正确；HTML 自包含 |
+| **导出→calibrate 联调** | 前端 `/calibration` 导出实验 JSON：`schema_version=0.4.0`、`exported_at`、`profile`、experiments 12 字段齐全（含 outcome/data_version）；红队独立复算 **Brier=0.2175**，`python scanner/calibrate.py --experiments <该文件>` 生成报告 Brier=0.2175 **一致**（qa/v04-calibrate-export.txt） |
+| **i18n 双语** | `qa/i18n-check.mjs` **16/16 PASS @1600 与 @1024**：字典 1,092 条（无重复/空值）；EN `html lang=en`、`document.title` 英文、11 项导航全译、内容提示条显示；**EN 12 路由非数据中文 UI 文案 = 0（白名单过滤后）**；切换不刷新（导航计数 1、路由保持）、localStorage 持久化、切回中文即时生效；EN 12 路由无溢出/console error |
+| **前端** | `pnpm install --frozen-lockfile && pnpm build` exit 0；strict **11/11 PASS**（real、mock=[]、data 0.4.0）；**构建可复现**（重跑前后均 `45E5A1D3…E78992`，2,233,063 B）；zh 12 路由 1600/1024 CDP 无溢出/裁切/console error；功能用例 **37/37 PASS** |
+| 警告通知（可选） | `/alerts` 桌面通知开关存在、默认关；headless 下权限无法授予时按钮回关/降级提示、无 console error（通知实际弹出无法在无头环境验证，属 P2） |
+| 冻结产物 | MANIFEST **19/19 sha256 一致**；dist `45E5A1D3…E78992`；tag v0.4.0→1fe1dd8→内容提交 0b8bb51；冻结 dist file:// 17 张 zh 截图 + 12 张 zh/en 双语截图，jsErrors=0 |
+| 线上 | `/` 与 `/v0.4.0/` 均 2,233,063 B / `45E5A1D3…E78992` = 冻结 dist；`/v0.3.1/`=`7C2E13D5…`、`/v0.3.0/`=`18DCE4B8…`、`/v0.2.0/`=`DE48EF7A…`、`/v0.1.0/`=`F24B0755…` 与各自冻结版一致不串台；versions.json latest=v0.4.0；线上截图目检正常 |
+| **一句话结论** | **可发布**：数据/AI 富化/校准/双语/导出联调/冻结/线上七层一致，P0=0、P1=0；3 个 P2（均为环境/样例限制）不阻塞。 |
+
+## 15.2 数据与 AI 能力验收（实测）
+
+- `pipeline --all` 连跑两次：exit 0；`data/` 下 **25 个文件**（JSON、history、reports、radar.db、calibration 报告）SHA256 全一致（幂等）。
+- `validate.py`：**20/20 PASS（exit 0）**；unittest：**45/45 OK**（36 + enrich/calibrate 新增 9 条）；`qa/data-qa-v04.py` P0/P1/P2=0（含 calibration 报告 sample 标注/Brier/自包含、outbox 不入 data/）。
+- 数据版本：taxonomy/rankings/stats/sources/playbooks/calendar/source-health 全部 `0.4.0`；history 3 份重生成（reconstructed 2/真实 1），delta 独立复算 92 条一致；replay-check PASS；db 46/88/211/8。
+- 报告：8 文件按 `data-v0.4.0` 重生成；校准报告 `data/reports/calibration-2026-10-22.{html,md}` 为样例（sample 标注、Brier 0.2338、自包含）。
+- `enrich.py`（红队独立运行到临时目录）：211 候选/0 跳过；schema/七问草稿/needs_human/枚举引用全合法；opportunities.json SHA256 不变（永不自动入库）；REVIEW.md 覆盖 211/211；重复运行 candidates 一致；`--dry-run` 不写文件；`--online` 无 key exit 2 + 明确提示 + 不写文件；空 outbox/非法 JSON 边界正确；outbox（signals/enriched/REVIEW）均被 `.gitignore` 忽略。
+- `calibrate.py`（红队独立复算）：6 实验 → 有效 5（pos3/neg2/inconclusive1 排除），Brier=**0.2338**（p=clamp(total/100,.01,.99)、o=pos1/neg0），与 MD/HTML 报告一致；样例标注；双跑字节一致；n=2/n=0/非法 JSON 边界正确。
+- 指纹（SHA256 前 16，与数据交付一致）：opportunities `52B30E45`、sources `B7400DD9`、rankings `435AAEE6`、history-10-22 `D7BBF24D`、stats `5247BCD3`、source-health `DECC29B3`、radar.db `12AA034D`、enriched `467A1029`、calibration.html `FC90C906`。
+- 已知不足（CHANGELOG 记录）：offline 候选为关键词模板级；在线 LLM 未实际调用（无 key）；校准报告为样例数据（真实结论需 ≥3 条已决实验）。
+
+## 15.3 前端与 i18n 验收（实测）
+
+- 构建：`pnpm install --frozen-lockfile` exit 0；`pnpm build` exit 0；strict **11/11 PASS**；dist **2,233,063 B / `45E5A1D3…E78992`**；**构建可复现**（红队重跑前后同 hash）。
+- i18n（`qa/v04-i18n-1600.json` / `-1024.json`，**16/16 PASS ×2 视口**）：
+  - 字典 1,092 条、无重复/空值；EN `document.documentElement.lang=en`、标题英文、导航 11 项全译、`EN · V0.4.0 Opportunity content … is Chinese-only` 提示条显示；
+  - **EN 12 路由非数据中文 UI 文案 = 0**（按 opportunities/taxonomy/sources/playbooks/calendar 数据白名单归一化过滤，数据内容中文按设计保留）；
+  - 切换不刷新（performance navigation 计数不变、hash 保持）、`radar:lang:v1` 持久化、刷新保持、切回中文即时生效；
+  - EN 12 路由横向溢出 = 0、console error = 0。
+- 功能用例（`qa/v04-frontend-flows.json`，**37/37 PASS**）：v0.3.1 全量回归（画像/推荐/硬约束/Brier/严格资金两态/告警升版/采集源/单桶提示/delta 标签）+ v0.4 增量：实验导出 JSON schema（schema_version 0.4.0/profile/12 字段/outcome/data_version 与注入一致）、calibrate.py 入口文案、桌面通知开关存在且点击无异常。
+- zh 12 路由 1600/1024 CDP（`qa/v04-frontend-routes.txt`）：无横向溢出/裁切/零尺寸 canvas/console error。
+- 视觉：`qa/screenshots/v04/`（zh 17 张）、`v04-i18n/`（zh/en 12 张）、`v04-frozen/`（冻结 zh 17 张）、`v04-frozen-i18n/`（冻结 zh/en 12 张）read_image 目检：EN 全站 UI 英文、数据中文并按提示条说明；calibration 导出实验 JSON/Brier 空态、profile 严格资金开关、about 版本/双语说明/源健康均正常。
+
+## 15.4 冻结产物核验（releases/v0.4.0）
+
+- MANIFEST `files` 19 条逐条重算 bytes+sha256 → **19/19 一致**；counts 46/68/12/33/13；`git_commit=0b8bb51`、`git_tag=v0.4.0`。
+- dist 2,233,063 B / `45E5A1D36BFEA865CAF159D94282E2CDD7DC27FAB9A4D3DF90B501497A6C6BD7`（= 本地构建 = 冻结 = 线上）。
+- git：annotated tag v0.4.0（tag 对象 1fe1dd8）→ commit 1fe1dd8（docs: record manifest）→ parent 0b8bb51（内容提交）。
+- 冻结 dist file:// 冒烟：`qa/screenshots/v04-frozen/01–17`（12 路由+2 长页+3 个 1024）jsErrors=0；`v04-frozen-i18n/` 12 张 zh/en 截图同源验证；read_image 目检 zh calibration / EN calibration 正常。
+- 发布快照 `docs-snapshot/04` 含 v0.3.1-r1 修订（Brier 已实现+clamp、schema@0.3.1、O1/O3/O4/O5 闭环），`docs-snapshot/09` 含 v0.3.1 §16 记录 —— 前一版 P1 文档项已在 v0.4.0 快照闭环。
+
+## 15.5 线上（GitHub Pages）核验
+
+`pwsh -File qa/online-check.ps1 -Version v0.4.0`（qa/v04-online.txt）逐字节/hash 比对：
+
+| 路径 | 线上 bytes / SHA256 | 对照冻结版 | 结果 |
+|---|---|---|---|
+| `/`（最新） | 2,233,063 B / `45E5A1D3…E78992` | `releases/v0.4.0/dist/index.html` | **PASS（同 hash）** |
+| `/v0.4.0/` | 2,233,063 B / `45E5A1D3…E78992` | 同上 | **PASS（同 hash）** |
+| `/v0.3.1/` | 2,147,394 B / `7C2E13D5…1F03` | `releases/v0.3.1/` | PASS（未串台） |
+| `/v0.3.0/` | 2,138,535 B / `18DCE4B8…` | `releases/v0.3.0/` | PASS |
+| `/v0.2.0/` | 2,049,902 B / `DE48EF7A…` | `releases/v0.2.0/` | PASS |
+| `/v0.1.0/` | 1,979,378 B / `F24B0755…` | `releases/v0.1.0/` | PASS |
+| `versions.json` | latest=**v0.4.0**，paths=`/v0.1.0/, /v0.2.0/, /v0.3.0/, /v0.3.1/, /` | — | PASS |
+
+线上截图（`qa/screenshots/v04-online/`）：根（v0.4.0、中文/EN 切换入口）、`/calibration`（导出实验 JSON/Brier 空态）、`/alerts`（桌面通知开关）、`/profile`、`/v0.3.1/` 旧版归档；read_image 目检正常，无串台、jsErrors=0。EN 模式截图以 `v04-frozen-i18n/`（冻结 dist，与线上同 hash）+ `v04-i18n/` 验证。
+
+## 15.6 复现命令
+
+```powershell
+cd 'E:\全球商机扫描器'
+python scanner/pipeline.py --all                    # 幂等；25 个 data 文件 SHA256 一致
+python scanner/validate.py                          # 20/20 PASS
+python -m unittest discover -s scanner/tests        # 45 OK
+python qa/data-qa-v04.py                            # P0/P1/P2=0
+python qa/enrich-check.py                           # AI 富化边界/不入库/dry-run/无 key 全 PASS
+python qa/calibrate-check.py                        # Brier 独立复算 0.2338 PASS
+python qa/calibrate-check.py --export qa/tmp/v04-experiment-export.json   # 导出→calibrate 往返 PASS
+python qa/replay-check.py                           # PASS
+cd app; pnpm install --frozen-lockfile; pnpm build  # strict 11 PASS，45E5A1D3…
+node qa/flows-v04.mjs <port> "file:///…/app/dist/index.html" qa/tmp/downloads-v04   # 37/37 PASS
+node qa/i18n-check.mjs <port> <base>                # 16/16 PASS（1600 与 1024）
+node qa/frontend-qa-v03.mjs <port> <base> 1600 1000 # zh 12 路由 CDP
+node qa/shoot-i18n.mjs <port> <base> qa/screenshots/v04-i18n
+pwsh -File qa/online-check.ps1 -Version v0.4.0      # 线上/冻结 hash 一致性（PASS）
+```
+
+## 15.7 截图索引（v0.4）
+
+| 目录/文件 | 内容 |
+|---|---|
+| `qa/screenshots/v04/01–17` | 工作区 dist zh 12 路由 + 2 长页 + 3 个 1024 |
+| `qa/screenshots/v04-i18n/` | zh/en × 6 页（dashboard/rankings/profile/alerts/calibration/about）12 张 |
+| `qa/screenshots/v04-frozen/01–17` | **冻结 dist** zh 12 路由 + 长页 + 1024（发布基线） |
+| `qa/screenshots/v04-frozen-i18n/` | **冻结 dist** zh/en × 6 页 12 张 |
+| `qa/screenshots/v04-online/` | 线上根/校准/预警/画像/旧版归档（EN 模式见冻结 dist i18n 截图） |
+| `app/screenshots/final-v0.4/` | 前端自检 18 张（12 zh + 6 EN） |
+| `qa/tmp/downloads-v04/`、`qa/tmp/v04-experiment-export.json` | 实验导出 JSON（schema 0.4.0）与校准 MD |
+
+## 15.8 P2 与已知项（3 个，均不阻塞）
+
+| # | 项 | 现状 | 建议 |
+|---|---|---|---|
+| P2-1 | 在线 LLM 富化未实际调用 | 无 `LLM_API_KEY` 环境，只验证 offline-template 与无 key 报错路径（exit 2，不落盘） | 配置 key 后按 docs/12 §1.3 冒烟一次；当前离线模板候选需人工复核（needs_human=true） |
+| P2-2 | calibrate 报告为样例数据 | `calibration-2026-10-22` 标注「样例数据 sample」，真实结论需 ≥3 条已决实验；前端导出→calibrate 联调已验证（Brier 0.2175 一致） | 用户积累实验后重跑 `calibrate.py --experiments <export.json>` |
+| P2-3 | 桌面通知实际弹出未验证 | headless 无权限授予，验证了开关默认关、点击降级（回关/提示）且无 console error | 本机浏览器手动授权后验证一次；不支持环境已优雅降级 |
+| — | i18n 静态覆盖率 | 前端自检脚本精确覆盖 56.8%（动态/模板/DOM 分支不计），红队运行时检查 EN 非数据中文 UI = 0 | 保持运行时检查为准（qa/i18n-check.mjs） |
+
+## 15.9 与历史版本关系
+
+- v0.1.0–v0.3.1 冻结产物与线上归档未修改（逐字节核对）；v0.3.1 文档 P1 已按不可变策略在 v0.4.0 文档快照修复；本章为 v0.4.0 独立验收，不覆盖历史章节。
