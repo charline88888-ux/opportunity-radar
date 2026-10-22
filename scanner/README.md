@@ -26,7 +26,15 @@ python scanner/report.py --period day --period year
 python scanner/db.py --rebuild
 python scanner/db.py --info
 
-# 单元测试（标准库 unittest，36 条）
+# AI 富化 outbox（v0.4.0）：默认 offline-template，产物仅供人工复核，永不自动入库
+python scanner/enrich.py
+python scanner/enrich.py --online --limit 5            # 需 LLM_API_KEY（OpenAI 兼容）
+python scanner/enrich.py --dry-run                      # 只打印摘要，不写文件
+
+# 实验校准报告（v0.4.0）：读前端 /calibration 导出的实验 JSON
+python scanner/calibrate.py --experiments scanner/fixtures/experiments-sample.json --sample
+
+# 单元测试（标准库 unittest，45 条）
 python -m unittest discover -s scanner/tests -v
 ```
 
@@ -74,7 +82,7 @@ data/opportunities.json  ── score.py/materialize.py 重算 → 回写派生�
 | 文件 | 职责 | 契约依据 |
 |---|---|---|
 | `pipeline.py` | CLI：`--all` 离线全链路、`--replay-as-of/--replay-days` 历史回放、`--fetch`、`--report`、`--db-rebuild` | §5.2 / §1.2 |
-| `config.py` | 路径、数据版本（0.3.0）、as_of、窗口配额、采集参数、source-health 枚举、固定枚举数量、禁词 | §1/§3/§9 |
+| `config.py` | 路径、数据版本（0.4.0）、as_of、窗口配额、采集参数、source-health 枚举、固定枚举数量、禁词 | §1/§3/§9 |
 | `common.py` | JSON 读写、日期/ISO 周/窗口 key、`round1`（ROUND_HALF_UP）、文本工具 | §2 |
 | `history.py` | 快照写读、上一期查找、回放生成（`build_replay_snapshot`）、快照结构校验；v0.3 回放 `reconstructed=true`/`replay_as_of` | §1.2/§5.1 |
 | `score.py` | 10 维加权 `total`、`grade`、`rank_score`，Decimal 精确计算 | §4.5 |
@@ -84,9 +92,11 @@ data/opportunities.json  ── score.py/materialize.py 重算 → 回写派生�
 | `db.py` | `data/radar.db`（opportunities/evidence/rankings_history/source_health），原子重建 | §1.1 |
 | `fetch.py` | 真实采集：RSS/Atom/JSON feed、限速/缓存/UA/重试、outbox、source-health v2 | §1.2/§6 |
 | `report.py` | 四窗口报告（自包含 HTML + Markdown），`generated_at` 确定性 | §1.1 |
+| `enrich.py` | AI 富化 outbox：offline-template / 可选 LLM（OpenAI 兼容）；输出 `enriched-<date>.json` + `REVIEW.md`；`needs_human=true`、永不自动入库、key 不落盘、`--dry-run` | §1.3 |
+| `calibrate.py` | 实验校准报告：Brier（docs/04 §12.9.5）、等级×成功率、花费/耗时、建议；输出 `data/reports/calibration-<date>.{html,md}` | §1.3 |
 | `validate.py` | V01–V20；V19 快照/回放规则、V20 source-health v2 收紧 | §9 |
 | `adapters/` | `rss` / `reddit` / `google_trends` / `ecommerce_reviews` 离线适配器 | §1/§6 |
-| `tests/test_scanner.py` | 36 条单测：公式/舍入/边界/窗口/榜单/tie-breaker/物化/validate/归一/去重/history delta/回退/回放链与幂等/source-health 合法-非法/报告/SQLite/feed 解析/红源筛选 | docs/04 §10.4 |
+| `tests/test_scanner.py` | 45 条单测：公式/舍入/边界/窗口/榜单/tie-breaker/物化/validate/归一/去重/history delta/回退/回放链与幂等/source-health 合法-非法/报告/SQLite/feed 解析/红源筛选/enrich offline+dry-run+no-key/calibrate Brier+边界 | docs/04 §10.4 |
 
 ## 4. 历史快照、回放与真实 delta（v0.3.0）
 
@@ -115,7 +125,24 @@ data/opportunities.json  ── score.py/materialize.py 重算 → 回写派生�
 - 任一失败 → 退出码 1；附加提示（标题长度、verified 复查提醒）不影响退出码。
 - 评分容差 ±0.05；`total/rank_score` 用 Decimal `ROUND_HALF_UP`。
 
-## 7. 已知限制
+## 7. AI 富化与实验校准（v0.4.0）
+
+### 7.1 `enrich.py` —— AI 富化 outbox（人工复核门禁）
+
+- 输入 `scanner/outbox/signals-<date>.json`（`--fetch` 产物）→ 输出 `scanner/outbox/enriched-<date>.json` + `scanner/outbox/REVIEW.md`（outbox 已 gitignore）。
+- 默认 **offline-template**：关键词/taxonomy 候选映射（行业/信息差/人性需求/情绪/神经递质）、七问骨架草稿（标注「待人工补充」）、启发式语言检测、证据 URL 透传；`meta.generator="offline-template"`。
+- 可选 **在线模式**：`--online` 且 `LLM_API_KEY` 存在 → OpenAI 兼容 `/chat/completions`；`LLM_BASE_URL`/`LLM_MODEL` 可配；记录 model/latency/token 估算；有 24h 缓存（`scanner/build/enrich-cache/`）；失败自动回退 offline 并在 `meta.error` 记录。
+- **安全红线**：key 只从环境变量读取、绝不写文件/日志；`--dry-run` 不写任何文件；所有候选 `needs_human:true`；**永不自动写 `data/opportunities.json`**（单测断言内容不变）；无 key 时 `--online` 返回清晰错误（exit 2，不崩溃）。
+- schema（docs/12 §1.3）：`{meta:{generator, model, generated_at, dry_run, ...}, candidates:[{source_id,url,title,lang,signal_type,gap_type_ids,human_need_ids,seven_questions_draft,notes,needs_human:true,...}]}`。
+
+### 7.2 `calibrate.py` —— 实验校准报告
+
+- `python scanner/calibrate.py --experiments <export.json> [--sample] [--date] [--out-dir]`，读前端 `/calibration` 导出 JSON（schema_version 0.4.0）。
+- 与 `opportunities.json` 按 `opp_id` join 评分；生成 `data/reports/calibration-<date>.{html,md}`（自包含 HTML）。
+- **Brier**：`p = clamp(total/100, 0.01, 0.99)`；`o = positive→1 / negative→0`；`inconclusive`/未匹配/无评分排除；`Brier = mean((p−o)²)`；基线 0.25；样本 <3 显示「样本不足」。
+- 报告含样本数/结果分布/等级×成功率/花费/耗时/建议/免责；`--sample` 在报告顶部标注「样例数据（sample）」。
+
+## 8. 已知限制
 
 1. 回放快照是「按当日窗口规则重排现有机会」的演示口径，非真实历史存档；UI 需用 `reconstructed=true` 明示。
 2. `--all` 不联网；`--fetch` 当前只覆盖 RSS/JSON feed，公开 API 未接线。

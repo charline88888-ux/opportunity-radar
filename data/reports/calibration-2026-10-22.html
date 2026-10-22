@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>机会雷达 · 实验校准报告 · 2026-10-22</title>
+<style>
+:root { color-scheme: light; }
+* { box-sizing: border-box; }
+body { margin: 0; padding: 32px 20px 60px; font-family: "Noto Sans SC","PingFang SC","Microsoft YaHei",-apple-system,"Segoe UI",sans-serif;
+       background: #f6f7f9; color: #1f2430; line-height: 1.65; font-size: 14px; }
+.wrap { max-width: 980px; margin: 0 auto; }
+.hero { background: #0f1724; color: #e8edf6; border-radius: 14px; padding: 26px 28px; margin-bottom: 22px; }
+.hero h1 { margin: 0 0 6px; font-size: 26px; }
+.hero .sub { color: #9fb0c8; font-size: 13px; }
+.sample { display: inline-block; margin-top: 10px; background: #7c2d12; color: #ffedd5; border-radius: 999px; padding: 3px 12px; font-size: 12px; }
+.kpis { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 22px; }
+.kpi { background: #fff; border-radius: 12px; padding: 14px 16px; border: 1px solid #e4e7ec; }
+.kpi .k { font-size: 12px; color: #6b7280; }
+.kpi .v { font-size: 22px; font-weight: 700; }
+.kpi .v.warn { color: #b45309; }
+.card { background: #fff; border: 1px solid #e4e7ec; border-radius: 12px; padding: 18px 20px; margin-bottom: 16px; }
+.card h2 { margin: 0 0 12px; font-size: 17px; }
+table { width: 100%; border-collapse: collapse; font-size: 13px; }
+th, td { text-align: left; padding: 8px 8px; border-bottom: 1px solid #eef2f7; vertical-align: top; }
+th { color: #374151; font-weight: 600; background: #f9fafb; }
+.formula { background: #0f1724; color: #cfe0f5; border-radius: 8px; padding: 10px 12px; font-family: Consolas, monospace; font-size: 12px; overflow-x: auto; }
+.note { color: #6b7280; font-size: 12px; }
+ul { margin: 6px 0 0 18px; padding: 0; }
+.footer { margin-top: 26px; font-size: 12px; color: #6b7280; border-top: 1px solid #e4e7ec; padding-top: 14px; }
+@media print { body { background: #fff; padding: 0; } .hero { border-radius: 0; } }
+@media (max-width: 760px) { .kpis { grid-template-columns: repeat(2, 1fr); } }
+</style></head>
+<body><div class="wrap">
+<header class="hero">
+  <h1>机会雷达 · 实验校准报告</h1>
+  <div class="sub">2026-10-22　｜　数据版本 data-v0.4.0　｜　导出时间 2026-10-22T18:25:00+08:00　｜　生成于 2026-10-22T00:00:00+08:00</div>
+  <div class="sample">样例数据（sample）· 仅演示校准流程</div>
+</header>
+<div class="kpis">
+  <div class="kpi"><div class="k">实验样本</div><div class="v">6</div></div>
+  <div class="kpi"><div class="k">有效样本（Brier）</div><div class="v">5</div></div>
+  <div class="kpi"><div class="k">Brier（基线 0.25）</div><div class="v">0.2338</div></div>
+  <div class="kpi"><div class="k">花费合计（元）</div><div class="v">27500.0</div></div>
+</div>
+<section class="card"><h2>口径（docs/04 §12.9.5）</h2>
+  <div class="formula">p = clamp(total / 100, 0.01, 0.99)　｜　o = positive→1 / negative→0　｜　Brier = mean((p − o)²)</div>
+  <p class="note">inconclusive 与未匹配机会排除；样本数 5，基线 0.25；样本充足。
+  排除明细：inconclusive 1 / 未匹配 0 / 无评分 0。</p>
+</section>
+<section class="card"><h2>结果分布</h2>
+  <table><tr><th>positive</th><th>negative</th><th>inconclusive</th><th>未知</th></tr>
+  <tr><td>3</td><td>2</td><td>1</td><td>0</td></tr></table>
+  <p class="note">状态分布：{&quot;done&quot;: 6}</p>
+</section>
+<section class="card"><h2>等级 × 成功率</h2>
+  <table><tr><th>等级</th><th>样本</th><th>阳性</th><th>阴性</th><th>成功率</th></tr><tr><td>S</td><td>0</td><td>0</td><td>0</td><td>—</td></tr><tr><td>A</td><td>5</td><td>3</td><td>1</td><td>75.0%</td></tr><tr><td>B</td><td>1</td><td>0</td><td>1</td><td>0.0%</td></tr><tr><td>C</td><td>0</td><td>0</td><td>0</td><td>—</td></tr><tr><td>D</td><td>0</td><td>0</td><td>0</td><td>—</td></tr><tr><td>?</td><td>0</td><td>0</td><td>0</td><td>—</td></tr></table>
+</section>
+<section class="card"><h2>实验明细</h2>
+  <table><tr><th>机会</th><th>等级</th><th>总分</th><th>结果</th><th>花费(元)</th><th>耗时(h)</th></tr><tr><td>日本故乡纳税返礼品<br><span class='note'>opp-local-furusato-nozei-024</span></td><td>A</td><td>78.6</td><td>positive</td><td>2600.0</td><td>12.0</td></tr><tr><td>沙特 Umrah 中文小团<br><span class='note'>opp-local-umrah-service-025</span></td><td>A</td><td>76.8</td><td>positive</td><td>4100.0</td><td>18.0</td></tr><tr><td>K-beauty 出口分销<br><span class='note'>opp-crossborder-kbeauty-029</span></td><td>A</td><td>75.0</td><td>negative</td><td>7200.0</td><td>22.0</td></tr><tr><td>巴西 MercadoLibre<br><span class='note'>opp-crossborder-mercadolibre-030</span></td><td>A</td><td>77.4</td><td>positive</td><td>5300.0</td><td>16.0</td></tr><tr><td>尼日利亚乳木果加工<br><span class='note'>opp-manufacturing-shea-butter-031</span></td><td>A</td><td>75.2</td><td>inconclusive</td><td>3800.0</td><td>9.0</td></tr><tr><td>老人与异乡人的 AI 陪伴<br><span class='note'>opp-emotional-ai-companion-008</span></td><td>B</td><td>67.5</td><td>negative</td><td>4500.0</td><td>20.0</td></tr></table>
+</section>
+<section class="card"><h2>校准建议</h2><ul><li>Brier 0.2338 ≤ 基线 0.25：评分方向性有效，可继续按等级分配注意力；建议对 A 级以上机会保持『先验证后加注』。</li></ul></section>
+<footer class="footer">
+  <p>生成器：<code>scanner/calibrate.py</code>　｜　数据版本 data-v0.4.0　｜　自包含 HTML，可离线打开/打印（Ctrl+P）。</p>
+  <p><b>免责声明</b>：实验校准基于个人小样本实验，不构成投资建议或收入承诺；inconclusive 不计入 Brier。</p>
+</footer>
+</div></body></html>

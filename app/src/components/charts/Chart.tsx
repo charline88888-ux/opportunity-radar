@@ -1,5 +1,7 @@
+import { useMemo } from 'react'
 import ReactECharts from 'echarts-for-react'
 import type { EChartsOption } from 'echarts'
+import { localizeChartOption, useI18n } from '@/lib/i18n'
 import './theme'
 
 export function Chart({
@@ -15,10 +17,12 @@ export function Chart({
   notMerge?: boolean
   onEvents?: Record<string, (params: unknown) => void>
 }) {
+  const { lang } = useI18n()
+  const localized = useMemo(() => localizeChartOption(option), [option, lang])
   return (
     <div className={className} style={{ height }}>
       <ReactECharts
-        option={option}
+        option={localized}
         theme="radar-dark"
         notMerge={notMerge}
         lazyUpdate

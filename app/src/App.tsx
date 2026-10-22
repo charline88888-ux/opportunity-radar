@@ -17,6 +17,7 @@ import Profile from '@/pages/Profile'
 import Alerts from '@/pages/Alerts'
 import Calibration from '@/pages/Calibration'
 import About from '@/pages/About'
+import { I18nProvider, useI18n } from '@/lib/i18n'
 
 function ScrollToTop() {
   const { pathname } = useLocation()
@@ -39,37 +40,47 @@ function NotFound() {
   )
 }
 
-export default function App() {
+function AppRoutes() {
   const location = useLocation()
+  // 消费语言状态：切换语言时让整棵页面树重新渲染（保留路由/筛选/画像等状态，不刷新）
+  useI18n()
   return (
-    <TooltipProvider delayDuration={150} skipDelayDuration={300}>
-      <AppShell>
-        <ScrollToTop />
-        <motion.div
-          key={location.pathname}
-          initial={{ y: 5 }}
-          animate={{ y: 0 }}
-          transition={{ duration: 0.16, ease: [0.22, 0.61, 0.36, 1] }}
-        >
-          <ErrorBoundary>
-            <Routes location={location}>
-              <Route path="/" element={<Dashboard />} />
-              <Route path="/rankings" element={<Rankings />} />
-              <Route path="/opportunities/:id" element={<OpportunityDetail />} />
-              <Route path="/scanner" element={<Scanner />} />
-              <Route path="/method" element={<Method />} />
-              <Route path="/sources" element={<Sources />} />
-              <Route path="/calendar" element={<CalendarPage />} />
-              <Route path="/lab" element={<Lab />} />
-              <Route path="/profile" element={<Profile />} />
-              <Route path="/alerts" element={<Alerts />} />
-              <Route path="/calibration" element={<Calibration />} />
-              <Route path="/about" element={<About />} />
-              <Route path="*" element={<NotFound />} />
-            </Routes>
-          </ErrorBoundary>
-        </motion.div>
-      </AppShell>
-    </TooltipProvider>
+    <motion.div
+      key={location.pathname}
+      initial={{ y: 5 }}
+      animate={{ y: 0 }}
+      transition={{ duration: 0.16, ease: [0.22, 0.61, 0.36, 1] }}
+    >
+      <ErrorBoundary>
+        <Routes location={location}>
+          <Route path="/" element={<Dashboard />} />
+          <Route path="/rankings" element={<Rankings />} />
+          <Route path="/opportunities/:id" element={<OpportunityDetail />} />
+          <Route path="/scanner" element={<Scanner />} />
+          <Route path="/method" element={<Method />} />
+          <Route path="/sources" element={<Sources />} />
+          <Route path="/calendar" element={<CalendarPage />} />
+          <Route path="/lab" element={<Lab />} />
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/alerts" element={<Alerts />} />
+          <Route path="/calibration" element={<Calibration />} />
+          <Route path="/about" element={<About />} />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </ErrorBoundary>
+    </motion.div>
+  )
+}
+
+export default function App() {
+  return (
+    <I18nProvider>
+      <TooltipProvider delayDuration={150} skipDelayDuration={300}>
+        <AppShell>
+          <ScrollToTop />
+          <AppRoutes />
+        </AppShell>
+      </TooltipProvider>
+    </I18nProvider>
   )
 }

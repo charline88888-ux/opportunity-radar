@@ -27,6 +27,7 @@ import {
   type AlertType,
 } from '@/lib/alerts'
 import { useProfile } from '@/lib/profile'
+import { useAlertNotifications } from '@/lib/notifications'
 import { cn, fmtInt } from '@/lib/utils'
 
 type Filter = 'unread' | 'all' | 'ignored'
@@ -95,6 +96,7 @@ function AlertCard({ alert, ignored, read, onRead, onIgnore, onUnignore }: {
 export default function Alerts() {
   const center = useAlerts()
   const { profile } = useProfile()
+  const notifications = useAlertNotifications(center.active)
   const [filter, setFilter] = useState<Filter>('unread')
 
   const visible = useMemo(() => {
@@ -123,6 +125,9 @@ export default function Alerts() {
           <div className="flex flex-wrap items-center gap-2">
             <Badge tone={center.unreadCount ? 'amber' : 'signal'}><Bell className="h-3 w-3" /> 未读 {center.unreadCount} 条</Badge>
             <Badge tone="muted" title="告警 id 含数据版本指纹；升版后旧已读/忽略自动失效，重新提醒">数据 v{ALERT_DATA_VERSION}</Badge>
+            <Button size="sm" variant="outline" onClick={() => void notifications.toggle()} title="仅当本页打开时，对新的严重预警发送桌面通知">
+              <Bell className="h-3.5 w-3.5" /> 桌面通知 {notifications.enabled ? '开' : '关'}
+            </Button>
             <Button size="sm" variant="outline" onClick={center.markAllRead} disabled={!center.unreadCount}>
               <CheckCheck className="h-3.5 w-3.5" /> 全部已读
             </Button>
@@ -150,6 +155,20 @@ export default function Alerts() {
           </Panel>
         ))}
       </div>
+
+      {!notifications.supported && (
+        <Panel className="mb-3 rounded border border-line/70 bg-white/[0.015] px-3 py-2 text-[10.5px] text-dim">
+          当前浏览器不支持桌面通知，页面内预警不受影响。{notifications.error || ''}
+        </Panel>
+      )}
+      {notifications.error && notifications.supported && (
+        <Panel className="mb-3 rounded border border-amber/30 bg-amber/[0.05] px-3 py-2 text-[10.5px] text-amber">{notifications.error}</Panel>
+      )}
+      {notifications.enabled && (
+        <Panel className="mb-3 rounded border border-signal/25 bg-signal/[0.04] px-3 py-2 text-[10.5px] text-muted">
+          桌面通知已开启：仅当本页打开时，新出现的「严重」预警会发送系统通知；权限或浏览器不支持时自动降级为页面内提醒。
+        </Panel>
+      )}
 
       {staleCount > 0 && (
         <Panel className="mb-3 flex flex-wrap items-center gap-2 border-amber/30 bg-amber/[0.05] px-3 py-2">

@@ -1,0 +1,98 @@
+{
+  "schema_version": "0.4.0",
+  "exported_at": "2026-10-22T18:25:00+08:00",
+  "profile": {
+    "capital_band": "1-5万",
+    "weekly_hours": 10,
+    "skills": {"tech": 2, "content": 1, "supply_chain": 1, "ops": 2},
+    "english": 2,
+    "risk": 3,
+    "full_time": false
+  },
+  "experiments": [
+    {
+      "id": "exp-sample-001",
+      "opp_id": "opp-local-furusato-nozei-024",
+      "title": "日本故乡纳税返礼品",
+      "started_at": "2026-10-01",
+      "ended_at": "2026-10-10",
+      "status": "done",
+      "outcome": "positive",
+      "budget_cny": 3000,
+      "spend_cny": 2600,
+      "hours": 12,
+      "conclusion": "寄送 2 家自治体提案，1 家要求追加送样；验证了『日语提案+小批量』的最小可行路径。",
+      "data_version": "0.3.1"
+    },
+    {
+      "id": "exp-sample-002",
+      "opp_id": "opp-local-umrah-service-025",
+      "title": "沙特 Umrah 中文小团",
+      "started_at": "2026-10-02",
+      "ended_at": "2026-10-12",
+      "status": "done",
+      "outcome": "positive",
+      "budget_cny": 5000,
+      "spend_cny": 4100,
+      "hours": 18,
+      "conclusion": "社群招募 6 位意向，与持牌方完成一次对接；毛利低于预期但渠道可行。",
+      "data_version": "0.3.1"
+    },
+    {
+      "id": "exp-sample-003",
+      "opp_id": "opp-crossborder-kbeauty-029",
+      "title": "K-beauty 出口分销",
+      "started_at": "2026-10-03",
+      "ended_at": "2026-10-13",
+      "status": "done",
+      "outcome": "negative",
+      "budget_cny": 8000,
+      "spend_cny": 7200,
+      "hours": 22,
+      "conclusion": "3 个品牌均要求先备货 5 万元且不给区域保护，轻库存模式不成立，主动放弃。",
+      "data_version": "0.3.1"
+    },
+    {
+      "id": "exp-sample-004",
+      "opp_id": "opp-crossborder-mercadolibre-030",
+      "title": "巴西 MercadoLibre",
+      "started_at": "2026-10-04",
+      "ended_at": "2026-10-12",
+      "status": "done",
+      "outcome": "positive",
+      "budget_cny": 6000,
+      "spend_cny": 5300,
+      "hours": 16,
+      "conclusion": "10 个测品中 3 个动销，清关时效可接受；进入小批量复购测试。",
+      "data_version": "0.3.1"
+    },
+    {
+      "id": "exp-sample-005",
+      "opp_id": "opp-manufacturing-shea-butter-031",
+      "title": "尼日利亚乳木果加工",
+      "started_at": "2026-10-05",
+      "ended_at": "2026-10-14",
+      "status": "done",
+      "outcome": "inconclusive",
+      "budget_cny": 20000,
+      "spend_cny": 3800,
+      "hours": 9,
+      "conclusion": "只完成原料报价与物流询价，合资方尽调未完成，无法判断可行性。",
+      "data_version": "0.3.1"
+    },
+    {
+      "id": "exp-sample-006",
+      "opp_id": "opp-emotional-ai-companion-008",
+      "title": "老人与异乡人的 AI 陪伴",
+      "started_at": "2026-10-06",
+      "ended_at": "2026-10-15",
+      "status": "done",
+      "outcome": "negative",
+      "budget_cny": 5000,
+      "spend_cny": 4500,
+      "hours": 20,
+      "conclusion": "5 个家庭访谈中 4 个不愿为『AI 陪伴』单独付费，更愿为人工探访付费，方向需重做。",
+      "data_version": "0.3.1"
+    }
+  ]
+}

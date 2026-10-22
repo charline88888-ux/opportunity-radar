@@ -133,7 +133,7 @@ export default function ProfilePage() {
   const exportProfile = () => {
     if (!profile && !editing) return
     const data = {
-      schema: 'opportunity-radar/profile@0.3.1',
+      schema: 'opportunity-radar/profile@0.4.0',
       exported_at: new Date().toISOString(),
       profile: profile || form,
       capability: capability || formCapability,

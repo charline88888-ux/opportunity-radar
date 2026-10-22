@@ -7,10 +7,10 @@
 |---|---|
 | 🌐 **在线版（随版本更新）** | **https://charline88888-ux.github.io/opportunity-radar/** |
 | 💻 源码仓库（GitHub） | https://github.com/charline88888-ux/opportunity-radar |
-| 📦 当前冻结版 | `releases/v0.3.1/dist/index.html`（历史：`/v0.1.0/`、`/v0.2.0/`、`/v0.3.0/`） |
-| 🏷️ 版本 | 应用 v0.3.1 ｜ 数据 data-v0.3.1 ｜ 基准日 2026-10-22 |
+| 📦 当前冻结版 | `releases/v0.4.0/dist/index.html`（历史：`/v0.1.0/`、`/v0.2.0/`、`/v0.3.0/`、`/v0.3.1/`） |
+| 🏷️ 版本 | 应用 v0.4.0 ｜ 数据 data-v0.4.0 ｜ 基准日 2026-10-22 |
 
-## 现在能做什么（v0.3.1）
+## 现在能做什么（v0.4.0）
 
 - **指挥台**：今日新信号、四大榜单、评分分布、区域/行业/需求全景、画像摘要 + 推荐 Top3、预警数、采集健康度。
 - **排行榜**：日/周/月/年 + 14 行业 + 信息差筛选 + 排名变化（**真实历史 delta**，显示「较上一快照 / 历史回放」口径）；新增 **「为你推荐」模式**（按个人画像重排）。
@@ -23,6 +23,7 @@
 - **方法论**：评分权重拖动重排、七问、神经递质矩阵、信息差类型学、文化雷达、窗口衰减曲线。
 - **数据源矩阵**：68 平台 / 12 类 + 采集健康度；**真实采集 8/8 源成功**（reddit 降级为人工浏览 + Lobsters 替代）→ outbox 人工复核。
 - **v0.3.1 增补**：校准页 **Brier 分数**（当前 0.296 / N=6，基线 0.25）、**严格资金过滤**开关（按 ROI 启动资金硬过滤）、预警 id 含数据版本（数据升级自动重提醒）、单桶样本 <3 提示。
+- **v0.4.0 增补**：**中英双语 UI**（顶栏切换，EN 数据仍中文并标注）、**AI 富化 outbox**（`scanner/enrich.py`，offline-template 默认 / 可选 LLM key；永不自动入库）、**校准/年度报告**（`scanner/calibrate.py` → `data/reports/calibration-*.html`）、**预警桌面通知**（可选、本地）。
 - **报告**：四窗口 HTML（自包含可打印）+ Markdown；前端一键导出当前视图。
 - **版本隔离**：`releases/vX.Y.Z/` + git tag + GitHub Pages 历史归档；旧版本只读，可随时回滚。
 
@@ -30,7 +31,7 @@
 
 ### 方式 A：直接打开（无需安装/联网）
 
-双击 `releases/v0.3.0/dist/index.html`（单文件，离线可用）。
+双击 `releases/v0.4.0/dist/index.html`（单文件，离线可用）。
 
 ### 方式 B：在线访问
 
@@ -63,11 +64,11 @@ pnpm build    # strict 校验 + 单文件构建，产物 app/dist/index.html
 powershell -ExecutionPolicy Bypass -File scripts/install-daily-task.ps1
 
 # 冻结新版本（不污染旧版本）
-powershell -ExecutionPolicy Bypass -File scripts/release.ps1 -Version v0.3.1
+powershell -ExecutionPolicy Bypass -File scripts/release.ps1 -Version v0.4.1
 
-# 发布到 GitHub Pages（需要 GITHUB_TOKEN，勿提交）
+# 发布到 GitHub Pages（需要 GITHUB_TOKEN，勿提交；网络异常时 git 加 -c http.version=HTTP/1.1 -c http.sslBackend=schannel）
 $env:GITHUB_TOKEN = "ghp_xxx"
-powershell -ExecutionPolicy Bypass -File scripts/deploy-pages.ps1 -Version v0.3.1
+powershell -ExecutionPolicy Bypass -File scripts/deploy-pages.ps1 -Version v0.4.1
 ```
 
 ## 仓库地图
@@ -75,8 +76,8 @@ powershell -ExecutionPolicy Bypass -File scripts/deploy-pages.ps1 -Version v0.3.
 | 路径 | 内容 |
 |---|---|
 | `docs/` | 战略、方法论、评分、产品、技术、运营、风险、版本共 13 份主文档（00–12） |
-| `data/` | 分类学、机会库、榜单、历史快照（含回放）、报告、数据源、剧本、日历、采集健康度 v2（data-v0.3.0） |
-| `scanner/` | 采集（真实/离线）→ 归一 → 去重 → 评分 → 排榜 → 历史/回放 → SQLite → 报告 → 校验（Python 标准库） |
+| `data/` | 分类学、机会库、榜单、历史快照（含回放）、报告（含校准报告）、数据源、剧本、日历、采集健康度 v2（data-v0.4.0） |
+| `scanner/` | 采集（真实/离线）→ 归一 → 去重 → 评分 → 排榜 → 历史/回放 → SQLite → 报告 → **富化 enrich.py** → **校准 calibrate.py** → 校验（Python 标准库） |
 | `app/` | React + Vite + TS + Tailwind v4 + ECharts 前端源码（12 个页面） |
 | `research/` | 真实案例、平台可访问性验证、文化差异研究底稿（含来源链接） |
 | `qa/` | 红队清单、验收报告、截图、CDP 检查脚本 |
@@ -97,13 +98,14 @@ powershell -ExecutionPolicy Bypass -File scripts/deploy-pages.ps1 -Version v0.3.
 - [09 风险合规与红队清单](docs/09-风险合规与红队清单.md)
 - [10 版本与发布管理](docs/10-版本与发布管理.md)
 - [11 补充清单 · 40 个容易踩的坑与放大器](docs/11-补充清单-你没想到的40件事.md)
-- [12 数据契约与字段字典（data-v0.3.1）](docs/12-数据契约与字段字典.md)
+- [12 数据契约与字段字典（data-v0.4.0）](docs/12-数据契约与字段字典.md)
 
 ## 版本历史
 
 | 版本 | 日期 | 摘要 | 产物 / 线上 |
 |---|---|---|---|
-| **v0.3.1** | 2026-10-22 | PATCH：采集修复 8/8 源成功、Brier 分数、严格资金过滤、预警按数据版本重提醒、单桶样本提示 | [`releases/v0.3.1/`](releases/v0.3.1/)（[DEV](releases/v0.3.1/DEV.md) / [OPS](releases/v0.3.1/OPS.md) / [CHANGELOG](releases/v0.3.1/CHANGELOG.md)）｜线上根目录 |
+| **v0.4.0** | 2026-10-22 | MINOR：中英双语 UI、AI 富化 outbox、实验校准/年度报告、预警桌面通知 | [`releases/v0.4.0/`](releases/v0.4.0/)（[DEV](releases/v0.4.0/DEV.md) / [OPS](releases/v0.4.0/OPS.md) / [CHANGELOG](releases/v0.4.0/CHANGELOG.md)）｜线上根目录 |
+| v0.3.1 | 2026-10-22 | PATCH：采集修复 8/8 源成功、Brier 分数、严格资金过滤、预警按数据版本重提醒、单桶样本提示 | [`releases/v0.3.1/`](releases/v0.3.1/)｜线上 `/v0.3.1/` |
 | v0.3.0 | 2026-10-22 | 个人画像 + 推荐重排、实验回测校准、预警中心、source-health v2、历史回放/真实 delta | [`releases/v0.3.0/`](releases/v0.3.0/)｜线上 `/v0.3.0/` |
 | v0.2.0 | 2026-10-22 | 真实采集（7 源）+ SQLite + 历史快照/真实 delta + 四窗口报告 + 定时任务 + 实验台 `/lab` + P2 修复 + GitHub Pages | [`releases/v0.2.0/`](releases/v0.2.0/)｜线上 `/v0.2.0/` |
 | v0.1.0 | 2026-10-22 | 首个可用版本：8 页应用、46 条机会库、四窗口榜单、10 维评分、13 份文档、红队验收、发布体系 | [`releases/v0.1.0/`](releases/v0.1.0/)｜线上 `/v0.1.0/` |

@@ -6,6 +6,7 @@
 """
 from __future__ import annotations
 
+import os
 import sys
 import tempfile
 import unittest
@@ -17,10 +18,12 @@ if __package__ in (None, ""):
     sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 
 from scanner import (  # noqa: E402
+    calibrate,
     common,
     config,
     db,
     dedupe,
+    enrich,
     fetch,
     history,
     materialize,
@@ -648,6 +651,192 @@ class TestHistoryDeltaNewSemantics(unittest.TestCase):
         self.assertEqual(day_items["opp-new-001"]["change"], "new")
         # month/year 上期为空 → 回退 adjacent-window
         self.assertEqual(rankings["windows"]["month"]["delta_basis"], "adjacent-window")
+
+
+class TestEnrichOffline(unittest.TestCase):
+    """v0.4.0：AI 富化 outbox（offline-template，人工复核门禁）。"""
+
+    @staticmethod
+    def _signal(idx: int, title: str = "Pet memorial glass demand grows", url: str | None = None) -> dict:
+        return {
+            "signal_id": f"sig-test-{idx}",
+            "source_id": "hnrss",
+            "source_category": "demand",
+            "title": title,
+            "url": url if url is not None else f"https://example.com/pet-memorial-{idx}",
+            "quote": "Owners search for keepsakes after loss...",
+            "published_date": "2026-10-20",
+            "lang": "en",
+            "industry_hints": ["pet"],
+            "gap_hints": ["emotion"],
+            "emotion_hints": ["grief", "love"],
+            "region_hints": ["north-america"],
+            "pain_phrases": ["can't find"],
+            "trend": {},
+        }
+
+    def _write_outbox(self, directory: Path, signals: list[dict], as_of: str = "2026-10-22") -> Path:
+        path = directory / f"signals-{as_of}.json"
+        common.dump_json(path, {"meta": {"as_of": as_of}, "signals": signals})
+        return path
+
+    def test_offline_candidates_schema(self):
+        taxonomy = _load_taxonomy()
+        valid_gaps = {item["id"] for item in taxonomy["gap_types"]}
+        valid_needs = {item["id"] for item in taxonomy["human_needs"]}
+        with tempfile.TemporaryDirectory() as tmp:
+            out_dir = Path(tmp)
+            signals_path = self._write_outbox(out_dir, [self._signal(1), self._signal(2), {"title": "", "url": ""}])
+            result = enrich.enrich(signals_path, out_dir=out_dir)
+            self.assertEqual(result["mode"], "offline-template")
+            self.assertEqual(result["candidates"], 2)  # 非法信号被跳过
+            self.assertEqual(result["skipped"], 1)
+            payload = common.load_json(Path(result["enriched_path"]))
+            self.assertEqual(payload["meta"]["generator"], "offline-template")
+            self.assertTrue(payload["meta"]["key_logged"] is False)
+            for candidate in payload["candidates"]:
+                self.assertTrue(candidate["needs_human"])
+                self.assertTrue(candidate["url"].startswith("http"))
+                self.assertIn(candidate["signal_type"], {"complaint", "trend", "discussion", "news", "market_size"})
+                for gap in candidate["gap_type_ids"]:
+                    self.assertIn(gap, valid_gaps)
+                for need in candidate["human_need_ids"]:
+                    self.assertIn(need, valid_needs)
+                for key, _label in enrich.QUESTIONS:
+                    self.assertIn(key, candidate["seven_questions_draft"])
+                self.assertIn("待人工补充", candidate["seven_questions_draft"]["traffic"])
+                self.assertIn("永不自动写入", " ".join(candidate["notes"]))
+            review = Path(result["review_path"]).read_text(encoding="utf-8")
+            self.assertIn("REVIEW.md", review)
+            self.assertIn("永不自动写入", review)
+
+    def test_empty_outbox_is_graceful(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            out_dir = Path(tmp)
+            signals_path = self._write_outbox(out_dir, [])
+            result = enrich.enrich(signals_path, out_dir=out_dir)
+            self.assertEqual(result["candidates"], 0)
+            payload = common.load_json(Path(result["enriched_path"]))
+            self.assertEqual(payload["candidates"], [])
+            review = Path(result["review_path"]).read_text(encoding="utf-8")
+            self.assertIn("没有可复核候选", review)
+
+    def test_dry_run_writes_nothing(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            out_dir = Path(tmp)
+            signals_path = self._write_outbox(out_dir, [self._signal(1)])
+            before = {path.name for path in out_dir.iterdir()}
+            result = enrich.enrich(signals_path, out_dir=out_dir, dry_run=True)
+            self.assertTrue(result["dry_run"])
+            self.assertEqual({path.name for path in out_dir.iterdir()}, before)
+
+    def test_online_without_key_returns_error_without_crash(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            out_dir = Path(tmp)
+            signals_path = self._write_outbox(out_dir, [self._signal(1)])
+            clean_env = {key: value for key, value in os.environ.items() if key != "LLM_API_KEY"}
+            with mock.patch.dict(os.environ, clean_env, clear=True):
+                result = enrich.enrich(signals_path, out_dir=out_dir, online=True, dry_run=True)
+            self.assertIn("LLM_API_KEY", result["error"])
+            self.assertEqual(result["candidates"], [])
+            self.assertFalse(Path(out_dir / "enriched-2026-10-22.json").exists())
+
+    def test_enrich_never_writes_opportunities(self):
+        before = common.load_json(config.OPPORTUNITIES_PATH)
+        with tempfile.TemporaryDirectory() as tmp:
+            out_dir = Path(tmp)
+            signals_path = self._write_outbox(out_dir, [self._signal(1)])
+            enrich.enrich(signals_path, out_dir=out_dir)
+        after = common.load_json(config.OPPORTUNITIES_PATH)
+        self.assertEqual(before, after)
+
+
+class TestCalibrate(unittest.TestCase):
+    """v0.4.0：校准报告与 Brier 公式（docs/04 §12.9.5）。"""
+
+    def test_brier_formula_pure(self):
+        self.assertEqual(calibrate.clamp_p(0), 0.01)
+        self.assertEqual(calibrate.clamp_p(50), 0.5)
+        self.assertEqual(calibrate.clamp_p(150), 0.99)
+        pairs = [(0.8, 1), (0.6, 0), (0.4, 1)]
+        expected = ((0.8 - 1) ** 2 + (0.6 - 0) ** 2 + (0.4 - 1) ** 2) / 3
+        self.assertAlmostEqual(calibrate.brier_from_pairs(pairs), expected, places=10)
+        self.assertIsNone(calibrate.brier_from_pairs([]))
+
+    def _export(self, experiments: list[dict]) -> dict:
+        return {"schema_version": "0.4.0", "exported_at": "2026-10-22T18:00:00+08:00", "experiments": experiments}
+
+    def _exp(self, opp_id: str, outcome: str | None, **extra) -> dict:
+        payload = {"id": f"exp-{opp_id}-{outcome}", "opp_id": opp_id, "status": "done", "outcome": outcome}
+        payload.update(extra)
+        return payload
+
+    def test_build_records_and_brier_exclusions(self):
+        opportunities = {
+            "opp-x1": {"title": "X1", "grade": "A", "total": 80.0},
+            "opp-x2": {"title": "X2", "grade": "B", "total": 60.0},
+            "opp-x3": {"title": "X3", "grade": "A", "total": 40.0},
+        }
+        export = self._export(
+            [
+                self._exp("opp-x1", "positive", spend_cny=100, hours=3),
+                self._exp("opp-x2", "negative", spend_cny=200, hours=5),
+                self._exp("opp-x3", "positive"),
+                self._exp("opp-x1", "inconclusive"),  # 排除
+                self._exp("opp-missing", "positive"),  # 未匹配，排除
+                self._exp("opp-x2", None),  # 未知 outcome，排除
+            ]
+        )
+        records = calibrate.build_records(export, opportunities)
+        self.assertEqual(len(records), 6)
+        brier = calibrate.compute_brier(records)
+        self.assertEqual(brier["n"], 3)
+        expected = ((0.8 - 1) ** 2 + (0.6 - 0) ** 2 + (0.4 - 1) ** 2) / 3
+        self.assertAlmostEqual(brier["brier"], round(expected, 4), places=4)
+        self.assertTrue(brier["sufficient"])
+        self.assertEqual(brier["excluded"]["inconclusive"], 1)
+        self.assertEqual(brier["excluded"]["unmatched"], 1)
+        self.assertEqual(brier["excluded"]["unknown"], 1)
+        spend = calibrate.spend_hours(records)
+        self.assertEqual(spend["spend_total"], 300.0)
+        self.assertEqual(spend["hours_total"], 8.0)
+
+    def test_insufficient_sample_and_suggestions(self):
+        opportunities = {"opp-x1": {"title": "X1", "grade": "A", "total": 80.0}}
+        export = self._export([self._exp("opp-x1", "positive"), self._exp("opp-x1", "negative")])
+        brier = calibrate.compute_brier(calibrate.build_records(export, opportunities))
+        self.assertEqual(brier["n"], 2)
+        self.assertFalse(brier["sufficient"])
+        tips = calibrate.suggestions(brier, calibrate.grade_stats(calibrate.build_records(export, opportunities)), {"positive": 1, "negative": 1, "inconclusive": 0, "unknown": 0})
+        self.assertTrue(any("样本" in tip for tip in tips))
+
+    def test_generate_reports_and_invalid_export(self):
+        sample_path = config.FIXTURES_DIR / "experiments-sample.json"
+        self.assertTrue(sample_path.exists())
+        with tempfile.TemporaryDirectory() as tmp:
+            result = calibrate.generate(sample_path, out_dir=Path(tmp), sample=True)
+            self.assertEqual(result["samples"], 6)
+            self.assertTrue(result["sufficient"])
+            html_path = Path(result["html"])
+            md_path = Path(result["md"])
+            self.assertTrue(html_path.exists() and md_path.exists())
+            html_text = html_path.read_text(encoding="utf-8")
+            self.assertIn("Brier", html_text)
+            self.assertIn("样例数据", html_text)
+            self.assertIn("免责声明", html_text)
+            md_text = md_path.read_text(encoding="utf-8")
+            self.assertIn("校准建议", md_text)
+            # 与纯函数复算一致（用报告内记录复算）
+            export = calibrate.load_export(sample_path)
+            records = calibrate.build_records(export, calibrate.load_opportunities())
+            self.assertAlmostEqual(
+                calibrate.compute_brier(records)["brier"], result["brier"], places=4
+            )
+        with tempfile.TemporaryDirectory() as tmp:
+            bad = Path(tmp) / "bad.json"
+            common.dump_json(bad, {"foo": "bar"})
+            with self.assertRaises(ValueError):
+                calibrate.generate(bad, out_dir=Path(tmp))
 
 
 if __name__ == "__main__":

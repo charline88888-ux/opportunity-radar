@@ -1,10 +1,14 @@
 import { clsx, type ClassValue } from 'clsx'
 import { twMerge } from 'tailwind-merge'
 import dayjs from 'dayjs'
+import { getLang } from './i18n'
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
+
+const isEn = () => getLang() === 'en'
+const locale = () => (isEn() ? 'en-US' : 'zh-CN')
 
 export const clamp = (n: number, min: number, max: number) => Math.min(max, Math.max(min, n))
 export const round1 = (n: number) => Math.round(n * 10) / 10
@@ -12,12 +16,18 @@ export const round2 = (n: number) => Math.round(n * 100) / 100
 
 export function fmtInt(n: number | null | undefined): string {
   if (n === null || n === undefined || Number.isNaN(n)) return '—'
-  return new Intl.NumberFormat('zh-CN').format(Math.round(n))
+  return new Intl.NumberFormat(locale()).format(Math.round(n))
 }
 
 export function fmtCny(n: number | null | undefined): string {
   if (n === null || n === undefined || !Number.isFinite(n)) return '—'
   const abs = Math.abs(n)
+  if (isEn()) {
+    if (abs >= 1e9) return `${(n / 1e9).toFixed(2)}B`
+    if (abs >= 1e6) return `${(n / 1e6).toFixed(2)}M`
+    if (abs >= 1e3) return `${(n / 1e3).toFixed(abs >= 1e5 ? 0 : 1)}K`
+    return fmtInt(n)
+  }
   if (abs >= 1e8) return `${(n / 1e8).toFixed(2)} 亿`
   if (abs >= 1e4) return `${(n / 1e4).toFixed(abs >= 1e6 ? 0 : 1)} 万`
   return fmtInt(n)
@@ -34,6 +44,15 @@ export function fmtCnyRange(min: number | null | undefined, max: number | null |
   if (!Number.isFinite(min) || !Number.isFinite(max)) return '—'
   if (min === max) return `¥${fmtInt(min)}`
   const trim = (n: number, digits: number) => String(Number(n.toFixed(digits)))
+  if (isEn()) {
+    const compact = (n: number) => {
+      if (Math.abs(n) >= 1e9) return `${trim(n / 1e9, 2)}B`
+      if (Math.abs(n) >= 1e6) return `${trim(n / 1e6, 2)}M`
+      if (Math.abs(n) >= 1e3) return `${trim(n / 1e3, 1)}K`
+      return fmtInt(n)
+    }
+    return `¥${compact(min)}–${compact(max)}`
+  }
   if (max >= 1e8) return `¥${trim(min / 1e8, 2)}–${trim(max / 1e8, 2)} 亿`
   if (max >= 1e4) return `¥${trim(min / 1e4, 1)}–${trim(max / 1e4, 1)} 万`
   return `¥${fmtInt(min)}–${fmtInt(max)}`
@@ -58,13 +77,15 @@ export function fmtDate(d?: string | null): string {
 export function fmtDateCn(d?: string | null): string {
   if (!d) return '—'
   const v = dayjs(d)
-  return v.isValid() ? v.format('YYYY年M月D日') : d
+  if (!v.isValid()) return d
+  return v.format(isEn() ? 'MMM D, YYYY' : 'YYYY年M月D日')
 }
 
 export function fmtMonthCn(d?: string | null): string {
   if (!d) return '—'
   const v = dayjs(d)
-  return v.isValid() ? v.format('YYYY年M月') : d
+  if (!v.isValid()) return d
+  return v.format(isEn() ? 'MMM YYYY' : 'YYYY年M月')
 }
 
 export function dateRangeText(start?: string | null, end?: string | null): string {

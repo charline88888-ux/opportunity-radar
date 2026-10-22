@@ -1,0 +1,15 @@
+==================================================================================
+机会雷达 v0.4.0 · 红队独立数据验收（qa/data-qa-v04.py）
+==================================================================================
+P0 = 0    P1 = 0    P2 = 0
+----------------------------------------------------------------------------------
+  · history 2026-10-20: reconstructed=True replay_as_of=2026-10-20 counts={'day': 3, 'week': 5, 'month': 13, 'year': 36}
+  · history 2026-10-21: reconstructed=True replay_as_of=2026-10-21 counts={'day': 2, 'week': 7, 'month': 15, 'year': 38}
+  · history 2026-10-22: reconstructed=False replay_as_of=None counts={'day': 8, 'week': 15, 'month': 23, 'year': 46}
+  · delta 独立复算：92 条（有可比上期 60 条，新增 32 条）
+  · 在线采集成功 8/8
+  · source-health：8 源 / ok=8 / failed=0 / meta.mode=online-fetch
+  · reports: html=5 md=5
+  · calibration 报告：md=1347B html=5175B
+  · radar.db rankings_history rows=211（3 份快照）
+==================================================================================

@@ -24,7 +24,8 @@ import {
   calibrationToMarkdown,
   type CalibrationSample,
 } from '@/lib/calibration'
-import { useExperiments } from '@/lib/experiments'
+import { calibrationExperimentsExport, useExperiments } from '@/lib/experiments'
+import { useProfile } from '@/lib/profile'
 import { downloadText } from '@/lib/exports'
 import { cn, fmtCnyRange, fmtInt, fmtPct, fmtScore } from '@/lib/utils'
 
@@ -53,6 +54,7 @@ function OutcomePill({ outcome }: { outcome: string }) {
 
 export default function Calibration() {
   const { items } = useExperiments()
+  const { profile } = useProfile()
   const data = useMemo(() => buildCalibration(items), [items])
   const s = data.stats
 
@@ -102,9 +104,11 @@ export default function Calibration() {
     [data.byBucket],
   )
 
-  const exportReport = (format: 'md' | 'json') => {
-    if (format === 'md') downloadText('radar-calibration.md', calibrationToMarkdown(data), 'text/markdown;charset=utf-8')
-    else downloadText('radar-calibration.json', calibrationToJson(data), 'application/json;charset=utf-8')
+  const exportReport = () => {
+    downloadText('radar-calibration.md', calibrationToMarkdown(data), 'text/markdown;charset=utf-8')
+  }
+  const exportExperiments = () => {
+    downloadText('radar-experiments-calibration.json', calibrationExperimentsExport(items, profile), 'application/json;charset=utf-8')
   }
 
   return (
@@ -117,8 +121,9 @@ export default function Calibration() {
         actions={
           <div className="flex flex-wrap items-center gap-2">
             <Badge tone={data.ready ? 'signal' : 'amber'}><Target className="h-3 w-3" /> 样本 {s.samples} 条{!data.ready ? ` / 建议 ≥${CALIBRATION_MIN_SAMPLES}` : ''}</Badge>
-            <Button size="sm" variant="outline" onClick={() => exportReport('md')} disabled={!s.samples}><FileText className="h-3.5 w-3.5" /> 导出 MD</Button>
-            <Button size="sm" variant="outline" onClick={() => exportReport('json')} disabled={!s.samples}><FileJson className="h-3.5 w-3.5" /> 导出 JSON</Button>
+            <Button size="sm" variant="outline" onClick={exportReport} disabled={!s.samples}><FileText className="h-3.5 w-3.5" /> 导出校准 MD</Button>
+            <Button size="sm" variant="outline" onClick={exportExperiments} disabled={!items.length}><FileJson className="h-3.5 w-3.5" /> 导出实验 JSON</Button>
+            <span className="hidden max-w-[180px] font-mono text-[9px] leading-tight text-dim xl:inline">→ python scanner/calibrate.py --experiments &lt;file&gt;</span>
             <Link to="/lab" className="inline-flex h-7 items-center gap-1 rounded border border-signal/35 bg-signal/10 px-2.5 text-[11.5px] text-signal hover:bg-signal/20">
               <FlaskConical className="h-3 w-3" /> 去实验台
             </Link>
@@ -290,7 +295,7 @@ export default function Calibration() {
       )}
 
       <div className="mt-1 flex flex-wrap items-center gap-2 text-[10px] text-dim">
-        <Download className="h-3 w-3" /> 报告可导出 MD/JSON 备份；数据只来自本机 /lab 实验记录与打包的机会评分。
+        <Download className="h-3 w-3" /> 报告可导出 MD 备份；「导出实验 JSON」采用 docs/12 §1.3 schema，可运行 `python scanner/calibrate.py --experiments 文件` 生成正式校准报告。
         <span className="ml-auto font-mono">样本 {s.samples} · 建议 ≥{CALIBRATION_MIN_SAMPLES} · 现有分桶 {CALIBRATION_BUCKETS.length} 档 · Brier 基线 0.25（二值 N≥{BRIER_MIN_SAMPLES} 展示）</span>
       </div>
     </div>

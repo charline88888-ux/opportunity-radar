@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import dayjs from 'dayjs'
-import { gapName, industryName, oppById } from './data'
+import { dataMeta, gapName, industryName, oppById } from './data'
+import type { Profile } from './profile'
 import { fmtCnyRange, fmtScore } from './utils'
 
 export type ExperimentStatus = 'active' | 'verified' | 'abandoned'
@@ -262,10 +263,53 @@ export function experimentsToMarkdown(items: Experiment[]): string {
 export function experimentsToJson(items: Experiment[]): string {
   return JSON.stringify(
     {
-      schema: 'opportunity-radar/experiments@0.3.1',
+      schema: 'opportunity-radar/experiments@0.4.0',
       exported_at: dayjs().toISOString(),
       stats: experimentStats(items),
       items,
+    },
+    null,
+    2,
+  )
+}
+
+/**
+ * v0.4.0 校准导出（docs/12 §1.3）：供 `python scanner/calibrate.py --experiments <file>` 使用。
+ * 只包含实验与画像摘要，不包含其他个人数据。
+ */
+export function calibrationExperimentsExport(items: Experiment[], profile: Profile | null): string {
+  const dataVersion = dataMeta.data_version || '0.4.0'
+  return JSON.stringify(
+    {
+      schema_version: '0.4.0',
+      exported_at: dayjs().toISOString(),
+      profile: profile
+        ? {
+            capitalBand: profile.capitalBand,
+            weeklyHours: profile.weeklyHours,
+            skills: profile.skills,
+            english: profile.english,
+            risk: profile.risk,
+            fullTime: profile.fullTime,
+            hasLicensePartner: profile.hasLicensePartner,
+            strictCapital: profile.strictCapital,
+            updated_at: profile.updated_at,
+          }
+        : null,
+      experiments: items.map((x) => ({
+        id: x.id,
+        opp_id: x.opp_id,
+        title: x.title,
+        started_at: x.started_at,
+        ended_at: x.ended_at,
+        status: x.status,
+        outcome: x.outcome,
+        budget_cny: x.budget_cny,
+        spend_cny: x.spend_cny,
+        hours: x.hours,
+        conclusion: x.conclusion,
+        data_version: dataVersion,
+      })),
     },
     null,
     2,

@@ -2,6 +2,41 @@
 
 格式：`data_version` + 日期 + 变更内容 + 影响面。契约变更（字段/枚举/公式）必须同步更新 `docs/12-数据契约与字段字典.md` 并通知 Lead、前端、红队。
 
+## data-v0.4.0 · 2026-10-22 · MINOR 增量（AI 富化 outbox + 实验校准报告）
+
+> 向后兼容：不删除、不改名既有字段；机会库/榜单/历史/source-health 数据口径不变，仅版本号升 0.4.0。
+
+### 新增工具（scanner/）
+- **`scanner/enrich.py`（AI 富化 outbox，人工复核门禁）**：
+  - 读 `scanner/outbox/signals-<date>.json` → 写 `scanner/outbox/enriched-<date>.json` + `REVIEW.md`（outbox gitignore，不入库/不入发布）；
+  - 默认 **offline-template**：关键词/taxonomy 候选映射（行业/信息差/人性需求/情绪/神经递质）、七问骨架草稿（标注「待人工补充」）、启发式语言检测、证据 URL 透传；
+  - 可选 **在线模式**：`--online` + 环境变量 `LLM_API_KEY`（可选 `LLM_BASE_URL`/`LLM_MODEL`）调用 OpenAI 兼容 `/chat/completions`，记录 model/latency/token 估算，24h 缓存，失败自动回退 offline；
+  - **安全**：key 只从环境变量读取、绝不写文件；`--dry-run` 不落盘；所有候选 `needs_human:true`；**永不自动写入 `data/opportunities.json`**（单测断言内容不变）。
+  - 2026-10-22 实测（现有 outbox，offline-template）：**211 条候选、0 跳过**；产物 `scanner/outbox/enriched-2026-10-22.json`（434 KB）+ `REVIEW.md`（134 KB）。
+- **`scanner/calibrate.py`（实验校准报告）**：读前端导出实验 JSON → `data/reports/calibration-<date>.{html,md}`；含样本数/结果与状态分布、等级×成功率、**Brier**（`p=clamp(total/100,0.01,0.99)`、`o=positive1/negative0`、inconclusive 排除、基线 0.25、样本<3 提示不足）、花费/耗时、校准建议、免责。
+  - 2026-10-22 样例运行（`--sample`，样例实验 6 条）：**有效样本 5 条、Brier 0.2338（≤ 基线 0.25）**；产物 `data/reports/calibration-2026-10-22.html/.md`（样例已在报告顶部标注）。
+- 新增 fixture `scanner/fixtures/experiments-sample.json`（6 条覆盖 positive/negative/inconclusive 的演示实验）。
+
+### 版本与复核
+- 全部 data meta 升 **0.4.0**（taxonomy/rankings/stats/sources/playbooks/calendar/source-health + 3 份 history 快照）；replay 重生成、`--all` 重算，榜单内容口径不变（delta_basis=history / history_as_of=2026-10-21）。
+- 报告：四窗口 8 文件 + 校准报告 2 文件全部按 0.4.0 重生成；`radar.db` 重建（46/88/211/8 行）。
+- `python scanner/pipeline.py --all`：exit 0、**幂等**（连跑两次 data 下所有 JSON 与 radar.db SHA256 全一致）；`validate.py` **20/20 PASS**；unittest **36 → 45 条全绿**（新增 enrich offline/dry-run/no-key/不写机会库、calibrate Brier 公式/边界/样例报告/非法导出）。
+- 指纹（SHA256 前 16）：opportunities `52B30E45B356CEA9`（未变）、rankings `435AAEE6A877DC99`、history-10-22 `D7BBF24D2ECAFCDC`、stats `5247BCD3A65FF96D`、source-health `DECC29B3218888FF`、sources `B7400DD9E5D1AA3F`、radar.db `12AA034D1F7FE5AE`。
+
+### 复现命令
+```powershell
+python scanner/enrich.py                                                        # offline-template 富化
+python scanner/enrich.py --dry-run                                              # 不落盘
+python scanner/calibrate.py --experiments scanner/fixtures/experiments-sample.json --sample
+python scanner/pipeline.py --all && python scanner/validate.py
+```
+
+### 已知不足
+- 富化草稿是**模板级**候选（offline），行业/信息差映射基于关键词，可能误判；必须人工复核后才能入库。
+- 在线 LLM 模式未在本次交付中实际调用（无 LLM_API_KEY 环境），仅由单测覆盖「无 key 报错/回退」路径；真实调用时 token 成本与内容合规需自行评估。
+- 校准报告目前为**样例数据**（fixtures/experiments-sample.json），真实结论需等前端实验台积累 ≥3 条已决实验后重跑。
+- 采集仍只覆盖 RSS/JSON feed；`verified:true` 仍 5 条。
+
 ## data-v0.3.1 · 2026-10-22 · PATCH（采集失败源修复 + 版本号）
 
 > PATCH：仅修复采集源与升版本号，机会库/评分/榜单排序规则不变（`opportunities.json` 指纹不变）。

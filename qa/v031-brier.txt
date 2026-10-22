@@ -1,0 +1,7 @@
+== 独立复算 ==
+binary_n=3 inconclusive=0 expected_brier=0.1885
+export.brier=0.1885 samples=3
+by_grade=2 by_bucket=5 suggestions=4
+
+P0 = 0  P1 = 0  P2 = 0
+RESULT: PASS

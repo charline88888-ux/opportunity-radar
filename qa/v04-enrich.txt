@@ -1,0 +1,16 @@
+[run] exit= 0
+
+== enrich-check ==
+  · offline enrich：signals=211 candidates=211 skipped=0 REVIEW=133679B
+  · schema：候选 10 必填字段/七问 key/枚举引用全部合法
+  · REVIEW.md 候选覆盖：211/211
+  · opportunities.json SHA256 不变 ✅
+  · 重复运行 candidates 字节一致（generated_at 除外）
+  · --dry-run 未写任何文件 ✅
+  · --online 无 key：exit=2，明确提示 LLM_API_KEY，未写文件 ✅
+  · 空 outbox：exit 0 正常处理 ✅
+  · 非法 outbox：exit=1（可控失败）
+  · outbox enriched/REVIEW/signals 均被 .gitignore 忽略 ✅
+
+P0 = 0  P1 = 0  P2 = 0
+RESULT: PASS

@@ -45,6 +45,7 @@ import {
   taxonomy,
 } from '@/lib/data'
 import { cn } from '@/lib/utils'
+import { useI18n } from '@/lib/i18n'
 
 const DOCS = [
   ['00', '总览 · 执行摘要与路线图', '项目目标、北极星指标与阶段路线'],
@@ -59,7 +60,7 @@ const DOCS = [
   ['09', '风险合规与红队清单', '合规红线、红色风险与发布 checklist'],
   ['10', '版本与发布管理', '版本冻结、回滚与 releases 规则'],
   ['11', '补充清单 · 40 件事', '容易踩的坑与放大器'],
-  ['12', '数据契约与字段字典', '唯一数据接口标准（data-v0.3.1，含 history 回放 / source-health v2 / 采集源兼容）'],
+  ['12', '数据契约与字段字典', '唯一数据接口标准（data-v0.4.0，含 enricher / 校准导出 / 双语说明）'],
 ]
 
 const STACK = [
@@ -89,9 +90,21 @@ const ROADMAP = [
 
 const HISTORY = [
   {
-    version: 'v0.3.1',
+    version: 'v0.4.0',
     date: '2026-10-22',
     tag: '当前版本',
+    items: [
+      '中英双语 UI：顶栏 zh/en 切换持久化、document.title/lang 同步、全部静态 UI 走 lib/i18n 字典；机会内容保持中文并在 EN 明确标注',
+      'EN 图表 canvas 文案与日期/数字格式本地化；路由/筛选/画像状态在切换语言时不刷新、不丢失',
+      '/calibration 新增「导出实验 JSON」：docs/12 §1.3 schema_version 0.4.0 + profile + experiments（outcome/data_version），供 scanner/calibrate.py 生成正式报告；保留校准 MD',
+      '/alerts 新增可选桌面通知（默认关、仅页面打开时、新严重预警、权限失败优雅降级、localStorage）',
+      '适配 data-v0.4.0：enrich outbox 不进入前端；校准报告入口/命令说明；版本升 0.4.0',
+    ],
+  },
+  {
+    version: 'v0.3.1',
+    date: '2026-10-22',
+    tag: '上一版本',
     items: [
       '回测校准新增 Brier 分数（docs/04 §12.9.5）：p=clamp(total/100,.01,.99)、inconclusive 排除、二值样本 ≥3 展示并与基线 0.25 对比，导出 JSON/MD 含 Brier',
       '画像新增「严格资金过滤」开关（默认关）：开启后按资金档位上限过滤 roi.capital_cny.min，推荐页显示被过滤数量与原因；关闭沿用分数差硬约束',
@@ -103,7 +116,7 @@ const HISTORY = [
   {
     version: 'v0.3.0',
     date: '2026-10-22',
-    tag: '上一版本',
+    tag: '历史版本',
     items: [
       '新增 /profile 个人画像：3 步向导 + 5 预设 + localStorage，7 维能力向量',
       '推荐引擎 lib/recommend.ts：需求向量 + 硬约束 + fit + rec_score=0.6×total+0.4×fit×100 + MMR + 双解释',
@@ -141,10 +154,205 @@ const HISTORY = [
   { version: 'v0.0.1', date: '2026-10-20', tag: '项目启动', items: ['数据契约冻结', '页面信息架构确定', '工程脚手架与构建链路'] },
 ]
 
+const EN_DOCS: Array<[string, string, string]> = [
+  ['00', 'Overview & roadmap', 'Goals, north-star metrics, and phase roadmap'],
+  ['01', 'Business blueprint & model', 'Value proposition, competitors, pricing, 90-day plan'],
+  ['02', 'Sources matrix', '12 categories, ≥60 platforms, access and compliance'],
+  ['03', 'Scan methodology', 'Signal → need → supply-gap chain'],
+  ['04', 'Scoring & recommendation', '10 dimensions, weights, decay, backtest'],
+  ['05', 'Seven business questions', 'Required Q&A structure and templates'],
+  ['06', 'Product & delivery design', 'Pages, interactions, information architecture'],
+  ['07', 'Architecture & pipeline', 'Build chain, data contract, Python pipeline'],
+  ['08', 'Operations & growth', 'Daily/weekly/monthly/yearly SOPs and experiments'],
+  ['09', 'Risk, compliance & red team', 'Red lines, risks, release checklist'],
+  ['10', 'Version & release management', 'Freeze, rollback, releases'],
+  ['11', '40 additional details', 'Common pitfalls and amplifiers'],
+  ['12', 'Data contract & field dictionary', 'Single data interface standard (data-v0.4.0)'],
+]
+
+const EN_HISTORY = [
+  { version: 'v0.4.0', date: '2026-10-22', tag: 'Current', items: [
+    'Bilingual UI (zh/en) with persistent top-bar switch, document title/lang sync, localized charts and number formats',
+    'Experiments export for scanner/calibrate.py using data-v0.4.0 schema; backend report command documented',
+    'Optional desktop notifications for new critical alerts while the Alerts page is open; graceful permission fallback',
+    'About v0.4.0, bilingual explanation, and data-v0.4.0 compatibility (enrich outbox never imported)',
+  ]},
+  { version: 'v0.3.1', date: '2026-10-22', tag: 'Previous', items: [
+    'Brier probability calibration (baseline 0.25, binary N≥3) with JSON/MD export',
+    'Strict capital filter toggle persisted in profile (default off; CNY cap when on)',
+    'Alert IDs include a data-version fingerprint; read/ignored state resets on upgrade',
+    'Source-health compatibility when source IDs/URLs/names change',
+  ]},
+  { version: 'v0.3.0', date: '2026-10-22', tag: 'Archive', items: [
+    'Profile (7-dimension capability vector), recommendations with fit/rec_score/MMR, Alerts center, Calibration',
+    'source-health v2 and historical replay snapshots with true delta_basis=history',
+  ]},
+  { version: 'v0.2.0', date: '2026-10-22', tag: 'Archive', items: ['Lab (localStorage experiments), report/opportunity-card export, delta basis labels'] },
+  { version: 'v0.1.0', date: '2026-10-22', tag: 'Archive', items: ['8 routes, data-v0.1.0 contract, strict build checks, single-file file:// build'] },
+]
+
+function AboutEn() {
+  const checks = dataMeta.validation?.checks || []
+  const passCount = checks.filter((c) => c.level === 'PASS').length
+  const failCount = checks.filter((c) => c.level === 'FAIL').length
+  return (
+    <div>
+      <PageHeader
+        index="11"
+        kicker="ABOUT · About"
+        title="About Opportunity Radar"
+        description="Local-first personal opportunity research: find global information gaps using human-need and cultural signals, delivered as day/week/month/year rankings with seven required business questions. v0.4.0 adds a bilingual UI, calibration-ready experiment export, and optional alert notifications."
+        actions={
+          <div className="flex flex-wrap items-center gap-2">
+            <Badge tone="signal"><PackageCheck className="h-3 w-3" /> v{appVersion}</Badge>
+            <Badge tone={isMockData ? 'amber' : 'signal'}>{isMockData ? 'DEMO DATA' : 'REAL DATA'}</Badge>
+            <a href={repoUrl} target="_blank" rel="noreferrer noopener" className="inline-flex h-7 items-center gap-1 rounded border border-line bg-panel-2 px-2.5 text-[11.5px] text-muted">
+              <Github className="h-3 w-3" /> Source repository
+            </a>
+            <a href={onlineUrl} target="_blank" rel="noreferrer noopener" className="inline-flex h-7 items-center gap-1 rounded border border-signal/35 bg-signal/10 px-2.5 text-[11.5px] text-signal">
+              <Globe2 className="h-3 w-3" /> Online build
+            </a>
+          </div>
+        }
+      />
+      <div className="grid grid-cols-1 gap-3 xl:grid-cols-12">
+        <SectionCard className="xl:col-span-7" eyebrow="VERSION" title="Version & build">
+          <div className="grid grid-cols-2 gap-2 md:grid-cols-4">
+            {[
+              ['App version', `v${appVersion}`, 'Local offline build'],
+              ['Data version', dataMeta.data_version || '—', 'docs/12 contract'],
+              ['Data as-of', dataAsOf, 'Asia/Shanghai'],
+              ['Data status', isMockData ? 'DEMO' : 'REAL', isMockData ? 'Contains mock placeholders' : 'Passed strict build'],
+            ].map(([label, value, hint]) => (
+              <Panel key={label} className="p-2.5">
+                <div className="mono-label">{label}</div>
+                <div className={cn('num mt-1 text-[15px] font-semibold', label === 'Data status' ? (isMockData ? 'text-amber' : 'text-signal') : 'text-ink')}>{value}</div>
+                <div className="mt-0.5 text-[9.5px] text-dim">{hint}</div>
+              </Panel>
+            ))}
+          </div>
+          <div className="mt-3 grid grid-cols-2 gap-2 md:grid-cols-3">
+            {[
+              ['Opportunities', opportunities.length],
+              ['Sources', allSources.length],
+              ['Playbooks', playbooks.length],
+              ['Calendar events', calendarEvents.length],
+              ['History snapshots', historyMeta.available ? `${historyMeta.count} (${historyMeta.snapshots.filter((s) => s.reconstructed).length} replay)` : 'not provided'],
+              ['Source health', sourceHealth.available ? `${sourceHealth.ok_count}/${sourceHealth.total} ok` : 'not provided'],
+            ].map(([label, value]) => (
+              <div key={String(label)} className="flex items-baseline justify-between rounded border border-line/70 px-2.5 py-1.5">
+                <span className="text-[10.5px] text-dim">{label}</span>
+                <span className="num text-[13px] text-muted">{value}</span>
+              </div>
+            ))}
+          </div>
+          <div className="mt-3 grid grid-cols-1 gap-2 sm:grid-cols-2">
+            <a href={repoUrl} target="_blank" rel="noreferrer noopener" className="group flex items-center gap-2 rounded border border-line/70 bg-white/[0.01] px-2.5 py-2">
+              <Github className="h-4 w-4 shrink-0 text-muted" />
+              <span className="min-w-0"><span className="block text-[11px] text-ink">GitHub source repository</span><span className="block truncate font-mono text-[9px] text-dim">charline88888-ux/opportunity-radar</span></span>
+            </a>
+            <a href={onlineUrl} target="_blank" rel="noreferrer noopener" className="group flex items-center gap-2 rounded border border-signal/25 bg-signal/[0.03] px-2.5 py-2">
+              <Globe2 className="h-4 w-4 shrink-0 text-signal" />
+              <span className="min-w-0"><span className="block text-[11px] text-ink">GitHub Pages online build</span><span className="block truncate font-mono text-[9px] text-dim">charline88888-ux.github.io/opportunity-radar</span></span>
+            </a>
+          </div>
+          <div className="mt-2 rounded border border-signal/20 bg-signal/[0.03] px-2.5 py-2">
+            <div className="mono-label text-signal">v0.4.0 changes</div>
+            <div className="mt-0.5 text-[10.5px] leading-relaxed text-muted">
+              Bilingual zh/en UI (dictionary + DOM translation layer, localized ECharts/Axis text and number formats) · experiment export schema v0.4.0 for `scanner/calibrate.py` · optional desktop notifications on /alerts · data-v0.4.0 compatibility (enrich outbox never imported).
+            </div>
+          </div>
+          <div className="mt-2 rounded border border-amber/25 bg-amber/[0.04] px-2.5 py-2 text-[10.5px] leading-relaxed text-amber">
+            Bilingual note: all static UI strings switch between Chinese and English. Opportunity content (titles, one-liners, evidence, seven Q&A) intentionally remains Chinese in v0.4.0 and is marked in the UI. Switching language does not reload the page or reset routes, filters, or profile state.
+          </div>
+          <div className="mt-3 rounded border border-line/70 bg-black/20 px-2.5 py-2 font-mono text-[10px] leading-relaxed text-dim">
+            <div>sync: node app/scripts/sync-data.mjs --strict</div>
+            <div>build: cd app &amp;&amp; pnpm install &amp;&amp; pnpm build</div>
+            <div>out: app/dist/index.html (double-click for offline use)</div>
+            <div>calibration: python scanner/calibrate.py --experiments &lt;export.json&gt;</div>
+          </div>
+        </SectionCard>
+        <div className="space-y-3 xl:col-span-5">
+          <SectionCard eyebrow="DATA PIPELINE" title="Data pipeline & strict checks">
+            <div className="space-y-1.5 text-[10.5px] leading-relaxed text-muted">
+              <p><span className="text-cyan">Core JSON:</span> 7 required files must be real data; strict mode fails on mock or contract violations.</p>
+              <p><span className="text-cyan">Optional:</span> history snapshots, source-health v2, calibration reports; missing optional files never block strict builds.</p>
+              <p><span className="text-cyan">Enrich outbox:</span> AI-enriched drafts stay in scanner/outbox (gitignored) and are never imported by the frontend.</p>
+              <p><span className="text-cyan">Frontend:</span> imports only src/data at build time; no runtime network requests, no backend, no CDN.</p>
+            </div>
+            <div className="mt-2 flex flex-wrap items-center gap-2 text-[10.5px]">
+              <Badge tone={failCount ? 'amber' : 'signal'}>{passCount} PASS / {failCount} FAIL</Badge>
+              <span className="font-mono text-[9px] text-dim">history {historyMeta.count} · source-health {sourceHealth.ok_count}/{sourceHealth.total}</span>
+            </div>
+            <div className="mt-2 rounded border border-line/60 bg-black/15 px-2 py-1.5 font-mono text-[9px] leading-relaxed text-dim">
+              delta_basis={rankingsDeltaBasis} · history_as_of={rankingsHistoryAsOf || '—'} · tie_breaker={rankingsTieBreaker || 'declared'}
+            </div>
+          </SectionCard>
+          <SectionCard eyebrow="SOURCE HEALTH" title="Last online fetch">
+            {sourceHealth.available ? (
+              <>
+                <div className="mb-2 flex flex-wrap items-center gap-2 text-[10.5px]">
+                  <Badge tone={sourceHealth.fail_count ? 'amber' : 'signal'}>{sourceHealth.ok_count}/{sourceHealth.total} ok</Badge>
+                  <Badge tone="cyan">mode {sourceHealth.mode || '—'}</Badge>
+                  <span className="font-mono text-[9px] text-dim">{sourceHealth.checked_at || '—'}</span>
+                </div>
+                <div className="max-h-[220px] space-y-1 overflow-auto">
+                  {sourceHealth.sources.map((s) => (
+                    <div key={s.id} className="flex items-center gap-2 rounded border border-line/70 px-2 py-1 text-[10px]">
+                      <span className={cn('h-1.5 w-1.5 shrink-0 rounded-full', s.ok ? 'bg-signal' : 'bg-danger')} />
+                      <span className="min-w-0 flex-1 truncate text-muted">{s.name || s.id}</span>
+                      <span className="font-mono text-[9px] text-dim">{s.mode || '—'}</span>
+                      <span className="font-mono text-[9px] text-dim">{s.latency_ms != null ? `${s.latency_ms}ms` : '—'}</span>
+                      <Badge tone={s.ok ? 'signal' : 'danger'}>{s.ok ? 'OK' : 'FAIL'}</Badge>
+                    </div>
+                  ))}
+                </div>
+              </>
+            ) : (
+              <div className="text-[10.5px] text-dim">Source health not provided (optional).</div>
+            )}
+          </SectionCard>
+        </div>
+      </div>
+      <SectionCard className="mt-3" eyebrow="DOCS" title="Documentation index" subtitle="Source docs/: strategy, methodology, data, engineering, and release">
+        <div className="grid grid-cols-1 gap-2 md:grid-cols-2 xl:grid-cols-3">
+          {EN_DOCS.map(([id, title, desc]) => (
+            <div key={id} className="flex gap-2 rounded border border-line/70 px-2 py-1.5">
+              <span className="font-mono text-[9px] text-dim">{id}</span>
+              <span className="min-w-0"><span className="block text-[11px] text-ink">{title}</span><span className="block text-[9.5px] text-dim">{desc}</span></span>
+            </div>
+          ))}
+        </div>
+      </SectionCard>
+      <SectionCard className="mt-3" eyebrow="CHANGELOG" title="Version history" right={<GitBranch className="h-4 w-4 text-dim" />}>
+        <div className="space-y-3">
+          {EN_HISTORY.map((h) => (
+            <div key={h.version} className="flex gap-3">
+              <div className="w-24 shrink-0"><div className="num text-[12px] text-ink">{h.version}</div><div className="font-mono text-[9px] text-dim">{h.date}</div></div>
+              <div className="min-w-0 flex-1 border-l border-line pl-3">
+                <Badge tone={h.tag === 'Current' ? 'signal' : 'muted'}>{h.tag}</Badge>
+                <ul className="mt-1 space-y-0.5">
+                  {h.items.map((x) => <li key={x} className="flex items-start gap-1.5 text-[10.5px] leading-relaxed text-muted"><span className="mt-1.5 h-1 w-1 shrink-0 rounded-full bg-dim" />{x}</li>)}
+                </ul>
+              </div>
+            </div>
+          ))}
+        </div>
+      </SectionCard>
+      <Panel className="mt-3 flex items-start gap-2 px-3 py-2 text-[10.5px] leading-relaxed text-dim">
+        <Info className="mt-0.5 h-3.5 w-3.5 shrink-0 text-amber" />
+        <span>Research hypotheses and public information; not investment, legal, or income advice. Verify cross-border, financial, medical, and religious compliance yourself. Local-first: no backend, no CDN, no runtime network; all data is bundled into dist at build time.</span>
+      </Panel>
+    </div>
+  )
+}
+
 export default function About() {
   const checks = dataMeta.validation?.checks || []
   const passCount = checks.filter((c) => c.level === 'PASS').length
   const failCount = checks.filter((c) => c.level === 'FAIL').length
+  const { lang } = useI18n()
+  if (lang === 'en') return <AboutEn />
 
   return (
     <div>
@@ -152,7 +360,7 @@ export default function About() {
         index="11"
         kicker="ABOUT · 关于"
         title="关于机会雷达"
-        description="本地优先的个人商机研究工具：用「人性需求信号 + 文化差异信号」发现全世界的赚钱信息差，按日 / 周 / 月 / 年榜单交付，并为每个机会强制回答商业驱动七问。v0.3.1 在画像推荐与实验校准上补齐 Brier、严格资金过滤与告警升版重提醒。"
+        description="本地优先的个人商机研究工具：用「人性需求信号 + 文化差异信号」发现全世界的赚钱信息差，按日 / 周 / 月 / 年榜单交付，并为每个机会强制回答商业驱动七问。v0.4.0 新增中英双语 UI、实验导出校准、预警桌面通知。"
         actions={
           <div className="flex flex-wrap items-center gap-2">
             <Badge tone="signal"><PackageCheck className="h-3 w-3" /> v{appVersion}</Badge>
@@ -217,10 +425,13 @@ export default function About() {
             </a>
           </div>
           <div className="mt-2 rounded border border-signal/20 bg-signal/[0.03] px-2.5 py-2">
-            <div className="mono-label text-signal">v0.3.1 本轮变更</div>
+            <div className="mono-label text-signal">v0.4.0 本轮变更</div>
             <div className="mt-0.5 text-[10.5px] leading-relaxed text-muted">
-              Brier 概率校准（基线 0.25 / 二值 N / 导出）· 严格资金过滤开关（档位 CNY 上限，持久化到画像）· 告警 id 含数据版本指纹（升版重提醒）· source-health 源 id/url/name 兼容 · 单桶 &lt;3 提示与导出 schema @0.3.1。
+              中英双语 UI（顶栏切换持久化、document.title/lang、图表 canvas 与数字格式本地化、EN 内容提示）· /calibration 导出实验 JSON（schema_version 0.4.0，供 scanner/calibrate.py）· /alerts 可选桌面通知（默认关）· 适配 data-v0.4.0（outbox 不入前端）。
             </div>
+          </div>
+          <div className="mt-2 rounded border border-amber/25 bg-amber/[0.04] px-2.5 py-2 text-[10.5px] leading-relaxed text-amber">
+            双语说明 / Bilingual note：全部静态 UI 文案支持中英切换；机会内容（标题、一句话、证据、七问答案）在 v0.4.0 保持中文，EN 模式下页面顶部有明确标注。切换语言不刷新页面，路由、筛选与画像状态保持。
           </div>
           <div className="mt-3 rounded border border-line/70 bg-black/20 px-2.5 py-2 font-mono text-[10px] leading-relaxed text-dim">
             <div>sync: node app/scripts/sync-data.mjs --strict</div>

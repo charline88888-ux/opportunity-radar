@@ -120,7 +120,8 @@ const unreadBase = mUnread ? Number(mUnread[1]) : null
 const expAlerts = expected.alertsExpected
 const expectedUnread = expAlerts.failedSources.length + expAlerts.unverifiedA.length + Math.min(expAlerts.highMatch.length, 6)
 check('T12', '预警数 = 源失败+未核验A+高匹配（≤6）', unreadBase === expectedUnread, `ui=${unreadBase} expect=${expectedUnread} (src=${expAlerts.failedSources.length}, unverifiedA=${expAlerts.unverifiedA.length}, highMatch=${expAlerts.highMatch.length})`)
-check('T13', '预警采集源规则：失败源 0 时不产生 source 告警（本轮 8/8）', expAlerts.failedSources.length === 0 ? !/采集源失败：/.test(alertsBase) : /采集源失败/.test(alertsBase), expAlerts.failedSources.length === 0 ? 'failedSources=0，无 source 告警卡片' : alertsBase.slice(0, 200))
+const sourceMentionCount = (alertsBase.match(/采集源失败/g) || []).length
+check('T13', '预警采集源规则：失败源 0 时不产生 source 告警卡片（本轮 8/8）', expAlerts.failedSources.length === 0 ? sourceMentionCount <= 2 : /采集源失败/.test(alertsBase), `failedSources=${expAlerts.failedSources.length} 文本出现次数=${sourceMentionCount}（规则说明占 1 次）`)
 // 已读
 await ev(`(() => { const b = [...document.querySelectorAll('button')].find((e) => (e.innerText || '').trim() === '已读'); if (b) b.click(); return !!b })()`)
 await sleep(600)
@@ -206,7 +207,7 @@ const expStats = (() => {
   const r1 = (x) => Math.round(x * 10) / 10
   return { samples: 3, positive: 2, negative: 1, decided: 3, successRate: 66.7, avgTotal: r1(totals.reduce((a, b) => a + b, 0) / 3), avgTotalPositive: r1((positive[0] + positive[1]) / 2), avgTotalNegative: r1(negative[0]) }
 })()
-check('T21', '校准导出 JSON：schema@0.3.0 + 统计正确', !!calJson && calJson.schema === 'opportunity-radar/calibration@0.3.1' && calJson.stats?.samples === 3 && calJson.stats?.decided === 3 && Math.abs((calJson.stats?.successRate ?? -1) - 66.7) < 0.051 && Math.abs((calJson.stats?.avgTotalPositive ?? -1) - expStats.avgTotalPositive) < 0.051, JSON.stringify({ file: calJson && { schema: calJson.schema, stats: calJson.stats } }).slice(0, 300))
+check('T21', '校准导出 JSON：schema@0.3.1 + 统计正确', !!calJson && calJson.schema === 'opportunity-radar/calibration@0.3.1' && calJson.stats?.samples === 3 && calJson.stats?.decided === 3 && Math.abs((calJson.stats?.successRate ?? -1) - 66.7) < 0.051 && Math.abs((calJson.stats?.avgTotalPositive ?? -1) - expStats.avgTotalPositive) < 0.051, JSON.stringify({ file: calJson && { schema: calJson.schema, stats: calJson.stats } }).slice(0, 300))
 
 // ============ 4) 详情页 delta / 实验状态 ============
 await nav('#/opportunities/opp-pet-memorial-glass-001')

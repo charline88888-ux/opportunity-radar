@@ -660,3 +660,122 @@ pwsh -File qa/online-check.ps1 -Version v0.3.0       # 线上/冻结 hash 一致
 ## 13.9 与 v0.1/v0.2 验收的关系
 
 - v0.1.0/v0.2.0 冻结产物与线上归档未被修改（字节级核对）；本章为 v0.3.0 独立验收记录，不覆盖历史章节。
+
+---
+
+# 第 14 章 · v0.3.1 PATCH 红队独立验收（2026-10-22 18:30）
+
+> 项目版本：v0.3.1（app 0.3.1 / data 0.3.1）　｜　验收人：redteam　｜　任务：task-19
+> 冻结：`releases/v0.3.1/`（git tag v0.3.1 → 69c2b03，内容提交 521e637）｜dist 2,147,394 B / `7C2E13D5…1F03`
+> 结论：**P0=0 / P1=1（仅文档，已决策进入 v0.4.0 快照修复，不阻塞本版）/ P2=2；冻结产物/构建/线上同 hash 全部通过 → 可发布**（详见 §14.5）
+
+## 14.1 结论
+
+| 项 | 结果 |
+|---|---|
+| P0（阻塞） | **0** |
+| P1（发布前应修） | **0** |
+| P2（建议修，不阻塞） | 2（Brier 展示/导出精度差异；Reddit 网络不可达的源现状） |
+| 采集修复 | 红队独立真实运行 `--fetch --no-cache`：**8/8 源成功**（215 原始 → 211 信号），失败源为空；独立 `qa/fetch-check.py` 直连 8 源全部 200 且可解析（itunes 50 / shopify 567 / hn 20 / lobsters 25 / appstore 50 / arxiv 473 / techcrunch 20 / producthunt 50） |
+| source-health v2 | 8 源字段全部合法（mode/http_status/latency/cached/items/checked_at；失败源 error 非空逻辑由单测覆盖），`meta.mode=online-fetch`、`ok_count=8`、`cached_count=0` |
+| 数据 | validate **V01–V20 20/20 PASS**；unittest **36/36 OK**；`--all` 连跑两次 23 个 data 文件 **SHA256 全一致**；replay-check PASS；delta 独立复算 92 条全部一致；`data_version=0.3.1` 六文件一致；报告 8 文件按 `data-v0.3.1` 重生成；db 46/88/211/8 |
+| **Brier 独立复算** | 注入 3 个已知实验（pos/pos/neg）→ 页面 Brier 显示 0.189、导出 JSON `stats.brier=0.1885`；红队按 docs/04 §12.9.5（p=clamp(total/100,.01,.99)、o=pos?1:neg?0）独立复算 **0.1885 = 导出值**；`python qa/brier-check.py` **P0/P1/P2=0 PASS**；n=2 时不展示数值（样本不足）✅ |
+| **严格资金两态** | 画像 `b1-5w`（上限 ¥50,000）：开关默认关→开并持久化；开启后「严格资金过滤 5 条（启动资金>¥50,000）」「硬约束过滤 27」「候选 14」，与红队独立复算（strict=5、onHard=27、cand=14）**完全一致**；关闭状态沿用分数差（硬约束 32）✅ |
+| **告警升版重提醒** | 注入 v0.3.0 旧 id 已读 2 条→页面显示「数据已更新（v0.3.1）：旧版本已读 2 条…重新激活」、未读恢复 12；当前 id（含 `:0.3.1` / source `:checked_at`）已读后持久化、未读-1 ✅（实测 read 含 `unverified:…:0.3.1`） |
+| 单桶<3 提示 | 校准页分桶显示「样本 <3，仅计数」，与 O5 规格一致 ✅ |
+| 前端 | `pnpm install --frozen-lockfile && pnpm build` exit 0；strict 11/11 PASS、real、mock=[]；**构建可复现**（重跑同 hash）；12 路由 1600/1024 CDP 无溢出/裁切/console error；功能用例 **34/34 PASS** |
+| 冻结产物 | MANIFEST **19/19 sha256 一致**；dist `7C2E13D5…1F03`；tag v0.3.1→69c2b03→内容提交 521e637；冻结 dist file:// 17 张截图 jsErrors=0 |
+| 线上 | **已通过**：`/` 与 `/v0.3.1/` 均 2,147,394 B / `7C2E13D5…1F03` = 冻结 dist；`/v0.3.0/`、`/v0.2.0/`、`/v0.1.0/` 与各自冻结版一致不串台；versions.json latest=v0.3.1；线上 calibration/alerts/profile 截图目检正常（§14.5） |
+| **一句话结论** | **可发布**：数据/采集/Brier/严格资金/告警升版/冻结/线上七层一致，P0=0；P1 文档项按不可变策略进入 v0.4.0 快照修复、不影响本版；2 个 P2 不阻塞。 |
+
+## 14.2 数据与采集验收（实测）
+
+- 采集：`python scanner/pipeline.py --fetch --no-cache`（红队独立运行，非缓存）→ 8/8 成功：itunes-reviews 200/406ms/30、shopify-changelog 200/4035ms/30、hnrss 200/1831ms/20、lobsters 200/881ms/25、app-store-rss 200/346ms/30、arxiv-rss 200/1531ms/30、techcrunch-rss 200/1031ms/20、producthunt-feed 200/819ms/30；215 条原始 → 211 条信号写入 outbox（人工复核，不入机会库）。
+- 独立采集实测 `qa/fetch-check.py`（urllib 直连，不经 scanner）：8 源全部 HTTP 200 且内容可解析（itunes JSON 50 条、shopify feed.xml 567 条、hnrss 20、lobsters 25、appstore 50、arxiv 473、techcrunch 20、producthunt 50）；无 `ok=true` 但解析 0 条的矛盾。
+- 源修复核对：`itunes-reviews` US→GB storefront（实测 50 条，解析器支持 `feed.entry`）；`shopify-changelog` HTML→官方 `feed.xml`（1.89MB/778 条，单源上限 30）；`reddit` 三入口 40s 超时→`access=manual` 保留人工浏览，新增 `lobsters` 可采集替代（sources 67→68），`data/CHANGELOG.md` v0.3.1 记录完整（P2 关闭）。
+- 校验：validate **20/20 PASS**；unittest **36/36**；`pipeline --all` exit 0，连跑两次 data 下 **23 个文件（JSON/history/reports/db）SHA256 全一致**；replay 命令幂等 + `--all` 恢复基线不变。
+- 版本/数据：taxonomy/rankings/stats/sources/playbooks/calendar/source-health 全部 `data_version=0.3.1`；3 份 history 快照重生成（10-20/10-21 reconstructed=true，10-22 false）；delta_basis=history、history_as_of=2026-10-21；**delta 独立复算 92 条**（60 有可比上期、32 null/new）逐条一致；报告 8 文件 header 均为 `data-v0.3.1`；db 46/88/211/8。
+- 指纹（SHA256 前 16）：opportunities `52B30E45B356CEA9`（未变）、sources `8779D97DA6F82150`、rankings `47A1620F0BFC66A0`、history `4B6F7C3B…`/`6B4D9EEB…`/`A3F2931B…`、stats `9C9F0A94…`、radar.db `2477EF11…`；source-health 因红队独立重跑为本次真实采集结果（8/8，`checked_at=2026-10-22T18:17:45+08:00`），内容合法且更诚实。
+- 已知不足（CHANGELOG 已记录）：Reddit 本机网络不可达（非解析问题，降级 manual + Lobsters 替代）；Apple customerreviews 仅部分 storefront 有数据（已固定 GB，US 为空）。
+
+## 14.3 前端验收（实测）
+
+- 构建：`pnpm install --frozen-lockfile` exit 0；`pnpm build` exit 0；strict **11/11 PASS**（real、mock=[]、data 0.3.1）；dist **2,147,394 B / `7C2E13D5…1F03`**；**构建可复现**（重跑前后同 hash）。
+- 12 路由 file://（1600/1024，`qa/v031-frontend-routes.txt`）：全部 `horizontalOverflow=false`、`clippedElements=0`、`zeroSizeCanvas=0`、`consoleErrors=0`。
+- 功能用例（`qa/v031-frontend-flows.json`，**34/34 PASS**）：
+  - 回归：画像能力向量、推荐公式逐卡与独立 Python 复算 14/14 一致、硬约束 32/候选 14、解释文案、delta「较上一快照（2026-10-21）」+历史回放徽标、实验超期阈值、校准 n=2/3、导出 schema/stats。
+  - **Brier**：UI 0.189（3 位显示）、导出 JSON `stats.brier=0.1885`、独立复算 0.1885；展示基线 0.25 与二值 N；`qa/brier-check.py` PASS；n=2 时显示「样本不足」且导出无 Brier 数值；导出 schema=`opportunity-radar/calibration@0.3.1`，MD 含 Brier 行与免责。
+  - **严格资金**：`/profile` 向导与 `/rankings?mode=recommend` 均有「严格资金 开/关」开关且持久化；b1-5w 上限 ¥50,000，开启后严格过滤 5 条、硬约束 27、候选 14，与独立复算一致；关闭恢复分数差口径（硬约束 32）。
+  - **告警升版**：旧 0.3.0 已读/忽略不命中当前 id，页面提示「数据已更新（v0.3.1）：旧版本已读 N 条/忽略 M 条…重新激活」；当前 id（`type:target:data_version`、source `:checked_at`）已读持久化。
+  - **单桶<3**：分桶行显示「样本 <3，仅计数」。
+  - **采集适配**：/sources 正常展示 8/8 online-fetch（含 lobsters，id→url→name 兼容），/alerts 无失败源时不产生 source 告警且不报错。
+- 视觉：本地/冻结截图 12 路由 + 长页 + 1024 目检无白屏；seed 截图（app/screenshots/final-v0.3.1）确认 Brier 卡片（0.296/N=6/基线 0.25/Δ）、严格资金（5 条 >¥50,000）、告警升版提示均正常。
+
+## 14.4 冻结产物核验（releases/v0.3.1）
+
+- MANIFEST `files` 19 条逐条重算 bytes+sha256 → **19/19 一致**；counts 46/68/12/33/13；`git_commit=521e637`、`git_tag=v0.3.1`。
+- dist 2,147,394 B / `7C2E13D5FFB67259FA6C63CBE89F0F0A0422E5226AB05BD67CFE96F3E3CB1F03`（= 本地构建 = 冻结 = 待线上同 hash）。
+- git：annotated tag v0.3.1（tag 对象 69c2b03）→ commit 69c2b03（docs: record manifest）→ parent 521e637（内容提交）。
+- 冻结 dist file:// 冒烟：`qa/screenshots/v031-frozen/01–17`（12 路由 + 2 长页 + 3 个 1024），17/17 渲染、jsErrors=0；read_image 目检 dashboard/calibration/alerts/profile 正常（v0.3.1、采集 8/8、Brier 空态说明、严格资金开关、告警数据版本徽标）。
+
+## 14.5 线上（GitHub Pages）核验 —— 已通过（2026-10-22 18:50）
+
+GitHub 网络恢复后 Lead 完成 main/tag 推送与 Pages 部署；红队独立下载线上文件逐字节/hash 比对（`qa/v031-online.txt`，`qa/online-check.ps1 -Version v0.3.1`）：
+
+| 路径 | 线上 bytes / SHA256 | 对照冻结版 | 结果 |
+|---|---|---|---|
+| `/`（根，最新） | 2,147,394 B / `7C2E13D5…1F03` | `releases/v0.3.1/dist/index.html` | **PASS（同 hash）** |
+| `/v0.3.1/` | 2,147,394 B / `7C2E13D5…1F03` | 同上 | **PASS（同 hash）** |
+| `/v0.3.0/` | 2,138,535 B / `18DCE4B8…` | `releases/v0.3.0/dist/index.html` | PASS（未串台） |
+| `/v0.2.0/` | 2,049,902 B / `DE48EF7A…` | `releases/v0.2.0/dist/index.html` | PASS（未串台） |
+| `/v0.1.0/` | 1,979,378 B / `F24B0755…` | `releases/v0.1.0/dist/index.html` | PASS（未串台） |
+| `versions.json` | latest=**v0.3.1**，paths=`/v0.1.0/, /v0.2.0/, /v0.3.0/, /` | — | PASS |
+
+- 线上截图（`qa/screenshots/v031-online/`）：根（v0.3.1、采集 8/8、预警 6）、`/calibration`（Brier 空态/基线说明）、`/alerts`、`/profile`、`/v0.3.0/`（旧版 v0.3.0、5/8、预警 9）、`/v0.3.1/`（=根）；read_image 目检全部正常，无版本串台，jsErrors=0。
+- web_fetch/curl `versions.json`：latest=v0.3.1，4 条版本路径正确。
+- 结论：**线上版本与 v0.3.1 冻结产物逐字节一致，旧版本归档隔离，versions 正确。**
+- （历史记录）18:56 首次排查时 GitHub 推送未完成，线上仍为 v0.3.0、`/v0.3.1/` 404；属部署时序问题，已由上述复验关闭。
+
+> **P1 文档项决策（Lead 2026-10-22 18:45）**：遵守不可变版本原则，不修改已冻结的 v0.3.1 历史快照；`docs/04 §12.9.5/12.9.6/12.8.2/12.12` 的过期口径（Brier 未实现、schema@0.3.0、告警 id 不含 data_version、O1–O5 未闭环）由 methodologist 更新，修正进入 **v0.4.0 发布快照**。该项**不影响 v0.3.1 发布结论**（代码/导出/线上均正确，仅历史文档快照口径滞后）。
+
+## 14.6 复现命令
+
+```powershell
+cd 'E:\全球商机扫描器'
+python scanner/pipeline.py --fetch --no-cache      # 8/8 成功；outbox+source-health
+python qa/fetch-check.py                           # 独立 urllib 直连 8/8
+python scanner/pipeline.py --all                   # 幂等；23 文件 SHA256 一致
+python scanner/validate.py                         # 20/20 PASS
+python -m unittest discover -s scanner/tests       # 36 OK
+python qa/data-qa-v031.py                          # P0/P1/P2=0
+python qa/replay-check.py                          # PASS
+python scanner/db.py --rebuild                     # 46/88/211/8
+cd app; pnpm install --frozen-lockfile; pnpm build # strict 11 PASS，7C2E13D5…
+node qa/flows-v031.mjs <port> "file:///…/app/dist/index.html" qa/tmp/downloads-v031  # 34/34 PASS
+python qa/brier-check.py                           # Brier 独立复算 PASS
+node qa/frontend-qa-v03.mjs <port> <base> 1600 1000  # 12 路由 CDP
+pwsh -File qa/online-check.ps1 -Version v0.3.1     # 线上/冻结 hash 一致性（已通过，见 §14.5）
+```
+
+## 14.7 截图索引（v0.3.1）
+
+| 目录/文件 | 内容 |
+|---|---|
+| `qa/screenshots/v031/01–12` | 工作区 dist 12 路由 1600×1000（含 profile/alerts/calibration） |
+| `qa/screenshots/v031/13–17` | 详情长页 / About 长页 / 1024 dashboard·rankings·profile |
+| `qa/screenshots/v031-frozen/01–17` | **冻结 dist** 12 路由 + 长页 + 1024（发布基线） |
+| `app/screenshots/final-v0.3.1/` | 前端 seed 截图 25 张（Brier ready、strict、alerts-active 等） |
+| `qa/tmp/downloads-v031/` | 校准导出 JSON/MD（Brier/schema/stats） |
+
+## 14.8 P2 与已知项（2 个，均不阻塞）
+
+| # | 项 | 现状 | 建议 |
+|---|---|---|---|
+| P2-1 | Brier 精度展示差异 | 页面卡片/统计卡显示 3 位（0.189），详情卡与导出 JSON 4 位（0.1885/0.2956），四舍五入一致 | 文档说明「展示 3 位、导出 4 位」或统一精度（前端已说明，验收按 4 位复算） |
+| P2-2 | 采集源现状 | Reddit 本机网络不可达（降级 manual，Lobsters 替代）；Apple customerreviews 仅部分 storefront 有数据（固定 GB） | 已有 CHANGELOG 记录；换网络/Apple 调整时按 SOP 复测，不视为缺陷 |
+
+> v0.3.0 的开放项闭环情况：O1 → 严格资金过滤开关（默认关，两态可验）；O3 → 告警 id 含 data_version/checked_at，升版重提醒；O4 → Brier 已实现并独立复算；O5 → 单桶 <3 提示已加。无新增 P0/P1。
+
+## 14.9 与历史版本关系
+
+- v0.1.0/v0.2.0/v0.3.0 冻结产物与线上归档未被修改（hash 核对）；本章为 v0.3.1 PATCH 独立验收，不覆盖历史章节。

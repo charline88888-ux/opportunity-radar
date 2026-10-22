@@ -327,12 +327,7 @@ export default function Dashboard() {
         index="01"
         kicker="COMMAND DECK · 指挥台"
         title="全球机会雷达 · 指挥台"
-        description={
-          <>
-            以 <span className="mono text-muted">{dataAsOf}</span> 为数据基准日，汇总今日新信号、四窗口榜单、评分分布、区域 / 行业 / 人性需求与最近爆发机会。
-            全部数据本地构建、离线可用。
-          </>
-        }
+        description="汇总今日新信号、四窗口榜单、评分分布、区域 / 行业 / 人性需求与最近爆发机会。全部数据本地构建、离线可用。"
         actions={
           <div className="flex flex-wrap items-center gap-2">
             <Badge tone="signal">

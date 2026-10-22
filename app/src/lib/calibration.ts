@@ -313,7 +313,7 @@ export function calibrationToMarkdown(data: CalibrationData): string {
 export function calibrationToJson(data: CalibrationData): string {
   return JSON.stringify(
     {
-      schema: 'opportunity-radar/calibration@0.3.1',
+      schema: 'opportunity-radar/calibration@0.4.0',
       exported_at: dayjs().toISOString(),
       brier: {
         value: data.stats.brier,

@@ -21,6 +21,7 @@ import { cn } from '@/lib/utils'
 import { appVersion, dataAsOf, dataMeta, isMockData, opportunities, stats } from '@/lib/data'
 import { useExperiments } from '@/lib/experiments'
 import { useAlerts } from '@/lib/alerts'
+import { EN_CONTENT_NOTICE, useI18n } from '@/lib/i18n'
 import { Badge, InfoTip } from './ui'
 
 const NAV = [
@@ -315,6 +316,7 @@ function MobileNav() {
 
 function Topbar() {
   const location = useLocation()
+  const { lang, setLang } = useI18n()
   const crumb = useMemo(() => {
     const p = location.pathname
     if (p.startsWith('/opportunities/')) return ['opportunities', p.split('/')[2] || '']
@@ -348,9 +350,10 @@ function Topbar() {
           <InfoTip
             content={
               <span>
-                数据基准日（Asia/Shanghai）：{dataAsOf}
+                {lang === 'en' ? 'Data as-of date (Asia/Shanghai): ' : '数据基准日（Asia/Shanghai）：'}
+                {dataAsOf}
                 <br />
-                所有榜单窗口以该日为锚点计算。
+                {lang === 'en' ? 'All ranking windows are anchored to this date.' : '所有榜单窗口以该日为锚点计算。'}
               </span>
             }
           >
@@ -359,6 +362,23 @@ function Topbar() {
             </span>
           </InfoTip>
           <DataStateBadge />
+          <div className="flex shrink-0 items-center rounded border border-line bg-panel/70 p-0.5" data-i18n-skip>
+            {(['zh', 'en'] as const).map((l) => (
+              <button
+                key={l}
+                type="button"
+                onClick={() => setLang(l)}
+                className={cn(
+                  'rounded px-1.5 py-0.5 font-mono text-[9.5px] transition-colors',
+                  lang === l ? 'bg-signal/15 text-signal' : 'text-dim hover:text-muted',
+                )}
+                aria-pressed={lang === l}
+                title={l === 'zh' ? '切换中文' : 'Switch to English'}
+              >
+                {l === 'zh' ? '中文' : 'EN'}
+              </button>
+            ))}
+          </div>
         </div>
       </div>
     </header>
@@ -384,6 +404,7 @@ function Footer() {
 }
 
 export default function AppShell({ children }: { children: React.ReactNode }) {
+  const { lang } = useI18n()
   return (
     <div className="min-h-screen bg-bg text-ink">
       <div className="pointer-events-none fixed inset-0 z-0 grid-bg opacity-[0.35]" aria-hidden="true" />
@@ -391,6 +412,12 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
       <div className="relative z-10 flex min-h-screen flex-col lg:pl-[236px]">
         <Topbar />
         <MobileNav />
+        {lang === 'en' && (
+          <div className="border-b border-amber/25 bg-amber/[0.06] px-4 py-1.5 text-[10.5px] leading-relaxed text-amber sm:px-6 lg:px-8">
+            <span className="font-mono text-[9px] tracking-wider text-amber/80">EN · V0.4.0 </span>
+            {EN_CONTENT_NOTICE}
+          </div>
+        )}
         <main className="mx-auto w-full max-w-[1560px] flex-1 overflow-x-clip px-4 py-5 sm:px-6 lg:px-8">{children}</main>
         <Footer />
       </div>

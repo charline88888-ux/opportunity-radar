@@ -1,10 +1,10 @@
-# data/ 数据底座使用说明（data-v0.3.1）
+# data/ 数据底座使用说明（data-v0.4.0）
 
-> 唯一接口标准：`docs/12-数据契约与字段字典.md`（data-v0.3.0 增量已冻结；v0.3.1 为采集源修复 PATCH）。本目录所有 JSON 必须通过 `python scanner/validate.py`（V01–V20，退出码 0）。
+> 唯一接口标准：`docs/12-数据契约与字段字典.md`（data-v0.4.0 增量已冻结）。本目录所有 JSON 必须通过 `python scanner/validate.py`（V01–V20，退出码 0）。
 > 数据基准日 `as_of = 2026-10-22`（Asia/Shanghai），当前周 `2026-W43`（10-19～10-25），当前月 `2026-10`，当前年 `2026`。
-> v0.3.1 PATCH：修复 3 个采集失败源（reddit→manual+Lobsters 替代 / itunes-reviews 改 GB storefront / shopify-changelog 改官方 feed.xml），版本号升 0.3.1；机会库与榜单口径不变。
+> v0.4.0 MINOR 增量：新增 **AI 富化 outbox（`scanner/enrich.py`）** 与 **实验校准报告（`scanner/calibrate.py`）**；机会库/榜单/历史/数据源口径不变，仅版本号升 0.4.0。
 
-## 1. 文件清单与规模（data-v0.3.1）
+## 1. 文件清单与规模（data-v0.4.0）
 
 | 文件 | 作用 | 规模 | 生产者 | 消费者 |
 |---|---|---|---|---|
@@ -17,6 +17,7 @@
 | `history/rankings-2026-10-22.json` | **真实每日快照**（`reconstructed=false`，与 rankings 一致） | day 8 / week 15 / month 23 / year 46 | `--all` | 扫描器、前端 |
 | `source-health.json` | 在线采集源健康度 **v2**（`mode`/`http_status`/`latency_ms`/`cached`/`items`/`error`/`checked_at`，`meta.mode`） | **8 个源（8 成功 / 0 失败；2026-10-22 v0.3.1 实测）** | `--fetch` | 前端、运营 |
 | `reports/report-<period>-2026-10-22.{html,md}` | 四窗口自包含 HTML + Markdown 报告（确定性生成，可打印/分发） | 4 窗口 × 2 格式 | `report.py --all` | 用户、归档 |
+| `reports/calibration-2026-10-22.{html,md}` | 实验校准报告（v0.4.0 新增；Brier/等级×成功率/花费耗时/建议，样例数据标注 sample） | 1 份 HTML + 1 份 MD | `calibrate.py` | 用户、归档 |
 | `sources.json` | 数据源矩阵 12 大类 | **68 个平台**（v0.3.1：reddit→manual、新增 lobsters、itunes GB、shopify 官方 feed.xml） | 数据工程 | 前端、`--fetch` |
 | `playbooks.json` | 扫描剧本 | **12 个** | 数据工程 | 前端、运营 |
 | `calendar.json` | 全球商业日历 2026-11～2028 | **33 个节点** | 数据工程 | 前端、方法论 |
@@ -68,33 +69,52 @@
 - `python scanner/report.py --all`（或 `--period day|week|month|year`）→ `data/reports/report-<period>-2026-10-22.{html,md}`。
 - HTML 自包含（内联 CSS、可 file:// 打开/打印），含七问摘要、证据链接、风险、免责声明；`generated_at` 为确定性逻辑时间（同日重跑字节一致）。
 
-## 7. SQLite 派生库（`data/radar.db`，gitignore）
+## 7. AI 富化与实验校准（v0.4.0 新工具）
+
+### 7.1 `scanner/enrich.py` —— AI 富化 outbox（人工复核门禁）
+
+- 输入：`scanner/outbox/signals-<date>.json`（`--fetch` 产物）；输出：`scanner/outbox/enriched-<date>.json` + `scanner/outbox/REVIEW.md`（**outbox 已 gitignore**，不入库、不入发布）。
+- 默认 **offline-template**：无网络/无 key 可跑；基于关键词/taxonomy 生成行业/信息差/人性需求候选、七问骨架草稿（明确标注「待人工补充」）、启发式语言检测、证据 URL 透传。
+- 可选在线模式：`LLM_API_KEY`（+ `LLM_BASE_URL`/`LLM_MODEL`）存在且显式 `--online` 时调用 OpenAI 兼容 `/chat/completions`；`--dry-run` 只打印摘要；失败自动回退 offline 并记录 error。
+- **安全与门禁**：key 只从环境变量读取、绝不写入文件；所有候选 `needs_human:true`；**永不自动写入 `data/opportunities.json`**（单测断言 opportunities 内容不变）。
+- 2026-10-22 实测（现有 outbox）：offline-template 生成 **211 条候选**，0 跳过；产物 `scanner/outbox/enriched-2026-10-22.json` + `REVIEW.md`。
+
+### 7.2 `scanner/calibrate.py` —— 实验校准报告
+
+- 输入：前端 `/calibration` 导出的实验 JSON（schema_version 0.4.0，`experiments[].outcome ∈ {positive,negative,inconclusive}` 等）；输出：`data/reports/calibration-<date>.html/.md`。
+- **Brier 公式（docs/04 §12.9.5）**：`p = clamp(total/100, 0.01, 0.99)`；`o = positive→1 / negative→0`；`inconclusive` 排除；`Brier = mean((p−o)²)`；基线 0.25，样本 < 3 显示「样本不足」。
+- 报告内容：样本数/结果分布/状态分布、等级×成功率、Brier 与排除明细、花费/耗时汇总、校准建议、免责声明。
+- 2026-10-22 样例运行（`--sample`，标注为演示数据）：6 条实验、5 条有效样本、**Brier 0.2338**；产物 `data/reports/calibration-2026-10-22.{html,md}`。
+
+## 8. SQLite 派生库（`data/radar.db`，gitignore）
 
 - 表：`meta / opportunities / evidence / rankings_history / source_health`；当前 46 / 88 / 211 / 8 行。
 - `--all` 后自动从 JSON 全量重建（临时文件 + 原子替换），`python scanner/db.py --rebuild` 可单独重建；**不入库、不入发布**（`data/.gitignore`）。
 
-## 8. 证据与可信度分级
+## 9. 证据与可信度分级
 
 - `verified:true`（5 条：024/025/029/030/031）全部证据 URL 实测 200；其余 41 条 `verified:false`，`compliance_notes` 已说明核验状态。
 - `evidence[].date` 优先来源发布日，无法确认时取检索/核验日并说明；`quote` 无法获得具体帖子/评论链接时降级为品类/主题/功能级事实描述，不编造 URL。
 - `tier`：`primary` 一手｜`secondary` 二手｜`marketing` 营销稿。
 
-## 9. 校验（`python scanner/validate.py`）
+## 10. 校验（`python scanner/validate.py`）
 
 V01–V18（V18 支持 history/adjacent 双口径）· **V19**（所有历史快照结构合法、`snapshot_at` 日期与文件名一致、回放必须有 `replay_as_of`、最新快照=当日真实快照且与 rankings 一致）· **V20**（source-health：`mode` 枚举、`cached`/`latency_ms` 一致性、`http_status` int/null、`ok=false` 必须有 `error`、`meta.mode` 合法）。
 当前结果：**20/20 PASS，退出码 0**。
 
-## 10. 复现命令
+## 11. 复现命令
 
 ```powershell
 python scanner/pipeline.py --replay-as-of 2026-10-22 --replay-days 2   # 生成 10-20/10-21 回放 + 重算当前榜单(history delta)
 python scanner/pipeline.py --all                                       # 离线全链路（幂等，20/20）
 python scanner/pipeline.py --fetch --no-cache                          # 真实采集刷新 source-health v2（联网）
 python scanner/report.py --all                                         # 4 窗口报告（确定性）
+python scanner/enrich.py                                               # AI 富化 outbox（offline-template，永不自动入库）
+python scanner/calibrate.py --experiments scanner/fixtures/experiments-sample.json --sample  # 校准报告（样例）
 python scanner/db.py --rebuild                                         # SQLite 重建
-python -m unittest discover -s scanner/tests                           # 36 条单测
+python -m unittest discover -s scanner/tests                           # 45 条单测
 ```
 
-## 11. 免责
+## 12. 免责
 
 机会卡片是研究假设与公开信息整理，**不构成投资建议、法律意见或收入承诺**。涉及跨境、金融、医疗、法律、宗教、内容版权时请自行做合规核查。`calendar.json` 中宗教节日日期为预计值，以当地观月/官方公告为准。
