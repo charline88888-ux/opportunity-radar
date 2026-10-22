@@ -3,12 +3,15 @@ app/node_modules/
 app/dist/
 app/src/data/
 app/.vite/
+app/screenshots/
+app/build-strict.log
+scanner/build/
 **/__pycache__/
 **/*.pyc
 .venv/
 *.log
 qa/tmp/
-qa/serve/
+data/.backup/
 research/tmp/
 .DS_Store
 Thumbs.db

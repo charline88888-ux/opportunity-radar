@@ -1,0 +1,1516 @@
+{
+  "meta": {
+    "data_version": "0.1.0",
+    "as_of": "2026-10-22",
+    "count": 63,
+    "last_checked": "2026-10-22",
+    "note": "合规等级与可访问性依据 research/platform-matrix-validation.md（2026-10-22 核验）。红/黄源只允许人工浏览，不自动抓取、不绕过登录或验证码。"
+  },
+  "categories": [
+    {
+      "id": "demand",
+      "name": "需求与抱怨",
+      "desc": "用户原声：抱怨、愿望、求助、比较，是信息差的第一现场",
+      "sources": [
+        {
+          "id": "reddit",
+          "name": "Reddit",
+          "url": "https://www.reddit.com/r/Entrepreneur/.rss",
+          "regions": [
+            "north-america",
+            "europe",
+            "oceania"
+          ],
+          "signal_types": [
+            "complaint",
+            "wish",
+            "comparison",
+            "真实收入"
+          ],
+          "access": "rss",
+          "frequency": "daily",
+          "cost": "free",
+          "compliance": "green",
+          "value_score": 9.2,
+          "last_checked": "2026-10-22",
+          "check_result": "http_200",
+          "notes": "RSS 公开可订阅（✅200）；API 有付费档；按 subreddit 订阅性价比最高，限速 ≤1 req/s，禁止商业转售"
+        },
+        {
+          "id": "trustpilot",
+          "name": "Trustpilot",
+          "url": "https://www.trustpilot.com/review/etsy.com",
+          "regions": [
+            "europe",
+            "north-america"
+          ],
+          "signal_types": [
+            "complaint",
+            "service_review"
+          ],
+          "access": "html",
+          "frequency": "weekly",
+          "cost": "free",
+          "compliance": "red",
+          "value_score": 7.2,
+          "last_checked": "2026-10-22",
+          "check_result": "http_403",
+          "notes": "明确禁止自动抓取（⛔403 验证页）；只人工浏览 1–2 星评论，或改用 Reddit/App 评论替代"
+        },
+        {
+          "id": "itunes-reviews",
+          "name": "Apple App Store 评论 RSS",
+          "url": "https://itunes.apple.com/us/rss/customerreviews/page=1/id=389801252/sortby=mostrecent/json",
+          "regions": [
+            "north-america",
+            "europe",
+            "east-asia",
+            "sea"
+          ],
+          "signal_types": [
+            "complaint",
+            "feature_gap"
+          ],
+          "access": "rss",
+          "frequency": "daily",
+          "cost": "free",
+          "compliance": "green",
+          "value_score": 8.8,
+          "last_checked": "2026-10-22",
+          "check_result": "http_200",
+          "notes": "公开 JSON RSS（✅200），按 App id 拉最新评论；差评里找功能缺口，注意各国区评分差异"
+        },
+        {
+          "id": "producthunt",
+          "name": "Product Hunt",
+          "url": "https://www.producthunt.com/",
+          "regions": [
+            "north-america",
+            "europe"
+          ],
+          "signal_types": [
+            "new_product",
+            "wish",
+            "early_adopter"
+          ],
+          "access": "html",
+          "frequency": "daily",
+          "cost": "free",
+          "compliance": "yellow",
+          "value_score": 7.5,
+          "last_checked": "2026-10-22",
+          "check_result": "http_200",
+          "notes": "页面可读（✅200），GraphQL API 需 token；看评论区的『还缺什么』比看榜单更有价值"
+        }
+      ]
+    },
+    {
+      "id": "trend",
+      "name": "趋势与搜索",
+      "desc": "搜索热度、广告创意与销量飙升榜，用来判断趋势时差与需求增速",
+      "sources": [
+        {
+          "id": "google-trends",
+          "name": "Google Trends",
+          "url": "https://trends.google.com/trends/explore",
+          "regions": [
+            "north-america",
+            "europe",
+            "latam",
+            "mena",
+            "sea",
+            "east-asia"
+          ],
+          "signal_types": [
+            "search_trend",
+            "seasonal",
+            "geo_difference"
+          ],
+          "access": "manual",
+          "frequency": "weekly",
+          "cost": "free",
+          "compliance": "yellow",
+          "value_score": 8.5,
+          "last_checked": "2026-10-22",
+          "check_result": "http_429",
+          "notes": "无官方 API，自动抓取违反 ToS（⛔429 限流）；人工导出 CSV，用 Naver/TikTok CC/Amazon Movers 三角验证"
+        },
+        {
+          "id": "naver-datalab",
+          "name": "Naver DataLab（韩国）",
+          "url": "https://datalab.naver.com/",
+          "regions": [
+            "east-asia"
+          ],
+          "signal_types": [
+            "search_trend",
+            "shopping_trend"
+          ],
+          "access": "html",
+          "frequency": "daily",
+          "cost": "free",
+          "compliance": "green",
+          "value_score": 8.0,
+          "last_checked": "2026-10-22",
+          "check_result": "http_200",
+          "notes": "韩国搜索/购物趋势日榜（✅200），API 需 key 有配额；东亚趋势时差的先行指标"
+        },
+        {
+          "id": "tiktok-creative-center",
+          "name": "TikTok Creative Center",
+          "url": "https://ads.tiktok.com/business/creativecenter/",
+          "regions": [
+            "north-america",
+            "europe",
+            "mena",
+            "sea",
+            "latam"
+          ],
+          "signal_types": [
+            "ad_creative",
+            "meme",
+            "hot_product"
+          ],
+          "access": "html",
+          "frequency": "daily",
+          "cost": "free",
+          "compliance": "yellow",
+          "value_score": 8.6,
+          "last_checked": "2026-10-22",
+          "check_result": "http_200",
+          "notes": "热门广告与创意可浏览（✅200），研究/广告 API 分档；看『上升中的素材』而不是总榜"
+        },
+        {
+          "id": "amazon-movers",
+          "name": "Amazon Movers & Shakers",
+          "url": "https://www.amazon.com/gp/movers-and-shakers",
+          "regions": [
+            "north-america"
+          ],
+          "signal_types": [
+            "sales_rank",
+            "rising_product"
+          ],
+          "access": "html",
+          "frequency": "daily",
+          "cost": "free",
+          "compliance": "yellow",
+          "value_score": 8.7,
+          "last_checked": "2026-10-22",
+          "check_result": "http_200",
+          "notes": "销量飙升榜页面可读（✅200），但 Amazon ToS 禁止自动抓取；人工记录前 20 名与价格带"
+        }
+      ]
+    },
+    {
+      "id": "marketplace",
+      "name": "电商与交易",
+      "desc": "平台价格带、评价数、榜单与卖家生态，判断供给密度与套利空间",
+      "sources": [
+        {
+          "id": "etsy",
+          "name": "Etsy（Open API v3）",
+          "url": "https://developers.etsy.com/documentation/",
+          "regions": [
+            "north-america",
+            "europe",
+            "oceania"
+          ],
+          "signal_types": [
+            "price_band",
+            "review",
+            "shop_growth"
+          ],
+          "access": "api",
+          "frequency": "weekly",
+          "cost": "free",
+          "compliance": "yellow",
+          "value_score": 9.0,
+          "last_checked": "2026-10-22",
+          "check_result": "http_200",
+          "notes": "官方文档可访问（✅200）；ToS 明确禁止 screen-scraping，必须用 Open API；适合宠物纪念、数字产品等情绪类目"
+        },
+        {
+          "id": "amazon-paapi",
+          "name": "Amazon PA-API / SP-API",
+          "url": "https://webservices.amazon.com/paapi5/documentation/",
+          "regions": [
+            "north-america",
+            "europe",
+            "east-asia"
+          ],
+          "signal_types": [
+            "price",
+            "bsr",
+            "review"
+          ],
+          "access": "paid-api",
+          "frequency": "daily",
+          "cost": "freemium",
+          "compliance": "red",
+          "value_score": 8.8,
+          "last_checked": "2026-10-22",
+          "check_result": "doc_only",
+          "notes": "需联盟/卖家账号，禁止任何抓取；用官方 API 或卖家精灵等第三方工具，不用代理池"
+        },
+        {
+          "id": "ebay",
+          "name": "eBay Browse API",
+          "url": "https://developer.ebay.com/",
+          "regions": [
+            "north-america",
+            "europe",
+            "oceania"
+          ],
+          "signal_types": [
+            "secondhand_price",
+            "demand"
+          ],
+          "access": "api",
+          "frequency": "weekly",
+          "cost": "free",
+          "compliance": "green",
+          "value_score": 7.8,
+          "last_checked": "2026-10-22",
+          "check_result": "doc_only",
+          "notes": "官方 Browse API 免费有配额；二手价格与停产件需求的好来源（工业备件选题）"
+        },
+        {
+          "id": "mercadolibre",
+          "name": "MercadoLibre",
+          "url": "https://developers.mercadolibre.com/",
+          "regions": [
+            "latam"
+          ],
+          "signal_types": [
+            "price",
+            "category",
+            "seller"
+          ],
+          "access": "api",
+          "frequency": "weekly",
+          "cost": "free",
+          "compliance": "yellow",
+          "value_score": 8.0,
+          "last_checked": "2026-10-22",
+          "check_result": "doc_only",
+          "notes": "官方 API 需创建应用有限速；拉美价格与品类缺口首选，官网新闻可作为财报级证据"
+        },
+        {
+          "id": "shopify-app-store",
+          "name": "Shopify App Store",
+          "url": "https://apps.shopify.com/",
+          "regions": [
+            "north-america",
+            "europe",
+            "oceania"
+          ],
+          "signal_types": [
+            "merchant_tool_gap",
+            "review",
+            "pricing"
+          ],
+          "access": "html",
+          "frequency": "weekly",
+          "cost": "free",
+          "compliance": "yellow",
+          "value_score": 7.8,
+          "last_checked": "2026-10-22",
+          "check_result": "http_200",
+          "notes": "页面可读（✅200），无公开数据 API；看低分评论与『缺功能』评论找 SaaS 选题"
+        },
+        {
+          "id": "jumia",
+          "name": "Jumia（非洲）",
+          "url": "https://www.jumia.com.ng/",
+          "regions": [
+            "africa"
+          ],
+          "signal_types": [
+            "price",
+            "category"
+          ],
+          "access": "html",
+          "frequency": "weekly",
+          "cost": "free",
+          "compliance": "red",
+          "value_score": 6.5,
+          "last_checked": "2026-10-22",
+          "check_result": "http_403",
+          "notes": "Cloudflare 拦截（⛔403），只人工浏览；非洲品类判断改用 Nairametrics/当地媒体与 Jumia 卖家公告"
+        },
+        {
+          "id": "noon",
+          "name": "Noon（中东）",
+          "url": "https://www.noon.com/uae-en/",
+          "regions": [
+            "mena"
+          ],
+          "signal_types": [
+            "price",
+            "category"
+          ],
+          "access": "html",
+          "frequency": "weekly",
+          "cost": "free",
+          "compliance": "red",
+          "value_score": 6.5,
+          "last_checked": "2026-10-22",
+          "check_result": "fetch_failed",
+          "notes": "站点反爬、无公开 API（⛔fetch failed），只人工浏览；中东品类用 Saudi Gazette/Arab News 与品牌官网交叉"
+        },
+        {
+          "id": "1688",
+          "name": "1688（中国产业带）",
+          "url": "https://www.1688.com/",
+          "regions": [
+            "china"
+          ],
+          "signal_types": [
+            "supplier_price",
+            "new_product",
+            "oem"
+          ],
+          "access": "html",
+          "frequency": "weekly",
+          "cost": "free",
+          "compliance": "yellow",
+          "value_score": 8.5,
+          "last_checked": "2026-10-22",
+          "check_result": "http_200",
+          "notes": "首页可达（✅200），搜索需登录、开放平台仅卖家；用来验证中国供应链报价与起订量，不抓商品详情"
+        }
+      ]
+    },
+    {
+      "id": "social",
+      "name": "社媒与内容",
+      "desc": "内容趋势、创作者生态与审美变化，找渠道与流量结构差",
+      "sources": [
+        {
+          "id": "youtube-data-api",
+          "name": "YouTube Data API",
+          "url": "https://developers.google.com/youtube/v3",
+          "regions": [
+            "north-america",
+            "europe",
+            "sea",
+            "latam",
+            "mena"
+          ],
+          "signal_types": [
+            "content_trend",
+            "long_tail_demand",
+            "creator"
+          ],
+          "access": "api",
+          "frequency": "weekly",
+          "cost": "freemium",
+          "compliance": "green",
+          "value_score": 8.8,
+          "last_checked": "2026-10-22",
+          "check_result": "doc_only",
+          "notes": "官方 API 每日 10,000 配额；搜『how to / I wish』类视频与评论区是需求金矿"
+        },
+        {
+          "id": "meta-graph",
+          "name": "Meta Graph / Marketing API",
+          "url": "https://developers.facebook.com/docs/graph-api/",
+          "regions": [
+            "north-america",
+            "europe",
+            "latam",
+            "sea"
+          ],
+          "signal_types": [
+            "ad_data",
+            "page_engagement"
+          ],
+          "access": "api",
+          "frequency": "weekly",
+          "cost": "free",
+          "compliance": "red",
+          "value_score": 7.0,
+          "last_checked": "2026-10-22",
+          "check_result": "doc_only",
+          "notes": "禁止抓取、仅官方 API 且需应用审核；不自动采集，只看公开主页与广告库"
+        },
+        {
+          "id": "x-api",
+          "name": "X（Twitter）API",
+          "url": "https://developer.x.com/",
+          "regions": [
+            "north-america",
+            "europe",
+            "east-asia"
+          ],
+          "signal_types": [
+            "sentiment",
+            "trend"
+          ],
+          "access": "paid-api",
+          "frequency": "daily",
+          "cost": "paid",
+          "compliance": "yellow",
+          "value_score": 7.2,
+          "last_checked": "2026-10-22",
+          "check_result": "doc_only",
+          "notes": "付费档位，禁止抓取；个人版优先用免费替代（Reddit/新闻/播客）"
+        },
+        {
+          "id": "substack-rss",
+          "name": "Substack / 播客 RSS",
+          "url": "https://substack.com/",
+          "regions": [
+            "north-america",
+            "europe"
+          ],
+          "signal_types": [
+            "paid_content",
+            "audience"
+          ],
+          "access": "rss",
+          "frequency": "weekly",
+          "cost": "free",
+          "compliance": "green",
+          "value_score": 7.4,
+          "last_checked": "2026-10-22",
+          "check_result": "doc_only",
+          "notes": "公开 RSS 可订阅；看付费订阅主题与『为什么有人付费』，判断信息产品选题"
+        },
+        {
+          "id": "xiaohongshu",
+          "name": "小红书",
+          "url": "https://www.xiaohongshu.com/",
+          "regions": [
+            "china"
+          ],
+          "signal_types": [
+            "consumption_trend",
+            "complaint",
+            "aesthetic"
+          ],
+          "access": "manual",
+          "frequency": "daily",
+          "cost": "free",
+          "compliance": "red",
+          "value_score": 8.0,
+          "last_checked": "2026-10-22",
+          "check_result": "doc_only",
+          "notes": "无公开 API、反爬强，只人工浏览；中文消费趋势与『避雷』笔记是本地机会信号"
+        },
+        {
+          "id": "pinterest-trends",
+          "name": "Pinterest Trends",
+          "url": "https://trends.pinterest.com/",
+          "regions": [
+            "north-america",
+            "europe"
+          ],
+          "signal_types": [
+            "aesthetic",
+            "gift_demand",
+            "seasonal"
+          ],
+          "access": "html",
+          "frequency": "weekly",
+          "cost": "free",
+          "compliance": "yellow",
+          "value_score": 7.8,
+          "last_checked": "2026-10-22",
+          "check_result": "doc_only",
+          "notes": "页面可浏览，API v5 需 token；欧美审美与礼赠季节性判断的好来源"
+        }
+      ]
+    },
+    {
+      "id": "policy",
+      "name": "政策与监管",
+      "desc": "新法规、关税、认证、补贴与招标：合规差是最硬的信息差",
+      "sources": [
+        {
+          "id": "eur-lex",
+          "name": "EUR-Lex（欧盟法规）",
+          "url": "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX%3A32023R0956",
+          "regions": [
+            "europe"
+          ],
+          "signal_types": [
+            "regulation",
+            "deadline",
+            "compliance"
+          ],
+          "access": "html",
+          "frequency": "weekly",
+          "cost": "free",
+          "compliance": "green",
+          "value_score": 9.0,
+          "last_checked": "2026-10-22",
+          "check_result": "http_202",
+          "notes": "官方公开法规可引用（✅202）；CBAM/EUDR/PPWR 等原文首选，注意 CELEX 编号与生效日期"
+        },
+        {
+          "id": "eu-taric",
+          "name": "欧盟 TARIC 关税数据库",
+          "url": "https://ec.europa.eu/taxation_customs/dds2/taric/taric_consultation.jsp",
+          "regions": [
+            "europe"
+          ],
+          "signal_types": [
+            "tariff",
+            "hs_code"
+          ],
+          "access": "html",
+          "frequency": "monthly",
+          "cost": "free",
+          "compliance": "green",
+          "value_score": 8.2,
+          "last_checked": "2026-10-22",
+          "check_result": "doc_only",
+          "notes": "公开查询 HS 编码关税与反倾销；跨境定价与套利必须核对"
+        },
+        {
+          "id": "us-cbp",
+          "name": "美国 CBP（海关与边境保护）",
+          "url": "https://www.cbp.gov/trade",
+          "regions": [
+            "north-america"
+          ],
+          "signal_types": [
+            "tariff",
+            "clearance"
+          ],
+          "access": "html",
+          "frequency": "monthly",
+          "cost": "free",
+          "compliance": "green",
+          "value_score": 7.8,
+          "last_checked": "2026-10-22",
+          "check_result": "doc_only",
+          "notes": "公开贸易与清关规则；de minimis 等政策变化直接影响跨境小包模型"
+        },
+        {
+          "id": "openfda",
+          "name": "美国 FDA / openFDA API",
+          "url": "https://open.fda.gov/apis/",
+          "regions": [
+            "north-america"
+          ],
+          "signal_types": [
+            "recall",
+            "compliance",
+            "product_safety"
+          ],
+          "access": "api",
+          "frequency": "monthly",
+          "cost": "free",
+          "compliance": "green",
+          "value_score": 8.5,
+          "last_checked": "2026-10-22",
+          "check_result": "doc_only",
+          "notes": "官方 API 免费；查召回、器械与化妆品合规，做合规服务与选品避雷"
+        },
+        {
+          "id": "mofcom-wto",
+          "name": "中国商务部（WTO 事务局）",
+          "url": "http://chinawto.mofcom.gov.cn/",
+          "regions": [
+            "china",
+            "europe"
+          ],
+          "signal_types": [
+            "trade_policy",
+            "export_compliance"
+          ],
+          "access": "html",
+          "frequency": "weekly",
+          "cost": "free",
+          "compliance": "green",
+          "value_score": 7.6,
+          "last_checked": "2026-10-22",
+          "check_result": "doc_only",
+          "notes": "公开通报与出口合规提示；中国出口商视角的欧盟/美国法规解读"
+        },
+        {
+          "id": "saudi-gov",
+          "name": "沙特政府门户 my.gov.sa",
+          "url": "https://my.gov.sa/",
+          "regions": [
+            "mena"
+          ],
+          "signal_types": [
+            "regulation",
+            "license"
+          ],
+          "access": "html",
+          "frequency": "monthly",
+          "cost": "free",
+          "compliance": "yellow",
+          "value_score": 6.8,
+          "last_checked": "2026-10-22",
+          "check_result": "http_403",
+          "notes": "Cloudflare 拦截（⛔403），人工浏览；沙特政策优先用 PEP 官网与 Saudi Gazette 交叉"
+        },
+        {
+          "id": "japan-tourism",
+          "name": "日本观光厅",
+          "url": "https://www.mlit.go.jp/kankocho/",
+          "regions": [
+            "east-asia"
+          ],
+          "signal_types": [
+            "inbound_tourism",
+            "consumption",
+            "policy"
+          ],
+          "access": "html",
+          "frequency": "monthly",
+          "cost": "free",
+          "compliance": "green",
+          "value_score": 7.8,
+          "last_checked": "2026-10-22",
+          "check_result": "doc_only",
+          "notes": "公开 PDF 统计（访日消费动向调查）；免税、入境游与零售机会的一手数据"
+        }
+      ]
+    },
+    {
+      "id": "capital",
+      "name": "资本与融资",
+      "desc": "融资、财报与创业环境：验证赛道热度与退出路径",
+      "sources": [
+        {
+          "id": "sec-edgar",
+          "name": "SEC EDGAR",
+          "url": "https://www.sec.gov/edgar/search/",
+          "regions": [
+            "north-america"
+          ],
+          "signal_types": [
+            "financial_report",
+            "industry_size"
+          ],
+          "access": "api",
+          "frequency": "quarterly",
+          "cost": "free",
+          "compliance": "green",
+          "value_score": 8.6,
+          "last_checked": "2026-10-22",
+          "check_result": "doc_only",
+          "notes": "官方全文检索 API；读 10-K/10-Q 里的品类增速与毛利率，比二手报告可靠"
+        },
+        {
+          "id": "crunchbase",
+          "name": "Crunchbase",
+          "url": "https://www.crunchbase.com/",
+          "regions": [
+            "north-america",
+            "europe",
+            "east-asia"
+          ],
+          "signal_types": [
+            "funding",
+            "startup"
+          ],
+          "access": "paid-api",
+          "frequency": "monthly",
+          "cost": "paid",
+          "compliance": "yellow",
+          "value_score": 7.5,
+          "last_checked": "2026-10-22",
+          "check_result": "doc_only",
+          "notes": "付费 API、禁止抓取；个人版只看公开融资新闻页，替代方案是 GEM 与公司官网"
+        },
+        {
+          "id": "gem",
+          "name": "GEM（全球创业观察）",
+          "url": "https://www.gemconsortium.org/report",
+          "regions": [
+            "north-america",
+            "europe",
+            "mena",
+            "africa",
+            "latam",
+            "sea",
+            "south-asia",
+            "cis",
+            "oceania",
+            "east-asia"
+          ],
+          "signal_types": [
+            "entrepreneurship",
+            "country_environment"
+          ],
+          "access": "html",
+          "frequency": "yearly",
+          "cost": "free",
+          "compliance": "green",
+          "value_score": 7.8,
+          "last_checked": "2026-10-22",
+          "check_result": "http_200",
+          "notes": "报告免费下载（✅200）；国别创业环境与机会感知，适合做区域进入决策"
+        },
+        {
+          "id": "itjuzi",
+          "name": "IT桔子（中国创投）",
+          "url": "https://www.itjuzi.com/",
+          "regions": [
+            "china"
+          ],
+          "signal_types": [
+            "funding",
+            "china_startup"
+          ],
+          "access": "paid-api",
+          "frequency": "monthly",
+          "cost": "paid",
+          "compliance": "yellow",
+          "value_score": 7.0,
+          "last_checked": "2026-10-22",
+          "check_result": "doc_only",
+          "notes": "付费数据；免费部分可看融资事件标题，用来验证国内赛道热度"
+        }
+      ]
+    },
+    {
+      "id": "academic",
+      "name": "学术与技术",
+      "desc": "论文、专利、开源社区：认知差与技术拐点的上游",
+      "sources": [
+        {
+          "id": "arxiv",
+          "name": "arXiv",
+          "url": "https://arxiv.org/",
+          "regions": [
+            "north-america",
+            "europe",
+            "east-asia",
+            "china"
+          ],
+          "signal_types": [
+            "paper",
+            "tech_trend"
+          ],
+          "access": "api",
+          "frequency": "weekly",
+          "cost": "free",
+          "compliance": "green",
+          "value_score": 8.0,
+          "last_checked": "2026-10-22",
+          "check_result": "doc_only",
+          "notes": "官方 API 允许；看标题与摘要判断技术成熟度，别陷进论文细节"
+        },
+        {
+          "id": "github-trending",
+          "name": "GitHub Trending",
+          "url": "https://github.com/trending",
+          "regions": [
+            "north-america",
+            "europe",
+            "east-asia"
+          ],
+          "signal_types": [
+            "developer_trend",
+            "tool"
+          ],
+          "access": "html",
+          "frequency": "weekly",
+          "cost": "free",
+          "compliance": "green",
+          "value_score": 8.4,
+          "last_checked": "2026-10-22",
+          "check_result": "http_200",
+          "notes": "页面可读（✅200），REST API 有配额；开发者工具类机会的先行指标"
+        },
+        {
+          "id": "google-patents",
+          "name": "Google Patents",
+          "url": "https://patents.google.com/",
+          "regions": [
+            "north-america",
+            "europe",
+            "east-asia"
+          ],
+          "signal_types": [
+            "patent",
+            "tech_gap"
+          ],
+          "access": "html",
+          "frequency": "monthly",
+          "cost": "free",
+          "compliance": "yellow",
+          "value_score": 7.8,
+          "last_checked": "2026-10-22",
+          "check_result": "doc_only",
+          "notes": "页面可读，批量需 BigQuery；查专利到期与空白领域，判断技术型机会的可行性"
+        },
+        {
+          "id": "huggingface",
+          "name": "Hugging Face",
+          "url": "https://huggingface.co/",
+          "regions": [
+            "north-america",
+            "europe",
+            "east-asia"
+          ],
+          "signal_types": [
+            "model_trend",
+            "ai_tool"
+          ],
+          "access": "api",
+          "frequency": "weekly",
+          "cost": "free",
+          "compliance": "green",
+          "value_score": 8.2,
+          "last_checked": "2026-10-22",
+          "check_result": "doc_only",
+          "notes": "官方 API 免费；看下载量与 demo 热度判断 AI 能力下放速度"
+        }
+      ]
+    },
+    {
+      "id": "supply",
+      "name": "供应链与价格",
+      "desc": "运价、原料、出厂价与进出口统计：价格差与成本结构的上游",
+      "sources": [
+        {
+          "id": "drewry-wci",
+          "name": "Drewry 世界集装箱指数（WCI）",
+          "url": "https://www.drewry.co.uk/supply-chain-advisors/supply-chain-expertise/world-container-index-assessed-by-drewry",
+          "regions": [
+            "north-america",
+            "europe",
+            "east-asia",
+            "sea"
+          ],
+          "signal_types": [
+            "freight_rate",
+            "cost"
+          ],
+          "access": "html",
+          "frequency": "weekly",
+          "cost": "free",
+          "compliance": "green",
+          "value_score": 8.6,
+          "last_checked": "2026-10-22",
+          "check_result": "http_200",
+          "notes": "公开指数可引用（✅200，2026-10-15 WCI $4,485/40ft）；跨境毛利测算必看"
+        },
+        {
+          "id": "freightos-fbx",
+          "name": "Freightos FBX",
+          "url": "https://fbx.freightos.com/",
+          "regions": [
+            "north-america",
+            "europe",
+            "east-asia"
+          ],
+          "signal_types": [
+            "freight_rate",
+            "air_freight"
+          ],
+          "access": "html",
+          "frequency": "weekly",
+          "cost": "free",
+          "compliance": "green",
+          "value_score": 8.0,
+          "last_checked": "2026-10-22",
+          "check_result": "doc_only",
+          "notes": "公开指数；与 WCI 交叉验证运价异常"
+        },
+        {
+          "id": "sse-scfi",
+          "name": "上海航运交易所 SCFI",
+          "url": "https://www.sse.net.cn/",
+          "regions": [
+            "china",
+            "east-asia"
+          ],
+          "signal_types": [
+            "freight_rate",
+            "export_cost"
+          ],
+          "access": "html",
+          "frequency": "weekly",
+          "cost": "free",
+          "compliance": "green",
+          "value_score": 7.8,
+          "last_checked": "2026-10-22",
+          "check_result": "doc_only",
+          "notes": "公开周报；中国出口运价与航线变化"
+        },
+        {
+          "id": "alibaba-com",
+          "name": "Alibaba.com",
+          "url": "https://www.alibaba.com/",
+          "regions": [
+            "china",
+            "north-america",
+            "europe",
+            "sea"
+          ],
+          "signal_types": [
+            "supplier_price",
+            "moq"
+          ],
+          "access": "html",
+          "frequency": "weekly",
+          "cost": "free",
+          "compliance": "yellow",
+          "value_score": 8.0,
+          "last_checked": "2026-10-22",
+          "check_result": "doc_only",
+          "notes": "无公开商品 API、反爬强；人工看报价与起订量，与 1688 交叉比价"
+        },
+        {
+          "id": "china-customs",
+          "name": "中国海关总署",
+          "url": "http://www.customs.gov.cn/",
+          "regions": [
+            "china"
+          ],
+          "signal_types": [
+            "trade_volume",
+            "import_export"
+          ],
+          "access": "html",
+          "frequency": "monthly",
+          "cost": "free",
+          "compliance": "green",
+          "value_score": 8.2,
+          "last_checked": "2026-10-22",
+          "check_result": "doc_only",
+          "notes": "公开统计；验证品类进出口量价与产业带景气度"
+        },
+        {
+          "id": "trading-economics",
+          "name": "Trading Economics",
+          "url": "https://tradingeconomics.com/",
+          "regions": [
+            "north-america",
+            "europe",
+            "latam",
+            "africa",
+            "mena",
+            "sea"
+          ],
+          "signal_types": [
+            "macro",
+            "fx",
+            "price"
+          ],
+          "access": "api",
+          "frequency": "daily",
+          "cost": "freemium",
+          "compliance": "yellow",
+          "value_score": 7.8,
+          "last_checked": "2026-10-22",
+          "check_result": "doc_only",
+          "notes": "API 需 key，免费额度有限；汇率与宏观数据用于定价与市场筛选"
+        }
+      ]
+    },
+    {
+      "id": "culture",
+      "name": "文化与宗教",
+      "desc": "宗教、价值观、语言与日历：文化差异是长期信息差来源",
+      "sources": [
+        {
+          "id": "pew-research",
+          "name": "Pew Research Center",
+          "url": "https://www.pewresearch.org/",
+          "regions": [
+            "north-america",
+            "europe",
+            "mena",
+            "sea",
+            "africa"
+          ],
+          "signal_types": [
+            "religion",
+            "demographics",
+            "values"
+          ],
+          "access": "html",
+          "frequency": "yearly",
+          "cost": "free",
+          "compliance": "green",
+          "value_score": 8.2,
+          "last_checked": "2026-10-22",
+          "check_result": "doc_only",
+          "notes": "公开报告；宗教人口与价值观数据，做宗教/文化类机会的底稿"
+        },
+        {
+          "id": "hofstede-insights",
+          "name": "Hofstede Insights",
+          "url": "https://www.hofstede-insights.com/country-comparison-tool",
+          "regions": [
+            "north-america",
+            "europe",
+            "mena",
+            "sea",
+            "east-asia",
+            "latam",
+            "africa"
+          ],
+          "signal_types": [
+            "culture_dimension",
+            "comparison"
+          ],
+          "access": "html",
+          "frequency": "yearly",
+          "cost": "free",
+          "compliance": "green",
+          "value_score": 8.0,
+          "last_checked": "2026-10-22",
+          "check_result": "doc_only",
+          "notes": "公开对比工具；六维文化差异用于营销、管理与产品本地化判断"
+        },
+        {
+          "id": "world-values-survey",
+          "name": "World Values Survey",
+          "url": "https://www.worldvaluessurvey.org/",
+          "regions": [
+            "north-america",
+            "europe",
+            "mena",
+            "sea",
+            "east-asia",
+            "latam",
+            "africa",
+            "south-asia",
+            "cis"
+          ],
+          "signal_types": [
+            "values",
+            "social_change"
+          ],
+          "access": "html",
+          "frequency": "yearly",
+          "cost": "free",
+          "compliance": "green",
+          "value_score": 7.6,
+          "last_checked": "2026-10-22",
+          "check_result": "doc_only",
+          "notes": "公开数据；长期价值观变迁，适合判断宗教/家庭/性别议题的商业边界"
+        },
+        {
+          "id": "salaam-gateway",
+          "name": "Salaam Gateway（伊斯兰经济）",
+          "url": "https://salaamgateway.com/",
+          "regions": [
+            "mena",
+            "sea",
+            "africa"
+          ],
+          "signal_types": [
+            "halal",
+            "islamic_finance"
+          ],
+          "access": "html",
+          "frequency": "weekly",
+          "cost": "free",
+          "compliance": "yellow",
+          "value_score": 7.2,
+          "last_checked": "2026-10-22",
+          "check_result": "fetch_failed",
+          "notes": "跨域重定向（⛔），需直连或人工下载；清真/伊斯兰金融新闻，做认证与内容类机会的素材"
+        },
+        {
+          "id": "islamicfinder",
+          "name": "IslamicFinder（伊斯兰节日日历）",
+          "url": "https://www.islamicfinder.org/",
+          "regions": [
+            "mena",
+            "sea",
+            "africa",
+            "europe",
+            "north-america"
+          ],
+          "signal_types": [
+            "religious_calendar",
+            "ramadan"
+          ],
+          "access": "html",
+          "frequency": "monthly",
+          "cost": "free",
+          "compliance": "green",
+          "value_score": 7.5,
+          "last_checked": "2026-10-22",
+          "check_result": "doc_only",
+          "notes": "公开节日日期查询；斋月/开斋节/朝觐季备货与营销节奏的基础数据"
+        }
+      ]
+    },
+    {
+      "id": "talent",
+      "name": "服务与人才市场",
+      "desc": "服务供给与报价：验证某项服务是否被外包、价格带与竞争密度",
+      "sources": [
+        {
+          "id": "upwork",
+          "name": "Upwork",
+          "url": "https://www.upwork.com/",
+          "regions": [
+            "north-america",
+            "europe",
+            "oceania",
+            "latam",
+            "south-asia"
+          ],
+          "signal_types": [
+            "service_demand",
+            "price_band",
+            "skill"
+          ],
+          "access": "html",
+          "frequency": "weekly",
+          "cost": "free",
+          "compliance": "yellow",
+          "value_score": 8.2,
+          "last_checked": "2026-10-22",
+          "check_result": "doc_only",
+          "notes": "免费浏览、禁止抓取；搜需求描述与报价，验证服务类机会的真实付费意愿"
+        },
+        {
+          "id": "fiverr",
+          "name": "Fiverr",
+          "url": "https://www.fiverr.com/",
+          "regions": [
+            "north-america",
+            "europe",
+            "mena",
+            "sea"
+          ],
+          "signal_types": [
+            "service_price",
+            "micro_service"
+          ],
+          "access": "html",
+          "frequency": "weekly",
+          "cost": "free",
+          "compliance": "red",
+          "value_score": 7.6,
+          "last_checked": "2026-10-22",
+          "check_result": "doc_only",
+          "notes": "禁止抓取、反爬强；人工看低价服务包，判断被商品化的服务边界"
+        },
+        {
+          "id": "linkedin-jobs",
+          "name": "LinkedIn Jobs",
+          "url": "https://www.linkedin.com/jobs/",
+          "regions": [
+            "north-america",
+            "europe",
+            "mena",
+            "sea",
+            "latam",
+            "east-asia"
+          ],
+          "signal_types": [
+            "job_demand",
+            "skill"
+          ],
+          "access": "manual",
+          "frequency": "weekly",
+          "cost": "free",
+          "compliance": "red",
+          "value_score": 7.8,
+          "last_checked": "2026-10-22",
+          "check_result": "doc_only",
+          "notes": "明确禁止抓取；只人工看岗位 JD，判断企业在为什么能力付薪"
+        },
+        {
+          "id": "remoteok",
+          "name": "RemoteOK",
+          "url": "https://remoteok.com/",
+          "regions": [
+            "north-america",
+            "europe",
+            "oceania"
+          ],
+          "signal_types": [
+            "remote_jobs",
+            "salary"
+          ],
+          "access": "api",
+          "frequency": "weekly",
+          "cost": "free",
+          "compliance": "green",
+          "value_score": 7.4,
+          "last_checked": "2026-10-22",
+          "check_result": "doc_only",
+          "notes": "公开 API；远程岗位与薪资趋势，服务数字游民/远程工作类机会"
+        }
+      ]
+    },
+    {
+      "id": "data",
+      "name": "数据与研究机构",
+      "desc": "官方统计与研究报告：给机会规模做宏观校验，避免拍脑袋",
+      "sources": [
+        {
+          "id": "world-bank",
+          "name": "World Bank Open Data",
+          "url": "https://data.worldbank.org/",
+          "regions": [
+            "north-america",
+            "europe",
+            "mena",
+            "sea",
+            "latam",
+            "africa",
+            "south-asia",
+            "cis",
+            "oceania",
+            "east-asia"
+          ],
+          "signal_types": [
+            "macro",
+            "country_data"
+          ],
+          "access": "api",
+          "frequency": "quarterly",
+          "cost": "free",
+          "compliance": "green",
+          "value_score": 8.0,
+          "last_checked": "2026-10-22",
+          "check_result": "doc_only",
+          "notes": "官方 API 免费；人口/城镇化/互联网渗透，做区域进入的底层数据"
+        },
+        {
+          "id": "oecd-data",
+          "name": "OECD Data",
+          "url": "https://data.oecd.org/",
+          "regions": [
+            "europe",
+            "north-america",
+            "east-asia",
+            "oceania"
+          ],
+          "signal_types": [
+            "macro",
+            "social_indicator"
+          ],
+          "access": "api",
+          "frequency": "quarterly",
+          "cost": "free",
+          "compliance": "green",
+          "value_score": 7.8,
+          "last_checked": "2026-10-22",
+          "check_result": "doc_only",
+          "notes": "官方 SDMX API；发达国家老龄化、教育、健康支出等指标"
+        },
+        {
+          "id": "eurostat",
+          "name": "Eurostat",
+          "url": "https://ec.europa.eu/eurostat",
+          "regions": [
+            "europe"
+          ],
+          "signal_types": [
+            "market_size",
+            "regulation_impact"
+          ],
+          "access": "api",
+          "frequency": "monthly",
+          "cost": "free",
+          "compliance": "green",
+          "value_score": 8.4,
+          "last_checked": "2026-10-22",
+          "check_result": "doc_only",
+          "notes": "官方 API；欧盟国别电商、消费与产业数据，做合规/绿色类机会的量化依据"
+        },
+        {
+          "id": "china-nbs",
+          "name": "中国国家统计局",
+          "url": "https://www.stats.gov.cn/",
+          "regions": [
+            "china"
+          ],
+          "signal_types": [
+            "population",
+            "consumption"
+          ],
+          "access": "html",
+          "frequency": "quarterly",
+          "cost": "free",
+          "compliance": "green",
+          "value_score": 8.2,
+          "last_checked": "2026-10-22",
+          "check_result": "doc_only",
+          "notes": "公开统计；人口结构、老龄化、消费支出，中国本地机会的基准数据"
+        },
+        {
+          "id": "statista",
+          "name": "Statista",
+          "url": "https://www.statista.com/",
+          "regions": [
+            "north-america",
+            "europe",
+            "east-asia"
+          ],
+          "signal_types": [
+            "market_size",
+            "industry_report"
+          ],
+          "access": "paid-api",
+          "frequency": "monthly",
+          "cost": "paid",
+          "compliance": "yellow",
+          "value_score": 7.6,
+          "last_checked": "2026-10-22",
+          "check_result": "doc_only",
+          "notes": "付费墙、禁止抓取；只用免费摘要做交叉，规模数据优先官方统计"
+        }
+      ]
+    },
+    {
+      "id": "platform",
+      "name": "平台规则与开放生态",
+      "desc": "平台规则、API 条款与功能变更：平台差是 6–9 个月的短窗口",
+      "sources": [
+        {
+          "id": "etsy-api-terms",
+          "name": "Etsy API Terms",
+          "url": "https://www.etsy.com/legal/api",
+          "regions": [
+            "north-america",
+            "europe"
+          ],
+          "signal_types": [
+            "tos",
+            "api_policy",
+            "platform_rule"
+          ],
+          "access": "html",
+          "frequency": "monthly",
+          "cost": "free",
+          "compliance": "yellow",
+          "value_score": 7.5,
+          "last_checked": "2026-10-22",
+          "check_result": "http_200",
+          "notes": "明确禁止 scraping；做 Etsy 相关机会前先读条款，避免账号风险"
+        },
+        {
+          "id": "shopify-changelog",
+          "name": "Shopify Dev Changelog",
+          "url": "https://shopify.dev/changelog",
+          "regions": [
+            "north-america",
+            "europe",
+            "oceania"
+          ],
+          "signal_types": [
+            "feature_launch",
+            "platform_rule"
+          ],
+          "access": "rss",
+          "frequency": "weekly",
+          "cost": "free",
+          "compliance": "green",
+          "value_score": 8.6,
+          "last_checked": "2026-10-22",
+          "check_result": "doc_only",
+          "notes": "公开 changelog（可 RSS）；新功能上线 30 天内是工具/代运营套利窗口"
+        },
+        {
+          "id": "google-play-policy",
+          "name": "Google Play 开发者政策",
+          "url": "https://play.google.com/about/developer-content-policy/",
+          "regions": [
+            "north-america",
+            "europe",
+            "east-asia",
+            "sea",
+            "latam"
+          ],
+          "signal_types": [
+            "app_policy",
+            "compliance"
+          ],
+          "access": "html",
+          "frequency": "monthly",
+          "cost": "free",
+          "compliance": "green",
+          "value_score": 7.5,
+          "last_checked": "2026-10-22",
+          "check_result": "doc_only",
+          "notes": "公开政策；应用类机会的上架合规与下架风险判断"
+        },
+        {
+          "id": "apple-review-guidelines",
+          "name": "Apple App Store 审核指南",
+          "url": "https://developer.apple.com/app-store/review/guidelines/",
+          "regions": [
+            "north-america",
+            "europe",
+            "east-asia",
+            "sea",
+            "latam"
+          ],
+          "signal_types": [
+            "app_policy",
+            "new_category"
+          ],
+          "access": "html",
+          "frequency": "monthly",
+          "cost": "free",
+          "compliance": "green",
+          "value_score": 7.6,
+          "last_checked": "2026-10-22",
+          "check_result": "doc_only",
+          "notes": "公开指南；AI/宗教/健康类 App 的审核边界，做订阅工具前必读"
+        },
+        {
+          "id": "stripe-pricing",
+          "name": "Stripe 文档与费率",
+          "url": "https://stripe.com/pricing",
+          "regions": [
+            "north-america",
+            "europe",
+            "east-asia",
+            "sea",
+            "latam",
+            "mena"
+          ],
+          "signal_types": [
+            "payment_fee",
+            "payment_capability"
+          ],
+          "access": "html",
+          "frequency": "quarterly",
+          "cost": "free",
+          "compliance": "green",
+          "value_score": 7.4,
+          "last_checked": "2026-10-22",
+          "check_result": "doc_only",
+          "notes": "公开费率与支持国家；定价与收款方案设计的基础，注意各国支付方式差异"
+        },
+        {
+          "id": "app-store-rss",
+          "name": "Apple App Store 榜单/新品 RSS",
+          "url": "https://itunes.apple.com/us/rss/topfreeapplications/limit=50/json",
+          "regions": [
+            "north-america",
+            "europe",
+            "east-asia",
+            "sea"
+          ],
+          "signal_types": [
+            "app_ranking",
+            "new_app"
+          ],
+          "access": "rss",
+          "frequency": "daily",
+          "cost": "free",
+          "compliance": "green",
+          "value_score": 7.8,
+          "last_checked": "2026-10-22",
+          "check_result": "doc_only",
+          "notes": "公开 JSON RSS；各国区榜单对比是『时间差/地区差』的现成信号"
+        }
+      ]
+    }
+  ]
+}

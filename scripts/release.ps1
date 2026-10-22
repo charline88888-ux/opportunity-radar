@@ -68,7 +68,10 @@ Ok '前端构建产物存在'
 # ---------- 4. 创建冻结目录 ----------
 Step "创建 releases\$Version"
 New-Item -ItemType Directory -Force -Path $ReleaseDir | Out-Null
-Copy-Item -Path (Join-Path $DistSrc '*') -Destination (Join-Path $ReleaseDir 'dist') -Recurse -Force
+$distDest = Join-Path $ReleaseDir 'dist'
+New-Item -ItemType Directory -Force -Path $distDest | Out-Null
+Copy-Item -Path (Join-Path $DistSrc '*') -Destination $distDest -Recurse -Force
+if (-not (Test-Path (Join-Path $distDest 'index.html'))) { Fail '复制 dist 失败：找不到 dist/index.html' }
 Ok '已复制 dist/'
 
 $docsSnapshot = Join-Path $ReleaseDir 'docs-snapshot'
@@ -166,13 +169,13 @@ $manifest = [ordered]@{
     app_version   = $appVersion
     data_version  = if ($tax) { $tax.meta.data_version } else { 'unknown' }
     released_at   = (Get-Date).ToString('yyyy-MM-ddTHH:mm:sszzz')
-    git_commit    = $gitCommit
+    git_commit    = ''
     git_tag       = $Version
     build         = [ordered]@{ node = (& node -v); pnpm = (& pnpm -v) }
     validation    = [ordered]@{ pipeline = $(if ($SkipData) { 'skipped' } else { 'pass' }); validate = $(if ($SkipData) { 'skipped' } else { 'pass' }); build = $(if ($SkipBuild) { 'skipped' } else { 'pass' }) }
     counts        = [ordered]@{
         opportunities = if ($opp) { $opp.opportunities.Count } else { 0 }
-        sources       = if ($sources) { ($sources.categories | ForEach-Object { $_.sources.Count } | Measure-Object -Sum).Sum } else { 0 }
+        sources       = if ($sources) { [int](($sources.categories | ForEach-Object { $_.sources.Count } | Measure-Object -Sum).Sum) } else { 0 }
         playbooks     = if ($playbooks) { $playbooks.playbooks.Count } else { 0 }
         calendar      = if ($calendar) { $calendar.events.Count } else { 0 }
         docs          = (Get-ChildItem $docsSnapshot).Count
@@ -190,9 +193,17 @@ if (-not $NoGit) {
     git add -A
     git commit -m "release: $Version" | Out-Host
     if ($LASTEXITCODE -ne 0) { Write-Host '[WARN] git commit 失败（可能无变更），继续打 tag' -ForegroundColor Yellow }
-    git tag -a $Version -m "Opportunity Radar $Version" | Out-Host
+
+    # 先提交内容、再回填 MANIFEST 的 content commit，最后单独提交 MANIFEST 并在该提交上打 tag
+    $contentCommit = (git rev-parse --short HEAD 2>$null)
+    $manifest.git_commit = $contentCommit
+    $manifest | ConvertTo-Json -Depth 6 | Set-Content -Path (Join-Path $ReleaseDir 'MANIFEST.json') -Encoding UTF8
+    git add (Join-Path $ReleaseDir 'MANIFEST.json')
+    git commit -m "docs: record $Version manifest (content commit $contentCommit)" | Out-Host
+
+    git tag -a $Version -m "Opportunity Radar $Version (content commit $contentCommit)" | Out-Host
     if ($LASTEXITCODE -ne 0) { Write-Host '[WARN] git tag 失败（可能已存在）' -ForegroundColor Yellow }
-    Ok 'Git 完成（如需推送：git push --tags）'
+    Ok "Git 完成：tag $Version 指向 MANIFEST 提交；内容提交 $contentCommit（如需推送：git push --tags）"
 } else { Write-Host '    （跳过 git）' -ForegroundColor Yellow }
 
 # ---------- 8. 摘要 ----------

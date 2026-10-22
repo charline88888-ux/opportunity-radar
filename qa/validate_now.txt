@@ -1,0 +1,36 @@
+==============================================================================
+机会雷达 · 数据契约校验（docs/12 V01–V15）
+==============================================================================
+[PASS] V01  枚举引用完整性  |  11 组枚举与 46 条机会引用完整
+[PASS] V02  机会数量与行业/区域覆盖  |  46 条机会 / 14 行业 / 11 区域
+[PASS] V03  证据链与 evidence_count  |  46 条机会 / 88 条证据
+[PASS] V04  七问齐全且无占位符  |  46 条机会七问齐全
+[PASS] V05  10 维评分与公式一致  |  46 条机会评分与公式一致（权重合计 1.00）
+[PASS] V06  窗口字段合法  |  46 条窗口字段合法
+[FAIL] V07  日期链自洽  |  opp-xb-japan-taxfree-016: last_activity 晚于 as_of；opp-content-audiobook-020: last_activity 晚于 as_of；opp-local-umrah-service-025: last_activity 晚于 as_of
+[PASS] V08  榜单配额与 rank 连续性  |  day=8 / week=15 / month=23 / year=46
+[PASS] V09  榜单与重算一致  |  榜单与重算结果完全一致
+[FAIL] V10  数据源矩阵完整  |  gem.frequency=yearly；pew-research.frequency=yearly；hofstede-insights.frequency=yearly；world-values-survey.frequency=yearly
+[PASS] V11  扫描剧本完整  |  12 个剧本
+[FAIL] V12  商业日历完整  |  calendar.meta.count 与实际不一致
+[PASS] V13  无禁用词  |  无 V13 禁用词
+[PASS] V14  stats.json 与实际聚合一致  |  KPI 与实际聚合一致（46 条机会）
+[PASS] V15  id / slug 唯一  |  46 条机会 id / slug 唯一
+------------------------------------------------------------------------------
+附加提示（13 条，不影响退出码）：
+  · opp-xb-temu-eu-compliance-014: title 长度 33 > 28 字
+  · opp-xb-tiktok-us-015: title 长度 29 > 28 字
+  · opp-xb-poland-logistics-017: one_liner 长度 62 > 60 字
+  · opp-content-kpop-merch-019: title 长度 29 > 28 字
+  · opp-edu-microschool-022: title 长度 32 > 28 字
+  · opp-local-furusato-nozei-024: verified=true，请确认所有证据 URL 实际可访问
+  · opp-local-umrah-service-025: title 长度 29 > 28 字
+  · opp-local-umrah-service-025: verified=true，请确认所有证据 URL 实际可访问
+  · opp-crossborder-kbeauty-029: verified=true，请确认所有证据 URL 实际可访问
+  · opp-crossborder-mercadolibre-030: title 长度 32 > 28 字
+  · opp-crossborder-mercadolibre-030: verified=true，请确认所有证据 URL 实际可访问
+  · opp-manufacturing-shea-butter-031: verified=true，请确认所有证据 URL 实际可访问
+  · opp-compliance-eaa-accessibility-034: verified=true，请确认所有证据 URL 实际可访问
+------------------------------------------------------------------------------
+结果：12/15 条规则通过，3 条失败
+==============================================================================

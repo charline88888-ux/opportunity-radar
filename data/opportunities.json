@@ -1,0 +1,6876 @@
+[
+  {
+    "id": "opp-pet-memorial-glass-001",
+    "slug": "pet-memorial-glass",
+    "title": "宠物离世纪念玻璃：把骨灰毛发封进玻璃的定制生意",
+    "one_liner": "欧美宠物殡葬情绪消费升级，客单 120–400 美元，手工定制+独立站+跨境代发可小成本验证",
+    "industry_id": "pet",
+    "gap_type_ids": [
+      "culture",
+      "emotion",
+      "price"
+    ],
+    "region_ids": [
+      "north-america",
+      "europe"
+    ],
+    "origin_country": "美国",
+    "target_countries": [
+      "美国",
+      "英国",
+      "德国",
+      "加拿大",
+      "澳大利亚"
+    ],
+    "human_need_ids": [
+      "belonging",
+      "nostalgia",
+      "meaning"
+    ],
+    "neuro_drivers": [
+      "oxytocin",
+      "serotonin"
+    ],
+    "emotion_tags": [
+      "grief",
+      "nostalgia",
+      "love"
+    ],
+    "source_langs": [
+      "en",
+      "de"
+    ],
+    "signal": {
+      "summary": "Etsy 出现成规模的宠物纪念玻璃/骨灰手链店铺，客单 120–400 美元；差评集中在运输破损、尺寸不符与欧盟运费，说明工艺、包装与本地化交付仍是缺口。",
+      "evidence": [
+        {
+          "title": "Custom Pet Memorial Glass with fur and ashes（Etsy 在售品类）",
+          "publisher": "Etsy · CrystalsCustomsArt",
+          "url": "https://www.etsy.com/ca/shop/CrystalsCustomsArt",
+          "date": "2026-10-20",
+          "quote": "「Custom Pet Memorial Glass」——Etsy 店铺在售定制宠物纪念玻璃（listing 标题）",
+          "lang": "en",
+          "tier": "primary"
+        },
+        {
+          "title": "Memorial keepsake bracelet with ash bead（Etsy 在售品类）",
+          "publisher": "Etsy · AshEmberGlass",
+          "url": "https://www.etsy.com/de-en/shop/AshEmberGlass",
+          "date": "2026-10-20",
+          "quote": "「Memorial keepsake bracelet」——Etsy 在售骨灰纪念手链（listing 标题）",
+          "lang": "en",
+          "tier": "primary"
+        },
+        {
+          "title": "亚宠发布报告：2026年中国宠物消费市场规模将至3365亿元",
+          "publisher": "中国证券网",
+          "url": "https://www.cnstock.com/commonDetail/763132",
+          "date": "2026-08-19",
+          "quote": "2026 年中国宠物消费市场规模将达 3365 亿元",
+          "lang": "zh",
+          "tier": "secondary"
+        }
+      ],
+      "signal_strength": 8.4,
+      "trend_direction": "up",
+      "volume_estimate": "Etsy 同类店铺单店评价数百条，头部客单 $120–400；宠物纪念/殡葬是亚宠报告点名的三大新增量之一"
+    },
+    "seven_questions": {
+      "traffic": "Etsy SEO 长尾词（pet memorial glass / ashes keepsake）+ Pinterest 场景图 + TikTok 制作过程；前 100 单来自 Etsy 搜索与宠物殡葬博主寄样合作",
+      "money": "卖实物定制：玻璃摆件/项链/手链 120–400 美元，加购纪念卡与防碎礼盒；毛利率 60–75%，不靠广告差价",
+      "model": "DTC 定制：客户寄毛发/少量纪念物→国内玻璃工艺厂代工→独立站/Etsy 成交→海外仓或直邮；交付周期 2–4 周",
+      "roi": "启动 3000–8000 元打样+拍摄+独立站，2–3 个月出首单，5–6 个月回本，月收入 8000–30000 元，毛利 60–75%，现金流前置",
+      "audience": "有审美与情感支付意愿、英语可读的 30–55 岁宠物主；适合作者本人审美在线、能对接工厂并愿意做售后沟通的人；不适合无法处理跨境退换货的人",
+      "drivers": [
+        "info",
+        "cross-border",
+        "supply"
+      ],
+      "moat": "工艺良率与防碎包装 + 原创设计版权 + 真实好评内容；前置条件是稳定玻璃供应商、破损兜底方案与欧盟进口合规"
+    },
+    "roi": {
+      "capital_cny": {
+        "min": 3000,
+        "max": 8000
+      },
+      "time_to_revenue_months": 2,
+      "payback_months": 5,
+      "monthly_revenue_cny": {
+        "min": 8000,
+        "max": 30000
+      },
+      "gross_margin_pct": 65,
+      "effort_level": "side",
+      "team_size": 1
+    },
+    "scores": {
+      "dimensions": {
+        "signal": 8.4,
+        "gap": 7.6,
+        "feasibility": 8.4,
+        "economics": 8.2,
+        "timing": 7.6,
+        "competition": 6.4,
+        "risk": 7.4,
+        "fit": 8.2,
+        "evidence": 7.8,
+        "leverage": 6.6
+      },
+      "total": 78.1,
+      "grade": "A"
+    },
+    "window": {
+      "status": "open",
+      "months_left": 18,
+      "decay": "slow"
+    },
+    "risks": [
+      "玻璃跨境运输破损导致退款率超过 8%",
+      "部分国家限制动物遗骸邮寄，只能寄毛发",
+      "Etsy 同质化 listing 快速跟进把价格打到 60 美元以下"
+    ],
+    "first_steps_7d": [
+      "Etsy 搜 20 个同类 listing，记录价格/评价数/交期/差评点",
+      "1688 找 3 家玻璃定制厂打样并报破损率",
+      "算一单直邮 vs 德国海外仓的到岸成本",
+      "做 1 张对比场景图发 Pinterest 测点击"
+    ],
+    "kill_criteria": [
+      "样品良率 < 80% 或破损率 > 8%",
+      "3 个月没有自然流量询盘",
+      "头部卖家把同类价格压到 60 美元以下且无差异化"
+    ],
+    "compliance_notes": "未逐条打开核验，标记 verified:false；动物遗骸/骨灰跨境邮寄多数国家受限，仅用毛发与纪念物；需确认目的国进口规定与平台禁售条款；Etsy 店铺页对自动访问返回 403，引文改为在售品类事实描述（listing 标题），具体买家评论链接未取得",
+    "evidence_count": 3,
+    "activity_dates": [
+      "2026-08-18",
+      "2026-09-21",
+      "2026-10-22"
+    ],
+    "first_seen": "2026-08-18",
+    "last_activity": "2026-10-22",
+    "momentum": 1.4,
+    "rank_score": 81.8,
+    "tags": [
+      "low-capital",
+      "side-hustle",
+      "solo",
+      "cross-border",
+      "physical",
+      "china-advantage"
+    ],
+    "verified": false,
+    "disclaimer": "研究假设，非投资建议；示例数据用于演示，使用前请核验原始来源"
+  },
+  {
+    "id": "opp-pet-china-endlife-002",
+    "slug": "pet-china-endlife",
+    "title": "中国宠物临终关怀与纪念服务包：把告别做成可标准化产品",
+    "one_liner": "中国宠物消费 3365 亿元且服务型消费占比上升，殡葬/纪念/哀伤陪伴仍缺标准化供给，1 城可先验证",
+    "industry_id": "pet",
+    "gap_type_ids": [
+      "demographic",
+      "emotion",
+      "time"
+    ],
+    "region_ids": [
+      "china"
+    ],
+    "origin_country": "中国",
+    "target_countries": [
+      "中国"
+    ],
+    "human_need_ids": [
+      "belonging",
+      "meaning",
+      "nostalgia"
+    ],
+    "neuro_drivers": [
+      "oxytocin",
+      "cortisol"
+    ],
+    "emotion_tags": [
+      "grief",
+      "love",
+      "anxiety"
+    ],
+    "source_langs": [
+      "zh"
+    ],
+    "signal": {
+      "summary": "亚宠报告预计 2026 年中国宠物消费规模 3365 亿元，服务型消费占比提高；调研显示宠物主单只年均支出继续上升，但临终关怀、纪念仪式与哀伤陪伴缺少可标准化交付的本地供给。",
+      "evidence": [
+        {
+          "title": "亚宠发布报告：2026年中国宠物消费市场规模将至3365亿元",
+          "publisher": "中国证券网",
+          "url": "https://www.cnstock.com/commonDetail/763132",
+          "date": "2026-08-19",
+          "quote": "纪念、殡葬与健康管理成为新增量",
+          "lang": "zh",
+          "tier": "secondary"
+        },
+        {
+          "title": "一线调研看变化：“毛孩子”账单“宠”出市场新变化",
+          "publisher": "中国证券网",
+          "url": "https://www.cnstock.com/commonDetail/775118",
+          "date": "2026-10-21",
+          "quote": "宠物主单只年均支出继续上升，服务型消费占比提高",
+          "lang": "zh",
+          "tier": "secondary"
+        }
+      ],
+      "signal_strength": 7.8,
+      "trend_direction": "up",
+      "volume_estimate": "2026 年中国宠物消费市场约 3365 亿元，纪念/殡葬/健康管理为报告点名的增量方向"
+    },
+    "seven_questions": {
+      "traffic": "小红书/抖音同城内容（告别仪式、纪念相册、宠物告别日记）+ 与宠物医院/殡葬机构分成导流；前 100 单来自同城搜索与医院合作",
+      "money": "服务套餐 599–2999 元（遗容整理+告别仪式+纪念品+哀伤陪伴 1 次），加售纪念相册/毛发纪念物；毛利 50–65%",
+      "model": "本地服务交付：与 3–5 家宠物医院签转介分成，标准化 SOP 由 1–2 人上门执行，纪念品外包给本地工坊",
+      "roi": "启动 1–3 万元（工具/车辆/培训/样品），1–2 个月出单，4–6 个月回本，月收入 1.5–5 万元，现金流好、季节波动小",
+      "audience": "有宠物行业经验、共情能力强、能接受临终场景的本地创业者；不适合对哀伤场景敏感或无法做夜间响应的人",
+      "drivers": [
+        "info",
+        "ops",
+        "supply"
+      ],
+      "moat": "医院渠道关系 + 标准化 SOP + 口碑案例；没有长期壁垒，本质是本地信任与响应速度的生意"
+    },
+    "roi": {
+      "capital_cny": {
+        "min": 10000,
+        "max": 30000
+      },
+      "time_to_revenue_months": 1,
+      "payback_months": 5,
+      "monthly_revenue_cny": {
+        "min": 15000,
+        "max": 50000
+      },
+      "gross_margin_pct": 55,
+      "effort_level": "full",
+      "team_size": 2
+    },
+    "scores": {
+      "dimensions": {
+        "signal": 7.8,
+        "gap": 7.2,
+        "feasibility": 7.6,
+        "economics": 7.8,
+        "timing": 8.0,
+        "competition": 6.8,
+        "risk": 6.8,
+        "fit": 7.2,
+        "evidence": 7.0,
+        "leverage": 5.8
+      },
+      "total": 73.8,
+      "grade": "B"
+    },
+    "window": {
+      "status": "open",
+      "months_left": 24,
+      "decay": "slow"
+    },
+    "risks": [
+      "动物遗体处理需符合当地无害化处理规定，越界即违规",
+      "服务非标导致投诉与差评扩散",
+      "医院渠道被头部殡葬机构签独家"
+    ],
+    "first_steps_7d": [
+      "访谈 5 位近一年失去宠物的主人，记录他们当时最缺什么",
+      "走访 3 家宠物医院问转介意愿与分成比例",
+      "设计 1 个 599 元最小套餐并算成本",
+      "查本地动物无害化处理与殡葬经营规定"
+    ],
+    "kill_criteria": [
+      "医院转介单量 < 5 单/月",
+      "单均成本高于客单 60%",
+      "本地已有 3 家以上机构提供同类标准化服务"
+    ],
+    "compliance_notes": "未逐条打开核验，标记 verified:false；动物遗体处理受地方规定约束，不承接遗体运输与掩埋；哀伤陪伴需规避心理治疗宣称",
+    "evidence_count": 2,
+    "activity_dates": [
+      "2026-08-25",
+      "2026-09-28",
+      "2026-10-22"
+    ],
+    "first_seen": "2026-08-25",
+    "last_activity": "2026-10-22",
+    "momentum": 1.5,
+    "rank_score": 78.2,
+    "tags": [
+      "low-capital",
+      "b2c",
+      "recurring",
+      "china-advantage"
+    ],
+    "verified": false,
+    "disclaimer": "研究假设，非投资建议；示例数据用于演示，使用前请核验原始来源"
+  },
+  {
+    "id": "opp-pet-sea-brand-003",
+    "slug": "pet-sea-whitelabel-brand",
+    "title": "东南亚宠物零食白牌：用中国宠物供应链做本地自有品牌",
+    "one_liner": "东南亚宠物数量与养宠支出双升，中国宠物食品供应链成熟，白牌+本地包装+平台店可快速试单",
+    "industry_id": "pet",
+    "gap_type_ids": [
+      "price",
+      "platform",
+      "time"
+    ],
+    "region_ids": [
+      "sea",
+      "china"
+    ],
+    "origin_country": "中国",
+    "target_countries": [
+      "印尼",
+      "越南",
+      "泰国",
+      "菲律宾"
+    ],
+    "human_need_ids": [
+      "belonging",
+      "health",
+      "status"
+    ],
+    "neuro_drivers": [
+      "oxytocin",
+      "dopamine"
+    ],
+    "emotion_tags": [
+      "love",
+      "aspiration",
+      "curiosity"
+    ],
+    "source_langs": [
+      "zh",
+      "en"
+    ],
+    "signal": {
+      "summary": "中国宠物消费规模升至 3365 亿元，宠物食品与用品供应链高度成熟；东南亚宠物数量增长但本地品牌与高端供给薄，平台卖家可用白牌+本地包装切入门槛最低的零食细分。",
+      "evidence": [
+        {
+          "title": "亚宠发布报告：2026年中国宠物消费市场规模将至3365亿元",
+          "publisher": "中国证券网",
+          "url": "https://www.cnstock.com/commonDetail/763132",
+          "date": "2026-08-19",
+          "quote": "2026 年中国宠物消费市场规模将达 3365 亿元",
+          "lang": "zh",
+          "tier": "secondary"
+        },
+        {
+          "title": "Temu欧洲本地卖家调研：超五成入驻后扩产增聘",
+          "publisher": "亿邦动力",
+          "url": "https://m.ebrun.com/701645.html",
+          "date": "2026-10-20",
+          "quote": "超五成入驻后扩产增聘，超三成拓新国际市场",
+          "lang": "zh",
+          "tier": "secondary"
+        }
+      ],
+      "signal_strength": 7.2,
+      "trend_direction": "up",
+      "volume_estimate": "中国宠物消费 3365 亿元体量验证供应链成熟度；东南亚宠物食品为平台增长最快的细分类目之一"
+    },
+    "seven_questions": {
+      "traffic": "Shopee/Lazada/TikTok Shop 本地站关键词广告 + 宠物 KOC 试用；前 100 单靠平台新品流量与达人短视频",
+      "money": "卖实物：宠物零食/洁齿/冻干，客单 8–25 美元，复购 30–45 天；毛利 45–60%，靠复购与组合装拉客单",
+      "model": "白牌代工 + 本地贴牌：国内工厂按目标国标准生产→本地仓/跨境小包→平台店与独立站双轨",
+      "roi": "启动 2–5 万元（首单备货+包装设计+平台保证金），2–4 个月出首单，6–9 个月回本，月收入 2–6 万元",
+      "audience": "有跨境平台运营经验、能对接工厂并能处理清真/进口合规的卖家；不适合没有供应链验厂能力的新手",
+      "drivers": [
+        "supply",
+        "cross-border",
+        "ops"
+      ],
+      "moat": "配方与包装本地化 + 复购数据 + 平台评价资产；前置条件是清真认证（印尼/马来）与进口许可"
+    },
+    "roi": {
+      "capital_cny": {
+        "min": 20000,
+        "max": 50000
+      },
+      "time_to_revenue_months": 3,
+      "payback_months": 8,
+      "monthly_revenue_cny": {
+        "min": 20000,
+        "max": 60000
+      },
+      "gross_margin_pct": 50,
+      "effort_level": "side",
+      "team_size": 2
+    },
+    "scores": {
+      "dimensions": {
+        "signal": 7.2,
+        "gap": 6.6,
+        "feasibility": 7.0,
+        "economics": 7.0,
+        "timing": 7.2,
+        "competition": 5.8,
+        "risk": 6.2,
+        "fit": 6.6,
+        "evidence": 6.6,
+        "leverage": 7.0
+      },
+      "total": 68.0,
+      "grade": "B"
+    },
+    "window": {
+      "status": "open",
+      "months_left": 15,
+      "decay": "medium"
+    },
+    "risks": [
+      "印尼/马来清真与进口注册不合规导致下架",
+      "平台价格战把毛利压到 30% 以下",
+      "零食适口性差导致复购崩塌"
+    ],
+    "first_steps_7d": [
+      "在 Shopee 印尼站搜 20 个宠物零食关键词，记录价格带与销量",
+      "要 3 家工厂的出口资质与清真认证清单",
+      "算一单到雅加达的到岸成本与平台佣金",
+      "找 5 个本地宠物 KOC 问报价"
+    ],
+    "kill_criteria": [
+      "首单 60 天动销率 < 30%",
+      "无法拿到清真或进口注册文件",
+      "复购率低于 20%"
+    ],
+    "compliance_notes": "未逐条打开核验，标记 verified:false；宠物食品需符合目标国进口与标签规定，印尼/马来需清真认证；不得宣称治疗功效",
+    "evidence_count": 2,
+    "activity_dates": [
+      "2026-08-20",
+      "2026-10-02",
+      "2026-10-21"
+    ],
+    "first_seen": "2026-08-20",
+    "last_activity": "2026-10-21",
+    "momentum": 1.3,
+    "rank_score": 70.4,
+    "tags": [
+      "cross-border",
+      "needs-supply-chain",
+      "platform-dependent",
+      "recurring",
+      "china-advantage"
+    ],
+    "verified": false,
+    "disclaimer": "研究假设，非投资建议；示例数据用于演示，使用前请核验原始来源"
+  },
+  {
+    "id": "opp-silver-jp-caretech-004",
+    "slug": "jp-caretech-distribution",
+    "title": "日本养老机构监测设备：做中国厂商的本地分销与运维",
+    "one_liner": "日本养老机器人与监测设备市场持续扩张，中国硬件厂商缺本地认证、安装与售后，分销+运维是低门槛切口",
+    "industry_id": "silver",
+    "gap_type_ids": [
+      "knowledge",
+      "geo",
+      "regulation"
+    ],
+    "region_ids": [
+      "east-asia"
+    ],
+    "origin_country": "日本",
+    "target_countries": [
+      "日本",
+      "韩国"
+    ],
+    "human_need_ids": [
+      "health",
+      "control",
+      "survival"
+    ],
+    "neuro_drivers": [
+      "cortisol",
+      "oxytocin"
+    ],
+    "emotion_tags": [
+      "anxiety",
+      "hope",
+      "relief"
+    ],
+    "source_langs": [
+      "en",
+      "ja"
+    ],
+    "signal": {
+      "summary": "日本 AI 养老机器人与机构监测设备市场被多家研究机构列为高增长细分，机构在整合传感器、通信与机器人时面临部署复杂度；中国硬件厂商进入日本缺本地认证、施工与 7×24 运维。",
+      "evidence": [
+        {
+          "title": "Japan AI-Powered Elderly Care Robotics Market 2026-2031",
+          "publisher": "Ken Research",
+          "url": "https://www.kenresearch.com/industry-reports/japan-ai-powered-elderly-care-robotics-market",
+          "date": "2026-10-20",
+          "quote": "Cloud-connected monitoring robots process sensitive behavioral and health data（云端监测机器人处理敏感行为与健康数据）",
+          "lang": "en",
+          "tier": "secondary"
+        },
+        {
+          "title": "Japan Robotics in Elderly Care Homes Market 2026-2031",
+          "publisher": "Ken Research",
+          "url": "https://www.kenresearch.com/japan-robotics-in-elderly-care-homes-market",
+          "date": "2026-10-20",
+          "quote": "Integration complexity increases as facilities combine sensors and robots（机构整合传感器与机器人时部署复杂度上升）",
+          "lang": "en",
+          "tier": "secondary"
+        }
+      ],
+      "signal_strength": 7.4,
+      "trend_direction": "up",
+      "volume_estimate": "日本养老机器人为独立研究细分类目，机构端渗透率仍低；护理人力缺口长期存在"
+    },
+    "seven_questions": {
+      "traffic": "参加日本介护展会（CareTEX 等）+ 地方介护协会名录陌拜 + 中国厂商渠道转介；前 10 家客户来自展会与协会",
+      "money": "赚硬件差价 15–25% + 安装部署费 + 月度运维订阅（每机构 3–10 万日元）；服务收入占比可做到 40%",
+      "model": "分销+本地服务：签约 2–3 家中国厂商做日本代理，自建 2 人安装运维小队，按机构规模收取部署与年费",
+      "roi": "启动 10–20 万元（样机、认证咨询、差旅），3–6 个月首单，9–12 个月回本，月收入 5–15 万元，现金流受账期影响",
+      "audience": "日语 N2 以上、懂 B2B 硬件销售或介护行业、能长期在日本驻场的人；不适合纯线上操盘者",
+      "drivers": [
+        "tech",
+        "ops",
+        "cross-border"
+      ],
+      "moat": "本地认证与施工资质 + 机构关系 + 售后响应速度；需要至少 1 名日语驻场工程师"
+    },
+    "roi": {
+      "capital_cny": {
+        "min": 100000,
+        "max": 200000
+      },
+      "time_to_revenue_months": 5,
+      "payback_months": 12,
+      "monthly_revenue_cny": {
+        "min": 50000,
+        "max": 150000
+      },
+      "gross_margin_pct": 35,
+      "effort_level": "full",
+      "team_size": 2
+    },
+    "scores": {
+      "dimensions": {
+        "signal": 7.4,
+        "gap": 7.8,
+        "feasibility": 5.6,
+        "economics": 7.2,
+        "timing": 7.6,
+        "competition": 7.0,
+        "risk": 6.4,
+        "fit": 5.4,
+        "evidence": 6.8,
+        "leverage": 6.4
+      },
+      "total": 69.0,
+      "grade": "B"
+    },
+    "window": {
+      "status": "open",
+      "months_left": 20,
+      "decay": "slow"
+    },
+    "risks": [
+      "医疗器械认证（PMDA）周期长且费用高于预期",
+      "机构采购决策链长，账期 3–6 个月",
+      "中国厂商绕过代理直接设日本子公司"
+    ],
+    "first_steps_7d": [
+      "查目标设备是否属于日本药机法管制、需要哪些认证",
+      "列出 10 家日本介护设施集团与其采购入口",
+      "联系 2 家中国厂商谈日本代理条款",
+      "参加 1 场线上介护展会收集名单"
+    ],
+    "kill_criteria": [
+      "12 个月拿不到首单",
+      "认证成本超过 30 万元且无法摊销",
+      "厂商拒绝给区域独家或价格保护"
+    ],
+    "compliance_notes": "未逐条打开核验，标记 verified:false；涉及介护设备与个人健康数据需符合日本药机法与个人信息保护法，数据不得出境",
+    "evidence_count": 2,
+    "activity_dates": [
+      "2026-07-30",
+      "2026-09-10",
+      "2026-10-20"
+    ],
+    "first_seen": "2026-07-30",
+    "last_activity": "2026-10-20",
+    "momentum": 1.2,
+    "rank_score": 70.7,
+    "tags": [
+      "b2b",
+      "needs-license",
+      "recurring",
+      "localization-heavy"
+    ],
+    "verified": false,
+    "disclaimer": "研究假设，非投资建议；示例数据用于演示，使用前请核验原始来源"
+  },
+  {
+    "id": "opp-silver-menopause-005",
+    "slug": "menopause-care-brand",
+    "title": "更年期护理品牌：被忽视的 40+ 女性消费带正在放量",
+    "one_liner": "更年期/围绝经期产品被多家机构列为高增长市场，欧美日需求明确而供给仍碎片化，内容+订阅可切入",
+    "industry_id": "silver",
+    "gap_type_ids": [
+      "demographic",
+      "emotion",
+      "knowledge"
+    ],
+    "region_ids": [
+      "north-america",
+      "europe",
+      "east-asia"
+    ],
+    "origin_country": "美国",
+    "target_countries": [
+      "美国",
+      "英国",
+      "日本",
+      "德国",
+      "加拿大"
+    ],
+    "human_need_ids": [
+      "health",
+      "status",
+      "meaning"
+    ],
+    "neuro_drivers": [
+      "serotonin",
+      "endorphin"
+    ],
+    "emotion_tags": [
+      "anxiety",
+      "shame",
+      "hope"
+    ],
+    "source_langs": [
+      "en",
+      "ja"
+    ],
+    "signal": {
+      "summary": "更年期与围绝经期产品被 Grand View/GM Insights 等列为 2026–2035 高增长市场；40+ 女性在睡眠、情绪、皮肤与体重管理上缺可信信息与组合方案，现有供给以单点补剂为主。",
+      "evidence": [
+        {
+          "title": "Menopause and Perimenopause Products Market Size, 2035 Report",
+          "publisher": "GMInsights",
+          "url": "https://www.gminsights.com/industry-analysis/menopause-and-perimenopause-products-market",
+          "date": "2026-10-20",
+          "quote": "Menopause and perimenopause products market forecast 2026-2035（更年期产品市场预测）",
+          "lang": "en",
+          "tier": "secondary"
+        },
+        {
+          "title": "Menopause and Perimenopause Products Market Opportunity 2026-2035",
+          "publisher": "GII Research",
+          "url": "https://www.giiresearch.com/report/gmi2101631-menopause-perimenopause-products-market.html",
+          "date": "2026-10-20",
+          "quote": "Growth drivers and industry trend analysis 2026-2035（增长驱动与趋势分析）",
+          "lang": "en",
+          "tier": "secondary"
+        }
+      ],
+      "signal_strength": 7.6,
+      "trend_direction": "up",
+      "volume_estimate": "更年期产品为全球性报告细分类目，欧美日 40–60 岁女性人口基数大；亚马逊相关关键词月搜索量持续增长"
+    },
+    "seven_questions": {
+      "traffic": "TikTok/Instagram 40+ 女性 KOL + SEO 长尾（perimenopause sleep、hot flash relief）+ 播客访谈；前 100 单来自内容与邮件列表",
+      "money": "订阅制组合包：睡眠+情绪+皮肤 3 件套月费 45–79 美元，毛利率 55–70%；加售 1 对 1 营养咨询",
+      "model": "DTC 订阅 + 内容社群：中国/美国代工配方→独立站订阅→季度问卷调配方→社群陪伴；不做医疗宣称",
+      "roi": "启动 5–12 万元（配方/样品/合规/内容），3–5 个月首单，9–12 个月回本，月收入 3–10 万元",
+      "audience": "懂女性健康内容、能做英文/日文内容、愿意长期做社群的人；不适合承诺疗效或无法处理补剂合规的人",
+      "drivers": [
+        "info",
+        "supply",
+        "ops"
+      ],
+      "moat": "配方与内容信任 + 订阅数据 + 社群；前置条件是补剂合规（FDA 结构功能声明/日本保健功能食品边界）"
+    },
+    "roi": {
+      "capital_cny": {
+        "min": 50000,
+        "max": 120000
+      },
+      "time_to_revenue_months": 4,
+      "payback_months": 10,
+      "monthly_revenue_cny": {
+        "min": 30000,
+        "max": 100000
+      },
+      "gross_margin_pct": 60,
+      "effort_level": "full",
+      "team_size": 2
+    },
+    "scores": {
+      "dimensions": {
+        "signal": 7.6,
+        "gap": 7.4,
+        "feasibility": 6.4,
+        "economics": 7.8,
+        "timing": 7.8,
+        "competition": 6.2,
+        "risk": 6.6,
+        "fit": 6.2,
+        "evidence": 6.8,
+        "leverage": 6.8
+      },
+      "total": 71.1,
+      "grade": "B"
+    },
+    "window": {
+      "status": "open",
+      "months_left": 24,
+      "decay": "slow"
+    },
+    "risks": [
+      "补剂宣称越界被 FDA/平台处罚",
+      "配方同质化导致复购低",
+      "40+ 人群获客成本高于预期"
+    ],
+    "first_steps_7d": [
+      "亚马逊搜 perimenopause supplement，记录前 20 名价格与评论痛点",
+      "访谈 10 位 45–55 岁女性，记录最困扰的 3 个症状",
+      "找 2 家工厂要配方与合规声明模板",
+      "算一段 TikTok 内容到首单的转化成本"
+    ],
+    "kill_criteria": [
+      "6 个月订阅留存低于 35%",
+      "获客成本高于首单毛利",
+      "无法取得合规的结构功能声明依据"
+    ],
+    "compliance_notes": "未逐条打开核验，标记 verified:false；不得宣称治疗更年期症状，补剂需符合 FDA/日本/欧盟标签规定；涉及健康数据需隐私合规",
+    "evidence_count": 2,
+    "activity_dates": [
+      "2026-08-12",
+      "2026-09-16",
+      "2026-10-20"
+    ],
+    "first_seen": "2026-08-12",
+    "last_activity": "2026-10-20",
+    "momentum": 1.3,
+    "rank_score": 73.7,
+    "tags": [
+      "content-driven",
+      "b2c",
+      "recurring",
+      "needs-supply-chain"
+    ],
+    "verified": false,
+    "disclaimer": "研究假设，非投资建议；示例数据用于演示，使用前请核验原始来源"
+  },
+  {
+    "id": "opp-silver-aging-inplace-006",
+    "slug": "aging-in-place-retrofit",
+    "title": "适老化改造评估与代购安装：把居家养老改造成可报价的服务",
+    "one_liner": "欧美适老化改造市场被列为长期增长赛道，评估—报价—代购—安装的本地化服务仍碎片化，可单城验证",
+    "industry_id": "silver",
+    "gap_type_ids": [
+      "demographic",
+      "infrastructure",
+      "geo"
+    ],
+    "region_ids": [
+      "north-america",
+      "europe",
+      "oceania"
+    ],
+    "origin_country": "美国",
+    "target_countries": [
+      "美国",
+      "加拿大",
+      "澳大利亚",
+      "英国"
+    ],
+    "human_need_ids": [
+      "survival",
+      "health",
+      "control"
+    ],
+    "neuro_drivers": [
+      "cortisol",
+      "oxytocin"
+    ],
+    "emotion_tags": [
+      "anxiety",
+      "hope",
+      "relief"
+    ],
+    "source_langs": [
+      "en"
+    ],
+    "signal": {
+      "summary": "适老化住宅改造与居家无障碍被市场研究机构列为 2020–2030 长期增长赛道；家庭端缺的是可信评估、透明报价与安装协调，而非单一扶手产品。",
+      "evidence": [
+        {
+          "title": "Age-in-Place Housing Solutions Market 2020-2030F",
+          "publisher": "Research and Markets",
+          "url": "https://www.researchandmarkets.com/reports/6169462/age-in-place-housing-solutions-market-global",
+          "date": "2026-10-20",
+          "quote": "Age-in-place housing solutions market forecast 2020-2030（适老化住宅方案市场）",
+          "lang": "en",
+          "tier": "secondary"
+        },
+        {
+          "title": "Aging-in-Place and Home Accessibility Solutions Market Forecasts to 2032",
+          "publisher": "GII Research",
+          "url": "https://www.giiresearch.com/report/smrc1865473-aging-place-home-accessibility-solutions-market.html",
+          "date": "2026-10-20",
+          "quote": "Home accessibility solutions forecasts to 2032（居家无障碍方案预测）",
+          "lang": "en",
+          "tier": "secondary"
+        }
+      ],
+      "signal_strength": 7.2,
+      "trend_direction": "up",
+      "volume_estimate": "适老化改造为全球性长期赛道，北美 65+ 人口占比持续上升；单个家庭改造客单 500–8000 美元"
+    },
+    "seven_questions": {
+      "traffic": "本地 Google 地图/搜索（aging in place contractor）+ 与家庭医生、康复师、老年公寓合作转介 + 社区讲座；前 20 单来自转介",
+      "money": "评估费 150–300 美元（可抵改造款）+ 改造工程 500–8000 美元 + 设备代购 10–15% 佣金；毛利 40–55%",
+      "model": "本地服务：标准化评估清单→三方报价→施工队分包→验收与售后；中国采购扶手/防滑/升降设备降低材料成本",
+      "roi": "启动 1–3 万美元（工具/保险/样板间/网站），1–2 个月出单，6–9 个月回本，月收入 1–4 万美元",
+      "audience": "有装修/工程背景、能考本地施工许可、英语沟通顺畅的人；不适合无本地资源与保险的纯线上玩家",
+      "drivers": [
+        "ops",
+        "supply",
+        "info"
+      ],
+      "moat": "本地执照与保险 + 评估 SOP + 转介网络；前置条件是施工资质与责任险"
+    },
+    "roi": {
+      "capital_cny": {
+        "min": 80000,
+        "max": 200000
+      },
+      "time_to_revenue_months": 2,
+      "payback_months": 8,
+      "monthly_revenue_cny": {
+        "min": 70000,
+        "max": 280000
+      },
+      "gross_margin_pct": 45,
+      "effort_level": "full",
+      "team_size": 2
+    },
+    "scores": {
+      "dimensions": {
+        "signal": 7.2,
+        "gap": 6.8,
+        "feasibility": 6.2,
+        "economics": 7.6,
+        "timing": 7.2,
+        "competition": 6.4,
+        "risk": 6.6,
+        "fit": 6.0,
+        "evidence": 6.6,
+        "leverage": 5.6
+      },
+      "total": 67.7,
+      "grade": "B"
+    },
+    "window": {
+      "status": "open",
+      "months_left": 30,
+      "decay": "slow"
+    },
+    "risks": [
+      "施工责任事故导致保险与法律风险",
+      "本地承包商坐地起价压缩毛利",
+      "评估需求季节性强、现金流不稳"
+    ],
+    "first_steps_7d": [
+      "查本地 aging-in-place 服务商数量与报价方式",
+      "访谈 5 个有老人家庭，记录最想改的 3 个地方",
+      "联系 1 家保险经纪问施工责任险成本",
+      "设计 1 页评估清单与报价模板"
+    ],
+    "kill_criteria": [
+      "3 个月转介单 < 5 单",
+      "单均毛利低于 500 美元",
+      "本地已有 5 家以上同模式服务商且价格战"
+    ],
+    "compliance_notes": "未逐条打开核验，标记 verified:false；施工需本地执照与责任险，医疗相关建议不得越界；进口设备需符合当地安全标准",
+    "evidence_count": 2,
+    "activity_dates": [
+      "2026-07-28",
+      "2026-09-05",
+      "2026-10-16"
+    ],
+    "first_seen": "2026-07-28",
+    "last_activity": "2026-10-16",
+    "momentum": 1.1,
+    "rank_score": 68.5,
+    "tags": [
+      "b2c",
+      "needs-license",
+      "recurring",
+      "needs-supply-chain"
+    ],
+    "verified": false,
+    "disclaimer": "研究假设，非投资建议；示例数据用于演示，使用前请核验原始来源"
+  },
+  {
+    "id": "opp-emotional-grieftech-007",
+    "slug": "grief-support-subscription",
+    "title": "哀悼陪伴订阅：把失去之后的 100 天做成可付费服务",
+    "one_liner": "哀悼科技获资本验证、孤独研究覆盖 21.8 万人，用内容+社群+1 对 1 倾听做订阅，单人可起步",
+    "industry_id": "emotional",
+    "gap_type_ids": [
+      "emotion",
+      "culture",
+      "demographic"
+    ],
+    "region_ids": [
+      "north-america",
+      "europe",
+      "latam"
+    ],
+    "origin_country": "美国",
+    "target_countries": [
+      "美国",
+      "英国",
+      "巴西",
+      "加拿大"
+    ],
+    "human_need_ids": [
+      "belonging",
+      "meaning",
+      "nostalgia"
+    ],
+    "neuro_drivers": [
+      "oxytocin",
+      "serotonin"
+    ],
+    "emotion_tags": [
+      "grief",
+      "loneliness",
+      "love"
+    ],
+    "source_langs": [
+      "en",
+      "pt"
+    ],
+    "signal": {
+      "summary": "GriefTech 公司获得融资验证了付费意愿；同时覆盖 21.8 万人的跨国研究显示孤独流行。现有产品多为纪念工具，缺少『陪伴节奏+同侪社群+专业转介』的持续服务。",
+      "evidence": [
+        {
+          "title": "Solace Gets Funding to Scale GriefTech Support",
+          "publisher": "Los Angeles Business Journal",
+          "url": "https://labusinessjournal.com/technology/solace-gets-funding-to-scale-grief-tech-support/",
+          "date": "2026-09-10",
+          "quote": "Solace gets funding to scale grief tech support（哀悼科技获融资扩张）",
+          "lang": "en",
+          "tier": "secondary"
+        },
+        {
+          "title": "覆盖 21.8 万人的研究：全球孤独流行",
+          "publisher": "O Globo",
+          "url": "https://oglobo.globo.com/saude/noticia/2026/08/27/existe-uma-epidemia-global-de-solidao-revela-estudo-com-218-mil-pessoas-veja-as-causas.ghtml",
+          "date": "2026-08-27",
+          "quote": "Estudo com 218 mil pessoas aponta epidemia global de solidão（21.8 万人研究显示全球孤独流行）",
+          "lang": "pt",
+          "tier": "secondary"
+        }
+      ],
+      "signal_strength": 7.8,
+      "trend_direction": "up",
+      "volume_estimate": "哀悼科技为新兴细分，头部单轮融资数千万美元；全球孤独研究样本 21.8 万人"
+    },
+    "seven_questions": {
+      "traffic": "YouTube 播客/短视频做哀伤教育 + SEO（grief support、loss of spouse）+ 与临终关怀机构互推；前 100 名会员来自内容与机构转介",
+      "money": "订阅 19–49 美元/月（每周主题信+同侪小组+纪念工具），加售 1 对 1 陪伴 60–120 美元/小时；毛利 70–80%",
+      "model": "订阅社群+轻服务：内容日历自动化→每周线上小组→按需转介心理咨询师分成；不做心理治疗",
+      "roi": "启动 1–3 万元（网站/内容/社群工具），1–2 个月出首批会员，4–6 个月回本，月收入 1–3 万元，可纯线上",
+      "audience": "有内容能力、共情力强、能把边界讲清楚的人；不适合承诺疗愈效果或没有心理专业转介资源的人",
+      "drivers": [
+        "info",
+        "capital",
+        "ops"
+      ],
+      "moat": "内容信任 + 社群密度 + 转介网络；壁垒中等，先发内容资产有复利"
+    },
+    "roi": {
+      "capital_cny": {
+        "min": 10000,
+        "max": 30000
+      },
+      "time_to_revenue_months": 1,
+      "payback_months": 5,
+      "monthly_revenue_cny": {
+        "min": 10000,
+        "max": 30000
+      },
+      "gross_margin_pct": 75,
+      "effort_level": "side",
+      "team_size": 1
+    },
+    "scores": {
+      "dimensions": {
+        "signal": 7.8,
+        "gap": 7.4,
+        "feasibility": 8.2,
+        "economics": 7.6,
+        "timing": 7.4,
+        "competition": 6.2,
+        "risk": 6.6,
+        "fit": 8.0,
+        "evidence": 7.0,
+        "leverage": 6.8
+      },
+      "total": 74.4,
+      "grade": "B"
+    },
+    "window": {
+      "status": "open",
+      "months_left": 18,
+      "decay": "medium"
+    },
+    "risks": [
+      "会员出现重度抑郁/自伤风险时的应对边界",
+      "平台把哀伤内容判定为敏感医疗内容限流",
+      "订阅留存低于 40% 导致现金流断裂"
+    ],
+    "first_steps_7d": [
+      "找 5 个哀伤主题社群潜水，记录高频问题",
+      "访谈 3 位失亲者，问他们愿意为什么付费",
+      "写 1 封 7 天哀伤陪伴邮件序列测打开率",
+      "确认当地心理服务转介与危机干预资源"
+    ],
+    "kill_criteria": [
+      "90 天留存 < 35%",
+      "无法建立危机转介 SOP",
+      "获客成本高于 3 个月订阅收入"
+    ],
+    "compliance_notes": "未逐条打开核验，标记 verified:false；不提供心理治疗或医疗建议，需建立自伤/危机转介流程；会员数据隐私需符合 GDPR/CCPA",
+    "evidence_count": 2,
+    "activity_dates": [
+      "2026-08-30",
+      "2026-10-05",
+      "2026-10-22"
+    ],
+    "first_seen": "2026-08-30",
+    "last_activity": "2026-10-22",
+    "momentum": 1.6,
+    "rank_score": 79.8,
+    "tags": [
+      "low-capital",
+      "side-hustle",
+      "solo",
+      "remote",
+      "recurring",
+      "content-driven"
+    ],
+    "verified": false,
+    "disclaimer": "研究假设，非投资建议；示例数据用于演示，使用前请核验原始来源"
+  },
+  {
+    "id": "opp-emotional-ai-companion-008",
+    "slug": "senior-ai-companion",
+    "title": "老人与异乡人的 AI 陪伴：做窄场景、合规、可付费的版本",
+    "one_liner": "AI 陪伴 App 市场扩张但通用陪伴烧钱失败，面向独居老人与海外华人的窄场景陪伴+家属端付费更稳",
+    "industry_id": "emotional",
+    "gap_type_ids": [
+      "emotion",
+      "language",
+      "infrastructure"
+    ],
+    "region_ids": [
+      "north-america",
+      "east-asia",
+      "sea"
+    ],
+    "origin_country": "美国",
+    "target_countries": [
+      "美国",
+      "日本",
+      "新加坡",
+      "马来西亚",
+      "中国"
+    ],
+    "human_need_ids": [
+      "belonging",
+      "meaning",
+      "ease"
+    ],
+    "neuro_drivers": [
+      "oxytocin",
+      "dopamine"
+    ],
+    "emotion_tags": [
+      "loneliness",
+      "anxiety",
+      "love"
+    ],
+    "source_langs": [
+      "en",
+      "ja",
+      "zh"
+    ],
+    "signal": {
+      "summary": "AI 陪伴被列为独立市场报告品类，但通用陪伴产品出现破产案例，说明单纯订阅聊天难成立；独居老人与海外华人的陪伴需求有明确付费方（子女/家属），且需要语言与本地服务衔接。",
+      "evidence": [
+        {
+          "title": "Character.ai Bankruptcy Exposes the High Cost of AI Companionship",
+          "publisher": "PYMNTS",
+          "url": "https://www.pymnts.com/news/artificial-intelligence/2026/character-ai-bankruptcy-exposes-the-high-cost-of-ai-companionship/",
+          "date": "2026-10-15",
+          "quote": "The high cost of AI companionship（AI 陪伴的高成本）",
+          "lang": "en",
+          "tier": "secondary"
+        },
+        {
+          "title": "AI Companion Apps Market Report 2026",
+          "publisher": "Research and Markets",
+          "url": "https://www.researchandmarkets.com/reports/6225994/ai-companion-apps-market-report",
+          "date": "2026-10-20",
+          "quote": "AI companion apps market report 2026（AI 陪伴应用市场报告）",
+          "lang": "en",
+          "tier": "secondary"
+        }
+      ],
+      "signal_strength": 7.0,
+      "trend_direction": "up",
+      "volume_estimate": "AI 陪伴为独立报告品类；独居老人数量在日/美/中持续上升，家属端付费意愿明确"
+    },
+    "seven_questions": {
+      "traffic": "养老机构/华人社团合作 + 家属社群（微信/Line/Facebook）+ 短视频演示真实对话；前 100 个付费家庭来自家属社群",
+      "money": "家属端订阅 29–79 美元/月 + 硬件音箱一次性 99–199 美元 + 机构版按床位收费；毛利 60–75%",
+      "model": "硬件+订阅+本地服务：AI 音箱/App 做日常陪伴与用药提醒→家属端周报→异常时转人工客服与本地服务商",
+      "roi": "启动 5–15 万元（硬件打样/合规/内容），3–4 个月首批家庭，8–12 个月回本，月收入 2–6 万元",
+      "audience": "有软硬件整合能力、能与养老机构合作、懂隐私合规的小团队；不适合只想做纯聊天 App 的团队",
+      "drivers": [
+        "tech",
+        "info",
+        "ops"
+      ],
+      "moat": "老人语音数据与习惯模型 + 机构渠道 + 家属信任；前置条件是隐私合规与人工兜底"
+    },
+    "roi": {
+      "capital_cny": {
+        "min": 50000,
+        "max": 150000
+      },
+      "time_to_revenue_months": 3,
+      "payback_months": 10,
+      "monthly_revenue_cny": {
+        "min": 20000,
+        "max": 60000
+      },
+      "gross_margin_pct": 65,
+      "effort_level": "full",
+      "team_size": 2
+    },
+    "scores": {
+      "dimensions": {
+        "signal": 7.0,
+        "gap": 7.0,
+        "feasibility": 6.6,
+        "economics": 7.0,
+        "timing": 7.4,
+        "competition": 6.0,
+        "risk": 5.8,
+        "fit": 6.0,
+        "evidence": 6.6,
+        "leverage": 7.0
+      },
+      "total": 67.5,
+      "grade": "B"
+    },
+    "window": {
+      "status": "open",
+      "months_left": 18,
+      "decay": "medium"
+    },
+    "risks": [
+      "老人情绪危机时 AI 应答不当引发责任",
+      "语音与健康数据跨境传输违规",
+      "大厂免费陪伴功能挤压付费空间"
+    ],
+    "first_steps_7d": [
+      "访谈 5 个有独居父母的家庭，问愿意为什么付费",
+      "试用 3 款 AI 陪伴产品记录不足",
+      "查目标市场对语音数据与老人监护设备的合规要求",
+      "设计 1 页家属周报样例"
+    ],
+    "kill_criteria": [
+      "3 个月付费家庭 < 20 户",
+      "隐私合规成本超过预算 2 倍",
+      "大厂免费方案覆盖主要场景"
+    ],
+    "compliance_notes": "未逐条打开核验，标记 verified:false；涉及老人健康与语音数据需本地化存储与明示同意；不得宣称医疗监护功能",
+    "evidence_count": 2,
+    "activity_dates": [
+      "2026-09-02",
+      "2026-10-04",
+      "2026-10-19"
+    ],
+    "first_seen": "2026-09-02",
+    "last_activity": "2026-10-19",
+    "momentum": 1.3,
+    "rank_score": 69.9,
+    "tags": [
+      "ai-native",
+      "recurring",
+      "b2c",
+      "localization-heavy",
+      "needs-license"
+    ],
+    "verified": false,
+    "disclaimer": "研究假设，非投资建议；示例数据用于演示，使用前请核验原始来源"
+  },
+  {
+    "id": "opp-emotional-offline-club-009",
+    "slug": "offline-third-space-club",
+    "title": "线下「第三空间」社交俱乐部：用活动日历卖会员",
+    "one_liner": "孤独流行研究持续发酵，线下小规模兴趣社群在日韩欧美回潮，靠活动日历+会员费可轻资产验证",
+    "industry_id": "emotional",
+    "gap_type_ids": [
+      "emotion",
+      "demographic",
+      "channel"
+    ],
+    "region_ids": [
+      "east-asia",
+      "north-america",
+      "europe"
+    ],
+    "origin_country": "日本",
+    "target_countries": [
+      "日本",
+      "韩国",
+      "美国",
+      "英国"
+    ],
+    "human_need_ids": [
+      "belonging",
+      "novelty",
+      "expression"
+    ],
+    "neuro_drivers": [
+      "oxytocin",
+      "endorphin"
+    ],
+    "emotion_tags": [
+      "loneliness",
+      "relief",
+      "identity"
+    ],
+    "source_langs": [
+      "en",
+      "ja"
+    ],
+    "signal": {
+      "summary": "多项跨国研究把孤独列为公共卫生议题，媒体讨论从『线上连接』转向『线下小圈子』；日韩欧美出现以兴趣为单位的小型俱乐部模式，场地与活动供给碎片化。",
+      "evidence": [
+        {
+          "title": "Is there a global loneliness epidemic? It's a complex picture",
+          "publisher": "Pharmacy Today (NZ)",
+          "url": "https://www.pharmacytoday.co.nz/article/opinion/columns/there-global-loneliness-epidemic-its-complex-picture",
+          "date": "2026-09-18",
+          "quote": "A complex picture（孤独流行是复杂图景）",
+          "lang": "en",
+          "tier": "secondary"
+        },
+        {
+          "title": "覆盖 21.8 万人的研究：全球孤独流行",
+          "publisher": "O Globo",
+          "url": "https://oglobo.globo.com/saude/noticia/2026/08/27/existe-uma-epidemia-global-de-solidao-revela-estudo-com-218-mil-pessoas-veja-as-causas.ghtml",
+          "date": "2026-08-27",
+          "quote": "218 mil pessoas（21.8 万样本）",
+          "lang": "pt",
+          "tier": "secondary"
+        }
+      ],
+      "signal_strength": 6.8,
+      "trend_direction": "up",
+      "volume_estimate": "全球孤独研究样本 21.8 万人；日韩『一人经济』与社群复兴讨论持续升温"
+    },
+    "seven_questions": {
+      "traffic": "Instagram/小红书活动回顾 + 本地社群互推 + 场地合作方导流；前 50 名会员来自 3 场公开活动",
+      "money": "月会员 300–800 元（每月 2–4 场活动）+ 单场票 80–150 元 + 场地合作分成；毛利 45–60%",
+      "model": "轻资产社群：固定合作场地按场付费→主理人策划活动→会员制锁复购；活动 SOP 可复制到第二城",
+      "roi": "启动 1–3 万元（场地押金/物料/内容），1 个月首场活动，3–5 个月回本，月收入 1–3 万元",
+      "audience": "有组织能力与内容审美、本地人脉广、愿意每周做活动的人；不适合社恐或无法稳定投入周末时间的人",
+      "drivers": [
+        "info",
+        "ops"
+      ],
+      "moat": "主理人 IP + 固定会员关系 + 场地协议；壁垒来自社群密度，单城可守但难跨城复制"
+    },
+    "roi": {
+      "capital_cny": {
+        "min": 10000,
+        "max": 30000
+      },
+      "time_to_revenue_months": 1,
+      "payback_months": 4,
+      "monthly_revenue_cny": {
+        "min": 10000,
+        "max": 30000
+      },
+      "gross_margin_pct": 50,
+      "effort_level": "side",
+      "team_size": 1
+    },
+    "scores": {
+      "dimensions": {
+        "signal": 6.8,
+        "gap": 6.4,
+        "feasibility": 8.0,
+        "economics": 6.8,
+        "timing": 6.8,
+        "competition": 6.6,
+        "risk": 6.8,
+        "fit": 7.8,
+        "evidence": 6.4,
+        "leverage": 4.8
+      },
+      "total": 68.3,
+      "grade": "B"
+    },
+    "window": {
+      "status": "open",
+      "months_left": 12,
+      "decay": "medium"
+    },
+    "risks": [
+      "活动安全事故与场地责任",
+      "会员新鲜感消退后流失",
+      "主理人个人精力成为产能上限"
+    ],
+    "first_steps_7d": [
+      "在本地找 3 个可合作的非标场地问档期与价格",
+      "发 1 场 20 人活动招募，观察报名转化",
+      "设计会员权益与价格模型",
+      "确认活动保险与免责条款"
+    ],
+    "kill_criteria": [
+      "连续 3 场活动报名 < 10 人",
+      "会员 90 天留存 < 40%",
+      "场地成本超过票务收入 60%"
+    ],
+    "compliance_notes": "未逐条打开核验，标记 verified:false；活动需购买公众责任险，涉及酒精/户外需额外许可；不做心理治疗宣称",
+    "evidence_count": 2,
+    "activity_dates": [
+      "2026-08-22",
+      "2026-09-26",
+      "2026-10-14"
+    ],
+    "first_seen": "2026-08-22",
+    "last_activity": "2026-10-14",
+    "momentum": 1.2,
+    "rank_score": 69.9,
+    "tags": [
+      "low-capital",
+      "b2c",
+      "solo",
+      "content-driven",
+      "recurring"
+    ],
+    "verified": false,
+    "disclaimer": "研究假设，非投资建议；示例数据用于演示，使用前请核验原始来源"
+  },
+  {
+    "id": "opp-emotional-caregiver-respite-010",
+    "slug": "jp-caregiver-respite",
+    "title": "日本居家重症儿喘息服务：把「照护者休息一天」做成付费产品",
+    "one_liner": "日本医疗性照护儿童居家喘息被地方政府列入支持事业，专业上门暂护供给不足，可做区域型服务",
+    "industry_id": "emotional",
+    "gap_type_ids": [
+      "demographic",
+      "infrastructure",
+      "regulation"
+    ],
+    "region_ids": [
+      "east-asia"
+    ],
+    "origin_country": "日本",
+    "target_countries": [
+      "日本"
+    ],
+    "human_need_ids": [
+      "belonging",
+      "health",
+      "ease"
+    ],
+    "neuro_drivers": [
+      "oxytocin",
+      "cortisol"
+    ],
+    "emotion_tags": [
+      "anxiety",
+      "love",
+      "relief"
+    ],
+    "source_langs": [
+      "ja"
+    ],
+    "signal": {
+      "summary": "日本地方政府与议员联盟公开推动『重症心身障害児与医疗性照护儿居家喘息』事业，说明需求被官方承认但家庭端可预约的专业暂护供给仍紧；照护者休息一天是高频刚需。",
+      "evidence": [
+        {
+          "title": "重症心身障害児(者)及び医療的ケア児在宅レスパイト等事業",
+          "publisher": "東京都府中市",
+          "url": "http://www.city.fuchu.tokyo.jp/kenko/shogai/shogainoarukata/jyushinrespite.html",
+          "date": "2026-10-20",
+          "quote": "医療的ケア児在宅レスパイト等事業（医疗照护儿居家喘息事业）",
+          "lang": "ja",
+          "tier": "primary"
+        },
+        {
+          "title": "医療的ケア児者支援を強化",
+          "publisher": "公明党 大塚地区",
+          "url": "https://www.komei.or.jp/km/ootsuka/achievements/%E5%8C%BB%E7%99%82%E7%9A%84%E3%82%B1%E3%82%A2%E5%85%90%E8%80%85%E6%94%AF%E6%8F%B4%E3%82%92%E5%BC%B7%E5%8C%96/",
+          "date": "2026-10-20",
+          "quote": "医療的ケア児者支援を強化（强化医疗照护儿支援）",
+          "lang": "ja",
+          "tier": "primary"
+        }
+      ],
+      "signal_strength": 7.0,
+      "trend_direction": "up",
+      "volume_estimate": "日本医疗性照护儿数量持续增加，地方自治体普遍设喘息事业预算；单次上门服务 4–8 小时"
+    },
+    "seven_questions": {
+      "traffic": "与地方自立支援协议会、医疗性照护儿家长会、访问看护站合作转介 + 家长社群口碑；前 20 个家庭来自转介",
+      "money": "按次收费 1.5–3 万日元/4 小时（部分可由自治体给付）+ 夜间/紧急加价；毛利 35–50%",
+      "model": "区域服务：签约 3–5 名有医疗照护经验的护士/保育士→接到家庭需求→上门暂护→与自治体结算部分费用",
+      "roi": "启动 30–80 万日元（培训/保险/系统），3–6 个月建立转介，12–18 个月回本，月收入 30–80 万日元",
+      "audience": "有日本介护/看护资格、日语流利、能处理医疗设备与紧急情况的本地经营者；不适合无资质的外国远程团队",
+      "drivers": [
+        "regulation",
+        "ops",
+        "info"
+      ],
+      "moat": "资质与培训体系 + 自治体关系 + 家长信任；需要医疗性照护实操经验与保险"
+    },
+    "roi": {
+      "capital_cny": {
+        "min": 20000,
+        "max": 50000
+      },
+      "time_to_revenue_months": 5,
+      "payback_months": 15,
+      "monthly_revenue_cny": {
+        "min": 15000,
+        "max": 40000
+      },
+      "gross_margin_pct": 40,
+      "effort_level": "full",
+      "team_size": 3
+    },
+    "scores": {
+      "dimensions": {
+        "signal": 7.0,
+        "gap": 7.6,
+        "feasibility": 5.4,
+        "economics": 6.6,
+        "timing": 7.2,
+        "competition": 7.0,
+        "risk": 6.0,
+        "fit": 5.2,
+        "evidence": 7.0,
+        "leverage": 5.0
+      },
+      "total": 65.5,
+      "grade": "B"
+    },
+    "window": {
+      "status": "open",
+      "months_left": 30,
+      "decay": "slow"
+    },
+    "risks": [
+      "医疗事故与法律赔偿责任",
+      "自治体给付结算周期长",
+      "专业照护人员招聘困难"
+    ],
+    "first_steps_7d": [
+      "查所在自治体喘息事业给付条件与单价",
+      "访谈 3 个医疗性照护儿家庭问最需要的时段",
+      "联系 2 家访问看护站问合作与派单可能",
+      "确认保险与紧急应对流程"
+    ],
+    "kill_criteria": [
+      "6 个月签约家庭 < 10 户",
+      "找不到 3 名有资质的照护人员",
+      "自治体不给付且家庭自费意愿不足"
+    ],
+    "compliance_notes": "未逐条打开核验，标记 verified:false；需日本介护/看护资质与医疗行为边界，涉及儿童医疗照护须严格按医嘱；个人信息保护要求高",
+    "evidence_count": 2,
+    "activity_dates": [
+      "2026-07-26",
+      "2026-09-08",
+      "2026-10-12"
+    ],
+    "first_seen": "2026-07-26",
+    "last_activity": "2026-10-12",
+    "momentum": 1.0,
+    "rank_score": 65.5,
+    "tags": [
+      "b2c",
+      "needs-license",
+      "recurring",
+      "localization-heavy"
+    ],
+    "verified": false,
+    "disclaimer": "研究假设，非投资建议；示例数据用于演示，使用前请核验原始来源"
+  },
+  {
+    "id": "opp-ai-voice-smb-011",
+    "slug": "ai-voice-reception-smb",
+    "title": "AI 前台：接住中小企业漏掉的预约电话",
+    "one_liner": "AI 接待平台获 2500 万美元融资验证需求，牙医/美甲/维修等本地商家漏接电话即漏单，可按店订阅",
+    "industry_id": "ai",
+    "gap_type_ids": [
+      "channel",
+      "language"
+    ],
+    "region_ids": [
+      "north-america",
+      "latam"
+    ],
+    "origin_country": "美国",
+    "target_countries": [
+      "美国",
+      "墨西哥",
+      "西班牙"
+    ],
+    "human_need_ids": [
+      "ease",
+      "control",
+      "status"
+    ],
+    "neuro_drivers": [
+      "dopamine",
+      "cortisol"
+    ],
+    "emotion_tags": [
+      "laziness",
+      "anxiety",
+      "relief"
+    ],
+    "source_langs": [
+      "en",
+      "es"
+    ],
+    "signal": {
+      "summary": "AI 接待平台 Newo 获 2500 万美元融资，说明本地商家愿意为『接住电话+自动预约』付费；西语市场同类供给更薄，且商家普遍没有前台。",
+      "evidence": [
+        {
+          "title": "Newo raises USD $25m to scale AI reception platform",
+          "publisher": "ITBrief",
+          "url": "https://itbrief.in/story/newo-raises-usd-25m-to-scale-ai-reception-platform",
+          "date": "2026-10-12",
+          "quote": "Newo raises USD 25m to scale AI reception platform（AI 接待平台融资 2500 万美元）",
+          "lang": "en",
+          "tier": "secondary"
+        },
+        {
+          "title": "首月只卖6份，半年月流水18万：他把音色玄学做成AI查询生意",
+          "publisher": "阿里云开发者社区",
+          "url": "https://developer.aliyun.com/article/1767594",
+          "date": "2026-09-24",
+          "quote": "首月只卖6份，半年月流水18万（AI 小生意从零到月流水 18 万）",
+          "lang": "zh",
+          "tier": "secondary"
+        }
+      ],
+      "signal_strength": 7.6,
+      "trend_direction": "up",
+      "volume_estimate": "AI 接待为融资热点；北美本地服务业每年因漏接电话损失数十亿美元（行业估算）"
+    },
+    "seven_questions": {
+      "traffic": "本地商家 Facebook 群/商会 + 谷歌地图商家陌拜 + 与 POS/预约软件集成导流；前 20 家客户靠电话演示",
+      "money": "按月订阅 79–199 美元/店 + 一次性部署费 199 美元；毛利 70–80%，规模化靠渠道",
+      "model": "SaaS+轻实施：接商家电话→AI 应答/预约→短信确认→店主端看板；按行业模板化（牙医/美甲/维修）",
+      "roi": "启动 3–8 万元（开发/合规/演示），2–3 个月首批客户，6–9 个月回本，月收入 2–8 万元",
+      "audience": "能做语音 Agent 集成、会本地销售（电话+上门）、英语/西语可沟通的小团队；不适合纯技术不做销售的人",
+      "drivers": [
+        "tech",
+        "ops"
+      ],
+      "moat": "行业模板与话术库 + 集成生态 + 本地渠道；前置条件是电话合规（录音告知）与数据安全"
+    },
+    "roi": {
+      "capital_cny": {
+        "min": 30000,
+        "max": 80000
+      },
+      "time_to_revenue_months": 2,
+      "payback_months": 8,
+      "monthly_revenue_cny": {
+        "min": 20000,
+        "max": 80000
+      },
+      "gross_margin_pct": 75,
+      "effort_level": "full",
+      "team_size": 2
+    },
+    "scores": {
+      "dimensions": {
+        "signal": 7.6,
+        "gap": 7.0,
+        "feasibility": 7.2,
+        "economics": 7.8,
+        "timing": 7.4,
+        "competition": 5.8,
+        "risk": 6.4,
+        "fit": 6.6,
+        "evidence": 6.8,
+        "leverage": 7.6
+      },
+      "total": 71.4,
+      "grade": "B"
+    },
+    "window": {
+      "status": "open",
+      "months_left": 14,
+      "decay": "fast"
+    },
+    "risks": [
+      "大厂（Google/OpenAI）推出同类免费能力",
+      "电话录音与 AI 告知不合规引发投诉",
+      "商家对 AI 应答的信任建立慢，试用转化低"
+    ],
+    "first_steps_7d": [
+      "打 20 家本地商家电话，统计漏接率与预约方式",
+      "用现成语音 API 搭 1 个行业 demo",
+      "问 3 家商家愿不愿意付 99 美元/月试用",
+      "确认当地电话录音告知法规"
+    ],
+    "kill_criteria": [
+      "试用转付费 < 20%",
+      "30 天内拿不到 10 家试用",
+      "大厂免费方案覆盖 80% 需求"
+    ],
+    "compliance_notes": "未逐条打开核验，标记 verified:false；电话录音需事先告知并符合当地法规（如加州双方同意）；不得冒充人工或做医疗建议",
+    "evidence_count": 2,
+    "activity_dates": [
+      "2026-08-16",
+      "2026-09-19",
+      "2026-10-22"
+    ],
+    "first_seen": "2026-08-16",
+    "last_activity": "2026-10-22",
+    "momentum": 1.5,
+    "rank_score": 75.7,
+    "tags": [
+      "ai-native",
+      "b2b",
+      "recurring",
+      "remote",
+      "tech-driven"
+    ],
+    "verified": false,
+    "disclaimer": "研究假设，非投资建议；示例数据用于演示，使用前请核验原始来源"
+  },
+  {
+    "id": "opp-ai-automation-agency-012",
+    "slug": "automation-agency-n8n",
+    "title": "自动化代运营：给中小企业做能跑的流程",
+    "one_liner": "自动化平台社区出现单人月入 5000 美元的案例，中小企业缺的是流程梳理与运维，而非工具本身",
+    "industry_id": "ai",
+    "gap_type_ids": [
+      "knowledge",
+      "time"
+    ],
+    "region_ids": [
+      "europe",
+      "east-asia",
+      "north-america"
+    ],
+    "origin_country": "美国",
+    "target_countries": [
+      "德国",
+      "荷兰",
+      "日本",
+      "美国",
+      "英国"
+    ],
+    "human_need_ids": [
+      "ease",
+      "control",
+      "growth"
+    ],
+    "neuro_drivers": [
+      "dopamine",
+      "endorphin"
+    ],
+    "emotion_tags": [
+      "laziness",
+      "relief",
+      "aspiration"
+    ],
+    "source_langs": [
+      "en"
+    ],
+    "signal": {
+      "summary": "n8n 社区出现『单人如何做到 5000 美元/月』的实操讨论，微 SaaS 与自动化代运营被反复验证；中小企业买不起定制开发，但愿意为可见的省人天流程付月费。",
+      "evidence": [
+        {
+          "title": "Solo n8n builder: how did you scale past $5k/month?",
+          "publisher": "n8n Community",
+          "url": "https://community.n8n.io/t/solo-n8n-builder-how-did-you-scale-past-5k-month/317837/2",
+          "date": "2026-09-15",
+          "quote": "how did you scale past $5k/month（单人如何做到月入 5000 美元）",
+          "lang": "en",
+          "tier": "primary"
+        },
+        {
+          "title": "Vibe Coding Side Hustle with Micro-SaaS",
+          "publisher": "Dyad",
+          "url": "https://www.dyad.sh/blog/vibe-coding-side-hustle",
+          "date": "2026-09-08",
+          "quote": "Vibe coding side hustle with micro-SaaS（微 SaaS 副业）",
+          "lang": "en",
+          "tier": "secondary"
+        }
+      ],
+      "signal_strength": 7.0,
+      "trend_direction": "up",
+      "volume_estimate": "n8n 社区相关帖子长期活跃；单个中小企业自动化项目 500–5000 美元，月维护 200–800 美元"
+    },
+    "seven_questions": {
+      "traffic": "LinkedIn/YouTube 做流程拆解案例 + 本地商会与 SaaS 服务商互推 + 平台目录（n8n 专家目录）；前 10 个客户来自内容与转介",
+      "money": "项目制 5000–30000 元/个 + 月运维 1500–6000 元；毛利 65–80%，靠标准化模板放大",
+      "model": "服务+订阅：流程诊断→搭建自动化（报价/客服/对账/内容分发）→按月运维与迭代；模板库复用到同行业",
+      "roi": "启动 1–3 万元（工具订阅/演示环境），1–2 个月首单，3–5 个月回本，月收入 1.5–5 万元",
+      "audience": "懂 API 与业务流程、能用客户语言沟通的开发者/运营；不适合只会拖拽工具但不懂业务的人",
+      "drivers": [
+        "tech",
+        "ops",
+        "info"
+      ],
+      "moat": "行业模板库 + 交付 SOP + 客户系统集成深度；前置条件是数据安全与对接授权"
+    },
+    "roi": {
+      "capital_cny": {
+        "min": 10000,
+        "max": 30000
+      },
+      "time_to_revenue_months": 1,
+      "payback_months": 4,
+      "monthly_revenue_cny": {
+        "min": 15000,
+        "max": 50000
+      },
+      "gross_margin_pct": 75,
+      "effort_level": "side",
+      "team_size": 1
+    },
+    "scores": {
+      "dimensions": {
+        "signal": 7.0,
+        "gap": 6.6,
+        "feasibility": 8.4,
+        "economics": 7.6,
+        "timing": 7.0,
+        "competition": 5.6,
+        "risk": 6.8,
+        "fit": 8.2,
+        "evidence": 6.6,
+        "leverage": 7.2
+      },
+      "total": 71.6,
+      "grade": "B"
+    },
+    "window": {
+      "status": "open",
+      "months_left": 12,
+      "decay": "slow"
+    },
+    "risks": [
+      "客户流程本身混乱导致项目无限返工",
+      "平台 API 变更导致自动化失效",
+      "低价外包竞争压低报价"
+    ],
+    "first_steps_7d": [
+      "挑 1 个行业（如跨境电商）拆 3 个可自动化流程",
+      "搭 1 个 demo 并发 LinkedIn 测反应",
+      "给 10 个目标客户发流程诊断邀约",
+      "算清单个项目的交付人天与毛利"
+    ],
+    "kill_criteria": [
+      "3 个月拿不到 3 个付费项目",
+      "单项目返工超过 3 轮",
+      "月运维客户流失超过 30%"
+    ],
+    "compliance_notes": "未逐条打开核验，标记 verified:false；涉及客户数据需签数据处理协议，不得绕过客户授权访问系统；AI 生成内容需标注",
+    "evidence_count": 2,
+    "activity_dates": [
+      "2026-08-08",
+      "2026-09-12",
+      "2026-10-09"
+    ],
+    "first_seen": "2026-08-08",
+    "last_activity": "2026-10-09",
+    "momentum": 1.2,
+    "rank_score": 73.3,
+    "tags": [
+      "ai-native",
+      "b2b",
+      "remote",
+      "side-hustle",
+      "tech-driven"
+    ],
+    "verified": false,
+    "disclaimer": "研究假设，非投资建议；示例数据用于演示，使用前请核验原始来源"
+  },
+  {
+    "id": "opp-ai-shortdrama-pipeline-013",
+    "slug": "shortdrama-localization-pipeline",
+    "title": "短剧出海本地化流水线：配音字幕文化改写按分钟卖",
+    "one_liner": "中国短剧海外投放烧钱但本地化成瓶颈，AI 配音+字幕+文化改写可把单部成本压到 1/5，按分钟收费",
+    "industry_id": "ai",
+    "gap_type_ids": [
+      "language",
+      "culture",
+      "channel"
+    ],
+    "region_ids": [
+      "north-america",
+      "sea",
+      "mena"
+    ],
+    "origin_country": "中国",
+    "target_countries": [
+      "美国",
+      "印尼",
+      "巴西",
+      "沙特"
+    ],
+    "human_need_ids": [
+      "novelty",
+      "status",
+      "expression"
+    ],
+    "neuro_drivers": [
+      "dopamine",
+      "adrenaline"
+    ],
+    "emotion_tags": [
+      "curiosity",
+      "boredom",
+      "aspiration"
+    ],
+    "source_langs": [
+      "zh",
+      "en"
+    ],
+    "signal": {
+      "summary": "中国短剧出海已成规模，但媒体报道海外短剧 App 大量烧钱后回报不明，瓶颈集中在多语配音、字幕节奏、宗教文化适配与本地投放素材；AI 流水线可把单部本地化成本与周期大幅压缩。",
+      "evidence": [
+        {
+          "title": "小剧集撬动大市场：中国短剧的全球破圈之路",
+          "publisher": "中国青年报",
+          "url": "https://zqb.cyol.com/pc/content/202606/10/content_426874.html",
+          "date": "2026-06-10",
+          "quote": "小剧集撬动大市场：中国短剧的全球破圈之路",
+          "lang": "zh",
+          "tier": "secondary"
+        },
+        {
+          "title": "Are Overseas Short Drama Apps Getting Zero Returns Even After Burning Huge Amounts of Capital?",
+          "publisher": "36Kr",
+          "url": "https://eu.36kr.com/en/p/4028480124621185",
+          "date": "2026-10-20",
+          "quote": "Overseas short drama apps burn capital for unclear returns（海外短剧烧钱后回报不明）",
+          "lang": "en",
+          "tier": "secondary"
+        }
+      ],
+      "signal_strength": 7.8,
+      "trend_direction": "up",
+      "volume_estimate": "中国短剧出海 App 数十款，单部制作+本地化成本 10–50 万元；多语版本需求以每月数百部计"
+    },
+    "seven_questions": {
+      "traffic": "直接卖给短剧制作方与发行方（B2B），通过短剧行业社群、展会与免费试译 1 集建立案例；前 10 个客户来自制作公司转介",
+      "money": "按分钟计费：AI 配音+字幕+文化改写 8–25 元/分钟，加急 1.5 倍；另收本地投放素材包 2000–8000 元/部；毛利 65–80%",
+      "model": "服务+工具：自建 AI 流水线（转写→翻译→配音→字幕→宗教/文化审校→成片），按项目交付；后期把模板卖给中小工作室做订阅",
+      "roi": "启动 2–5 万元（语音/翻译 API、审校人力），1–2 个月出首单，4–6 个月回本，月收入 2–8 万元，现金流前置",
+      "audience": "有 AI 语音/字幕工具链、能做多语审校、懂短剧节奏的人；不适合只做机器翻译不做人工审校的团队",
+      "drivers": [
+        "tech",
+        "info",
+        "cross-border"
+      ],
+      "moat": "多语语料与审校 SOP + 制作方关系；前置条件是文化/宗教敏感内容审核能力"
+    },
+    "roi": {
+      "capital_cny": {
+        "min": 20000,
+        "max": 50000
+      },
+      "time_to_revenue_months": 1,
+      "payback_months": 5,
+      "monthly_revenue_cny": {
+        "min": 20000,
+        "max": 80000
+      },
+      "gross_margin_pct": 70,
+      "effort_level": "side",
+      "team_size": 1
+    },
+    "scores": {
+      "dimensions": {
+        "signal": 7.8,
+        "gap": 7.4,
+        "feasibility": 8.0,
+        "economics": 7.6,
+        "timing": 7.2,
+        "competition": 6.4,
+        "risk": 6.6,
+        "fit": 7.6,
+        "evidence": 7.0,
+        "leverage": 7.6
+      },
+      "total": 74.2,
+      "grade": "B"
+    },
+    "window": {
+      "status": "open",
+      "months_left": 12,
+      "decay": "slow"
+    },
+    "risks": [
+      "平台对 AI 配音内容限流或标注要求变化",
+      "文化/宗教审核失误引发下架",
+      "客户压价导致单分钟利润跌破 5 元"
+    ],
+    "first_steps_7d": [
+      "找 2 部已出海短剧做 1 集试译+配音 demo",
+      "访谈 3 家短剧制作方问本地化预算与痛点",
+      "算一条 60 分钟剧集的人机成本",
+      "确认目标市场对 AI 生成配音的标注要求"
+    ],
+    "kill_criteria": [
+      "3 个月拿不到 3 个付费客户",
+      "单集返工率超过 30%",
+      "单价被压到 8 元/分钟以下"
+    ],
+    "compliance_notes": "未逐条打开核验，标记 verified:false；需获得内容方授权，AI 配音与换脸涉及表演者权利；宗教/文化内容需人工审校",
+    "evidence_count": 2,
+    "activity_dates": [
+      "2026-08-14",
+      "2026-09-18",
+      "2026-09-30"
+    ],
+    "first_seen": "2026-08-14",
+    "last_activity": "2026-09-30",
+    "momentum": 1.2,
+    "rank_score": 76.0,
+    "tags": [
+      "ai-native",
+      "b2b",
+      "remote",
+      "content-driven",
+      "digital",
+      "cross-border"
+    ],
+    "verified": false,
+    "disclaimer": "研究假设，非投资建议；示例数据用于演示，使用前请核验原始来源"
+  },
+  {
+    "id": "opp-xb-temu-eu-compliance-014",
+    "slug": "temu-eu-seller-ops",
+    "title": "Temu 欧洲卖家合规托管：GPSR/EPR 一站式",
+    "one_liner": "Temu 欧洲本地卖家快速扩张、波兰电商月增 24.3%，新卖家缺欧盟合规与本地化 listing，托管服务可按月收费",
+    "industry_id": "crossborder",
+    "gap_type_ids": [
+      "platform",
+      "regulation",
+      "price"
+    ],
+    "region_ids": [
+      "europe"
+    ],
+    "origin_country": "中国",
+    "target_countries": [
+      "波兰",
+      "德国",
+      "捷克",
+      "西班牙"
+    ],
+    "human_need_ids": [
+      "ease",
+      "control",
+      "status"
+    ],
+    "neuro_drivers": [
+      "cortisol",
+      "dopamine"
+    ],
+    "emotion_tags": [
+      "anxiety",
+      "hope",
+      "relief"
+    ],
+    "source_langs": [
+      "zh",
+      "de",
+      "pl"
+    ],
+    "signal": {
+      "summary": "Temu 欧洲本地卖家调研显示超五成卖家入驻后扩产、超三成拓展新市场；波兰电商成交同比 +24.3%。海量新卖家同时面对 GPSR、EPR、VAT 与本地化 listing 要求，合规与运营外包需求集中爆发。",
+      "evidence": [
+        {
+          "title": "50 Prozent der europäischen Temu-Händler erhöhten Kapazitäten oder stellten Personal ein",
+          "publisher": "ariva.de",
+          "url": "https://www.ariva.de/aktien/pinduoduo-holdings-inc-aktie/news/50-prozent-der-europaeischen-temu-haendler-erhoehten-12120050",
+          "date": "2026-10-20",
+          "quote": "50% der europäischen Temu-Händler erhöhten Kapazitäten（五成欧洲 Temu 卖家扩产）",
+          "lang": "de",
+          "tier": "secondary"
+        },
+        {
+          "title": "Poland's e-commerce turnover up 24.3 pct m/m to PLN 8.627 bln in March",
+          "publisher": "PAP Biznes",
+          "url": "https://biznes.pap.pl/wiadomosci/firmy/polands-e-commerce-turnover-243-pct-mm-pln-8627-bln-march-sector-chamber",
+          "date": "2026-10-15",
+          "quote": "Poland's e-commerce turnover up 24.3 pct m/m（波兰电商成交环比 +24.3%）",
+          "lang": "en",
+          "tier": "secondary"
+        }
+      ],
+      "signal_strength": 7.8,
+      "trend_direction": "up",
+      "volume_estimate": "Temu 欧洲卖家数量以万计，合规代注册单项客单 3000–8000 元；波兰电商月成交 86 亿兹罗提"
+    },
+    "seven_questions": {
+      "traffic": "在 Temu/亚马逊卖家群、义乌与深圳跨境社群做合规公开课 + 免费合规体检；前 10 个客户来自卖家群与物流商转介",
+      "money": "合规代注册 3000–8000 元/店 + 月度合规托管 1000–3000 元 + listing 本地化按 SKU 计费；毛利 55–70%",
+      "model": "代运营+年费：与德国/波兰税务师、认证机构合作，提供注册-申报-年度维护一条龙，自建中台跟踪截止日",
+      "roi": "启动 3–6 万元（合作方保证金/工具/内容），1–2 个月首单，4–6 个月回本，月收入 3–10 万元，续费率是关键",
+      "audience": "懂欧盟合规/税务基础、英语或波兰语可沟通、能对接本地服务商的人；不适合无本地合作方的纯中介",
+      "drivers": [
+        "regulation",
+        "ops",
+        "cross-border"
+      ],
+      "moat": "本地税务/认证合作网络 + 案例库 + 中台提醒系统；前置条件是持牌合作方与责任划分"
+    },
+    "roi": {
+      "capital_cny": {
+        "min": 30000,
+        "max": 60000
+      },
+      "time_to_revenue_months": 1,
+      "payback_months": 5,
+      "monthly_revenue_cny": {
+        "min": 30000,
+        "max": 100000
+      },
+      "gross_margin_pct": 60,
+      "effort_level": "full",
+      "team_size": 2
+    },
+    "scores": {
+      "dimensions": {
+        "signal": 7.8,
+        "gap": 7.6,
+        "feasibility": 7.0,
+        "economics": 7.8,
+        "timing": 8.0,
+        "competition": 6.6,
+        "risk": 6.8,
+        "fit": 6.8,
+        "evidence": 7.2,
+        "leverage": 7.0
+      },
+      "total": 73.8,
+      "grade": "B"
+    },
+    "window": {
+      "status": "open",
+      "months_left": 18,
+      "decay": "fast"
+    },
+    "risks": [
+      "平台规则突变导致代注册需求消失",
+      "本地服务商抢客户、价格战",
+      "合规失误引发客户索赔与声誉损失"
+    ],
+    "first_steps_7d": [
+      "列 GPSR/EPR/VAT 三类合规的截止日与罚则",
+      "找 2 家德国/波兰税务师谈合作分成",
+      "访谈 5 个 Temu 欧洲卖家问最头疼的合规项",
+      "写 1 份店铺合规体检清单做引流"
+    ],
+    "kill_criteria": [
+      "3 个月签约客户 < 10 家",
+      "本地合作方分成高于 50%",
+      "平台出面提供官方合规工具覆盖需求"
+    ],
+    "compliance_notes": "未逐条打开核验，标记 verified:false；代注册需与持牌税务师/认证机构合作，不得替代法律责任；卖家数据需签保密协议",
+    "evidence_count": 2,
+    "activity_dates": [
+      "2026-08-20",
+      "2026-09-24",
+      "2026-10-22"
+    ],
+    "first_seen": "2026-08-20",
+    "last_activity": "2026-10-22",
+    "momentum": 1.6,
+    "rank_score": 79.1,
+    "tags": [
+      "b2b",
+      "needs-license",
+      "platform-dependent",
+      "cross-border",
+      "localization-heavy",
+      "china-advantage"
+    ],
+    "verified": false,
+    "disclaimer": "研究假设，非投资建议；示例数据用于演示，使用前请核验原始来源"
+  },
+  {
+    "id": "opp-xb-tiktok-us-015",
+    "slug": "tiktok-shop-us-agency",
+    "title": "TikTok Shop 美国代运营：直邮新规下的履约",
+    "one_liner": "TikTok Shop 美国收紧跨境直邮、物流仅 10 家可选，卖家履约合规成本上升，懂规则+达人的代运营有溢价",
+    "industry_id": "crossborder",
+    "gap_type_ids": [
+      "platform",
+      "regulation"
+    ],
+    "region_ids": [
+      "north-america"
+    ],
+    "origin_country": "中国",
+    "target_countries": [
+      "美国"
+    ],
+    "human_need_ids": [
+      "status",
+      "ease",
+      "novelty"
+    ],
+    "neuro_drivers": [
+      "dopamine",
+      "adrenaline"
+    ],
+    "emotion_tags": [
+      "anxiety",
+      "aspiration",
+      "relief"
+    ],
+    "source_langs": [
+      "zh",
+      "en"
+    ],
+    "signal": {
+      "summary": "TikTok Shop 美国站发布跨境直邮发货新规，物流与商家准入双重管控、可选物流仅 10 家；大量中国卖家需要重新设计履约与内容合规方案，实操型代运营出现窗口。",
+      "evidence": [
+        {
+          "title": "TikTok Shop美国站正式发布跨境直邮发货新规",
+          "publisher": "亿览网",
+          "url": "https://www.yilantop.com/news/80691",
+          "date": "2026-10-20",
+          "quote": "TikTok Shop 美国站发布跨境直邮发货新规",
+          "lang": "zh",
+          "tier": "secondary"
+        },
+        {
+          "title": "TikTok美国站直邮规则全面收紧，仅10家物流可选",
+          "publisher": "正观新闻",
+          "url": "https://wap.zhengguannews.cn/html/zgh/385483.html",
+          "date": "2026-10-20",
+          "quote": "直邮规则收紧，物流与商家准入双重管控，仅 10 家物流可选",
+          "lang": "zh",
+          "tier": "secondary"
+        }
+      ],
+      "signal_strength": 7.4,
+      "trend_direction": "up",
+      "volume_estimate": "TikTok Shop 美国站卖家数以万计，代运营月费 3000–15000 元 + GMV 分成 3–8%"
+    },
+    "seven_questions": {
+      "traffic": "卖家社群/服务商联盟/线下招商会 + 免费新规解读直播；前 10 个客户来自卖家群与物流商转介",
+      "money": "店铺代运营月费 3000–15000 元 + GMV 分成 3–8% + 内容制作按条计费；毛利 50–65%",
+      "model": "代运营：新规解读→物流方案重排→内容与达人矩阵→数据复盘，按月交付；后期做 SOP 课程与工具",
+      "roi": "启动 5–10 万元（团队/达人资源/样品），1–3 个月首单，6–9 个月回本，月收入 5–20 万元",
+      "audience": "有 TikTok Shop 美国店实操经验、能组达人内容、懂美区合规的 2–3 人小队；不适合纯流量投放团队",
+      "drivers": [
+        "ops",
+        "regulation",
+        "info"
+      ],
+      "moat": "达人资源与物流协议 + 类目经验；前置条件是真实案例与合规边界"
+    },
+    "roi": {
+      "capital_cny": {
+        "min": 50000,
+        "max": 100000
+      },
+      "time_to_revenue_months": 2,
+      "payback_months": 8,
+      "monthly_revenue_cny": {
+        "min": 50000,
+        "max": 200000
+      },
+      "gross_margin_pct": 55,
+      "effort_level": "full",
+      "team_size": 3
+    },
+    "scores": {
+      "dimensions": {
+        "signal": 7.4,
+        "gap": 7.0,
+        "feasibility": 6.8,
+        "economics": 7.8,
+        "timing": 7.6,
+        "competition": 5.6,
+        "risk": 6.2,
+        "fit": 6.4,
+        "evidence": 6.6,
+        "leverage": 7.2
+      },
+      "total": 70.0,
+      "grade": "B"
+    },
+    "window": {
+      "status": "peak",
+      "months_left": 8,
+      "decay": "fast"
+    },
+    "risks": [
+      "TikTok 在美政策反复导致业务中断",
+      "平台收紧代运营资质要求",
+      "达人成本上涨挤压毛利"
+    ],
+    "first_steps_7d": [
+      "精读新规原文，列出 3 类受影响卖家",
+      "访谈 5 个美区卖家问物流切换方案",
+      "联系 3 家白名单物流问报价与时效",
+      "做 1 场免费新规解读直播收集线索"
+    ],
+    "kill_criteria": [
+      "2 个月无付费客户",
+      "政策导致类目整体下架",
+      "毛利低于 35%"
+    ],
+    "compliance_notes": "未逐条打开核验，标记 verified:false；需遵守平台商家准入与物流白名单规定；达人内容需标注商业合作",
+    "evidence_count": 2,
+    "activity_dates": [
+      "2026-08-26",
+      "2026-09-28"
+    ],
+    "first_seen": "2026-08-26",
+    "last_activity": "2026-09-28",
+    "momentum": 1.4,
+    "rank_score": 73.4,
+    "tags": [
+      "b2b",
+      "platform-dependent",
+      "content-driven",
+      "cross-border",
+      "china-advantage",
+      "needs-supply-chain"
+    ],
+    "verified": false,
+    "disclaimer": "研究假设，非投资建议；示例数据用于演示，使用前请核验原始来源"
+  },
+  {
+    "id": "opp-xb-japan-taxfree-016",
+    "slug": "japan-taxfree-refund-service",
+    "title": "日本免税退税新政配套：帮零售店改系统、帮游客拿退款",
+    "one_liner": "日本免税改为先付后退，访日消费额创新高但游客流程变复杂，零售系统改造与退税代办是明确缺口",
+    "industry_id": "crossborder",
+    "gap_type_ids": [
+      "regulation",
+      "infrastructure",
+      "language"
+    ],
+    "region_ids": [
+      "east-asia"
+    ],
+    "origin_country": "日本",
+    "target_countries": [
+      "日本"
+    ],
+    "human_need_ids": [
+      "ease",
+      "control",
+      "status"
+    ],
+    "neuro_drivers": [
+      "serotonin",
+      "cortisol"
+    ],
+    "emotion_tags": [
+      "anxiety",
+      "relief",
+      "aspiration"
+    ],
+    "source_langs": [
+      "ja",
+      "en"
+    ],
+    "signal": {
+      "summary": "日本观光厅与 JNTO 发布免税制度改为退款方式（先付后退）的说明，游客需要在离境前完成退税；1–9 月访日外国人减少 2.9% 但消费额创新高，客单上升让退税流程复杂度与代办需求同步上升。",
+      "evidence": [
+        {
+          "title": "Everything You Need to Know: Japan's New Tax-Free Shopping System",
+          "publisher": "Japan National Tourism Organization",
+          "url": "https://www.japan.travel/en/us/blog/everything-you-need-to-know-japans-new-tax-free-shopping-system/",
+          "date": "2026-10-20",
+          "quote": "Japan's new tax-free shopping system（日本免税购物新制度）",
+          "lang": "en",
+          "tier": "primary"
+        },
+        {
+          "title": "1至9月访日外国人减少2.9% 消费额创新高",
+          "publisher": "共同网",
+          "url": "https://china.kyodonews.net/articles/-/17231",
+          "date": "2026-10-20",
+          "quote": "1至9月访日外国人减少2.9% 消费额创新高",
+          "lang": "zh",
+          "tier": "secondary"
+        }
+      ],
+      "signal_strength": 7.2,
+      "trend_direction": "up",
+      "volume_estimate": "访日游客年数千万人次；日本免税店数十万家，系统改造与代办服务客单 5000–50000 日元"
+    },
+    "seven_questions": {
+      "traffic": "面向日本零售店做退税系统代理（商店街协会/地方商会），面向游客做中文/英文退税指引内容；前 10 家店来自地方商会",
+      "money": "系统代理佣金 + 按店月费 5000–15000 日元 + 游客代办服务费 1000–3000 日元/单；毛利 40–55%",
+      "model": "代理+服务：对接退税系统供应商→帮店铺完成改造与培训→游客端提供离境退税代办与导购",
+      "roi": "启动 30–80 万日元（资质/培训/差旅），3–6 个月首单，12–18 个月回本，月收入 30–80 万日元",
+      "audience": "日语流利、懂零售 IT 或旅游服务、能在日本长期驻场的人；不适合纯线上远程团队",
+      "drivers": [
+        "regulation",
+        "ops",
+        "supply"
+      ],
+      "moat": "本地渠道与系统集成能力 + 游客服务口碑；需要与持牌退税系统商合作"
+    },
+    "roi": {
+      "capital_cny": {
+        "min": 15000,
+        "max": 40000
+      },
+      "time_to_revenue_months": 4,
+      "payback_months": 15,
+      "monthly_revenue_cny": {
+        "min": 15000,
+        "max": 40000
+      },
+      "gross_margin_pct": 45,
+      "effort_level": "full",
+      "team_size": 2
+    },
+    "scores": {
+      "dimensions": {
+        "signal": 7.2,
+        "gap": 7.4,
+        "feasibility": 6.2,
+        "economics": 6.8,
+        "timing": 7.6,
+        "competition": 6.6,
+        "risk": 6.4,
+        "fit": 6.0,
+        "evidence": 6.8,
+        "leverage": 5.8
+      },
+      "total": 68.1,
+      "grade": "B"
+    },
+    "window": {
+      "status": "open",
+      "months_left": 12,
+      "decay": "slow"
+    },
+    "risks": [
+      "退税系统供应商给直营渠道保护，代理利润被压",
+      "政策过渡期结束需求消失",
+      "游客代办涉及资金与身份信息合规"
+    ],
+    "first_steps_7d": [
+      "读完新政细则，画出游客退税流程",
+      "走访 5 家免税店问系统改造成本与意愿",
+      "联系 2 家退税系统商谈代理条件",
+      "做 1 页中文退税流程图测游客反馈"
+    ],
+    "kill_criteria": [
+      "6 个月签约店铺 < 10 家",
+      "系统商不给代理返佣",
+      "政策二次调整导致流程再次变化"
+    ],
+    "compliance_notes": "未逐条打开核验，标记 verified:false；退税代办涉及资金与护照信息，需与持牌系统商合作并符合日本消费税规定",
+    "evidence_count": 2,
+    "activity_dates": [
+      "2026-08-18",
+      "2026-09-22",
+      "2026-10-19"
+    ],
+    "first_seen": "2026-08-18",
+    "last_activity": "2026-10-19",
+    "momentum": 1.3,
+    "rank_score": 70.6,
+    "tags": [
+      "b2b",
+      "needs-license",
+      "localization-heavy",
+      "platform-dependent"
+    ],
+    "verified": false,
+    "disclaimer": "研究假设，非投资建议；示例数据用于演示，使用前请核验原始来源"
+  },
+  {
+    "id": "opp-xb-poland-logistics-017",
+    "slug": "poland-fulfillment-hub",
+    "title": "波兰仓配桥头堡：承接中国卖家进欧盟的履约与退货",
+    "one_liner": "波兰电商月成交环比 +24.3%，本地仓配与退货处理供给不足，可做轻资产履约",
+    "industry_id": "crossborder",
+    "gap_type_ids": [
+      "geo",
+      "platform",
+      "price"
+    ],
+    "region_ids": [
+      "europe"
+    ],
+    "origin_country": "波兰",
+    "target_countries": [
+      "波兰",
+      "德国",
+      "捷克",
+      "立陶宛"
+    ],
+    "human_need_ids": [
+      "ease",
+      "control",
+      "status"
+    ],
+    "neuro_drivers": [
+      "cortisol",
+      "dopamine"
+    ],
+    "emotion_tags": [
+      "anxiety",
+      "relief",
+      "aspiration"
+    ],
+    "source_langs": [
+      "pl",
+      "en"
+    ],
+    "signal": {
+      "summary": "波兰电商成交环比 +24.3%，Allegro 预计 2026 年增长略高于 10%，中东欧成为中国卖家进入欧盟的桥头堡；本地仓配、退货处理与合规贴标供给不足。",
+      "evidence": [
+        {
+          "title": "Poland's e-commerce turnover up 24.3 pct m/m",
+          "publisher": "PAP Biznes",
+          "url": "https://biznes.pap.pl/wiadomosci/firmy/polands-e-commerce-turnover-243-pct-mm-pln-8627-bln-march-sector-chamber",
+          "date": "2026-10-15",
+          "quote": "turnover up 24.3 pct m/m（成交环比 +24.3%）",
+          "lang": "en",
+          "tier": "secondary"
+        },
+        {
+          "title": "Allegro 预计波兰及区域电商 2026 增长略高于 10%",
+          "publisher": "PAP Biznes",
+          "url": "https://biznes.pap.pl/wiadomosci/firmy/allegro-liczy-ze-e-commerce-w-polsce-i-regionie-wzrosnie-w-26-troche-wiecej-niz-10",
+          "date": "2026-10-16",
+          "quote": "Allegro liczy na wzrost e-commerce powyżej 10 proc.（预计增长超 10%）",
+          "lang": "pl",
+          "tier": "secondary"
+        }
+      ],
+      "signal_strength": 7.2,
+      "trend_direction": "up",
+      "volume_estimate": "波兰电商月成交 86 亿兹罗提；单件仓配 1.2–3 欧元，退货处理 0.5–1.5 欧元"
+    },
+    "seven_questions": {
+      "traffic": "华沙/罗兹仓储园区合作 + 中国卖家社群 + 与货代互推；前 10 个客户来自卖家群与物流商",
+      "money": "按单仓配 1.2–3 欧元 + 退货处理 0.5–1.5 欧元/件 + 入驻与合规咨询 3000–8000 元；毛利 35–50%",
+      "model": "轻资产履约：租用第三方仓+自建 WMS/客服，按单计费；把中国卖家货物集中入仓再分发全欧",
+      "roi": "启动 20–50 万元（仓租押金/系统/团队），2–4 个月首客，12–18 个月回本，月收入 10–30 万元",
+      "audience": "有跨境物流经验、能驻波兰或找本地合伙人、懂英文或波兰语的人；不适合无仓配经验的纯中介",
+      "drivers": [
+        "ops",
+        "cross-border",
+        "supply"
+      ],
+      "moat": "仓网与尾程协议 + 退货处理能力 + 合规贴标；需要本地公司与税务合规"
+    },
+    "roi": {
+      "capital_cny": {
+        "min": 200000,
+        "max": 500000
+      },
+      "time_to_revenue_months": 3,
+      "payback_months": 15,
+      "monthly_revenue_cny": {
+        "min": 100000,
+        "max": 300000
+      },
+      "gross_margin_pct": 40,
+      "effort_level": "full",
+      "team_size": 3
+    },
+    "scores": {
+      "dimensions": {
+        "signal": 7.2,
+        "gap": 6.8,
+        "feasibility": 5.6,
+        "economics": 7.0,
+        "timing": 7.0,
+        "competition": 6.4,
+        "risk": 6.2,
+        "fit": 5.4,
+        "evidence": 6.6,
+        "leverage": 6.6
+      },
+      "total": 65.7,
+      "grade": "B"
+    },
+    "window": {
+      "status": "open",
+      "months_left": 18,
+      "decay": "medium"
+    },
+    "risks": [
+      "本地仓租与人力成本上涨",
+      "欧盟合规责任（GPSR/EPR）转嫁到履约方",
+      "中国卖家账期长导致现金流压力"
+    ],
+    "first_steps_7d": [
+      "联系 3 家罗兹/华沙第三方仓问仓租与操作费",
+      "访谈 5 个在波兰销售的中国卖家问退货痛点",
+      "算单件入库到德国的到岸成本",
+      "确认波兰公司注册与 VAT 要求"
+    ],
+    "kill_criteria": [
+      "6 个月日单量 < 200 单",
+      "单件操作成本高于报价",
+      "本地仓配服务商已覆盖同等服务且更便宜"
+    ],
+    "compliance_notes": "未逐条打开核验，标记 verified:false；需承担欧盟产品安全与环保合规责任，建议与有资质的本地主体合作",
+    "evidence_count": 2,
+    "activity_dates": [
+      "2026-09-02",
+      "2026-10-01",
+      "2026-10-13"
+    ],
+    "first_seen": "2026-09-02",
+    "last_activity": "2026-10-13",
+    "momentum": 1.2,
+    "rank_score": 67.3,
+    "tags": [
+      "b2b",
+      "needs-supply-chain",
+      "cross-border",
+      "recurring",
+      "china-advantage"
+    ],
+    "verified": false,
+    "disclaimer": "研究假设，非投资建议；示例数据用于演示，使用前请核验原始来源"
+  },
+  {
+    "id": "opp-content-webtoon-018",
+    "slug": "webtoon-localization-distribution",
+    "title": "条漫网文出海：翻译+海外分发，赚平台分成与 IP 授权",
+    "one_liner": "条漫市场被列为 2026–2031 增长赛道，中文与东南亚创作者缺翻译与海外发行，本地化+分成可轻资产切入",
+    "industry_id": "content",
+    "gap_type_ids": [
+      "language",
+      "channel",
+      "time"
+    ],
+    "region_ids": [
+      "north-america",
+      "sea",
+      "latam"
+    ],
+    "origin_country": "韩国",
+    "target_countries": [
+      "美国",
+      "泰国",
+      "印尼",
+      "巴西",
+      "墨西哥"
+    ],
+    "human_need_ids": [
+      "novelty",
+      "expression",
+      "status"
+    ],
+    "neuro_drivers": [
+      "dopamine",
+      "serotonin"
+    ],
+    "emotion_tags": [
+      "curiosity",
+      "identity",
+      "aspiration"
+    ],
+    "source_langs": [
+      "en",
+      "ko",
+      "zh"
+    ],
+    "signal": {
+      "summary": "条漫（webtoon）被多家研究机构列为 2026–2031 增长赛道，韩国平台主导供给与分发；中文与东南亚创作者缺专业翻译、排版与海外平台运营，分成与 IP 授权是主要变现路径。",
+      "evidence": [
+        {
+          "title": "Webtoons Market Size, Competitors, Trends & Forecast to 2030",
+          "publisher": "Research and Markets",
+          "url": "https://www.researchandmarkets.com/report/webtoon",
+          "date": "2026-10-20",
+          "quote": "Webtoons market size, competitors and forecast to 2030（条漫市场规模与预测）",
+          "lang": "en",
+          "tier": "secondary"
+        },
+        {
+          "title": "Webtoons - Market Share Analysis, Industry Trends & Statistics, 2026-2031",
+          "publisher": "GII Research",
+          "url": "https://www.giiresearch.com/report/moi2119711-webtoons-market-share-analysis-industry-trends.html",
+          "date": "2026-10-20",
+          "quote": "Webtoons market share analysis 2026-2031（条漫市场份额分析）",
+          "lang": "en",
+          "tier": "secondary"
+        }
+      ],
+      "signal_strength": 7.0,
+      "trend_direction": "up",
+      "volume_estimate": "条漫为独立研究品类；头部平台月活数千万，单部作品分成月收入可从数百到数万美元"
+    },
+    "seven_questions": {
+      "traffic": "在 Webtoon/Tapas 等平台投稿 + TikTok/Reels 条漫解说切片 + 中文创作者社群招募；前 100 个读者来自平台自然流量",
+      "money": "平台分成（付费解锁/广告）+ 单部翻译排版服务费 3000–15000 元 + IP 授权与短剧改编分成；毛利 60–80%",
+      "model": "内容服务+分成：签创作者版权代理→翻译/本地化/上架→平台分成与授权谈判；先做 10 部验证数据",
+      "roi": "启动 1–3 万元（翻译/美工/工具），3–6 个月首笔分成，6–12 个月回本，月收入 1–5 万元",
+      "audience": "有漫画/网文审美与选品能力、英语可读写、能长期对接平台规则的人；不适合只想搬运不想签版权的人",
+      "drivers": [
+        "info",
+        "capital",
+        "tech"
+      ],
+      "moat": "版权代理池 + 本地化 SOP + 平台运营数据；前置条件是版权授权链完整"
+    },
+    "roi": {
+      "capital_cny": {
+        "min": 10000,
+        "max": 30000
+      },
+      "time_to_revenue_months": 3,
+      "payback_months": 9,
+      "monthly_revenue_cny": {
+        "min": 10000,
+        "max": 50000
+      },
+      "gross_margin_pct": 70,
+      "effort_level": "side",
+      "team_size": 2
+    },
+    "scores": {
+      "dimensions": {
+        "signal": 7.0,
+        "gap": 7.2,
+        "feasibility": 7.6,
+        "economics": 7.2,
+        "timing": 7.0,
+        "competition": 6.4,
+        "risk": 6.6,
+        "fit": 7.4,
+        "evidence": 6.8,
+        "leverage": 7.0
+      },
+      "total": 70.8,
+      "grade": "B"
+    },
+    "window": {
+      "status": "open",
+      "months_left": 24,
+      "decay": "slow"
+    },
+    "risks": [
+      "版权授权不清导致作品下架与索赔",
+      "平台分成政策变化",
+      "AI 翻译质量差导致读者流失"
+    ],
+    "first_steps_7d": [
+      "研究 3 个平台的上架与分成规则",
+      "找 5 位中小创作者谈版权代理条件",
+      "试翻 1 部短篇条漫上架测数据",
+      "算一部作品的翻译排版成本与回本周期"
+    ],
+    "kill_criteria": [
+      "6 个月上架作品 < 10 部",
+      "单部月分成低于 100 美元",
+      "版权纠纷导致 2 部以上作品下架"
+    ],
+    "compliance_notes": "未逐条打开核验，标记 verified:false；需取得完整版权与翻译授权，注意平台独家条款；AI 翻译需人工审校",
+    "evidence_count": 2,
+    "activity_dates": [
+      "2026-08-10",
+      "2026-09-12",
+      "2026-10-22"
+    ],
+    "first_seen": "2026-08-10",
+    "last_activity": "2026-10-22",
+    "momentum": 1.4,
+    "rank_score": 74.2,
+    "tags": [
+      "content-driven",
+      "digital",
+      "remote",
+      "low-capital",
+      "side-hustle"
+    ],
+    "verified": false,
+    "disclaimer": "研究假设，非投资建议；示例数据用于演示，使用前请核验原始来源"
+  },
+  {
+    "id": "opp-content-kpop-merch-019",
+    "slug": "kpop-merch-crossborder",
+    "title": "K-pop 周边跨境：粉丝团购与二创价差",
+    "one_liner": "K-pop 周边跨境销售增长、韩国二手市场被全球需求拉动，官方供给慢，粉丝团购+代购+应援定制可做",
+    "industry_id": "content",
+    "gap_type_ids": [
+      "channel",
+      "culture",
+      "demographic"
+    ],
+    "region_ids": [
+      "east-asia",
+      "north-america",
+      "latam"
+    ],
+    "origin_country": "韩国",
+    "target_countries": [
+      "美国",
+      "日本",
+      "泰国",
+      "菲律宾",
+      "墨西哥"
+    ],
+    "human_need_ids": [
+      "belonging",
+      "status",
+      "expression"
+    ],
+    "neuro_drivers": [
+      "dopamine",
+      "oxytocin"
+    ],
+    "emotion_tags": [
+      "love",
+      "envy",
+      "identity"
+    ],
+    "source_langs": [
+      "ko",
+      "en",
+      "ja"
+    ],
+    "signal": {
+      "summary": "Delivered Korea 跨境电商规模达 390 亿韩元，媒体观察到全球 K-pop 周边需求拉动韩国二手交易；官方周边发售慢且地域限制多，粉丝团购、代购与应援定制形成稳定价差。",
+      "evidence": [
+        {
+          "title": "Overseas wallets open for K-pop merchandise — Delivered Korea's cross-border e-commerce reaches 39 billion won",
+          "publisher": "VentureSquare",
+          "url": "https://www.venturesquare.net/en/1108161/",
+          "date": "2026-10-20",
+          "quote": "K-pop merchandise cross-border e-commerce reaches 39 billion won（周边跨境电商达 390 亿韩元）",
+          "lang": "en",
+          "tier": "secondary"
+        },
+        {
+          "title": "Global demand for K-pop merchandise boosts Korea's secondhand market",
+          "publisher": "Pulse (Maeil Business)",
+          "url": "https://pulse.mk.co.kr/m/news/english/12116249",
+          "date": "2026-10-20",
+          "quote": "Global K-pop merchandise demand boosts Korea's secondhand market（全球需求拉动二手市场）",
+          "lang": "en",
+          "tier": "secondary"
+        }
+      ],
+      "signal_strength": 7.0,
+      "trend_direction": "up",
+      "volume_estimate": "Delivered Korea 跨境电商 390 亿韩元；单场演唱会周边团购客单 300–2000 元"
+    },
+    "seven_questions": {
+      "traffic": "粉丝超话/ Discord/ TikTok 应援内容 + 预售团购；前 100 单来自 3 个粉丝社群与演唱会现场",
+      "money": "代购差价 15–30% + 应援物定制（灯牌/手幅/手作）50–300 元/件 + 会员团购服务费；毛利 30–45%",
+      "model": "社群团购+代购：韩国/日本采购→拼单集运→分发；应援定制找国内小工厂；按场次/回归周期滚动",
+      "roi": "启动 1–3 万元（首批囤货/集运），1–2 个月出单，3–5 个月回本，月收入 1–4 万元",
+      "audience": "懂粉丝文化与应援节奏、有韩日采购或集运渠道、能长期在线的人；不适合不熟悉圈层的人",
+      "drivers": [
+        "info",
+        "cross-border"
+      ],
+      "moat": "采购渠道与集运速度 + 粉丝社群信任；前置条件是韩国/日本稳定买手与集运仓位；无长期壁垒，同类可在 6–12 个月内跟进，靠上新速度与社群运营守住份额"
+    },
+    "roi": {
+      "capital_cny": {
+        "min": 10000,
+        "max": 30000
+      },
+      "time_to_revenue_months": 1,
+      "payback_months": 4,
+      "monthly_revenue_cny": {
+        "min": 10000,
+        "max": 40000
+      },
+      "gross_margin_pct": 38,
+      "effort_level": "side",
+      "team_size": 1
+    },
+    "scores": {
+      "dimensions": {
+        "signal": 7.0,
+        "gap": 6.6,
+        "feasibility": 8.0,
+        "economics": 6.8,
+        "timing": 6.8,
+        "competition": 6.0,
+        "risk": 6.4,
+        "fit": 7.6,
+        "evidence": 6.6,
+        "leverage": 5.6
+      },
+      "total": 68.6,
+      "grade": "B"
+    },
+    "window": {
+      "status": "open",
+      "months_left": 12,
+      "decay": "fast"
+    },
+    "risks": [
+      "官方周边版权与代购合规风险",
+      "汇率与运费波动吞掉差价",
+      "粉丝社群运营断更导致复购流失"
+    ],
+    "first_steps_7d": [
+      "进 3 个粉丝社群观察团购流程与价格",
+      "联系 2 家韩国代购/集运问报价",
+      "算一场演唱会的周边需求与备货量",
+      "确认官方周边的转售条款"
+    ],
+    "kill_criteria": [
+      "单场团购毛利 < 800 元",
+      "连续 2 次回归未成团",
+      "官方开通直邮目标市场"
+    ],
+    "compliance_notes": "未逐条打开核验，标记 verified:false；转售官方周边需遵守平台与版权方条款，二创应援物避免使用未授权形象；跨境寄递需符合海关规定",
+    "evidence_count": 2,
+    "activity_dates": [
+      "2026-08-06",
+      "2026-09-25"
+    ],
+    "first_seen": "2026-08-06",
+    "last_activity": "2026-09-25",
+    "momentum": 1.1,
+    "rank_score": 69.4,
+    "tags": [
+      "cross-border",
+      "content-driven",
+      "b2c",
+      "platform-dependent",
+      "physical"
+    ],
+    "verified": false,
+    "disclaimer": "研究假设，非投资建议；示例数据用于演示，使用前请核验原始来源"
+  },
+  {
+    "id": "opp-content-audiobook-020",
+    "slug": "audiobook-production-export",
+    "title": "有声书出海：AI 语音把中文内容做成英文有声书",
+    "one_liner": "有声书市场 2026–2032 持续增长，AI 语音让制作成本骤降，中文内容在英文平台供给稀缺，可做翻译+有声化",
+    "industry_id": "content",
+    "gap_type_ids": [
+      "language",
+      "channel",
+      "time"
+    ],
+    "region_ids": [
+      "north-america",
+      "east-asia"
+    ],
+    "origin_country": "美国",
+    "target_countries": [
+      "美国",
+      "日本",
+      "加拿大"
+    ],
+    "human_need_ids": [
+      "novelty",
+      "ease",
+      "expression"
+    ],
+    "neuro_drivers": [
+      "dopamine",
+      "serotonin"
+    ],
+    "emotion_tags": [
+      "curiosity",
+      "relief",
+      "aspiration"
+    ],
+    "source_langs": [
+      "en",
+      "zh"
+    ],
+    "signal": {
+      "summary": "有声书被多家研究机构列为 2026–2032 增长市场；AI 语音把单本制作成本降到 1/10，中文小说与知识内容在英文有声平台的供给仍薄，翻译+有声化+分发存在窗口。",
+      "evidence": [
+        {
+          "title": "Audiobook - Market Share Analysis, Industry Trends & Statistics, 2026-2031",
+          "publisher": "GII Research",
+          "url": "https://www.giiresearch.com/report/moi2119896-audiobook-market-share-analysis-industry-trends.html",
+          "date": "2026-10-20",
+          "quote": "Audiobook market share analysis and forecast 2026-2031（有声书市场份额与预测）",
+          "lang": "en",
+          "tier": "secondary"
+        },
+        {
+          "title": "Audiobooks Market - Global Forecast 2026-2032",
+          "publisher": "GII Research",
+          "url": "https://www.giiresearch.com/report/ires2096471-audiobooks-market-global-forecast.html",
+          "date": "2026-10-20",
+          "quote": "Audiobooks market global forecast 2026-2032（有声书全球预测）",
+          "lang": "en",
+          "tier": "secondary"
+        }
+      ],
+      "signal_strength": 6.8,
+      "trend_direction": "up",
+      "volume_estimate": "有声书为独立研究品类；单本有声书制作 300–1200 元/小时，平台分成 25–40%"
+    },
+    "seven_questions": {
+      "traffic": "Audible/Spotify 有声书搜索优化 + YouTube 章节试听 + 中文作者社群；前 100 个听众来自平台搜索与作者粉丝",
+      "money": "平台版税分成 + 按小时制作费 300–1200 元 + 翻译费；毛利 60–75%",
+      "model": "制作服务+版权分成：签中文作品英文有声版权→AI 语音+人工审校→上架 Audible/Spotify→分成",
+      "roi": "启动 2–5 万元（语音工具/审校/封面），2–4 个月首本上架，5–8 个月回本，月收入 2–6 万元",
+      "audience": "有翻译/审校能力、懂有声书平台规则与 ACX 审核要求的人；不适合直接搬运无版权内容的人",
+      "drivers": [
+        "tech",
+        "info"
+      ],
+      "moat": "版权池 + 制作 SOP + 平台账号权重；前置条件是版权授权与人工审校"
+    },
+    "roi": {
+      "capital_cny": {
+        "min": 20000,
+        "max": 50000
+      },
+      "time_to_revenue_months": 3,
+      "payback_months": 7,
+      "monthly_revenue_cny": {
+        "min": 20000,
+        "max": 60000
+      },
+      "gross_margin_pct": 65,
+      "effort_level": "side",
+      "team_size": 1
+    },
+    "scores": {
+      "dimensions": {
+        "signal": 6.8,
+        "gap": 7.0,
+        "feasibility": 7.8,
+        "economics": 7.0,
+        "timing": 6.8,
+        "competition": 6.2,
+        "risk": 6.6,
+        "fit": 7.6,
+        "evidence": 6.4,
+        "leverage": 7.2
+      },
+      "total": 69.9,
+      "grade": "B"
+    },
+    "window": {
+      "status": "open",
+      "months_left": 18,
+      "decay": "slow"
+    },
+    "risks": [
+      "AI 语音不符合平台审核标准被拒",
+      "版权授权链不完整",
+      "平台对 AI 生成内容加标注与限流"
+    ],
+    "first_steps_7d": [
+      "读 ACX/Audible 对 AI 语音的最新规则",
+      "找 3 位中文作者谈有声版权分成",
+      "做 1 章英文 demo 测听感",
+      "算单本 8 小时有声书的制作成本"
+    ],
+    "kill_criteria": [
+      "平台明确拒绝 AI 语音",
+      "6 个月上架 < 5 本",
+      "单本 90 天收入低于 200 美元"
+    ],
+    "compliance_notes": "未逐条打开核验，标记 verified:false；需完整版权授权，平台要求披露 AI 语音；不得使用未授权声音克隆",
+    "evidence_count": 2,
+    "activity_dates": [
+      "2026-08-04",
+      "2026-09-20",
+      "2026-10-20"
+    ],
+    "first_seen": "2026-08-04",
+    "last_activity": "2026-10-20",
+    "momentum": 1.2,
+    "rank_score": 71.6,
+    "tags": [
+      "ai-native",
+      "digital",
+      "content-driven",
+      "remote",
+      "side-hustle"
+    ],
+    "verified": false,
+    "disclaimer": "研究假设，非投资建议；示例数据用于演示，使用前请核验原始来源"
+  },
+  {
+    "id": "opp-edu-jp-school-uniform-021",
+    "slug": "jp-school-uniform-oem",
+    "title": "日本学生服代工：小批量快反吃下校服更新需求",
+    "one_liner": "日本学生服市场进入换代尾声、2026 年度需求大减，厂商转向海外供应链与小批量定制，中国校服产能可承接",
+    "industry_id": "education",
+    "gap_type_ids": [
+      "culture",
+      "price",
+      "knowledge"
+    ],
+    "region_ids": [
+      "east-asia"
+    ],
+    "origin_country": "日本",
+    "target_countries": [
+      "日本"
+    ],
+    "human_need_ids": [
+      "status",
+      "belonging",
+      "control"
+    ],
+    "neuro_drivers": [
+      "serotonin",
+      "dopamine"
+    ],
+    "emotion_tags": [
+      "identity",
+      "pride",
+      "nostalgia"
+    ],
+    "source_langs": [
+      "ja"
+    ],
+    "signal": {
+      "summary": "日本纤维专业媒体报道学生服换代告一段落，2026 年度更换需求较上年大幅减少，厂商转向海外供应链与小批量定制；中国校服产业带的快反与小单能力正好补位。",
+      "evidence": [
+        {
+          "title": "特集 スクールユニフォーム（8）／魅力ある学生服へ",
+          "publisher": "繊研新聞（sen-i-news）",
+          "url": "https://www.sen-i-news.co.jp/seninews/view/?article=421129",
+          "date": "2026-10-20",
+          "quote": "特集 スクールユニフォーム／魅力ある学生服へ（学生服专题）",
+          "lang": "ja",
+          "tier": "secondary"
+        },
+        {
+          "title": "学生服のモデルチェンジが一段落 26年度は前年より大きく減少",
+          "publisher": "繊研新聞",
+          "url": "https://admin.senken.co.jp/posts/school-uniform-260728",
+          "date": "2026-10-20",
+          "quote": "26年度は前年より大きく減少（2026 年度需求较上年大幅减少）",
+          "lang": "ja",
+          "tier": "secondary"
+        }
+      ],
+      "signal_strength": 6.8,
+      "trend_direction": "flat",
+      "volume_estimate": "日本学生服市场数百亿日元规模；单套 8000–20000 日元，小批量订单 300–2000 套"
+    },
+    "seven_questions": {
+      "traffic": "通过日本校服商社与学校采购代理接单，参加日本纤维展会；前 5 个客户来自商社转介",
+      "money": "B2B 代工订单，单套 8000–20000 日元，毛利 25–35%；打样与小单加价 20–40%",
+      "model": "OEM 代工：日本商社接单→中国工厂打样生产→按校交付；做小批量快反与品质稳定",
+      "roi": "启动 10–30 万元（打样/认证/差旅），3–6 个月首单，12–18 个月回本，月收入 20–50 万元",
+      "audience": "有服装供应链经验、能日语沟通、懂日本品质与交期要求的人；不适合无工厂资源的中介",
+      "drivers": [
+        "supply",
+        "cross-border",
+        "ops"
+      ],
+      "moat": "打样速度与品质稳定 + 商社关系；前置条件是日本尺码体系与面料标准"
+    },
+    "roi": {
+      "capital_cny": {
+        "min": 100000,
+        "max": 300000
+      },
+      "time_to_revenue_months": 4,
+      "payback_months": 15,
+      "monthly_revenue_cny": {
+        "min": 200000,
+        "max": 500000
+      },
+      "gross_margin_pct": 30,
+      "effort_level": "full",
+      "team_size": 3
+    },
+    "scores": {
+      "dimensions": {
+        "signal": 6.8,
+        "gap": 7.0,
+        "feasibility": 5.8,
+        "economics": 6.6,
+        "timing": 6.6,
+        "competition": 6.8,
+        "risk": 6.4,
+        "fit": 5.6,
+        "evidence": 6.6,
+        "leverage": 5.8
+      },
+      "total": 64.8,
+      "grade": "C"
+    },
+    "window": {
+      "status": "open",
+      "months_left": 10,
+      "decay": "slow"
+    },
+    "risks": [
+      "日本少子化让学生服总量长期下行",
+      "商社账期长（3–6 个月）",
+      "品质或交期问题被替换供应商"
+    ],
+    "first_steps_7d": [
+      "查日本学生服主要商社与采购流程",
+      "要 3 家工厂的日本校服案例与面料清单",
+      "算 500 套小单的到岸成本与账期",
+      "联系 1 家商社问样板要求"
+    ],
+    "kill_criteria": [
+      "12 个月拿不到首单",
+      "商社压价到毛利 15% 以下",
+      "品质退货率超过 5%"
+    ],
+    "compliance_notes": "未逐条打开核验，标记 verified:false；需符合日本纺织品标签与校方指定的面料/安全标准；涉及学生个人信息不得采集",
+    "evidence_count": 2,
+    "activity_dates": [
+      "2026-07-29",
+      "2026-09-08",
+      "2026-10-15"
+    ],
+    "first_seen": "2026-07-29",
+    "last_activity": "2026-10-15",
+    "momentum": 1.0,
+    "rank_score": 64.8,
+    "tags": [
+      "b2b",
+      "needs-supply-chain",
+      "cross-border",
+      "china-advantage",
+      "localization-heavy"
+    ],
+    "verified": false,
+    "disclaimer": "研究假设，非投资建议；示例数据用于演示，使用前请核验原始来源"
+  },
+  {
+    "id": "opp-edu-microschool-022",
+    "slug": "us-microschool-ops",
+    "title": "美国 microschool：给微型学校做课程与合规",
+    "one_liner": "美国 microschool 持续扩张、课程与运营支持需求明确，个人可做课程包+合规文档+家长运营的轻服务",
+    "industry_id": "education",
+    "gap_type_ids": [
+      "demographic",
+      "knowledge",
+      "regulation"
+    ],
+    "region_ids": [
+      "north-america"
+    ],
+    "origin_country": "美国",
+    "target_countries": [
+      "美国",
+      "加拿大"
+    ],
+    "human_need_ids": [
+      "growth",
+      "belonging",
+      "control"
+    ],
+    "neuro_drivers": [
+      "dopamine",
+      "serotonin"
+    ],
+    "emotion_tags": [
+      "hope",
+      "aspiration",
+      "anxiety"
+    ],
+    "source_langs": [
+      "en"
+    ],
+    "signal": {
+      "summary": "美国 microschool 与家庭学校群体持续扩张，媒体与教育行业媒体连续报道其增长；新开办者缺课程体系、出勤与安全合规文档、家长沟通模板，运营支持成为可付费服务。",
+      "evidence": [
+        {
+          "title": "What you need to know about microschools",
+          "publisher": "K-12 Dive",
+          "url": "https://www.k12dive.com/news/what-you-need-to-know--about-microschools/827601/",
+          "date": "2026-10-06",
+          "quote": "Microschools keep expanding, creating demand for curriculum and operations（微型学校扩张带来课程与运营需求）",
+          "lang": "en",
+          "tier": "secondary"
+        },
+        {
+          "title": "Exclusive: 7 Things to Know About Microschools in 2026",
+          "publisher": "The 74",
+          "url": "https://www.the74million.org/article/exclusive-7-things-to-know-about-microschools-in-2026/",
+          "date": "2026-10-08",
+          "quote": "7 things to know about microschools in 2026（2026 微型学校 7 个关键点）",
+          "lang": "en",
+          "tier": "secondary"
+        }
+      ],
+      "signal_strength": 7.0,
+      "trend_direction": "up",
+      "volume_estimate": "美国 microschool 数量以千计，单个开办者年度运营预算 2–10 万美元；课程与合规服务客单 500–5000 美元"
+    },
+    "seven_questions": {
+      "traffic": "Facebook 家庭学校社群 + 州教育展会 + 与教育服务商互推；前 10 个客户来自社群与转介",
+      "money": "课程包 300–2000 美元/套 + 合规文档模板 200–800 美元 + 月度运营顾问 300–1000 美元；毛利 65–80%",
+      "model": "信息产品+顾问：把开办流程模板化（课程/出勤/安全/家长沟通），按套餐卖，再转月度顾问",
+      "roi": "启动 1–3 万元（内容/网站/法律审阅），1–2 个月首单，3–5 个月回本，月收入 1–4 万元",
+      "audience": "有教育行业经验、英语写作强、了解州级教育法规的人；不适合无教育背景的纯模板卖家",
+      "drivers": [
+        "info",
+        "ops",
+        "regulation"
+      ],
+      "moat": "课程与合规模板库 + 州级案例；前置条件是州法差异与免责边界"
+    },
+    "roi": {
+      "capital_cny": {
+        "min": 10000,
+        "max": 30000
+      },
+      "time_to_revenue_months": 1,
+      "payback_months": 4,
+      "monthly_revenue_cny": {
+        "min": 10000,
+        "max": 40000
+      },
+      "gross_margin_pct": 70,
+      "effort_level": "side",
+      "team_size": 1
+    },
+    "scores": {
+      "dimensions": {
+        "signal": 7.0,
+        "gap": 6.8,
+        "feasibility": 8.2,
+        "economics": 7.2,
+        "timing": 6.8,
+        "competition": 6.2,
+        "risk": 6.8,
+        "fit": 8.0,
+        "evidence": 6.6,
+        "leverage": 7.2
+      },
+      "total": 71.2,
+      "grade": "B"
+    },
+    "window": {
+      "status": "open",
+      "months_left": 18,
+      "decay": "slow"
+    },
+    "risks": [
+      "州级教育法规差异导致模板不适用",
+      "家长社群口碑差评扩散",
+      "公共教育机构推出免费支持挤压"
+    ],
+    "first_steps_7d": [
+      "查 3 个州的 microschool 开办要求",
+      "访谈 5 位 microschool 开办者问最缺什么",
+      "做 1 套课程与出勤模板试卖",
+      "确认教育建议与法律意见的边界声明"
+    ],
+    "kill_criteria": [
+      "3 个月卖不出 10 套",
+      "模板被投诉不适用退款超过 20%",
+      "州法变化导致课程体系重做"
+    ],
+    "compliance_notes": "未逐条打开核验，标记 verified:false；不提供法律意见，需提示用户按州法自行核验；涉及未成年人数据需 COPPA/州法合规",
+    "evidence_count": 2,
+    "activity_dates": [
+      "2026-08-12",
+      "2026-09-22"
+    ],
+    "first_seen": "2026-08-12",
+    "last_activity": "2026-09-22",
+    "momentum": 1.1,
+    "rank_score": 72.1,
+    "tags": [
+      "digital",
+      "remote",
+      "side-hustle",
+      "b2b",
+      "content-driven"
+    ],
+    "verified": false,
+    "disclaimer": "研究假设，非投资建议；示例数据用于演示，使用前请核验原始来源"
+  },
+  {
+    "id": "opp-edu-korea-tutoring-023",
+    "slug": "korea-tutoring-wellbeing",
+    "title": "韩国补习附加服务：把心理与生活管理卖进补习班",
+    "one_liner": "韩国补习费进入月 60 万韩元时代并向心理与生活管理延伸，个人可做学生心理/时间管理配套服务",
+    "industry_id": "education",
+    "gap_type_ids": [
+      "demographic",
+      "emotion",
+      "time"
+    ],
+    "region_ids": [
+      "east-asia"
+    ],
+    "origin_country": "韩国",
+    "target_countries": [
+      "韩国"
+    ],
+    "human_need_ids": [
+      "growth",
+      "control",
+      "belonging"
+    ],
+    "neuro_drivers": [
+      "serotonin",
+      "endorphin"
+    ],
+    "emotion_tags": [
+      "anxiety",
+      "hope",
+      "aspiration"
+    ],
+    "source_langs": [
+      "ko"
+    ],
+    "signal": {
+      "summary": "韩国媒体连续报道补习费进入月 60 万韩元时代、家长每月 400 万韩元仍称『算少的』，同时补习班开始把心理护理与生活管理作为新的差异化服务；说明单纯学科补习之外的情绪与时间管理需求正在形成付费带。",
+      "evidence": [
+        {
+          "title": "월 60만원 시대 된 사교육…학습 넘어 멘탈케어·생활관리까지 판다",
+          "publisher": "이투데이",
+          "url": "https://m.etoday.co.kr/news/view/2590139",
+          "date": "2026-10-20",
+          "quote": "학습 넘어 멘탈케어·생활관리까지 판다（从学习延伸到心理护理与生活管理）",
+          "lang": "ko",
+          "tier": "secondary"
+        },
+        {
+          "title": "请私教只为上知名补习班：韩国家长有多卷？每月400万韩元补习费“我们算少的”",
+          "publisher": "中央日报中文网",
+          "url": "https://chinese.joins.com/news/articleView.html?idxno=123782",
+          "date": "2026-10-20",
+          "quote": "每月 400 万韩元补习费『我们算少的』",
+          "lang": "zh",
+          "tier": "secondary"
+        }
+      ],
+      "signal_strength": 7.2,
+      "trend_direction": "up",
+      "volume_estimate": "韩国有孩家庭月均补习支出数十万至数百万韩元；心理与生活管理增值服务客单 5–20 万韩元/月"
+    },
+    "seven_questions": {
+      "traffic": "与补习班/学院合作分班 + 家长社群（맘카페）+ 小红书韩国留学家长圈；前 20 个学生来自 2 家学院合作",
+      "money": "按学生月费 5–15 万韩元（心理护理+学习计划+家长沟通）+ 学院分成；毛利 55–70%",
+      "model": "服务+顾问：给补习班做增值服务模块（学生心理测评、时间管理训练、家长月报），按人头分成",
+      "roi": "启动 1–3 万元（培训/测评工具/内容），1–2 个月合作，4–6 个月回本，月收入 2–6 万元",
+      "audience": "懂青少年心理或学习科学、韩语可沟通、能长期驻韩或线上服务的人；不适合承诺提分的人",
+      "drivers": [
+        "info",
+        "ops",
+        "regulation"
+      ],
+      "moat": "学院渠道 + 家长信任 + 效果记录；前置条件是青少年心理服务边界与资质"
+    },
+    "roi": {
+      "capital_cny": {
+        "min": 10000,
+        "max": 30000
+      },
+      "time_to_revenue_months": 2,
+      "payback_months": 5,
+      "monthly_revenue_cny": {
+        "min": 20000,
+        "max": 60000
+      },
+      "gross_margin_pct": 60,
+      "effort_level": "full",
+      "team_size": 2
+    },
+    "scores": {
+      "dimensions": {
+        "signal": 7.2,
+        "gap": 7.0,
+        "feasibility": 7.0,
+        "economics": 7.0,
+        "timing": 7.0,
+        "competition": 6.4,
+        "risk": 6.6,
+        "fit": 6.6,
+        "evidence": 6.6,
+        "leverage": 6.2
+      },
+      "total": 68.7,
+      "grade": "B"
+    },
+    "window": {
+      "status": "open",
+      "months_left": 18,
+      "decay": "slow"
+    },
+    "risks": [
+      "韩国对学业辅导与心理服务的资质监管变化",
+      "学院合作被大型教育集团收回",
+      "效果难量化导致续费率低"
+    ],
+    "first_steps_7d": [
+      "访谈 3 家学院问增值服务需求",
+      "访谈 5 位家长问愿意为心理/时间管理付多少",
+      "设计 1 个月服务包与效果记录表",
+      "确认韩国青少年心理服务资质边界"
+    ],
+    "kill_criteria": [
+      "3 个月签约学生 < 20 人",
+      "学院分成高于 50%",
+      "续费率低于 50%"
+    ],
+    "compliance_notes": "未逐条打开核验，标记 verified:false；不提供心理治疗与提分承诺；未成年人数据需监护人同意并符合韩国个人信息保护法",
+    "evidence_count": 2,
+    "activity_dates": [
+      "2026-08-08",
+      "2026-09-18"
+    ],
+    "first_seen": "2026-08-08",
+    "last_activity": "2026-09-18",
+    "momentum": 1.2,
+    "rank_score": 70.3,
+    "tags": [
+      "b2b",
+      "localization-heavy",
+      "recurring",
+      "needs-license"
+    ],
+    "verified": false,
+    "disclaimer": "研究假设，非投资建议；示例数据用于演示，使用前请核验原始来源"
+  },
+  {
+    "id": "opp-local-furusato-nozei-024",
+    "slug": "japan-furusato-nozei-gift",
+    "title": "日本故乡纳税返礼品：1.33 兆日元市场的中国供应链机会",
+    "one_liner": "2025 年度捐赠 1.33 兆日元、83.4% 用户不换门户，返礼品开发与日语提案是懂行者的高门槛生意",
+    "industry_id": "local",
+    "gap_type_ids": [
+      "language",
+      "culture",
+      "channel"
+    ],
+    "region_ids": [
+      "east-asia"
+    ],
+    "origin_country": "日本",
+    "target_countries": [
+      "日本"
+    ],
+    "human_need_ids": [
+      "status",
+      "belonging",
+      "control"
+    ],
+    "neuro_drivers": [
+      "serotonin",
+      "dopamine"
+    ],
+    "emotion_tags": [
+      "pride",
+      "ritual",
+      "aspiration"
+    ],
+    "source_langs": [
+      "ja",
+      "zh"
+    ],
+    "signal": {
+      "summary": "2025 年度故乡纳税捐赠额达 1 兆 3,314 亿日元并连续 6 年创新高，返礼品以海产/肉/大米/水果为主；83.4% 用户固定使用同一门户，说明新自治体与新返礼品是唯一入口。2025-10 起禁止积分返利，自治体转向『质量与故事』竞争。",
+      "evidence": [
+        {
+          "title": "故乡纳税捐赠额连续 6 年创新高 2025 年度达 1 兆 3,314 亿日元",
+          "publisher": "信浓每日新闻",
+          "url": "https://www.shinmai.co.jp/news/article/gfkn2026073101001609",
+          "date": "2026-07-31",
+          "quote": "2025 年度捐赠 1 兆 3,314 亿日元（连续 6 年新高）",
+          "lang": "ja",
+          "tier": "primary"
+        },
+        {
+          "title": "故乡纳税返礼品与门户选择的调查分析",
+          "publisher": "RIETI（经济产业研究所）",
+          "url": "https://www.rieti.go.jp/jp/columns/a01_0805.html",
+          "date": "2026-03-11",
+          "quote": "83.4% 用户继续使用同一门户（上限额难算为最大不满）",
+          "lang": "ja",
+          "tier": "primary"
+        }
+      ],
+      "signal_strength": 8.8,
+      "trend_direction": "up",
+      "volume_estimate": "2025 年度捐赠 1 兆 3,314 亿日元；返礼品中海产 39.7%、肉 36.8%、大米 28.7%、水果 23.6%"
+    },
+    "seven_questions": {
+      "traffic": "总务省指定通知名单里的自治体/地域商社 + 地方银行与商工会议所渠道，用日语提案书+样品接触；前 3 个客户来自商社转介",
+      "money": "按 SKU 收开发费 10–50 万日元/款 + 销售分成 5–15% + 返礼品代运营月费；毛利 35–50%",
+      "model": "B2B 服务：为中国工厂/日本商社做返礼品选品提案、打样、质检与物流方案，做自治体与工厂之间的撮合方",
+      "roi": "启动 5,000–20,000 元（日语资料/样品/差旅），6 个月首单，12 个月回本，月收入 1–4 万元",
+      "audience": "日语 N2 以上、有中国工厂资源、能做 B2B 提案的人；不适合无日语能力的纯中介",
+      "drivers": [
+        "cross-border",
+        "supply",
+        "regulation"
+      ],
+      "moat": "日语提案能力 + 自治体信任 + 工厂柔性小批量；窗口期 2–3 年"
+    },
+    "roi": {
+      "capital_cny": {
+        "min": 5000,
+        "max": 20000
+      },
+      "time_to_revenue_months": 6,
+      "payback_months": 12,
+      "monthly_revenue_cny": {
+        "min": 10000,
+        "max": 40000
+      },
+      "gross_margin_pct": 40,
+      "effort_level": "side",
+      "team_size": 2
+    },
+    "scores": {
+      "dimensions": {
+        "signal": 8.8,
+        "gap": 8.8,
+        "feasibility": 7.2,
+        "economics": 7.6,
+        "timing": 8.0,
+        "competition": 7.4,
+        "risk": 6.8,
+        "fit": 6.6,
+        "evidence": 8.6,
+        "leverage": 7.4
+      },
+      "total": 78.6,
+      "grade": "A"
+    },
+    "window": {
+      "status": "open",
+      "months_left": 24,
+      "decay": "slow"
+    },
+    "risks": [
+      "自治体决策链 6–18 个月",
+      "食品/化妆品进口检疫与标签不合规",
+      "门户把毛利压到 20–30%"
+    ],
+    "first_steps_7d": [
+      "下载总务省故乡纳税指定通知名单，筛 20 个自治体",
+      "研究 3 个门户的热销返礼品与差评",
+      "联系 2 家中国工厂问小批量定制能力",
+      "写 1 份日语返礼品提案模板"
+    ],
+    "kill_criteria": [
+      "12 个月拿不到首单",
+      "毛利被压到 20% 以下",
+      "政策改为禁止返礼品（制度性风险）"
+    ],
+    "compliance_notes": "证据 URL 经研究组核验为可访问（✅200），标记 verified:true；食品与化妆品需符合日本进口与标签规定，返礼品规则受总务省制度约束",
+    "evidence_count": 2,
+    "activity_dates": [
+      "2026-08-02",
+      "2026-09-26",
+      "2026-10-17"
+    ],
+    "first_seen": "2026-08-02",
+    "last_activity": "2026-10-17",
+    "momentum": 1.3,
+    "rank_score": 81.4,
+    "tags": [
+      "b2b",
+      "localization-heavy",
+      "needs-supply-chain",
+      "recurring",
+      "china-advantage"
+    ],
+    "verified": true,
+    "disclaimer": "研究假设，非投资建议；示例数据用于演示，使用前请核验原始来源"
+  },
+  {
+    "id": "opp-local-umrah-service-025",
+    "slug": "saudi-umrah-service",
+    "title": "沙特 Umrah 小团：1,950 万朝觐者的缺口",
+    "one_liner": "2025 年 1,950 万入境朝觐者、1,503 万签证，中文/印尼语向导与内容供给不足，个人可与持牌运营商合作",
+    "industry_id": "local",
+    "gap_type_ids": [
+      "culture",
+      "language",
+      "channel"
+    ],
+    "region_ids": [
+      "mena",
+      "sea"
+    ],
+    "origin_country": "沙特",
+    "target_countries": [
+      "沙特",
+      "阿联酋",
+      "印度尼西亚"
+    ],
+    "human_need_ids": [
+      "meaning",
+      "belonging",
+      "status"
+    ],
+    "neuro_drivers": [
+      "oxytocin",
+      "serotonin"
+    ],
+    "emotion_tags": [
+      "devotion",
+      "awe",
+      "identity"
+    ],
+    "source_langs": [
+      "ar",
+      "en",
+      "zh"
+    ],
+    "signal": {
+      "summary": "沙特官方数据：2025 年入境 Umrah 者 1,803 万、Hajj 150 万，Umrah 较 2022 年增长约 114%，签证 1,503 万；来源国前三为巴基斯坦、印尼、埃及。中文与印尼语向导、礼包与内容供给明显不足。",
+      "evidence": [
+        {
+          "title": "2025 年朝觐者与签证数据（PEP 官方新闻）",
+          "publisher": "沙特朝觐与副朝部（PEP）",
+          "url": "https://pep.gov.sa/en/news/1011",
+          "date": "2026-08-03",
+          "quote": "19.5 million Umrah and Hajj visitors in 2025（2025 年 1,950 万人次）",
+          "lang": "en",
+          "tier": "primary"
+        }
+      ],
+      "signal_strength": 8.5,
+      "trend_direction": "up",
+      "volume_estimate": "2025 年 Umrah 1,803 万 + Hajj 150 万人次；朝觐小团客单 8,000–25,000 元/人"
+    },
+    "seven_questions": {
+      "traffic": "微信/小红书的穆斯林社群 + 印尼语 YouTube/TikTok + 清真寺与旅行社合作；前 3 个团来自社群与旅行社转介",
+      "money": "团费加价 8–15% + 朝觐礼包（戒衣/礼拜毯/便携净水）150–600 元/人 + 纪念相册/视频 200–800 元；毛利 20–30%",
+      "model": "与沙特持牌 Umrah 运营商合作：自己负责中文/印尼语获客与内容、当地持牌方负责地接与许可，按团分成",
+      "roi": "启动 1–5 万元（内容/资质保证金），4 个月出团，10 个月回本，月收入 2–8 万元",
+      "audience": "懂阿拉伯语或印尼语、有穆斯林社群资源或旅行社经验的人；必须与持牌方合作",
+      "drivers": [
+        "cross-border",
+        "info",
+        "regulation"
+      ],
+      "moat": "沙特持牌运营商合作资格 + 中文/印尼语社群信任；前置条件是与持牌方的分成协议与宗教服务 SOP；牌照与配额形成 2–3 年缓冲，无牌照者只能做内容与获客"
+    },
+    "roi": {
+      "capital_cny": {
+        "min": 10000,
+        "max": 50000
+      },
+      "time_to_revenue_months": 4,
+      "payback_months": 10,
+      "monthly_revenue_cny": {
+        "min": 20000,
+        "max": 80000
+      },
+      "gross_margin_pct": 25,
+      "effort_level": "full",
+      "team_size": 2
+    },
+    "scores": {
+      "dimensions": {
+        "signal": 8.5,
+        "gap": 8.6,
+        "feasibility": 6.7,
+        "economics": 8.0,
+        "timing": 8.2,
+        "competition": 7.0,
+        "risk": 6.0,
+        "fit": 6.4,
+        "evidence": 8.8,
+        "leverage": 7.0
+      },
+      "total": 76.8,
+      "grade": "A"
+    },
+    "window": {
+      "status": "open",
+      "months_left": 24,
+      "decay": "slow"
+    },
+    "risks": [
+      "朝觐牌照与配额限制",
+      "宗教服务容错率极低，一次事故即毁口碑",
+      "季节性极强（斋月/朝觐季）导致现金流波动"
+    ],
+    "first_steps_7d": [
+      "找 3 家沙特持牌 Umrah 运营商问合作条款",
+      "访谈 5 位去过 Umrah 的中文用户问痛点",
+      "设计 1 个中文小团行程与礼包清单",
+      "确认中国出境游与沙特签证的材料要求"
+    ],
+    "kill_criteria": [
+      "拿不到持牌方合作",
+      "首团毛利低于 15%",
+      "出现宗教服务重大投诉"
+    ],
+    "compliance_notes": "证据 URL 经研究组核验为可访问（✅200），标记 verified:true；朝觐服务须由沙特持牌运营商承接，严禁无证组团；宗教内容需学者审校",
+    "evidence_count": 1,
+    "activity_dates": [
+      "2026-08-06",
+      "2026-10-01",
+      "2026-10-21"
+    ],
+    "first_seen": "2026-08-06",
+    "last_activity": "2026-10-21",
+    "momentum": 1.5,
+    "rank_score": 81.4,
+    "tags": [
+      "needs-license",
+      "localization-heavy",
+      "seasonal",
+      "b2c"
+    ],
+    "verified": true,
+    "disclaimer": "研究假设，非投资建议；示例数据用于演示，使用前请核验原始来源"
+  },
+  {
+    "id": "opp-culture-religious-l10n-026",
+    "slug": "religious-text-translation",
+    "title": "宗教文本专业译审：普通翻译员做不了的阿语市场",
+    "one_liner": "《古兰经》含义翻译只可由专才承担，宗教教材/伊斯兰金融本地化存在资质型信息差，个人可做译审+学者背书",
+    "industry_id": "culture",
+    "gap_type_ids": [
+      "language",
+      "culture",
+      "knowledge"
+    ],
+    "region_ids": [
+      "mena",
+      "sea"
+    ],
+    "origin_country": "沙特",
+    "target_countries": [
+      "沙特",
+      "阿联酋",
+      "埃及",
+      "印度尼西亚",
+      "马来西亚"
+    ],
+    "human_need_ids": [
+      "meaning",
+      "belonging",
+      "control"
+    ],
+    "neuro_drivers": [
+      "serotonin",
+      "oxytocin"
+    ],
+    "emotion_tags": [
+      "devotion",
+      "awe",
+      "fear"
+    ],
+    "source_langs": [
+      "ar",
+      "zh",
+      "en"
+    ],
+    "signal": {
+      "summary": "伊斯兰权威问答平台明确《古兰经》含义翻译只能由具备宗教学识的专才承担；宗教教材、伊斯兰金融合同与内容本地化因此存在资质型信息差。AI 翻译普及反而放大了『宗教正确性』风险，抬高人工审校价值。",
+      "evidence": [
+        {
+          "title": "《古兰经》含义翻译的资质要求（法特瓦）",
+          "publisher": "IslamWeb",
+          "url": "https://fatwatokdev.islamweb.net/?id=176559&sub_cat=406",
+          "date": "2026-10-20",
+          "quote": "《古兰经》含义翻译只有专才可承担（标题即结论）",
+          "lang": "ar",
+          "tier": "primary"
+        },
+        {
+          "title": "沙特语言服务市场研究报告",
+          "publisher": "Ken Research",
+          "url": "https://www.kenresearch.com/saudi-arabia-language-services-market",
+          "date": "2026-10-20",
+          "quote": "Saudi Arabia language services market（沙特语言服务市场）",
+          "lang": "en",
+          "tier": "secondary"
+        }
+      ],
+      "signal_strength": 7.6,
+      "trend_direction": "up",
+      "volume_estimate": "中东宗教教育、伊斯兰金融与内容本地化需求上升；译审 0.15–0.5 元/字，单个术语库授权可达数万元"
+    },
+    "seven_questions": {
+      "traffic": "中东/东南亚宗教出版社、伊斯兰学校、清真认证机构、伊斯兰金融公司；学术会议 + LinkedIn 定向",
+      "money": "按字/按项目：译审 0.15–0.5 元/字、审校 0.1–0.3 元/字 + 术语库授权 + 长期顾问费；毛利 65–80%",
+      "model": "垂直译审工作室：阿语/中文初译 + 宗教学者终审 + 免责声明，数字交付；术语库做成可复用资产",
+      "roi": "启动 2,000–10,000 元（术语库/网站/学者合作），3 个月首单，6 个月回本，月收入 8,000–30,000 元",
+      "audience": "阿语专业 + 宗教学者背书 + 中文/英文能力；不适合无宗教知识背景的普通译者",
+      "drivers": [
+        "info",
+        "cross-border"
+      ],
+      "moat": "宗教学者终审网络 + 分语种术语库 + 可追溯案例；前置条件是学者署名与免责边界；误译代价极高，信任壁垒预计 3–5 年难以被复制"
+    },
+    "roi": {
+      "capital_cny": {
+        "min": 2000,
+        "max": 10000
+      },
+      "time_to_revenue_months": 3,
+      "payback_months": 6,
+      "monthly_revenue_cny": {
+        "min": 8000,
+        "max": 30000
+      },
+      "gross_margin_pct": 70,
+      "effort_level": "side",
+      "team_size": 2
+    },
+    "scores": {
+      "dimensions": {
+        "signal": 7.6,
+        "gap": 9.2,
+        "feasibility": 6.4,
+        "economics": 7.8,
+        "timing": 7.5,
+        "competition": 8.0,
+        "risk": 5.8,
+        "fit": 6.0,
+        "evidence": 8.2,
+        "leverage": 7.2
+      },
+      "total": 75.2,
+      "grade": "A"
+    },
+    "window": {
+      "status": "open",
+      "months_left": 36,
+      "decay": "slow"
+    },
+    "risks": [
+      "误译引发宗教/外交争议",
+      "需宗教学者合作与责任边界",
+      "部分国家要求译者资质认证"
+    ],
+    "first_steps_7d": [
+      "找 2 位宗教学者谈终审合作与署名方式",
+      "梳理宗教文本译审的术语与禁区清单",
+      "联系 3 家伊斯兰出版社/学校问外包需求",
+      "写 1 份译审流程与免责声明模板"
+    ],
+    "kill_criteria": [
+      "6 个月拿不到 3 个付费项目",
+      "学者合作无法持续",
+      "出现教义争议投诉"
+    ],
+    "compliance_notes": "法特瓦页面正文未能完整提取，标记 verified:false；宗教文本必须由学者审校、避免教义错误，涉及宗教内容需极其谨慎",
+    "evidence_count": 2,
+    "activity_dates": [
+      "2026-08-10",
+      "2026-09-29"
+    ],
+    "first_seen": "2026-08-10",
+    "last_activity": "2026-09-29",
+    "momentum": 1.0,
+    "rank_score": 75.2,
+    "tags": [
+      "needs-license",
+      "localization-heavy",
+      "b2b",
+      "digital"
+    ],
+    "verified": false,
+    "disclaimer": "研究假设，非投资建议；示例数据用于演示，使用前请核验原始来源"
+  },
+  {
+    "id": "opp-culture-ramadan-027",
+    "slug": "ramadan-gifting-bundle",
+    "title": "斋月礼赠与夜间消费选品包：把 90 天备货窗口做成生意",
+    "one_liner": "2027 年斋月预计 2 月初开始，礼赠/家居/服饰/夜间消费集中爆发，选品包+内容模板可跨境验证",
+    "industry_id": "culture",
+    "gap_type_ids": [
+      "culture",
+      "channel",
+      "time"
+    ],
+    "region_ids": [
+      "mena",
+      "sea"
+    ],
+    "origin_country": "沙特",
+    "target_countries": [
+      "沙特",
+      "阿联酋",
+      "印度尼西亚",
+      "埃及"
+    ],
+    "human_need_ids": [
+      "meaning",
+      "belonging",
+      "status"
+    ],
+    "neuro_drivers": [
+      "serotonin",
+      "oxytocin"
+    ],
+    "emotion_tags": [
+      "ritual",
+      "identity",
+      "hope"
+    ],
+    "source_langs": [
+      "ar",
+      "id",
+      "en"
+    ],
+    "signal": {
+      "summary": "多家媒体报道 2027 年斋月预计 2 月上旬开始、开斋节在 3 月，品牌需提前约 90 天备货；斋月期间白天消费收缩、夜间消费扩张，礼赠、家居装饰、服饰与宗教内容需求集中。",
+      "evidence": [
+        {
+          "title": "Probable dates of Ramadan and Eid-ul-Fitr announced for 2027",
+          "publisher": "The Daily Inqilab",
+          "url": "https://en.dailyinqilab.com/probable-dates-of-ramadan-and-eid-ul-fitr-announced/",
+          "date": "2026-10-07",
+          "quote": "Ramadan 2027 expected to begin in early February（2027 年斋月预计 2 月初开始）",
+          "lang": "en",
+          "tier": "secondary"
+        },
+        {
+          "title": "Ramadan 2027 may begin on February 8",
+          "publisher": "Observer BD",
+          "url": "https://observerbd.com/news/598628",
+          "date": "2026-10-08",
+          "quote": "Ramadan 2027 may begin on February 8（斋月或于 2 月 8 日开始）",
+          "lang": "en",
+          "tier": "secondary"
+        }
+      ],
+      "signal_strength": 7.4,
+      "trend_direction": "up",
+      "volume_estimate": "海湾+东南亚穆斯林消费者数十亿人次消费；斋月礼赠客单 20–120 美元，家居装饰类目增速高于年均"
+    },
+    "seven_questions": {
+      "traffic": "TikTok/Instagram 斋月场景内容 + 本地 KOL 开箱 + 平台站内斋月活动报名；前 100 单来自短视频与站内活动",
+      "money": "礼赠套装 20–80 美元 + 家居装饰 15–60 美元 + 服饰 30–120 美元；毛利 40–55%，节日集中成交",
+      "model": "选品包+内容模板：中国供应链选品→本地化包装与文案→平台店/独立站销售→斋月前 90 天开卖",
+      "roi": "启动 2–6 万元（备货/拍摄/包装），斋月前 3 个月出单，5–8 个月回本，单季月收入 2–8 万元",
+      "audience": "懂中东/东南亚审美与宗教禁忌、能对接供应链与本地 KOL 的卖家；不适合不了解伊斯兰文化禁忌的人",
+      "drivers": [
+        "cross-border",
+        "info",
+        "supply"
+      ],
+      "moat": "选品与本地化内容 + 斋月档期运营经验；窗口每年重启，无长期壁垒"
+    },
+    "roi": {
+      "capital_cny": {
+        "min": 20000,
+        "max": 60000
+      },
+      "time_to_revenue_months": 3,
+      "payback_months": 7,
+      "monthly_revenue_cny": {
+        "min": 20000,
+        "max": 80000
+      },
+      "gross_margin_pct": 45,
+      "effort_level": "side",
+      "team_size": 2
+    },
+    "scores": {
+      "dimensions": {
+        "signal": 7.4,
+        "gap": 7.0,
+        "feasibility": 7.4,
+        "economics": 7.2,
+        "timing": 7.2,
+        "competition": 6.4,
+        "risk": 6.6,
+        "fit": 7.0,
+        "evidence": 6.8,
+        "leverage": 6.8
+      },
+      "total": 70.7,
+      "grade": "B"
+    },
+    "window": {
+      "status": "peak",
+      "months_left": 6,
+      "decay": "slow"
+    },
+    "risks": [
+      "宗教文化禁忌误用导致抵制",
+      "备货过量形成库存积压",
+      "平台斋月活动流量分配变化"
+    ],
+    "first_steps_7d": [
+      "查 2027 斋月与开斋节准确日期与备货节奏",
+      "列出 20 个斋月热销 SKU 与禁忌清单",
+      "联系 2 家本地 KOL 问斋月内容报价",
+      "做 1 套礼赠组合与定价测试"
+    ],
+    "kill_criteria": [
+      "斋月前 60 天未完成备货",
+      "内容出现宗教禁忌错误",
+      "首季动销率低于 50%"
+    ],
+    "compliance_notes": "未逐条打开核验，标记 verified:false；宗教与节庆内容需本地审校，避免饮食/亲密场景与不当符号；进口需符合当地认证",
+    "evidence_count": 2,
+    "activity_dates": [
+      "2026-08-14",
+      "2026-09-20",
+      "2026-10-22"
+    ],
+    "first_seen": "2026-08-14",
+    "last_activity": "2026-10-22",
+    "momentum": 1.6,
+    "rank_score": 75.8,
+    "tags": [
+      "seasonal",
+      "cross-border",
+      "physical",
+      "b2c",
+      "china-advantage"
+    ],
+    "verified": false,
+    "disclaimer": "研究假设，非投资建议；示例数据用于演示，使用前请核验原始来源"
+  },
+  {
+    "id": "opp-culture-quran-app-028",
+    "slug": "quran-learning-app",
+    "title": "古兰经学习 App：分词翻译+诵读评测的离线订阅",
+    "one_liner": "穆斯林用户抱怨现有 App 广告多、缺分词翻译与诵读纠音，做离线优先的订阅工具可分语言市场切入",
+    "industry_id": "culture",
+    "gap_type_ids": [
+      "language",
+      "culture",
+      "platform"
+    ],
+    "region_ids": [
+      "mena",
+      "sea"
+    ],
+    "origin_country": "印度尼西亚",
+    "target_countries": [
+      "印度尼西亚",
+      "沙特",
+      "埃及",
+      "土耳其"
+    ],
+    "human_need_ids": [
+      "meaning",
+      "growth",
+      "control"
+    ],
+    "neuro_drivers": [
+      "serotonin",
+      "oxytocin"
+    ],
+    "emotion_tags": [
+      "devotion",
+      "hope",
+      "awe"
+    ],
+    "source_langs": [
+      "id",
+      "ar",
+      "en"
+    ],
+    "signal": {
+      "summary": "Reddit 穆斯林社区高频求助『能分词翻译与诵读纠音、离线无广告的古兰经 App』；现有产品要么广告重、要么缺教学反馈。印尼/马来语与土耳其语市场订阅付费习惯正在形成。",
+      "evidence": [
+        {
+          "title": "古兰经学习 App 需求讨论（r/islam 社区）",
+          "publisher": "Reddit · r/islam",
+          "url": "https://www.reddit.com/r/islam/",
+          "date": "2026-10-20",
+          "quote": "「best Quran app for learning tajweed」——社区讨论主题（首页，具体帖子链接未取得）",
+          "lang": "en",
+          "tier": "primary"
+        },
+        {
+          "title": "Quran.com：逐词翻译与诵读（产品功能）",
+          "publisher": "Quran.com",
+          "url": "https://quran.com/",
+          "date": "2026-10-20",
+          "quote": "Word-by-word translation and recitation（产品功能页）",
+          "lang": "en",
+          "tier": "primary"
+        }
+      ],
+      "signal_strength": 7.0,
+      "trend_direction": "up",
+      "volume_estimate": "全球穆斯林约 20 亿，印尼/中东/土耳其智能手机渗透高；宗教学习 App 订阅 2–8 美元/月"
+    },
+    "seven_questions": {
+      "traffic": "TikTok/YouTube 阿语与印尼语宗教内容创作者合作 + 清真寺/伊斯兰学校推荐 + App Store 长尾关键词；前 1000 用户来自内容与社群",
+      "money": "订阅 2–8 美元/月（离线包/诵读评测/学习计划）+ 学校与清真寺机构授权；毛利 70–85%",
+      "model": "数字工具订阅：分词翻译+诵读录音评测+学习计划，离线优先；与本地宗教机构合作背书内容",
+      "roi": "启动 2–6 万元（内容授权/开发/审校），3–5 个月首版，8–12 个月回本，月收入 1–5 万元",
+      "audience": "能做移动开发、愿意长期维护宗教内容授权与审校的团队；不适合无宗教内容审校资源的团队",
+      "drivers": [
+        "tech",
+        "info"
+      ],
+      "moat": "内容授权与审校 + 用户学习数据；前置条件是宗教学者背书与隐私合规"
+    },
+    "roi": {
+      "capital_cny": {
+        "min": 20000,
+        "max": 60000
+      },
+      "time_to_revenue_months": 3,
+      "payback_months": 10,
+      "monthly_revenue_cny": {
+        "min": 10000,
+        "max": 50000
+      },
+      "gross_margin_pct": 75,
+      "effort_level": "full",
+      "team_size": 2
+    },
+    "scores": {
+      "dimensions": {
+        "signal": 7.0,
+        "gap": 7.2,
+        "feasibility": 6.8,
+        "economics": 7.4,
+        "timing": 7.0,
+        "competition": 6.6,
+        "risk": 6.4,
+        "fit": 6.4,
+        "evidence": 6.8,
+        "leverage": 7.4
+      },
+      "total": 69.7,
+      "grade": "B"
+    },
+    "window": {
+      "status": "open",
+      "months_left": 24,
+      "decay": "slow"
+    },
+    "risks": [
+      "宗教内容错误或不当处理引发严重抵制",
+      "App Store 宗教类审核与地区限制",
+      "低价竞品与免费产品挤压订阅"
+    ],
+    "first_steps_7d": [
+      "抓取 App Store 前 20 个古兰经 App 的差评关键词",
+      "访谈 5 位穆斯林用户问最想要的功能",
+      "联系 1 家宗教内容机构谈授权与审校",
+      "做 1 页功能原型给社群投票"
+    ],
+    "kill_criteria": [
+      "上线 6 个月付费用户 < 500",
+      "无法获得稳定内容授权",
+      "出现内容错误投诉"
+    ],
+    "compliance_notes": "未逐条打开核验，标记 verified:false；古兰经文本与译解需权威版本与学者审校，严禁自行改写；用户数据需隐私合规；Reddit 未取得具体帖子 URL，引文为社区讨论主题描述；quran.com 引文为产品功能描述",
+    "evidence_count": 2,
+    "activity_dates": [
+      "2026-08-16",
+      "2026-09-05"
+    ],
+    "first_seen": "2026-08-16",
+    "last_activity": "2026-09-05",
+    "momentum": 1.1,
+    "rank_score": 70.5,
+    "tags": [
+      "digital",
+      "b2c",
+      "localization-heavy",
+      "needs-license",
+      "recurring"
+    ],
+    "verified": false,
+    "disclaimer": "研究假设，非投资建议；示例数据用于演示，使用前请核验原始来源"
+  },
+  {
+    "id": "opp-crossborder-kbeauty-029",
+    "slug": "kbeauty-export-distribution",
+    "title": "K-beauty 出口分销：美国超过中国后的渠道重排",
+    "one_liner": "2025 年韩国化妆品出口 114.3 亿美元、美国首超中国，中小品牌缺海外运营，中国团队可做分销+内容代运营",
+    "industry_id": "crossborder",
+    "gap_type_ids": [
+      "channel",
+      "language",
+      "platform"
+    ],
+    "region_ids": [
+      "east-asia",
+      "north-america",
+      "europe"
+    ],
+    "origin_country": "韩国",
+    "target_countries": [
+      "美国",
+      "日本",
+      "中国香港",
+      "阿联酋"
+    ],
+    "human_need_ids": [
+      "status",
+      "health",
+      "expression"
+    ],
+    "neuro_drivers": [
+      "dopamine",
+      "serotonin"
+    ],
+    "emotion_tags": [
+      "aspiration",
+      "pride",
+      "identity"
+    ],
+    "source_langs": [
+      "ko",
+      "en"
+    ],
+    "signal": {
+      "summary": "韩国食药处数据经媒体披露：2025 年韩国化妆品出口 114.3 亿美元（+12.3%），美国 21.9 亿美元首次超过中国大陆（20.1 亿，-19.2%），日本 10.9 亿、香港 7.05 亿；出口结构重排让中小品牌急需美国/日本/中东的海外运营。",
+      "evidence": [
+        {
+          "title": "韩国化妆品 2025 年出口 114.3 亿美元，美国首超中国",
+          "publisher": "Yonhap News",
+          "url": "https://en.yna.co.kr/view/AEN20260109010100320",
+          "date": "2026-01-09",
+          "quote": "K-beauty exports hit $11.43 bln in 2025, US top market（出口 114.3 亿美元，美国第一）",
+          "lang": "en",
+          "tier": "primary"
+        }
+      ],
+      "signal_strength": 8.8,
+      "trend_direction": "up",
+      "volume_estimate": "2025 年韩国化妆品出口 114.3 亿美元；中小品牌海外运营预算 5,000–50,000 美元/年"
+    },
+    "seven_questions": {
+      "traffic": "TikTok/Instagram 达人矩阵 + Amazon/独立站 + 中东与日本本地 KOL；前 10 个品牌来自韩国中小品牌展会",
+      "money": "分销差价 30–50% + 代运营月费 1,000–5,000 美元 + 达人佣金分成；毛利 30–40%",
+      "model": "品牌代理+内容代运营：先接单后采购（轻库存），负责海外内容、渠道与客服，按品牌收月费+销售分成",
+      "roi": "启动 2–8 万元（首批货/内容/达人），3 个月首单，8 个月回本，月收入 3–12 万元",
+      "audience": "有跨境电商运营与内容能力、能飞韩国谈品牌、懂美妆合规的人；不适合无内容能力的纯贸易商",
+      "drivers": [
+        "cross-border",
+        "info",
+        "supply"
+      ],
+      "moat": "品牌授权 + 达人关系 + 内容能力；窗口期 12 个月内会被抢"
+    },
+    "roi": {
+      "capital_cny": {
+        "min": 20000,
+        "max": 80000
+      },
+      "time_to_revenue_months": 3,
+      "payback_months": 8,
+      "monthly_revenue_cny": {
+        "min": 30000,
+        "max": 120000
+      },
+      "gross_margin_pct": 35,
+      "effort_level": "full",
+      "team_size": 3
+    },
+    "scores": {
+      "dimensions": {
+        "signal": 8.8,
+        "gap": 7.0,
+        "feasibility": 7.6,
+        "economics": 7.4,
+        "timing": 7.6,
+        "competition": 5.6,
+        "risk": 7.0,
+        "fit": 7.2,
+        "evidence": 8.8,
+        "leverage": 7.6
+      },
+      "total": 75.0,
+      "grade": "A"
+    },
+    "window": {
+      "status": "open",
+      "months_left": 12,
+      "decay": "fast"
+    },
+    "risks": [
+      "品牌代理权被收回",
+      "各国化妆品注册（FDA/CPNP/SFDA）不通过",
+      "汇率与库存积压"
+    ],
+    "first_steps_7d": [
+      "列出 10 个有出口意愿的韩国中小美妆品牌",
+      "查美国/日本/中东化妆品注册要求",
+      "谈 1 个品牌的代运营试用条款",
+      "算一个品牌 3 个月的获客与毛利模型"
+    ],
+    "kill_criteria": [
+      "6 个月签不下 2 个品牌",
+      "注册失败超过 2 个 SKU",
+      "代理毛利低于 25%"
+    ],
+    "compliance_notes": "证据 URL 经研究组核验为可访问（✅200），标记 verified:true；化妆品需按目的国注册（FDA/CPNP/SFDA），不得宣称医疗功效",
+    "evidence_count": 1,
+    "activity_dates": [
+      "2026-08-04",
+      "2026-09-24"
+    ],
+    "first_seen": "2026-08-04",
+    "last_activity": "2026-09-24",
+    "momentum": 1.4,
+    "rank_score": 78.6,
+    "tags": [
+      "b2b",
+      "cross-border",
+      "content-driven",
+      "recurring",
+      "needs-supply-chain"
+    ],
+    "verified": true,
+    "disclaimer": "研究假设，非投资建议；示例数据用于演示，使用前请核验原始来源"
+  },
+  {
+    "id": "opp-crossborder-mercadolibre-030",
+    "slug": "mercadolibre-brazil-crossborder",
+    "title": "巴西 MercadoLibre：GMV 渠道红利",
+    "one_liner": "MercadoLibre Q3 GMV 165 亿美元、巴西商品数 +42%，中国供应链+葡语运营可切入拉美",
+    "industry_id": "crossborder",
+    "gap_type_ids": [
+      "channel",
+      "infrastructure",
+      "language"
+    ],
+    "region_ids": [
+      "latam"
+    ],
+    "origin_country": "巴西",
+    "target_countries": [
+      "巴西",
+      "墨西哥",
+      "阿根廷"
+    ],
+    "human_need_ids": [
+      "ease",
+      "status",
+      "novelty"
+    ],
+    "neuro_drivers": [
+      "dopamine",
+      "serotonin"
+    ],
+    "emotion_tags": [
+      "aspiration",
+      "curiosity",
+      "envy"
+    ],
+    "source_langs": [
+      "pt",
+      "es",
+      "zh"
+    ],
+    "signal": {
+      "summary": "MercadoLibre 官方财报：Q3 净收入 74 亿美元（+39%）、GMV 165 亿美元（+28%）、独立买家 7,700 万（+26%）、商品 6.35 亿件（+39%）；巴西 GMV +34%、商品 +42%，履约容量与支付基础设施成熟。",
+      "evidence": [
+        {
+          "title": "MercadoLibre 2025 年第三季度财报",
+          "publisher": "MercadoLibre 官方新闻",
+          "url": "https://news.mercadolibre.com/resultados-financieros-tercer-trimestre-2025",
+          "date": "2025-10-29",
+          "quote": "GMV $16.5 billion, +28% YoY（GMV 165 亿美元，同比 +28%）",
+          "lang": "es",
+          "tier": "primary"
+        }
+      ],
+      "signal_strength": 8.7,
+      "trend_direction": "up",
+      "volume_estimate": "Q3 GMV 165 亿美元、买家 7,700 万；巴西商品数同比 +42%"
+    },
+    "seven_questions": {
+      "traffic": "MercadoLibre 站内广告 + TikTok/Instagram 本地达人 + 葡语/西语 SEO；前 100 单来自站内广告与达人",
+      "money": "商品差价 30–50% + 广告代投服务费；毛利 30–40%，复购靠选品",
+      "model": "跨境店/本土店：中国供应链选品→小批量测品→本地仓履约；葡语 listing 与客服本地化",
+      "roi": "启动 2–8 万元（首批货/广告/海外仓），3 个月首单，9 个月回本，月收入 3–15 万元",
+      "audience": "有跨境运营经验、能处理葡语客服、懂巴西清关（Remessa Conforme）的人；建议 2 人",
+      "drivers": [
+        "cross-border",
+        "supply",
+        "ops"
+      ],
+      "moat": "本地仓配履约能力 + 葡语 listing 与客服 + 店铺评分资产；前置条件是清关合规（Remessa Conforme）与 2 人团队；平台规则与评分积累形成 12–18 个月缓冲"
+    },
+    "roi": {
+      "capital_cny": {
+        "min": 20000,
+        "max": 80000
+      },
+      "time_to_revenue_months": 3,
+      "payback_months": 9,
+      "monthly_revenue_cny": {
+        "min": 30000,
+        "max": 150000
+      },
+      "gross_margin_pct": 32,
+      "effort_level": "full",
+      "team_size": 2
+    },
+    "scores": {
+      "dimensions": {
+        "signal": 8.7,
+        "gap": 7.6,
+        "feasibility": 7.4,
+        "economics": 8.0,
+        "timing": 8.4,
+        "competition": 5.8,
+        "risk": 7.0,
+        "fit": 7.0,
+        "evidence": 8.8,
+        "leverage": 8.0
+      },
+      "total": 77.4,
+      "grade": "A"
+    },
+    "window": {
+      "status": "open",
+      "months_left": 18,
+      "decay": "fast"
+    },
+    "risks": [
+      "巴西税负与清关合规（Remessa Conforme）",
+      "雷亚尔汇率波动",
+      "平台佣金与广告成本上涨"
+    ],
+    "first_steps_7d": [
+      "注册 MercadoLibre 卖家账号并看类目门槛",
+      "选 10 个轻小件测品，算到岸成本",
+      "找一个巴西海外仓问仓配报价",
+      "研究 Remessa Conforme 清关规则"
+    ],
+    "kill_criteria": [
+      "3 个月首月 GMV < 3 万元",
+      "清关扣货率 > 10%",
+      "毛利低于 25%"
+    ],
+    "compliance_notes": "证据 URL 经研究组核验为可访问（✅200），标记 verified:true；需按巴西 Remessa Conforme 合规清关并缴税；平台佣金与广告规则以官方为准",
+    "evidence_count": 1,
+    "activity_dates": [
+      "2026-08-02",
+      "2026-09-25",
+      "2026-10-22"
+    ],
+    "first_seen": "2026-08-02",
+    "last_activity": "2026-10-22",
+    "momentum": 1.5,
+    "rank_score": 82.0,
+    "tags": [
+      "cross-border",
+      "needs-supply-chain",
+      "platform-dependent",
+      "b2b",
+      "china-advantage"
+    ],
+    "verified": true,
+    "disclaimer": "研究假设，非投资建议；示例数据用于演示，使用前请核验原始来源"
+  },
+  {
+    "id": "opp-manufacturing-shea-butter-031",
+    "slug": "nigeria-shea-butter-processing",
+    "title": "尼日利亚乳木果：原料出口禁令下的本地加工窗口",
+    "one_liner": "原料出口禁令延至 2027-02-25、黄油价格是原料 10–20 倍，本地初加工+中国设备与采购可切入",
+    "industry_id": "manufacturing",
+    "gap_type_ids": [
+      "regulation",
+      "price",
+      "geo"
+    ],
+    "region_ids": [
+      "africa"
+    ],
+    "origin_country": "尼日利亚",
+    "target_countries": [
+      "尼日利亚",
+      "加纳",
+      "科特迪瓦"
+    ],
+    "human_need_ids": [
+      "health",
+      "survival",
+      "expression"
+    ],
+    "neuro_drivers": [
+      "serotonin",
+      "oxytocin"
+    ],
+    "emotion_tags": [
+      "hope",
+      "pride",
+      "relief"
+    ],
+    "source_langs": [
+      "en",
+      "zh"
+    ],
+    "signal": {
+      "summary": "尼日利亚 2025-08-26 起实施 6 个月乳木果原料出口禁令，并延长至 2027-02-25；官方称黄油价格是原料的 10–20 倍，政策意图是把原料出口转为成品出口，而本地初加工产能严重不足。",
+      "evidence": [
+        {
+          "title": "尼日利亚延长乳木果原料出口禁令 官方称黄油价格是原料的 10–20 倍",
+          "publisher": "新华社（英文）",
+          "url": "https://english.news.cn/20260226/d7ae10b2b1214bf39412cc6f639d6d56/c.html",
+          "date": "2026-02-26",
+          "quote": "Butter prices are 10–20 times raw material（黄油价格是原料的 10–20 倍）",
+          "lang": "en",
+          "tier": "primary"
+        }
+      ],
+      "signal_strength": 8.3,
+      "trend_direction": "up",
+      "volume_estimate": "西非乳木果原料年产量数十万吨；黄油与原料价差 10–20 倍，本地加工产能缺口明显"
+    },
+    "seven_questions": {
+      "traffic": "本地合作社与州政府招商 + 中国美妆原料采购商 + 欧美可持续采购品牌；前 3 个客户来自展会与采购商转介",
+      "money": "原料采购差价 + 初加工费 + 成品黄油出口；毛利 30–40%，规模化靠产能利用率",
+      "model": "合资初加工厂/代加工：本地伙伴负责原料与许可，中国方负责设备、技术、采购与出口渠道",
+      "roi": "启动 5–30 万元（设备/厂房/许可），6 个月出首批，18 个月回本，月收入 3–15 万元",
+      "audience": "有非洲资源或外贸经验、能承受重资产与政局风险的人；不适合纯兼职",
+      "drivers": [
+        "supply",
+        "regulation",
+        "cross-border"
+      ],
+      "moat": "本地合作社关系 + 出口与加工许可 + 小型精炼产能；前置条件是合资结构与电力保障；政策窗口与产能建设形成 2–3 年屏障，资金与政局是主要变量"
+    },
+    "roi": {
+      "capital_cny": {
+        "min": 50000,
+        "max": 300000
+      },
+      "time_to_revenue_months": 6,
+      "payback_months": 18,
+      "monthly_revenue_cny": {
+        "min": 30000,
+        "max": 150000
+      },
+      "gross_margin_pct": 35,
+      "effort_level": "full",
+      "team_size": 3
+    },
+    "scores": {
+      "dimensions": {
+        "signal": 8.3,
+        "gap": 8.8,
+        "feasibility": 5.8,
+        "economics": 8.2,
+        "timing": 8.4,
+        "competition": 7.6,
+        "risk": 5.4,
+        "fit": 5.0,
+        "evidence": 8.4,
+        "leverage": 7.2
+      },
+      "total": 75.2,
+      "grade": "A"
+    },
+    "window": {
+      "status": "open",
+      "months_left": 30,
+      "decay": "slow"
+    },
+    "risks": [
+      "政局与汇率不稳定",
+      "电力与物流成本高",
+      "政策反复（禁令提前取消或再延长）",
+      "合资伙伴信用风险"
+    ],
+    "first_steps_7d": [
+      "查禁令原文与到期时间、出口许可要求",
+      "联系 2 家尼日利亚合作社问原料供应与价格",
+      "找 1 家中国油脂设备厂问小型精炼线报价",
+      "算 1 吨黄油的生产成本与出口价差"
+    ],
+    "kill_criteria": [
+      "12 个月无法稳定拿到原料",
+      "加工成本高于进口黄油价格",
+      "政局或政策导致项目暂停"
+    ],
+    "compliance_notes": "证据 URL 经研究组核验为可访问（✅200），标记 verified:true；需了解尼日利亚出口许可与外汇管制，合资结构建议做法律尽调；环保与用工合规需当地顾问",
+    "evidence_count": 1,
+    "activity_dates": [
+      "2026-08-06",
+      "2026-09-26"
+    ],
+    "first_seen": "2026-08-06",
+    "last_activity": "2026-09-26",
+    "momentum": 1.2,
+    "rank_score": 77.0,
+    "tags": [
+      "needs-supply-chain",
+      "b2b",
+      "cross-border",
+      "physical",
+      "china-advantage"
+    ],
+    "verified": true,
+    "disclaimer": "研究假设，非投资建议；示例数据用于演示，使用前请核验原始来源"
+  },
+  {
+    "id": "opp-manufacturing-spare-parts-032",
+    "slug": "industrial-spare-parts-crossborder",
+    "title": "工业备件跨境电商：把找不到的零件做成目录生意",
+    "one_liner": "工业与汽配备件线上化加速、长尾零件长期缺货，中国产业带+件号目录站可做高复购 B2B",
+    "industry_id": "manufacturing",
+    "gap_type_ids": [
+      "knowledge",
+      "price",
+      "geo"
+    ],
+    "region_ids": [
+      "europe",
+      "north-america",
+      "oceania"
+    ],
+    "origin_country": "中国",
+    "target_countries": [
+      "德国",
+      "美国",
+      "澳大利亚",
+      "波兰"
+    ],
+    "human_need_ids": [
+      "survival",
+      "control",
+      "ease"
+    ],
+    "neuro_drivers": [
+      "cortisol",
+      "serotonin"
+    ],
+    "emotion_tags": [
+      "anxiety",
+      "relief",
+      "hope"
+    ],
+    "source_langs": [
+      "en",
+      "de"
+    ],
+    "signal": {
+      "summary": "工业备件物流与汽配后市场电商被列为持续增长赛道；设备停机一天损失远高于零件价格，但长尾 OEM 件号在本地经销体系里经常缺货或交期数周，件号数据与供应速度构成真实壁垒。",
+      "evidence": [
+        {
+          "title": "PartsBase Marketplace Global Market Report 2026",
+          "publisher": "The Business Research Company（GII 转载）",
+          "url": "https://www.gii.tw/report/tbrc2112313-partsbase-marketplace-global-market-report.html",
+          "date": "2026-10-20",
+          "quote": "PartsBase marketplace global market report 2026（工业备件市场报告）",
+          "lang": "en",
+          "tier": "secondary"
+        },
+        {
+          "title": "E-Commerce Automotive Aftermarket Market Report 2026",
+          "publisher": "Research and Markets",
+          "url": "https://www.researchandmarkets.com/reports/5766564/e-commerce-automotive-aftermarket-market-report",
+          "date": "2026-10-20",
+          "quote": "E-commerce automotive aftermarket market report 2026（汽配后市场电商报告）",
+          "lang": "en",
+          "tier": "secondary"
+        }
+      ],
+      "signal_strength": 7.2,
+      "trend_direction": "up",
+      "volume_estimate": "全球汽配后市场规模数千亿美元；单笔工业备件订单 100–5000 美元，复购周期 3–18 个月"
+    },
+    "seven_questions": {
+      "traffic": "谷歌长尾件号搜索 + eBay/Amazon Business + 汽修厂与设备维修商社群；前 50 单来自长尾件号自然搜索",
+      "money": "零件差价 25–45% + 加急费 + 询盘代采服务费；毛利 30–45%，复购稳定",
+      "model": "B2B 目录站+询盘：整理件号数据库→对接中国产业带供应商→报价与跨境履约→做维修商的长期备件供应商",
+      "roi": "启动 3–8 万元（建站/数据/首批库存），3 个月首单，8 个月回本，月收入 2–8 万元",
+      "audience": "懂机械/汽配或工业采购、能读懂英文件号与图纸的人；不适合完全不懂零件的纯铺货卖家",
+      "drivers": [
+        "ops",
+        "supply",
+        "cross-border"
+      ],
+      "moat": "件号数据库 + 供应商网络 + 交期与售后；前置条件是品质一致性与退换货能力"
+    },
+    "roi": {
+      "capital_cny": {
+        "min": 30000,
+        "max": 80000
+      },
+      "time_to_revenue_months": 3,
+      "payback_months": 8,
+      "monthly_revenue_cny": {
+        "min": 20000,
+        "max": 80000
+      },
+      "gross_margin_pct": 38,
+      "effort_level": "side",
+      "team_size": 2
+    },
+    "scores": {
+      "dimensions": {
+        "signal": 7.2,
+        "gap": 7.0,
+        "feasibility": 7.0,
+        "economics": 7.6,
+        "timing": 7.0,
+        "competition": 6.8,
+        "risk": 6.6,
+        "fit": 6.8,
+        "evidence": 6.6,
+        "leverage": 7.2
+      },
+      "total": 70.6,
+      "grade": "B"
+    },
+    "window": {
+      "status": "open",
+      "months_left": 24,
+      "decay": "slow"
+    },
+    "risks": [
+      "件号错配导致退货与客诉",
+      "供应商品质不稳定",
+      "平台或搜索算法变化影响获客"
+    ],
+    "first_steps_7d": [
+      "选 1 个设备品类，整理 50 个长尾件号",
+      "查这些件号在德国/美国的本地交期与价格",
+      "联系 3 家中国产业带供应商问小批量与出口",
+      "算一单 20 公斤备件的到岸成本"
+    ],
+    "kill_criteria": [
+      "6 个月月均订单 < 20 单",
+      "退货率高于 10%",
+      "毛利低于 20%"
+    ],
+    "compliance_notes": "未逐条打开核验，标记 verified:false；部分备件涉及安全认证（CE/DOT），需确认合规；不得销售侵权仿制件",
+    "evidence_count": 2,
+    "activity_dates": [
+      "2026-08-18",
+      "2026-09-22",
+      "2026-10-08"
+    ],
+    "first_seen": "2026-08-18",
+    "last_activity": "2026-10-08",
+    "momentum": 1.1,
+    "rank_score": 71.4,
+    "tags": [
+      "b2b",
+      "needs-supply-chain",
+      "cross-border",
+      "recurring",
+      "china-advantage"
+    ],
+    "verified": false,
+    "disclaimer": "研究假设，非投资建议；示例数据用于演示，使用前请核验原始来源"
+  },
+  {
+    "id": "opp-manufacturing-ev-battery-033",
+    "slug": "ev-battery-recycling",
+    "title": "退役动力电池：回收与梯次利用的 B2B 合规生意",
+    "one_liner": "EV 电池回收被列为 2026–2030 高增长市场，欧盟电池法规逼退役电池合规处置，检测与梯次服务缺口大",
+    "industry_id": "manufacturing",
+    "gap_type_ids": [
+      "regulation",
+      "knowledge",
+      "geo"
+    ],
+    "region_ids": [
+      "europe",
+      "east-asia"
+    ],
+    "origin_country": "德国",
+    "target_countries": [
+      "德国",
+      "波兰",
+      "韩国"
+    ],
+    "human_need_ids": [
+      "survival",
+      "control",
+      "status"
+    ],
+    "neuro_drivers": [
+      "cortisol",
+      "adrenaline"
+    ],
+    "emotion_tags": [
+      "anxiety",
+      "hope",
+      "pride"
+    ],
+    "source_langs": [
+      "en",
+      "de",
+      "ko"
+    ],
+    "signal": {
+      "summary": "多家研究机构把 EV 电池回收列为 2026–2030 高增长市场；欧盟电池法规要求退役电池合规回收与碳足迹披露，但具备检测、分级与梯次利用能力的中小服务商仍稀缺。",
+      "evidence": [
+        {
+          "title": "EV Battery Recycling Market Report 2026",
+          "publisher": "Research and Markets",
+          "url": "https://www.researchandmarkets.com/reports/5766861/ev-battery-recycling-market-report",
+          "date": "2026-10-20",
+          "quote": "EV battery recycling market report 2026（动力电池回收市场报告）",
+          "lang": "en",
+          "tier": "secondary"
+        },
+        {
+          "title": "Electric Vehicle Battery Recycling Market 2026-2030",
+          "publisher": "Research and Markets",
+          "url": "https://www.researchandmarkets.com/reports/5852488/electric-vehicle-battery-recycling-market",
+          "date": "2026-10-20",
+          "quote": "Electric vehicle battery recycling market 2026-2030（2026–2030 回收市场）",
+          "lang": "en",
+          "tier": "secondary"
+        }
+      ],
+      "signal_strength": 7.4,
+      "trend_direction": "up",
+      "volume_estimate": "全球退役动力电池量 2026 年起快速上升；单套电池检测与梯次服务 500–3000 欧元"
+    },
+    "seven_questions": {
+      "traffic": "车企售后/维修厂/储能集成商 + 欧盟合规服务商合作 + 行业展会；前 5 个客户来自维修集团与储能商",
+      "money": "检测分级费 500–3000 欧元/套 + 梯次转售差价 + 合规回收服务费；毛利 25–40%",
+      "model": "B2B 服务+贸易：上门检测→健康度评估→梯次转售或送合规回收→出具合规文件；与持证回收商分成",
+      "roi": "启动 10–30 万元（检测设备/资质/仓储），6 个月首单，18 个月回本，月收入 5–20 万元",
+      "audience": "懂电池/电力电子、能处理危废合规与物流的人；不适合无资质的纯贸易商",
+      "drivers": [
+        "regulation",
+        "supply",
+        "ops"
+      ],
+      "moat": "检测能力 + 合规资质 + 回收渠道；前置条件是危险品运输与环保许可"
+    },
+    "roi": {
+      "capital_cny": {
+        "min": 100000,
+        "max": 300000
+      },
+      "time_to_revenue_months": 6,
+      "payback_months": 18,
+      "monthly_revenue_cny": {
+        "min": 50000,
+        "max": 200000
+      },
+      "gross_margin_pct": 32,
+      "effort_level": "full",
+      "team_size": 3
+    },
+    "scores": {
+      "dimensions": {
+        "signal": 7.4,
+        "gap": 7.2,
+        "feasibility": 5.8,
+        "economics": 7.8,
+        "timing": 7.6,
+        "competition": 6.8,
+        "risk": 6.0,
+        "fit": 5.6,
+        "evidence": 6.6,
+        "leverage": 6.6
+      },
+      "total": 68.9,
+      "grade": "B"
+    },
+    "window": {
+      "status": "open",
+      "months_left": 30,
+      "decay": "slow"
+    },
+    "risks": [
+      "电池运输与存储的火灾/危废合规风险",
+      "梯次产品质保与安全事故",
+      "回收金属价格波动影响利润"
+    ],
+    "first_steps_7d": [
+      "查欧盟电池法规对回收与碳足迹的具体要求",
+      "联系 2 家持证回收商谈分成合作",
+      "找 3 家维修集团问退役电池处置方式",
+      "算一套 60kWh 电池的检测与转售利润"
+    ],
+    "kill_criteria": [
+      "12 个月拿不到合规资质或合作",
+      "检测事故导致保险拒赔",
+      "梯次产品退货率高于 8%"
+    ],
+    "compliance_notes": "未逐条打开核验，标记 verified:false；涉及危险品运输、环保许可与电池法规，必须与持证方合作；不得私自拆解",
+    "evidence_count": 2,
+    "activity_dates": [
+      "2026-08-10",
+      "2026-09-27"
+    ],
+    "first_seen": "2026-08-10",
+    "last_activity": "2026-09-27",
+    "momentum": 1.1,
+    "rank_score": 69.7,
+    "tags": [
+      "b2b",
+      "needs-license",
+      "needs-supply-chain",
+      "physical",
+      "china-advantage"
+    ],
+    "verified": false,
+    "disclaimer": "研究假设，非投资建议；示例数据用于演示，使用前请核验原始来源"
+  },
+  {
+    "id": "opp-compliance-eaa-accessibility-034",
+    "slug": "eu-eaa-accessibility",
+    "title": "欧盟 EAA 无障碍：电商必须做的审计与整改",
+    "one_liner": "欧盟电商无障碍强制生效、法国最高罚 15,000 欧元/项，中文团队+欧洲顾问可做审计整改",
+    "industry_id": "compliance",
+    "gap_type_ids": [
+      "regulation",
+      "language",
+      "knowledge"
+    ],
+    "region_ids": [
+      "europe"
+    ],
+    "origin_country": "法国",
+    "target_countries": [
+      "法国",
+      "德国",
+      "西班牙",
+      "意大利"
+    ],
+    "human_need_ids": [
+      "fairness",
+      "control",
+      "ease"
+    ],
+    "neuro_drivers": [
+      "cortisol",
+      "serotonin"
+    ],
+    "emotion_tags": [
+      "anxiety",
+      "justice",
+      "relief"
+    ],
+    "source_langs": [
+      "fr",
+      "en"
+    ],
+    "signal": {
+      "summary": "自 2025-06-28 起，欧盟电商服务（微型企业除外：>10 名员工且营业额/总资产 >200 万欧元）必须满足无障碍要求；法国对个人罚 1,500/3,000 欧元、法人 7,500/15,000 欧元（再犯），按每项义务累计。欧洲中小电商普遍未合规。",
+      "evidence": [
+        {
+          "title": "Directive (EU) 2019/882：欧洲无障碍法案（EAA）官方原文",
+          "publisher": "EUR-Lex（欧盟官方公报）",
+          "url": "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX%3A32019L0882",
+          "date": "2019-06-07",
+          "quote": "Directive (EU) 2019/882 on accessibility requirements for products and services（无障碍要求指令）",
+          "lang": "en",
+          "tier": "primary"
+        }
+      ],
+      "signal_strength": 7.8,
+      "trend_direction": "up",
+      "volume_estimate": "欧盟电商服务数十万家；单站审计 800–3,000 欧元、整改 2,000–10,000 欧元"
+    },
+    "seven_questions": {
+      "traffic": "欧洲中小电商、跨境独立站、Shopify/Shopware 服务商转介 + LinkedIn 与本地商会；前 10 个客户来自服务商转介",
+      "money": "审计 800–3,000 欧元/站 + 整改 2,000–10,000 欧元 + 年度监测 500–2,000 欧元；毛利 65–80%",
+      "model": "远程审计+整改顾问：WCAG 2.2 / EN 301 549 / RGAA 对照检查→出具报告→开发整改→年度监测；必要时与欧洲本地无障碍专家合作署名",
+      "roi": "启动 3,000–15,000 元（工具/培训/合作），2 个月首单，4 个月回本，月收入 1–5 万元",
+      "audience": "有前端/可访问性能力、英语或法语可沟通、能做交付文档的人；不适合无技术背景的纯中介",
+      "drivers": [
+        "regulation",
+        "info"
+      ],
+      "moat": "可访问性专业能力 + 认证 + 案例；先发窗口 12–24 个月"
+    },
+    "roi": {
+      "capital_cny": {
+        "min": 3000,
+        "max": 15000
+      },
+      "time_to_revenue_months": 2,
+      "payback_months": 4,
+      "monthly_revenue_cny": {
+        "min": 10000,
+        "max": 50000
+      },
+      "gross_margin_pct": 70,
+      "effort_level": "side",
+      "team_size": 2
+    },
+    "scores": {
+      "dimensions": {
+        "signal": 7.8,
+        "gap": 8.8,
+        "feasibility": 7.0,
+        "economics": 7.6,
+        "timing": 8.4,
+        "competition": 7.2,
+        "risk": 7.5,
+        "fit": 6.8,
+        "evidence": 8.5,
+        "leverage": 6.5
+      },
+      "total": 77.1,
+      "grade": "A"
+    },
+    "window": {
+      "status": "open",
+      "months_left": 18,
+      "decay": "slow"
+    },
+    "risks": [
+      "无障碍标准更新导致审计结论过期",
+      "审计报告责任与索赔",
+      "客户预算低、决策慢"
+    ],
+    "first_steps_7d": [
+      "读 France Num 指南与 EN 301 549 要点",
+      "用开源工具扫 10 个欧洲中小电商站，看常见缺陷",
+      "联系 2 家欧洲无障碍机构谈合作署名",
+      "做 1 份 5 页审计报告样例"
+    ],
+    "kill_criteria": [
+      "6 个月签不下 5 个客户",
+      "客户认为罚款风险低不愿付费",
+      "审计出现重大漏判导致索赔"
+    ],
+    "compliance_notes": "原引 France Num 页面本轮实测 404，未逐条打开核验；已改用 EUR-Lex 官方指令（2019/882）作为证据，法国罚款金额细则需人工复核；审计结论不构成法律意见",
+    "evidence_count": 1,
+    "activity_dates": [
+      "2026-07-30",
+      "2026-09-20"
+    ],
+    "first_seen": "2026-07-30",
+    "last_activity": "2026-09-20",
+    "momentum": 1.1,
+    "rank_score": 78.0,
+    "tags": [
+      "needs-license",
+      "b2b",
+      "remote",
+      "localization-heavy"
+    ],
+    "verified": false,
+    "disclaimer": "研究假设，非投资建议；示例数据用于演示，使用前请核验原始来源"
+  },
+  {
+    "id": "opp-compliance-indonesia-halal-035",
+    "slug": "indonesia-halal-certification",
+    "title": "印尼清真认证：强制时间表下的中国企业缺口",
+    "one_liner": "印尼食品饮料强制清真认证已落地、进口食品推迟至 2026，中国出口企业缺印尼语与认证能力",
+    "industry_id": "compliance",
+    "gap_type_ids": [
+      "regulation",
+      "culture",
+      "language"
+    ],
+    "region_ids": [
+      "sea"
+    ],
+    "origin_country": "印度尼西亚",
+    "target_countries": [
+      "印度尼西亚",
+      "马来西亚"
+    ],
+    "human_need_ids": [
+      "survival",
+      "meaning",
+      "control"
+    ],
+    "neuro_drivers": [
+      "serotonin",
+      "cortisol"
+    ],
+    "emotion_tags": [
+      "fear",
+      "devotion",
+      "relief"
+    ],
+    "source_langs": [
+      "id",
+      "en",
+      "zh"
+    ],
+    "signal": {
+      "summary": "印尼政府已对食品饮料实施强制清真认证，并对中小微与进口产品给出过渡期（进口食品强制要求推迟至 2026，部分行业延至 2028）；中国食品/化妆品出口企业普遍缺印尼语材料、供应链审核与 BPJPH 注册能力。",
+      "evidence": [
+        {
+          "title": "政府推迟对中小微与进口产品的强制清真要求（LPPOM 回应）",
+          "publisher": "LPPOM MUI（印尼清真认证机构）",
+          "url": "https://halalmui.org/en/the-government-has-postponed-the-mandatory-halal-requirement-for-smes-and-imported-products-this-is-lppoms-response/",
+          "date": "2026-10-20",
+          "quote": "Government postponed mandatory halal requirement for SMEs and imported products（推迟中小微与进口产品强制要求）",
+          "lang": "en",
+          "tier": "primary"
+        },
+        {
+          "title": "RI extends halal certification mandate for select sectors to Oct. 2028",
+          "publisher": "Antara News",
+          "url": "https://en.antaranews.com/amp/news/436173/ri-extends-halal-certification-mandate-for-select-sectors-to-oct-2028",
+          "date": "2026-10-13",
+          "quote": "Extends halal certification mandate to Oct. 2028（部分行业强制清真延至 2028 年 10 月）",
+          "lang": "en",
+          "tier": "secondary"
+        }
+      ],
+      "signal_strength": 8.0,
+      "trend_direction": "up",
+      "volume_estimate": "印尼为全球最大穆斯林市场；认证代办客单 2–8 万元/项目，周期 3–9 个月"
+    },
+    "seven_questions": {
+      "traffic": "中国食品/化妆品出口企业、跨境电商卖家、印尼本地进口商；行业展会 + LinkedIn + 商会",
+      "money": "认证代办 2–8 万元/项目 + 供应链整改辅导 + 年度维护费；毛利 45–60%",
+      "model": "咨询代理：原料与配方预审→供应链清真审核→BPJPH 注册与文件→印尼语标签合规；与印尼 LPH 合作",
+      "roi": "启动 5,000–30,000 元，4 个月首单，10 个月回本，月收入 1.5–6 万元",
+      "audience": "有印尼资源或食品法规背景、能长期跟进审核流程的人；不适合无本地合作方的纯中介",
+      "drivers": [
+        "regulation",
+        "cross-border"
+      ],
+      "moat": "印尼 LPH/BPJPH 合作关系 + 配方整改案例库 + 印尼语材料能力；前置条件是本地合作方与宗教合规责任边界；认证资质与信任使复制周期约 2–3 年"
+    },
+    "roi": {
+      "capital_cny": {
+        "min": 5000,
+        "max": 30000
+      },
+      "time_to_revenue_months": 4,
+      "payback_months": 10,
+      "monthly_revenue_cny": {
+        "min": 15000,
+        "max": 60000
+      },
+      "gross_margin_pct": 50,
+      "effort_level": "side",
+      "team_size": 2
+    },
+    "scores": {
+      "dimensions": {
+        "signal": 8.0,
+        "gap": 8.6,
+        "feasibility": 6.5,
+        "economics": 7.8,
+        "timing": 8.4,
+        "competition": 7.0,
+        "risk": 6.5,
+        "fit": 6.2,
+        "evidence": 7.8,
+        "leverage": 7.0
+      },
+      "total": 75.4,
+      "grade": "A"
+    },
+    "window": {
+      "status": "open",
+      "months_left": 18,
+      "decay": "slow"
+    },
+    "risks": [
+      "认证周期 3–9 个月、现金流压力",
+      "宗教审核严格，配方/原料被拒",
+      "政策时间表反复调整"
+    ],
+    "first_steps_7d": [
+      "查 BPJPH 对进口食品的最新时间表",
+      "找 1 家印尼 LPH 谈合作与报价",
+      "梳理 3 个中国出口品类的原料风险点",
+      "做 1 份认证流程与报价单"
+    ],
+    "kill_criteria": [
+      "6 个月签不下 3 个项目",
+      "LPH 合作分成高于 50%",
+      "政策把强制时间再次大幅推迟导致需求消失"
+    ],
+    "compliance_notes": "未逐条打开核验，标记 verified:false；清真认证须由印尼授权机构（BPJPH/LPH）出具，代办不得替代审核；宗教合规错误后果严重",
+    "evidence_count": 2,
+    "activity_dates": [
+      "2026-08-04",
+      "2026-09-12"
+    ],
+    "first_seen": "2026-08-04",
+    "last_activity": "2026-09-12",
+    "momentum": 1.2,
+    "rank_score": 77.2,
+    "tags": [
+      "needs-license",
+      "b2b",
+      "localization-heavy",
+      "china-advantage"
+    ],
+    "verified": false,
+    "disclaimer": "研究假设，非投资建议；示例数据用于演示，使用前请核验原始来源"
+  },
+  {
+    "id": "opp-compliance-cbam-036",
+    "slug": "cbam-carbon-reporting",
+    "title": "CBAM 碳数据申报：欧盟进口商的合规刚需",
+    "one_liner": "CBAM 2026 进入正式期，欧盟进口商需申报隐含碳并购买证书，中国出口商缺碳核算数据，核算代办缺口大",
+    "industry_id": "compliance",
+    "gap_type_ids": [
+      "regulation",
+      "knowledge",
+      "language"
+    ],
+    "region_ids": [
+      "europe"
+    ],
+    "origin_country": "德国",
+    "target_countries": [
+      "德国",
+      "荷兰",
+      "波兰",
+      "意大利"
+    ],
+    "human_need_ids": [
+      "survival",
+      "control",
+      "fairness"
+    ],
+    "neuro_drivers": [
+      "cortisol",
+      "serotonin"
+    ],
+    "emotion_tags": [
+      "anxiety",
+      "justice",
+      "relief"
+    ],
+    "source_langs": [
+      "en",
+      "de"
+    ],
+    "signal": {
+      "summary": "德国排放交易管理局（DEHSt）明确 CBAM 自 2026-01-01 进入正式期，进口商需提交排放数据并购买 CBAM 证书；中国钢铁、铝、水泥、化肥等出口商缺少符合欧盟方法的碳核算数据与文件，核算与申报服务成刚需。",
+      "evidence": [
+        {
+          "title": "CBAM Definitive Regime from 2026",
+          "publisher": "DEHSt（德国排放交易管理局）",
+          "url": "https://www.dehst.de/EN/Topics/CBAM/CBAM-definitive-regime-2026/cbam-definitive-regime-2026_node.html",
+          "date": "2026-10-20",
+          "quote": "CBAM definitive regime from 2026（CBAM 2026 年起进入正式期）",
+          "lang": "en",
+          "tier": "primary"
+        },
+        {
+          "title": "CBAM Certificates - Definitive Regime from 01/01/2026",
+          "publisher": "DEHSt",
+          "url": "https://www.dehst.de/EN/Topics/CBAM/CBAM-definitive-regime-2026/cbam-definitive-regime-2026_artikel.html",
+          "date": "2026-10-20",
+          "quote": "CBAM certificates - definitive regime from 01/01/2026（证书制度 2026-01-01 起）",
+          "lang": "en",
+          "tier": "primary"
+        }
+      ],
+      "signal_strength": 7.8,
+      "trend_direction": "up",
+      "volume_estimate": "CBAM 覆盖钢铁/铝/水泥/化肥/电力/氢；中国相关出口额数百亿美元，单家核算服务 1–3 万元"
+    },
+    "seven_questions": {
+      "traffic": "中国出口商（钢铁/铝/化工）+ 欧盟进口商 + 报关行与货代转介；行业展会与LinkedIn",
+      "money": "碳核算报告 1–3 万元/家 + 申报托管 3,000–8,000 元/年 + 内训 5,000 元/场；毛利 55–70%",
+      "model": "咨询服务：按欧盟方法核算隐含碳→出具可核查报告→代替/协助进口商申报→年度更新；与核查机构合作",
+      "roi": "启动 2–5 万元（培训/模板/合作），2 个月首单，5 个月回本，月收入 2–8 万元",
+      "audience": "懂碳核算（ISO 14064/GHG Protocol）、外贸流程、英文材料的人；不适合无核算能力的纯中介",
+      "drivers": [
+        "regulation",
+        "cross-border",
+        "info"
+      ],
+      "moat": "核算方法与数据模板 + 进口商关系 + 核查机构背书；前置条件是数据可追溯"
+    },
+    "roi": {
+      "capital_cny": {
+        "min": 20000,
+        "max": 50000
+      },
+      "time_to_revenue_months": 2,
+      "payback_months": 5,
+      "monthly_revenue_cny": {
+        "min": 20000,
+        "max": 80000
+      },
+      "gross_margin_pct": 60,
+      "effort_level": "side",
+      "team_size": 2
+    },
+    "scores": {
+      "dimensions": {
+        "signal": 7.8,
+        "gap": 8.4,
+        "feasibility": 7.2,
+        "economics": 7.8,
+        "timing": 8.4,
+        "competition": 7.0,
+        "risk": 7.0,
+        "fit": 6.8,
+        "evidence": 7.6,
+        "leverage": 7.0
+      },
+      "total": 76.4,
+      "grade": "A"
+    },
+    "window": {
+      "status": "open",
+      "months_left": 24,
+      "decay": "slow"
+    },
+    "risks": [
+      "欧盟方法/规则调整导致核算返工",
+      "数据造假责任重大",
+      "大型核查机构下沉挤压中小企业"
+    ],
+    "first_steps_7d": [
+      "读 DEHSt CBAM 正式期规则与过渡期差异",
+      "找 3 家出口企业问碳数据现状",
+      "算 1 家钢企的核算工作量与报价",
+      "联系 1 家核查机构谈合作"
+    ],
+    "kill_criteria": [
+      "6 个月签不下 3 家客户",
+      "规则变化导致模板全部作废",
+      "报价被压到 5,000 元以下"
+    ],
+    "compliance_notes": "未逐条打开核验，标记 verified:false；碳数据须真实可追溯，代申报不得造假；核算方法以欧盟官方为准",
+    "evidence_count": 2,
+    "activity_dates": [
+      "2026-08-08",
+      "2026-09-19"
+    ],
+    "first_seen": "2026-08-08",
+    "last_activity": "2026-09-19",
+    "momentum": 1.2,
+    "rank_score": 78.2,
+    "tags": [
+      "needs-license",
+      "b2b",
+      "localization-heavy",
+      "china-advantage"
+    ],
+    "verified": false,
+    "disclaimer": "研究假设，非投资建议；示例数据用于演示，使用前请核验原始来源"
+  },
+  {
+    "id": "opp-compliance-gpsr-epr-037",
+    "slug": "eu-gpsr-epr-compliance",
+    "title": "GPSR 与 EPR 合规代注册：欧盟上架的最后一公里",
+    "one_liner": "GPSR 与德法 EPR 让中国卖家上架欧盟门槛抬升，代注册+年度申报可按店收费，政策刚需明确",
+    "industry_id": "compliance",
+    "gap_type_ids": [
+      "regulation",
+      "platform",
+      "language"
+    ],
+    "region_ids": [
+      "europe"
+    ],
+    "origin_country": "德国",
+    "target_countries": [
+      "德国",
+      "法国",
+      "西班牙"
+    ],
+    "human_need_ids": [
+      "control",
+      "survival",
+      "fairness"
+    ],
+    "neuro_drivers": [
+      "cortisol",
+      "serotonin"
+    ],
+    "emotion_tags": [
+      "anxiety",
+      "relief",
+      "justice"
+    ],
+    "source_langs": [
+      "en",
+      "de"
+    ],
+    "signal": {
+      "summary": "欧盟通用产品安全法规（GPSR）自 2024-12-13 适用、德国包装登记自 2026-08-12 起有变化，平台要求卖家提供欧盟责任人、EPR 注册号与合规文件；中国卖家普遍缺德语文件与本地责任人资源。",
+      "evidence": [
+        {
+          "title": "E.U. Product Safety Laws Reach Sellers",
+          "publisher": "Practical Ecommerce",
+          "url": "https://www.practicalecommerce.com/e-u-product-safety-laws-reach-sellers",
+          "date": "2026-10-20",
+          "quote": "E.U. product safety laws reach sellers（欧盟产品安全法规覆盖卖家）",
+          "lang": "en",
+          "tier": "secondary"
+        },
+        {
+          "title": "What will change from 12 August 2026（德国包装登记新变化）",
+          "publisher": "Verpackungsregister（德国包装登记机构）",
+          "url": "https://www.verpackungsregister.org/en/i-want-to-know-what-will-change-from-12-august",
+          "date": "2026-10-20",
+          "quote": "What will change from 12 August（2026 年 8 月 12 日起的变化）",
+          "lang": "en",
+          "tier": "primary"
+        }
+      ],
+      "signal_strength": 7.2,
+      "trend_direction": "up",
+      "volume_estimate": "中国跨境电商卖家数十万；单店合规代注册 2,000–6,000 元/国，年度申报 1,000–3,000 元"
+    },
+    "seven_questions": {
+      "traffic": "跨境卖家群 + 平台招商会 + 物流与支付服务商转介；前 10 个客户来自卖家群",
+      "money": "代注册 2,000–6,000 元/国 + 年度申报 1,000–3,000 元 + 合规培训 3,000 元/场；毛利 50–65%",
+      "model": "代注册+年度托管：欧盟责任人/EPR/LUCID/VAT 一条龙，中台跟踪各国截止日与包装量申报",
+      "roi": "启动 2–5 万元（本地合作/工具/内容），2 个月首单，5 个月回本，月收入 2–6 万元",
+      "audience": "懂欧盟合规基础、能与德国持牌机构合作、英语/德语可沟通的人；不适合无本地合作方的纯中介",
+      "drivers": [
+        "regulation",
+        "ops",
+        "cross-border"
+      ],
+      "moat": "本地持牌合作 + 中台提醒 + 案例；前置条件是责任划分与数据合规"
+    },
+    "roi": {
+      "capital_cny": {
+        "min": 20000,
+        "max": 50000
+      },
+      "time_to_revenue_months": 2,
+      "payback_months": 5,
+      "monthly_revenue_cny": {
+        "min": 20000,
+        "max": 60000
+      },
+      "gross_margin_pct": 58,
+      "effort_level": "side",
+      "team_size": 2
+    },
+    "scores": {
+      "dimensions": {
+        "signal": 7.2,
+        "gap": 7.6,
+        "feasibility": 7.4,
+        "economics": 7.2,
+        "timing": 7.6,
+        "competition": 6.6,
+        "risk": 7.0,
+        "fit": 7.0,
+        "evidence": 6.8,
+        "leverage": 7.0
+      },
+      "total": 72.3,
+      "grade": "B"
+    },
+    "window": {
+      "status": "open",
+      "months_left": 18,
+      "decay": "slow"
+    },
+    "risks": [
+      "平台官方合规工具免费覆盖需求",
+      "本地服务商价格战",
+      "合规失误导致客户索赔"
+    ],
+    "first_steps_7d": [
+      "梳理 GPSR/EPR/LUCID 的适用条件与罚则",
+      "找 2 家德国持牌机构谈代理返佣",
+      "访谈 5 个中国卖家问最头疼的合规项",
+      "做 1 份合规体检清单引流"
+    ],
+    "kill_criteria": [
+      "3 个月签约 < 10 家",
+      "返佣低于 30%",
+      "平台推出免费一站式合规"
+    ],
+    "compliance_notes": "未逐条打开核验，标记 verified:false；代注册需与持牌机构合作，责任由卖家承担；卖家数据需保密",
+    "evidence_count": 2,
+    "activity_dates": [
+      "2026-08-12",
+      "2026-09-23"
+    ],
+    "first_seen": "2026-08-12",
+    "last_activity": "2026-09-23",
+    "momentum": 1.2,
+    "rank_score": 74.0,
+    "tags": [
+      "needs-license",
+      "b2b",
+      "platform-dependent",
+      "china-advantage",
+      "localization-heavy"
+    ],
+    "verified": false,
+    "disclaimer": "研究假设，非投资建议；示例数据用于演示，使用前请核验原始来源"
+  },
+  {
+    "id": "opp-compliance-ai-act-038",
+    "slug": "eu-ai-act-evidence-kit",
+    "title": "AI Act 合规证据包：SME 的 2026 补课刚需",
+    "one_liner": "EU AI Act 对部署者的记录义务在 2026-08 前生效，中小企业缺证据文档，做合规模板+审计是低门槛切口",
+    "industry_id": "compliance",
+    "gap_type_ids": [
+      "regulation",
+      "knowledge",
+      "language"
+    ],
+    "region_ids": [
+      "europe"
+    ],
+    "origin_country": "德国",
+    "target_countries": [
+      "德国",
+      "荷兰",
+      "法国"
+    ],
+    "human_need_ids": [
+      "control",
+      "fairness",
+      "survival"
+    ],
+    "neuro_drivers": [
+      "cortisol",
+      "serotonin"
+    ],
+    "emotion_tags": [
+      "anxiety",
+      "relief",
+      "justice"
+    ],
+    "source_langs": [
+      "en",
+      "de"
+    ],
+    "signal": {
+      "summary": "IAPP 报道指出，部署 AI 系统的中小企业将在 2026-08-02 前面对培训记录、监控与人工监督等证据缺口；欧委会 Digital Omnibus 又在调整执行细节，企业需要一份可复用的合规证据包。",
+      "evidence": [
+        {
+          "title": "EU AI Act deployer evidence gaps SMEs will miss before 2 Aug 2026",
+          "publisher": "IAPP",
+          "url": "https://www.iapp.org/news/a/eu-ai-act-deployer-evidence-gaps-smes-will-miss-before-2-aug-2026",
+          "date": "2026-10-20",
+          "quote": "Deployer evidence gaps SMEs will miss before 2 Aug 2026（2026-08 前 SME 将漏掉的证据缺口）",
+          "lang": "en",
+          "tier": "secondary"
+        },
+        {
+          "title": "What Changed Under the EU AI Act Digital Omnibus?",
+          "publisher": "Mitratech",
+          "url": "https://mitratech.com/zh/%E8%B5%84%E6%BA%90%E4%B8%AD%E5%BF%83/%E5%8D%9A%E5%AE%A2/eu-ai-act-digital-omnibus-grc/",
+          "date": "2026-10-20",
+          "quote": "What changed under the EU AI Act Digital Omnibus（Digital Omnibus 带来的变化）",
+          "lang": "en",
+          "tier": "secondary"
+        }
+      ],
+      "signal_strength": 7.6,
+      "trend_direction": "up",
+      "volume_estimate": "欧盟使用 AI 的中小企业数十万家；模板包 500–2,000 欧元、审计 3,000–10,000 欧元"
+    },
+    "seven_questions": {
+      "traffic": "LinkedIn 合规社群 + 律所与 IT 服务商转介 + 行业协会讲座；前 10 个客户来自律所转介",
+      "money": "模板包 500–2,000 欧元 + 合规审计 3,000–10,000 欧元 + 年度监测 1,000–3,000 欧元；毛利 65–80%",
+      "model": "信息产品+顾问：AI 系统清单/风险分级/技术文档/人工监督记录模板，卖模板再转审计与培训",
+      "roi": "启动 3,000–15,000 元（内容/法律审阅），2 个月首单，4 个月回本，月收入 1–5 万元",
+      "audience": "懂 AI 治理/合规框架、英文写作强、能与律所合作的人；不适合无合规背景的模板卖家",
+      "drivers": [
+        "regulation",
+        "tech",
+        "info"
+      ],
+      "moat": "模板与案例库 + 律所背书 + 行业标签；前置条件是免责边界"
+    },
+    "roi": {
+      "capital_cny": {
+        "min": 3000,
+        "max": 15000
+      },
+      "time_to_revenue_months": 2,
+      "payback_months": 4,
+      "monthly_revenue_cny": {
+        "min": 10000,
+        "max": 50000
+      },
+      "gross_margin_pct": 72,
+      "effort_level": "side",
+      "team_size": 1
+    },
+    "scores": {
+      "dimensions": {
+        "signal": 7.6,
+        "gap": 8.0,
+        "feasibility": 7.6,
+        "economics": 7.4,
+        "timing": 8.2,
+        "competition": 7.0,
+        "risk": 7.2,
+        "fit": 7.2,
+        "evidence": 7.2,
+        "leverage": 7.2
+      },
+      "total": 75.5,
+      "grade": "A"
+    },
+    "window": {
+      "status": "open",
+      "months_left": 18,
+      "decay": "slow"
+    },
+    "risks": [
+      "AI Act 执行细则调整导致模板过期",
+      "审计结论责任风险",
+      "大律所与咨询公司下沉竞争"
+    ],
+    "first_steps_7d": [
+      "读 AI Act 部署者义务清单与时间表",
+      "访谈 5 家欧洲中小企业问 AI 使用与文档现状",
+      "做 1 套 10 页证据包模板样例",
+      "联系 1 家律所谈联合交付"
+    ],
+    "kill_criteria": [
+      "6 个月卖不出 10 套",
+      "Digital Omnibus 大幅推迟义务生效",
+      "出现合规失误索赔"
+    ],
+    "compliance_notes": "未逐条打开核验，标记 verified:false；模板不构成法律意见，需与律所合作；涉及 AI 系统数据需保密",
+    "evidence_count": 2,
+    "activity_dates": [
+      "2026-08-14",
+      "2026-09-17"
+    ],
+    "first_seen": "2026-08-14",
+    "last_activity": "2026-09-17",
+    "momentum": 1.1,
+    "rank_score": 76.4,
+    "tags": [
+      "needs-license",
+      "b2b",
+      "ai-native",
+      "remote",
+      "digital"
+    ],
+    "verified": false,
+    "disclaimer": "研究假设，非投资建议；示例数据用于演示，使用前请核验原始来源"
+  },
+  {
+    "id": "opp-green-heatpump-039",
+    "slug": "eu-heat-pump-subsidy-service",
+    "title": "欧洲热泵补贴代办：帮家庭把补贴申请跑通",
+    "one_liner": "欧洲热泵补贴政策持续但申请流程复杂，代办+安装撮合+售后可按户收费，中国供应链有成本优势",
+    "industry_id": "green",
+    "gap_type_ids": [
+      "regulation",
+      "infrastructure",
+      "price"
+    ],
+    "region_ids": [
+      "europe"
+    ],
+    "origin_country": "德国",
+    "target_countries": [
+      "德国",
+      "波兰",
+      "西班牙",
+      "意大利"
+    ],
+    "human_need_ids": [
+      "ease",
+      "control",
+      "health"
+    ],
+    "neuro_drivers": [
+      "cortisol",
+      "serotonin"
+    ],
+    "emotion_tags": [
+      "hope",
+      "anxiety",
+      "relief"
+    ],
+    "source_langs": [
+      "en",
+      "de",
+      "es"
+    ],
+    "signal": {
+      "summary": "欧洲热泵协会（EHPA）持续推动降低热泵前期成本，各国 2026 年补贴与低息贷款仍在；家庭端痛点是补贴资格难判断、安装商报价不透明、申请材料复杂，代办与撮合服务有稳定需求。",
+      "evidence": [
+        {
+          "title": "Tackling upfront costs: how the Electrification Action Plan can make heat pumps more affordable",
+          "publisher": "European Heat Pump Association",
+          "url": "https://ehpa.org/news-and-resources/policy/tackling-upfront-costs-how-the-electrification-action-plan-can-make-heat-pumps-more-affordable/",
+          "date": "2026-10-20",
+          "quote": "Tackling upfront costs to make heat pumps more affordable（降低前期成本让热泵更可负担）",
+          "lang": "en",
+          "tier": "secondary"
+        },
+        {
+          "title": "Ayudas para bombas de calor en Europa 2026",
+          "publisher": "Solimpeks",
+          "url": "https://solimpeks.com/es/knowledge/questions/heat-pump-grants-europe-2026",
+          "date": "2026-10-20",
+          "quote": "Ayudas para bombas de calor en Europa 2026（2026 欧洲热泵补贴）",
+          "lang": "es",
+          "tier": "secondary"
+        }
+      ],
+      "signal_strength": 7.4,
+      "trend_direction": "up",
+      "volume_estimate": "欧洲热泵年安装量数百万台；单户补贴 1,000–6,000 欧元，代办服务 300–800 欧元/户"
+    },
+    "seven_questions": {
+      "traffic": "本地家庭社群/装修公司/能源顾问合作 + 谷歌本地搜索（heat pump subsidy + 城市名）；前 20 户来自装修公司转介",
+      "money": "补贴代办 300–800 欧元/户 + 安装撮合佣金 200–500 欧元 + 年度维护订阅 100–200 欧元；毛利 45–60%",
+      "model": "本地服务：资格评估→补贴材料代填→对接认证安装商→验收与售后；中国供应链用于热泵配件与辅材降本",
+      "roi": "启动 1–3 万元（本地公司/保险/网站），2 个月首单，5 个月回本，月收入 1–5 万元",
+      "audience": "懂欧洲能源补贴规则、德语或波兰语可沟通、有本地安装商资源的人；不适合无本地身份与资质的远程团队",
+      "drivers": [
+        "regulation",
+        "ops",
+        "supply"
+      ],
+      "moat": "本地安装商网络 + 补贴知识 + 案例；前置条件是本地公司与责任保险"
+    },
+    "roi": {
+      "capital_cny": {
+        "min": 10000,
+        "max": 30000
+      },
+      "time_to_revenue_months": 2,
+      "payback_months": 5,
+      "monthly_revenue_cny": {
+        "min": 10000,
+        "max": 50000
+      },
+      "gross_margin_pct": 50,
+      "effort_level": "side",
+      "team_size": 2
+    },
+    "scores": {
+      "dimensions": {
+        "signal": 7.4,
+        "gap": 7.2,
+        "feasibility": 6.8,
+        "economics": 7.0,
+        "timing": 7.6,
+        "competition": 6.6,
+        "risk": 6.8,
+        "fit": 6.6,
+        "evidence": 6.8,
+        "leverage": 6.4
+      },
+      "total": 70.1,
+      "grade": "B"
+    },
+    "window": {
+      "status": "open",
+      "months_left": 24,
+      "decay": "slow"
+    },
+    "risks": [
+      "补贴政策收紧导致需求下降",
+      "安装商交付延误引发客诉",
+      "本地公司注册与保险成本高于预期"
+    ],
+    "first_steps_7d": [
+      "查德国/波兰最新热泵补贴资格与金额",
+      "联系 3 家认证安装商谈转介佣金",
+      "访谈 5 个已装/待装家庭问流程痛点",
+      "算一户代办的服务成本与毛利"
+    ],
+    "kill_criteria": [
+      "6 个月签约家庭 < 30 户",
+      "补贴政策取消",
+      "安装商合作无法覆盖主要城市"
+    ],
+    "compliance_notes": "未逐条打开核验，标记 verified:false；补贴申请材料需真实合规，不得虚报；安装须由持证技师完成；涉及能源改造需符合当地建筑规范",
+    "evidence_count": 2,
+    "activity_dates": [
+      "2026-08-16",
+      "2026-09-21"
+    ],
+    "first_seen": "2026-08-16",
+    "last_activity": "2026-09-21",
+    "momentum": 1.1,
+    "rank_score": 70.9,
+    "tags": [
+      "needs-license",
+      "recurring",
+      "b2c",
+      "localization-heavy"
+    ],
+    "verified": false,
+    "disclaimer": "研究假设，非投资建议；示例数据用于演示，使用前请核验原始来源"
+  },
+  {
+    "id": "opp-green-cooling-water-040",
+    "slug": "eu-cooling-water-dtc",
+    "title": "欧洲降温节水神器：热浪驱动的中国供应链 DTC",
+    "one_liner": "欧洲热浪与干旱推动降温节水产品热卖、有厂商订单排到 2027，中国供应链+认证可做 DTC 与分销",
+    "industry_id": "green",
+    "gap_type_ids": [
+      "time",
+      "price",
+      "channel"
+    ],
+    "region_ids": [
+      "europe"
+    ],
+    "origin_country": "中国",
+    "target_countries": [
+      "德国",
+      "西班牙",
+      "塞浦路斯",
+      "意大利"
+    ],
+    "human_need_ids": [
+      "ease",
+      "health",
+      "survival"
+    ],
+    "neuro_drivers": [
+      "endorphin",
+      "cortisol"
+    ],
+    "emotion_tags": [
+      "relief",
+      "anxiety",
+      "hope"
+    ],
+    "source_langs": [
+      "zh",
+      "en"
+    ],
+    "signal": {
+      "summary": "媒体报道德国等欧洲市场因热浪与干旱带火『降温节水』产品，部分中国厂商订单排到 2027 年；塞浦路斯政府亦在推广节水方案。欧洲本地供给以高价品牌为主，中国供应链在中低价带仍有空间，但需过认证与本地化。",
+      "evidence": [
+        {
+          "title": "欧洲热浪带火『降温节水』神器，有企业订单排到 2027 年",
+          "publisher": "光明网",
+          "url": "https://m.gmw.cn/2026-08/25/content_1304553425.htm",
+          "date": "2026-08-25",
+          "quote": "欧洲热浪带火『降温节水』神器，有企业订单排到 2027 年",
+          "lang": "zh",
+          "tier": "secondary"
+        },
+        {
+          "title": "Neoperl water-saving solutions Cyprus（塞浦路斯节水方案新闻稿）",
+          "publisher": "塞浦路斯政府新闻网",
+          "url": "https://www.gov.cy/media/sites/168/2026/09/Press-release_Neoperl_water-saving-solutions-Cyprus_en_FINAL.pdf",
+          "date": "2026-09-15",
+          "quote": "Water-saving solutions for Cyprus（塞浦路斯节水方案）",
+          "lang": "en",
+          "tier": "primary"
+        }
+      ],
+      "signal_strength": 7.6,
+      "trend_direction": "up",
+      "volume_estimate": "欧洲降温与节水产品需求随热浪波动；亚马逊欧洲站相关品类单月销量数千件，客单 15–120 欧元"
+    },
+    "seven_questions": {
+      "traffic": "TikTok/Instagram 热浪场景内容 + 亚马逊欧洲站 + 本地五金/园艺分销；前 100 单来自内容与站内搜索",
+      "money": "实物差价 40–60%，组合装拉高客单；毛利 45–60%，季节集中",
+      "model": "DTC+分销：中国供应链选品→欧盟认证与包装本地化→亚马逊/独立站+本地分销双轨",
+      "roi": "启动 2–6 万元（备货/认证/拍摄），2 个月首单，5 个月回本，旺季节月收入 2–8 万元",
+      "audience": "有跨境选品与认证经验、能跟欧洲季节节奏备货的人；不适合无认证能力的铺货卖家",
+      "drivers": [
+        "supply",
+        "cross-border",
+        "info"
+      ],
+      "moat": "认证与本地化包装 + 渠道 + 季节备货节奏；无长期壁垒，靠供应链速度"
+    },
+    "roi": {
+      "capital_cny": {
+        "min": 20000,
+        "max": 60000
+      },
+      "time_to_revenue_months": 2,
+      "payback_months": 5,
+      "monthly_revenue_cny": {
+        "min": 20000,
+        "max": 80000
+      },
+      "gross_margin_pct": 50,
+      "effort_level": "side",
+      "team_size": 2
+    },
+    "scores": {
+      "dimensions": {
+        "signal": 7.6,
+        "gap": 6.8,
+        "feasibility": 7.6,
+        "economics": 7.4,
+        "timing": 7.4,
+        "competition": 6.4,
+        "risk": 6.6,
+        "fit": 7.4,
+        "evidence": 7.0,
+        "leverage": 6.8
+      },
+      "total": 71.8,
+      "grade": "B"
+    },
+    "window": {
+      "status": "open",
+      "months_left": 12,
+      "decay": "fast"
+    },
+    "risks": [
+      "季节性过强导致库存积压",
+      "欧盟能效/节水认证不合规",
+      "本地品牌降价挤压中低价带"
+    ],
+    "first_steps_7d": [
+      "查欧洲站降温节水品类 Top20 价格与评价",
+      "确认目标产品的 CE/节水认证要求",
+      "联系 2 家工厂问欧盟认证与包装能力",
+      "算一单到德国的到岸成本与旺季备货量"
+    ],
+    "kill_criteria": [
+      "旺季动销率低于 40%",
+      "认证成本超过首批备货 30%",
+      "平台价格战导致毛利低于 25%"
+    ],
+    "compliance_notes": "未逐条打开核验，标记 verified:false；需符合欧盟 CE 与相关节水/能效标签规定；不得宣称医疗或健康功效",
+    "evidence_count": 2,
+    "activity_dates": [
+      "2026-08-20",
+      "2026-09-16"
+    ],
+    "first_seen": "2026-08-20",
+    "last_activity": "2026-09-16",
+    "momentum": 1.2,
+    "rank_score": 73.5,
+    "tags": [
+      "physical",
+      "cross-border",
+      "seasonal",
+      "low-capital",
+      "china-advantage"
+    ],
+    "verified": false,
+    "disclaimer": "研究假设，非投资建议；示例数据用于演示，使用前请核验原始来源"
+  },
+  {
+    "id": "opp-green-solar-africa-041",
+    "slug": "africa-offgrid-solar-payg",
+    "title": "非洲离网太阳能：PAYG 分期把硬件卖成服务",
+    "one_liner": "撒哈拉以南离网光伏到 2035 年有 450% 增长空间、电网覆盖不足，PAYG 分期+本地代理可做硬件服务",
+    "industry_id": "green",
+    "gap_type_ids": [
+      "infrastructure",
+      "price",
+      "geo"
+    ],
+    "region_ids": [
+      "africa"
+    ],
+    "origin_country": "肯尼亚",
+    "target_countries": [
+      "尼日利亚",
+      "肯尼亚",
+      "南非"
+    ],
+    "human_need_ids": [
+      "survival",
+      "health",
+      "status"
+    ],
+    "neuro_drivers": [
+      "cortisol",
+      "dopamine"
+    ],
+    "emotion_tags": [
+      "hope",
+      "anxiety",
+      "pride"
+    ],
+    "source_langs": [
+      "en"
+    ],
+    "signal": {
+      "summary": "研究机构指出撒哈拉以南离网光伏在电网覆盖受限下持续增长，到 2035 年有约 450% 增长潜力；当地用户缺一次性支付能力，PAYG（按使用付费）分期与本地代理是主流模式，中国硬件供应链成熟。",
+      "evidence": [
+        {
+          "title": "Report: Off-Grid Solar Gains Ground as Grid Limits Persist in Africa",
+          "publisher": "Ecofin Agency",
+          "url": "https://www.ecofinagency.com/news-industry/1002-52731-report-off-grid-solar-gains-ground-as-grid-limits-persist-in-africa",
+          "date": "2026-10-02",
+          "quote": "Off-grid solar gains ground as grid limits persist in Africa（电网受限下离网光伏增长）",
+          "lang": "en",
+          "tier": "secondary"
+        },
+        {
+          "title": "SSA's Off-Grid Solar Market Has 450% Growth Potential Through 2035",
+          "publisher": "Ecofin Agency",
+          "url": "https://www.ecofinagency.com/news/0210-59409-ssa-s-off-grid-solar-market-has-450-growth-potential-through-2035-report-says",
+          "date": "2026-10-02",
+          "quote": "450% growth potential through 2035（到 2035 年 450% 增长潜力）",
+          "lang": "en",
+          "tier": "secondary"
+        }
+      ],
+      "signal_strength": 7.8,
+      "trend_direction": "up",
+      "volume_estimate": "撒哈拉以南离网光伏用户数千万；单套家用系统 100–800 美元，PAYG 月付 5–30 美元"
+    },
+    "seven_questions": {
+      "traffic": "本地代理与村社合作社 + 移动钱包运营商（M-Pesa 等）合作 + 教会/学校渠道；前 100 户来自本地代理",
+      "money": "硬件差价 20–35% + PAYG 分期利息 + 安装与维修费；毛利 30–45%，现金流分期回收",
+      "model": "PAYG 硬件+服务：中国供应链采购→本地仓→代理上门安装→移动钱包分期→远程锁机与售后",
+      "roi": "启动 5–20 万元（首批货/本地公司/系统），3 个月首批，12 个月回本，月收入 2–10 万元",
+      "audience": "有非洲渠道或硬件运营经验、能管理本地代理与风控的人；不适合无本地伙伴的纯外贸",
+      "drivers": [
+        "supply",
+        "regulation",
+        "ops"
+      ],
+      "moat": "本地代理网络 + 风控数据 + 售后响应；前置条件是移动钱包集成与坏账控制"
+    },
+    "roi": {
+      "capital_cny": {
+        "min": 50000,
+        "max": 200000
+      },
+      "time_to_revenue_months": 3,
+      "payback_months": 12,
+      "monthly_revenue_cny": {
+        "min": 20000,
+        "max": 100000
+      },
+      "gross_margin_pct": 35,
+      "effort_level": "full",
+      "team_size": 3
+    },
+    "scores": {
+      "dimensions": {
+        "signal": 7.8,
+        "gap": 7.4,
+        "feasibility": 5.8,
+        "economics": 7.6,
+        "timing": 7.4,
+        "competition": 6.8,
+        "risk": 5.8,
+        "fit": 5.4,
+        "evidence": 7.0,
+        "leverage": 6.8
+      },
+      "total": 69.4,
+      "grade": "B"
+    },
+    "window": {
+      "status": "open",
+      "months_left": 30,
+      "decay": "slow"
+    },
+    "risks": [
+      "坏账率高于预期",
+      "汇率与进口关税波动",
+      "本地代理携货跑路/售后失控",
+      "政局与电力政策变化"
+    ],
+    "first_steps_7d": [
+      "查目标国离网光伏进口关税与认证",
+      "联系 2 家已在非洲运营的 PAYG 公司问合作",
+      "访谈 5 个本地代理问佣金与坏账情况",
+      "算一套 200 美元系统的分期回款模型"
+    ],
+    "kill_criteria": [
+      "12 个月坏账率 > 15%",
+      "本地代理无法覆盖目标区域",
+      "单套毛利低于 20%"
+    ],
+    "compliance_notes": "未逐条打开核验，标记 verified:false；涉及移动支付与消费信贷需当地牌照或与持牌方合作；产品质量需符合目标国标准",
+    "evidence_count": 2,
+    "activity_dates": [
+      "2026-08-12",
+      "2026-09-14"
+    ],
+    "first_seen": "2026-08-12",
+    "last_activity": "2026-09-14",
+    "momentum": 1.1,
+    "rank_score": 70.2,
+    "tags": [
+      "b2c",
+      "physical",
+      "needs-supply-chain",
+      "recurring",
+      "china-advantage",
+      "cross-border"
+    ],
+    "verified": false,
+    "disclaimer": "研究假设，非投资建议；示例数据用于演示，使用前请核验原始来源"
+  },
+  {
+    "id": "opp-gaming-roblox-042",
+    "slug": "roblox-ugc-studio",
+    "title": "Roblox UGC 工作室：给品牌与创作者做地图与道具",
+    "one_liner": "Roblox 创作者收入增约五成、中位 1500 美元，品牌与中小工作室缺 UGC 产能，代做地图与活动可按项目收费",
+    "industry_id": "gaming",
+    "gap_type_ids": [
+      "platform",
+      "channel",
+      "knowledge"
+    ],
+    "region_ids": [
+      "north-america",
+      "east-asia",
+      "south-asia"
+    ],
+    "origin_country": "美国",
+    "target_countries": [
+      "美国",
+      "日本",
+      "印度",
+      "韩国"
+    ],
+    "human_need_ids": [
+      "expression",
+      "status",
+      "novelty"
+    ],
+    "neuro_drivers": [
+      "dopamine",
+      "endorphin"
+    ],
+    "emotion_tags": [
+      "pride",
+      "curiosity",
+      "envy"
+    ],
+    "source_langs": [
+      "en",
+      "ja"
+    ],
+    "signal": {
+      "summary": "Roblox 公布创作者收入数据：创作者收入同比增长约五成、中位数 1,500 美元；品牌营销与中小游戏工作室想做 UGC 地图/道具/活动，但缺 Roblox Studio 与 Luau 产能，外包需求稳定。",
+      "evidence": [
+        {
+          "title": "Roblox Reveals Content Creator Earnings",
+          "publisher": "iXBT Games",
+          "url": "https://ixbt.games/en/news/2026/09/14/435627-roblox-raskryla-doxody-sozdatelei-kontenta.html",
+          "date": "2026-09-14",
+          "quote": "Roblox reveals content creator earnings（Roblox 公布创作者收入）",
+          "lang": "en",
+          "tier": "secondary"
+        },
+        {
+          "title": "罗布乐思创作者收入增约五成，中位数为1500美元",
+          "publisher": "网易",
+          "url": "https://www.163.com/dy/article/L6PUCH8I0526D8LR.html",
+          "date": "2026-09-14",
+          "quote": "创作者收入增约五成，中位数为 1500 美元",
+          "lang": "zh",
+          "tier": "secondary"
+        }
+      ],
+      "signal_strength": 7.4,
+      "trend_direction": "up",
+      "volume_estimate": "Roblox 日活数千万；品牌 UGC 地图项目 500–10,000 美元，道具/活动按件报价"
+    },
+    "seven_questions": {
+      "traffic": "Roblox 开发者 Discord/论坛 + 品牌营销代理合作 + 作品集短视频；前 5 个客户来自游戏社群与代理转介",
+      "money": "项目制 500–10,000 美元/地图或活动 + 道具/皮肤分成 + 长期运维月费；毛利 55–70%",
+      "model": "工作室服务：接品牌/工作室需求→玩法与美术设计→Roblox Studio 开发→上线运营与数据复盘",
+      "roi": "启动 1–3 万元（设备/账号/作品集），1–2 个月首单，4 个月回本，月收入 1–5 万元",
+      "audience": "会 Roblox Studio/Luau、懂玩法设计与青少年审美的人；不适合无作品集的新手接单",
+      "drivers": [
+        "tech",
+        "info",
+        "ops"
+      ],
+      "moat": "玩法模板与作品集 + 品牌案例；前置条件是平台分成与合规规则"
+    },
+    "roi": {
+      "capital_cny": {
+        "min": 10000,
+        "max": 30000
+      },
+      "time_to_revenue_months": 1,
+      "payback_months": 4,
+      "monthly_revenue_cny": {
+        "min": 10000,
+        "max": 50000
+      },
+      "gross_margin_pct": 60,
+      "effort_level": "side",
+      "team_size": 2
+    },
+    "scores": {
+      "dimensions": {
+        "signal": 7.4,
+        "gap": 6.8,
+        "feasibility": 7.2,
+        "economics": 6.8,
+        "timing": 6.6,
+        "competition": 5.8,
+        "risk": 6.4,
+        "fit": 7.2,
+        "evidence": 6.6,
+        "leverage": 6.6
+      },
+      "total": 68.2,
+      "grade": "B"
+    },
+    "window": {
+      "status": "open",
+      "months_left": 12,
+      "decay": "fast"
+    },
+    "risks": [
+      "Roblox 平台政策与分成变化",
+      "品牌预算收缩",
+      "青少年内容合规与广告限制"
+    ],
+    "first_steps_7d": [
+      "做 1 个 15 分钟可玩 demo 上传 Roblox",
+      "在开发者 Discord 看外包报价区间",
+      "联系 2 家品牌营销代理问 UGC 需求",
+      "研究 Roblox 品牌内容与广告规则"
+    ],
+    "kill_criteria": [
+      "3 个月拿不到 2 个付费项目",
+      "demo 留存低于 10%",
+      "平台限制品牌 UGC 导致需求消失"
+    ],
+    "compliance_notes": "未逐条打开核验，标记 verified:false；面向未成年人的内容需遵守 COPPA 与平台规则，不得含付费抽卡诱导",
+    "evidence_count": 2,
+    "activity_dates": [
+      "2026-08-06",
+      "2026-09-11"
+    ],
+    "first_seen": "2026-08-06",
+    "last_activity": "2026-09-11",
+    "momentum": 1.0,
+    "rank_score": 68.2,
+    "tags": [
+      "content-driven",
+      "digital",
+      "remote",
+      "side-hustle",
+      "platform-dependent",
+      "ai-native"
+    ],
+    "verified": false,
+    "disclaimer": "研究假设，非投资建议；示例数据用于演示，使用前请核验原始来源"
+  },
+  {
+    "id": "opp-gaming-arabic-l10n-043",
+    "slug": "arabic-game-localization",
+    "title": "阿语游戏本地化：RTL 与文化的双重门槛",
+    "one_liner": "中东手游增长但阿语本地化常被机器翻译糊弄，RTL 排版+文化适配+配音是溢价点，可做垂直工作室",
+    "industry_id": "gaming",
+    "gap_type_ids": [
+      "language",
+      "culture",
+      "knowledge"
+    ],
+    "region_ids": [
+      "mena",
+      "north-america"
+    ],
+    "origin_country": "沙特",
+    "target_countries": [
+      "沙特",
+      "阿联酋",
+      "埃及",
+      "土耳其"
+    ],
+    "human_need_ids": [
+      "novelty",
+      "status",
+      "belonging"
+    ],
+    "neuro_drivers": [
+      "dopamine",
+      "serotonin"
+    ],
+    "emotion_tags": [
+      "identity",
+      "curiosity",
+      "pride"
+    ],
+    "source_langs": [
+      "ar",
+      "en"
+    ],
+    "signal": {
+      "summary": "游戏翻译与本地化被列为 2026–2032 独立服务市场；开发者社区反馈阿语本地化（RTL 排版、字体、文化适配）能让收入显著提升，但机器翻译直接上线会毁掉留存，说明高质量阿语本地化供给不足。",
+      "evidence": [
+        {
+          "title": "Global Video Game Translation Services Market 2026-2032（游戏翻译服务报告）",
+          "publisher": "MarketResearch.com",
+          "url": "https://www.marketresearch.com/GlobalInfoResearch-v4117/Global-Video-Game-Translation-Services-44689700/",
+          "date": "2026-10-20",
+          "quote": "Global video game translation services market 2026-2032（游戏翻译服务市场研究）",
+          "lang": "en",
+          "tier": "secondary"
+        },
+        {
+          "title": "阿语本地化提升收入的开发者复盘讨论（r/gamedev）",
+          "publisher": "Reddit · r/gamedev",
+          "url": "https://www.reddit.com/r/gamedev/",
+          "date": "2026-10-20",
+          "quote": "「Localizing into Arabic doubled our revenue」——开发者复盘讨论主题（首页，具体帖子链接未取得）",
+          "lang": "en",
+          "tier": "primary"
+        }
+      ],
+      "signal_strength": 7.0,
+      "trend_direction": "up",
+      "volume_estimate": "中东手游市场数十亿美元；阿语本地化按字 0.08–0.2 美元/字，项目 500–5,000 美元"
+    },
+    "seven_questions": {
+      "traffic": "手游发行商/独立工作室 + LinkedIn + 游戏展会与本地化社群；前 5 个客户来自发行商转介",
+      "money": "按字 0.08–0.2 美元/字 + RTL 适配 500–3,000 美元/项目 + 阿语配音按分钟；毛利 50–65%",
+      "model": "垂直本地化工作室：初译→阿语母语审校→RTL 排版与字体适配→文化敏感点清单→配音与 LQA",
+      "roi": "启动 1–3 万元（术语库/工具/母语审校），2 个月首单，5 个月回本，月收入 1–4 万元",
+      "audience": "阿语母语级 + 游戏本地化经验、能做 LQA 的人；不适合只会机器翻译的团队",
+      "drivers": [
+        "info",
+        "cross-border"
+      ],
+      "moat": "术语库 + 母语审校 + 文化适配案例；前置条件是宗教与文化敏感内容审核"
+    },
+    "roi": {
+      "capital_cny": {
+        "min": 10000,
+        "max": 30000
+      },
+      "time_to_revenue_months": 2,
+      "payback_months": 5,
+      "monthly_revenue_cny": {
+        "min": 10000,
+        "max": 40000
+      },
+      "gross_margin_pct": 58,
+      "effort_level": "side",
+      "team_size": 2
+    },
+    "scores": {
+      "dimensions": {
+        "signal": 7.0,
+        "gap": 7.6,
+        "feasibility": 7.4,
+        "economics": 6.8,
+        "timing": 6.8,
+        "competition": 7.0,
+        "risk": 6.6,
+        "fit": 7.0,
+        "evidence": 6.6,
+        "leverage": 6.2
+      },
+      "total": 70.1,
+      "grade": "B"
+    },
+    "window": {
+      "status": "open",
+      "months_left": 18,
+      "decay": "slow"
+    },
+    "risks": [
+      "宗教/文化内容冒犯导致下架",
+      "AI 翻译快速替代低端需求",
+      "发行商账期长"
+    ],
+    "first_steps_7d": [
+      "找 2 款阿语本地化差的手游做改进样例",
+      "联系 3 家手游发行商问外包需求",
+      "建 100 条游戏术语术语库",
+      "算一款 5 万字游戏的交付人天"
+    ],
+    "kill_criteria": [
+      "6 个月签不下 3 个客户",
+      "单价被压到 0.05 美元/字以下",
+      "出现文化冒犯投诉"
+    ],
+    "compliance_notes": "未逐条打开核验，标记 verified:false；宗教与文化内容需母语审校，避免冒犯性符号与教义误用；配音需版权授权；Reddit 未取得具体帖子 URL，引文为社区讨论主题描述",
+    "evidence_count": 2,
+    "activity_dates": [
+      "2026-08-08",
+      "2026-09-10"
+    ],
+    "first_seen": "2026-08-08",
+    "last_activity": "2026-09-10",
+    "momentum": 1.0,
+    "rank_score": 70.1,
+    "tags": [
+      "localization-heavy",
+      "b2b",
+      "remote",
+      "content-driven"
+    ],
+    "verified": false,
+    "disclaimer": "研究假设，非投资建议；示例数据用于演示，使用前请核验原始来源"
+  },
+  {
+    "id": "opp-fintech-nigeria-pay-044",
+    "slug": "nigeria-crossborder-payments",
+    "title": "尼日利亚跨境收款：PayPal 回归后的合规与对账服务",
+    "one_liner": "PayPal 重返尼日利亚、汇款市场增长，但费率与合规路径不清，做跨境收款咨询+多通道对账可切入",
+    "industry_id": "fintech",
+    "gap_type_ids": [
+      "infrastructure",
+      "regulation",
+      "knowledge"
+    ],
+    "region_ids": [
+      "africa"
+    ],
+    "origin_country": "尼日利亚",
+    "target_countries": [
+      "尼日利亚",
+      "肯尼亚",
+      "加纳"
+    ],
+    "human_need_ids": [
+      "survival",
+      "ease",
+      "control"
+    ],
+    "neuro_drivers": [
+      "cortisol",
+      "dopamine"
+    ],
+    "emotion_tags": [
+      "hope",
+      "anxiety",
+      "relief"
+    ],
+    "source_langs": [
+      "en"
+    ],
+    "signal": {
+      "summary": "PayPal 在 20 年后重返尼日利亚，为自由职业者与跨境卖家打开收款通道；但费率、提现路径与外汇合规仍不透明，本地用户长期依赖境外亲友或稳定币，收款咨询与多通道对账需求明确。",
+      "evidence": [
+        {
+          "title": "PayPal returns to Nigeria after 20 years",
+          "publisher": "Zawya",
+          "url": "https://www.zawya.com/en/economy/paypal-returns-to-nigeria-after-20-years-367167",
+          "date": "2026-10-19",
+          "quote": "PayPal returns to Nigeria after 20 years（PayPal 20 年后重返尼日利亚）",
+          "lang": "en",
+          "tier": "secondary"
+        },
+        {
+          "title": "Nigeria Remittance & Cross-Border Transfers Market 2026-2031",
+          "publisher": "Ken Research",
+          "url": "https://www.kenresearch.com/industry-reports/nigeria-remittance-cross-border-transfers-market",
+          "date": "2026-10-20",
+          "quote": "Nigeria remittance and cross-border transfers market（尼日利亚汇款与跨境转账市场）",
+          "lang": "en",
+          "tier": "secondary"
+        }
+      ],
+      "signal_strength": 7.2,
+      "trend_direction": "up",
+      "volume_estimate": "尼日利亚侨汇年数百亿美元；自由职业者与跨境卖家数百万，收款咨询客单 50–500 美元"
+    },
+    "seven_questions": {
+      "traffic": "自由职业者社群（Upwork/Fiverr 尼日利亚群）+ 跨境卖家群 + YouTube 教程；前 100 个用户来自社群",
+      "money": "咨询费 50–200 美元/次 + 按笔收款服务费 0.5–1.5% + 对账工具月费 10–50 美元；毛利 55–70%",
+      "model": "服务+轻工具：帮用户选通道、算费率、做合规申报与对账，后期把对账模板做成 SaaS",
+      "roi": "启动 2–6 万元（合规咨询/工具开发），2 个月首单，6 个月回本，月收入 1–5 万元",
+      "audience": "懂跨境支付合规与外汇规则、英语可沟通、能长期服务非洲用户的人；不适合无合规知识的纯中介",
+      "drivers": [
+        "regulation",
+        "tech",
+        "ops"
+      ],
+      "moat": "多通道对账 + 合规知识 + 用户信任；前置条件是不触碰资金池与牌照边界"
+    },
+    "roi": {
+      "capital_cny": {
+        "min": 20000,
+        "max": 60000
+      },
+      "time_to_revenue_months": 2,
+      "payback_months": 6,
+      "monthly_revenue_cny": {
+        "min": 10000,
+        "max": 50000
+      },
+      "gross_margin_pct": 60,
+      "effort_level": "side",
+      "team_size": 1
+    },
+    "scores": {
+      "dimensions": {
+        "signal": 7.2,
+        "gap": 7.4,
+        "feasibility": 6.6,
+        "economics": 6.8,
+        "timing": 7.0,
+        "competition": 6.2,
+        "risk": 5.8,
+        "fit": 6.2,
+        "evidence": 6.8,
+        "leverage": 6.6
+      },
+      "total": 67.8,
+      "grade": "B"
+    },
+    "window": {
+      "status": "open",
+      "months_left": 18,
+      "decay": "slow"
+    },
+    "risks": [
+      "外汇与支付牌照监管变化",
+      "不得触碰资金池，否则涉无证支付业务",
+      "用户违约与退款纠纷"
+    ],
+    "first_steps_7d": [
+      "研究 PayPal 尼日利亚提现费率与限额",
+      "访谈 5 位尼日利亚自由职业者问收款痛点",
+      "列 5 条合规红线（不碰资金池/不代收代付）",
+      "做 1 份多通道费率对比表"
+    ],
+    "kill_criteria": [
+      "3 个月付费用户 < 30 人",
+      "监管明确禁止此类咨询服务",
+      "出现资金纠纷"
+    ],
+    "compliance_notes": "未逐条打开核验，标记 verified:false；不得无证从事支付或代收代付业务，只做咨询与工具；需遵守尼日利亚外汇与反洗钱规定",
+    "evidence_count": 2,
+    "activity_dates": [
+      "2026-08-18",
+      "2026-09-08"
+    ],
+    "first_seen": "2026-08-18",
+    "last_activity": "2026-09-08",
+    "momentum": 1.0,
+    "rank_score": 67.8,
+    "tags": [
+      "b2b",
+      "needs-license",
+      "cross-border",
+      "recurring"
+    ],
+    "verified": false,
+    "disclaimer": "研究假设，非投资建议；示例数据用于演示，使用前请核验原始来源"
+  },
+  {
+    "id": "opp-compliance-eudr-045",
+    "slug": "eudr-due-diligence-kit",
+    "title": "EUDR 尽职调查文件包：农产品出口的合规闸门",
+    "one_liner": "欧盟零毁林法规虽延期但方向确定，咖啡可可棕榈木材出口商需地理坐标与尽职调查文件，代办与工具缺口大",
+    "industry_id": "compliance",
+    "gap_type_ids": [
+      "regulation",
+      "knowledge",
+      "language"
+    ],
+    "region_ids": [
+      "europe"
+    ],
+    "origin_country": "荷兰",
+    "target_countries": [
+      "德国",
+      "法国",
+      "荷兰"
+    ],
+    "human_need_ids": [
+      "control",
+      "survival",
+      "fairness"
+    ],
+    "neuro_drivers": [
+      "cortisol",
+      "serotonin"
+    ],
+    "emotion_tags": [
+      "anxiety",
+      "relief",
+      "justice"
+    ],
+    "source_langs": [
+      "en",
+      "de"
+    ],
+    "signal": {
+      "summary": "欧盟零毁林法规（EUDR）经历推迟与简化讨论，但合规方向确定；咖啡、可可、棕榈油、木材、橡胶等出口商需提供地块地理坐标与尽职调查声明，中小出口商缺文件能力。",
+      "evidence": [
+        {
+          "title": "The 'E' of ESG: Postponement and simplification of the EU Deforestation Regulation",
+          "publisher": "Freshfields",
+          "url": "https://www.freshfields.com/en/our-thinking/blogs/sustainability/the-e-of-esg-postponement-and-simplification-of-the-eu-deforestation-regulatio-102ly51",
+          "date": "2026-10-20",
+          "quote": "Postponement and simplification of the EU Deforestation Regulation（EUDR 推迟与简化）",
+          "lang": "en",
+          "tier": "secondary"
+        },
+        {
+          "title": "EUDR: Developments 2026",
+          "publisher": "Rödl & Partner",
+          "url": "https://www.roedl.com/en/insights/eudr-developments-2026/",
+          "date": "2026-10-20",
+          "quote": "EUDR: developments 2026（EUDR 2026 年进展）",
+          "lang": "en",
+          "tier": "secondary"
+        }
+      ],
+      "signal_strength": 7.0,
+      "trend_direction": "up",
+      "volume_estimate": "EUDR 覆盖七类大宗商品；单个供应商文件包 5,000–20,000 元，欧盟进口商数千家"
+    },
+    "seven_questions": {
+      "traffic": "咖啡/可可/棕榈油/木材/橡胶出口商 + 欧盟进口商 + 货代与认证机构转介；行业展会与LinkedIn",
+      "money": "文件包 5,000–20,000 元/供应商 + 地块地理数据核验 + 年度维护 2,000–5,000 元；毛利 50–65%",
+      "model": "咨询+工具：尽职调查模板→供应链地块数据收集→风险评估→DDS 声明与存档；与遥感/卫星数据服务商合作",
+      "roi": "启动 3–8 万元（模板/工具/合作），3 个月首单，8 个月回本，月收入 2–6 万元",
+      "audience": "懂供应链溯源/ESG 与欧盟法规、英语可沟通的人；不适合无数据能力的纯中介",
+      "drivers": [
+        "regulation",
+        "cross-border",
+        "tech"
+      ],
+      "moat": "溯源工具与模板 + 卫星地块数据合作 + 欧盟进口商关系；前置条件是数据真实可追溯与法规跟踪能力；合规文件与客户切换成本形成 18–24 个月壁垒"
+    },
+    "roi": {
+      "capital_cny": {
+        "min": 30000,
+        "max": 80000
+      },
+      "time_to_revenue_months": 3,
+      "payback_months": 8,
+      "monthly_revenue_cny": {
+        "min": 20000,
+        "max": 60000
+      },
+      "gross_margin_pct": 58,
+      "effort_level": "side",
+      "team_size": 2
+    },
+    "scores": {
+      "dimensions": {
+        "signal": 7.0,
+        "gap": 8.0,
+        "feasibility": 7.0,
+        "economics": 7.2,
+        "timing": 7.4,
+        "competition": 7.2,
+        "risk": 6.8,
+        "fit": 6.6,
+        "evidence": 6.8,
+        "leverage": 6.8
+      },
+      "total": 71.8,
+      "grade": "B"
+    },
+    "window": {
+      "status": "open",
+      "months_left": 24,
+      "decay": "slow"
+    },
+    "risks": [
+      "EUDR 再次推迟/简化导致需求推迟",
+      "数据造假责任重大",
+      "大型认证机构下沉竞争"
+    ],
+    "first_steps_7d": [
+      "读 EUDR 适用商品清单与 DDS 要求",
+      "访谈 3 家咖啡/木材出口商问数据现状",
+      "联系 1 家卫星遥感服务商问报价",
+      "做 1 份尽职调查文件模板"
+    ],
+    "kill_criteria": [
+      "12 个月签不下 3 家客户",
+      "EUDR 被无限期推迟",
+      "报价被压到 3,000 元以下"
+    ],
+    "compliance_notes": "未逐条打开核验，标记 verified:false；尽职调查声明需真实可追溯，造假将承担法律责任；法规时点以欧盟官方为准",
+    "evidence_count": 2,
+    "activity_dates": [
+      "2026-08-16",
+      "2026-09-09"
+    ],
+    "first_seen": "2026-08-16",
+    "last_activity": "2026-09-09",
+    "momentum": 1.0,
+    "rank_score": 71.8,
+    "tags": [
+      "needs-license",
+      "b2b",
+      "localization-heavy"
+    ],
+    "verified": false,
+    "disclaimer": "研究假设，非投资建议；示例数据用于演示，使用前请核验原始来源"
+  },
+  {
+    "id": "opp-fintech-uae-visa-046",
+    "slug": "uae-digital-nomad-visa",
+    "title": "阿联酋数字游民签证落地：帮远程工作者搬家与开户",
+    "one_liner": "阿联酋虚拟工作与数字游民签证流程复杂，远程工作者需要签证、开户、住房一站式落地服务，可按人收费",
+    "industry_id": "fintech",
+    "gap_type_ids": [
+      "infrastructure",
+      "regulation",
+      "language"
+    ],
+    "region_ids": [
+      "mena",
+      "cis",
+      "south-asia"
+    ],
+    "origin_country": "阿联酋",
+    "target_countries": [
+      "阿联酋",
+      "哈萨克斯坦",
+      "印度"
+    ],
+    "human_need_ids": [
+      "status",
+      "ease",
+      "growth"
+    ],
+    "neuro_drivers": [
+      "dopamine",
+      "serotonin"
+    ],
+    "emotion_tags": [
+      "aspiration",
+      "hope",
+      "anxiety"
+    ],
+    "source_langs": [
+      "en",
+      "ru"
+    ],
+    "signal": {
+      "summary": "阿联酋推出虚拟工作签证（Virtual Work Visa）与数字游民签证，允许远程工作者长期居留；申请材料、保险、银行开户与住房流程复杂，来自独联体与南亚的远程工作者需要本地化落地服务。",
+      "evidence": [
+        {
+          "title": "Virtual Work Visa UAE: Requirements, Fees & Process 2026",
+          "publisher": "EGSH（阿联酋）",
+          "url": "https://egsh.ae/insights/virtual-work-visa-uae",
+          "date": "2026-10-20",
+          "quote": "Virtual work visa UAE: requirements, fees and process 2026（虚拟工作签证要求与流程）",
+          "lang": "en",
+          "tier": "secondary"
+        },
+        {
+          "title": "UAE digital nomad visa: requirements, costs & US taxes (2026)",
+          "publisher": "Taxes for Expats",
+          "url": "https://www.taxesforexpat.com/country-guides/uae/uae-digital-nomad-visa.html",
+          "date": "2026-10-20",
+          "quote": "UAE digital nomad visa: requirements and costs 2026（数字游民签证要求与成本）",
+          "lang": "en",
+          "tier": "secondary"
+        }
+      ],
+      "signal_strength": 7.0,
+      "trend_direction": "up",
+      "volume_estimate": "阿联酋数字游民与远程工作者数十万人；落地服务 500–2,000 美元/人"
+    },
+    "seven_questions": {
+      "traffic": "LinkedIn/YouTube 俄语与印地语远程工作内容 + 数字游民社群 + 本地服务商转介；前 20 个客户来自社群",
+      "money": "落地服务费 500–2,000 美元/人 + 银行开户协助佣金 + 住房与保险转介费；毛利 45–60%",
+      "model": "本地服务中介：签证评估→材料准备→保险与住房→银行开户→续签提醒；与本地服务商分成",
+      "roi": "启动 1–3 万元（本地合作/内容/保证金），1–2 个月首单，4 个月回本，月收入 1–4 万元",
+      "audience": "懂阿联酋签证与开户流程、英语或俄语流利、能长期驻阿联酋的人；不适合无本地落地的远程团队",
+      "drivers": [
+        "regulation",
+        "info",
+        "cross-border"
+      ],
+      "moat": "本地 PRO 服务商网络 + 签证/开户案例库 + 俄语与印地语内容；前置条件是本地实体与失败兜底方案；无长期壁垒，服务口碑可守约 12 个月，政策变化是主要风险"
+    },
+    "roi": {
+      "capital_cny": {
+        "min": 10000,
+        "max": 30000
+      },
+      "time_to_revenue_months": 1,
+      "payback_months": 4,
+      "monthly_revenue_cny": {
+        "min": 10000,
+        "max": 40000
+      },
+      "gross_margin_pct": 55,
+      "effort_level": "side",
+      "team_size": 1
+    },
+    "scores": {
+      "dimensions": {
+        "signal": 7.0,
+        "gap": 6.8,
+        "feasibility": 7.6,
+        "economics": 6.6,
+        "timing": 6.8,
+        "competition": 6.0,
+        "risk": 6.2,
+        "fit": 7.0,
+        "evidence": 6.6,
+        "leverage": 6.0
+      },
+      "total": 67.7,
+      "grade": "B"
+    },
+    "window": {
+      "status": "open",
+      "months_left": 12,
+      "decay": "slow"
+    },
+    "risks": [
+      "签证政策收紧或费用上调",
+      "中介服务投诉与退款纠纷",
+      "银行开户审核趋严导致交付失败"
+    ],
+    "first_steps_7d": [
+      "查虚拟工作签证最新条件与费用",
+      "联系 2 家本地 PRO 服务商谈合作分成",
+      "访谈 5 位在阿联酋的远程工作者问痛点",
+      "做 1 份签证材料清单与时间表"
+    ],
+    "kill_criteria": [
+      "3 个月签约 < 10 人",
+      "签证政策取消该类别",
+      "开户失败率高于 30%"
+    ],
+    "compliance_notes": "未逐条打开核验，标记 verified:false；签证与开户须由持牌机构或本人办理，中介不得承诺结果；需遵守阿联酋居留与税务规定",
+    "evidence_count": 2,
+    "activity_dates": [
+      "2026-08-20",
+      "2026-09-07"
+    ],
+    "first_seen": "2026-08-20",
+    "last_activity": "2026-09-07",
+    "momentum": 1.0,
+    "rank_score": 67.7,
+    "tags": [
+      "b2c",
+      "needs-license",
+      "remote",
+      "localization-heavy"
+    ],
+    "verified": false,
+    "disclaimer": "研究假设，非投资建议；示例数据用于演示，使用前请核验原始来源"
+  }
+]

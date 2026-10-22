@@ -1,0 +1,409 @@
+{
+  "meta": {
+    "fixture_version": "0.1.0",
+    "as_of": "2026-10-22",
+    "note": "离线样例数据，仅用于验证适配器解析 / 归一 / 去重 / 流水线可运行性。条目中的标题与链接取自公开检索结果，正文为压缩样例文本；本文件不作为机会证据，data/opportunities.json 的证据以各机会 signal.evidence 为准。",
+    "adapters": ["rss", "reddit", "google_trends", "ecommerce_reviews"]
+  },
+  "rss": {
+    "source_id": "google-news-rss",
+    "feeds": [
+      {
+        "channel": "Google News RSS: pet economy",
+        "url": "https://news.google.com/rss/search?q=%E5%AE%A0%E7%89%A9+%E6%B6%88%E8%B4%B9&hl=zh-CN",
+        "items": [
+          {
+            "title": "亚宠发布报告：2026年中国宠物消费市场规模将至3365亿元",
+            "link": "https://www.cnstock.com/commonDetail/763132",
+            "pubDate": "Mon, 19 Oct 2026 08:00:00 GMT",
+            "description": "亚宠展发布宠物消费趋势报告，预计 2026 年中国宠物消费市场规模达 3365 亿元，纪念、殡葬与健康管理成为新增量。",
+            "language": "zh",
+            "categories": ["宠物", "消费"]
+          },
+          {
+            "title": "一线调研看变化：“毛孩子”账单“宠”出市场新变化",
+            "link": "https://www.cnstock.com/commonDetail/775118",
+            "pubDate": "Wed, 21 Oct 2026 10:30:00 GMT",
+            "description": "宠物主单只年均支出继续上升，服务型消费（寄养、殡葬、摄影、保险）占比提高。",
+            "language": "zh",
+            "categories": ["宠物", "消费"]
+          }
+        ]
+      },
+      {
+        "channel": "Google News RSS: cross-border ecommerce",
+        "url": "https://news.google.com/rss/search?q=cross-border+ecommerce&hl=en-US",
+        "items": [
+          {
+            "title": "Temu欧洲本地卖家调研：超五成入驻后扩产增聘，超三成拓新国际市场",
+            "link": "https://m.ebrun.com/701645.html",
+            "pubDate": "Tue, 20 Oct 2026 09:10:00 GMT",
+            "description": "Temu 欧洲本地卖家调研显示，超 50% 卖家入驻后扩大产能或增聘员工，超 30% 开始拓展新国际市场。",
+            "language": "zh",
+            "categories": ["跨境电商"]
+          },
+          {
+            "title": "Poland's e-commerce turnover up 24.3 pct m/m to PLN 8.627 bln in March",
+            "link": "https://biznes.pap.pl/wiadomosci/firmy/polands-e-commerce-turnover-243-pct-mm-pln-8627-bln-march-sector-chamber",
+            "pubDate": "Thu, 15 Oct 2026 07:00:00 GMT",
+            "description": "Polish e-commerce turnover rose 24.3% month on month, with cross-border marketplaces taking a growing share of GMV.",
+            "language": "en",
+            "categories": ["Poland", "ecommerce"]
+          }
+        ]
+      },
+      {
+        "channel": "Google News RSS: regulation",
+        "url": "https://news.google.com/rss/search?q=EU+AI+Act+compliance+SME&hl=en-US",
+        "items": [
+          {
+            "title": "EU AI Act deployer evidence gaps SMEs will miss before 2 Aug 2026",
+            "link": "https://www.iapp.org/news/a/eu-ai-act-deployer-evidence-gaps-smes-will-miss-before-2-aug-2026",
+            "pubDate": "Mon, 12 Oct 2026 06:00:00 GMT",
+            "description": "SMEs deploying AI systems will need documented evidence of training, monitoring and human oversight before August 2026.",
+            "language": "en",
+            "categories": ["EU", "AI Act"]
+          },
+          {
+            "title": "RI extends halal certification mandate for select sectors to Oct. 2028",
+            "link": "https://en.antaranews.com/amp/news/436173/ri-extends-halal-certification-mandate-for-select-sectors-to-oct-2028",
+            "pubDate": "Tue, 13 Oct 2026 03:20:00 GMT",
+            "description": "Indonesia extended the mandatory halal certification deadline for selected SME sectors to October 2028, keeping certification demand visible.",
+            "language": "en",
+            "categories": ["Indonesia", "halal"]
+          }
+        ]
+      },
+      {
+        "channel": "Google News RSS: dup-check",
+        "url": "https://news.google.com/rss/search?q=dup-check",
+        "items": [
+          {
+            "title": "亚宠发布报告：2026年中国宠物消费市场规模将至3365亿元",
+            "link": "https://www.cnstock.com/commonDetail/763132?utm_source=rss&utm_medium=referral",
+            "pubDate": "Mon, 19 Oct 2026 08:00:00 GMT",
+            "description": "重复条目：用于验证 URL 规范化去重。",
+            "language": "zh",
+            "categories": ["duplicate"]
+          },
+          {
+            "title": "欧洲热浪带火“降温节水”神器，有企业订单排到2027年",
+            "link": "https://m.gmw.cn/2026-08/25/content_1304553425.htm",
+            "pubDate": "Thu, 15 Oct 2026 12:00:00 GMT",
+            "description": "欧洲热浪与干旱推动降温、节水类产品需求，部分中国厂商订单排到 2027 年。",
+            "language": "zh",
+            "categories": ["green", "Europe"]
+          }
+        ]
+      },
+      {
+        "channel": "Google News RSS: green & cooling",
+        "url": "https://news.google.com/rss/search?q=heatwave+cooling+water+saving+Europe",
+        "items": [
+          {
+            "title": "欧洲热浪带火“降温节水”神器 有企业订单排到2027年",
+            "link": "https://m.gmw.cn/2026-08/25/content_1304553425.htm?utm_campaign=feed",
+            "pubDate": "Thu, 15 Oct 2026 12:00:00 GMT",
+            "description": "同题不同参数链接：用于验证 utm 参数与 URL 规范化去重。",
+            "language": "zh",
+            "categories": ["duplicate"]
+          }
+        ]
+      },
+      {
+        "channel": "Google News RSS: culture & content",
+        "url": "https://news.google.com/rss/search?q=Ramadan+2027+date&hl=en-US",
+        "items": [
+          {
+            "title": "Probable dates of Ramadan and Eid-ul-Fitr announced for 2027",
+            "link": "https://en.dailyinqilab.com/probable-dates-of-ramadan-and-eid-ul-fitr-announced/",
+            "pubDate": "Wed, 07 Oct 2026 04:00:00 GMT",
+            "description": "Ramadan 2027 is expected to begin in early February, with Eid-ul-Fitr in March; brands plan inventory 90 days ahead.",
+            "language": "en",
+            "categories": ["Ramadan", "MENA"]
+          },
+          {
+            "title": "罗布乐思创作者收入增约五成，中位数为1500美元",
+            "link": "https://www.163.com/dy/article/L6PUCH8I0526D8LR.html",
+            "pubDate": "Mon, 14 Sep 2026 09:00:00 GMT",
+            "description": "Roblox 创作者收入同比增长约 50%，创作者收入中位数为 1500 美元。",
+            "language": "zh",
+            "categories": ["gaming", "UGC"]
+          }
+        ]
+      },
+      {
+        "channel": "Google News RSS: fintech",
+        "url": "https://news.google.com/rss/search?q=Nigeria+PayPal+remittance&hl=en-US",
+        "items": [
+          {
+            "title": "PayPal returns to Nigeria after 20 years",
+            "link": "https://www.zawya.com/en/economy/paypal-returns-to-nigeria-after-20-years-367167",
+            "pubDate": "Mon, 19 Oct 2026 08:00:00 GMT",
+            "description": "PayPal resumed operations in Nigeria, opening cross-border payment and remittance options for local freelancers.",
+            "language": "en",
+            "categories": ["Nigeria", "fintech"]
+          },
+          {
+            "title": "What you need to know about microschools",
+            "link": "https://www.k12dive.com/news/what-you-need-to-know--about-microschools/827601/",
+            "pubDate": "Tue, 06 Oct 2026 11:00:00 GMT",
+            "description": "Microschools keep expanding in the US, creating demand for curriculum, operations and compliance support.",
+            "language": "en",
+            "categories": ["education", "US"]
+          }
+        ]
+      }
+    ]
+  },
+  "reddit": {
+    "source_id": "reddit",
+    "subreddits": [
+      {
+        "name": "petloss",
+        "url": "https://www.reddit.com/r/petloss/",
+        "posts": [
+          {
+            "id": "fixture-petloss-1",
+            "title": "I still can't decide what to do with her ashes",
+            "url": "https://www.reddit.com/r/petloss/",
+            "created_utc": 1792454400,
+            "score": 412,
+            "num_comments": 87,
+            "selftext": "The vet gave me a box and I can't look at it. Does anyone make jewelry or glass from fur? Everything I find is either ugly or over $400, and shipping to Germany costs more than the item.",
+            "lang": "en",
+            "flair": "Vent"
+          },
+          {
+            "id": "fixture-petloss-2",
+            "title": "Looking for a keepsake that doesn't look like a funeral product",
+            "url": "https://www.reddit.com/r/petloss/",
+            "created_utc": 1792281600,
+            "score": 233,
+            "num_comments": 51,
+            "selftext": "Most memorial items look so sad. I want something beautiful I can actually keep on my desk. Any recommendations?",
+            "lang": "en",
+            "flair": "Question"
+          }
+        ]
+      },
+      {
+        "name": "EtsySellers",
+        "url": "https://www.reddit.com/r/EtsySellers/",
+        "posts": [
+          {
+            "id": "fixture-etsy-1",
+            "title": "Digital products are quietly outperforming my physical shop",
+            "url": "https://www.reddit.com/r/EtsySellers/",
+            "created_utc": 1792540800,
+            "score": 231,
+            "num_comments": 44,
+            "selftext": "My templates do 3x the revenue of physical goods with zero shipping and no broken-item refunds. The problem is Etsy search keeps pushing physical listings.",
+            "lang": "en",
+            "flair": "Discussion"
+          }
+        ]
+      },
+      {
+        "name": "smallbusiness",
+        "url": "https://www.reddit.com/r/smallbusiness/",
+        "posts": [
+          {
+            "id": "fixture-smb-1",
+            "title": "Bookkeeper quoted $2,400 for cleanup - is that normal?",
+            "url": "https://www.reddit.com/r/smallbusiness/",
+            "created_utc": 1792368000,
+            "score": 156,
+            "num_comments": 92,
+            "selftext": "Two years of receipts, no reconciliation. I need someone who can fix QuickBooks and set up a monthly routine, not just file taxes.",
+            "lang": "en",
+            "flair": "Question"
+          }
+        ]
+      },
+      {
+        "name": "islam",
+        "url": "https://www.reddit.com/r/islam/",
+        "posts": [
+          {
+            "id": "fixture-islam-1",
+            "title": "Best Quran app for learning tajweed with translation?",
+            "url": "https://www.reddit.com/r/islam/",
+            "created_utc": 1792454400,
+            "score": 98,
+            "num_comments": 63,
+            "selftext": "I want Arabic recitation with word-by-word translation and tajweed feedback, offline and without ads. Everything I tried either has ads or no teaching mode.",
+            "lang": "en",
+            "flair": "Help"
+          }
+        ]
+      },
+      {
+        "name": "gamedev",
+        "url": "https://www.reddit.com/r/gamedev/",
+        "posts": [
+          {
+            "id": "fixture-gamedev-1",
+            "title": "Localizing into Arabic doubled our revenue - here is what we missed",
+            "url": "https://www.reddit.com/r/gamedev/",
+            "created_utc": 1792281600,
+            "score": 318,
+            "num_comments": 121,
+            "selftext": "RTL layout, font choice and culturally correct art were the blockers. Machine translation alone killed retention. A $600 hand pass fixed it.",
+            "lang": "en",
+            "flair": "Postmortem"
+          }
+        ]
+      },
+      {
+        "name": "Nigeria",
+        "url": "https://www.reddit.com/r/Nigeria/",
+        "posts": [
+          {
+            "id": "fixture-nigeria-1",
+            "title": "PayPal returns to Nigeria after 20 years",
+            "url": "https://www.reddit.com/r/Nigeria/",
+            "created_utc": 1792368000,
+            "score": 300,
+            "num_comments": 140,
+            "selftext": "Freelancers are already testing withdrawals. Most of us still use friends abroad or USDT because fees are unclear.",
+            "lang": "en",
+            "flair": "News"
+          }
+        ]
+      }
+    ]
+  },
+  "google_trends": {
+    "source_id": "google-trends",
+    "queries": [
+      {
+        "term": "pet memorial glass",
+        "geo": "US",
+        "url": "https://trends.google.com/trends/explore?q=pet%20memorial%20glass&geo=US",
+        "interest_over_time": [
+          { "date": "2026-07-27", "value": 31 },
+          { "date": "2026-08-03", "value": 34 },
+          { "date": "2026-08-10", "value": 33 },
+          { "date": "2026-08-17", "value": 38 },
+          { "date": "2026-08-24", "value": 41 },
+          { "date": "2026-08-31", "value": 44 },
+          { "date": "2026-09-07", "value": 43 },
+          { "date": "2026-09-14", "value": 49 },
+          { "date": "2026-09-21", "value": 52 },
+          { "date": "2026-09-28", "value": 55 },
+          { "date": "2026-10-05", "value": 58 },
+          { "date": "2026-10-12", "value": 61 }
+        ]
+      },
+      {
+        "term": "heat pump subsidy",
+        "geo": "DE",
+        "url": "https://trends.google.com/trends/explore?q=heat%20pump%20subsidy&geo=DE",
+        "interest_over_time": [
+          { "date": "2026-07-27", "value": 55 },
+          { "date": "2026-08-03", "value": 54 },
+          { "date": "2026-08-10", "value": 52 },
+          { "date": "2026-08-17", "value": 49 },
+          { "date": "2026-08-24", "value": 47 },
+          { "date": "2026-08-31", "value": 45 },
+          { "date": "2026-09-07", "value": 44 },
+          { "date": "2026-09-14", "value": 46 },
+          { "date": "2026-09-21", "value": 51 },
+          { "date": "2026-09-28", "value": 58 },
+          { "date": "2026-10-05", "value": 64 },
+          { "date": "2026-10-12", "value": 67 }
+        ]
+      },
+      {
+        "term": "halal beauty",
+        "geo": "ID",
+        "url": "https://trends.google.com/trends/explore?q=halal%20beauty&geo=ID",
+        "interest_over_time": [
+          { "date": "2026-07-27", "value": 22 },
+          { "date": "2026-08-03", "value": 25 },
+          { "date": "2026-08-10", "value": 27 },
+          { "date": "2026-08-17", "value": 26 },
+          { "date": "2026-08-24", "value": 30 },
+          { "date": "2026-08-31", "value": 33 },
+          { "date": "2026-09-07", "value": 35 },
+          { "date": "2026-09-14", "value": 38 },
+          { "date": "2026-09-21", "value": 37 },
+          { "date": "2026-09-28", "value": 41 },
+          { "date": "2026-10-05", "value": 45 },
+          { "date": "2026-10-12", "value": 48 }
+        ]
+      },
+      {
+        "term": "menopause supplement",
+        "geo": "US",
+        "url": "https://trends.google.com/trends/explore?q=menopause%20supplement&geo=US",
+        "interest_over_time": [
+          { "date": "2026-07-27", "value": 18 },
+          { "date": "2026-08-03", "value": 19 },
+          { "date": "2026-08-10", "value": 21 },
+          { "date": "2026-08-17", "value": 20 },
+          { "date": "2026-08-24", "value": 24 },
+          { "date": "2026-08-31", "value": 26 },
+          { "date": "2026-09-07", "value": 25 },
+          { "date": "2026-09-14", "value": 29 },
+          { "date": "2026-09-21", "value": 31 },
+          { "date": "2026-09-28", "value": 33 },
+          { "date": "2026-10-05", "value": 35 },
+          { "date": "2026-10-12", "value": 37 }
+        ]
+      }
+    ]
+  },
+  "ecommerce_reviews": {
+    "source_id": "marketplace-reviews",
+    "products": [
+      {
+        "asin": "etsy-crystalscustomsart",
+        "title": "Custom Pet Memorial Glass with fur and ashes",
+        "url": "https://www.etsy.com/ca/shop/CrystalsCustomsArt",
+        "rating": 4.8,
+        "reviews": [
+          {
+            "id": "rev-1",
+            "rating": 2,
+            "date": "2026-09-18",
+            "title": "Broke in transit",
+            "body": "Beautiful piece but it arrived cracked, packaging was just a bubble mailer. Replacement took three weeks and communication was slow.",
+            "verified_purchase": true,
+            "helpful_votes": 14,
+            "lang": "en"
+          },
+          {
+            "id": "rev-2",
+            "rating": 3,
+            "date": "2026-10-02",
+            "title": "Smaller than expected",
+            "body": "The glass is much smaller than the photos suggest. Shipping to the EU also cost more than the item itself.",
+            "verified_purchase": true,
+            "helpful_votes": 9,
+            "lang": "en"
+          }
+        ]
+      },
+      {
+        "asin": "etsy-ashemberglass",
+        "title": "Memorial keepsake bracelet with ash bead",
+        "url": "https://www.etsy.com/de-en/shop/AshEmberGlass",
+        "rating": 4.6,
+        "reviews": [
+          {
+            "id": "rev-3",
+            "rating": 3,
+            "date": "2026-09-29",
+            "title": "Bracelet too small",
+            "body": "The keepsake bracelet runs tiny, had to reorder a larger size. Lovely work but sizing guidance is missing.",
+            "verified_purchase": true,
+            "helpful_votes": 6,
+            "lang": "en"
+          }
+        ]
+      }
+    ]
+  }
+}

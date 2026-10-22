@@ -1,0 +1,613 @@
+{
+  "meta": {
+    "data_version": "0.1.0",
+    "as_of": "2026-10-22",
+    "count": 33,
+    "note": "全球商业日历（2026-11 ~ 2028）。宗教节日以当地观月/官方公告为准，表中日期为预计值；lead_time_days 指备货/内容/投放应提前的天数。"
+  },
+  "events": [
+    {
+      "date": "2026-11-11",
+      "name": "双 11 购物节",
+      "region_ids": [
+        "china",
+        "sea"
+      ],
+      "type": "shopping",
+      "lead_time_days": 45,
+      "themes": [
+        "电商",
+        "折扣",
+        "内容种草",
+        "物流爆仓"
+      ],
+      "notes": "中国+东南亚跨境同步大促；提前 45 天锁库存与达人排期，供应链在 10 月底前必须入仓"
+    },
+    {
+      "date": "2026-11-27",
+      "end_date": "2026-11-30",
+      "name": "黑色星期五 Black Friday",
+      "region_ids": [
+        "north-america",
+        "europe",
+        "oceania",
+        "latam"
+      ],
+      "type": "shopping",
+      "lead_time_days": 60,
+      "themes": [
+        "折扣",
+        "礼赠",
+        "电子产品",
+        "家居",
+        "广告成本上升"
+      ],
+      "notes": "全年最大折扣窗口；广告 CPM 提前 2 周上涨，独立站需提前压测，跨境卖家注意尾程时效承诺"
+    },
+    {
+      "date": "2026-11-30",
+      "name": "网络星期一 Cyber Monday",
+      "region_ids": [
+        "north-america",
+        "europe"
+      ],
+      "type": "shopping",
+      "lead_time_days": 30,
+      "themes": [
+        "线上专享",
+        "数字产品",
+        "订阅折扣"
+      ],
+      "notes": "线上专属折扣，适合数字产品与订阅制首年优惠；与黑五形成连续两波"
+    },
+    {
+      "date": "2026-12-12",
+      "name": "双 12",
+      "region_ids": [
+        "china",
+        "sea"
+      ],
+      "type": "shopping",
+      "lead_time_days": 30,
+      "themes": [
+        "年末清仓",
+        "礼赠",
+        "中小商家"
+      ],
+      "notes": "年末清库存与礼赠补充窗口，适合中小商家；物流截止日要写清楚"
+    },
+    {
+      "date": "2026-12-25",
+      "name": "圣诞节",
+      "region_ids": [
+        "north-america",
+        "europe",
+        "oceania",
+        "latam",
+        "africa"
+      ],
+      "type": "festival",
+      "lead_time_days": 120,
+      "themes": [
+        "礼赠",
+        "装饰",
+        "食品",
+        "玩具",
+        "家庭聚会"
+      ],
+      "notes": "跨境发货截止通常在 12 月初（海运更早）；宗教/家庭场景内容需本地化，避免只做折扣叙事"
+    },
+    {
+      "date": "2026-12-26",
+      "name": "节礼日 Boxing Day",
+      "region_ids": [
+        "oceania",
+        "europe",
+        "north-america"
+      ],
+      "type": "shopping",
+      "lead_time_days": 30,
+      "themes": [
+        "清仓",
+        "运动户外",
+        "家居"
+      ],
+      "notes": "英联邦市场清仓大促；澳洲/新西兰为夏季消费场景，注意南北半球季节反差"
+    },
+    {
+      "date": "2026-12-29",
+      "end_date": "2027-01-03",
+      "name": "日本年末年始",
+      "region_ids": [
+        "east-asia"
+      ],
+      "type": "shopping",
+      "lead_time_days": 45,
+      "themes": [
+        "福袋",
+        "礼赠",
+        "食品",
+        "初卖"
+      ],
+      "notes": "日本零售最忙的一周；福袋与年贺礼需求集中，跨境卖家需提前 6 周备货并做日语客服"
+    },
+    {
+      "date": "2027-01-01",
+      "name": "元旦",
+      "region_ids": [
+        "north-america",
+        "europe",
+        "mena",
+        "sea",
+        "east-asia",
+        "south-asia",
+        "latam",
+        "africa",
+        "oceania",
+        "cis",
+        "china"
+      ],
+      "type": "festival",
+      "lead_time_days": 30,
+      "themes": [
+        "新年计划",
+        "健身",
+        "理财",
+        "学习",
+        "订阅"
+      ],
+      "notes": "新年决心类需求（健身/学习/理财）集中爆发，是订阅与课程类产品全年最好的获客窗口"
+    },
+    {
+      "date": "2027-01-26",
+      "name": "澳大利亚日 Australia Day",
+      "region_ids": [
+        "oceania"
+      ],
+      "type": "national",
+      "lead_time_days": 30,
+      "themes": [
+        "户外",
+        "烧烤",
+        "本地品牌",
+        "旅游"
+      ],
+      "notes": "澳洲夏季户外消费高峰；品牌需注意原住民文化敏感议题，避免不当使用符号"
+    },
+    {
+      "date": "2027-02-08",
+      "end_date": "2027-03-09",
+      "name": "斋月 Ramadan",
+      "region_ids": [
+        "mena",
+        "sea",
+        "africa",
+        "europe"
+      ],
+      "type": "religious",
+      "lead_time_days": 90,
+      "themes": [
+        "礼赠",
+        "食品",
+        "家居",
+        "服饰",
+        "夜间消费",
+        "宗教内容"
+      ],
+      "notes": "白天消费收缩、夜间消费扩张；营销素材避免饮食/亲密场景，礼盒与家居装饰在斋月前 3 周达到峰值"
+    },
+    {
+      "date": "2027-02-17",
+      "end_date": "2027-02-23",
+      "name": "春节（农历新年）",
+      "region_ids": [
+        "china",
+        "sea",
+        "east-asia"
+      ],
+      "type": "festival",
+      "lead_time_days": 75,
+      "themes": [
+        "礼赠",
+        "食品",
+        "服饰",
+        "红色系",
+        "生肖",
+        "跨境物流停摆"
+      ],
+      "notes": "中国工厂普遍停工 2–3 周，跨境卖家须在春节前 6 周完成备货；东南亚华人市场同步爆发"
+    },
+    {
+      "date": "2027-03-10",
+      "name": "开斋节 Eid al-Fitr",
+      "region_ids": [
+        "mena",
+        "sea",
+        "africa",
+        "europe"
+      ],
+      "type": "religious",
+      "lead_time_days": 60,
+      "themes": [
+        "礼赠",
+        "服饰",
+        "食品",
+        "红包",
+        "家庭聚会"
+      ],
+      "notes": "斋月结束的消费高峰；礼赠以家庭与儿童为主，注意宗教礼仪与包装审美"
+    },
+    {
+      "date": "2027-03-21",
+      "name": "诺鲁孜节 Nowruz（波斯新年）",
+      "region_ids": [
+        "mena",
+        "cis"
+      ],
+      "type": "festival",
+      "lead_time_days": 45,
+      "themes": [
+        "新年礼赠",
+        "家居",
+        "食品",
+        "春季清洁"
+      ],
+      "notes": "伊朗、中亚与高加索地区新年；家居与礼赠需求集中，注意当地语言与文化符号"
+    },
+    {
+      "date": "2027-03-31",
+      "name": "日本年度末",
+      "region_ids": [
+        "east-asia"
+      ],
+      "type": "fiscal",
+      "lead_time_days": 90,
+      "themes": [
+        "B2B 采购",
+        "预算消化",
+        "人事调动",
+        "新年度准备"
+      ],
+      "notes": "日本企业财年结算；B2B 销售在 1–3 月冲刺预算，4 月新年度预算重新释放"
+    },
+    {
+      "date": "2027-04-15",
+      "name": "美国报税截止日",
+      "region_ids": [
+        "north-america"
+      ],
+      "type": "tax",
+      "lead_time_days": 120,
+      "themes": [
+        "财税服务",
+        "记账软件",
+        "小企业合规",
+        "退税消费"
+      ],
+      "notes": "财税服务全年最紧窗口；个人退税到账后 4–6 月是消费小高峰，记账与合规工具可做年度订阅"
+    },
+    {
+      "date": "2027-04-29",
+      "end_date": "2027-05-05",
+      "name": "日本黄金周",
+      "region_ids": [
+        "east-asia"
+      ],
+      "type": "national",
+      "lead_time_days": 45,
+      "themes": [
+        "旅游",
+        "户外",
+        "亲子",
+        "本地消费"
+      ],
+      "notes": "日本国内旅游与户外消费高峰；跨境卖家注意日本物流在假期期间的延迟"
+    },
+    {
+      "date": "2027-05-09",
+      "name": "母亲节",
+      "region_ids": [
+        "north-america",
+        "europe",
+        "oceania",
+        "latam"
+      ],
+      "type": "festival",
+      "lead_time_days": 45,
+      "themes": [
+        "礼赠",
+        "鲜花",
+        "珠宝",
+        "定制纪念",
+        "情感内容"
+      ],
+      "notes": "情感礼赠高峰；定制类需提前 3 周截单，物流承诺要留缓冲"
+    },
+    {
+      "date": "2027-05-17",
+      "name": "宰牲节 Eid al-Adha",
+      "region_ids": [
+        "mena",
+        "sea",
+        "africa"
+      ],
+      "type": "religious",
+      "lead_time_days": 60,
+      "themes": [
+        "礼赠",
+        "食品",
+        "服饰",
+        "慈善捐赠"
+      ],
+      "notes": "与朝觐季重叠；食品与礼赠需求集中，注意各国宰牲与进口规定"
+    },
+    {
+      "date": "2027-06-30",
+      "name": "澳大利亚财政年末",
+      "region_ids": [
+        "oceania"
+      ],
+      "type": "fiscal",
+      "lead_time_days": 60,
+      "themes": [
+        "B2B 采购",
+        "折扣清仓",
+        "财税服务"
+      ],
+      "notes": "澳洲财年结束，企业与个人在 6 月集中采购与税务规划；B2B 服务可做年度合同"
+    },
+    {
+      "date": "2027-07-15",
+      "name": "亚马逊 Prime Day（预计）",
+      "region_ids": [
+        "north-america",
+        "europe",
+        "east-asia"
+      ],
+      "type": "shopping",
+      "lead_time_days": 45,
+      "themes": [
+        "平台大促",
+        "会员消费",
+        "电子产品",
+        "家居"
+      ],
+      "notes": "日期按往年惯例估算（7 月中旬），以 Amazon 官方公告为准；广告成本与库存入仓需提前 6 周"
+    },
+    {
+      "date": "2027-08-15",
+      "name": "北半球开学季备货",
+      "region_ids": [
+        "north-america",
+        "europe",
+        "east-asia"
+      ],
+      "type": "school",
+      "lead_time_days": 90,
+      "themes": [
+        "文具",
+        "校服",
+        "电子设备",
+        "宿舍用品",
+        "学习工具"
+      ],
+      "notes": "8–9 月开学；校服/文具类跨境需提前 90 天，注意尺码与当地学校规定差异"
+    },
+    {
+      "date": "2027-09-15",
+      "name": "中秋节 / 韩国秋夕",
+      "region_ids": [
+        "china",
+        "east-asia",
+        "sea"
+      ],
+      "type": "festival",
+      "lead_time_days": 60,
+      "themes": [
+        "礼赠",
+        "月饼",
+        "食品",
+        "家庭团聚"
+      ],
+      "notes": "中韩越华人市场礼赠高峰；月饼等食品跨境受进口限制，优先做礼盒周边与内容"
+    },
+    {
+      "date": "2027-10-01",
+      "end_date": "2027-10-07",
+      "name": "中国国庆黄金周",
+      "region_ids": [
+        "china",
+        "east-asia",
+        "sea"
+      ],
+      "type": "national",
+      "lead_time_days": 45,
+      "themes": [
+        "旅游",
+        "消费",
+        "本地生活",
+        "婚庆"
+      ],
+      "notes": "中国国内旅游与婚庆高峰；出境游目的地商家可做中文服务与支付配套"
+    },
+    {
+      "date": "2027-10-21",
+      "name": "排灯节 Diwali（预计）",
+      "region_ids": [
+        "south-asia",
+        "mena",
+        "sea"
+      ],
+      "type": "religious",
+      "lead_time_days": 60,
+      "themes": [
+        "礼赠",
+        "灯饰",
+        "家居",
+        "服饰",
+        "糖果"
+      ],
+      "notes": "印度教最大节庆，日期以当地历法为准；礼赠与家居装饰需求集中，注意宗教符号使用得当"
+    },
+    {
+      "date": "2027-10-31",
+      "name": "万圣节 Halloween",
+      "region_ids": [
+        "north-america",
+        "europe",
+        "oceania"
+      ],
+      "type": "festival",
+      "lead_time_days": 45,
+      "themes": [
+        "服饰",
+        "装饰",
+        "派对",
+        "宠物服饰"
+      ],
+      "notes": "欧美服饰与装饰消费高峰；注意儿童产品安全标准与版权形象授权"
+    },
+    {
+      "date": "2027-11-11",
+      "name": "双 11 购物节",
+      "region_ids": [
+        "china",
+        "sea",
+        "east-asia"
+      ],
+      "type": "shopping",
+      "lead_time_days": 45,
+      "themes": [
+        "电商",
+        "折扣",
+        "直播带货",
+        "物流爆仓"
+      ],
+      "notes": "全球最大的单日电商大促；跨境卖家需提前锁库存与达人排期，注意物流时效"
+    },
+    {
+      "date": "2027-11-26",
+      "end_date": "2027-11-29",
+      "name": "黑色星期五 Black Friday",
+      "region_ids": [
+        "north-america",
+        "europe",
+        "latam",
+        "oceania"
+      ],
+      "type": "shopping",
+      "lead_time_days": 60,
+      "themes": [
+        "折扣",
+        "礼赠",
+        "电子产品",
+        "家居"
+      ],
+      "notes": "全年折扣高峰；独立站提前压测、物流承诺留缓冲，注意广告成本上涨"
+    },
+    {
+      "date": "2027-11-27",
+      "end_date": "2027-12-24",
+      "name": "德国/欧洲圣诞市场",
+      "region_ids": [
+        "europe"
+      ],
+      "type": "festival",
+      "lead_time_days": 60,
+      "themes": [
+        "手作",
+        "热饮",
+        "礼赠",
+        "冬季户外",
+        "本地消费"
+      ],
+      "notes": "德奥法等国圣诞市场 11 月底开市；手作与礼赠类本地商家机会，跨境卖家可做 B2B 供货"
+    },
+    {
+      "date": "2027-12-25",
+      "name": "圣诞节",
+      "region_ids": [
+        "north-america",
+        "europe",
+        "oceania",
+        "latam",
+        "africa"
+      ],
+      "type": "festival",
+      "lead_time_days": 120,
+      "themes": [
+        "礼赠",
+        "装饰",
+        "食品",
+        "玩具"
+      ],
+      "notes": "跨境发货截止 12 月初；宗教与家庭场景内容本地化，避免单一折扣叙事"
+    },
+    {
+      "date": "2028-01-26",
+      "end_date": "2028-02-08",
+      "name": "春节（农历新年，2028）",
+      "region_ids": [
+        "china",
+        "sea",
+        "east-asia"
+      ],
+      "type": "festival",
+      "lead_time_days": 75,
+      "themes": [
+        "礼赠",
+        "食品",
+        "服饰",
+        "跨境物流停摆"
+      ],
+      "notes": "2028 年春节较早；工厂停产与物流停摆窗口需在合同中明确，备货提前 6 周"
+    },
+    {
+      "date": "2028-03-31",
+      "name": "日本年度末（2028）",
+      "region_ids": [
+        "east-asia"
+      ],
+      "type": "fiscal",
+      "lead_time_days": 90,
+      "themes": [
+        "B2B 采购",
+        "预算消化"
+      ],
+      "notes": "日本财年结算；B2B 项目应在 1–3 月前完成签约"
+    },
+    {
+      "date": "2028-04-17",
+      "name": "美国报税截止日（2028）",
+      "region_ids": [
+        "north-america"
+      ],
+      "type": "tax",
+      "lead_time_days": 120,
+      "themes": [
+        "财税服务",
+        "记账",
+        "合规软件"
+      ],
+      "notes": "4 月 15 日为周六，顺延至 4 月 17 日；财税服务全年最紧窗口"
+    },
+    {
+      "date": "2028-11-24",
+      "name": "黑色星期五（2028）",
+      "region_ids": [
+        "north-america",
+        "europe",
+        "latam",
+        "oceania"
+      ],
+      "type": "shopping",
+      "lead_time_days": 60,
+      "themes": [
+        "折扣",
+        "礼赠",
+        "电子产品"
+      ],
+      "notes": "提前 60 天备货与广告排期；跨境物流截止日需在 11 月底前明确"
+    }
+  ]
+}

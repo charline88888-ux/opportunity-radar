@@ -1,0 +1,251 @@
+{
+  "meta": {
+    "data_version": "0.1.0",
+    "as_of": "2026-10-22",
+    "count": 12,
+    "note": "扫描剧本 = 可直接照做的操作卡。platforms 使用 data/sources.json 的平台 id，便于前端与扫描器联动；时间盒以个人为单位。"
+  },
+  "playbooks": [
+    {
+      "id": "pb-complaint-mining",
+      "name": "抱怨挖掘：从 1–3 星评论里捞商机",
+      "purpose": "把高频抱怨转成可售卖的解决方案假设，并判断现有替代方案哪里烂",
+      "human_need_ids": ["ease", "control", "fairness"],
+      "emotion_ids": ["complaint", "anxiety", "justice"],
+      "time_box_min": 45,
+      "frequency": "weekly",
+      "platforms": ["reddit", "itunes-reviews", "trustpilot", "amazon-movers"],
+      "steps": [
+        "选 3 个品类或 App，各取 20 条 1–3 星评论（只人工浏览，不自动抓取红/黄源）",
+        "按『现有方案哪里烂』聚类：物流、尺寸、客服、价格、使用门槛",
+        "统计每类出现频次、情绪强度与是否有人愿意加钱解决",
+        "对每个聚类写 1 句机会假设：谁在什么场景为什么付多少钱",
+        "用搜索结果与竞品供给做初筛，淘汰已有强势免费替代的抱怨",
+        "把通过的假设录入机会库草稿，附原始评论链接"
+      ],
+      "keywords": ["broke after", "waste of money", "not worth", "customer service", "太坑了", "用两次就坏"],
+      "output": "机会假设卡 × 5，每张含证据链接、频次、现有替代方案与愿付价格线索",
+      "quality_checks": ["至少 2 个独立平台交叉验证同一条抱怨", "排除刷单/水军与竞品恶意差评", "区分产品缺陷（售后问题）与需求缺口（商业机会）", "红/黄合规源只人工浏览，不批量抓取"]
+    },
+    {
+      "id": "pb-trend-timegap",
+      "name": "趋势时差扫描：找从 A 国到 B 国的 6–18 个月窗口",
+      "purpose": "用搜索/广告/飙升榜的国别差异判断趋势滞后窗口，抢在本地供给前布局",
+      "human_need_ids": ["novelty", "status", "ease"],
+      "emotion_ids": ["curiosity", "envy", "aspiration"],
+      "time_box_min": 40,
+      "frequency": "weekly",
+      "platforms": ["google-trends", "naver-datalab", "tiktok-creative-center", "amazon-movers"],
+      "steps": [
+        "选 1 个母国市场（美/日/韩）与 3 个目标市场（欧/中/东南亚/中东/拉美）",
+        "取 5 个上升关键词，比较各市场搜索曲线相位差",
+        "看目标市场是否已有本地供给：搜平台在售数量、价格带与评价数",
+        "判断滞后月数，标注在机会卡 window.months_left 与 timing 分",
+        "写 1 句假设：该趋势在目标市场的第一个付费场景是什么"
+      ],
+      "keywords": ["rising", "breakout", "trend", "aesthetic", "replacement", "替代"],
+      "output": "趋势时差表 × 1，含 5 个关键词、3 个市场、滞后月数与供给缺口",
+      "quality_checks": ["至少 2 个趋势源交叉（搜索+广告或+飙升榜）", "区分季节性波动与结构性趋势", "确认目标市场支付与物流能承载", "Google Trends 仅人工浏览，不自动抓取"]
+    },
+    {
+      "id": "pb-etsy-priceband",
+      "name": "Etsy 价格带扫描：情绪商品的定价与评价缺口",
+      "purpose": "用 Etsy Open API 找价格带、评价数与设计缺口，验证情绪类实物机会",
+      "human_need_ids": ["belonging", "nostalgia", "status"],
+      "emotion_ids": ["grief", "love", "identity"],
+      "time_box_min": 30,
+      "frequency": "weekly",
+      "platforms": ["etsy", "pinterest-trends", "1688"],
+      "steps": [
+        "选 3 个关键词（如 pet memorial glass、personalized jewelry、digital planner）",
+        "用 Etsy Open API 拉前 40 个 listing：价格、评价数、店铺年龄、图片风格",
+        "统计价格带分布与评价高频词，标出『贵但评价少』与『便宜但差评多』的空档",
+        "用 Pinterest 场景图判断审美趋势，用 1688 核成本与起订量",
+        "算出 2–3 档定价方案与毛利，写进机会卡 economics 分"
+      ],
+      "keywords": ["personalized", "memorial", "keepsake", "custom", "handmade"],
+      "output": "价格带地图 × 1 + 定价方案 × 3 + 供应链成本表",
+      "quality_checks": ["遵守 Etsy ToS，只用 Open API 不抓页面", "排除刷评价店铺", "确认易碎/定制类目的物流与退款风险", "客单与毛利要用到岸成本算，不用售价幻觉"]
+    },
+    {
+      "id": "pb-regulation-diff",
+      "name": "法规差异扫描：从新规生效日倒推合规机会",
+      "purpose": "把欧盟/美国/日本新法规翻译成『谁必须买什么服务』的清单",
+      "human_need_ids": ["survival", "control", "fairness"],
+      "emotion_ids": ["anxiety", "fear", "relief"],
+      "time_box_min": 60,
+      "frequency": "weekly",
+      "platforms": ["eur-lex", "eu-taric", "us-cbp", "openfda", "mofa?", "shopify-changelog"],
+      "steps": [
+        "订阅 3 个法规源：EUR-Lex 新规、US CBP 关税、目标国监管站",
+        "记录每条新规：生效日、适用主体、罚则、必须提交的文件",
+        "识别『谁必须做、但不会做』的主体（中小卖家/进口商/本地店）",
+        "估算单个主体的合规成本与可外包部分，写服务清单与报价区间",
+        "把生效日倒推 90 天作为营销与交付窗口，标注在机会卡 window"
+      ],
+      "keywords": ["regulation", "directive", "deadline", "penalty", "compliance", "认证"],
+      "output": "合规机会清单 × 5，含生效日、适用主体、文件清单与报价区间",
+      "quality_checks": ["法规引用必须给 CELEX/官方原文链接", "区分强制义务与自愿标准", "不构成法律意见，需提示客户自行核验", "罚则金额要引用原文，不估算"]
+    },
+    {
+      "id": "pb-supply-price-gap",
+      "name": "供应链价差测算：从 1688 报价到海外售价",
+      "purpose": "验证『同物不同价』是否真实可套利，并算出全链路成本",
+      "human_need_ids": ["ease", "status", "survival"],
+      "emotion_ids": ["greed", "relief", "hope"],
+      "time_box_min": 50,
+      "frequency": "weekly",
+      "platforms": ["1688", "alibaba-com", "drewry-wci", "sse-scfi", "etsy"],
+      "steps": [
+        "在 1688/Alibaba 找 3 家同款供应商，记录出厂价、起订量、打样费",
+        "查目标市场平台同款售价、评价数与月销估算",
+        "用 WCI/SCFI 算海运或空运单件成本，加关税、平台佣金、退换货率",
+        "算保本售价与三档定价，判断毛利是否 ≥ 35%",
+        "写清汇率假设与运价波动对毛利的影响，录入机会卡 roi"
+      ],
+      "keywords": ["同款", "出厂价", "MOQ", "dropshipping", "freight", "landed cost"],
+      "output": "价差测算表 × 1，含到岸成本、保本价、三档定价与敏感性分析",
+      "quality_checks": ["至少 3 家供应商交叉比价", "运价用当日指数而非记忆值", "计入退换货与破损率", "确认产品认证与合规成本"]
+    },
+    {
+      "id": "pb-culture-religion",
+      "name": "文化宗教扫描：禁忌、节庆与仪式的商业边界",
+      "purpose": "找出文化/宗教差异带来的真实需求，同时避开会翻车的禁区",
+      "human_need_ids": ["meaning", "belonging", "status"],
+      "emotion_ids": ["devotion", "awe", "identity"],
+      "time_box_min": 55,
+      "frequency": "monthly",
+      "platforms": ["islamicfinder", "pew-research", "hofstede-insights", "world-values-survey"],
+      "steps": [
+        "选 1 个国家/宗教群体，列 5 条会影响消费的规则（饮食/服饰/节日/家庭/图像）",
+        "查节日日历与备货提前量（斋月/开斋节/朝觐/春节/排灯节）",
+        "找 3 个本地内容账号看真实讨论，记录『可以卖什么、不能碰什么』",
+        "设计 1–2 个尊重当地文化的产品/内容方案，并写禁区清单",
+        "请母语者或本地顾问审校文案与素材，再录入机会库"
+      ],
+      "keywords": ["halal", "ramadan", "eid", "prayer", "modest", "斋月", "清真", "礼赠"],
+      "output": "文化机会卡 × 2 + 禁忌清单 × 1（每条含来源）",
+      "quality_checks": ["宗教内容必须有来源与本地审校", "区分文化偏好与宗教义务", "避免刻板印象与猎奇叙事", "标注节日日期以当地观月/官方公告为准"]
+    },
+    {
+      "id": "pb-platform-rule",
+      "name": "平台规则套利：新功能与政策变更的 30 天窗口",
+      "purpose": "在平台规则变化后的窗口期提供配套服务或工具，赚信息差红利",
+      "human_need_ids": ["ease", "control", "growth"],
+      "emotion_ids": ["anxiety", "hope", "curiosity"],
+      "time_box_min": 35,
+      "frequency": "weekly",
+      "platforms": ["shopify-changelog", "etsy-api-terms", "apple-review-guidelines", "google-play-policy"],
+      "steps": [
+        "每周扫 2 个平台的 changelog / 政策页，记录与卖家或开发者相关的变化",
+        "判断变化影响谁、痛点是什么、官方是否已提供免费方案",
+        "在 7 天内产出解读内容（文章/直播）做获客，30 天内出服务包",
+        "给服务定 3 档价格，并写清交付物与时效",
+        "设退出条件：官方补齐功能或大厂入场即撤"
+      ],
+      "keywords": ["changelog", "policy update", "deprecation", "fee change", "审核", "规则"],
+      "output": "平台变化解读 × 2 + 服务包 × 1（含价格与交付清单）",
+      "quality_checks": ["以官方文档为准，不用二手转述", "确认变化生效日与过渡期", "评估平台自身是否提供免费替代", "不诱导卖家违规套利"]
+    },
+    {
+      "id": "pb-creator-gap",
+      "name": "内容与达人缺口：找『有人看没人讲』的题材",
+      "purpose": "用 YouTube/TikTok/播客数据找内容供给缺口，反向推导产品与服务",
+      "human_need_ids": ["novelty", "expression", "status"],
+      "emotion_ids": ["curiosity", "boredom", "pride"],
+      "time_box_min": 40,
+      "frequency": "weekly",
+      "platforms": ["youtube-data-api", "tiktok-creative-center", "substack-rss", "pinterest-trends"],
+      "steps": [
+        "选 3 个小众题材，用 YouTube API 查近 90 天视频数、播放中位数、评论区问题",
+        "找出搜索量高但高质量内容少的缺口（低供给高需求）",
+        "看 TikTok 热梗与 Substack 付费主题，判断商业化路径（带货/课程/工具）",
+        "写 3 条内容选题与 1 个可售卖产品的组合方案",
+        "用 7 天发 3 条内容测试播放与评论意图"
+      ],
+      "keywords": ["how to", "I wish", "nobody talks about", "beginner", "教程", "没人讲"],
+      "output": "内容缺口表 × 1（题材/需求/供给/变现路径）+ 选题 × 3",
+      "quality_checks": ["区分一时热点与长期题材", "评论区问题要抽样看，不看标题党", "确认变现路径与平台政策一致", "引用他人内容注明来源"]
+    },
+    {
+      "id": "pb-talent-outsourcing",
+      "name": "服务外包验证：用 Upwork/Fiverr 报价反推可做服务",
+      "purpose": "验证某项服务是否已被市场外包、价格带与竞争密度",
+      "human_need_ids": ["ease", "growth", "control"],
+      "emotion_ids": ["laziness", "hope", "aspiration"],
+      "time_box_min": 30,
+      "frequency": "monthly",
+      "platforms": ["upwork", "fiverr", "remoteok", "linkedin-jobs"],
+      "steps": [
+        "搜 5 个服务关键词（如 bookkeeping cleanup、short drama translation、EUDR report）",
+        "记录在售服务数量、报价区间、交付周期与买家评价关键词",
+        "判断是『标准化可外包』还是『必须本地/持证』",
+        "设计 1 个差异化服务包（更快/更垂直/更合规），定 3 档价格",
+        "用 3 条精准外联测试回复率，再决定是否投入"
+      ],
+      "keywords": ["bookkeeping", "compliance", "localization", "automation", "代运营"],
+      "output": "服务缺口卡 × 2（含报价带、竞争密度、差异化点）",
+      "quality_checks": ["报价要截取真实在售服务而非道听途说", "区分平台抽成后的净收入", "红/黄合规源只人工浏览", "确认交付所需资质与责任"]
+    },
+    {
+      "id": "pb-china-supply-arbitrage",
+      "name": "中国供应链反向选品：从产能找海外需求",
+      "purpose": "用中国产业带能力反向匹配海外供给缺口，做跨境实物或 B2B 出口",
+      "human_need_ids": ["status", "belonging", "ease"],
+      "emotion_ids": ["pride", "aspiration", "envy"],
+      "time_box_min": 50,
+      "frequency": "weekly",
+      "platforms": ["1688", "alibaba-com", "amazon-movers", "etsy", "tiktok-creative-center"],
+      "steps": [
+        "选 1 个产业带（玻璃/陶瓷/小家电/宠物用品），列 20 个可小批量定制的 SKU",
+        "在海外平台反查这些 SKU 的售价、评价数与差评点，找『有需求但供给烂』的细分",
+        "确认认证（CE/FDA/CPC）与包装要求，算出到岸成本",
+        "设计差异化（设计/组合/包装/本地化说明书），定 2 档价格",
+        "先小批量 50–100 件测动销，再决定是否备货"
+      ],
+      "keywords": ["OEM", "custom", "private label", "产业带", "起订量", "定制"],
+      "output": "反向选品表 × 1（20 SKU → 3 个候选）+ 成本与认证清单",
+      "quality_checks": ["知识产权自查，不做仿牌", "认证缺失的品类直接淘汰", "先用小批量测动销再备货", "算清退货与破损成本"]
+    },
+    {
+      "id": "pb-local-opportunity",
+      "name": "本地生活机会：从抱怨地图到上门服务",
+      "purpose": "在本地找高频、低竞争、可标准化的服务缺口",
+      "human_need_ids": ["ease", "belonging", "control"],
+      "emotion_ids": ["complaint", "loneliness", "relief"],
+      "time_box_min": 40,
+      "frequency": "monthly",
+      "platforms": ["reddit", "xiaohongshu", "upwork"],
+      "steps": [
+        "在本地社群/小红书搜『求推荐』『避雷』，记录 20 条本地抱怨",
+        "按服务类型聚类（宠物/家政/维修/陪伴/代办），统计频次",
+        "调研现有服务商数量、价格与响应速度，找空档时段或人群",
+        "设计 1 个最小服务包（价格、时长、交付标准、售后）",
+        "找 3 个潜在客户做付费试单，验证毛利与复购"
+      ],
+      "keywords": ["求推荐", "避雷", "上门", "同城", "附近", "太难找"],
+      "output": "本地服务机会卡 × 2（含价格、频次、竞争密度）",
+      "quality_checks": ["区分一次性需求与可复购需求", "上门服务必须有保险与背景核查", "不采集个人隐私信息", "测算旺季/淡季现金流"]
+    },
+    {
+      "id": "pb-financial-report-mining",
+      "name": "财报与融资验证：给机会规模做硬校验",
+      "purpose": "用上市公司财报与融资数据验证赛道增速，避免被二手报告忽悠",
+      "human_need_ids": ["control", "growth", "status"],
+      "emotion_ids": ["hope", "pride", "curiosity"],
+      "time_box_min": 60,
+      "frequency": "quarterly",
+      "platforms": ["sec-edgar", "gem", "crunchbase", "world-bank", "eurostat"],
+      "steps": [
+        "列出 5 家目标赛道上市公司，在 EDGAR 拉最新 10-K/10-Q",
+        "摘出该细分品类的收入增速、毛利率、门店/用户数变化",
+        "用 GEM/世界银行/ Eurostat 校验国别宏观与创业环境",
+        "把二手报告的规模数字与财报对比，标记可信度",
+        "把验证结果写进机会卡 signal.evidence（tier=primary）与 evidence 分"
+      ],
+      "keywords": ["10-K", "segment revenue", "GMV", "growth", "market size"],
+      "output": "赛道验证表 × 1（公司/增速/毛利/数据来源）",
+      "quality_checks": ["只用官方财报与统计，不用营销稿", "区分总营收与细分品类营收", "注意财年与汇率口径", "过期数据要标注期间"]
+    }
+  ]
+}
