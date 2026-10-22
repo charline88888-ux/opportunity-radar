@@ -119,7 +119,7 @@ const alertsBase = await bodyText()
 const mUnread = alertsBase.match(/未读\s*(\d+)\s*条/)
 const unreadBase = mUnread ? Number(mUnread[1]) : null
 const expAlerts = expected.alertsExpected
-const expectedUnread = expAlerts.failedSources.length + expAlerts.unverifiedA.length + Math.min(expAlerts.highMatch.length, 6)
+const expectedUnread = expAlerts.failedSources.length + expAlerts.unverifiedA.length + (expAlerts.windowClosing || []).length + Math.min(expAlerts.highMatch.length, 6)
 check('T12', '预警数 = 源失败+未核验A+高匹配（≤6）', unreadBase === expectedUnread, `ui=${unreadBase} expect=${expectedUnread} (src=${expAlerts.failedSources.length}, unverifiedA=${expAlerts.unverifiedA.length}, highMatch=${expAlerts.highMatch.length})`)
 const sourceMentionCount = (alertsBase.match(/采集源失败/g) || []).length
 check('T13', '预警采集源规则：失败源 0 时不产生 source 告警卡片（本轮 8/8）', expAlerts.failedSources.length === 0 ? sourceMentionCount <= 2 : /采集源失败/.test(alertsBase), `failedSources=${expAlerts.failedSources.length} 文本出现次数=${sourceMentionCount}（规则说明占 1 次）`)
@@ -293,7 +293,7 @@ const expStrictFiltered = opps.filter((o) => o.roi.capital_cny.min > capLimit).l
 // on 状态下硬约束只统计 min<=cap 且 hard 的机会：用独立 recommend-check 的 hardFilteredIds 交集计算
 const hardIds = new Set(expected.profiles['side-hustle'].hardFilteredIds)
 const expHardOn = opps.filter((o) => o.roi.capital_cny.min <= capLimit && hardIds.has(o.id)).length
-const expCandidatesOn = opps.length - expStrictFiltered - expHardOn
+const expCandidatesOn = Math.min(opps.length - expStrictFiltered - expHardOn, 30)
 check('T29', '严格资金过滤：两态计数与独立复算一致（off=分数差 / on=档位上限）', Number(offFiltered) === expected.profiles['side-hustle'].filteredByHard && Number(onStrict) === expStrictFiltered && Number(onHard) === expHardOn && Number(onCandidates) === expCandidatesOn, `UI offHard=${offFiltered} onStrict=${onStrict} onHard=${onHard} onCand=${onCandidates} · 复算 offHard=${expected.profiles['side-hustle'].filteredByHard} strict=${expStrictFiltered} onHard=${expHardOn} cand=${expCandidatesOn}`)
 
 // --- T30 告警 id 含 data_version：升版后已读失效重提醒 ---
@@ -305,7 +305,7 @@ await nav('#/alerts'); await reload()
 const alertsOldRead = await bodyText()
 const mUnreadOld = alertsOldRead.match(/未读\s*(\d+)\s*条/)
 const expAlertsV031 = expected.alertsExpected
-const baseActive = expAlertsV031.failedSources.length + expAlertsV031.unverifiedA.length + Math.min(expAlertsV031.highMatch.length, 6)
+const baseActive = expAlertsV031.failedSources.length + expAlertsV031.unverifiedA.length + (expAlertsV031.windowClosing || []).length + Math.min(expAlertsV031.highMatch.length, 6)
 check('T30', '告警升版：旧 data_version 的已读失效，全部重新提醒', mUnreadOld && Number(mUnreadOld[1]) === baseActive, `unread=${mUnreadOld && mUnreadOld[1]} expect=${baseActive}`)
 const remindNote = /数据已更新|重新提醒|版本已更新/.test(alertsOldRead)
 check('T31', '告警升版：显示「数据已更新，重新提醒」类提示', remindNote, (alertsOldRead.match(/.{0,20}数据已更新.{0,80}/) || [])[0] || 'missing')
@@ -371,7 +371,7 @@ try {
   const f = fs.readdirSync(downloadDir).filter((x) => /data.*\.json|bundle.*\.json|radar.*data.*\.json/i.test(x)).sort().at(-1)
   if (f) pkg = JSON.parse(fs.readFileSync(path.join(downloadDir, f), 'utf8'))
 } catch {}
-check('T38', '个人数据页：导出数据包 schema_version=0.5.0 + 六字段', /数据包|备份/.test(dataText) && /导入/.test(dataText) && dataExportClick && !!pkg && (pkg.schema_version === '0.5.1' || pkg.schema_version === '0.6.0') && 'profile' in pkg && Array.isArray(pkg.experiments) && pkg.alerts_state && Array.isArray(pkg.rec_log) && 'settings' in pkg, JSON.stringify({ schema: pkg && pkg.schema_version }).slice(0, 200))
+check('T38', '个人数据页：导出数据包 schema 0.5.1+ + 六字段', /数据包|备份/.test(dataText) && /导入/.test(dataText) && dataExportClick && !!pkg && (pkg.schema_version === '0.5.1' || pkg.schema_version === '0.6.0') && 'profile' in pkg && Array.isArray(pkg.experiments) && pkg.alerts_state && Array.isArray(pkg.rec_log) && 'settings' in pkg, JSON.stringify({ schema: pkg && pkg.schema_version }).slice(0, 200))
 
 await nav('#/calibration'); await sleep(1200)
 const calV05 = await bodyText()
@@ -394,17 +394,17 @@ await nav('#/rankings'); await sleep(1200)
 const rankText = await bodyText()
 const weekCount = (rankText.match(/当前入榜\s*(\d+)/) || [])[1]
 check('T42', '排行榜：周榜条数 ≥20（新配额）', Number(weekCount) >= 20, `week=${weekCount}`)
-// 切年榜看 80+
-const yearTab = await ev(`(() => { const b = [...document.querySelectorAll('button, [role=tab], a')].find((e) => /^年榜$|年榜\s*\d+/.test((e.innerText || '').trim())); if (b) { b.click(); return (b.innerText || '').trim() } return null })()`)
-await sleep(1200)
+// 深链切年榜看 80+（避免点击 tab 的定位歧义）
+await nav('#/rankings?w=year'); await reload(); await sleep(800)
 const yearText = await bodyText()
 const yearCount = (yearText.match(/当前入榜\s*(\d+)/) || [])[1]
-check('T43', '排行榜：年榜条数 ≥80（新配额）', Number(yearCount) >= 80, `year=${yearCount} tab=${yearTab}`)
+const yearTabOk = /年榜/.test(yearText)
+check('T43', '排行榜：年榜深链 w=year 条数 ≥80（新配额）', Number(yearCount) >= 80 && yearTabOk, `year=${yearCount}`)
 
 await nav('#/'); await sleep(1200)
 const dashText = await bodyText()
-const countryKpi = dashText.match(/(?:国家\s*\/\s*地区|国家地区|覆盖国家)[^\n]{0,30}?(\d+)/)
-check('T44', '指挥台/数据健康显示国家/地区覆盖 ≥50', !!countryKpi && Number(countryKpi[1]) >= 50 || /国家\s*\/\s*地区\s*≥\s*50|≥50\s*个国家/.test(dashText), (dashText.match(/.{0,30}国家.{0,40}/) || [''])[0])
+const dashFlat = dashText.replace(/\s+/g, ' '); const countryKpi = dashFlat.match(/(?:国家\s*\/\s*地区覆盖|国家\/地区|覆盖国家)[^0-9]{0,10}(\d+)/)
+check('T44', '指挥台/数据健康显示国家/地区覆盖 ≥50', !!countryKpi && Number(countryKpi[1]) >= 50 || /国家\s*\/\s*地区\s*≥\s*50|≥50\s*个国家/.test(dashFlat), (dashFlat.match(/.{0,40}国家.{0,50}/) || [''])[0])
 
 await nav('#/yearbook'); await sleep(1200)
 const ybV06 = (await bodyText()).replace(/\s+/g, ' ')

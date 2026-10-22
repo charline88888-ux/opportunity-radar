@@ -1124,3 +1124,138 @@ pwsh -File qa/online-check.ps1 -Version v0.5.1       # 线上/冻结 hash 一致
 ## 17.9 与历史版本关系
 
 - v0.1.0–v0.5.0 冻结产物与线上归档未修改（逐字节核对）；本章为 v0.5.1 PATCH 独立验收，不覆盖历史章节。
+
+---
+
+# 第 18 章 · v0.6.0 红队独立验收（2026-10-22 21:52）
+
+> 项目版本：v0.6.0（app 0.6.0 / data 0.6.0）　｜　验收人：redteam　｜　任务：task-32
+> 冻结：`releases/v0.6.0/`（git tag v0.6.0 → b457d79，内容提交 88cb2a6）｜dist 2,434,098 B / `36A6883D…1681`
+> 结论：**P0=0 / P1=0 / P2=2（不阻塞）；冻结产物/线上逐字节一致 → 可发布 ✅**
+
+## 18.1 结论
+
+| 项 | 结果 |
+|---|---|
+| P0（阻塞） | **0** |
+| P1（发布前应修） | **0** |
+| P2（建议修，不阻塞） | 2（证据 quote 多为中文摘要而非合同示例的「原文摘录+外文翻译」；部分新机会证据注明「仅标题可读/403」——均为诚实标注） |
+| **机会库规模/覆盖** | **80 条**（新增 34，id 047–080）；**14/14 行业各 ≥2**（最少 2 条）；**11/11 区域**；**12/12 信息差**；**目标国家/地区 53**（≥50）；**中国角度 41**（≥25）；`verified:true` **32**（≥12）；证据 156 条；等级 A12/B66/C2；均分 70.8 |
+| **V02/V08 新配额** | 策略校验 **20/20 PASS**；四窗口 **day 17 / week 49 / month 57 / year 80**（≥10/20/30/80），rank 1..n 连续；`--all` 幂等（**27 个 data 文件 SHA256 全一致**）；unittest **58/58**；数据 0.6.0（含 3 份 history/source-health）；db 80/156/468/8 行 |
+| **证据独立实测** | `qa/evidence-spotcheck.py` **PASS**：从 git v0.5.1 基线识别 34 条新增，分层抽 **12 条**（11 行业、其中 verified:true 11 条），**24 条 URL 实测：23 可访问、19 条引文语义相符**；**12/12 抽检机会有可核验证据**（≥10 达标）；**verified:true 11/11 通过**；同时独立复算评分公式/七问/ROI/日期链/months_left-status（全部一致） |
+| **年鉴新指标** | `qa/yearbook-check.py` **PASS**：月度等级分布（80 机会按 activity_dates 活跃×等级独立复算 12 个月一致）、信息差热度（每月 Top3 计数一致）、窗口衰减统计（开放 63/高峰 14/收尾 3/关闭 0、衰减 slow37/medium25/fast18、months_left 分桶 0-3:3/4-8:14/9-12:10/13-24:45/25-36:8 全部一致）、实验漏斗（6→已决 5，pos3/neg2/inc1，成功率 0.6 一致）、Brier 0.2338=独立复算；双跑字节一致；空年份/非法实验 JSON 容错；HTML 自包含+免责+「规则生成，非投资建议」 |
+| 前端 | build strict **11/11**、real/mock=[]；**可复现**（`36A6883D…1681`，2,434,098 B）；功能用例 **48/48 PASS**（v0.5.1 全量回归 + 80+ 配额/年榜深链/KPI 覆盖 53/年鉴新指标/详情页）；14 路由 1600/1024 CDP 无溢出/console；KPI「国家/地区覆盖 53」「机会 80」正确；排行榜 day/week/month/year = 17/49/57/80；推荐 30 条；预警 15 未读 |
+| i18n | 运行时 **16/16 PASS @1600 与 @1024**（EN 非数据中文=0）；静态精确覆盖率 **60.8%**（804/1323，≥60% 目标达标）；14 路由双语 |
+| 冻结产物 | MANIFEST **19/19 sha256 一致**；dist `36A6883D…1681`；tag v0.6.0→b457d79→内容提交 88cb2a6；冻结 dist file:// 21 张 zh 截图 + 16 张 zh/en 截图，jsErrors=0 |
+| 线上 | `/` 与 `/v0.6.0/` 均 2,434,098 B / `36A6883D…1681` = 冻结 dist；`/v0.5.1/`=`DCFF2C55…`、`/v0.5.0/`=`AD958D1C…`、`/v0.4.0/`=`45E5A1D3…`、`/v0.3.1/`=`7C2E13D5…`、`/v0.3.0/`=`18DCE4B8…`、`/v0.2.0/`=`DE48EF7A…`、`/v0.1.0/`=`F24B0755…` 与各自冻结版一致不串台；versions.json latest=v0.6.0；线上根/年鉴/年榜截图目检正常 |
+| **一句话结论** | **可发布**：80+ 机会库覆盖/证据/年鉴新指标/前端适配/双语/冻结/线上七层一致，P0=0、P1=0；2 个 P2 不阻塞。 |
+
+## 18.2 机会库规模与质量（实测）
+
+- 规模：80 条（新增 34：id 047–080）；行业覆盖 14/14（每类 ≥2，最少 2 条：制造、娱乐与游戏等）；区域 11/11；信息差 12/12；目标国家/地区 **53**；中国供应链/中文市场角度 **41**（`china` region / `china-advantage` tag 口径；数据工程口径 42，均 ≥25）；`verified:true` **32**；证据总数 156；等级 A12/B66/C2、均分 70.8（与 stats KPI 一致）。
+- 配额：day **17** / week **49** / month **57** / year **80**（V08 ≥10/20/30/80）；validate **20/20 PASS**；`--all` 连跑两次 27 个 data 文件 SHA256 全一致；unittest **58/58**；data 0.6.0 六文件一致；history 10-20/10-21 重放 + 10-22 真实快照；radar.db 80/156/468/8 行。
+- 指纹（SHA256 前 16，与交付一致）：opportunities `88FDA5AB`、rankings `DBC3784F`、history-10-20 `32385A95`、history-10-21 `1CBF6DCD`、history-10-22 `EB54D17C`、stats `FEDE3658`、source-health `E7DDFDE8`、sources `046E14E9`、radar.db `40A02F54`、yearbook.html `89514DC5`、calibration.html `701D4CCD`。
+- 统计口径：`data/reports/yearbook-2026.*` 为 **--sample** 实验摘要版本（27,092 B HTML / 12,320 B MD，含样例标注）；红队以 `--experiments fixture` 复现 Brier 0.2338 与实验漏斗。
+
+## 18.3 新增机会证据独立实测（重点）
+
+`python qa/evidence-spotcheck.py`（stdlib urllib，UA/超时/2 次重试；gzip 解压；PDF 提取文本；quote 支持 exact/数字/关键词三级语义核验）：
+
+| 指标 | 结果 |
+|---|---|
+| 新增机会识别 | 34（基线 46，来自 `git show v0.5.1:data/opportunities.json`） |
+| 抽样 | **12 条**（11 个行业，其中 verified:true 11 条） |
+| URL 实测 | 尝试 **24** 条 → 可访问 **23**；引文语义相符 **19**（exact/数字/关键词） |
+| 有可核验证据的抽检机会 | **12/12**（≥10 达标） |
+| verified:true 诚实性 | **11/11 通过**（抽检的 verified 机会均有「可访问+引文相符」证据） |
+| 独立复算 | 12 条抽检的 total/rank_score/grade（按 docs/12 §4.5 公式，Decimal 四舍五入）、七问 7 字段、ROI 7 字段、activity_dates/last_activity/evidence.date 日期链、months_left↔status 映射 **全部一致** |
+| 典型修复过程 | `opp-pet-kr-pet-insurance-claims-048` 初测因单位换算（「591 万户/100 万韩元」vs 页面「5.91 million households / 1 million won」）未命中；补查页面原文后确认事实一致（26.2%、2% 等数字命中），判定为可核验 |
+| P2-1 | `evidence.quote` 多为中文摘要（contract 示例为「≤60 字原文摘录（外文附中文翻译）」），红队因此采用三级语义核验而非逐字比对；建议后续统一为「原文摘录 + 中文翻译」或注明 summary |
+| P2-2 | 少数证据诚实注明「仅标题可读」「页面 403，仅标题/摘要可读」；对应机会 verified 保持 false 或在 compliance_notes 说明，不阻塞 |
+
+## 18.4 年度年鉴新指标（独立复算）
+
+- 月度等级分布：按 activity_dates 每月去重机会 × 等级（S/A/B/C/D）独立复算 → 12 个月全部一致（1月9、2月6、…、8月59、10月57）。
+- 信息差热度：每月去重活跃机会的各 gap_type 计数，Top3 与报告计数逐一一致（如 8 月 语言23/认知16/监管16）。
+- 窗口衰减统计：状态（开放63/高峰14/收尾3/关闭0）、衰减速度（slow37/medium25/fast18）、months_left 分桶（0-3月3/4-8月14/9-12月10/13-24月45/25-36月8）全部一致。
+- 实验漏斗：fixture 样本 6 → 已决 5（pos3/neg2/inc1）→ 成功率 0.6，与报告「实验漏斗」行一致；Brier 0.2338=独立复算；样例标注存在。
+- 确定性：无实验双跑字节一致；有实验双跑一致；空年份 2020 exit 0 空态；非法实验 JSON exit 0+警告跳过；HTML 自包含、免责声明与「规则生成，非投资建议」齐备；年榜 Top20=rankings.year、月度时间线（活跃/新机会）与独立复算一致；分布/A 级 12/收尾 3/评分分布一致。
+
+## 18.5 前端验收（实测）
+
+- 构建：`pnpm install --frozen-lockfile && pnpm build` exit 0；strict 11/11；dist **2,434,098 B / `36A6883D…1681`**；**构建可复现**（重跑前后同 hash）。
+- 功能用例（`qa/v06-frontend-flows.json`，**48/48 PASS**）：v0.5.1 全量回归 + 80+ 适配（周榜 ≥20、年榜深链 w=year=80、KPI 国家/地区覆盖 53、年鉴月度等级/信息差热度/窗口衰减/实验漏斗渲染、大库下详情页七问/证据正常）。
+- 数据规模：排行榜四窗口 17/49/57/80；推荐 30 条；预警 15 未读；年鉴 80 机会/12 A/3 收尾；指挥台机会 80、今日 17、本周 49、覆盖 53。
+- 14 路由 1600/1024 CDP（`qa/v06-frontend-routes.txt`）：无横向溢出/裁切/零尺寸 canvas/console error（yearbook 3 个 canvas 正常）。
+- i18n（`qa/v06-i18n-1600/1024.json`，**16/16 ×2 PASS**）：EN 14 路由非数据中文=0；静态精确覆盖率 **60.8%**（804/1323，≥60% 达标）。
+- 视觉：`qa/screenshots/v06/`（zh 21）、`v06-i18n/`（zh/en 16）、`v06-frozen/`（21）、`v06-frozen-i18n/`（16）、`v06-online/`（4）read_image 目检：80+ 指挥台 KPI、年鉴双分数标签与新指标、线上/冻结一致。
+
+## 18.6 冻结产物核验（releases/v0.6.0）
+
+- MANIFEST 19 条逐条重算 bytes+sha256 → **19/19 一致**；counts 80/68/12/33/13；`git_commit=88cb2a6`、`git_tag=v0.6.0`。
+- dist 2,434,098 B / `36A6883DE1BC79C8C5763677CD17A89682D3971E3C774F47B91746DF75FC1681`（= 本地构建 = 冻结 = 线上）。
+- git：annotated tag v0.6.0（tag 对象 b457d79）→ commit b457d79（docs: record manifest）→ parent 88cb2a6（内容提交）。
+- 冻结 dist file:// 冒烟：`qa/screenshots/v06-frozen/01–21` jsErrors=0；`v06-frozen-i18n/` 16 张 zh/en；read_image 目检年鉴 80/12/77.4/78.6/3/14/11 与本地/线上一致。
+
+## 18.7 线上（GitHub Pages）核验
+
+`pwsh -File qa/online-check.ps1 -Version v0.6.0`（qa/v06-online.txt）：
+
+| 路径 | 线上 bytes / SHA256 | 对照冻结版 | 结果 |
+|---|---|---|---|
+| `/`（最新） | 2,434,098 B / `36A6883D…1681` | `releases/v0.6.0/dist/index.html` | **PASS（同 hash）** |
+| `/v0.6.0/` | 2,434,098 B / `36A6883D…1681` | 同上 | **PASS（同 hash）** |
+| `/v0.5.1/` | 2,282,987 B / `DCFF2C55…` | releases/v0.5.1 | PASS（未串台） |
+| `/v0.5.0/` | 2,272,122 B / `AD958D1C…` | releases/v0.5.0 | PASS |
+| `/v0.4.0/` | 2,233,063 B / `45E5A1D3…` | releases/v0.4.0 | PASS |
+| `/v0.3.1/` | 2,147,394 B / `7C2E13D5…` | releases/v0.3.1 | PASS |
+| `/v0.3.0/` | 2,138,535 B / `18DCE4B8…` | releases/v0.3.0 | PASS |
+| `/v0.2.0/` | 2,049,902 B / `DE48EF7A…` | releases/v0.2.0 | PASS |
+| `/v0.1.0/` | 1,979,378 B / `F24B0755…` | releases/v0.1.0 | PASS |
+| `versions.json` | latest=**v0.6.0**，paths=`/v0.1.0/, /v0.2.0/, /v0.3.0/, /v0.3.1/, /v0.4.0/, /v0.5.0/, /v0.5.1/, /` | — | PASS |
+
+线上截图（`qa/screenshots/v06-online/`）：根、`/yearbook`（80/12/77.4/78.6）、`/rankings?w=year`、`/v0.5.1/` 旧版归档，jsErrors=0、read_image 目检正常。
+
+## 18.8 复现命令
+
+```powershell
+cd 'E:\全球商机扫描器'
+python scanner/pipeline.py --all                     # 幂等；27 个 data 文件 SHA256 一致
+python scanner/validate.py                           # 20/20 PASS（V02/V08 新配额）
+python -m unittest discover -s scanner/tests         # 58 OK
+python qa/data-qa-v06.py                             # P0/P1/P2=0；覆盖/配额摘要
+python qa/yearbook-check.py                          # 年榜/月度/新指标/漏斗/确定性 PASS
+python qa/evidence-spotcheck.py                      # 新增 12 条证据 URL 实测 + 公式/七问/ROI/日期 PASS
+python qa/replay-check.py                            # PASS
+cd app; pnpm install --frozen-lockfile; pnpm build   # strict 11 PASS，36A6883D…
+node qa/flows-v06.mjs <port> "file:///…/app/dist/index.html" qa/tmp/downloads-v06      # 48/48 PASS
+node qa/i18n-check.mjs <port> <base>                 # 16/16 PASS ×2 视口
+node qa/frontend-qa-v03.mjs <port> <base> 1600 1000  # 14 路由 CDP
+node app/scripts/check-i18n.mjs                      # 静态精确覆盖率 60.8%
+pwsh -File qa/online-check.ps1 -Version v0.6.0       # 线上/冻结 hash 一致性（PASS）
+```
+
+## 18.9 截图索引（v0.6.0）
+
+| 目录/文件 | 内容 |
+|---|---|
+| `qa/screenshots/v06/01–21` | 工作区 dist：14 路由 zh + 2 长页 + 5 个 1024（含 80+ 指挥台/年鉴） |
+| `qa/screenshots/v06-i18n/` | zh/en × 8 页 16 张 |
+| `qa/screenshots/v06-frozen/01–21` | 冻结 dist zh 14 路由 + 长页 + 1024 |
+| `qa/screenshots/v06-frozen-i18n/` | 冻结 dist zh/en × 8 页 16 张 |
+| `qa/screenshots/v06-online/` | 线上根/年鉴/年榜/v0.5.1 归档 |
+| `qa/tmp/downloads-v06/` | 年鉴 MD/HTML、实验导出 JSON、数据包 JSON |
+| `app/screenshots/final-v0.6/` | 前端自检 22 张（10 zh+10 EN+年鉴指标 zh/en） |
+
+## 18.10 P2 与已知项（2 个，均不阻塞）
+
+| # | 项 | 现状 | 建议 |
+|---|---|---|---|
+| P2-1 | 证据 quote 格式 | 新增条目 quote 多为中文摘要（合同示例为「≤60 字原文摘录（外文附中文翻译）」）；红队以 exact/数字/关键词三级语义核验，24 URL→23 可访问/19 相符、12/12 抽检机会可核验 | 后续统一「原文摘录+中文翻译」或字段注明 summary；不阻塞本次发布 |
+| P2-2 | 个别证据可读性 | 少数证据注记「仅标题可读」「页面 403，仅标题/摘要可读」，对应机会 verified 保持 false 或在 compliance_notes 说明 | 保持诚实标注即可 |
+
+> 其它：真实 LLM 未用真实 key 调用（沿用 v0.5.1，mock HTTP server 单测覆盖）；成本为示例常量；`data/reports/yearbook-2026` 为 --sample 实验摘要版本（已标注，可用导出实验 JSON 复现真实版）。
+
+## 18.11 与历史版本关系
+
+- v0.1.0–v0.5.1 冻结产物与线上归档未修改（逐字节核对）；本章为 v0.6.0 MINOR 独立验收，不覆盖历史章节。

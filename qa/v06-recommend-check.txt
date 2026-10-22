@@ -1,0 +1,38 @@
+{
+  "petGlass": {
+    "capability": {
+      "capital": 5,
+      "time": 4,
+      "tech": 3.3,
+      "content": 6.7,
+      "supply": 0.0,
+      "english": 6.7,
+      "risk": 5.0
+    },
+    "need": {
+      "capital": 4,
+      "time": 5,
+      "tech": 3,
+      "content": 4,
+      "supply": 7,
+      "english": 8,
+      "risk": 4
+    },
+    "ratios": {
+      "capital": 10.0,
+      "time": 8.0,
+      "tech": 10.0,
+      "content": 10.0,
+      "supply": 0.0,
+      "english": 8.375,
+      "risk": 10.0
+    },
+    "match": 8.0,
+    "fit": 0.8,
+    "rec": 78.9,
+    "total": 78.1
+  }
+}
+profiles: {'side-hustle': {'filteredByHard': 47, 'candidateCount': 33}, 'lt1w-lowcap': {'filteredByHard': 80, 'candidateCount': 0}}
+alertsExpected: {"failedSources": "0 条", "unverifiedA": "6 条", "windowClosing": "3 条", "highMatch": "21 条", "experimentNone": true}
+saved -> qa/tmp/recommend-expected.json
