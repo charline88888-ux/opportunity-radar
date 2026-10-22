@@ -20,16 +20,18 @@ export interface Profile {
   risk: number
   fullTime: boolean
   hasLicensePartner: boolean
+  /** v0.3.1：推荐时是否按资金档位上限做严格 CNY 过滤（默认关闭，沿用分数差硬约束） */
+  strictCapital: boolean
   updated_at: string
 }
 
 export const PROFILE_STORAGE_KEY = 'radar:profile:v1'
 
-export const CAPITAL_BANDS: Array<{ id: CapitalBand; label: string; hint: string; score: number }> = [
-  { id: 'lt1w', label: '< 1 万', hint: '可损失预算 < 1 万元', score: 3 },
-  { id: 'b1-5w', label: '1–5 万', hint: '可损失预算 1–5 万元', score: 5 },
-  { id: 'b5-20w', label: '5–20 万', hint: '可损失预算 5–20 万元', score: 7 },
-  { id: 'gt20w', label: '20 万+', hint: '可损失预算 20 万元以上', score: 10 },
+export const CAPITAL_BANDS: Array<{ id: CapitalBand; label: string; hint: string; score: number; cap: number }> = [
+  { id: 'lt1w', label: '< 1 万', hint: '可损失预算 < 1 万元', score: 3, cap: 10_000 },
+  { id: 'b1-5w', label: '1–5 万', hint: '可损失预算 1–5 万元', score: 5, cap: 50_000 },
+  { id: 'b5-20w', label: '5–20 万', hint: '可损失预算 5–20 万元', score: 7, cap: 200_000 },
+  { id: 'gt20w', label: '20 万+', hint: '可损失预算 20 万元以上', score: 10, cap: 1_000_000 },
 ]
 
 export const SKILL_META: Array<{ key: keyof ProfileSkills; label: string; hint: string }> = [
@@ -67,6 +69,7 @@ export const DEFAULT_PROFILE: Profile = {
   risk: 3,
   fullTime: false,
   hasLicensePartner: false,
+  strictCapital: false,
   updated_at: '',
 }
 
@@ -85,7 +88,7 @@ export const PROFILE_PRESETS: ProfilePreset[] = [
     profile: {
       capitalBand: 'b1-5w', weeklyHours: 10,
       skills: { tech: 1, content: 2, supply: 0, ops: 2 },
-      english: 2, risk: 3, fullTime: false, hasLicensePartner: false,
+      english: 2, risk: 3, fullTime: false, hasLicensePartner: false, strictCapital: false,
     },
   },
   {
@@ -95,7 +98,7 @@ export const PROFILE_PRESETS: ProfilePreset[] = [
     profile: {
       capitalBand: 'b5-20w', weeklyHours: 40,
       skills: { tech: 2, content: 2, supply: 2, ops: 2 },
-      english: 3, risk: 4, fullTime: true, hasLicensePartner: true,
+      english: 3, risk: 4, fullTime: true, hasLicensePartner: true, strictCapital: false,
     },
   },
   {
@@ -105,7 +108,7 @@ export const PROFILE_PRESETS: ProfilePreset[] = [
     profile: {
       capitalBand: 'b5-20w', weeklyHours: 35,
       skills: { tech: 1, content: 0, supply: 3, ops: 2 },
-      english: 1, risk: 3, fullTime: false, hasLicensePartner: false,
+      english: 1, risk: 3, fullTime: false, hasLicensePartner: false, strictCapital: false,
     },
   },
   {
@@ -115,7 +118,7 @@ export const PROFILE_PRESETS: ProfilePreset[] = [
     profile: {
       capitalBand: 'lt1w', weeklyHours: 20,
       skills: { tech: 1, content: 3, supply: 0, ops: 2 },
-      english: 2, risk: 2, fullTime: false, hasLicensePartner: false,
+      english: 2, risk: 2, fullTime: false, hasLicensePartner: false, strictCapital: false,
     },
   },
   {
@@ -125,7 +128,7 @@ export const PROFILE_PRESETS: ProfilePreset[] = [
     profile: {
       capitalBand: 'gt20w', weeklyHours: 8,
       skills: { tech: 2, content: 1, supply: 1, ops: 2 },
-      english: 3, risk: 4, fullTime: false, hasLicensePartner: true,
+      english: 3, risk: 4, fullTime: false, hasLicensePartner: true, strictCapital: false,
     },
   },
 ]
@@ -154,6 +157,7 @@ export function normalizeProfile(raw: unknown): Profile | null {
     risk: Math.max(1, Math.min(5, Math.round(Number(x.risk) || 3))),
     fullTime: x.fullTime === true,
     hasLicensePartner: x.hasLicensePartner === true,
+    strictCapital: x.strictCapital === true,
     updated_at: typeof x.updated_at === 'string' ? x.updated_at : '',
   }
 }
@@ -236,15 +240,20 @@ export function profileToCapability(profile: Profile): CapabilityVector {
   }
 }
 
+export function capitalCap(profile: Profile): number {
+  return CAPITAL_BANDS.find((b) => b.id === profile.capitalBand)?.cap ?? 10_000
+}
+
 export function profileSummaryRows(profile: Profile): Array<{ label: string; value: string }> {
   const band = CAPITAL_BANDS.find((b) => b.id === profile.capitalBand)
   return [
-    { label: '资金档位', value: band?.label || '—' },
+    { label: '资金档位', value: `${band?.label || '—'}（上限 ¥${(band?.cap ?? 10_000).toLocaleString('zh-CN')}）` },
     { label: '每周投入', value: profile.fullTime ? '全职投入' : `${profile.weeklyHours} 小时` },
     { label: '技能', value: `技术 ${profile.skills.tech}/3 · 内容 ${profile.skills.content}/3 · 供应链 ${profile.skills.supply}/3 · 运营 ${profile.skills.ops}/3` },
     { label: '英语', value: ['只能中文', '借助工具', '可读可写', '商务流利'][profile.english] || '—' },
     { label: '风险偏好', value: `${profile.risk}/5` },
     { label: '资质合作', value: profile.hasLicensePartner ? '有持牌/资质伙伴' : '无' },
+    { label: '严格资金过滤', value: profile.strictCapital ? '开启（按档位 CNY 上限）' : '关闭（沿用分数差）' },
   ]
 }
 

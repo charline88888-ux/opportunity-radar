@@ -262,7 +262,7 @@ export function experimentsToMarkdown(items: Experiment[]): string {
 export function experimentsToJson(items: Experiment[]): string {
   return JSON.stringify(
     {
-      schema: 'opportunity-radar/experiments@0.3.0',
+      schema: 'opportunity-radar/experiments@0.3.1',
       exported_at: dayjs().toISOString(),
       stats: experimentStats(items),
       items,

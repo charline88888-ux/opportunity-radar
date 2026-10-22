@@ -18,6 +18,7 @@ import {
 import { PageHeader } from '@/components/PageHeader'
 import { Badge, Button, EmptyState, Panel, SectionCard, Segmented } from '@/components/ui'
 import {
+  ALERT_DATA_VERSION,
   ALERT_RULES,
   ALERT_SEVERITY,
   ALERT_TYPE_META,
@@ -106,6 +107,10 @@ export default function Alerts() {
   const criticalCount = center.active.filter((a) => a.severity === 'critical').length
   const warningCount = center.active.filter((a) => a.severity === 'warning').length
   const infoCount = center.active.filter((a) => a.severity === 'info').length
+  const currentIds = new Set(center.alerts.map((a) => a.id))
+  const staleRead = center.state.read.filter((id) => !currentIds.has(id)).length
+  const staleIgnored = center.state.ignored.filter((id) => !currentIds.has(id)).length
+  const staleCount = staleRead + staleIgnored
 
   return (
     <div>
@@ -117,6 +122,7 @@ export default function Alerts() {
         actions={
           <div className="flex flex-wrap items-center gap-2">
             <Badge tone={center.unreadCount ? 'amber' : 'signal'}><Bell className="h-3 w-3" /> 未读 {center.unreadCount} 条</Badge>
+            <Badge tone="muted" title="告警 id 含数据版本指纹；升版后旧已读/忽略自动失效，重新提醒">数据 v{ALERT_DATA_VERSION}</Badge>
             <Button size="sm" variant="outline" onClick={center.markAllRead} disabled={!center.unreadCount}>
               <CheckCheck className="h-3.5 w-3.5" /> 全部已读
             </Button>
@@ -144,6 +150,16 @@ export default function Alerts() {
           </Panel>
         ))}
       </div>
+
+      {staleCount > 0 && (
+        <Panel className="mb-3 flex flex-wrap items-center gap-2 border-amber/30 bg-amber/[0.05] px-3 py-2">
+          <Bell className="h-4 w-4 text-amber" />
+          <span className="text-[11px] text-amber">
+            数据已更新（v{ALERT_DATA_VERSION}）：旧版本已读 {staleRead} 条 / 忽略 {staleIgnored} 条不再匹配当前告警 id，相关提醒已重新激活。
+          </span>
+          <span className="ml-auto font-mono text-[9.5px] text-dim">旧记录保留在 radar:alerts:v1，不自动删除</span>
+        </Panel>
+      )}
 
       {!profile && (
         <Panel className="mb-3 flex flex-wrap items-center gap-2 border-cyan/25 bg-cyan/[0.04] px-3 py-2">

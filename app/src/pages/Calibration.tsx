@@ -16,6 +16,7 @@ import { Chart } from '@/components/charts/Chart'
 import { PageHeader } from '@/components/PageHeader'
 import { Badge, Button, EmptyState, Panel, ProgressBar, SectionCard } from '@/components/ui'
 import {
+  BRIER_MIN_SAMPLES,
   CALIBRATION_BUCKETS,
   CALIBRATION_MIN_SAMPLES,
   buildCalibration,
@@ -125,10 +126,11 @@ export default function Calibration() {
         }
       />
 
-      <div className="mb-3 grid grid-cols-2 gap-2.5 md:grid-cols-3 xl:grid-cols-5">
+      <div className="mb-3 grid grid-cols-2 gap-2.5 md:grid-cols-3 xl:grid-cols-6">
         {[
           { label: '带结果样本', value: fmtInt(s.samples), unit: `正向 ${s.positive} / 负向 ${s.negative} / 不明确 ${s.inconclusive}`, color: '#4cc9f0' },
           { label: '成功率', value: data.ready && s.decided ? fmtPct(s.successRate, 1) : '—', unit: data.ready ? '正向 / 已决策（不含不明确）' : '样本 <3，不展示成功率结论', color: '#3ddc97' },
+          { label: 'Brier 分数', value: s.brier != null ? s.brier.toFixed(3) : '样本不足', unit: s.brier != null ? `基线 ${s.brierBaseline} · 二值 N=${s.brierN}` : `二值 N=${s.brierN} / 建议 ≥${BRIER_MIN_SAMPLES}`, color: s.brier == null ? '#8b93a7' : s.brier < 0.15 ? '#3ddc97' : s.brier <= s.brierBaseline ? '#ffd166' : '#ff5d5d' },
           { label: '平均总分', value: fmtScore(s.avgTotal), unit: `成功 ${s.avgTotalPositive ?? '—'} · 失败 ${s.avgTotalNegative ?? '—'}`, color: '#ffd166' },
           { label: '平均花费', value: `¥${fmtInt(s.avgSpend)}`, unit: `累计 ¥${fmtInt(s.totalSpend)}`, color: '#e6e9f0' },
           { label: '平均耗时', value: fmtInt(s.avgHours), unit: `累计 ${fmtInt(s.totalHours)} 小时`, color: '#8b93a7' },
@@ -194,6 +196,22 @@ export default function Calibration() {
         </SectionCard>
 
         <SectionCard className="xl:col-span-5" eyebrow="ADVICE" title="校准建议" right={<Lightbulb className="h-4 w-4 text-amber" />}>
+          <div className={cn('mb-2 rounded border px-2.5 py-2', s.brier == null ? 'border-line/60 bg-black/15' : s.brier < 0.15 ? 'border-signal/30 bg-signal/[0.05]' : s.brier <= s.brierBaseline ? 'border-amber/30 bg-amber/[0.05]' : 'border-danger/30 bg-danger/[0.05]')}>
+            <div className="flex items-center justify-between gap-2">
+              <span className="mono-label">BRIER · 概率校准</span>
+              <span className="num text-[15px] font-semibold" style={{ color: s.brier == null ? '#8b93a7' : s.brier < 0.15 ? '#3ddc97' : s.brier <= s.brierBaseline ? '#ffd166' : '#ff5d5d' }}>
+                {s.brier != null ? s.brier.toFixed(4) : '样本不足'}
+              </span>
+            </div>
+            <div className="mt-0.5 font-mono text-[9px] leading-relaxed text-dim">
+              {s.brier != null
+                ? `N=${s.brierN} · 基线 ${s.brierBaseline} · Δ ${s.brierDelta! >= 0 ? '+' : ''}${s.brierDelta!.toFixed(4)} · ${s.brierInterpretation}`
+                : `二值样本 N=${s.brierN}，需要 ≥${BRIER_MIN_SAMPLES} 个 positive/negative 才计算；inconclusive 不计入。`}
+            </div>
+            <div className="mt-1 font-mono text-[8.5px] leading-relaxed text-dim">
+              p = clamp(total/100, 0.01, 0.99)；o = positive?1 : negative?0；Brier = mean((p−o)²)，越低越好。
+            </div>
+          </div>
           <div className="space-y-2">
             {data.suggestions.map((tip, i) => (
               <div key={i} className="flex items-start gap-2 rounded border border-line/70 bg-white/[0.015] px-2.5 py-2 text-[10.5px] leading-relaxed text-muted">
@@ -203,7 +221,7 @@ export default function Calibration() {
             ))}
           </div>
           <div className="mt-2 font-mono text-[9px] leading-relaxed text-dim">
-            校准只调整「我们对评分的信心」，不自动改 opportunities.json；样本 &lt;10 时不建议调整 10 维权重。
+            校准只调整「我们对评分的信心」，不自动改 opportunities.json；样本 &lt;10 时不建议调整 10 维权重。Brier 基线 0.25 为随机二分类基准。
           </div>
         </SectionCard>
 
@@ -273,7 +291,7 @@ export default function Calibration() {
 
       <div className="mt-1 flex flex-wrap items-center gap-2 text-[10px] text-dim">
         <Download className="h-3 w-3" /> 报告可导出 MD/JSON 备份；数据只来自本机 /lab 实验记录与打包的机会评分。
-        <span className="ml-auto font-mono">样本 {s.samples} · 建议 ≥{CALIBRATION_MIN_SAMPLES} · 现有分桶 {CALIBRATION_BUCKETS.length} 档 · Brier 为 v0.3.1 扩展（本版不展示）</span>
+        <span className="ml-auto font-mono">样本 {s.samples} · 建议 ≥{CALIBRATION_MIN_SAMPLES} · 现有分桶 {CALIBRATION_BUCKETS.length} 档 · Brier 基线 0.25（二值 N≥{BRIER_MIN_SAMPLES} 展示）</span>
       </div>
     </div>
   )

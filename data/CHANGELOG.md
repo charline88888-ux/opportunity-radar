@@ -2,6 +2,36 @@
 
 格式：`data_version` + 日期 + 变更内容 + 影响面。契约变更（字段/枚举/公式）必须同步更新 `docs/12-数据契约与字段字典.md` 并通知 Lead、前端、红队。
 
+## data-v0.3.1 · 2026-10-22 · PATCH（采集失败源修复 + 版本号）
+
+> PATCH：仅修复采集源与升版本号，机会库/评分/榜单排序规则不变（`opportunities.json` 指纹不变）。
+
+### 源修复（`sources.json` 63→…→68，详见条目 notes）
+1. **reddit**（原 `https://www.reddit.com/r/Entrepreneur/.rss` 持续超时）：实测 `www.reddit.com` / `old.reddit.com` / `.json` 三种入口在 40s 内全部超时（本机网络对 reddit.com 不可达）；
+   - 处理：`reddit` 条目改为 `access="manual"`（保留矩阵与人工浏览说明，`check_result="fetch_timeout"`）；
+   - 新增可采集替代源 **`lobsters`**（`https://lobste.rs/rss`，green，实测 25 条技术社区讨论）→ 可采集源数量保持 8。
+2. **itunes-reviews**（原 US storefront JSON 返回 200 但 `feed` 无 entry）：实测 US/GB/JP 三个 storefront——
+   - US 空 feed（873 B，0 条）、page=2/helpful/旧端点/播客均 0 条；
+   - **GB storefront 返回 50 条评论**（`.../gb/rss/customerreviews/...json`），JP 50 条；
+   - 处理：URL 改为 GB storefront，解析器（`fetch.py` 的 `_parse_json_feed`，支持 `feed.entry`/`im:name`/多 link 结构）无需改动即可解析 50 条 → 按单源上限保留 30 条。
+3. **shopify-changelog**（原 `https://shopify.dev/changelog` 为 HTML）：找到官方 RSS **`https://shopify.dev/changelog/feed.xml`**（`Recent changes to Shopify's platform`，实测 1.89 MB / 778 条），更新 URL 并记录替换；抓取按单源上限保留 30 条。
+4. 采集器参数：`FETCH_TIMEOUT_SEC` 12→**20s**（hnrss 实测 17.2s）、UA 升 `OpportunityRadar/0.3.1`；限速/缓存/重试/合规策略不变。
+
+### 真实运行结果（2026-10-22 18:2x，`python scanner/pipeline.py --fetch --no-cache`）
+- **8/8 个源成功**，215 条原始 → **211 条信号**（outbox 人工复核，未写机会库）：
+  - itunes-reviews ok 200 / 243ms / items 30；shopify-changelog ok 200 / 2102ms / 30；hnrss ok 200 / 17222ms / 20；lobsters ok 200 / 833ms / 25；app-store-rss ok 200 / 1284ms / 30；arxiv-rss ok 200 / 1683ms / 30；techcrunch-rss ok 200 / 2618ms / 20；producthunt-feed ok 200 / 1051ms / 30。
+- `source-health.json` v2：`meta.mode="online-fetch"`、count 8 / ok 8 / failed 0 / cached 0；失败源集合为空（V20 仍校验「失败必须有 error」逻辑）。
+
+### 版本与复核
+- 全部 data meta 升 `0.3.1`（taxonomy/rankings/stats/sources/playbooks/calendar/source-health + 3 份 history 快照）；回放快照重生成（reconstructed=true，仍 10-20/10-21），真实快照 10-22 为 `reconstructed=false`。
+- `python scanner/pipeline.py --all`：exit 0、**幂等**；`validate.py` **20/20 PASS**；`unittest` **36/36 OK**；`report.py --all` 8 文件按 0.3.1 重生成；`radar.db` 重建（46/88/211/8 行）。
+- 指纹（SHA256 前 16）：opportunities `52B30E45B356CEA9`（未变）、sources `8779D97DA6F82150`、rankings `47A1620F0BFC66A0`、history `4B6F7C3B27030504`/`6B4D9EEB75B7D6D5`/`A3F2931B0E08D332`、stats `9C9F0A9404C16F2D`、source-health `CE657264793DE424`、radar.db `0CC30211191AF4D3`。
+
+### 已知不足
+- Reddit 在本机网络不可达（非解析问题），已降级 manual + Lobsters 替代；换网络环境后可重试恢复。
+- Apple customerreviews 仅部分 storefront 有数据（US 为空），已固定 GB；如 Apple 再调整，可切 JP 或改源。
+- 采集仍只覆盖 RSS/JSON feed 类源；`verified:true` 仍 5 条。
+
 ## data-v0.3.0 · 2026-10-22 · MINOR 增量（source-health v2 / 历史回放 / 真实 delta）
 
 > 向后兼容：不删除、不改名既有字段。v0.1.0/v0.2.0 快照见 `releases/`。

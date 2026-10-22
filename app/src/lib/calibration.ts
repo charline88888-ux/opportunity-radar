@@ -10,6 +10,20 @@ import { round1 } from './utils'
  * 样本 <3 时只显示空态引导，避免小样本误导。
  */
 export const CALIBRATION_MIN_SAMPLES = 3
+export const BRIER_MIN_SAMPLES = 3
+export const BRIER_BASELINE = 0.25
+export const BRIER_P_CLAMP = { min: 0.01, max: 0.99 } as const
+
+export interface BrierStats {
+  /** 二值样本（positive+negative）≥3 时可用；inconclusive 排除 */
+  available: boolean
+  value: number | null
+  n: number
+  baseline: number
+  /** 低于基线为正向（好），高于基线为负向（差） */
+  delta: number | null
+  interpretation: string
+}
 
 export interface CalibrationSample {
   experiment: Experiment
@@ -47,6 +61,11 @@ export interface CalibrationStats {
   avgHours: number
   totalSpend: number
   totalHours: number
+  brier: number | null
+  brierN: number
+  brierBaseline: number
+  brierDelta: number | null
+  brierInterpretation: string
 }
 
 export interface GradeOutcomeRow {
@@ -79,6 +98,35 @@ function avg(values: number[]): number | null {
   return round1(values.reduce((a, b) => a + b, 0) / values.length)
 }
 
+/**
+ * Brier 分数（docs/04 §12.9.5）：
+ * p = clamp(total/100, 0.01, 0.99)；o = positive?1 : negative?0；inconclusive 排除。
+ * 仅当二值样本 n = positive + negative ≥ 3 时展示；越低越好，基线 0.25。
+ */
+export function brierScore(samples: CalibrationSample[]): BrierStats {
+  const binary = samples.filter((s) => s.outcome === 'positive' || s.outcome === 'negative')
+  const n = binary.length
+  if (n < BRIER_MIN_SAMPLES) {
+    return {
+      available: false,
+      value: null,
+      n,
+      baseline: BRIER_BASELINE,
+      delta: null,
+      interpretation: `二值样本不足（${n}/${BRIER_MIN_SAMPLES}），暂不计算 Brier`,
+    }
+  }
+  const mean = binary.reduce((sum, s) => {
+    const p = Math.min(BRIER_P_CLAMP.max, Math.max(BRIER_P_CLAMP.min, s.total / 100))
+    const o = s.outcome === 'positive' ? 1 : 0
+    return sum + (p - o) ** 2
+  }, 0) / n
+  const value = Math.round(mean * 10000) / 10000
+  const delta = Math.round((value - BRIER_BASELINE) * 10000) / 10000
+  const interpretation = value < 0.15 ? '校准良好（<0.15）' : value <= BRIER_BASELINE ? '可接受（≤0.25 基线）' : '偏差偏大（>0.25 基线）'
+  return { available: true, value, n, baseline: BRIER_BASELINE, delta, interpretation }
+}
+
 export function collectCalibrationSamples(experiments: Experiment[]): CalibrationSample[] {
   return experiments
     .filter((x) => !!x.outcome && (x.status !== 'active' || !!x.ended_at))
@@ -103,6 +151,7 @@ export function calibrationStats(samples: CalibrationSample[]): CalibrationStats
   const negative = samples.filter((s) => s.outcome === 'negative')
   const inconclusive = samples.filter((s) => s.outcome === 'inconclusive')
   const decided = positive.length + negative.length
+  const brier = brierScore(samples)
   return {
     samples: samples.length,
     positive: positive.length,
@@ -118,6 +167,11 @@ export function calibrationStats(samples: CalibrationSample[]): CalibrationStats
     avgHours: samples.length ? round1(samples.reduce((a, s) => a + s.hours, 0) / samples.length) : 0,
     totalSpend: samples.reduce((a, s) => a + s.spend, 0),
     totalHours: round1(samples.reduce((a, s) => a + s.hours, 0)),
+    brier: brier.value,
+    brierN: brier.n,
+    brierBaseline: brier.baseline,
+    brierDelta: brier.delta,
+    brierInterpretation: brier.interpretation,
   }
 }
 
@@ -159,6 +213,13 @@ export function calibrationSuggestions(samples: CalibrationSample[], stats: Cali
 
   if (aPlusSuccess != null && lowerSuccess != null && aPlusDecided.length >= 2 && lowerDecided.length >= 2 && aPlusSuccess < lowerSuccess) {
     tips.push(`A 级以上成功率（${round1(aPlusSuccess)}%）低于 B/C/D（${round1(lowerSuccess)}%）：高等级预测与结果错位，建议检查是否被「信号强但壁垒低」的机会带偏。`)
+  }
+
+  if (stats.brier != null) {
+    const cmp = stats.brier < stats.brierBaseline ? `低于基线 ${stats.brierBaseline}` : `高于基线 ${stats.brierBaseline}`
+    tips.push(`Brier 分数 ${stats.brier.toFixed(4)}（N=${stats.brierN}，${cmp}）：${stats.brierInterpretation}；Brier 衡量概率校准，越低越好。`)
+  } else if (samples.length >= CALIBRATION_MIN_SAMPLES) {
+    tips.push(`二值样本不足（${stats.brierN} 个正向/负向，建议 ≥${BRIER_MIN_SAMPLES}）：Brier 暂不计算，先补充带明确 positive/negative 的结案实验。`)
   }
 
   if (stats.avgSpend > 3000 && stats.successRate < 50) {
@@ -213,6 +274,7 @@ export function calibrationToMarkdown(data: CalibrationData): string {
     `- 导出时间：${dayjs().format('YYYY-MM-DD HH:mm')}`,
     `- 样本数：${s.samples}（正向 ${s.positive} / 负向 ${s.negative} / 不明确 ${s.inconclusive}）`,
     `- 成功率：${s.decided ? `${s.successRate}%` : '—'}（正向 / 已决策）`,
+    `- Brier 分数：${s.brier != null ? `${s.brier.toFixed(4)}（N=${s.brierN}，基线 ${s.brierBaseline}，${s.brierInterpretation}）` : `样本不足（二值 N=${s.brierN}，建议 ≥${BRIER_MIN_SAMPLES}）`}`,
     `- 平均总分：${s.avgTotal} · 成功样本 ${s.avgTotalPositive ?? '—'} · 失败样本 ${s.avgTotalNegative ?? '—'}`,
     `- 平均花费：¥${s.avgSpend} · 平均耗时：${s.avgHours} 小时 · 累计花费 ¥${s.totalSpend}`,
     '',
@@ -251,8 +313,17 @@ export function calibrationToMarkdown(data: CalibrationData): string {
 export function calibrationToJson(data: CalibrationData): string {
   return JSON.stringify(
     {
-      schema: 'opportunity-radar/calibration@0.3.0',
+      schema: 'opportunity-radar/calibration@0.3.1',
       exported_at: dayjs().toISOString(),
+      brier: {
+        value: data.stats.brier,
+        n: data.stats.brierN,
+        baseline: data.stats.brierBaseline,
+        delta: data.stats.brierDelta,
+        interpretation: data.stats.brierInterpretation,
+        available: data.stats.brier != null,
+        formula: 'Brier = mean((clamp(total/100,0.01,0.99) - o)^2); o=positive?1:negative?0; inconclusive excluded; min n=3',
+      },
       stats: data.stats,
       by_grade: data.byGrade,
       by_bucket: data.byBucket,

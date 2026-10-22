@@ -1,6 +1,6 @@
 import type { Opportunity } from '@/types'
 import { opportunities } from './data'
-import { profileToCapability, type CapabilityVector, type Profile } from './profile'
+import { capitalCap, profileToCapability, type CapabilityVector, type Profile } from './profile'
 import { clamp, round1 } from './utils'
 
 /**
@@ -261,22 +261,31 @@ export interface RecommendOptions {
   limit?: number
   includeHard?: boolean
   lambda?: number
+  /** v0.3.1：按资金档位上限（CNY）严格过滤，而不是只看 0–10 分差 */
+  strictCapital?: boolean
 }
 
 export interface RecommendResult {
   rows: RecommendationRow[]
   filteredByHard: number
+  /** 严格资金过滤开启时被 CNY 上限过滤掉的数量 */
+  filteredByStrictCapital: number
   candidateCount: number
 }
 
 /** MMR 多样性排序：λ=0.7，Top10 内同行业 ≤2、同主区域 ≤3、同主信息差 ≤3 */
 export function recommendOpportunities(profile: Profile, options: RecommendOptions = {}): RecommendResult {
-  const { source = opportunities, limit, includeHard = false, lambda = MMR_LAMBDA } = options
+  const { source = opportunities, limit, includeHard = false, lambda = MMR_LAMBDA, strictCapital = false } = options
+  const capLimit = capitalCap(profile)
   const all = source
     .filter((opp) => opp.window.status !== 'closed')
     .map((opp) => scoreOpportunity(profile, opp))
-  const filteredByHard = all.filter((x) => x.hardConstraints.length > 0).length
-  const pool = includeHard ? all : all.filter((x) => x.hardConstraints.length === 0)
+  const filteredByStrictCapital = strictCapital
+    ? all.filter((x) => x.opp.roi.capital_cny.min > capLimit).length
+    : 0
+  const afterStrict = strictCapital ? all.filter((x) => x.opp.roi.capital_cny.min <= capLimit) : all
+  const filteredByHard = afterStrict.filter((x) => x.hardConstraints.length > 0).length
+  const pool = includeHard ? afterStrict : afterStrict.filter((x) => x.hardConstraints.length === 0)
   const maxRec = Math.max(...pool.map((x) => x.recScore), 1)
   const selected: RecommendationRow[] = []
   const remaining = [...pool]
@@ -329,11 +338,11 @@ export function recommendOpportunities(profile: Profile, options: RecommendOptio
     gapCount.set(primaryGap, (gapCount.get(primaryGap) || 0) + 1)
   }
 
-  return { rows: selected, filteredByHard, candidateCount: pool.length }
+  return { rows: selected, filteredByHard, filteredByStrictCapital, candidateCount: pool.length }
 }
 
-/** 推荐 Top N（Dashboard / 快捷入口） */
+/** 推荐 Top N（Dashboard / 快捷入口）；自动遵循画像中的严格资金过滤开关 */
 export function recommendTop(profile: Profile | null, n = 3): RecommendationRow[] {
   if (!profile) return []
-  return recommendOpportunities(profile, { limit: n }).rows
+  return recommendOpportunities(profile, { limit: n, strictCapital: profile.strictCapital }).rows
 }

@@ -616,6 +616,7 @@ export const sourceHealth: SourceHealth = {
     .map((s) => ({
       id: str(s.id),
       name: str(s.name) || undefined,
+      url: str(s.url) || undefined,
       ok: bool(s.ok),
       mode: str(s.mode) || undefined,
       checked_at: str(s.checked_at) || undefined,
@@ -636,6 +637,32 @@ export const sourceHealth: SourceHealth = {
   note: str(rawSourceHealth.note) || undefined,
 }
 export const sourceHealthById = new Map(sourceHealth.sources.map((s) => [s.id, s]))
+
+/** v0.3.1：采集源 id 可能变化，按 id → URL → 名称兼容匹配（不因改动报错/白屏） */
+const normalizeSourceUrl = (u?: string | null) =>
+  (u || '').trim().replace(/\/+$/, '').toLowerCase()
+export const sourceHealthByUrl = new Map(
+  sourceHealth.sources.filter((s) => s.url).map((s) => [normalizeSourceUrl(s.url), s]),
+)
+export const sourceHealthByName = new Map(
+  sourceHealth.sources.filter((s) => s.name).map((s) => [s.name as string, s]),
+)
+
+export function getSourceHealth(source: { id?: string; url?: string; name?: string }) {
+  if (source.id) {
+    const byId = sourceHealthById.get(source.id)
+    if (byId) return byId
+  }
+  if (source.url) {
+    const byUrl = sourceHealthByUrl.get(normalizeSourceUrl(source.url))
+    if (byUrl) return byUrl
+  }
+  if (source.name) {
+    const byName = sourceHealthByName.get(source.name)
+    if (byName) return byName
+  }
+  return undefined
+}
 
 /* ============================ v0.3.0 delta / history 口径展示 ============================ */
 
@@ -700,7 +727,7 @@ export const dataMeta: DataMeta = {
 }
 
 export const isMockData = dataMeta.source !== 'real'
-export const appVersion = '0.3.0'
+export const appVersion = '0.3.1'
 export const dataAsOf = asOf
 export const repoUrl = 'https://github.com/charline88888-ux/opportunity-radar'
 export const onlineUrl = 'https://charline88888-ux.github.io/opportunity-radar/'

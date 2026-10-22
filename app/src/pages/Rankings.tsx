@@ -48,7 +48,7 @@ import {
   WINDOW_LABEL,
 } from '@/lib/data'
 import { downloadPeriodReport } from '@/lib/exports'
-import { CAPABILITY_LABELS, profileSummaryRows, useProfile, type CapabilityVector } from '@/lib/profile'
+import { capitalCap, CAPABILITY_LABELS, profileSummaryRows, useProfile, type CapabilityVector } from '@/lib/profile'
 import {
   recommendOpportunities,
   type RecommendationRow,
@@ -310,7 +310,7 @@ export default function Rankings() {
   /* ---------- v0.3.0 为你推荐模式 ---------- */
   const [mode, setMode] = useState<'overall' | 'recommend'>(params.get('mode') === 'recommend' ? 'recommend' : 'overall')
   const [includeHard, setIncludeHard] = useState(false)
-  const { profile, capability } = useProfile()
+  const { profile, capability, save: saveProfile } = useProfile()
 
   const switchMode = (next: 'overall' | 'recommend') => {
     setMode(next)
@@ -332,7 +332,7 @@ export default function Rankings() {
   )
 
   const recommendation = useMemo(
-    () => (profile ? recommendOpportunities(profile, { includeHard, limit: 30 }) : null),
+    () => (profile ? recommendOpportunities(profile, { includeHard, limit: 30, strictCapital: profile.strictCapital }) : null),
     [profile, includeHard],
   )
   const recRows = useMemo(() => {
@@ -400,6 +400,16 @@ export default function Rankings() {
               </span>
               <div className="ml-auto flex items-center gap-2">
                 <button
+                  onClick={() => profile && saveProfile({ ...profile, strictCapital: !profile.strictCapital })}
+                  className={cn(
+                    'inline-flex h-6 items-center gap-1 rounded border px-2 text-[10.5px] transition-colors',
+                    profile.strictCapital ? 'border-signal/40 bg-signal/10 text-signal' : 'border-line text-muted hover:text-ink',
+                  )}
+                  title="严格资金过滤：开启后只保留 roi.capital_cny.min ≤ 资金档位上限的机会；关闭沿用分数差硬约束"
+                >
+                  <SlidersHorizontal className="h-3 w-3" /> 严格资金 {profile.strictCapital ? '开' : '关'}
+                </button>
+                <button
                   onClick={() => setIncludeHard((v) => !v)}
                   className={cn(
                     'inline-flex h-6 items-center gap-1 rounded border px-2 text-[10.5px] transition-colors',
@@ -412,10 +422,16 @@ export default function Rankings() {
               </div>
             </Panel>
 
-            <div className="mb-3 grid grid-cols-2 gap-2.5 sm:grid-cols-4">
+            <div className="mb-3 grid grid-cols-2 gap-2.5 sm:grid-cols-3 xl:grid-cols-5">
               {[
                 { label: '推荐候选', value: fmtInt(recStats.count), unit: `MMR 排序 · Top 30`, color: '#3ddc97' },
                 { label: '硬约束过滤', value: fmtInt(recommendation?.filteredByHard || 0), unit: '条（资金/资质/供应链/英语）', color: '#ffb547' },
+                {
+                  label: '严格资金过滤',
+                  value: profile.strictCapital ? fmtInt(recommendation?.filteredByStrictCapital || 0) : '关闭',
+                  unit: profile.strictCapital ? `启动资金 > ¥${capitalCap(profile).toLocaleString('zh-CN')}` : '按档位上限过滤（默认关）',
+                  color: profile.strictCapital ? '#ff5d5d' : '#8b93a7',
+                },
                 { label: '平均 fit', value: fmtPct(recStats.avgFit * 100, 0), unit: '画像 × 机会需求', color: '#4cc9f0' },
                 { label: '最高 rec_score', value: fmtScore(recStats.top), unit: '0.6×total + 0.4×fit×100', color: '#ffd166' },
               ].map((s) => (
@@ -470,7 +486,8 @@ export default function Rankings() {
 
             <div className="mt-3 rounded border border-line/70 bg-panel/50 px-3 py-2 text-[10px] leading-relaxed text-dim">
               推荐只改变注意力排序，不改变 data/rankings.json 的权威名次；fit 与 rec_score 在浏览器本地计算、不上传。硬约束默认过滤，
-              打开「显示硬约束」可查看被过滤原因。样本与画像均可随时在 /profile 与 /lab 调整。
+              打开「显示硬约束」可查看被过滤原因；「严格资金」开启后按画像资金档位上限（CNY）再过滤一层，关闭时沿用 §12.4 的分数差硬约束。
+              样本与画像均可随时在 /profile 与 /lab 调整。
             </div>
           </>
         )}

@@ -1,15 +1,21 @@
 import { useEffect, useMemo, useState } from 'react'
 import dayjs from 'dayjs'
-import { opportunities, sourceHealth } from './data'
+import { dataMeta, opportunities, sourceHealth } from './data'
 import { useExperiments, type Experiment } from './experiments'
-import { useProfile, type Profile } from './profile'
+import { capitalCap, useProfile, type Profile } from './profile'
 import { scoreOpportunity } from './recommend'
 
 /**
- * 本地预警规则引擎（v0.3.0）。
+ * 本地预警规则引擎（v0.3.1：告警 id 带数据版本指纹，升版自动重提醒）。
  * 所有阈值集中在此，前端按当前数据 + localStorage 实验/画像实时计算；
  * 已读 / 忽略状态只保存在本机（radar:alerts:v1），不上传。
  */
+export const ALERT_DATA_VERSION = dataMeta.data_version || 'unknown'
+
+/** 告警去重键：type:target:fingerprint（数据版本/采集时间），升版后旧已读不命中，重新提醒 */
+export function alertId(type: AlertType, targetId: string, fingerprint: string = ALERT_DATA_VERSION): string {
+  return `${type}:${targetId}:${fingerprint}`
+}
 export const ALERT_RULES = {
   /** 窗口剩余 ≤3 个月 → 窗口关闭预警 */
   WINDOW_CLOSING_MONTHS: 3,
@@ -115,7 +121,7 @@ export function buildAlerts(input: {
     if (opp.window.months_left <= ALERT_RULES.WINDOW_CLOSING_MONTHS) {
       const critical = opp.window.months_left <= 1 || opp.window.status === 'closed'
       alerts.push({
-        id: `window:${opp.id}`,
+        id: alertId('window', opp.id),
         type: 'window',
         severity: critical ? 'critical' : 'warning',
         title: `窗口仅剩 ${opp.window.months_left} 个月：${opp.title}`,
@@ -136,7 +142,7 @@ export function buildAlerts(input: {
     const days = now.startOf('day').diff(dayjs(exp.started_at).startOf('day'), 'day')
     if (days > ALERT_RULES.EXPERIMENT_OVERDUE_DAYS) {
       alerts.push({
-        id: `experiment:${exp.id}`,
+        id: alertId('experiment', exp.id),
         type: 'experiment',
         severity: days > ALERT_RULES.EXPERIMENT_CRITICAL_DAYS ? 'critical' : 'warning',
         title: `实验已超期 ${days} 天未结案：${exp.title}`,
@@ -154,7 +160,7 @@ export function buildAlerts(input: {
     for (const src of sourceHealth.sources) {
       if (src.ok) continue
       alerts.push({
-        id: `source:${src.id}`,
+        id: alertId('source', src.id, src.checked_at || ALERT_DATA_VERSION),
         type: 'source',
         severity: 'warning',
         title: `采集源失败：${src.name || src.id}`,
@@ -173,7 +179,7 @@ export function buildAlerts(input: {
   for (const opp of opportunities) {
     if (!opp.verified && ALERT_RULES.UNVERIFIED_GRADES.includes(opp.scores.grade)) {
       alerts.push({
-        id: `unverified:${opp.id}`,
+        id: alertId('unverified', opp.id),
         type: 'unverified',
         severity: 'warning',
         title: `A 级以上但证据未核验：${opp.title}`,
@@ -188,8 +194,10 @@ export function buildAlerts(input: {
 
   // 5) 画像高匹配但未行动：fit ≥0.75 且未加入实验
   if (profile) {
+    const capLimit = capitalCap(profile)
     const scored = opportunities
       .filter((opp) => opp.window.status !== 'closed' && !seenExperimentOpps.has(opp.id))
+      .filter((opp) => !profile.strictCapital || opp.roi.capital_cny.min <= capLimit)
       .map((opp) => {
         const row = scoreOpportunity(profile, opp)
         return { opp, fit: row.fit, hard: row.hardConstraints.length, rec: row.recScore }
@@ -199,7 +207,7 @@ export function buildAlerts(input: {
       .slice(0, ALERT_RULES.HIGH_MATCH_LIMIT)
     for (const x of scored) {
       alerts.push({
-        id: `high-match:${x.opp.id}`,
+        id: alertId('high-match', x.opp.id),
         type: 'high-match',
         severity: 'info',
         title: `高匹配但未行动：${x.opp.title}`,

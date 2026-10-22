@@ -59,7 +59,7 @@ const DOCS = [
   ['09', '风险合规与红队清单', '合规红线、红色风险与发布 checklist'],
   ['10', '版本与发布管理', '版本冻结、回滚与 releases 规则'],
   ['11', '补充清单 · 40 件事', '容易踩的坑与放大器'],
-  ['12', '数据契约与字段字典', '唯一数据接口标准（data-v0.3.0，含 history 回放 / source-health v2 增量）'],
+  ['12', '数据契约与字段字典', '唯一数据接口标准（data-v0.3.1，含 history 回放 / source-health v2 / 采集源兼容）'],
 ]
 
 const STACK = [
@@ -77,6 +77,8 @@ const STACK = [
   ['实验', 'localStorage 实验记录 + Blob 报告/机会卡导出'],
   ['推荐', '7 维画像 × 机会需求向量 → fit / rec_score / MMR'],
   ['预警', '本地规则引擎 + localStorage 已读/忽略'],
+  ['校准', 'Brier 概率校准 + 成功率 / 分桶 / 样本导出'],
+  ['过滤', '画像资金档位硬约束 + 严格 CNY 上限开关'],
 ]
 
 const ROADMAP = [
@@ -87,9 +89,21 @@ const ROADMAP = [
 
 const HISTORY = [
   {
-    version: 'v0.3.0',
+    version: 'v0.3.1',
     date: '2026-10-22',
     tag: '当前版本',
+    items: [
+      '回测校准新增 Brier 分数（docs/04 §12.9.5）：p=clamp(total/100,.01,.99)、inconclusive 排除、二值样本 ≥3 展示并与基线 0.25 对比，导出 JSON/MD 含 Brier',
+      '画像新增「严格资金过滤」开关（默认关）：开启后按资金档位上限过滤 roi.capital_cny.min，推荐页显示被过滤数量与原因；关闭沿用分数差硬约束',
+      '告警 id 加入数据版本/采集时间指纹：数据升版后旧已读/忽略自动失效并重新提醒，旧记录保留在 localStorage',
+      '采集展示兼容 source-health 源 id/url/name 变化：/sources 按 id → URL → 名称匹配，/alerts 不受新 id 影响；strict 构建不再因未匹配源失败',
+      '校准页 Brier 卡片/建议/单桶 <3 提示完善；版本升 v0.3.1，导出 schema 同步 @0.3.1',
+    ],
+  },
+  {
+    version: 'v0.3.0',
+    date: '2026-10-22',
+    tag: '上一版本',
     items: [
       '新增 /profile 个人画像：3 步向导 + 5 预设 + localStorage，7 维能力向量',
       '推荐引擎 lib/recommend.ts：需求向量 + 硬约束 + fit + rec_score=0.6×total+0.4×fit×100 + MMR + 双解释',
@@ -102,7 +116,7 @@ const HISTORY = [
   {
     version: 'v0.2.0',
     date: '2026-10-22',
-    tag: '上一版本',
+    tag: '历史版本',
     items: [
       '新增 /lab 实验台：localStorage 实验 CRUD、统计、复盘周期、JSON/Markdown 导出',
       '详情页实验状态卡 + Markdown 机会卡复制与下载 + 本周报告导出',
@@ -114,7 +128,7 @@ const HISTORY = [
   {
     version: 'v0.1.0',
     date: '2026-10-22',
-    tag: '历史版本',
+    tag: '更早版本',
     items: [
       '8 个路由：指挥台 / 排行榜 / 机会详情 / 扫描室 / 方法论 / 数据源 / 日历 / 关于',
       '数据契约 data-v0.1.0：taxonomy / opportunities / rankings / stats / sources / playbooks / calendar',
@@ -138,7 +152,7 @@ export default function About() {
         index="11"
         kicker="ABOUT · 关于"
         title="关于机会雷达"
-        description="本地优先的个人商机研究工具：用「人性需求信号 + 文化差异信号」发现全世界的赚钱信息差，按日 / 周 / 月 / 年榜单交付，并为每个机会强制回答商业驱动七问。v0.3.0 起支持个人画像、为你推荐、预警中心与截图/实验回测校准。"
+        description="本地优先的个人商机研究工具：用「人性需求信号 + 文化差异信号」发现全世界的赚钱信息差，按日 / 周 / 月 / 年榜单交付，并为每个机会强制回答商业驱动七问。v0.3.1 在画像推荐与实验校准上补齐 Brier、严格资金过滤与告警升版重提醒。"
         actions={
           <div className="flex flex-wrap items-center gap-2">
             <Badge tone="signal"><PackageCheck className="h-3 w-3" /> v{appVersion}</Badge>
@@ -203,9 +217,9 @@ export default function About() {
             </a>
           </div>
           <div className="mt-2 rounded border border-signal/20 bg-signal/[0.03] px-2.5 py-2">
-            <div className="mono-label text-signal">v0.3.0 本轮变更</div>
+            <div className="mono-label text-signal">v0.3.1 本轮变更</div>
             <div className="mt-0.5 text-[10.5px] leading-relaxed text-muted">
-              /profile 个人画像与 7 维能力向量 · 推荐引擎（fit + rec_score + MMR + 双解释）· 排行榜「为你推荐」· /alerts 预警中心 · /calibration 回测校准（outcome × 预测等级）· source-health v2 展示 · 历史回放与真实 delta 口径。
+              Brier 概率校准（基线 0.25 / 二值 N / 导出）· 严格资金过滤开关（档位 CNY 上限，持久化到画像）· 告警 id 含数据版本指纹（升版重提醒）· source-health 源 id/url/name 兼容 · 单桶 &lt;3 提示与导出 schema @0.3.1。
             </div>
           </div>
           <div className="mt-3 rounded border border-line/70 bg-black/20 px-2.5 py-2 font-mono text-[10px] leading-relaxed text-dim">

@@ -280,10 +280,12 @@ export interface HistoryMeta {
   note?: string
 }
 
-/** data/source-health.json（v0.2.0 可选；v0.3.0 增加 mode/http_status/error 等 v2 字段） */
+/** data/source-health.json（v0.2.0 可选；v0.3.0 增加 mode/http_status/error 等 v2 字段；v0.3.1 容忍源 id 变化） */
 export interface SourceHealthEntry {
   id: string
   name?: string
+  /** v0.3.1：采集器可回写实际 URL；前端按 id → url → name 依次兼容匹配 sources.json */
+  url?: string
   ok: boolean
   mode?: 'online-fetch' | 'cache' | 'offline' | string
   checked_at?: string

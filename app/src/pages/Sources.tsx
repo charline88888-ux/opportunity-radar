@@ -5,7 +5,7 @@ import { Activity, CloudOff, Database, ExternalLink, Filter, Search, ShieldCheck
 import { Chart } from '@/components/charts/Chart'
 import { PageHeader } from '@/components/PageHeader'
 import { Badge, EmptyState, Panel, ProgressBar, SectionCard } from '@/components/ui'
-import { allSources, regionName, sourceHealth, sourceHealthById, sources } from '@/lib/data'
+import { allSources, getSourceHealth, regionName, sourceHealth, sources } from '@/lib/data'
 import {
   ACCESS_LABEL,
   cn,
@@ -23,8 +23,8 @@ const LEGEND = [
   { id: 'red', label: '红 · 不建议自动抓取', desc: '仅人工浏览，不绕过登录/付费墙' },
 ] as const
 
-function SourceHealthCell({ id }: { id: string }) {
-  const sh = sourceHealthById.get(id)
+function SourceHealthCell({ source }: { source: { id: string; url?: string; name?: string } }) {
+  const sh = getSourceHealth(source)
   if (!sourceHealth.available || !sh) return <span className="text-[9.5px] text-dim">—</span>
   return (
     <div className="min-w-0">
@@ -58,6 +58,12 @@ export default function Sources() {
       red: allSources.filter((s) => s.compliance === 'red').length,
       highValue: allSources.filter((s) => s.value_score >= 8.5).length,
     }
+  }, [])
+
+  const unmatchedHealthCount = useMemo(() => {
+    if (!sourceHealth.available) return 0
+    const matched = new Set(allSources.map((s) => getSourceHealth(s)?.id).filter(Boolean))
+    return sourceHealth.sources.filter((sh) => !matched.has(sh.id)).length
   }, [])
 
   const filteredCategories = useMemo(() => {
@@ -238,8 +244,9 @@ export default function Sources() {
               <span className="ml-2 font-mono text-[10px] text-dim">{sourceHealth.checked_at || '—'}</span>
             </span>
             {sourceHealth.fail_count > 0 && <Badge tone="danger">失败 {sourceHealth.fail_count} 个 · 见 About/预警中心</Badge>}
+            {unmatchedHealthCount > 0 && <Badge tone="amber">{unmatchedHealthCount} 源未匹配矩阵</Badge>}
             <span className="ml-auto flex items-center gap-2 text-[10px]">
-              <span className="text-dim">v2 字段：mode / latency / cached / error / checked_at</span>
+              <span className="text-dim">v2 字段：mode / latency / cached / error / checked_at；id 变化时按 url/name 兼容</span>
               <Link to="/alerts" className="text-muted hover:text-signal">查看预警 →</Link>
             </span>
           </>
@@ -328,7 +335,7 @@ export default function Sources() {
                             <span className="num text-[10px] text-muted">{fmtScore(s.value_score)}</span>
                           </div>
                         </td>
-                        <td><SourceHealthCell id={s.id} /></td>
+                        <td><SourceHealthCell source={s} /></td>
                         <td className="max-w-[460px] text-[10px] leading-relaxed text-dim">{s.notes}</td>
                       </tr>
                     ))}

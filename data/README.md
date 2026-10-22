@@ -1,23 +1,23 @@
-# data/ 数据底座使用说明（data-v0.3.0）
+# data/ 数据底座使用说明（data-v0.3.1）
 
-> 唯一接口标准：`docs/12-数据契约与字段字典.md`（data-v0.3.0 增量已冻结）。本目录所有 JSON 必须通过 `python scanner/validate.py`（V01–V20，退出码 0）。
+> 唯一接口标准：`docs/12-数据契约与字段字典.md`（data-v0.3.0 增量已冻结；v0.3.1 为采集源修复 PATCH）。本目录所有 JSON 必须通过 `python scanner/validate.py`（V01–V20，退出码 0）。
 > 数据基准日 `as_of = 2026-10-22`（Asia/Shanghai），当前周 `2026-W43`（10-19～10-25），当前月 `2026-10`，当前年 `2026`。
-> v0.3.0 为 MINOR 增量（向后兼容）：新增 source-health v2 字段、历史回放快照与真实 delta（history 口径），**不删除、不改名既有必填字段**。
+> v0.3.1 PATCH：修复 3 个采集失败源（reddit→manual+Lobsters 替代 / itunes-reviews 改 GB storefront / shopify-changelog 改官方 feed.xml），版本号升 0.3.1；机会库与榜单口径不变。
 
-## 1. 文件清单与规模（data-v0.3.0）
+## 1. 文件清单与规模（data-v0.3.1）
 
 | 文件 | 作用 | 规模 | 生产者 | 消费者 |
 |---|---|---|---|---|
 | `taxonomy.json` | 14 行业 / 12 人性需求 / 6 神经递质 / 24 情绪 / 12 信息差 / 7 驱动 / 12 商业模式 / 11 区域 / 10 评分维度 / 20 标签 / 5 等级 | 11 组固定枚举 | 数据工程 | 全队 |
 | `opportunities.json` | 机会库 | **46 条**（14 行业、11 区域、12 信息差、38 国家/地区、18 条中国供应链角度） | 数据工程 | 前端、扫描器 |
-| `rankings.json` | 唯一权威榜单；v0.3.0 `meta.delta_basis="history"`、`meta.history_as_of="2026-10-21"`、`windows[].delta_basis` | day 8 / week 15 / month 23 / year 46 | 扫描器 `--all` | 前端 |
+| `rankings.json` | 唯一权威榜单；`meta.delta_basis="history"`、`meta.history_as_of="2026-10-21"`、`windows[].delta_basis`（v0.3.1 内容不变，仅版本号） | day 8 / week 15 / month 23 / year 46 | 扫描器 `--all` | 前端 |
 | `stats.json` | 首屏 KPI 与图表聚合 | KPI + 4 组分布 + 直方图 + 14 天趋势 | 扫描器 | 前端 |
 | `history/rankings-2026-10-20.json` | **历史回放**（`reconstructed=true`、`replay_as_of=2026-10-20`） | day 3 / week 5 / month 13 / year 36 | `--replay-*` | 扫描器、前端 |
 | `history/rankings-2026-10-21.json` | **历史回放**（`reconstructed=true`、`replay_as_of=2026-10-21`，basis=history） | day 2 / week 7 / month 15 / year 38 | `--replay-*` | 扫描器、前端 |
 | `history/rankings-2026-10-22.json` | **真实每日快照**（`reconstructed=false`，与 rankings 一致） | day 8 / week 15 / month 23 / year 46 | `--all` | 扫描器、前端 |
-| `source-health.json` | 在线采集源健康度 **v2**（`mode`/`http_status`/`latency_ms`/`cached`/`items`/`error`/`checked_at`，`meta.mode`） | 8 个源（5 成功 / 3 失败；2026-10-22 实测） | `--fetch` | 前端、运营 |
+| `source-health.json` | 在线采集源健康度 **v2**（`mode`/`http_status`/`latency_ms`/`cached`/`items`/`error`/`checked_at`，`meta.mode`） | **8 个源（8 成功 / 0 失败；2026-10-22 v0.3.1 实测）** | `--fetch` | 前端、运营 |
 | `reports/report-<period>-2026-10-22.{html,md}` | 四窗口自包含 HTML + Markdown 报告（确定性生成，可打印/分发） | 4 窗口 × 2 格式 | `report.py --all` | 用户、归档 |
-| `sources.json` | 数据源矩阵 12 大类 | **67 个平台**（含 4 个可采集 RSS 源） | 数据工程 | 前端、`--fetch` |
+| `sources.json` | 数据源矩阵 12 大类 | **68 个平台**（v0.3.1：reddit→manual、新增 lobsters、itunes GB、shopify 官方 feed.xml） | 数据工程 | 前端、`--fetch` |
 | `playbooks.json` | 扫描剧本 | **12 个** | 数据工程 | 前端、运营 |
 | `calendar.json` | 全球商业日历 2026-11～2028 | **33 个节点** | 数据工程 | 前端、方法论 |
 | `radar.db`（gitignore） | SQLite 派生库（opportunities/evidence/rankings_history/source_health） | 46 / 88 / 211 / 8 行 | 扫描器 `--all`（`--db-rebuild` 可重建） | 扫描器 |
@@ -54,12 +54,14 @@
   - 同日重复执行字节一致（幂等，已验证）。
 - 回放仅用于补足 delta 演示与历史对照，**UI 必须用 `reconstructed` 区分**并明示「历史回放」。
 
-## 5. source-health v2（`--fetch`，v0.3.0）
+## 5. source-health v2（`--fetch`，v0.3.1 修复后）
 
 - 每源字段：`id/name/category/url/access/compliance/ok/mode/http_status/latency_ms/cached/items/signals/checked_at/error/note`；`meta`: `mode/count/ok_count/failed_count/cached_count/online_count`。
 - `mode ∈ {online-fetch, cache, offline}`；`cached=true` 时 `latency_ms=0` 且 `mode="cache"`（note 注明缓存命中）；`ok=false` 时 `error` 必填非空原因。
-- 2026-10-22 实测（真实网络）：8 源中 **5 成功**（hnrss / app-store-rss / arxiv-rss / techcrunch-rss / producthunt-feed，真实 latency 848–9218ms，共 129 条信号）；**3 失败**并如实记录原因：reddit `URLError: timed out`、itunes-reviews/shopify-changelog「返回内容不是可解析的 feed（http_status=200，有效条目 0 条）」。
-- 合规：每域 ≤1 req/s、6h 缓存、明确 UA、12s 超时、重试 2 次；红区源不抓取；outbox（`scanner/outbox/`）仅供人工复核，不自动进机会库。
+- **2026-10-22 v0.3.1 实测（`--fetch --no-cache`，真实网络）：8/8 源成功、215 条原始 → 211 条信号，`meta.mode="online-fetch"`**：
+  - itunes-reviews 200 / 243ms / 30 条（GB storefront）；shopify-changelog 200 / 2102ms / 30（官方 feed.xml）；hnrss 200 / 17222ms / 20；lobsters 200 / 833ms / 25（reddit 替代）；app-store-rss 200 / 1284ms / 30；arxiv-rss 200 / 1683ms / 30；techcrunch-rss 200 / 2618ms / 20；producthunt-feed 200 / 1051ms / 30。
+  - 源替换记录：reddit（reddit.com 本机网络持续 40s 超时 → `access="manual"`，新增 Lobsters 公开 RSS 替代）；itunes-reviews（US storefront 空 feed → GB storefront）；shopify-changelog（HTML → `https://shopify.dev/changelog/feed.xml`）。
+- 合规：每域 ≤1 req/s、6h 缓存、明确 UA、20s 超时、重试 2 次；红区源不抓取；outbox（`scanner/outbox/`）仅供人工复核，不自动进机会库。
 
 ## 6. 报告导出
 

@@ -401,9 +401,17 @@ add(
 for (const msg of historyIssues.slice(0, 5)) add('FAIL', 'history', msg)
 
 const sourceHealthIssues = []
+let unmatchedSourceHealth = 0
 if (sourceHealth.available) {
   const knownSourceIds = new Set(
     sourceCategories.flatMap((c) => (Array.isArray(c.sources) ? c.sources.map((s) => s.id) : [])),
+  )
+  const normUrl = (u) => String(u || '').trim().replace(/\/+$/, '').toLowerCase()
+  const knownUrls = new Set(
+    sourceCategories.flatMap((c) => (Array.isArray(c.sources) ? c.sources.map((s) => normUrl(s.url)) : [])),
+  )
+  const knownNames = new Set(
+    sourceCategories.flatMap((c) => (Array.isArray(c.sources) ? c.sources.map((s) => s.name) : [])),
   )
   const rawShMeta = rawSourceHealth?.meta && typeof rawSourceHealth.meta === 'object' ? rawSourceHealth.meta : {}
   const hasV2 = String(rawShMeta.data_version || '') >= '0.3.0' || sourceHealth.sources.some((s) => s && 'mode' in s)
@@ -415,7 +423,9 @@ if (sourceHealth.available) {
       sourceHealthIssues.push('source-health 条目非法')
       continue
     }
-    if (!knownSourceIds.has(s.id)) sourceHealthIssues.push(`未知源 ${s.id}`)
+    // v0.3.1：采集源 id/url/name 可能变化；未匹配 sources.json 只提示，不阻塞 strict 构建
+    const matched = knownSourceIds.has(s.id) || knownUrls.has(normUrl(s.url)) || knownNames.has(s.name)
+    if (!matched) unmatchedSourceHealth += 1
     if (typeof s.ok !== 'boolean') sourceHealthIssues.push(`${s.id} ok 非布尔`)
     if (s.checked_at && !/^\d{4}-\d{2}-\d{2}/.test(s.checked_at)) sourceHealthIssues.push(`${s.id} checked_at 非法`)
     if (s.latency_ms != null && !(Number(s.latency_ms) >= 0)) sourceHealthIssues.push(`${s.id} latency_ms 非法`)
@@ -438,8 +448,8 @@ add(
     ? `${sourceHealth.total} 源 · 成功 ${sourceHealth.ok_count} / 失败 ${sourceHealth.fail_count} · mode ${
         sourceHealth.mode || '—'
       } · 检查于 ${sourceHealth.checked_at || '—'}${
-        sourceHealthIssues.length ? ` · 问题 ${sourceHealthIssues.length} 项` : ''
-      }`
+        unmatchedSourceHealth ? ` · 未匹配矩阵 ${unmatchedSourceHealth}` : ''
+      }${sourceHealthIssues.length ? ` · 问题 ${sourceHealthIssues.length} 项` : ''}`
     : '可选未提供：前端隐藏采集健康（不阻塞构建）',
 )
 for (const msg of sourceHealthIssues.slice(0, 5)) add('FAIL', 'source-health', msg)
@@ -459,7 +469,10 @@ const meta = {
   source: mockFiles.length === 0 ? 'real' : mockFiles.length === FILES.length ? 'mock' : 'mixed',
   files: filesMeta,
   mock_files: mockFiles,
-  synced_at: new Date().toISOString(),
+  // 构建可复现：不使用构建时刻，优先采用数据侧确定性时间戳
+  synced_at:
+    (sourceHealth.meta && typeof sourceHealth.meta === 'object' && sourceHealth.meta.generated_at) ||
+    `${asOf}T00:00:00+08:00`,
   data_version: sourceMeta.data_version || metaOf(taxonomy).data_version || 'unknown',
   as_of: asOf,
   delta_basis: deltaBasis,

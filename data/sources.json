@@ -1,10 +1,10 @@
 {
   "meta": {
-    "data_version": "0.3.0",
+    "data_version": "0.3.1",
     "as_of": "2026-10-22",
-    "count": 67,
+    "count": 68,
     "last_checked": "2026-10-22",
-    "note": "合规等级与可访问性依据 research/platform-matrix-validation.md（2026-10-22 核验）。红/黄源只允许人工浏览，不自动抓取、不绕过登录或验证码；v0.2.0 新增 4 个可被 `pipeline.py --fetch` 采集的公开 RSS 源（hnrss/techcrunch/producthunt/arxiv）。"
+    "note": "合规等级与可访问性依据 research/platform-matrix-validation.md（2026-10-22 核验）。红/黄源只允许人工浏览，不自动抓取、不绕过登录或验证码；v0.2.0 新增 4 个可被 `pipeline.py --fetch` 采集的公开 RSS 源（hnrss/techcrunch/producthunt/arxiv）。 v0.3.1 PATCH：修复 reddit（改 manual + 新增 lobsters 替代）/ itunes-reviews（GB storefront）/ shopify-changelog（官方 feed.xml）。"
   },
   "categories": [
     {
@@ -27,14 +27,14 @@
             "comparison",
             "真实收入"
           ],
-          "access": "rss",
+          "access": "manual",
           "frequency": "daily",
           "cost": "free",
           "compliance": "green",
           "value_score": 9.2,
           "last_checked": "2026-10-22",
-          "check_result": "http_200",
-          "notes": "RSS 公开可订阅（✅200）；API 有付费档；按 subreddit 订阅性价比最高，限速 ≤1 req/s，禁止商业转售"
+          "check_result": "fetch_timeout",
+          "notes": "v0.3.1：www.reddit.com/old.reddit.com 的 RSS/JSON 在本机网络环境持续 40s 超时，自动采集已停用（access=manual），仅人工浏览；自动采集替代源见 lobsters（同 UI 的公开 RSS）"
         },
         {
           "id": "trustpilot",
@@ -60,7 +60,7 @@
         {
           "id": "itunes-reviews",
           "name": "Apple App Store 评论 RSS",
-          "url": "https://itunes.apple.com/us/rss/customerreviews/page=1/id=389801252/sortby=mostrecent/json",
+          "url": "https://itunes.apple.com/gb/rss/customerreviews/page=1/id=389801252/sortby=mostrecent/json",
           "regions": [
             "north-america",
             "europe",
@@ -78,7 +78,7 @@
           "value_score": 8.8,
           "last_checked": "2026-10-22",
           "check_result": "http_200",
-          "notes": "公开 JSON RSS（✅200），按 App id 拉最新评论；差评里找功能缺口，注意各国区评分差异"
+          "notes": "v0.3.1：US storefront 的 customerreviews feed 返回 200 但 feed 无 entry（空）；改用 GB storefront（实测 50 条评论）。JSON feed（feed.entry）解析由 scanner/fetch.py 支持"
         },
         {
           "id": "producthunt",
@@ -124,6 +124,28 @@
           "last_checked": "2026-10-22",
           "check_result": "http_200",
           "notes": "公开 RSS，`--fetch` 实际采集源之一；只用标题/摘要，限速 ≤1 req/s，不抓评论"
+        },
+        {
+          "id": "lobsters",
+          "name": "Lobsters RSS（技术社区）",
+          "url": "https://lobste.rs/rss",
+          "regions": [
+            "north-america",
+            "europe"
+          ],
+          "signal_types": [
+            "discussion",
+            "tech_trend",
+            "new_product"
+          ],
+          "access": "rss",
+          "frequency": "daily",
+          "cost": "free",
+          "compliance": "green",
+          "value_score": 8.0,
+          "last_checked": "2026-10-22",
+          "check_result": "http_200",
+          "notes": "v0.3.1 新增：reddit.com 在当前网络环境持续超时，改用 Lobsters 公开 RSS（实测 25 条）；技术圈讨论与新品信号"
         }
       ]
     },
@@ -1484,7 +1506,7 @@
         {
           "id": "shopify-changelog",
           "name": "Shopify Dev Changelog",
-          "url": "https://shopify.dev/changelog",
+          "url": "https://shopify.dev/changelog/feed.xml",
           "regions": [
             "north-america",
             "europe",
@@ -1500,8 +1522,8 @@
           "compliance": "green",
           "value_score": 8.6,
           "last_checked": "2026-10-22",
-          "check_result": "doc_only",
-          "notes": "公开 changelog（可 RSS）；新功能上线 30 天内是工具/代运营套利窗口"
+          "check_result": "http_200",
+          "notes": "v0.3.1：shopify.dev/changelog 是 HTML，改为官方 RSS feed.xml（实测 778 条，抓取后按单源上限保留 30 条）；平台新功能/规则变化 30 天窗口信号"
         },
         {
           "id": "google-play-policy",

@@ -1,6 +1,6 @@
 {
   "meta": {
-    "data_version": "0.3.0",
+    "data_version": "0.3.1",
     "as_of": "2026-10-22",
     "language": "zh-CN",
     "source": "docs/12-数据契约与字段字典.md",

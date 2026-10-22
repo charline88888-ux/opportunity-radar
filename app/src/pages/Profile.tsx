@@ -133,7 +133,7 @@ export default function ProfilePage() {
   const exportProfile = () => {
     if (!profile && !editing) return
     const data = {
-      schema: 'opportunity-radar/profile@0.3.0',
+      schema: 'opportunity-radar/profile@0.3.1',
       exported_at: new Date().toISOString(),
       profile: profile || form,
       capability: capability || formCapability,
@@ -260,6 +260,12 @@ export default function ProfilePage() {
                       <div className="mt-1 flex justify-between font-mono text-[9px] text-dim"><span>0h</span><span>20h</span><span>40h</span><span>60h</span></div>
                     </div>
                     <ToggleRow label="是否可全职投入" hint="全职会显著提升可执行性评分（time=10）" checked={form.fullTime} onChange={(v) => setForm((f) => ({ ...f, fullTime: v }))} />
+                    <ToggleRow
+                      label="严格资金过滤（推荐）"
+                      hint={`开启后过滤启动资金 > 档位上限（¥${(CAPITAL_BANDS.find((b) => b.id === form.capitalBand)?.cap ?? 10000).toLocaleString('zh-CN')}）的机会；关闭沿用分数差硬约束`}
+                      checked={form.strictCapital}
+                      onChange={(v) => setForm((f) => ({ ...f, strictCapital: v }))}
+                    />
                   </div>
                 )}
 

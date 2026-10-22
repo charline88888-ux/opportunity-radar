@@ -1,0 +1,12 @@
+[pipeline] 数据版本 0.3.1 / 基准日 2026-10-22
+[pipeline]   · [OK] itunes-reviews   status=200    406ms items=30  cached=False
+[pipeline]   · [OK] shopify-changelog status=200   4035ms items=30  cached=False
+[pipeline]   · [OK] hnrss            status=200   1831ms items=20  cached=False
+[pipeline]   · [OK] lobsters         status=200    881ms items=25  cached=False
+[pipeline]   · [OK] app-store-rss    status=200    346ms items=30  cached=False
+[pipeline]   · [OK] arxiv-rss        status=200   1531ms items=30  cached=False
+[pipeline]   · [OK] techcrunch-rss   status=200   1031ms items=20  cached=False
+[pipeline]   · [OK] producthunt-feed status=200    819ms items=30  cached=False
+[pipeline] 真实采集完成：8/8 个源成功，215 条原始 → 211 条信号
+[pipeline] outbox（人工复核，不入机会库）：scanner\outbox\signals-2026-10-22.json
+[pipeline] 源健康度：data\source-health.json

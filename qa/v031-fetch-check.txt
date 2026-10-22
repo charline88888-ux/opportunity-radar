@@ -1,0 +1,17 @@
+== 独立采集实测：8 个在线源（timeout=15.0s）==
+  itunes-reviews     health_ok=True  status=200 bytes=41082    parsed=50   https://itunes.apple.com/gb/rss/customerreviews/page=1/id=389801252/so
+  shopify-changelog  health_ok=True  status=200 bytes=1500000  parsed=567  https://shopify.dev/changelog/feed.xml
+  hnrss              health_ok=True  status=200 bytes=19358    parsed=20   https://hnrss.org/frontpage
+  lobsters           health_ok=True  status=200 bytes=16986    parsed=25   https://lobste.rs/rss
+  app-store-rss      health_ok=True  status=200 bytes=220467   parsed=50   https://itunes.apple.com/us/rss/topfreeapplications/limit=50/json
+  arxiv-rss          health_ok=True  status=200 bytes=1037996  parsed=473  http://export.arxiv.org/rss/cs.AI
+  techcrunch-rss     health_ok=True  status=200 bytes=17288    parsed=20   https://techcrunch.com/feed/
+  producthunt-feed   health_ok=True  status=200 bytes=44101    parsed=50   https://www.producthunt.com/feed
+
+独立抓取统计：health_ok=8/8  health_failed=0
+修复源 itunes-reviews: https://itunes.apple.com/us/rss/customerreviews/page=1/id=38 -> https://itunes.apple.com/gb/rss/customerreviews/page=1/id=389801252/sortby=mostr
+修复源 shopify-changelog: https://shopify.dev/changelog -> https://shopify.dev/changelog/feed.xml
+
+P0 = 0  P1 = 0  P2 = 1
+  [P2] reddit: source-health 中已不存在（可能换源/换 id，需 data/CHANGELOG 说明）
+RESULT: PASS
