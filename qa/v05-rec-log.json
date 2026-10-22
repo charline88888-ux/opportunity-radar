@@ -1,0 +1,75 @@
+{
+  "results": [
+    {
+      "id": "R01",
+      "name": "为你推荐渲染记录 impression（每个机会至少 1 条）",
+      "pass": true,
+      "detail": "impressions=14 cards=14"
+    },
+    {
+      "id": "R02",
+      "name": "impression 记录含 opp_id/rec_score/fit/at",
+      "pass": true,
+      "detail": "{\"id\":\"rec-mvjhsyj6-rj1wq\",\"opp_id\":\"opp-content-audiobook-020\",\"event\":\"impression\",\"rec_score\":69.1,\"fit\":0.68,\"at\":\"2026-10-22T12:03:44.466Z\"}"
+    },
+    {
+      "id": "R03",
+      "name": "曝光每会话去重（SPA 往返不新增同一机会曝光）",
+      "pass": true,
+      "detail": "before=14 after=14"
+    },
+    {
+      "id": "R04",
+      "name": "点击推荐卡记录 view 事件",
+      "pass": true,
+      "detail": "[{\"id\":\"rec-mvjht833-r0w81\",\"opp_id\":\"opp-content-audiobook-020\",\"event\":\"view\",\"rec_score\":69.1,\"fit\":0.68,\"at\":\"2026-10-22T12:03:56.847Z\"}]"
+    },
+    {
+      "id": "R05",
+      "name": "加入实验记录 experiment 事件",
+      "pass": true,
+      "detail": "[{\"id\":\"rec-mvjhtb0k-xzux5\",\"opp_id\":\"opp-content-audiobook-020\",\"event\":\"experiment\",\"rec_score\":71.6,\"fit\":0,\"at\":\"2026-10-22T12:04:00.644Z\"}]"
+    },
+    {
+      "id": "R06",
+      "name": "忽略推荐记录 dismiss 事件",
+      "pass": true,
+      "detail": "[{\"id\":\"rec-mvjhtfil-dle8x\",\"opp_id\":\"opp-pet-memorial-glass-001\",\"event\":\"dismiss\",\"rec_score\":78.9,\"fit\":0.8,\"at\":\"2026-10-22T12:04:06.477Z\"}]"
+    },
+    {
+      "id": "R07",
+      "name": "漏斗 UI 与 rec_log 独立汇总一致（曝光去重/查看/实验/命中率/忽略）",
+      "pass": true,
+      "detail": "{\"ui\":{\"uiImp\":14,\"uiViews\":1,\"uiExp\":1,\"uiHit\":\"7.1\",\"uiDis\":1},\"expected\":{\"impressions\":14,\"unique_impressions\":14,\"views\":1,\"unique_views\":1,\"experiments\":1,\"unique_experiments\":1,\"dismisses\":1,\"unique_dismisses\":1,\"hit_rate\":7.1,\"view_rate\":7.1,\"total\":17}}"
+    },
+    {
+      "id": "R08",
+      "name": "命中率 = 加入实验去重 / 曝光去重（契约）",
+      "pass": true,
+      "detail": "hit_rate=7.1%"
+    },
+    {
+      "id": "R09",
+      "name": "导出校准 JSON 附带推荐漏斗摘要且计数一致",
+      "pass": true,
+      "detail": "{\"impressions\":14,\"unique_impressions\":14,\"views\":1,\"unique_views\":1,\"experiments\":1,\"unique_experiments\":1,\"dismisses\":1,\"unique_dismisses\":1,\"hit_rate\":7.1,\"view_rate\":7.1,\"total\":17}"
+    },
+    {
+      "id": "R10",
+      "name": "rec_log 上限 500 条滚动（加载归一 + 新事件后裁剪为 500）",
+      "pass": true,
+      "detail": "stored=500"
+    },
+    {
+      "id": "R11",
+      "name": "全程无 console error",
+      "pass": true,
+      "detail": "0"
+    }
+  ],
+  "summary": {
+    "pass": 11,
+    "fail": 0,
+    "total": 11
+  }
+}

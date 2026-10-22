@@ -897,3 +897,115 @@ pwsh -File qa/online-check.ps1 -Version v0.4.0      # 线上/冻结 hash 一致�
 ## 15.9 与历史版本关系
 
 - v0.1.0–v0.3.1 冻结产物与线上归档未修改（逐字节核对）；v0.3.1 文档 P1 已按不可变策略在 v0.4.0 文档快照修复；本章为 v0.4.0 独立验收，不覆盖历史章节。
+
+---
+
+# 第 16 章 · v0.5.0 红队独立验收（2026-10-22 20:10）
+
+> 项目版本：v0.5.0（app 0.5.0 / data 0.5.0）　｜　验收人：redteam　｜　任务：task-25
+> 冻结：`releases/v0.5.0/`（git tag v0.5.0 → 57d8bb0，内容提交 c1993cd）｜dist 2,272,122 B / `AD958D1C…7C245`
+> 结论：**P0=0 / P1=0 / P2=3（均不阻塞）；冻结产物/线上逐字节一致 → 可发布 ✅**
+
+## 16.1 结论
+
+| 项 | 结果 |
+|---|---|
+| P0（阻塞） | **0** |
+| P1（发布前应修） | **0** |
+| P2（建议修，不阻塞） | 3（年鉴「年榜最高分」KPI 语义；后端年鉴样例数据说明；i18n 静态精确覆盖率口径） |
+| 数据 | `--all` exit 0 且 **27 个 data 文件（JSON+history+reports+db）字节级幂等**；validate **20/20 PASS**；unittest **50/50 OK**；data-qa-v05 **P0/P1/P2=0**；replay PASS；data 0.5.0 六文件一致；报告 8 文件 data-v0.5.0 + 年鉴 2 文件 |
+| **年度年鉴 `yearbook.py`** | `qa/yearbook-check.py` **PASS**：年榜 Top20 顺序=rankings.year；年榜行 grade/total 与数据一致；**月度活跃/新机会 12 个月与 activity_dates 独立复算一致**；行业/区域/信息差分布一致；A 级 11/收尾 0/评分分布一致；双跑字节一致（确定性）；有实验样例 **Brier 0.2338 = 独立复算**；非法实验 JSON 容错（exit 0+警告+跳过）；空年份 2020 空态 exit 0；HTML 自包含、免责与「规则生成，非投资建议」标注齐备 |
+| AI 富化 / 校准回归 | `enrich-check` P0/P1/P2=0（211 候选、schema/needs_human/不入库/dry-run/无 key exit2/空非法容错/gitignore）；`calibrate-check` P0/P1/P2=0（Brier 0.2338、双跑一致、0/2 边界、非法 JSON） |
+| **个人数据包 `/data`** | `qa/data-package-check.mjs` **10/10 PASS**：导出 bundle `schema_version=0.5.0` + profile/experiments/alerts_state/rec_log/settings，内容与本地一致；清空→导入→覆盖恢复（2 实验/3 推荐记录/预警已读）；**合并按 id 取较新 + 新记录合并**；**旧版本 0.4.0 明确报「schema_version 必须为 0.5.0」且不应用**；坏 JSON 显示无法解析、不崩溃、状态不变；无 console error |
+| **推荐漏斗 rec_log** | `qa/rec-log-check.mjs` **11/11 PASS**：推荐榜渲染 14 条 impression（每机会 1 条、含 rec_score/fit/at）；SPA 往返会话去重不新增；点击卡片 view、加入实验 experiment、忽略 dismiss 均记录；**漏斗 UI 与独立汇总完全一致**（曝光去重 14 / 查看 1 / 实验 1 / 命中率 7.1% / 忽略 1）；导出校准 JSON `recommendation_funnel` 字段一致；**上限 500 条滚动生效**；无 console error |
+| **i18n 双语** | `qa/i18n-check.mjs` **16/16 PASS @1600 与 @1024**：14 路由（含 /yearbook /data）；EN 非数据中文 UI = **0**；导航 13 项全译；切换不刷新+持久化；EN 无溢出/console error；字典 1,107 条 |
+| 前端 | build strict **11/11**、real/mock=[]；**可复现**（重跑前后均 `AD958D1C…7C245`，2,272,122 B）；14 路由 1600/1024 CDP 无溢出/裁切/console error；功能用例 **41/41 PASS**（v0.3/v0.4 全量回归 + 年鉴页/导出 MD/HTML + 数据包导出 + 漏斗卡） |
+| 冻结产物 | MANIFEST **19/19 sha256 一致**；dist `AD958D1C…7C245`；tag v0.5.0→57d8bb0→内容提交 c1993cd；冻结 dist file:// 21 张 zh 截图 + 16 张 zh/en 双语截图，jsErrors=0 |
+| 线上 | `/` 与 `/v0.5.0/` 均 2,272,122 B / `AD958D1C…7C245` = 冻结 dist；`/v0.4.0/`=`45E5A1D3…`、`/v0.3.1/`=`7C2E13D5…`、`/v0.3.0/`=`18DCE4B8…`、`/v0.2.0/`=`DE48EF7A…`、`/v0.1.0/`=`F24B0755…` 与各自冻结版一致不串台；versions.json latest=v0.5.0；线上根/年鉴/数据/校准截图目检正常 |
+| **一句话结论** | **可发布**：数据/年鉴/数据包/推荐漏斗/双语/冻结/线上七层一致，P0=0、P1=0；3 个 P2 不阻塞。 |
+
+## 16.2 数据与年度年鉴验收（实测）
+
+- `pipeline --all` 连跑两次：exit 0；`data/` 下 **27 个文件**（含 yearbook/calibration 报告）SHA256 全一致；validate **20/20 PASS**；unittest **50/50 OK**；data-qa-v05 P0/P1/P2=0；data 0.5.0（taxonomy/rankings/stats/sources/playbooks/calendar/source-health/history）。
+- `yearbook.py --year 2026`：年榜 Top20（= rankings.year 顺序，grade/total 与数据一致）；月度时间线 12 个月（活跃机会=当月 activity_dates 去重机会、新机会=首个 activity_date 月）与独立复算逐月一致；行业/区域/信息差分布、A 级 11、窗口收尾 0、评分分布一致；双跑字节一致；有实验（fixture）时 **Brier 0.2338 = 独立复算**、样例标注；非法实验 JSON exit 0+警告+跳过；空年份 2020 exit 0 空态；HTML 自包含、含免责与「规则生成，非投资建议」。
+- 数据指纹（SHA256 前 16，与数据交付一致）：opportunities `52B30E45`、rankings `F6E91C33`、history-10-22 `675AD8BE`、stats `89915E41`、source-health `122B0435`、sources `8EE05E40`、radar.db `0C602669`、yearbook.html `750DF083` / md `E73C9056`。
+- 数据版本 0.5.0；四窗口报告 data-v0.5.0；calibration 报告与 enrich 回归可用；outbox/数据包/rec_log 均未进入 `data/`（gitignore/localStorage）。
+
+## 16.3 前端功能验收（实测）
+
+- 构建可复现（`AD958D1CFFC7CA22B7B6B6171248D06D69BF8540E96AACA4ADDE626845EA7C245`，2,272,122 B）；strict 11/11；14 路由 1600/1024 CDP（`qa/v05-frontend-routes.txt`）：无横向溢出/裁切/零尺寸 canvas/console error。
+- 功能用例（`qa/v05-frontend-flows.json`，**41/41 PASS**）：v0.3.1/v0.4.0 全量回归 + `/yearbook` 页面（Top20/月度/分布/免责）与浏览器端 MD/HTML 导出（含免责）+ `/data` 导出 bundle schema 0.5.0 + `/calibration` 推荐漏斗卡。
+- 数据包专项（`qa/v05-data-package.json`，**10/10 PASS**）：导出→清空→导入覆盖恢复；合并按 id 取较新；旧版本/坏文件提示且不应用；无 console error。
+- 推荐漏斗专项（`qa/v05-rec-log.json`，**11/11 PASS**）：14 曝光（去重）/1 查看/1 实验/1 忽略；命中率 7.1% = 实验去重/曝光去重；导出校准 JSON `recommendation_funnel` 与独立汇总一致；500 条上限滚动。
+- i18n（`qa/v05-i18n-1600/1024.json`，**16/16 ×2 PASS**）：EN 14 路由非数据中文=0；/yearbook /data 完整双语；切换不刷新/持久化；EN 无溢出/console error；字典 1,107 条。
+- 视觉：`qa/screenshots/v05/`（zh 21）、`v05-i18n/`（zh/en 16）、`v05-frozen/`（frozen zh 21）、`v05-frozen-i18n/`（frozen zh/en 16）、`v05-online/`（线上 5 张）read_image 目检：年鉴/数据页/校准漏斗/EN 页面均正常。
+
+## 16.4 冻结产物核验（releases/v0.5.0）
+
+- MANIFEST `files` 19 条逐条重算 bytes+sha256 → **19/19 一致**；counts 46/68/12/33/13；`git_commit=c1993cd`、`git_tag=v0.5.0`。
+- dist 2,272,122 B / `AD958D1CFC7CA22B7B6B6171248D06D69BF8540E96AACA4ADDE626845EA7C245`（= 本地构建 = 冻结 = 线上）。
+- git：annotated tag v0.5.0（tag 对象 57d8bb0）→ commit 57d8bb0（docs: record manifest）→ parent c1993cd（内容提交）。
+- 冻结 dist file:// 冒烟：`qa/screenshots/v05-frozen/01–21`（14 路由+2 长页+5 个 1024）jsErrors=0；`v05-frozen-i18n/` 16 张 zh/en 截图同源验证；read_image 目检 zh yearbook / EN yearbook / EN data / frozen yearbook 正常。
+
+## 16.5 线上（GitHub Pages）核验
+
+`pwsh -File qa/online-check.ps1 -Version v0.5.0`（qa/v05-online.txt）逐字节/hash 比对（首次 20:07 遇 Pages 部署传播窗口，root 仍 v0.4.0、/v0.5.0/ 404；20:12 复检全部通过）：
+
+| 路径 | 线上 bytes / SHA256 | 对照冻结版 | 结果 |
+|---|---|---|---|
+| `/`（最新） | 2,272,122 B / `AD958D1C…7C245` | `releases/v0.5.0/dist/index.html` | **PASS（同 hash）** |
+| `/v0.5.0/` | 2,272,122 B / `AD958D1C…7C245` | 同上 | **PASS（同 hash）** |
+| `/v0.4.0/` | 2,233,063 B / `45E5A1D3…` | `releases/v0.4.0/` | PASS（未串台） |
+| `/v0.3.1/` | 2,147,394 B / `7C2E13D5…` | `releases/v0.3.1/` | PASS |
+| `/v0.3.0/` | 2,138,535 B / `18DCE4B8…` | `releases/v0.3.0/` | PASS |
+| `/v0.2.0/` | 2,049,902 B / `DE48EF7A…` | `releases/v0.2.0/` | PASS |
+| `/v0.1.0/` | 1,979,378 B / `F24B0755…` | `releases/v0.1.0/` | PASS |
+| `versions.json` | latest=**v0.5.0**，paths=`/v0.1.0/, /v0.2.0/, /v0.3.0/, /v0.3.1/, /v0.4.0/, /` | — | PASS |
+
+线上截图（`qa/screenshots/v05-online/`）：根、`/yearbook`、`/data`、`/calibration`、`/v0.4.0/` 旧版归档，jsErrors=0、read_image 目检正常。
+
+## 16.6 复现命令
+
+```powershell
+cd 'E:\全球商机扫描器'
+python scanner/pipeline.py --all                     # 幂等；27 个 data 文件 SHA256 一致
+python scanner/validate.py                           # 20/20 PASS
+python -m unittest discover -s scanner/tests         # 50 OK
+python qa/data-qa-v05.py                             # P0/P1/P2=0
+python qa/yearbook-check.py                          # 年鉴独立复算/确定性/边界 PASS
+python qa/enrich-check.py; python qa/calibrate-check.py   # 回归 PASS
+python qa/replay-check.py                            # PASS
+cd app; pnpm install --frozen-lockfile; pnpm build   # strict 11 PASS，AD958D1C…
+node qa/flows-v05.mjs <port> "file:///…/app/dist/index.html" qa/tmp/downloads-v05   # 41/41 PASS
+node qa/data-package-check.mjs <port> <base> qa/tmp/downloads-v05-dp               # 10/10 PASS
+node qa/rec-log-check.mjs <port> <base> qa/tmp/downloads-v05-rec                   # 11/11 PASS
+node qa/i18n-check.mjs <port> <base>                 # 16/16 PASS ×2 视口
+node qa/frontend-qa-v03.mjs <port> <base> 1600 1000  # 14 路由 CDP
+pwsh -File qa/online-check.ps1 -Version v0.5.0       # 线上/冻结 hash 一致性（PASS）
+```
+
+## 16.7 截图索引（v0.5）
+
+| 目录/文件 | 内容 |
+|---|---|
+| `qa/screenshots/v05/01–21` | 工作区 dist：14 路由 zh + 2 长页 + 5 个 1024（含 yearbook/data） |
+| `qa/screenshots/v05-i18n/` | zh/en × 8 页（dashboard/rankings/profile/alerts/calibration/yearbook/data/about）16 张 |
+| `qa/screenshots/v05-frozen/01–21` | 冻结 dist zh 14 路由 + 长页 + 1024 |
+| `qa/screenshots/v05-frozen-i18n/` | 冻结 dist zh/en × 8 页 16 张 |
+| `qa/screenshots/v05-online/` | 线上根/年鉴/数据/校准/v0.4.0 归档 5 张 |
+| `qa/tmp/downloads-v05/` | 年鉴 MD/HTML、实验导出 JSON、数据包 JSON |
+| `app/screenshots/final-v0.5/` | 前端自检 20 张（10 zh + 10 EN） |
+
+## 16.8 P2 与已知项（3 个，均不阻塞）
+
+| # | 项 | 现状 | 建议 |
+|---|---|---|---|
+| P2-1 | `/yearbook`「年榜最高分 / Top score」KPI 语义 | 页面显示 **77.4（=年榜第 1 名 MercadoLibre 的总分）**，但年榜实际最高总分为 **78.6**（日本故乡纳税返礼品，rank 4）；标签写「最高分」易误读 | 改为「年榜第 1 名总分」或取 `max(scores.total)`；建议 v0.5.1 修正（不涉及数据/年鉴后端） |
+| P2-2 | 后端年鉴实验摘要为样例 | `data/reports/yearbook-2026` 由 `--sample` 生成（样例标注完整）；真实结论需用户以导出实验 JSON 重跑 | 用户积累实验后 `python scanner/yearbook.py --year 2026 --experiments <导出>` |
+| P2-3 | i18n 静态精确覆盖率口径 | `app/scripts/check-i18n.mjs` 静态精确覆盖 52.9%，但运行时 EN 非数据中文=0（DOM 翻译层/动态模板不在静态统计内） | 以红队运行时 `qa/i18n-check.mjs` 为准；静态脚本口径在文档中说明 |
+
+> 其他：桌面通知在 headless 无法授权，仅验证默认关/降级/无 console error（沿用 v0.4 结论）；前端年鉴月度「新信号」按 activity_dates 事件计数（5/39/44/28），后端年鉴「活跃机会/新机会」按去重机会（5/5、39/39、43/2、23/0），两者口径已在各自页面标注，不构成矛盾。
+
+## 16.9 与历史版本关系
+
+- v0.1.0–v0.4.0 冻结产物与线上归档未修改（逐字节核对）；本章为 v0.5.0 独立验收，不覆盖历史章节。

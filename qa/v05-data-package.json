@@ -1,0 +1,69 @@
+{
+  "results": [
+    {
+      "id": "D01",
+      "name": "/data 页面可打开且含导出/导入入口",
+      "pass": true,
+      "detail": "OPPORTUNITY RADAR\n机会雷达\n全球商机扫描器 · 本地个人版\nNAVIGATION / 工作台\n01\n指挥台\nCOMMAND\nKPI · 今日榜 · 全景信号\n02\n排行榜\nRANKINGS\n综合榜 / 为你推荐\n03\n扫描室\nSCANNER\n热力矩阵 · 剧本 · 数据源健康\n04\n方法论\nMETHOD\n评分模型 · 七问 · 文化维度\n05\n数据源矩阵\nSOURCES\n12 大"
+    },
+    {
+      "id": "D02",
+      "name": "导出数据包 JSON（schema_version=0.5.0 + profile/experiments/alerts_state/rec_log/settings）",
+      "pass": true,
+      "detail": "{\"schema_version\":\"0.5.0\",\"experiments\":2,\"rec_log\":3}"
+    },
+    {
+      "id": "D03",
+      "name": "导出内容与本地状态一致（画像/实验/预警已读/推荐记录）",
+      "pass": true,
+      "detail": "{\"exp\":2,\"rec\":3,\"read\":1}"
+    },
+    {
+      "id": "D04",
+      "name": "清空本地数据（实验/推荐记录/预警已读为空或键移除）",
+      "pass": true,
+      "detail": "experiments=0"
+    },
+    {
+      "id": "D05",
+      "name": "导入文件后显示预览摘要（画像/实验数/推荐记录/预警已读）",
+      "pass": true,
+      "detail": "fileOk=true preview=导入预览"
+    },
+    {
+      "id": "D06",
+      "name": "覆盖导入恢复画像/实验/预警/推荐记录",
+      "pass": true,
+      "detail": "{\"click\":{\"clicked\":true,\"label\":\"覆盖本机数据\"},\"exp\":[\"qa-pkg-exp-a\",\"qa-pkg-exp-b\"],\"rec\":3}"
+    },
+    {
+      "id": "D07",
+      "name": "合并导入：按 id 去重取较新 + 新记录合并（不覆盖本地其它）",
+      "pass": true,
+      "detail": "{\"click\":{\"clicked\":true,\"label\":\"合并（按 id 取较新）\"},\"exps\":[[\"qa-pkg-exp-a\",\"2026-10-22T00:00:00+08:00\"],[\"qa-pkg-exp-c\",\"2026-10-22T00:00:00+08:00\"]],\"rec\":5}"
+    },
+    {
+      "id": "D08",
+      "name": "旧版本数据包：明确校验失败（schema_version 必须为 0.5.0）且不应用",
+      "pass": true,
+      "detail": "导入校验失败"
+    },
+    {
+      "id": "D09",
+      "name": "坏文件：显示无法解析提示、不崩溃、本地状态不变",
+      "pass": true,
+      "detail": "consoleErrors=0"
+    },
+    {
+      "id": "D10",
+      "name": "全程无 console error",
+      "pass": true,
+      "detail": "0"
+    }
+  ],
+  "summary": {
+    "pass": 10,
+    "fail": 0,
+    "total": 10
+  }
+}

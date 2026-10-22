@@ -1,0 +1,4 @@
+v0.5.0 MANIFEST 校验
+files=19 bad=NONE (19/19 OK)
+dist sha256=ad958d1cfc7ca22b7b6b6171248d06d69bf8540e96aaca4adde626845ea7c245 bytes=2272122
+git_commit=c1993cd git_tag=v0.5.0
