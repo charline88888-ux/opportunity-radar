@@ -1,0 +1,14 @@
+
+== enrich-provider-check ==
+  · --provider mock：exit=0 candidates=211 meta.generator='mock-llm'
+  · usage={"input_tokens": 0, "output_tokens": 0, "estimated_cost_usd": 0.0, "calls": 0, "cache_hits": 211, "prices": {"input_per_1k_usd": 0.00015, "output_per_1k_usd": 0
+  · --limit 5：candidates=5 ✅
+  · --limit 5 缓存命中（tokens=0, cache_hits=5，缓存不重复计费）
+  · 相对 --out-dir：exit=0 正常 ✅
+  · mock dry-run 零落盘 ✅
+  · online 无 key：exit 2 + 明确提示 LLM_API_KEY ✅
+  · opportunities.json 未变 + outbox gitignore ✅
+  · 本地 HTTP mock 单测文件：['test_scanner.py']
+
+P0 = 0  P1 = 0  P2 = 0
+RESULT: PASS

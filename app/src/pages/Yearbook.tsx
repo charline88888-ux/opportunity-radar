@@ -5,7 +5,7 @@ import { ArrowUpRight, CalendarRange, Download, FileText, Globe2, ShieldCheck } 
 import { Chart } from '@/components/charts/Chart'
 import { PageHeader } from '@/components/PageHeader'
 import { Badge, Button, Panel, SectionCard } from '@/components/ui'
-import { dataAsOf, gapName, industryName, oppById, rankings, regionName, taxonomy } from '@/lib/data'
+import { dataAsOf, gapName, industryName, oppById, opportunities, rankings, regionName, taxonomy } from '@/lib/data'
 import { useI18n } from '@/lib/i18n'
 import { downloadText } from '@/lib/exports'
 import { cn, fmtInt, fmtScore } from '@/lib/utils'
@@ -21,6 +21,7 @@ export default function Yearbook() {
   const year = dataAsOf.slice(0, 4)
   const yearItems = rankings.windows.year.items.map((x) => oppById.get(x.opp_id)).filter((x): x is Opportunity => !!x)
   const top20 = yearItems.slice(0, 20)
+  const maxTotalOverall = opportunities.reduce((max, o) => Math.max(max, o.scores.total), 0)
   const aGrade = yearItems.filter((o) => o.scores.grade === 'S' || o.scores.grade === 'A' || o.scores.total >= 75).sort((a, b) => b.scores.total - a.scores.total)
   const closing = yearItems.filter((o) => o.window.status === 'closed' || o.window.months_left <= 3).sort((a, b) => a.window.months_left - b.window.months_left)
 
@@ -171,21 +172,26 @@ ${monthly.map((x) => `<tr><td>${year}-${x.month}</td><td>${x.count}</td><td>${es
         }
       />
 
-      <div className="mb-3 grid grid-cols-2 gap-2.5 md:grid-cols-4 xl:grid-cols-6">
+      <div className="mb-3 grid grid-cols-2 gap-2.5 md:grid-cols-4 xl:grid-cols-7">
         {[
           { label: L('年榜机会', 'Year-ranked'), value: yearItems.length, hint: L('year 窗口', 'year window') },
           { label: L('A 级/≥75', 'A-grade / ≥75'), value: aGrade.length, hint: L('高分机会', 'high-score opportunities') },
-          { label: L('年榜最高分', 'Top score'), value: fmtScore(top20[0]?.scores.total), hint: top20[0]?.scores.grade || '—' },
+          { label: L('年榜第 1 名总分', 'Rank 1 total'), value: fmtScore(top20[0]?.scores.total), hint: L('year 窗口 rank 1', 'year window rank 1'), title: L('年榜第 1 名机会的总分（rank1.total），不是全部机会的最高分。', 'Total score of the rank-1 opportunity in the yearly ranking (rank1.total), not the max across all opportunities.') },
+          { label: L('年度最高总分', 'Year max total'), value: fmtScore(maxTotalOverall), hint: L('全部机会 max(total)', 'max(total) across all opportunities'), title: L('全部机会中的最高总分（max(total)），可能来自未进入年榜 Top20 的机会。', 'Highest total across all opportunities (max(total)); it may come from an opportunity outside the yearly Top 20.') },
           { label: L('关闭/≤3 月', 'Closed / ≤3 mo'), value: closing.length, hint: L('窗口风险', 'window risk') },
           { label: L('覆盖行业', 'Industries'), value: distributions.byIndustry.length, hint: L('行业数', 'industry count') },
           { label: L('覆盖区域', 'Regions'), value: distributions.byRegion.length, hint: L('区域数', 'region count') },
         ].map((s) => (
-          <Panel key={s.label} className="px-3 py-2">
+          <Panel key={s.label} className="px-3 py-2" title={(s as { title?: string }).title}>
             <div className="mono-label">{s.label}</div>
             <div className="num mt-0.5 text-[19px] font-semibold text-ink">{s.value}</div>
             <div className="mt-0.5 text-[9.5px] text-dim">{s.hint}</div>
           </Panel>
         ))}
+      </div>
+
+      <div className="mb-3 rounded border border-line/60 bg-white/[0.015] px-3 py-1.5 text-[9.5px] leading-relaxed text-dim">
+        {L('「年榜第 1 名总分」取 data/rankings.json year 窗口 rank1.total；「年度最高总分」取所有机会 max(total)，两者口径不同，可能来自不同机会（悬停卡片可看说明）。', '“Rank 1 total” uses rank1.total from data/rankings.json (year window); “Year max total” uses max(total) across all opportunities. They may refer to different opportunities (hover a card for details).')}
       </div>
 
       <div className="grid grid-cols-1 gap-3 xl:grid-cols-12">

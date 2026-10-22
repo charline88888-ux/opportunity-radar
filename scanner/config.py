@@ -27,7 +27,7 @@ CALENDAR_PATH = DATA_DIR / "calendar.json"
 SOURCE_HEALTH_PATH = DATA_DIR / "source-health.json"
 DB_PATH = DATA_DIR / "radar.db"
 
-DATA_VERSION = "0.5.0"
+DATA_VERSION = "0.5.1"
 DEFAULT_AS_OF = "2026-10-22"
 CURRENT_WEEK = "2026-W43"
 CURRENT_MONTH = "2026-10"
@@ -50,6 +50,16 @@ FETCH_MAX_ITEMS_PER_SOURCE = 30  # 单源单次最多保留的条数（评论流
 FETCHABLE_ACCESS = {"rss"}  # v0.2.0 只自动采集 RSS/JSON feed；公开 API 端点需单独接线
 FETCHABLE_COMPLIANCE = {"green", "yellow"}
 SOURCE_HEALTH_STATUSES = {200, 301, 302, 304, 403, 404, 429, 500, 503}
+
+# v0.5.1：AI 富化在线路径（OpenAI 兼容）
+LLM_MAX_RETRIES = 2              # 失败重试次数（超时/5xx/连接错误）
+LLM_RETRY_BACKOFF_SEC = 0.8      # 重试退避基数（秒）
+MOCK_LLM_MODEL = "mock-model"    # --provider mock 的模拟模型名（不联网）
+# 成本估算常量（USD / 1K tokens）：示例价格，按实际使用的模型自行调整；
+# 仅写入 meta.usage / candidate._llm 供参考，不代表真实账单。
+LLM_PRICE_INPUT_PER_1K_USD = 0.00015
+LLM_PRICE_OUTPUT_PER_1K_USD = 0.0006
+LLM_PROVIDERS = {"offline", "mock", "online"}
 
 # 榜单配额（契约 5.1）
 WINDOW_QUOTAS = {"day": 6, "week": 12, "month": 20, "year": 40}

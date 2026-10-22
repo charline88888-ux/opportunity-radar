@@ -41,6 +41,7 @@ function walkFiles(dir) {
 
 const chinese = /[\u4e00-\u9fff]/
 const literals = new Map()
+const explicitBilingual = new Set()
 for (const file of walkFiles(path.join(root, 'src'))) {
   const text = fs.readFileSync(file, 'utf8')
   const rel = path.relative(root, file).replace(/\\/g, '/')
@@ -55,11 +56,19 @@ for (const file of walkFiles(path.join(root, 'src'))) {
     literals.set(key, (literals.get(key) || 0) + 1)
     void rel
   }
+  // 显式双语文案：L('中文','English') / pick('中文','English') 视作已覆盖
+  const lre = /(?:L|pick)\(\s*'((?:[^'\\]|\\.)+)'\s*,\s*'(?:[^'\\]|\\.)*'/g
+  let lm
+  while ((lm = lre.exec(text))) {
+    const key = normalize(lm[1].replace(/\\'/g, "'"))
+    if (key && chinese.test(key)) explicitBilingual.add(key)
+  }
 }
 
 const all = [...literals.keys()]
-const covered = all.filter((k) => keySet.has(k))
-const missing = all.filter((k) => !keySet.has(k))
+const covered = all.filter((k) => keySet.has(k) || explicitBilingual.has(k))
+const dictionaryCovered = all.filter((k) => keySet.has(k))
+const missing = all.filter((k) => !keySet.has(k) && !explicitBilingual.has(k))
 const pct = all.length ? ((covered.length / all.length) * 100).toFixed(1) : '100.0'
 
 const report = {
@@ -68,6 +77,8 @@ const report = {
   duplicateKeys: duplicates,
   emptyValues: empty.map((e) => e.key),
   sourceChineseLiterals: all.length,
+  dictionaryCovered: dictionaryCovered.length,
+  explicitBilingualCovered: all.length - missing.length - dictionaryCovered.length,
   exactCovered: covered.length,
   exactCoveragePct: Number(pct),
   uncoveredSamples: missing.slice(0, 25),
@@ -78,7 +89,8 @@ if (process.argv.includes('--json')) {
   console.log(`[i18n] dict entries: ${report.dictEntries}`)
   console.log(`[i18n] duplicate keys: ${duplicates.length}${duplicates.length ? ` (${duplicates.slice(0, 5).join(', ')})` : ''}`)
   console.log(`[i18n] empty values: ${empty.length}`)
-  console.log(`[i18n] source Chinese literals: ${all.length} · exact dictionary coverage: ${covered.length} (${pct}%)`)
+  console.log(`[i18n] source Chinese literals: ${all.length} · exact coverage (dictionary + explicit L() bilingual): ${covered.length} (${pct}%)`)
+  console.log(`[i18n]   dictionary: ${dictionaryCovered.length} · explicit L(): ${report.explicitBilingualCovered} · missing: ${missing.length}`)
   if (missing.length) {
     console.log(`[i18n] uncovered samples (${missing.length}):`)
     for (const s of missing.slice(0, 15)) console.log(`  - ${s.slice(0, 90)}`)

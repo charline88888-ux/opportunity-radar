@@ -6,9 +6,12 @@
 """
 from __future__ import annotations
 
+import http.server
+import json
 import os
 import sys
 import tempfile
+import threading
 import unittest
 from datetime import date
 from pathlib import Path
@@ -912,6 +915,277 @@ class TestYearbook(unittest.TestCase):
             self.assertIsNone(result["brier"])
             html_text = Path(result["html"]).read_text(encoding="utf-8")
             self.assertIn("已跳过摘要", html_text)
+
+
+class TestEnrichMockAndOnline(unittest.TestCase):
+    """v0.5.1：mock provider / 真实 HTTP 路径（本地 mock server）/ limit / usage / 失败回退。"""
+
+    @staticmethod
+    def _signal(idx: int, title: str = "Pet memorial glass demand grows") -> dict:
+        return {
+            "signal_id": f"sig-llm-{idx}",
+            "source_id": "hnrss",
+            "source_category": "demand",
+            "title": title,
+            "url": f"https://example.com/llm-{idx}",
+            "quote": "Owners search for keepsakes after loss...",
+            "published_date": "2026-10-20",
+            "lang": "en",
+            "industry_hints": ["pet"],
+            "gap_hints": ["emotion"],
+            "emotion_hints": ["grief", "love"],
+            "region_hints": ["north-america"],
+            "pain_phrases": ["can't find"],
+            "trend": {},
+        }
+
+    def _write_outbox(self, directory: Path, signals: list[dict]) -> Path:
+        path = directory / "signals-2026-10-22.json"
+        common.dump_json(path, {"meta": {"as_of": "2026-10-22"}, "signals": signals})
+        return path
+
+    def test_mock_provider_full_flow(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            signals_path = self._write_outbox(root, [self._signal(1), self._signal(2), self._signal(3)])
+            cache_dir = root / "cache"
+            result = enrich.enrich(
+                signals_path,
+                provider="mock",
+                limit=2,
+                out_dir=root,
+                cache_enabled=False,
+                cache_dir=cache_dir,
+            )
+            self.assertEqual(result["provider"], "mock")
+            self.assertEqual(result["generator"], "mock-llm")
+            self.assertEqual(result["mode"], "mock-llm")
+            self.assertEqual(result["model"], "mock-model")
+            self.assertEqual(result["candidates"], 2)
+            self.assertEqual(result["skipped"], 1)  # 3 条信号，limit 2
+            usage = result["usage"]
+            self.assertEqual(usage["calls"], 2)
+            self.assertGreater(usage["input_tokens"], 0)
+            self.assertGreater(usage["output_tokens"], 0)
+            self.assertGreater(usage["estimated_cost_usd"], 0)
+            payload = common.load_json(Path(result["enriched_path"]))
+            self.assertEqual(payload["meta"]["generator"], "mock-llm")
+            self.assertFalse(payload["meta"]["key_logged"])
+            for candidate in payload["candidates"]:
+                self.assertTrue(candidate["needs_human"])
+                self.assertEqual(candidate["_llm"]["provider"], "mock")
+                self.assertEqual(candidate["_llm"]["model"], "mock-model")
+                self.assertFalse(candidate["_llm"]["cached"])
+                self.assertIn("mock", candidate["notes"][0])
+            review = Path(result["review_path"]).read_text(encoding="utf-8")
+            self.assertIn("mock-llm", review)
+            self.assertIn("token 用量", review)
+
+    def test_mock_cache_hit_annotated(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            signals_path = self._write_outbox(root, [self._signal(1), self._signal(2)])
+            cache_dir = root / "cache"
+            first = enrich.enrich(signals_path, provider="mock", out_dir=root, cache_enabled=True, cache_dir=cache_dir)
+            self.assertEqual(first["cache_hits"], 0)
+            second = enrich.enrich(signals_path, provider="mock", out_dir=root, cache_enabled=True, cache_dir=cache_dir)
+            self.assertEqual(second["cache_hits"], 2)
+            self.assertEqual(second["usage"]["calls"], 0)  # 缓存命中不重复计费
+            payload = common.load_json(Path(second["enriched_path"]))
+            for candidate in payload["candidates"]:
+                self.assertTrue(candidate["_llm"]["cached"])
+                self.assertIn("cache", candidate["_mode"])
+
+    def test_mock_dry_run_writes_nothing(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            signals_path = self._write_outbox(root, [self._signal(1)])
+            before = {path.name for path in root.iterdir()}
+            result = enrich.enrich(signals_path, provider="mock", limit=1, out_dir=root, dry_run=True, cache_enabled=False)
+            self.assertEqual({path.name for path in root.iterdir()}, before)
+            self.assertEqual(result["provider"], "mock")
+            self.assertGreater(result["usage"]["calls"], 0)
+
+    def test_online_with_local_http_server(self):
+        captured: dict = {}
+
+        class Handler(http.server.BaseHTTPRequestHandler):
+            def do_POST(self):  # noqa: N802 - http.server 约定
+                length = int(self.headers.get("Content-Length") or 0)
+                body = json.loads(self.rfile.read(length) or b"{}")
+                captured["path"] = self.path
+                captured["authorization"] = self.headers.get("Authorization")
+                captured["body"] = body
+                content = json.dumps(
+                    {
+                        "title_suggestion": "LLM 候选标题",
+                        "industry_id": "pet",
+                        "gap_type_ids": ["emotion"],
+                        "human_need_ids": ["belonging"],
+                        "seven_questions_draft": {
+                            "traffic": "（LLM 草稿）待人工补充：渠道",
+                            "money": "（LLM 草稿）待人工补充：客单",
+                            "model": "（LLM 草稿）待人工补充：模式",
+                            "roi": "（LLM 草稿）待人工补充：回报",
+                            "audience": "（LLM 草稿）待人工补充：人群",
+                            "drivers": ["info"],
+                            "moat": "（LLM 草稿）待人工补充：壁垒",
+                        },
+                        "notes": ["来自本地 mock server 的测试响应"],
+                        "needs_human": True,
+                    },
+                    ensure_ascii=False,
+                )
+                response = json.dumps(
+                    {
+                        "model": "test-model",
+                        "choices": [{"message": {"role": "assistant", "content": content}}],
+                        "usage": {"prompt_tokens": 12, "completion_tokens": 8, "total_tokens": 20},
+                    }
+                ).encode("utf-8")
+                self.send_response(200)
+                self.send_header("Content-Type", "application/json")
+                self.send_header("Content-Length", str(len(response)))
+                self.end_headers()
+                self.wfile.write(response)
+
+            def log_message(self, *args):  # 静默
+                return
+
+        server = http.server.ThreadingHTTPServer(("127.0.0.1", 0), Handler)
+        thread = threading.Thread(target=server.serve_forever, daemon=True)
+        thread.start()
+        try:
+            with tempfile.TemporaryDirectory() as tmp:
+                root = Path(tmp)
+                signals_path = self._write_outbox(root, [self._signal(1), self._signal(2)])
+                env = {
+                    "LLM_API_KEY": "test-secret-key",
+                    "LLM_BASE_URL": f"http://127.0.0.1:{server.server_address[1]}/v1",
+                    "LLM_MODEL": "test-model",
+                }
+                with mock.patch.dict(os.environ, env, clear=False):
+                    result = enrich.enrich(
+                        signals_path,
+                        provider="online",
+                        limit=2,
+                        out_dir=root,
+                        cache_enabled=False,
+                        cache_dir=root / "cache",
+                    )
+                self.assertEqual(result["generator"], "llm")
+                self.assertEqual(result["model"], "test-model")
+                self.assertEqual(result["candidates"], 2)
+                self.assertEqual(result["usage"]["calls"], 2)
+                self.assertEqual(result["usage"]["input_tokens"], 24)
+                self.assertEqual(result["usage"]["output_tokens"], 16)
+                self.assertGreater(result["usage"]["estimated_cost_usd"], 0)
+                # 请求构造/头/体校验
+                self.assertEqual(captured["path"], "/v1/chat/completions")
+                self.assertEqual(captured["authorization"], "Bearer test-secret-key")
+                self.assertEqual(captured["body"]["model"], "test-model")
+                self.assertEqual(len(captured["body"]["messages"]), 2)
+                self.assertIn("只基于用户提供的信号", captured["body"]["messages"][0]["content"])
+                # 解析结果 + key 不落盘
+                payload = common.load_json(Path(result["enriched_path"]))
+                self.assertEqual(payload["candidates"][0]["seven_questions_draft"]["traffic"], "（LLM 草稿）待人工补充：渠道")
+                self.assertEqual(payload["candidates"][0]["_llm"]["provider"], "online")
+                enriched_text = Path(result["enriched_path"]).read_text(encoding="utf-8")
+                review_text = Path(result["review_path"]).read_text(encoding="utf-8")
+                self.assertNotIn("test-secret-key", enriched_text)
+                self.assertNotIn("test-secret-key", review_text)
+        finally:
+            server.shutdown()
+            server.server_close()
+            thread.join(timeout=5)
+
+    def test_online_failure_falls_back_to_offline(self):
+        class FailingHandler(http.server.BaseHTTPRequestHandler):
+            def do_POST(self):  # noqa: N802
+                self.send_response(500)
+                self.send_header("Content-Length", "0")
+                self.end_headers()
+
+            def log_message(self, *args):
+                return
+
+        server = http.server.ThreadingHTTPServer(("127.0.0.1", 0), FailingHandler)
+        thread = threading.Thread(target=server.serve_forever, daemon=True)
+        thread.start()
+        try:
+            with tempfile.TemporaryDirectory() as tmp:
+                root = Path(tmp)
+                signals_path = self._write_outbox(root, [self._signal(1)])
+                env = {
+                    "LLM_API_KEY": "test-secret-key",
+                    "LLM_BASE_URL": f"http://127.0.0.1:{server.server_address[1]}/v1",
+                    "LLM_MODEL": "test-model",
+                }
+                with mock.patch.dict(os.environ, env, clear=False), mock.patch.object(
+                    config, "LLM_RETRY_BACKOFF_SEC", 0.0
+                ), mock.patch.object(config, "LLM_MAX_RETRIES", 0):
+                    result = enrich.enrich(
+                        signals_path,
+                        provider="online",
+                        limit=1,
+                        out_dir=root,
+                        cache_enabled=False,
+                        cache_dir=root / "cache",
+                    )
+                self.assertEqual(result["llm_fallback"], 1)
+                self.assertIsNotNone(result["error"])
+                self.assertIn("LLM 请求失败", result["error"])
+                payload = common.load_json(Path(result["enriched_path"]))
+                candidate = payload["candidates"][0]
+                self.assertTrue(candidate["needs_human"])
+                self.assertIn("回退 offline-template", candidate["notes"][0])
+                self.assertIsNone(candidate.get("_llm"))
+        finally:
+            server.shutdown()
+            server.server_close()
+            thread.join(timeout=5)
+
+    def test_cli_relative_out_dir_does_not_crash(self):
+        """v0.5.1 P1 回归：--out-dir 为相对路径时 CLI 不得抛 ValueError（exit 0 且产物写出）。"""
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            self._write_outbox(root, [self._signal(1)])
+            cwd = os.getcwd()
+            os.chdir(root)
+            try:
+                code = enrich.main(
+                    [
+                        "--signals", "signals-2026-10-22.json",
+                        "--out-dir", "out",
+                        "--provider", "mock",
+                        "--limit", "1",
+                        "--no-cache",
+                    ]
+                )
+            finally:
+                os.chdir(cwd)
+            self.assertEqual(code, 0)
+            self.assertTrue((root / "out" / "enriched-2026-10-22.json").exists())
+            self.assertTrue((root / "out" / "REVIEW.md").exists())
+
+    def test_cli_relative_out_dir_yearbook_and_calibrate(self):
+        """v0.5.1 P1 回归：yearbook/calibrate 的 --out-dir 相对路径同样不得崩溃。"""
+        sample = config.FIXTURES_DIR / "experiments-sample.json"
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            cwd = os.getcwd()
+            os.chdir(root)
+            try:
+                yearbook_code = yearbook.main(["--year", "2026", "--out-dir", "out-yb"])
+                calibrate_code = calibrate.main(
+                    ["--experiments", str(sample), "--out-dir", "out-cal", "--sample"]
+                )
+            finally:
+                os.chdir(cwd)
+            self.assertEqual(yearbook_code, 0)
+            self.assertEqual(calibrate_code, 0)
+            self.assertTrue((root / "out-yb" / "yearbook-2026.html").exists())
+            self.assertTrue((root / "out-cal" / "calibration-2026-10-22.html").exists())
 
 
 if __name__ == "__main__":

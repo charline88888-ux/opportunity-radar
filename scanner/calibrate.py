@@ -399,7 +399,7 @@ def generate(
         "profile": export.get("profile"),
     }
     report["suggestions"] = suggestions(report["brier"], report["grades"], report["outcomes"])
-    output_dir = out_dir or config.REPORTS_DIR
+    output_dir = Path(out_dir).resolve() if out_dir else config.REPORTS_DIR
     output_dir.mkdir(parents=True, exist_ok=True)
     html_path = output_dir / f"calibration-{date}.html"
     md_path = output_dir / f"calibration-{date}.md"
@@ -444,7 +444,10 @@ def main(argv: list[str] | None = None) -> int:
         f"[calibrate] 样本={result['samples']} 有效={result['brier_n']} Brier={brier_text} "
         f"sufficient={result['sufficient']} sample={result['sample']}"
     )
-    print(f"[calibrate] → {Path(result['html']).relative_to(config.ROOT)} / {Path(result['md']).relative_to(config.ROOT)}")
+    print(
+        f"[calibrate] → {common.display_path(result['html'])}"
+        f" / {common.display_path(result['md'])}"
+    )
     return 0
 
 

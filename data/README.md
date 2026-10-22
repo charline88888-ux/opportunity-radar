@@ -1,10 +1,10 @@
-# data/ 数据底座使用说明（data-v0.5.0）
+# data/ 数据底座使用说明（data-v0.5.1）
 
-> 唯一接口标准：`docs/12-数据契约与字段字典.md`（data-v0.5.0 增量已冻结）。本目录所有 JSON 必须通过 `python scanner/validate.py`（V01–V20，退出码 0）。
+> 唯一接口标准：`docs/12-数据契约与字段字典.md`（data-v0.5.1 增量已冻结）。本目录所有 JSON 必须通过 `python scanner/validate.py`（V01–V20，退出码 0）。
 > 数据基准日 `as_of = 2026-10-22`（Asia/Shanghai），当前周 `2026-W43`（10-19～10-25），当前月 `2026-10`，当前年 `2026`。
-> v0.5.0 MINOR 增量：新增 **年度年鉴（`scanner/yearbook.py`）**；个人数据包/推荐记录 `rec_log` 仅存在前端 localStorage（**不进入 data/**）。机会库/榜单/历史/数据源口径不变，仅版本号升 0.5.0。
+> v0.5.1 PATCH：`scanner/enrich.py` 新增 `--provider mock`（本地模拟在线响应、不联网）与在线 token 用量/成本估算、`--limit`、超时/重试、缓存命中标注；机会库/榜单/历史/数据源口径不变，仅版本号升 0.5.1。
 
-## 1. 文件清单与规模（data-v0.5.0）
+## 1. 文件清单与规模（data-v0.5.1）
 
 | 文件 | 作用 | 规模 | 生产者 | 消费者 |
 |---|---|---|---|---|
@@ -70,15 +70,18 @@
 - `python scanner/report.py --all`（或 `--period day|week|month|year`）→ `data/reports/report-<period>-2026-10-22.{html,md}`。
 - HTML 自包含（内联 CSS、可 file:// 打开/打印），含七问摘要、证据链接、风险、免责声明；`generated_at` 为确定性逻辑时间（同日重跑字节一致）。
 
-## 7. AI 富化与实验校准（v0.4.0 新工具）
+## 7. AI 富化与实验校准（v0.4.0 新工具，v0.5.1 扩展 provider）
 
 ### 7.1 `scanner/enrich.py` —— AI 富化 outbox（人工复核门禁）
 
 - 输入：`scanner/outbox/signals-<date>.json`（`--fetch` 产物）；输出：`scanner/outbox/enriched-<date>.json` + `scanner/outbox/REVIEW.md`（**outbox 已 gitignore**，不入库、不入发布）。
-- 默认 **offline-template**：无网络/无 key 可跑；基于关键词/taxonomy 生成行业/信息差/人性需求候选、七问骨架草稿（明确标注「待人工补充」）、启发式语言检测、证据 URL 透传。
-- 可选在线模式：`LLM_API_KEY`（+ `LLM_BASE_URL`/`LLM_MODEL`）存在且显式 `--online` 时调用 OpenAI 兼容 `/chat/completions`；`--dry-run` 只打印摘要；失败自动回退 offline 并记录 error。
-- **安全与门禁**：key 只从环境变量读取、绝不写入文件；所有候选 `needs_human:true`；**永不自动写入 `data/opportunities.json`**（单测断言 opportunities 内容不变）。
-- 2026-10-22 实测（现有 outbox）：offline-template 生成 **211 条候选**，0 跳过；产物 `scanner/outbox/enriched-2026-10-22.json` + `REVIEW.md`。
+- **provider 三态**：
+  - `--provider offline`（默认）：无网络/无 key，关键词/taxonomy 模板映射、七问骨架草稿（标注「待人工补充」）、启发式语言检测、证据 URL 透传；
+  - `--provider mock`（v0.5.1）：本地模拟在线响应（**不联网**），走与真实在线相同的请求构造/响应解析/回退流程；`meta.generator="mock-llm"`、`meta.model="mock-model"`，用于测试与演示；
+  - `--provider online`：`LLM_API_KEY`（+ `LLM_BASE_URL`/`LLM_MODEL`）调用 OpenAI 兼容 `/chat/completions`；超时（60s）+ 重试（`config.LLM_MAX_RETRIES`，指数退避）；24h 缓存命中标注；失败自动回退 offline 并记录 error。
+- **在线/模拟用量**：`meta.usage{input_tokens, output_tokens, estimated_cost_usd, calls, cache_hits, prices}`；价格常量为 `config.LLM_PRICE_INPUT_PER_1K_USD` / `LLM_PRICE_OUTPUT_PER_1K_USD`（示例价格、注释说明，非真实账单；缓存命中不重复计费）。`--limit N` 限制最多处理的信号数。**缓存语义**：24h 内二次运行命中缓存 → `cache_hits>0` 且 `input_tokens/output_tokens=0`、`calls=0`（不重复计费属预期），候选 `_llm.cached=true`、`_mode` 含 `cache`。
+- **安全与门禁**：key 只从环境变量读取、绝不写入文件；`--dry-run` 只打印摘要不落盘；所有候选 `needs_human:true`；**永不自动写入 `data/opportunities.json`**（单测断言 opportunities 内容不变）。
+- 2026-10-22 实测：offline-template **211 条候选 / 0 跳过**；`--provider mock --limit 5` **5 条候选**（`generator=mock-llm`，tokens input 1446 / output 869，成本估算 $0.000738）；产物均在 `scanner/outbox/`。
 
 ### 7.2 `scanner/calibrate.py` —— 实验校准报告
 
@@ -125,11 +128,13 @@ python scanner/pipeline.py --all                                       # 离线�
 python scanner/pipeline.py --fetch --no-cache                          # 真实采集刷新 source-health v2（联网）
 python scanner/report.py --all                                         # 4 窗口报告（确定性）
 python scanner/enrich.py                                               # AI 富化 outbox（offline-template，永不自动入库）
+python scanner/enrich.py --provider mock --limit 5                      # v0.5.1：本地模拟在线（不联网）
+python scanner/enrich.py --provider online --limit 5                    # v0.5.1：真实 LLM（需 LLM_API_KEY）
 python scanner/calibrate.py --experiments scanner/fixtures/experiments-sample.json --sample  # 校准报告（样例）
 python scanner/yearbook.py --year 2026                                 # 年度年鉴（无实验摘要版本）
 python scanner/yearbook.py --year 2026 --experiments scanner/fixtures/experiments-sample.json --sample  # 年鉴（含样例实验摘要）
 python scanner/db.py --rebuild                                         # SQLite 重建
-python -m unittest discover -s scanner/tests                           # 50 条单测
+python -m unittest discover -s scanner/tests                           # 55 条单测
 ```
 
 ## 13. 免责

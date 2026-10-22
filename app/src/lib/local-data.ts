@@ -15,9 +15,9 @@ import {
 import { clearProfile, getProfile, normalizeProfile, saveProfile, type Profile } from './profile'
 import { getRecLog, mergeRecLog, replaceRecLog, type RecRecord } from './rec_log'
 
-/** v0.5.0 个人数据包：纯本地 JSON，用于跨设备手动迁移。 */
-export const DATA_BUNDLE_SCHEMA = '0.5.0'
-export const DATA_BUNDLE_VERSION = '0.5.0'
+/** v0.5.1 个人数据包：纯本地 JSON，用于跨设备手动迁移；可选用口令加密外层。 */
+export const DATA_BUNDLE_SCHEMA = '0.5.1'
+export const DATA_BUNDLE_VERSION = '0.5.1'
 
 export interface AlertMirror {
   read: string[]

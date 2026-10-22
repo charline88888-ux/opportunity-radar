@@ -2,6 +2,32 @@
 
 格式：`data_version` + 日期 + 变更内容 + 影响面。契约变更（字段/枚举/公式）必须同步更新 `docs/12-数据契约与字段字典.md` 并通知 Lead、前端、红队。
 
+## data-v0.5.1 · 2026-10-22 · PATCH（AI 富化 provider mock / 在线路径可验证）
+
+> PATCH：只扩展 `scanner/enrich.py` 与版本号；机会库/榜单/历史/source-health 口径不变（JSON 内容仅 meta.data_version 变化）。
+
+### `scanner/enrich.py` provider 扩展（docs/12 §1.5）
+- **`--provider mock`（新增）**：本地模拟 OpenAI 兼容响应（**不联网**），走与真实在线相同的请求构造/响应解析/合并/回退流程；`meta.generator="mock-llm"`、`meta.provider="mock"`、`meta.model="mock-model"`；产物 schema 与 offline 相同，所有候选 `needs_human:true`。
+- **在线模式完善**：`--limit N` 限制处理条数；`meta.usage{input_tokens, output_tokens, estimated_cost_usd, calls, cache_hits, prices}`（价格常量 `config.LLM_PRICE_INPUT_PER_1K_USD` / `LLM_PRICE_OUTPUT_PER_1K_USD`，注释标明示例价格、非真实账单；缓存命中不重复计费）；超时 60s + `config.LLM_MAX_RETRIES` 次指数退避重试；24h 缓存命中在候选 `_llm.cached` 与 `meta.cache_hits` 标注；失败自动回退 offline 并记录 `meta.error`。
+- **铁律保留**：key 只从 `LLM_API_KEY` 环境变量读取、绝不落盘；不写 `data/opportunities.json`；`--dry-run` 不落盘；无 key 时 online 清晰报错（exit 2，不崩溃）；outbox 仍 gitignore。
+- **测试（新增 5 条，共 55）**：本地 `http.server.ThreadingHTTPServer` 起 OpenAI 兼容 `/chat/completions`，验证请求头（`Authorization: Bearer …`）/请求体（model/messages）/响应解析/token 记录/缓存命中/失败回退；断言 key 不出现在产物中、opportunities 内容不变；不依赖外网/真实 key。
+- 实际运行（2026-10-22，`--provider mock --limit 5`）：**5 条候选**（跳过 206）、`generator=mock-llm`、`model=mock-model`、tokens input **1446** / output **869**、成本估算 **$0.000738**、`cache_hits=0`；产物 `scanner/outbox/enriched-2026-10-22.json` + `REVIEW.md`（outbox gitignore）。
+
+### 版本与复核
+- 全部 data meta 升 **0.5.1**（taxonomy/rankings/stats/sources/playbooks/calendar/source-health + 3 份 history 快照）；四窗口报告 8 文件、校准报告、年鉴按 0.5.1 重生成；`radar.db` 重建（46/88/211/8 行）。
+- `python scanner/pipeline.py --all`：exit 0、**幂等**；`validate.py` **20/20 PASS**；unittest **55/55 OK**；yearbook 双跑字节一致；offline enrich / calibrate / yearbook 回归可用。
+- 指纹（SHA256 前 16）：opportunities `52B30E45B356CEA9`（未变）、rankings `69B7F0F8401C4735`、history-10-22 `CA5C8426D8096A42`、stats `90DD20B1889B2E93`、source-health `3972812DDB43D574`、sources `45EB59ACED43626C`、radar.db `692920C029711881`、yearbook-2026.html `056F7EFF17C63B15`、calibration-2026-10-22.html `5EC1CEC0883D9A6C`。
+
+### 已知不足
+- 真实 LLM 路径仅用本地 mock server 验证（无真实 provider key，未产生真实调用）；成本常量是示例价格，真实账单以 provider 为准。
+- mock 响应为模板化内容（非真实模型输出），仅用于流程测试/演示，不代表 AI 质量。
+- 个人数据包/`rec_log` 由前端负责，数据侧不落盘；采集仍只覆盖 RSS/JSON feed。
+
+### 红队复验修正（v0.5.1 PATCH 内，2026-10-22）
+- **P1 CLI 相对路径崩溃（已修）**：`enrich.py` / `calibrate.py` / `yearbook.py` 的 `--out-dir` 为相对路径时，打印 `Path(...).relative_to(config.ROOT)` 抛 `ValueError`（文件已写出但进程 exit 1）。修复：新增 `common.display_path()`（`resolve().relative_to(root.resolve())`，越界/相对路径降级原样打印、绝不抛错）；`enrich/calibrate/yearbook.generate()` 入口把 `out_dir` 统一 `resolve()`；打印改用 `display_path`。新增 2 条回归单测（enrich CLI 相对 out-dir、yearbook+calibrate CLI 相对 out-dir），复现命令 `python scanner/enrich.py --signals scanner/outbox/signals-2026-10-22.json --out-dir qa/tmp/enrich-rel --provider mock --limit 2` 现为 **exit 0** 且产物正常。
+- **P2 缓存 usage 语义（已说明）**：24h 内二次运行命中缓存时 `meta.usage={input_tokens:0, output_tokens:0, calls:0, cache_hits:N}`（不重复计费，属预期行为）；首次运行记录估算 tokens 与成本。已写入 data/README §7.1 与 scanner/README。
+- 回归：unittest **57/57 OK**（新增 2 条），validate **20/20 PASS**，`--all` 幂等；数据 JSON 未变更（仅 scanner 代码 + 文档），指纹不变。
+
 ## data-v0.5.0 · 2026-10-22 · MINOR 增量（年度年鉴）
 
 > 向后兼容：不删除、不改名既有字段；机会库/榜单/历史/source-health 数据口径不变，仅版本号升 0.5.0。个人数据包与 `rec_log` 为前端 localStorage 本地数据，**不进入 data/**。

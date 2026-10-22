@@ -6,6 +6,12 @@ import { Badge, Button, EmptyState, Panel, SectionCard } from '@/components/ui'
 import { downloadText } from '@/lib/exports'
 import { useI18n } from '@/lib/i18n'
 import {
+  decryptDataBundleJson,
+  encryptedEnvelopeJson,
+  encryptDataBundleJson,
+  isEncryptedEnvelope,
+} from '@/lib/crypto'
+import {
   applyDataBundle,
   buildDataBundle,
   dataBundleJson,
@@ -26,11 +32,43 @@ export default function DataPage() {
   const [errors, setErrors] = useState<string[]>([])
   const [success, setSuccess] = useState('')
   const [fileName, setFileName] = useState('')
+  const [encryptEnabled, setEncryptEnabled] = useState(false)
+  const [password, setPassword] = useState('')
+  const [confirmPassword, setConfirmPassword] = useState('')
+  const [encryptedEnvelope, setEncryptedEnvelope] = useState<Record<string, unknown> | null>(null)
+  const [importPassword, setImportPassword] = useState('')
+  const [working, setWorking] = useState(false)
   const current = useMemo(() => buildDataBundle(), [])
 
-  const exportBundle = () => {
+  const exportBundle = async () => {
+    setErrors([])
+    setSuccess('')
     const bundle = buildDataBundle()
-    downloadText(`radar-data-bundle-${bundle.exported_at.slice(0, 10)}.json`, dataBundleJson(bundle), 'application/json;charset=utf-8')
+    try {
+      if (encryptEnabled) {
+        if (password.length < 8) {
+          setErrors([L('口令至少 8 个字符', 'Password must be at least 8 characters')])
+          return
+        }
+        if (password !== confirmPassword) {
+          setErrors([L('两次输入的口令不一致', 'Passwords do not match')])
+          return
+        }
+        setWorking(true)
+        const envelope = await encryptDataBundleJson(dataBundleJson(bundle), password)
+        downloadText(`radar-data-bundle-${bundle.exported_at.slice(0, 10)}.encrypted.json`, encryptedEnvelopeJson(envelope), 'application/json;charset=utf-8')
+        setSuccess(L('已导出加密数据包；口令不会保存，忘记无法恢复。', 'Encrypted bundle exported; the password is not stored and cannot be recovered.'))
+        setPassword('')
+        setConfirmPassword('')
+      } else {
+        downloadText(`radar-data-bundle-${bundle.exported_at.slice(0, 10)}.json`, dataBundleJson(bundle), 'application/json;charset=utf-8')
+        setSuccess(L('已导出明文数据包（schema 0.5.1）', 'Plain bundle exported (schema 0.5.1)'))
+      }
+    } catch (e) {
+      setErrors([e instanceof Error ? e.message : String(e)])
+    } finally {
+      setWorking(false)
+    }
   }
 
   const onFile = async (file: File | undefined) => {
@@ -38,11 +76,25 @@ export default function DataPage() {
     setSuccess('')
     setPreview(null)
     setImported(null)
+    setEncryptedEnvelope(null)
+    setImportPassword('')
     if (!file) return
     setFileName(file.name)
     try {
       const text = await file.text()
       const parsed = JSON.parse(text)
+      if (isEncryptedEnvelope(parsed)) {
+        if (parsed.schema_version !== '0.5.1') {
+          setErrors([L('加密数据包版本不兼容：仅支持 0.5.1，请使用新版导出。', 'Incompatible encrypted bundle: only 0.5.1 is supported; export again with the current version.')])
+          return
+        }
+        setEncryptedEnvelope(parsed)
+        return
+      }
+      if (parsed?.schema_version !== '0.5.1') {
+        setErrors([L(`旧版或不兼容的数据包（schema ${String(parsed?.schema_version || '缺失')}）；仅支持明文 0.5.1。`, `Old or incompatible bundle (schema ${String(parsed?.schema_version || 'missing')}); only plain 0.5.1 is supported.`)])
+        return
+      }
       const result = validateDataBundle(parsed)
       if (!result.ok || !result.bundle || !result.preview) {
         setErrors(result.errors.length ? result.errors : [L('数据包不合法', 'Invalid data bundle')])
@@ -52,6 +104,29 @@ export default function DataPage() {
       setPreview(result.preview)
     } catch {
       setErrors([L('无法解析 JSON 文件，请确认是 /data 导出的数据包', 'Cannot parse the JSON file; make sure it is a bundle exported from /data')])
+    }
+  }
+
+  const decryptImport = async () => {
+    if (!encryptedEnvelope) return
+    setErrors([])
+    try {
+      setWorking(true)
+      const plain = await decryptDataBundleJson(encryptedEnvelope, importPassword)
+      const parsed = JSON.parse(plain)
+      const result = validateDataBundle(parsed)
+      if (!result.ok || !result.bundle || !result.preview) {
+        setErrors(result.errors.length ? result.errors : [L('解密后的数据包不合法', 'Decrypted bundle is invalid')])
+        return
+      }
+      setImported(result.bundle)
+      setPreview(result.preview)
+      setEncryptedEnvelope(null)
+      setImportPassword('')
+    } catch (e) {
+      setErrors([e instanceof Error ? e.message : String(e)])
+    } finally {
+      setWorking(false)
     }
   }
 
@@ -103,6 +178,29 @@ export default function DataPage() {
         </Panel>
       )}
 
+      <Panel className="mb-3 p-3">
+        <label className="flex cursor-pointer items-center gap-2 text-[11px] text-ink">
+          <input type="checkbox" checked={encryptEnabled} onChange={(e) => setEncryptEnabled(e.target.checked)} className="accent-signal" />
+          {L('加密导出（可选口令）', 'Encrypted export (optional password)')}
+          <span className="font-mono text-[9px] text-dim">AES-GCM-256 · PBKDF2-SHA256 · 210,000</span>
+        </label>
+        {encryptEnabled && (
+          <div className="mt-2 grid grid-cols-1 gap-2 sm:grid-cols-2">
+            <label className="block">
+              <span className="mono-label">{L('口令（≥8 字符）', 'Password (≥8 chars)')}</span>
+              <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} autoComplete="new-password" className="h-7 w-full rounded border border-line bg-panel-2 px-2 text-[11.5px] text-ink outline-none focus:border-signal/50" />
+            </label>
+            <label className="block">
+              <span className="mono-label">{L('再次输入口令', 'Confirm password')}</span>
+              <input type="password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} autoComplete="new-password" className="h-7 w-full rounded border border-line bg-panel-2 px-2 text-[11.5px] text-ink outline-none focus:border-signal/50" />
+            </label>
+            <div className="sm:col-span-2 rounded border border-amber/25 bg-amber/[0.05] px-2 py-1.5 text-[9.5px] leading-relaxed text-amber">
+              {L('口令不落盘、不上传；忘记口令将无法恢复数据包。加密外层 schema 0.5.1，明文导入仍兼容。', 'The password is never stored or uploaded; if forgotten, the bundle cannot be recovered. Encrypted outer schema 0.5.1; plain bundles remain importable.')}
+            </div>
+          </div>
+        )}
+      </Panel>
+
       <div className="grid grid-cols-1 gap-3 xl:grid-cols-12">
         <SectionCard className="xl:col-span-4" eyebrow="LOCAL STORAGE" title={L('本机数据摘要', 'Local data summary')} right={<HardDrive className="h-4 w-4 text-dim" />}>
           <div className="space-y-1.5 text-[10.5px]">
@@ -123,7 +221,31 @@ export default function DataPage() {
         </SectionCard>
 
         <SectionCard className="xl:col-span-8" eyebrow="BUNDLE PREVIEW" title={L('导入预览', 'Import preview')} subtitle={L('选择数据包文件后先校验并预览，再决定覆盖或合并', 'Validate and preview a bundle before choosing replace or merge')} right={<RefreshCw className="h-4 w-4 text-dim" />}>
-          {!preview ? (
+          {encryptedEnvelope && !preview ? (
+            <div className="rounded border border-cyan/30 bg-cyan/[0.04] p-3">
+              <div className="flex items-center gap-2 text-[11px] text-cyan">
+                <ShieldCheck className="h-4 w-4" />
+                {L('检测到加密数据包', 'Encrypted bundle detected')}
+                <span className="font-mono text-[9px] text-dim">{String(encryptedEnvelope.kdf)} · {String(encryptedEnvelope.iterations)}</span>
+              </div>
+              <p className="mt-1 text-[10px] leading-relaxed text-muted">
+                {L('输入导出时设置的口令以解密并预览。口令只在内存中使用，不保存、不上传；忘记口令无法恢复。', 'Enter the password used when exporting to decrypt and preview. The password is used in memory only, never stored or uploaded; if forgotten it cannot be recovered.')}
+              </p>
+              <div className="mt-2 flex flex-wrap items-center gap-2">
+                <input
+                  type="password"
+                  value={importPassword}
+                  onChange={(e) => setImportPassword(e.target.value)}
+                  placeholder={L('输入口令（≥8 字符）', 'Password (≥8 chars)')}
+                  className="h-7 min-w-[220px] flex-1 rounded border border-line bg-panel-2 px-2 text-[11.5px] text-ink outline-none focus:border-signal/50"
+                />
+                <Button size="sm" variant="primary" onClick={() => void decryptImport()} disabled={working || importPassword.length < 8}>
+                  {working ? L('解密中…', 'Decrypting…') : L('解密并预览', 'Decrypt & preview')}
+                </Button>
+              </div>
+              <div className="mt-1 font-mono text-[9px] text-dim">{L('文件', 'File')}: {fileName}</div>
+            </div>
+          ) : !preview ? (
             <EmptyState
               icon={<FileJson className="h-5 w-5" />}
               title={fileName ? L(`已选择 ${fileName}，但还未通过校验`, `${fileName} selected, not validated yet`) : L('还没有导入数据包', 'No bundle imported yet')}
@@ -163,18 +285,26 @@ export default function DataPage() {
           )}
         </SectionCard>
 
-        <SectionCard className="xl:col-span-12" eyebrow="SCHEMA" title={L('数据包结构（schema 0.5.0）', 'Bundle schema (0.5.0)')} right={<Badge tone="muted">JSON</Badge>}>
+        <SectionCard className="xl:col-span-12" eyebrow="SCHEMA" title={L('数据包结构（schema 0.5.1）', 'Bundle schema (0.5.1)')} right={<Badge tone="muted">JSON</Badge>}>
           <pre className="overflow-x-auto rounded border border-line/60 bg-black/25 p-3 font-mono text-[9.5px] leading-relaxed text-dim">{`{
-  "schema_version": "0.5.0",
+  "schema_version": "0.5.1",
   "exported_at": "ISO-8601",
   "profile": { "capitalBand": "...", "skills": {...}, "strictCapital": false },
   "experiments": [{ "id": "...", "opp_id": "...", "outcome": "positive|negative|inconclusive|null", "updated_at": "..." }],
   "alerts_state": { "read": ["alert id"], "ignored": ["alert id"] },
   "rec_log": [{ "id": "...", "opp_id": "...", "event": "impression|view|experiment|dismiss", "rec_score": 0, "fit": 0, "at": "..." }],
   "settings": { "language": "zh|en", "notifications": { "enabled": false, "seen": [] } }
+}
+
+// optional encrypted outer envelope:
+{
+  "schema_version": "0.5.1", "encrypted": true,
+  "algo": "AES-GCM", "kdf": "PBKDF2-SHA256", "iterations": 210000,
+  "salt_b64": "...", "iv_b64": "...", "ciphertext_b64": "...",
+  "exported_at": "ISO-8601"
 }`}</pre>
           <div className="mt-2 text-[10px] leading-relaxed text-dim">
-            {L('导入时要求 schema_version=0.5.0；校验 profile 可为 null、experiments/rec_log 为数组、alerts_state/settings 为对象。数据包不包含任何网络上传字段。', 'Import requires schema_version=0.5.0; profile may be null; experiments/rec_log must be arrays; alerts_state/settings objects. No network fields are included.')}
+            {L('导入时要求 schema_version=0.5.1；明文与加密包都自动识别。校验 profile 可为 null、experiments/rec_log 为数组、alerts_state/settings 为对象。旧版数据包会明确提示且不应用；数据包不包含任何网络上传字段。', 'Import requires schema_version=0.5.1; plain and encrypted bundles are auto-detected. Profile may be null; experiments/rec_log must be arrays; alerts_state/settings objects. Older bundles are rejected with a clear message; no network fields are included.')}
           </div>
         </SectionCard>
       </div>

@@ -90,9 +90,20 @@ const ROADMAP = [
 
 const HISTORY = [
   {
-    version: 'v0.5.0',
+    version: 'v0.5.1',
     date: '2026-10-22',
     tag: '当前版本',
+    items: [
+      '/yearbook 分数口径修正：「年榜第 1 名总分」（rank1.total=77.4）与「年度最高总分」（max(total)=78.6）分列，并加 tooltip/说明',
+      '/data 新增可选口令加密导出：PBKDF2-SHA256(210000) + AES-GCM-256，随机 salt/iv，外层 schema 0.5.1；导入自动识别明文/加密，错误口令/损坏密文/旧版本明确提示且不应用',
+      '口令仅在内存使用、不落盘、不上传，忘记不可恢复；明文数据包升级 schema 0.5.1 并保持兼容导入',
+      'i18n 新文案双语与覆盖率收尾；版本升 0.5.1',
+    ],
+  },
+  {
+    version: 'v0.5.0',
+    date: '2026-10-22',
+    tag: '上一版本',
     items: [
       '新增 /yearbook 年度复盘：年榜 Top20、月度时间线、行业/区域/信息差/等级分布、A 级清单、窗口关闭/≤3 月、导出年鉴 MD/HTML；后端可生成自包含可打印年鉴',
       '新增 /data 个人数据包：schema 0.5.0（profile/experiments/alerts_state/rec_log/settings），导出/校验/预览/覆盖或合并，纯本地跨设备手动迁移',
@@ -182,7 +193,13 @@ const EN_DOCS: Array<[string, string, string]> = [
 ]
 
 const EN_HISTORY = [
-  { version: 'v0.5.0', date: '2026-10-22', tag: 'Current', items: [
+  { version: 'v0.5.1', date: '2026-10-22', tag: 'Current', items: [
+    'Yearbook score labels corrected: “Rank 1 total” (rank1.total=77.4) and “Year max total” (max(total)=78.6), with tooltips/notes',
+    'Optional password-encrypted data bundle export: PBKDF2-SHA256(210000) + AES-GCM-256, random salt/iv, outer schema 0.5.1; import auto-detects plain/encrypted, rejects wrong password/corrupt ciphertext/old versions',
+    'Password stays in memory only, never stored or uploaded; forgotten passwords are unrecoverable; plaintext bundle upgrades to 0.5.1 and remains importable',
+    'i18n bilingual polish and coverage wrap-up; version 0.5.1',
+  ]},
+  { version: 'v0.5.0', date: '2026-10-22', tag: 'Previous', items: [
     'Yearbook /yearbook: Top 20, monthly timeline, industry/region/gap/grade distributions, A-grade list, closing windows, MD/HTML export; printable backend report',
     'Personal data bundle /data: schema 0.5.0 (profile/experiments/alerts_state/rec_log/settings), export/validate/preview/replace-or-merge for manual cross-device migration',
     'Recommendation log lib/rec_log.ts (impression/view/experiment/dismiss, 500 records, per-session impression dedupe); calibration funnel + rec_log summary in calibration JSON',
@@ -218,7 +235,7 @@ function AboutEn() {
         index="13"
         kicker="ABOUT"
         title="About Opportunity Radar"
-        description="Local-first personal opportunity research: find global information gaps using human-need and cultural signals, delivered as day/week/month/year rankings with seven required business questions. v0.5.0 adds a yearbook, a local data bundle for migration, and recommendation-funnel tracking."
+        description="Local-first personal opportunity research: find global information gaps using human-need and cultural signals, delivered as day/week/month/year rankings with seven required business questions. v0.5.1 adds optional password-encrypted backups and corrected yearbook score labels."
         actions={
           <div className="flex flex-wrap items-center gap-2">
             <Badge tone="signal"><PackageCheck className="h-3 w-3" /> v{appVersion}</Badge>
@@ -274,13 +291,13 @@ function AboutEn() {
             </a>
           </div>
           <div className="mt-2 rounded border border-signal/20 bg-signal/[0.03] px-2.5 py-2">
-            <div className="mono-label text-signal">v0.5.0 changes</div>
+            <div className="mono-label text-signal">v0.5.1 changes</div>
             <div className="mt-0.5 text-[10.5px] leading-relaxed text-muted">
-              Yearbook /yearbook (Top 20, monthly timeline, distributions, A-grade & closing windows, MD/HTML export) · personal data bundle /data (schema 0.5.0, export/validate/preview/replace-or-merge) · rec_log funnel on /calibration · i18n residual polish · data-v0.5.0 compatibility.
+              Yearbook score labels corrected (rank1.total vs max(total)) · optional password-encrypted data bundle (PBKDF2-SHA256 210k + AES-GCM-256, schema 0.5.1) · auto-detect plain/encrypted import with wrong-password/corrupt/old-version errors · i18n polish · version 0.5.1.
             </div>
           </div>
           <div className="mt-2 rounded border border-amber/25 bg-amber/[0.04] px-2.5 py-2 text-[10.5px] leading-relaxed text-amber">
-            Bilingual note: all static UI strings switch between Chinese and English. Opportunity content (titles, one-liners, evidence, seven Q&A) intentionally remains Chinese in v0.5.0 and is marked in the UI. Switching language does not reload the page or reset routes, filters, or profile state.
+            Bilingual note: all static UI strings switch between Chinese and English. Opportunity content (titles, one-liners, evidence, seven Q&A) intentionally remains Chinese in v0.5.1 and is marked in the UI. Switching language does not reload the page or reset routes, filters, or profile state.
           </div>
           <div className="mt-3 rounded border border-line/70 bg-black/20 px-2.5 py-2 font-mono text-[10px] leading-relaxed text-dim">
             <div>sync: node app/scripts/sync-data.mjs --strict</div>
@@ -377,7 +394,7 @@ export default function About() {
         index="13"
         kicker="ABOUT · 关于"
         title="关于机会雷达"
-        description="本地优先的个人商机研究工具：用「人性需求信号 + 文化差异信号」发现全世界的赚钱信息差，按日 / 周 / 月 / 年榜单交付，并为每个机会强制回答商业驱动七问。v0.5.0 新增年度复盘、个人数据包与推荐漏斗。"
+        description="本地优先的个人商机研究工具：用「人性需求信号 + 文化差异信号」发现全世界的赚钱信息差，按日 / 周 / 月 / 年榜单交付，并为每个机会强制回答商业驱动七问。v0.5.1 新增可选口令加密备份与年报复盘口径修正。"
         actions={
           <div className="flex flex-wrap items-center gap-2">
             <Badge tone="signal"><PackageCheck className="h-3 w-3" /> v{appVersion}</Badge>
@@ -442,9 +459,9 @@ export default function About() {
             </a>
           </div>
           <div className="mt-2 rounded border border-signal/20 bg-signal/[0.03] px-2.5 py-2">
-            <div className="mono-label text-signal">v0.5.0 本轮变更</div>
+            <div className="mono-label text-signal">v0.5.1 本轮变更</div>
             <div className="mt-0.5 text-[10.5px] leading-relaxed text-muted">
-              新增 /yearbook 年度复盘（年榜 Top20 / 月度时间线 / 分布 / A 级 / 窗口风险 / MD+HTML 导出）· 新增 /data 个人数据包（schema 0.5.0，覆盖或合并迁移）· rec_log 推荐漏斗与校准导出摘要 · i18n 残差清理 · data-v0.5.0。
+              /yearbook 分数口径修正（年榜第 1 名总分 vs 年度最高总分，附 tooltip）· /data 可选口令加密备份（PBKDF2-SHA256 210k + AES-GCM-256，schema 0.5.1；自动识别明文/加密，错误口令/损坏码/旧版不应用）· i18n 收尾 · 版本 0.5.1。
             </div>
           </div>
           <div className="mt-2 rounded border border-amber/25 bg-amber/[0.04] px-2.5 py-2 text-[10.5px] leading-relaxed text-amber">

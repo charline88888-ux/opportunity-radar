@@ -544,7 +544,7 @@ def generate(
     out_dir: Path | None = None,
 ) -> dict[str, Any]:
     report = build_report(year, experiments_path, sample)
-    output_dir = out_dir or config.REPORTS_DIR
+    output_dir = Path(out_dir).resolve() if out_dir else config.REPORTS_DIR
     output_dir.mkdir(parents=True, exist_ok=True)
     html_path = output_dir / f"yearbook-{year}.html"
     md_path = output_dir / f"yearbook-{year}.md"
@@ -598,7 +598,10 @@ def main(argv: list[str] | None = None) -> int:
         f"[yearbook] {year}：机会 {result['opportunities']} / Top20 {result['top20']} / A 级 {result['a_grade']} / "
         f"收尾 {result['closing']} / Brier {brier_text} → {result['html_lines']} 行 HTML（{result['html_bytes']} B）"
     )
-    print(f"[yearbook] → {Path(result['html']).relative_to(config.ROOT)} / {Path(result['md']).relative_to(config.ROOT)}")
+    print(
+        f"[yearbook] → {common.display_path(result['html'])}"
+        f" / {common.display_path(result['md'])}"
+    )
     if result.get("experiments_error"):
         print(f"[yearbook] 警告：实验文件读取失败，已跳过实验摘要（{result['experiments_error']}）")
     return 0

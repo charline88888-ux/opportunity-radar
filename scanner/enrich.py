@@ -1,17 +1,22 @@
-"""AI 富化 outbox（v0.4.0）：把 `--fetch` 的原始信号整理成**候选机会草稿**，供人工复核。
+"""AI 富化 outbox（data-v0.5.1）：把 `--fetch` 的原始信号整理成**候选机会草稿**，供人工复核。
 
 铁律：
 - 输出只写 `scanner/outbox/`（gitignore），**永不自动写入 `data/opportunities.json`**；
 - 所有候选 `needs_human: true`，七问只是草稿（明确标注待人工补充）；
-- 默认 **offline-template** 模式（无网络/无 API key 可跑）；
-- 可选在线模式：仅当显式 `--online` 且环境变量 `LLM_API_KEY` 存在时调用 OpenAI 兼容
-  `/chat/completions`；key 只从环境变量读取、**绝不写入任何文件或日志**；失败自动回退 offline。
+- key 只从环境变量读取、**绝不写入任何文件或日志**。
+
+provider（v0.5.1）：
+- `offline`（默认）：无网络/无 key，模板级候选映射；
+- `mock`：本地模拟在线响应（**不联网**），走与真实在线相同的请求构造/响应解析/回退流程，
+  `meta.generator="mock-llm"`、`meta.model="mock-model"`，用于测试与演示；
+- `online`：需 `LLM_API_KEY`（可选 `LLM_BASE_URL`/`LLM_MODEL`），调用 OpenAI 兼容
+  `/chat/completions`；记录 token 用量与成本估算（价格常量见 config），超时/重试/24h 缓存，失败回退 offline。
 
 用法：
-    python scanner/enrich.py                       # offline（默认），读最新 signals-*.json
-    python scanner/enrich.py --signals scanner/outbox/signals-2026-10-22.json
-    python scanner/enrich.py --dry-run             # 只打印摘要，不写文件
-    python scanner/enrich.py --online --limit 5    # 有 LLM_API_KEY 时尝试在线富化
+    python scanner/enrich.py                                  # offline（默认）
+    python scanner/enrich.py --provider mock --limit 5        # 本地模拟在线（不联网）
+    python scanner/enrich.py --provider online --limit 5      # 真实 LLM（需 LLM_API_KEY）
+    python scanner/enrich.py --dry-run                        # 只打印摘要，不写文件
 """
 from __future__ import annotations
 
@@ -271,7 +276,7 @@ def offline_candidate(signal: dict[str, Any], taxonomy: dict[str, Any]) -> dict[
     }
 
 
-# ---------------------------------------------------------------- 在线（OpenAI 兼容）
+# ---------------------------------------------------------------- LLM 公共层
 def _estimate_tokens(text: str) -> int:
     return max(1, len(text) // 4)
 
@@ -288,12 +293,12 @@ def _llm_settings() -> dict[str, str]:
     }
 
 
-def _cache_path(key: str) -> Path:
+def _cache_path(key: str, cache_dir: Path | None = None) -> Path:
     digest = hashlib.sha1(key.encode()).hexdigest()[:16]
-    return config.BUILD_DIR / "enrich-cache" / f"{digest}.json"
+    return (cache_dir or (config.BUILD_DIR / "enrich-cache")) / f"{digest}.json"
 
 
-def _llm_prompt(signal: dict[str, Any], offline: dict[str, Any]) -> list[dict[str, str]]:
+def _chat_body(signal: dict[str, Any], offline: dict[str, Any], model: str) -> dict[str, Any]:
     signal_payload = {
         "title": signal.get("title"),
         "url": signal.get("url"),
@@ -321,69 +326,119 @@ def _llm_prompt(signal: dict[str, Any], offline: dict[str, Any]) -> list[dict[st
         "}。\n可选 industry_id 必须来自 taxonomies；不知道就 null。\n信号 JSON：\n"
         + json.dumps(signal_payload, ensure_ascii=False)[:LLM_MAX_INPUT_CHARS]
     )
-    return [{"role": "system", "content": system}, {"role": "user", "content": user}]
+    return {
+        "model": model,
+        "messages": [
+            {"role": "system", "content": system},
+            {"role": "user", "content": user},
+        ],
+        "temperature": 0.2,
+        "response_format": {"type": "json_object"},
+    }
 
 
-def online_candidate(signal: dict[str, Any], offline: dict[str, Any], taxonomy: dict[str, Any]) -> dict[str, Any]:
-    """在线富化单条信号；失败抛 RuntimeError（调用方回退 offline）。"""
-    settings = _llm_settings()
-    cache_key = json.dumps(
-        {"url": signal.get("url"), "title": signal.get("title"), "model": settings["model"]},
-        ensure_ascii=False,
-        sort_keys=True,
-    )
-    cached = _cache_path(cache_key)
-    if cached.exists():
-        try:
-            payload = common.load_json(cached)
-            payload["_mode"] = "llm-cache"
-            return payload
-        except (json.JSONDecodeError, OSError):
-            pass
-
-    body = json.dumps(
-        {
-            "model": settings["model"],
-            "messages": _llm_prompt(signal, offline),
-            "temperature": 0.2,
-            "response_format": {"type": "json_object"},
+def _mock_chat_response(signal: dict[str, Any], offline: dict[str, Any]) -> dict[str, Any]:
+    """本地模拟 OpenAI 兼容响应（不联网）：结构、content、usage 与真实响应一致。"""
+    content = {
+        "title_suggestion": str(offline.get("title", ""))[:80],
+        "industry_id": (offline.get("industry_id_candidates") or [None])[0],
+        "gap_type_ids": offline.get("gap_type_ids") or [],
+        "human_need_ids": offline.get("human_need_ids") or [],
+        "seven_questions_draft": {
+            key: (
+                (offline["seven_questions_draft"].get(key) or "").replace(
+                    "待人工补充", "待人工补充（mock-llm 草稿）"
+                )
+                if key != "drivers"
+                else offline["seven_questions_draft"].get("drivers", ["info"])
+            )
+            for key, _label in QUESTIONS
         },
-        ensure_ascii=False,
-    ).encode("utf-8")
-    request = urllib.request.Request(
-        f"{settings['base_url']}/chat/completions",
-        data=body,
-        headers={
-            "Content-Type": "application/json",
-            "Authorization": f"Bearer {settings['api_key']}",  # 仅内存使用，不落盘
+        "notes": ["mock provider：本地模拟在线响应，未联网；仅用于测试/演示", "仍需人工复核，不得直接入库"],
+        "needs_human": True,
+    }
+    prompt = json.dumps(_chat_body(signal, offline, config.MOCK_LLM_MODEL), ensure_ascii=False)
+    content_text = json.dumps(content, ensure_ascii=False)
+    return {
+        "model": config.MOCK_LLM_MODEL,
+        "choices": [{"message": {"role": "assistant", "content": content_text}, "finish_reason": "stop"}],
+        "usage": {
+            "prompt_tokens": _estimate_tokens(prompt),
+            "completion_tokens": _estimate_tokens(content_text),
+            "total_tokens": _estimate_tokens(prompt) + _estimate_tokens(content_text),
         },
-        method="POST",
-    )
+    }
+
+
+def _http_chat_response(body: dict[str, Any], settings: dict[str, str]) -> tuple[dict[str, Any], int]:
+    """真实 HTTP 调用（超时 + 重试）；返回 (响应 JSON, latency_ms)。"""
+    payload = json.dumps(body, ensure_ascii=False).encode("utf-8")
+    last_error: str = "unknown"
     started = time.time()
+    for attempt in range(1 + config.LLM_MAX_RETRIES):
+        request = urllib.request.Request(
+            f"{settings['base_url']}/chat/completions",
+            data=payload,
+            headers={
+                "Content-Type": "application/json",
+                "Authorization": f"Bearer {settings['api_key']}",  # 仅内存使用，不落盘
+            },
+            method="POST",
+        )
+        try:
+            with urllib.request.urlopen(request, timeout=LLM_TIMEOUT_SEC) as response:
+                raw = response.read().decode("utf-8", errors="replace")
+                latency_ms = int((time.time() - started) * 1000)
+                return json.loads(raw), latency_ms
+        except urllib.error.HTTPError as exc:
+            last_error = f"HTTP {exc.code}"
+            if exc.code < 500 and exc.code != 429:  # 4xx（除限流）不重试
+                break
+        except (urllib.error.URLError, TimeoutError, OSError, json.JSONDecodeError) as exc:
+            last_error = f"{type(exc).__name__}: {exc}"
+        if attempt < config.LLM_MAX_RETRIES:
+            time.sleep(config.LLM_RETRY_BACKOFF_SEC * (attempt + 1))
+    raise RuntimeError(f"LLM 请求失败（{last_error}）")
+
+
+def _extract_llm_content(data: dict[str, Any]) -> tuple[dict[str, Any], dict[str, int]]:
     try:
-        with urllib.request.urlopen(request, timeout=LLM_TIMEOUT_SEC) as response:
-            raw = response.read().decode("utf-8", errors="replace")
-    except (urllib.error.URLError, urllib.error.HTTPError, TimeoutError, OSError) as exc:
-        raise RuntimeError(f"LLM 请求失败：{type(exc).__name__}") from exc
-    latency_ms = int((time.time() - started) * 1000)
-    try:
-        data = json.loads(raw)
         content = data["choices"][0]["message"]["content"]
         usage = data.get("usage") or {}
-    except (KeyError, IndexError, TypeError, json.JSONDecodeError) as exc:
-        raise RuntimeError(f"LLM 响应不可解析：{type(exc).__name__}") from exc
-    content = re.sub(r"^```(?:json)?|```$", "", content.strip(), flags=re.MULTILINE).strip()
+    except (KeyError, IndexError, TypeError) as exc:
+        raise RuntimeError(f"LLM 响应结构不合法：{type(exc).__name__}") from exc
+    content = re.sub(r"^```(?:json)?|```$", "", str(content).strip(), flags=re.MULTILINE).strip()
     try:
         parsed = json.loads(content)
     except json.JSONDecodeError as exc:
         raise RuntimeError("LLM 输出不是严格 JSON") from exc
+    if not isinstance(parsed, dict):
+        raise RuntimeError("LLM 输出不是 JSON 对象")
+    tokens = {
+        "input_tokens": int(usage.get("prompt_tokens") or _estimate_tokens(content)),
+        "output_tokens": int(usage.get("completion_tokens") or _estimate_tokens(content)),
+    }
+    return parsed, tokens
 
+
+def _merge_llm_candidate(
+    offline: dict[str, Any],
+    parsed: dict[str, Any],
+    taxonomy: dict[str, Any],
+    *,
+    model: str,
+    provider: str,
+    latency_ms: int,
+    tokens: dict[str, int],
+    cached: bool,
+) -> dict[str, Any]:
     industry_valid = _valid_ids(taxonomy, "industries")
     gap_valid = _valid_ids(taxonomy, "gap_types")
     need_valid = _valid_ids(taxonomy, "human_needs")
     candidate = deepcopy(offline)
     candidate["industry_id_candidates"] = [
-        item for item in ([parsed.get("industry_id")] if parsed.get("industry_id") else []) + offline["industry_id_candidates"]
+        item
+        for item in ([parsed.get("industry_id")] if parsed.get("industry_id") else []) + offline["industry_id_candidates"]
         if item in industry_valid
     ][:3]
     merged_gaps = [item for item in (parsed.get("gap_type_ids") or []) if item in gap_valid]
@@ -404,15 +459,79 @@ def online_candidate(signal: dict[str, Any], offline: dict[str, Any], taxonomy: 
     candidate["title"] = str(parsed.get("title_suggestion") or candidate["title"]).strip()[:120]
     candidate["needs_human"] = True
     candidate["confidence"] = "medium"
-    candidate["_mode"] = "llm"
+    cost = (
+        tokens["input_tokens"] / 1000.0 * config.LLM_PRICE_INPUT_PER_1K_USD
+        + tokens["output_tokens"] / 1000.0 * config.LLM_PRICE_OUTPUT_PER_1K_USD
+    )
+    candidate["_mode"] = "llm-cache" if cached else ("mock-llm" if provider == "mock" else "llm")
     candidate["_llm"] = {
-        "model": settings["model"],
-        "latency_ms": latency_ms,
-        "prompt_tokens_est": int(usage.get("prompt_tokens") or _estimate_tokens(json.dumps(_llm_prompt(signal, offline)))),
-        "completion_tokens_est": int(usage.get("completion_tokens") or _estimate_tokens(content)),
+        "provider": provider,
+        "model": model,
+        "latency_ms": int(latency_ms),
+        "input_tokens": int(tokens["input_tokens"]),
+        "output_tokens": int(tokens["output_tokens"]),
+        "estimated_cost_usd": round(cost, 6),
+        "cached": bool(cached),
+        "prices": {
+            "input_per_1k_usd": config.LLM_PRICE_INPUT_PER_1K_USD,
+            "output_per_1k_usd": config.LLM_PRICE_OUTPUT_PER_1K_USD,
+        },
     }
-    config.BUILD_DIR.joinpath("enrich-cache").mkdir(parents=True, exist_ok=True)
-    common.dump_json(cached, {key: candidate[key] for key in candidate if key != "_llm"})
+    return candidate
+
+
+def llm_candidate(
+    signal: dict[str, Any],
+    offline: dict[str, Any],
+    taxonomy: dict[str, Any],
+    *,
+    provider: str,
+    cache_enabled: bool = True,
+    cache_dir: Path | None = None,
+) -> dict[str, Any]:
+    """mock/online 共用：请求构造 → 响应获取（mock 本地 / online HTTP）→ 解析 → 合并。"""
+    settings = _llm_settings()
+    model = config.MOCK_LLM_MODEL if provider == "mock" else settings["model"]
+    cache_key = json.dumps(
+        {"url": signal.get("url"), "title": signal.get("title"), "model": model, "provider": provider},
+        ensure_ascii=False,
+        sort_keys=True,
+    )
+    cached_path = _cache_path(cache_key, cache_dir)
+    if cache_enabled and cached_path.exists():
+        try:
+            payload = common.load_json(cached_path)
+            llm_meta = dict(payload.get("_llm") or {})
+            llm_meta["cached"] = True
+            return dict(
+                payload,
+                _mode=("mock-llm-cache" if provider == "mock" else "llm-cache"),
+                _llm=llm_meta,
+            )
+        except (json.JSONDecodeError, OSError):
+            pass
+
+    body = _chat_body(signal, offline, model)
+    started = time.time()
+    if provider == "mock":
+        data = _mock_chat_response(signal, offline)
+        latency_ms = max(5, int((time.time() - started) * 1000))
+    else:
+        data, latency_ms = _http_chat_response(body, settings)
+    parsed, tokens = _extract_llm_content(data)
+    candidate = _merge_llm_candidate(
+        offline,
+        parsed,
+        taxonomy,
+        model=model,
+        provider=provider,
+        latency_ms=latency_ms,
+        tokens=tokens,
+        cached=False,
+    )
+    if cache_enabled:
+        cached_path.parent.mkdir(parents=True, exist_ok=True)
+        common.dump_json(cached_path, candidate)
     return candidate
 
 
@@ -420,23 +539,38 @@ def online_candidate(signal: dict[str, Any], offline: dict[str, Any], taxonomy: 
 def enrich(
     signals_path: Path,
     *,
-    online: bool = False,
+    online: bool | None = None,
+    provider: str | None = None,
     dry_run: bool = False,
     limit: int | None = None,
     out_dir: Path | None = None,
     date: str | None = None,
+    cache_enabled: bool = True,
+    cache_dir: Path | None = None,
 ) -> dict[str, Any]:
     """生成候选；返回摘要。`dry_run=True` 时不写任何文件。"""
+    provider = provider or ("online" if online else "offline")
+    if provider not in config.LLM_PROVIDERS:
+        raise ValueError(f"provider 必须是 {sorted(config.LLM_PROVIDERS)}，当前 {provider}")
     taxonomy = _taxonomy()
     signals_meta, signals = load_outbox(signals_path)
     as_of = date or date_from_signals(signals_path, signals_meta)
-    out_dir = out_dir or config.OUTBOX_DIR
+    out_dir = Path(out_dir).resolve() if out_dir else config.OUTBOX_DIR
     candidates: list[dict[str, Any]] = []
     skipped = 0
-    mode = "offline-template"
     error: str | None = None
     llm_used = 0
     llm_fallback = 0
+    cache_hits = 0
+
+    if provider == "online" and not llm_available():
+        return {
+            "error": "provider=online 需要环境变量 LLM_API_KEY；未检测到，已中止（未写任何文件）",
+            "provider": provider,
+            "mode": "online-unavailable",
+            "candidates": [],
+            "skipped": 0,
+        }
 
     selected = signals[:limit] if limit else signals
     for signal in selected:
@@ -444,39 +578,66 @@ def enrich(
         if offline is None:
             skipped += 1
             continue
-        if online:
-            if not llm_available():
-                return {
-                    "error": "online 模式需要环境变量 LLM_API_KEY；未检测到，已中止（未写任何文件）",
-                    "mode": "online-unavailable",
-                    "candidates": [],
-                    "skipped": skipped,
-                }
+        if provider == "offline":
+            candidate = offline
+        else:
             try:
-                candidate = online_candidate(signal, offline, taxonomy)
+                candidate = llm_candidate(
+                    signal,
+                    offline,
+                    taxonomy,
+                    provider=provider,
+                    cache_enabled=cache_enabled,
+                    cache_dir=cache_dir,
+                )
                 llm_used += 1
-                mode = "llm"
+                llm_meta = candidate.get("_llm") or {}
+                if llm_meta.get("cached"):
+                    cache_hits += 1
             except RuntimeError as exc:
                 llm_fallback += 1
                 error = str(exc)
-                candidate = offline
-        else:
-            candidate = offline
+                candidate = dict(offline)
+                candidate["notes"] = [f"{provider} 调用失败，已回退 offline-template：{exc}"] + candidate["notes"]
         candidates.append(candidate)
-    if llm_fallback and mode != "llm":
-        mode = "offline-template"
-    if online and llm_used and mode == "llm":
-        mode = "llm"
-    if online and llm_used and llm_fallback:
-        mode = "llm+fallback"
     skipped += max(0, len(signals) - len(selected))
+
+    usage = {"input_tokens": 0, "output_tokens": 0, "estimated_cost_usd": 0.0, "calls": 0, "cache_hits": cache_hits}
+    for candidate in candidates:
+        llm_meta = candidate.get("_llm")
+        if not llm_meta or llm_meta.get("cached"):
+            continue
+        usage["input_tokens"] += int(llm_meta.get("input_tokens") or 0)
+        usage["output_tokens"] += int(llm_meta.get("output_tokens") or 0)
+        usage["estimated_cost_usd"] += float(llm_meta.get("estimated_cost_usd") or 0.0)
+        usage["calls"] += 1
+    usage["estimated_cost_usd"] = round(usage["estimated_cost_usd"], 6)
+    usage["prices"] = {
+        "input_per_1k_usd": config.LLM_PRICE_INPUT_PER_1K_USD,
+        "output_per_1k_usd": config.LLM_PRICE_OUTPUT_PER_1K_USD,
+        "note": "示例价格常量（config.LLM_PRICE_*），仅估算参考，不代表真实账单；缓存命中不重复计费",
+    }
+
+    if provider == "offline":
+        mode = "offline-template"
+        generator = "offline-template"
+        model = None
+    elif provider == "mock":
+        mode = "mock-llm"
+        generator = "mock-llm"
+        model = config.MOCK_LLM_MODEL
+    else:
+        mode = "llm+fallback" if llm_fallback and llm_used else ("llm" if llm_used else "offline-template")
+        generator = "llm" if llm_used else "offline-template"
+        model = _llm_settings()["model"] if llm_used else None
 
     generated_at = datetime.now().astimezone().isoformat(timespec="seconds")
     meta = {
         "data_version": config.DATA_VERSION,
-        "generator": "llm" if mode.startswith("llm") else "offline-template",
+        "generator": generator,
         "mode": mode,
-        "model": _llm_settings()["model"] if online else None,
+        "provider": provider,
+        "model": model,
         "generated_at": generated_at,
         "dry_run": bool(dry_run),
         "as_of": as_of,
@@ -486,6 +647,8 @@ def enrich(
         "skipped": skipped,
         "llm_used": llm_used,
         "llm_fallback": llm_fallback,
+        "cache_hits": cache_hits,
+        "usage": usage,
         "error": error,
         "key_logged": False,
         "note": "AI 富化草稿仅供人工复核；needs_human=true；永不自动写入 data/opportunities.json",
@@ -494,11 +657,16 @@ def enrich(
     summary = {
         "signals_path": str(signals_path),
         "as_of": as_of,
+        "provider": provider,
         "mode": mode,
+        "generator": generator,
+        "model": model,
         "candidates": len(candidates),
         "skipped": skipped,
         "llm_used": llm_used,
         "llm_fallback": llm_fallback,
+        "cache_hits": cache_hits,
+        "usage": usage,
         "error": error,
         "dry_run": dry_run,
     }
@@ -517,12 +685,14 @@ def enrich(
 def render_review(payload: dict[str, Any]) -> str:
     meta = payload.get("meta") or {}
     candidates = payload.get("candidates") or []
+    usage = meta.get("usage") or {}
     lines = [
         "# 富化候选人工复核清单（REVIEW.md）",
         "",
-        f"- 数据版本：data-v{meta.get('data_version')}　｜　生成模式：`{meta.get('mode')}`　｜　模型：{meta.get('model') or '—'}",
+        f"- 数据版本：data-v{meta.get('data_version')}　｜　provider：`{meta.get('provider')}`　｜　生成模式：`{meta.get('mode')}`　｜　模型：{meta.get('model') or '—'}",
         f"- 生成时间：{meta.get('generated_at')}　｜　信号文件：`{meta.get('signals_file')}`",
-        f"- 候选数：{meta.get('candidate_count')}　｜　跳过：{meta.get('skipped')}　｜　LLM 成功/回退：{meta.get('llm_used')}/{meta.get('llm_fallback')}",
+        f"- 候选数：{meta.get('candidate_count')}　｜　跳过：{meta.get('skipped')}　｜　LLM 成功/回退/缓存：{meta.get('llm_used')}/{meta.get('llm_fallback')}/{meta.get('cache_hits')}",
+        f"- token 用量：input {usage.get('input_tokens')} / output {usage.get('output_tokens')}　｜　成本估算：${usage.get('estimated_cost_usd')}（示例价格，非真实账单）",
         "",
         "> ⚠️ 本文件与 `enriched-*.json` 是**派生草稿**：永不自动写入 `data/opportunities.json`；",
         "> 所有候选 `needs_human=true`，七问为骨架草稿，必须人工补全、核验证据后才能手工入库（然后跑 `--all`）。",
@@ -560,7 +730,7 @@ def render_review(payload: dict[str, Any]) -> str:
             "",
             "- 不把草稿直接批量写入机会库；不把 `needs_human` 改成 false 冒充已复核。",
             "- 不编造证据 URL/数字；无法核验 → `verified:false` 并在 `compliance_notes` 说明。",
-            "- 不在 `--online` 模式把 API key 写入任何文件（本工具只从环境变量读取）。",
+            "- 不在 `online` 模式把 API key 写入任何文件（本工具只从环境变量读取）。",
             "",
         ]
     )
@@ -568,13 +738,15 @@ def render_review(payload: dict[str, Any]) -> str:
 
 
 def main(argv: list[str] | None = None) -> int:
-    parser = argparse.ArgumentParser(description="AI 富化 outbox（默认 offline-template，永不自动入库）")
+    parser = argparse.ArgumentParser(description="AI 富化 outbox（offline 默认 / mock 本地模拟 / online 真实 LLM；永不自动入库）")
     parser.add_argument("--signals", type=str, default=None, help="输入 outbox signals-*.json（默认取最新）")
     parser.add_argument("--out-dir", type=str, default=None, help="输出目录（默认 scanner/outbox）")
     parser.add_argument("--date", type=str, default=None, help="输出日期 YYYY-MM-DD（默认取 signals meta.as_of）")
-    parser.add_argument("--online", action="store_true", help="尝试 OpenAI 兼容在线富化（需 LLM_API_KEY）")
+    parser.add_argument("--provider", choices=sorted(config.LLM_PROVIDERS), default=None, help="offline（默认）/ mock（不联网模拟）/ online（需 LLM_API_KEY）")
+    parser.add_argument("--online", action="store_true", help="兼容别名：等价于 --provider online")
     parser.add_argument("--limit", type=int, default=None, help="最多处理 N 条信号")
     parser.add_argument("--dry-run", action="store_true", help="只打印摘要，不写文件")
+    parser.add_argument("--no-cache", action="store_true", help="禁用 24h 富化缓存")
     args = parser.parse_args(argv)
 
     path = latest_signals_path(args.signals)
@@ -583,21 +755,31 @@ def main(argv: list[str] | None = None) -> int:
         return 1
     summary = enrich(
         path,
-        online=args.online,
+        online=True if args.online else None,
+        provider=args.provider,
         dry_run=args.dry_run,
         limit=args.limit,
         out_dir=Path(args.out_dir) if args.out_dir else None,
         date=args.date,
+        cache_enabled=not args.no_cache,
     )
-    if summary.get("error"):
+    if summary.get("error") and not summary.get("candidates"):
         print(f"[enrich] 错误：{summary['error']}")
         return 2
+    usage = summary.get("usage") or {}
     print(
-        f"[enrich] mode={summary['mode']} 候选={summary['candidates']} 跳过={summary['skipped']} "
-        f"llm={summary['llm_used']}/{summary['llm_fallback']} dry_run={summary['dry_run']}"
+        f"[enrich] provider={summary['provider']} mode={summary['mode']} 候选={summary['candidates']} "
+        f"跳过={summary['skipped']} llm={summary['llm_used']}/{summary['llm_fallback']} cache={summary['cache_hits']} "
+        f"tokens={usage.get('input_tokens')}/{usage.get('output_tokens')} cost=${usage.get('estimated_cost_usd')} "
+        f"dry_run={summary['dry_run']}"
     )
     if summary.get("enriched_path"):
-        print(f"[enrich] → {Path(summary['enriched_path']).relative_to(config.ROOT)} / {Path(summary['review_path']).relative_to(config.ROOT)}")
+        print(
+            f"[enrich] → {common.display_path(summary['enriched_path'])}"
+            f" / {common.display_path(summary['review_path'])}"
+        )
+    if summary.get("error"):
+        print(f"[enrich] 警告：{summary['error']}")
     return 0
 
 

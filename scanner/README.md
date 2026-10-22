@@ -26,10 +26,11 @@ python scanner/report.py --period day --period year
 python scanner/db.py --rebuild
 python scanner/db.py --info
 
-# AI 富化 outbox（v0.4.0）：默认 offline-template，产物仅供人工复核，永不自动入库
+# AI 富化 outbox（v0.5.1：offline 默认 / mock 本地模拟 / online 真实 LLM；产物仅供人工复核，永不自动入库）
 python scanner/enrich.py
-python scanner/enrich.py --online --limit 5            # 需 LLM_API_KEY（OpenAI 兼容）
-python scanner/enrich.py --dry-run                      # 只打印摘要，不写文件
+python scanner/enrich.py --provider mock --limit 5       # 本地模拟在线响应（不联网，用于测试/演示）
+python scanner/enrich.py --provider online --limit 5     # 需 LLM_API_KEY（OpenAI 兼容）
+python scanner/enrich.py --dry-run                        # 只打印摘要，不写文件
 
 # 实验校准报告（v0.4.0）：读前端 /calibration 导出的实验 JSON
 python scanner/calibrate.py --experiments scanner/fixtures/experiments-sample.json --sample
@@ -38,7 +39,7 @@ python scanner/calibrate.py --experiments scanner/fixtures/experiments-sample.js
 python scanner/yearbook.py --year 2026
 python scanner/yearbook.py --year 2026 --experiments scanner/fixtures/experiments-sample.json --sample
 
-# 单元测试（标准库 unittest，50 条）
+# 单元测试（标准库 unittest，55 条）
 python -m unittest discover -s scanner/tests -v
 ```
 
@@ -96,12 +97,12 @@ data/opportunities.json  ── score.py/materialize.py 重算 → 回写派生�
 | `db.py` | `data/radar.db`（opportunities/evidence/rankings_history/source_health），原子重建 | §1.1 |
 | `fetch.py` | 真实采集：RSS/Atom/JSON feed、限速/缓存/UA/重试、outbox、source-health v2 | §1.2/§6 |
 | `report.py` | 四窗口报告（自包含 HTML + Markdown），`generated_at` 确定性 | §1.1 |
-| `enrich.py` | AI 富化 outbox：offline-template / 可选 LLM（OpenAI 兼容）；输出 `enriched-<date>.json` + `REVIEW.md`；`needs_human=true`、永不自动入库、key 不落盘、`--dry-run` | §1.3 |
+| `enrich.py` | AI 富化 outbox：`--provider offline/mock/online`（mock 本地模拟走同一请求/解析流程，不联网）；输出 `enriched-<date>.json` + `REVIEW.md`；token/成本估算、`--limit`、超时重试、缓存标注；`needs_human=true`、永不自动入库、key 不落盘、`--dry-run` | §1.3/§1.5 |
 | `calibrate.py` | 实验校准报告：Brier（docs/04 §12.9.5）、等级×成功率、花费/耗时、建议；输出 `data/reports/calibration-<date>.{html,md}` | §1.3 |
 | `yearbook.py` | 年度年鉴：Top20/月度时间线/分布/A 级清单/窗口收尾/评分分布/可选实验摘要/规则化 3 条方向建议；输出 `data/reports/yearbook-<year>.{html,md}`，`generated_at` 确定性 | §1.4 |
 | `validate.py` | V01–V20；V19 快照/回放规则、V20 source-health v2 收紧 | §9 |
 | `adapters/` | `rss` / `reddit` / `google_trends` / `ecommerce_reviews` 离线适配器 | §1/§6 |
-| `tests/test_scanner.py` | 45 条单测：公式/舍入/边界/窗口/榜单/tie-breaker/物化/validate/归一/去重/history delta/回退/回放链与幂等/source-health 合法-非法/报告/SQLite/feed 解析/红源筛选/enrich offline+dry-run+no-key/calibrate Brier+边界 | docs/04 §10.4 |
+| `tests/test_scanner.py` | 55 条单测：公式/舍入/边界/窗口/榜单/tie-breaker/物化/validate/归一/去重/history delta/回退/回放链与幂等/source-health 合法-非法/报告/SQLite/feed 解析/红源筛选/enrich offline+mock+本地HTTP+失败回退+缓存/calibrate Brier+边界/yearbook 5 类 | docs/04 §10.4 |
 
 ## 4. 历史快照、回放与真实 delta（v0.3.0）
 
@@ -135,10 +136,14 @@ data/opportunities.json  ── score.py/materialize.py 重算 → 回写派生�
 ### 7.1 `enrich.py` —— AI 富化 outbox（人工复核门禁）
 
 - 输入 `scanner/outbox/signals-<date>.json`（`--fetch` 产物）→ 输出 `scanner/outbox/enriched-<date>.json` + `scanner/outbox/REVIEW.md`（outbox 已 gitignore）。
-- 默认 **offline-template**：关键词/taxonomy 候选映射（行业/信息差/人性需求/情绪/神经递质）、七问骨架草稿（标注「待人工补充」）、启发式语言检测、证据 URL 透传；`meta.generator="offline-template"`。
-- 可选 **在线模式**：`--online` 且 `LLM_API_KEY` 存在 → OpenAI 兼容 `/chat/completions`；`LLM_BASE_URL`/`LLM_MODEL` 可配；记录 model/latency/token 估算；有 24h 缓存（`scanner/build/enrich-cache/`）；失败自动回退 offline 并在 `meta.error` 记录。
-- **安全红线**：key 只从环境变量读取、绝不写文件/日志；`--dry-run` 不写任何文件；所有候选 `needs_human:true`；**永不自动写 `data/opportunities.json`**（单测断言内容不变）；无 key 时 `--online` 返回清晰错误（exit 2，不崩溃）。
-- schema（docs/12 §1.3）：`{meta:{generator, model, generated_at, dry_run, ...}, candidates:[{source_id,url,title,lang,signal_type,gap_type_ids,human_need_ids,seven_questions_draft,notes,needs_human:true,...}]}`。
+- **provider 三态**（v0.5.1）：
+  - `offline`（默认）：关键词/taxonomy 候选映射、七问骨架草稿、启发式语言检测、证据 URL 透传；`meta.generator="offline-template"`；
+  - `mock`：本地模拟 OpenAI 兼容响应（**不联网**），走同一请求构造/响应解析/回退流程；`meta.generator="mock-llm"`、`meta.model="mock-model"`；
+  - `online`：`LLM_API_KEY` → 真实 `/chat/completions`（60s 超时、`config.LLM_MAX_RETRIES` 次指数退避重试、24h 缓存）；失败自动回退 offline 并在 `meta.error` 记录。
+- **用量与缓存**：`meta.usage{input_tokens, output_tokens, estimated_cost_usd, calls, cache_hits, prices}`（价格常量 `config.LLM_PRICE_*`，示例值、非真实账单；缓存命中不重复计费）；`--limit N` 限制处理条数；候选内 `_llm` 记录 provider/model/latency/tokens/cost/cached。**缓存语义**：24h 内二次运行命中缓存 → `cache_hits>0` 且 `input_tokens/output_tokens=0`、`calls=0`，`_llm.cached=true`、`_mode` 含 `cache`。
+- **安全红线**：key 只从环境变量读取、绝不写文件/日志；`--dry-run` 不写任何文件；所有候选 `needs_human:true`；**永不自动写 `data/opportunities.json`**（单测断言内容不变）；无 key 时 `provider=online` 返回清晰错误（exit 2，不崩溃）。
+- 测试：v0.5.1 用 Python 标准库本地 HTTP server（OpenAI 兼容 `/chat/completions`）验证请求头/体、解析、token、失败回退与缓存，不依赖外网/key。
+- schema（docs/12 §1.3）：`{meta:{generator, model, generated_at, dry_run, provider, usage, ...}, candidates:[{source_id,url,title,lang,signal_type,gap_type_ids,human_need_ids,seven_questions_draft,notes,needs_human:true,...}]}`。
 
 ### 7.2 `calibrate.py` —— 实验校准报告
 

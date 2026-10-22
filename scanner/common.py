@@ -37,6 +37,19 @@ def parse_date(value: str) -> date:
     return datetime.strptime(value, "%Y-%m-%d").date()
 
 
+def display_path(path: str | Path, root: Path | None = None) -> str:
+    """把路径显示为相对仓库根目录的短路径；相对/越界路径原样返回（不会抛错）。
+
+    v0.5.1 PATCH：修复 `--out-dir` 为相对路径时 `Path(p).relative_to(config.ROOT)` 抛 ValueError。
+    """
+    target = Path(path)
+    base = Path(root or config.ROOT)
+    try:
+        return str(target.resolve().relative_to(base.resolve()))
+    except (ValueError, OSError):
+        return str(target)
+
+
 def iso_week_key(day: date) -> str:
     iso = day.isocalendar()
     return f"{iso.year}-W{iso.week:02d}"
