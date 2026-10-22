@@ -393,3 +393,42 @@ P1-3（tie-breaker）已由 data-engineer 方案 A 修复并经红队复验：
 - 截图：已用最终 dist 重新生成 `qa/screenshots/01–15`（含 8 路由 1600、3 张 1024、3 张全页、**15-detail-043-gaming** 043 修复后详情、**02-rankings** 新排序），逐张 read_image 目检通过；CDP 1024/1600 共 20 路由次：`overflow=False`、`clippedElements=0`、`zeroSizeCanvas=0`、`consoleErrors=0`、404 兜底正常（404 页 textLength=278 属正常短页，非白屏）。
 - **结论：P0=0、P1=0（全部闭环），满足冻结条件，红队签署「可冻结」**。
 - 冻结后待办：核对 `releases/v0.1.0/MANIFEST.json` 的 sha256 是否等于上述值，并对 `releases/v0.1.0/dist/index.html` 做 file:// 冒烟 + 8 路由抽查。
+
+---
+
+## 11. 冻结产物核验（releases/v0.1.0，2026-10-22 10:26）
+
+> v0.1.0 已由 Lead 执行 `release.ps1` 冻结；本节为红队对**冻结产物**（非工作区候选）的最终核验。
+
+### 11.1 文件清单与 MANIFEST sha256（全量核对）
+
+`releases/v0.1.0/` 结构：`dist/index.html`、`dist/VERSION-README.md`、`README.md`、`DEV.md`、`OPS.md`、`CHANGELOG.md`、`MANIFEST.json`、`docs-snapshot/`（00–12 共 13 份）。
+
+- MANIFEST `files` 共 **19 条**：红队逐条重算 `bytes` + `sha256` → **19/19 全部一致（ALL OK）**。
+- `dist/index.html`：1,979,378 B，SHA256 `f24b0755f9bf05f7ab24d16bcb891ba4260f4f0cb31e3b567eab188f50bb7737` —— 与候选 dist 完全一致。
+- `MANIFEST.counts`：opportunities=46、sources=63、playbooks=12、calendar=33、docs=13 —— 与工作区实测一致。
+- `MANIFEST.validation`：pipeline/validate/build = pass（与红队实测一致）。
+
+### 11.2 git tag / commit 一致性
+
+- `git cat-file -p v0.1.0`：annotated tag 对象 `6ec99c9` → target **commit 267197b**（= HEAD，`docs: record v0.1.0 manifest`）。
+- commit `267197b` 的 parent = **401af1e**（`release: v0.1.0`，内容提交）——与 MANIFEST `git_commit=401af1e`、tag 注释「content commit 401af1e」一致。
+- `git rev-parse 'v0.1.0^{commit}'` → `267197bc915e7a5ace6767d1a15d86cd53ab945`；`git ls-tree 267197b releases/v0.1.0/MANIFEST.json` 存在 → tag 指向的提交包含冻结清单。**一致。**
+
+### 11.3 冻结 dist 的 file:// 冒烟（不引用工作区 app/dist）
+
+- 从 `releases/v0.1.0/dist/index.html` 直接 file:// 打开：8 路由（指挥台/排行榜/机会详情/扫描室/方法论/数据源/商业日历/关于）+ 1024 指挥台共 **9 张截图**（`qa/screenshots/frozen/frozen-*.png`）。
+- 均渲染成功、`jsErrors=0`；read_image 目检 frozen-01/02/03/08/09：KPI/榜单/详情/关于（v0.1.0 + REAL + 免责声明）/1024 布局均正常，无白屏、无报错。
+- 结论：冻结产物可直接双击打开、离线可用。
+
+### 11.4 冻结核验结论
+
+| 项 | 结果 |
+|---|---|
+| MANIFEST sha256 全量 | ✅ 19/19 一致 |
+| dist 与候选一致 | ✅ 同一 SHA256 |
+| tag/commit/MANIFEST 一致 | ✅ v0.1.0→267197b→401af1e |
+| 冻结 dist file:// 冒烟 | ✅ 8 路由 + 1024 正常，0 控制台错误 |
+| **结论** | **冻结产物核验通过，v0.1.0 可发布。** |
+
+> 发布后监控项：2 个 P2（前端 1024 卡片栅格/「新上榜」文案、cases.md RSS 证据）已在 v0.2.0 backlog；`verified:false` 仍是研究假设，使用前须复核原始来源（页面与 README 已声明）。
