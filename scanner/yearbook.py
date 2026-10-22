@@ -127,6 +127,83 @@ def _ranking_row(item: dict[str, Any], opp: dict[str, Any], names_ind: dict[str,
     }
 
 
+def monthly_grade_distribution(year: int, inputs: dict[str, Any]) -> list[dict[str, Any]]:
+    """v0.6.0：每月活跃机会的等级分布（S/A/B/C/D）。"""
+    rows: list[dict[str, Any]] = []
+    for month in range(1, 13):
+        prefix = f"{year}-{month:02d}"
+        active = [
+            opp
+            for opp in inputs["in_year"]
+            if any(str(day).startswith(prefix) for day in (opp.get("activity_dates") or []))
+        ]
+        grades = {grade: 0 for grade in GRADE_ORDER}
+        for opp in active:
+            grade = (opp.get("scores") or {}).get("grade", "?")
+            if grade in grades:
+                grades[grade] += 1
+        rows.append({"month": month, "label": MONTH_LABELS[month - 1], "grades": grades, "active": len(active)})
+    return rows
+
+
+def monthly_gap_heat(year: int, inputs: dict[str, Any]) -> list[dict[str, Any]]:
+    """v0.6.0：每月信息差类型热度（Top3 计数）。"""
+    names_gap = _names(inputs["taxonomy"], "gap_types")
+    rows: list[dict[str, Any]] = []
+    for month in range(1, 13):
+        prefix = f"{year}-{month:02d}"
+        active = [
+            opp
+            for opp in inputs["in_year"]
+            if any(str(day).startswith(prefix) for day in (opp.get("activity_dates") or []))
+        ]
+        counts: dict[str, int] = {}
+        for opp in active:
+            for gap in opp.get("gap_type_ids") or []:
+                counts[gap] = counts.get(gap, 0) + 1
+        top = sorted(counts.items(), key=lambda item: (-item[1], item[0]))[:3]
+        rows.append(
+            {
+                "month": month,
+                "label": MONTH_LABELS[month - 1],
+                "total": len(active),
+                "gaps": [{"id": key, "name": names_gap.get(key, key), "count": count} for key, count in top],
+            }
+        )
+    return rows
+
+
+def window_decay_stats(inputs: dict[str, Any]) -> dict[str, Any]:
+    """v0.6.0：窗口衰减统计——状态分布、months_left 分桶、decay 分布。"""
+    by_status: dict[str, int] = {"open": 0, "peak": 0, "closing": 0, "closed": 0}
+    by_decay: dict[str, int] = {"slow": 0, "medium": 0, "fast": 0}
+    buckets = {"0-3": 0, "4-8": 0, "9-12": 0, "13-24": 0, "25-36": 0}
+    for opp in inputs["in_year"]:
+        window = opp.get("window") or {}
+        status = window.get("status") or "open"
+        by_status[status] = by_status.get(status, 0) + 1
+        decay = window.get("decay") or "medium"
+        by_decay[decay] = by_decay.get(decay, 0) + 1
+        months = window.get("months_left")
+        if isinstance(months, int):
+            if months <= 3:
+                buckets["0-3"] += 1
+            elif months <= 8:
+                buckets["4-8"] += 1
+            elif months <= 12:
+                buckets["9-12"] += 1
+            elif months <= 24:
+                buckets["13-24"] += 1
+            else:
+                buckets["25-36"] += 1
+    return {
+        "by_status": by_status,
+        "by_decay": by_decay,
+        "months_left_buckets": buckets,
+        "samples": sum(by_status.values()),
+    }
+
+
 def monthly_timeline(year: int, inputs: dict[str, Any]) -> list[dict[str, Any]]:
     names_ind = _names(inputs["taxonomy"], "industries")
     names_gap = _names(inputs["taxonomy"], "gap_types")
@@ -240,9 +317,18 @@ def experiment_summary(experiments_path: Path | None, sample: bool) -> dict[str,
             "sample": bool(sample),
             "samples": len(records),
             "outcomes": outcomes,
+            "decided": decided,
             "success_rate": round(outcomes["positive"] / decided, 3) if decided else None,
             "brier": brier,
             "spend_hours": calibrate.spend_hours(records),
+            "funnel": {
+                "samples": len(records),
+                "decided": decided,
+                "positive": outcomes["positive"],
+                "negative": outcomes["negative"],
+                "inconclusive": outcomes["inconclusive"],
+                "success_rate": round(outcomes["positive"] / decided, 3) if decided else None,
+            },
             "error": None,
         }
     except Exception as exc:  # noqa: BLE001 - 年鉴不得因实验文件非法而失败
@@ -330,6 +416,9 @@ def build_report(year: int, experiments_path: Path | None = None, sample: bool =
         },
         "top20": top_rankings(year, inputs),
         "timeline": monthly_timeline(year, inputs),
+        "monthly_grades": monthly_grade_distribution(year, inputs),
+        "gap_heat": monthly_gap_heat(year, inputs),
+        "window_decay": window_decay_stats(inputs),
         "distributions": distributions_data,
         "a_grade": a_grade_list(inputs),
         "closing": closing_opportunities(inputs),
@@ -385,6 +474,16 @@ def render_markdown(report: dict[str, Any]) -> str:
         industries = "、".join(item["name"] for item in row["themes"]["industries"]) or "—"
         gaps = "、".join(item["name"] for item in row["themes"]["gaps"]) or "—"
         lines.append(f"| {row['label']} | {row['active']} | {row['new']} | {industries} / {gaps} |")
+    lines.extend(["", "## 月度等级分布（S/A/B/C/D）", "", "| 月份 | 活跃 | S | A | B | C | D |", "|---|---|---|---|---|---|---|"])
+    for row in report["monthly_grades"]:
+        grades = row["grades"]
+        lines.append(
+            f"| {row['label']} | {row['active']} | {grades['S']} | {grades['A']} | {grades['B']} | {grades['C']} | {grades['D']} |"
+        )
+    lines.extend(["", "## 信息差热度（每月 Top3）", "", "| 月份 | 活跃 | 信息差 Top3 |", "|---|---|---|"])
+    for row in report["gap_heat"]:
+        gaps = "、".join(f"{item['name']}({item['count']})" for item in row["gaps"]) or "—"
+        lines.append(f"| {row['label']} | {row['total']} | {gaps} |")
     lines.extend(["", "## 分布", "", "### 行业", ""])
     for row in report["distributions"]["by_industry"]:
         lines.append(f"- {row['name']}：{row['count']} 条（均分 {row['avg_total']}）")
@@ -401,6 +500,12 @@ def render_markdown(report: dict[str, Any]) -> str:
             "",
             "- 等级：" + " / ".join(f"{grade} {count}" for grade, count in report["distributions"]["by_grade"].items()),
             "- 窗口：" + " / ".join(f"{STATUS_LABELS.get(status, status)} {count}" for status, count in report["distributions"]["window_status"].items()),
+            "",
+            "## 窗口衰减统计",
+            "",
+            "- 状态：" + " / ".join(f"{STATUS_LABELS.get(status, status)} {count}" for status, count in report["window_decay"]["by_status"].items()),
+            "- 衰减速度：" + " / ".join(f"{decay} {count}" for decay, count in report["window_decay"]["by_decay"].items()),
+            "- months_left 分桶：" + " / ".join(f"{bucket} 月 {count}" for bucket, count in report["window_decay"]["months_left_buckets"].items()),
             "",
             "## A 级清单（≥75）",
             "",
@@ -438,6 +543,12 @@ def render_markdown(report: dict[str, Any]) -> str:
         )
         lines.append(
             f"- 花费合计 {experiments['spend_hours']['spend_total']} 元｜耗时合计 {experiments['spend_hours']['hours_total']} 小时"
+        )
+        funnel = experiments.get("funnel") or {}
+        lines.append(
+            f"- 实验漏斗：总样本 {funnel.get('samples', experiments['samples'])} → 已决 {funnel.get('decided', '—')}"
+            f"（positive {funnel.get('positive', '—')} / negative {funnel.get('negative', '—')} / inconclusive {funnel.get('inconclusive', '—')}）"
+            f" → 成功率 {funnel.get('success_rate', experiments.get('success_rate'))}"
         )
     lines.extend(["", "## 年度 3 个方向建议（规则生成，非投资建议）", ""])
     lines.extend(f"{idx}. {tip}" for idx, tip in enumerate(report["suggestions"], start=1))
@@ -493,6 +604,24 @@ def render_html(report: dict[str, Any]) -> str:
             + ("<p class='muted'>样例数据（sample），仅展示年鉴流程。</p>" if experiments.get("sample") else "")
         )
     tips = "".join(f"<li>{escape(tip)}</li>" for tip in report["suggestions"])
+    grade_rows = "".join(
+        f"<tr><td>{row['label']}</td><td>{row['active']}</td><td>{row['grades']['S']}</td><td>{row['grades']['A']}</td>"
+        f"<td>{row['grades']['B']}</td><td>{row['grades']['C']}</td><td>{row['grades']['D']}</td></tr>"
+        for row in report["monthly_grades"]
+    )
+    gap_heat_parts = []
+    for row in report["gap_heat"]:
+        gaps_text = "、".join(f"{item['name']}({item['count']})" for item in row["gaps"]) or "—"
+        gap_heat_parts.append(
+            f"<tr><td>{row['label']}</td><td>{row['total']}</td><td>{escape(gaps_text)}</td></tr>"
+        )
+    gap_heat_rows = "".join(gap_heat_parts)
+    decay = report["window_decay"]
+    decay_html = (
+        "<p>" + " / ".join(f"{escape(STATUS_LABELS.get(k, k))} {v}" for k, v in decay["by_status"].items()) + "</p>"
+        + "<p>衰减速度：" + " / ".join(f"{escape(k)} {v}" for k, v in decay["by_decay"].items()) + "</p>"
+        + "<p>months_left 分桶：" + " / ".join(f"{escape(k)} 月 {v}" for k, v in decay["months_left_buckets"].items()) + "</p>"
+    )
     grades = " ".join(f"<span class='chip'>{escape(str(grade))} {count}</span>" for grade, count in dist["by_grade"].items())
     status = " ".join(
         f"<span class='chip'>{escape(STATUS_LABELS.get(key, key))} {value}</span>" for key, value in dist["window_status"].items()
@@ -518,6 +647,11 @@ def render_html(report: dict[str, Any]) -> str:
 <table><tr><th>#</th><th>机会</th><th>等级</th><th>总分</th><th>行业</th><th>区域</th><th>窗口</th></tr>{top_rows}</table></section>
 <section class="card"><h2>月度时间线（按 activity_dates 聚合）</h2>
 <table><tr><th>月份</th><th>活跃机会</th><th>新机会</th><th>主题（行业 / 信息差 Top2）</th></tr>{timeline_rows}</table></section>
+<section class="card"><h2>月度等级分布（S/A/B/C/D）</h2>
+<table><tr><th>月份</th><th>活跃</th><th>S</th><th>A</th><th>B</th><th>C</th><th>D</th></tr>{grade_rows}</table></section>
+<section class="card"><h2>信息差热度（每月 Top3）</h2>
+<table><tr><th>月份</th><th>活跃</th><th>信息差 Top3</th></tr>{gap_heat_rows}</table></section>
+<section class="card"><h2>窗口衰减统计</h2>{decay_html}</section>
 <section class="card"><h2>分布</h2>
 <h3>行业</h3>{_bar_rows(dist['by_industry'], 'name')}
 <h3>区域</h3>{_bar_rows(dist['by_region'], 'name')}
@@ -568,6 +702,11 @@ def generate(
         "brier": (experiments.get("brier") or {}).get("brier") if not experiments.get("error") else None,
         "experiments_error": experiments.get("error"),
         "sample": sample,
+        "window_status": report["window_decay"]["by_status"],
+        "months_left_buckets": report["window_decay"]["months_left_buckets"],
+        "monthly_grade_months": len(report["monthly_grades"]),
+        "gap_heat_months": len(report["gap_heat"]),
+        "experiment_funnel": (experiments.get("funnel") if not experiments.get("error") else None),
     }
 
 

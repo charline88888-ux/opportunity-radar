@@ -1,0 +1,10 @@
+机会总数: 80（新增 34）
+行业覆盖: 14/14；最少行业条数: 2
+区域覆盖: 11/11；信息差覆盖: 12/12
+目标国家/地区: 53
+中国角度: 41
+verified:true: 32；证据总数: 156
+等级: {'A': 12, 'B': 66, 'C': 2}；均分: 70.8
+窗口条数: {'day': 17, 'week': 49, 'month': 57, 'year': 80}
+stats keys: ['meta', 'kpi', 'by_grade', 'by_industry', 'by_gap_type', 'by_region', 'by_need', 'score_histogram']
+新增 id: ['opp-manufacturing-ceramic-pet-memorial-supply-047', 'opp-pet-kr-pet-insurance-claims-048', 'opp-pet-jp-pet-insurance-settlement-049', 'opp-pet-kr-pet-funeral-subscription-050', 'opp-local-jp-inbound-experience-051', 'opp-content-jp-oshi-goods-supply-052', 'opp-content-china-guzi-economy-053', 'opp-silver-china-aging-retrofit-054', 'opp-fintech-china-inbound-payment-guide-055', 'opp-xb-saudi-ecommerce-localization-056', 'opp-content-uae-eid-gifting-057', 'opp-xb-vietnam-tiktok-shop-ops-058', 'opp-xb-sea-halal-beauty-supply-059', 'opp-fintech-brazil-pix-payment-060', 'opp-fintech-mexico-cod-oxxo-ops-061', 'opp-green-kenya-payg-solar-channel-062', 'opp-xb-africa-jumia-ops-063', 'opp-xb-india-wedding-supply-064', 'opp-emotional-india-ayurveda-d2c-065', 'opp-compliance-germany-einvoice-service-066', 'opp-compliance-eu-ppwr-epr-packaging-067', 'opp-local-poland-cee-localization-068', 'opp-xb-turkey-ecommerce-localization-069', 'opp-emotional-grief-memoir-service-070', 'opp-ai-etsy-digital-templates-071', 'opp-ai-shopify-app-niche-072', 'opp-manufacturing-west-africa-shea-processing-073', 'opp-green-africa-solar-accessories-074', 'opp-content-japan-anime-pilgrimage-content-075', 'opp-xb-saudi-salla-zid-build-076', 'opp-pet-kr-pet-food-subscription-077', 'opp-silver-jp-senior-digital-care-078', 'opp-content-china-shortdrama-id-l10n-079', 'opp-xb-china-pet-memorial-b2b-080']

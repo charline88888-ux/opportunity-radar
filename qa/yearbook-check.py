@@ -39,6 +39,107 @@ def r1(x: float) -> float:
     return math.floor(x * 10 + 0.5 + 1e-9) / 10
 
 
+def check_monthly_grades(md: str, opps: list, year: int) -> list[str]:
+    issues = []
+    rows = {}
+    for m in re.finditer(r"\| (\d{1,2}) 月 \| (\d+) \| (\d+) \| (\d+) \| (\d+) \| (\d+) \| (\d+) \|", md):
+        mo = int(m.group(1)); rows[mo] = tuple(int(x) for x in m.groups()[1:])
+    if len(rows) != 12:
+        return [f"月度等级分布应 12 行，实际 {len(rows)}"]
+    by_month = defaultdict(lambda: defaultdict(int))
+    for o in opps:
+        grade = o["scores"]["grade"]
+        months = {str(d)[5:7] for d in (o.get("activity_dates") or []) if str(d)[:4] == str(year)}
+        for mm in months:
+            by_month[int(mm)][grade] += 1
+    grade_order = ["S", "A", "B", "C", "D"]
+    for mo in range(1, 13):
+        got = rows.get(mo)
+        want_counts = [by_month[mo].get(g, 0) for g in grade_order]
+        want = (sum(want_counts), *want_counts)
+        if got != want:
+            issues.append(f"月度等级 {mo} 月报告 {got} ≠ 独立 {want}")
+    return issues
+
+
+def check_gap_heat(md: str, opps: list, year: int, gap_name: dict) -> list[str]:
+    issues = []
+    rows = {}
+    for m in re.finditer(r"\| (\d{1,2}) 月 \| (\d+) \| ([^|\n]+) \|", md):
+        mo = int(m.group(1)); rows[mo] = (int(m.group(2)), m.group(3).strip())
+    # 只取「信息差热度」段
+    start = md.find("## 信息差热度")
+    if start < 0:
+        return ["缺少信息差热度段"]
+    seg = md[start: md.find("\n## ", start + 3) if md.find("\n## ", start + 3) > 0 else len(md)]
+    heat_rows = {}
+    for m in re.finditer(r"\| (\d{1,2}) 月 \| (\d+) \| ([^|\n]+) \|", seg):
+        heat_rows[int(m.group(1))] = (int(m.group(2)), m.group(3).strip())
+    by_month = defaultdict(Counter)
+    for o in opps:
+        months = {str(d)[5:7] for d in (o.get("activity_dates") or []) if str(d)[:4] == str(year)}
+        for mm in months:
+            for g in set(o.get("gap_type_ids") or []):
+                by_month[int(mm)][g] += 1
+    for mo in range(1, 13):
+        got = heat_rows.get(mo)
+        if got is None:
+            issues.append(f"信息差热度缺 {mo} 月")
+            continue
+        cnt, text = got
+        active = sum(1 for o in opps if any(str(d)[5:7] == f"{mo:02d}" and str(d)[:4] == str(year) for d in (o.get("activity_dates") or [])))
+        if cnt != active:
+            issues.append(f"信息差热度 {mo} 月活跃 {cnt} ≠ 独立 {active}")
+        if text == "—":
+            continue
+        parts = re.findall(r"([^、()（）]+)\(([0-9]+)\)", text)
+        for name, c in parts:
+            gid = next((k for k, v in gap_name.items() if v == name.strip()), None)
+            if gid is None:
+                issues.append(f"信息差热度 {mo} 月未知类型 {name!r}")
+                continue
+            want = by_month[mo].get(gid, 0)
+            if int(c) != want:
+                issues.append(f"信息差热度 {mo} 月 {name} 报告 {c} ≠ 独立 {want}")
+        if len(parts) > 3:
+            issues.append(f"信息差热度 {mo} 月 Top 超过 3 条")
+    return issues
+
+
+def check_window_decay(md: str, opps: list) -> list[str]:
+    issues = []
+    start = md.find("## 窗口衰减统计")
+    if start < 0:
+        return ["缺少窗口衰减统计段"]
+    seg = md[start: md.find("\n## ", start + 3) if md.find("\n## ", start + 3) > 0 else len(md)]
+    status_map = {"open": "开放", "peak": "高峰", "closing": "收尾", "closed": "关闭"}
+    want_status = Counter(status_map.get((o.get("window") or {}).get("status"), "?") for o in opps)
+    want_decay = Counter(str((o.get("window") or {}).get("decay", "?")) for o in opps)
+    buckets = Counter()
+    for o in opps:
+        ml = int((o.get("window") or {}).get("months_left", 0))
+        b = "0-3" if ml <= 3 else "4-8" if ml <= 8 else "9-12" if ml <= 12 else "13-24" if ml <= 24 else "25-36"
+        buckets[b] += 1
+    m = re.search(r"状态：([^\n]+)", seg)
+    if m:
+        for name, num in re.findall(r"(开放|高峰|收尾|关闭)\s*(\d+)", m.group(1)):
+            if int(num) != want_status.get(name, 0):
+                issues.append(f"窗口状态 {name} 报告 {num} ≠ 独立 {want_status.get(name, 0)}")
+    else:
+        issues.append("窗口衰减统计缺状态行")
+    m = re.search(r"衰减速度：([^\n]+)", seg)
+    if m:
+        for name, num in re.findall(r"(slow|medium|fast)\s*(\d+)", m.group(1)):
+            if int(num) != want_decay.get(name, 0):
+                issues.append(f"衰减速度 {name} 报告 {num} ≠ 独立 {want_decay.get(name, 0)}")
+    m = re.search(r"months_left 分桶：([^\n]+)", seg)
+    if m:
+        for name, num in re.findall(r"(0-3|4-8|9-12|13-24|25-36)\s*月\s*(\d+)", m.group(1)):
+            if int(num) != buckets.get(name, 0):
+                issues.append(f"months_left {name} 月报告 {num} ≠ 独立 {buckets.get(name, 0)}")
+    return issues
+
+
 def main() -> int:
     TMP.mkdir(parents=True, exist_ok=True)
     opps = json.loads((DATA / "opportunities.json").read_text(encoding="utf-8"))
@@ -59,11 +160,12 @@ def main() -> int:
     active = defaultdict(set)
     first_month = Counter()
     for o in opps:
-        dates = sorted(str(d)[:10] for d in (o.get("activity_dates") or []) if str(d)[:4] == str(year))
+        all_dates = sorted(str(d)[:10] for d in (o.get("activity_dates") or []))
+        dates = [d for d in all_dates if d[:4] == str(year)]
         for d in dates:
             active[d[:7]].add(o["id"])
-        if dates:
-            first_month[dates[0][:7]] += 1
+        if all_dates and all_dates[0][:4] == str(year):
+            first_month[all_dates[0][:7]] += 1
     exp_month_active = {m: len(v) for m, v in active.items()}
     exp_month_new = dict(first_month)
     # 分布
@@ -88,8 +190,8 @@ def main() -> int:
         P1.append("年鉴缺少免责声明")
     if re.search(r'<script[^>]+src="https?://', html) or re.search(r'<link[^>]+href="https?://', html):
         P1.append("年鉴 HTML 含外部资源（非自包含）")
-    if not re.search(r"data-v0\.5\.0", md):
-        P2.append("年鉴 MD 未显示 data-v0.5.0")
+    if not re.search(r"data-v0\.6\.0", md):
+        P2.append("年鉴 MD 未显示 data-v0.6.0")
 
     # 2.1 Top20
     top_ids = re.findall(r"（(opp-[a-z0-9\-]+)）", md)
@@ -114,7 +216,10 @@ def main() -> int:
         notes.append("年榜行 grade/total 与数据一致 ✅")
 
     # 2.2 月度时间线
-    month_rows = {int(m.group(1)): (int(m.group(2)), int(m.group(3))) for m in re.finditer(r"\| (\d{1,2}) 月 \| (\d+) \| (\d+) \|", md)}
+    tl_start = md.find("## 月度时间线")
+    tl_end = md.find("\n## ", tl_start + 3) if tl_start >= 0 and md.find("\n## ", tl_start + 3) > 0 else len(md)
+    tl_seg = md[tl_start:tl_end] if tl_start >= 0 else ""
+    month_rows = {int(m.group(1)): (int(m.group(2)), int(m.group(3))) for m in re.finditer(r"\| (\d{1,2}) 月 \| (\d+) \| (\d+) \|", tl_seg)}
     if len(month_rows) != 12:
         P1.append(f"月度时间线应 12 个月，实际 {len(month_rows)}")
     else:
@@ -154,10 +259,20 @@ def main() -> int:
     reg_exp = {region_name[k]: v for k, v in reg.items()}
     if reg_md and reg_md != reg_exp:
         P1.append("区域分布不一致")
-    gap_md = parse_bullets("### 信息差类型")
+    gap_md = parse_bullets("### 信息差类型") or parse_bullets("### 信息差")
     gap_exp = {gap_name[k]: v for k, v in gap.items()}
     if gap_md and gap_md != gap_exp:
         P1.append("信息差分布不一致")
+
+    # 2.3b v0.6 新指标：月度等级分布 / 信息差热度 / 窗口衰减
+    for issue in check_monthly_grades(md, opps, year):
+        P1.append(issue)
+    for issue in check_gap_heat(md, opps, year, gap_name):
+        P1.append(issue)
+    for issue in check_window_decay(md, opps):
+        P1.append(issue)
+    if not P1:
+        notes.append("v0.6 新指标（月度等级/信息差热度/窗口衰减）与独立复算一致 ✅")
 
     # 2.4 A 级/收尾/评分分布
     if f"A 级及以上：{len(a_list)} 条" not in md and f"A 级及以上：{len(a_list)}" not in md:
@@ -216,6 +331,17 @@ def main() -> int:
             P1.append(f"年鉴实验摘要 Brier 与独立复算 {brier} 不一致")
         if "样例数据" not in exp_md and "sample" not in exp_md.lower():
             P2.append("有实验年鉴未标注样例")
+        # v0.6 实验漏斗独立复算
+        pos = sum(1 for e in fixture.get("experiments") or [] if e.get("outcome") == "positive")
+        neg = sum(1 for e in fixture.get("experiments") or [] if e.get("outcome") == "negative")
+        inc = sum(1 for e in fixture.get("experiments") or [] if e.get("outcome") == "inconclusive")
+        decided = pos + neg
+        success = round(pos / decided, 2) if decided else 0
+        funnel_pat = rf"实验漏斗：总样本 {pos + neg + inc} → 已决 {decided}（positive {pos} / negative {neg} / inconclusive {inc}） → 成功率 {success}"
+        if not re.search(funnel_pat, exp_md):
+            P1.append(f"实验漏斗与独立复算不一致（期望 {pos + neg + inc}/{decided}/{pos}/{neg}/{inc}/{success}）")
+        else:
+            notes.append("实验漏斗（样本/已决/pos/neg/inconclusive/成功率）与独立复算一致 ✅")
         notes.append(f"有实验年鉴：独立 Brier={brier}，报告含 Brier={'是' if str(brier) in exp_md else '否'}")
         # 非法实验 JSON 容错
         bad = TMP / "yb-bad-exp.json"

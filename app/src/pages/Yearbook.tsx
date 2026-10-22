@@ -6,6 +6,7 @@ import { Chart } from '@/components/charts/Chart'
 import { PageHeader } from '@/components/PageHeader'
 import { Badge, Button, Panel, SectionCard } from '@/components/ui'
 import { dataAsOf, gapName, industryName, oppById, opportunities, rankings, regionName, taxonomy } from '@/lib/data'
+import { useExperiments } from '@/lib/experiments'
 import { useI18n } from '@/lib/i18n'
 import { downloadText } from '@/lib/exports'
 import { cn, fmtInt, fmtScore } from '@/lib/utils'
@@ -17,6 +18,7 @@ const MONTH_LABELS = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10'
 
 export default function Yearbook() {
   const { lang } = useI18n()
+  const { items: experiments } = useExperiments()
   const L: L = (zh, en) => (lang === 'en' ? en : zh)
   const year = dataAsOf.slice(0, 4)
   const yearItems = rankings.windows.year.items.map((x) => oppById.get(x.opp_id)).filter((x): x is Opportunity => !!x)
@@ -26,14 +28,18 @@ export default function Yearbook() {
   const closing = yearItems.filter((o) => o.window.status === 'closed' || o.window.months_left <= 3).sort((a, b) => a.window.months_left - b.window.months_left)
 
   const monthly = useMemo(() => {
-    const rows = MONTH_LABELS.map((m) => ({ month: m, count: 0, themes: new Map<string, number>() }))
+    const rows = MONTH_LABELS.map((m) => ({ month: m, count: 0, themes: new Map<string, number>(), grades: new Map<string, number>(), gaps: new Map<string, number>() }))
     for (const o of yearItems) {
       for (const d of o.activity_dates) {
         if (!d.startsWith(`${year}-`)) continue
         const idx = Math.max(0, Math.min(11, Number(d.slice(5, 7)) - 1))
         const row = rows[idx]
         row.count += 1
-        for (const g of o.gap_type_ids) row.themes.set(gapName(g), (row.themes.get(gapName(g)) || 0) + 1)
+        row.grades.set(o.scores.grade, (row.grades.get(o.scores.grade) || 0) + 1)
+        for (const g of o.gap_type_ids) {
+          row.gaps.set(gapName(g), (row.gaps.get(gapName(g)) || 0) + 1)
+          row.themes.set(gapName(g), (row.themes.get(gapName(g)) || 0) + 1)
+        }
         row.themes.set(industryName(o.industry_id), (row.themes.get(industryName(o.industry_id)) || 0) + 0.5)
       }
     }
@@ -41,8 +47,46 @@ export default function Yearbook() {
       month: r.month,
       count: r.count,
       themes: [...r.themes.entries()].sort((a, b) => b[1] - a[1]).slice(0, 2).map((x) => x[0]),
+      grades: ['S', 'A', 'B', 'C'].map((g) => ({ grade: g, value: r.grades.get(g) || 0 })),
+      gaps: [...r.gaps.entries()].sort((a, b) => b[1] - a[1]).slice(0, 3),
     }))
   }, [yearItems, year])
+
+  const gapHeat = useMemo(() => {
+    const totals = new Map<string, number>()
+    for (const row of monthly) for (const [g, n] of row.gaps) totals.set(g, (totals.get(g) || 0) + n)
+    return [...totals.entries()].sort((a, b) => b[1] - a[1]).slice(0, 8).map(([g]) => ({ gap: g, values: monthly.map((row) => row.gaps.find((x) => x[0] === g)?.[1] || 0) }))
+  }, [monthly])
+
+  const windowStats = useMemo(() => {
+    const statuses = ['open', 'peak', 'closing', 'closed']
+    return {
+      byStatus: statuses.map((s) => ({ status: s, count: yearItems.filter((o) => o.window.status === s).length })),
+      buckets: [
+        { label: '≤0M', count: yearItems.filter((o) => o.window.months_left <= 0).length },
+        { label: '1-3M', count: yearItems.filter((o) => o.window.months_left > 0 && o.window.months_left <= 3).length },
+        { label: '4-6M', count: yearItems.filter((o) => o.window.months_left > 3 && o.window.months_left <= 6).length },
+        { label: '7-12M', count: yearItems.filter((o) => o.window.months_left > 6 && o.window.months_left <= 12).length },
+        { label: '>12M', count: yearItems.filter((o) => o.window.months_left > 12).length },
+      ],
+    }
+  }, [yearItems])
+
+  const experimentStats = useMemo(() => {
+    const closed = experiments.filter((e) => e.status !== 'active' && e.outcome)
+    const positive = closed.filter((e) => e.outcome === 'positive').length
+    const negative = closed.filter((e) => e.outcome === 'negative').length
+    const inconclusive = closed.filter((e) => e.outcome === 'inconclusive').length
+    return {
+      total: experiments.length,
+      active: experiments.filter((e) => e.status === 'active').length,
+      closed: closed.length,
+      positive,
+      negative,
+      inconclusive,
+      successRate: positive + negative ? Math.round((positive / (positive + negative)) * 1000) / 10 : 0,
+    }
+  }, [experiments])
 
   const distributions = useMemo(() => {
     const byIndustry = new Map<string, number>()
@@ -84,6 +128,25 @@ export default function Yearbook() {
       series: [{ type: 'bar', barMaxWidth: 24, itemStyle: { color: '#4cc9f0', opacity: 0.85 }, data: distributions.byIndustry.map((x) => x[1]) }],
     }),
     [distributions, lang],
+  )
+
+  const gradeOption = useMemo<EChartsOption>(
+    () => ({
+      grid: { left: 4, right: 8, top: 22, bottom: 2, containLabel: true },
+      tooltip: { trigger: 'axis' },
+      legend: { top: 0, textStyle: { color: '#8b93a7', fontSize: 9 }, itemWidth: 8, itemHeight: 8 },
+      xAxis: { type: 'category', data: monthly.map((x) => x.month) },
+      yAxis: { type: 'value', minInterval: 1, name: L('新信号', 'Signals'), nameTextStyle: { fontSize: 9, color: '#5a6273' } },
+      series: ['S', 'A', 'B', 'C'].map((grade, i) => ({
+        name: grade,
+        type: 'bar',
+        stack: 'grade',
+        barMaxWidth: 24,
+        itemStyle: { color: ['#ffd166', '#3ddc97', '#4cc9f0', '#8b93a7'][i] },
+        data: monthly.map((x) => x.grades.find((g) => g.grade === grade)?.value || 0),
+      })),
+    }),
+    [monthly, lang],
   )
 
   const md = () => {
@@ -246,6 +309,82 @@ ${monthly.map((x) => `<tr><td>${year}-${x.month}</td><td>${x.count}</td><td>${es
             <span className="text-dim">·</span>
             <span className="text-dim">python scanner/yearbook.py --year {year}</span>
           </div>
+        </SectionCard>
+
+        <SectionCard className="xl:col-span-5" eyebrow="MONTHLY GRADE" title={L('月度等级分布', 'Monthly grade distribution')} subtitle={L('按 activity_dates 统计每月新信号的 S/A/B/C 构成', 'S/A/B/C mix of monthly signals by activity_dates')}>
+          <Chart option={gradeOption} height={230} />
+        </SectionCard>
+
+        <SectionCard className="xl:col-span-7" eyebrow="GAP HEAT" title={L('信息差类型热度', 'Gap-type heatmap')} subtitle={L('每月 top 信息差类型的信号数（数字越大越热）', 'Monthly signal counts by top gap type (higher is hotter)')}>
+          {gapHeat.length ? (
+            <div className="overflow-x-auto">
+              <table className="min-w-[560px] w-full border-collapse text-[9px]">
+                <thead><tr><th className="p-1 text-left text-dim">{L('信息差', 'Gap')}</th>{MONTH_LABELS.map((m) => <th key={m} className="p-1 text-center font-mono text-dim">{m}</th>)}</tr></thead>
+                <tbody>
+                  {gapHeat.map((row) => (
+                    <tr key={row.gap}>
+                      <td className="max-w-[130px] truncate p-1 text-muted">{row.gap}</td>
+                      {row.values.map((v, i) => (
+                        <td key={`${row.gap}-${i}`} className="p-0.5 text-center">
+                          <span className="inline-flex h-5 w-full min-w-[18px] items-center justify-center rounded-sm font-mono" style={{ background: v ? `rgba(61,220,151,${Math.min(0.85, 0.12 + v * 0.18)})` : 'rgba(255,255,255,0.02)', color: v > 2 ? '#0b1117' : '#8b93a7' }}>{v || '·'}</span>
+                        </td>
+                      ))}
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          ) : <div className="text-[10px] text-dim">{L('暂无足够信息差活动数据', 'Not enough gap activity data')}</div>}
+        </SectionCard>
+
+        <SectionCard className="xl:col-span-7" eyebrow="WINDOW DECAY" title={L('窗口衰减统计', 'Window decay stats')} subtitle={L('按窗口状态与剩余窗口（months_left）分桶', 'By window status and remaining months buckets')}>
+          <div className="grid grid-cols-2 gap-2 md:grid-cols-4">
+            {windowStats.byStatus.map((x) => (
+              <div key={x.status} className="rounded border border-line/70 px-2 py-1.5">
+                <div className="mono-label">{x.status}</div>
+                <div className="num text-[15px] text-ink">{x.count}</div>
+                <div className="h-1.5 rounded bg-panel-2"><div className="h-1.5 rounded bg-signal" style={{ width: `${yearItems.length ? (x.count / yearItems.length) * 100 : 0}%` }} /></div>
+              </div>
+            ))}
+          </div>
+          <div className="mt-2 grid grid-cols-5 gap-1.5">
+            {windowStats.buckets.map((b) => (
+              <div key={b.label} className="rounded border border-line/60 px-1.5 py-1 text-center">
+                <div className="font-mono text-[9px] text-dim">{b.label}</div>
+                <div className="num text-[13px] text-muted">{b.count}</div>
+              </div>
+            ))}
+          </div>
+          <div className="mt-2 text-[9px] leading-relaxed text-dim">{L('窗口衰减口径来自 opportunities.window（status / months_left）；关闭/≤3 月机会进入年度风险清单。', 'Window decay uses opportunities.window (status / months_left); closed/≤3-month opportunities enter the risk list.')}</div>
+        </SectionCard>
+
+        <SectionCard className="xl:col-span-5" eyebrow="EXPERIMENT FUNNEL" title={L('实验漏斗', 'Experiment funnel')} subtitle={L('从本机实验记录统计，不读取后端报告', 'Computed from local experiments; backend reports are not read')}>
+          <div className="grid grid-cols-2 gap-2">
+            {[
+              { label: L('实验总数', 'Total'), value: experimentStats.total, color: '#cdd6e5' },
+              { label: L('进行中', 'Active'), value: experimentStats.active, color: '#4cc9f0' },
+              { label: L('已结案', 'Closed'), value: experimentStats.closed, color: '#a78bfa' },
+              { label: L('成功率', 'Success rate'), value: `${experimentStats.successRate}%`, color: '#ffd166' },
+            ].map((x) => (
+              <div key={x.label} className="rounded border border-line/70 px-2 py-1.5">
+                <div className="mono-label">{x.label}</div>
+                <div className="num text-[17px] font-semibold" style={{ color: x.color }}>{x.value}</div>
+              </div>
+            ))}
+          </div>
+          <div className="mt-2 grid grid-cols-3 gap-1.5 text-center">
+            {[
+              { label: L('正向', 'Positive'), value: experimentStats.positive, color: '#3ddc97' },
+              { label: L('负向', 'Negative'), value: experimentStats.negative, color: '#ff5d5d' },
+              { label: L('不明确', 'Inconclusive'), value: experimentStats.inconclusive, color: '#8b93a7' },
+            ].map((x) => (
+              <div key={x.label} className="rounded border border-line/60 px-1.5 py-1">
+                <div className="font-mono text-[9px] text-dim">{x.label}</div>
+                <div className="num text-[13px]" style={{ color: x.color }}>{x.value}</div>
+              </div>
+            ))}
+          </div>
+          <div className="mt-2 text-[9px] leading-relaxed text-dim">{L('成功率 = 正向 / (正向 + 负向)，不明确不计入分母；实验数据仅存本机。', 'Success rate = positive / (positive + negative), inconclusive excluded; experiments stay local.')}</div>
         </SectionCard>
 
         <SectionCard className="xl:col-span-4" eyebrow="A GRADE / CLOSING" title={L('A 级清单与窗口风险', 'A-grade list & window risk')}>

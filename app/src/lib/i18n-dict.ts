@@ -1214,4 +1214,8 @@ export const UI_EN: Record<string, string> = {
   '重新加载': 'Reload',
   '先做最小验证': 'Run the smallest validation first',
   '数据缺失不会导致白屏；若持续出现，请检查 data/ 数据或重新构建。': 'Missing data will not blank the page; if this persists, check data/ or rebuild.',
+  '国家/地区覆盖': 'Countries / regions',
+  '目标国家/地区': 'Target countries / regions',
+  '国家/地区覆盖数': 'Country/region coverage',
+  '窗口收窄': 'Window narrowing',
 }

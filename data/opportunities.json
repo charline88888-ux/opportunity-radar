@@ -6872,5 +6872,5067 @@
     ],
     "verified": false,
     "disclaimer": "研究假设，非投资建议；示例数据用于演示，使用前请核验原始来源"
+  },
+  {
+    "id": "opp-manufacturing-ceramic-pet-memorial-supply-047",
+    "slug": "ceramic-pet-memorial-supply",
+    "title": "景德镇瓷制宠物骨灰盒/纪念像：产业带直接出海",
+    "one_liner": "海外宠物殡葬从遗体处理转向纪念仪式，景德镇陶瓷骨灰盒/雕像单厂年销 6000 万+ 元，适合做中间层选品+英文 list",
+    "industry_id": "manufacturing",
+    "gap_type_ids": [
+      "geo",
+      "price"
+    ],
+    "region_ids": [
+      "china",
+      "north-america",
+      "europe",
+      "oceania"
+    ],
+    "origin_country": "中国",
+    "target_countries": [
+      "美国",
+      "英国",
+      "德国",
+      "加拿大",
+      "澳大利亚"
+    ],
+    "human_need_ids": [
+      "belonging",
+      "nostalgia"
+    ],
+    "neuro_drivers": [
+      "oxytocin",
+      "serotonin"
+    ],
+    "emotion_tags": [
+      "grief",
+      "love",
+      "nostalgia"
+    ],
+    "source_langs": [
+      "en",
+      "zh"
+    ],
+    "signal": {
+      "summary": "景德镇陶瓷工厂把宠物骨灰盒/雕像做成跨境生意，单厂年销 6000 万+ 元；海外宠物殡葬从遗体处理转向纪念仪式，本地手工 6 周交付慢、成本高，产业带直发仍有价格与交付空间。",
+      "evidence": [
+        {
+          "title": "宠物殡葬与纪念品市场升温：景德镇工厂年销 6000 万",
+          "publisher": "搜狐",
+          "url": "https://www.sohu.com/a/952762371_121478199",
+          "date": "2025-11-10",
+          "quote": "景德镇一家陶瓷工厂主做宠物骨灰盒/雕像/墓碑，年销 6000 多万人民币，销往美洲、欧洲、澳洲",
+          "lang": "zh",
+          "tier": "secondary"
+        },
+        {
+          "title": "In-Depth Analysis of the Pet Funeral Industry",
+          "publisher": "Made-in-China Insights",
+          "url": "https://insights.made-in-china.com/jp/In-Depth-Analysis-of-the-Pet-Funeral-Industry-When-Pets-Become-Family-How-Do-We-Say-a-Proper-Goodbye_wtDfFVWGJxlT.html",
+          "date": "2026-08-19",
+          "quote": "全球宠物殡葬服务市场 2024 年 19.7 亿美元 → 2025 年约 21.8 亿美元",
+          "lang": "en",
+          "tier": "secondary"
+        }
+      ],
+      "signal_strength": 8.0,
+      "trend_direction": "up",
+      "volume_estimate": "单厂年销 6000 万+ 元；海外宠物殡葬服务市场约 21.8 亿美元（2025）"
+    },
+    "seven_questions": {
+      "traffic": "跨境电商平台宠物 memorial 类目长尾词 + 海外宠物殡葬服务商 B2B 邮件 + Pinterest 场景图；前 100 单来自平台自然搜索与殡葬机构白牌采购",
+      "money": "实物定制：骨灰盒 60–200 美元、雕像 100–400 美元；加刻字/纪念相框；毛利 50–65%",
+      "model": "产业带直供 + 中间层选品/摄影/英文 listing/售后 + 海外仓或小包直发；易碎品专用包装",
+      "roi": "启动 1–3 万元（样品/拍摄/包装/认证）；1–2 个月出首单，3–6 个月回本；月收入 1–4 万元",
+      "audience": "有供应链资源、英语可读、能做售后与破损兜底的人；不适合完全不懂陶瓷工艺与跨境物流的人",
+      "drivers": [
+        "cross-border",
+        "supply",
+        "info"
+      ],
+      "moat": "产业带成本与工艺良率 + 原创图案/品种定制 + 殡葬机构渠道；前置条件是防碎包装与目的国进口合规"
+    },
+    "roi": {
+      "capital_cny": {
+        "min": 10000,
+        "max": 30000
+      },
+      "time_to_revenue_months": 2,
+      "payback_months": 5,
+      "monthly_revenue_cny": {
+        "min": 10000,
+        "max": 40000
+      },
+      "gross_margin_pct": 55,
+      "effort_level": "side",
+      "team_size": 1
+    },
+    "scores": {
+      "dimensions": {
+        "signal": 8.0,
+        "gap": 8.0,
+        "feasibility": 8.2,
+        "economics": 7.6,
+        "timing": 7.4,
+        "competition": 6.2,
+        "risk": 6.8,
+        "fit": 7.6,
+        "evidence": 7.4,
+        "leverage": 6.4
+      },
+      "total": 75.5,
+      "grade": "A"
+    },
+    "window": {
+      "status": "open",
+      "months_left": 20,
+      "decay": "slow"
+    },
+    "risks": [
+      "易碎品跨境破损率与退货成本高",
+      "部分国家限制动物遗骸相关制品进口",
+      "同质化白牌压价，无原创设计则毛利下滑"
+    ],
+    "first_steps_7d": [
+      "Etsy/Amazon 搜 20 个同类 listing，记录价格/评价/差评点",
+      "1688/景德镇找 3 家工厂打样并报破损率与起订量",
+      "算一单小包直邮 vs 海外仓的到岸成本",
+      "做 1 张品种定制对比图发 Pinterest 测点击"
+    ],
+    "kill_criteria": [
+      "样品良率 < 80% 或破损率 > 8%",
+      "3 个月无自然流量询盘",
+      "头部卖家把同类价格打到 30 美元以下"
+    ],
+    "compliance_notes": "陶瓷制品出口需目的国食品接触/装饰品安全声明；动物遗骸相关制品多数国家受限，只做纪念物与毛发；verified 依据 URL 直连结果",
+    "evidence_count": 2,
+    "activity_dates": [
+      "2026-08-10",
+      "2026-09-15",
+      "2026-10-22"
+    ],
+    "first_seen": "2026-08-10",
+    "last_activity": "2026-10-22",
+    "momentum": 1.2,
+    "rank_score": 77.3,
+    "tags": [
+      "needs-supply-chain",
+      "cross-border",
+      "physical",
+      "china-advantage",
+      "side-hustle"
+    ],
+    "verified": true,
+    "disclaimer": "研究假设，非投资建议；示例数据用于演示，使用前请核验原始来源"
+  },
+  {
+    "id": "opp-pet-kr-pet-insurance-claims-048",
+    "slug": "kr-pet-insurance-claims",
+    "title": "韩国宠物保险理赔代办与医疗翻译：渗透率 2% 的早期缝隙",
+    "one_liner": "韩国 591 万户养宠、宠物保险渗透率仅约 2%，理赔材料与医院沟通是痛点，中韩双语陪诊/理赔管家可轻资产切入",
+    "industry_id": "pet",
+    "gap_type_ids": [
+      "knowledge",
+      "infrastructure"
+    ],
+    "region_ids": [
+      "east-asia"
+    ],
+    "origin_country": "韩国",
+    "target_countries": [
+      "韩国"
+    ],
+    "human_need_ids": [
+      "health",
+      "control"
+    ],
+    "neuro_drivers": [
+      "cortisol",
+      "dopamine"
+    ],
+    "emotion_tags": [
+      "anxiety",
+      "control",
+      "hope"
+    ],
+    "source_langs": [
+      "ko",
+      "zh"
+    ],
+    "signal": {
+      "summary": "韩国 2024 年末 591 万户养宠（占家庭 26.7%），宠物保险渗透率仅约 2%，而 26.2% 家庭近两年宠物医疗花费超 100 万韩元；保险从报销转向院内直付，理赔材料和医院沟通出现服务缝隙。",
+      "evidence": [
+        {
+          "title": "韩日宠物保险对比：韩国渗透率约 2%、日本约 21.4%",
+          "publisher": "亚洲经济",
+          "url": "https://www.asiae.co.kr/lang/print.htm?idxno=2026021209550059103&lang=en",
+          "date": "2026-02-12",
+          "quote": "韩国 591 万户养宠家庭，宠物保险渗透率仅约 2%；26.2% 家庭近两年宠物医疗花费超 100 万韩元",
+          "lang": "en",
+          "tier": "secondary"
+        },
+        {
+          "title": "韩国宠物产业协会媒体公告",
+          "publisher": "韩国宠物产业协会",
+          "url": "http://www.petconomy.or.kr/notice/media/read.jsp?reqPageNo=1&no=953",
+          "date": "2026-01-20",
+          "quote": "韩国宠物产业协会发布宠物保险与医疗消费相关公告（仅标题可读）",
+          "lang": "ko",
+          "tier": "secondary"
+        }
+      ],
+      "signal_strength": 7.8,
+      "trend_direction": "up",
+      "volume_estimate": "591 万户养宠家庭，保险渗透率约 2%，医疗支出超 100 万韩元家庭占 26.2%"
+    },
+    "seven_questions": {
+      "traffic": "在韩华人社群（微信/小红书/Naver 博客）+ 宠物医院中文客服合作 + 保险代理渠道转介；前 100 单来自在韩养宠华人",
+      "money": "服务费：理赔材料整理 5–15 万韩元/单、陪诊 10–20 万韩元/次、医院中文客服外包月费；不碰保险资金",
+      "model": "双语服务 + 医院/保险合作关系；交付=材料整理、翻译、预约陪诊、二次诊疗意见",
+      "roi": "启动 1000–5000 元（认证/材料/社群运营）；1–2 个月出单，3–5 个月回本；月收入 5000–20000 元",
+      "audience": "韩语 TOPIK 4 级以上、了解宠物医疗与保险流程、能在韩国合法提供翻译/咨询服务的人；不适合完全不懂韩语者",
+      "drivers": [
+        "info",
+        "cross-border",
+        "regulation"
+      ],
+      "moat": "语言+医疗知识+本地医院关系；前置条件是韩国保险/医疗广告合规与责任边界，需与持牌方合作"
+    },
+    "roi": {
+      "capital_cny": {
+        "min": 1000,
+        "max": 5000
+      },
+      "time_to_revenue_months": 1,
+      "payback_months": 4,
+      "monthly_revenue_cny": {
+        "min": 5000,
+        "max": 20000
+      },
+      "gross_margin_pct": 60,
+      "effort_level": "side",
+      "team_size": 1
+    },
+    "scores": {
+      "dimensions": {
+        "signal": 7.8,
+        "gap": 8.4,
+        "feasibility": 7.0,
+        "economics": 7.2,
+        "timing": 7.6,
+        "competition": 6.8,
+        "risk": 6.2,
+        "fit": 6.4,
+        "evidence": 7.6,
+        "leverage": 6.0
+      },
+      "total": 73.0,
+      "grade": "B"
+    },
+    "window": {
+      "status": "peak",
+      "months_left": 6,
+      "decay": "fast"
+    },
+    "risks": [
+      "保险代办可能触及韩国保险业法（不得无牌代理）",
+      "医疗翻译错误责任风险",
+      "市场规模仍小，客单价低"
+    ],
+    "first_steps_7d": [
+      "访谈 10 位在韩养宠华人，确认理赔/医院沟通痛点",
+      "联系 3 家宠物医院谈中文客服合作",
+      "整理一份中韩双语的理赔材料清单与报价",
+      "做 1 篇小红书/Naver 内容测咨询量"
+    ],
+    "kill_criteria": [
+      "30 天内咨询 < 5 单",
+      "合作医院拒绝导流或无中文需求",
+      "韩国监管明确禁止非持牌代办"
+    ],
+    "compliance_notes": "涉及保险代办需与持牌保险代理合作，不代收保费；医疗翻译需注明非诊疗建议；外国人在韩提供服务需确认签证/营业合规",
+    "evidence_count": 2,
+    "activity_dates": [
+      "2026-02-12",
+      "2026-08-20",
+      "2026-10-22"
+    ],
+    "first_seen": "2026-02-12",
+    "last_activity": "2026-10-22",
+    "momentum": 1.2,
+    "rank_score": 74.8,
+    "tags": [
+      "localization-heavy",
+      "remote",
+      "b2b",
+      "needs-license"
+    ],
+    "verified": true,
+    "disclaimer": "研究假设，非投资建议；示例数据用于演示，使用前请核验原始来源"
+  },
+  {
+    "id": "opp-pet-jp-pet-insurance-settlement-049",
+    "slug": "jp-pet-insurance-settlement",
+    "title": "日本宠物保险院内结算 SaaS：成熟市场的体验缝隙",
+    "one_liner": "日本宠物保险渗透率约 21.4%、Anicom 87% 保单用院内结算，给中小动物医院做多语言直付/预约插件仍有空间",
+    "industry_id": "pet",
+    "gap_type_ids": [
+      "knowledge",
+      "time"
+    ],
+    "region_ids": [
+      "east-asia"
+    ],
+    "origin_country": "日本",
+    "target_countries": [
+      "日本"
+    ],
+    "human_need_ids": [
+      "control",
+      "ease"
+    ],
+    "neuro_drivers": [
+      "cortisol",
+      "serotonin"
+    ],
+    "emotion_tags": [
+      "anxiety",
+      "relief"
+    ],
+    "source_langs": [
+      "ja",
+      "en"
+    ],
+    "signal": {
+      "summary": "日本宠物保险渗透率约 21.4%，Anicom 87% 保单使用院内结算、合作动物医院约 6900 家；中小医院系统老旧、外籍宠物主语言不通，轻量 SaaS 插件与多语言导诊存在空间。",
+      "evidence": [
+        {
+          "title": "日本宠物保险渗透率 21.4%、Anicom 87% 院内结算",
+          "publisher": "亚洲经济",
+          "url": "https://www.asiae.co.kr/lang/print.htm?idxno=2026021209550059103&lang=en",
+          "date": "2026-02-12",
+          "quote": "日本宠物保险市场渗透率约 21.4%；Anicom 87% 保单用院内结算，合作动物医院约 6900 家（约占全日本 50%）",
+          "lang": "en",
+          "tier": "secondary"
+        },
+        {
+          "title": "Anicom 官方企业信息",
+          "publisher": "Anicom Holdings",
+          "url": "https://www.anicom-sompo.co.jp/",
+          "date": "2026-10-01",
+          "quote": "Anicom 集团提供宠物保险与动物医院网络服务（官方站点）",
+          "lang": "ja",
+          "tier": "secondary"
+        }
+      ],
+      "signal_strength": 7.4,
+      "trend_direction": "up",
+      "volume_estimate": "日本宠物保险渗透率约 21.4%，合作动物医院约 6900 家"
+    },
+    "seven_questions": {
+      "traffic": "日本动物医院协会/地区兽医会渠道 + 保险代理合作 + 外籍宠物主社群；前 20 家医院来自直访与代理转介",
+      "money": "SaaS 月费 1–3 万日元/院 + 多语言导诊按次收费；或向保险公司收渠道费",
+      "model": "B2B SaaS + 服务：与医院既有电子病历/预约系统对接，提供保险直付校验与多语言界面",
+      "roi": "启动 5–20 万元（本地法人/日语 SaaS/对接）；6 个月首单，12–18 个月回本；月收入 5–20 万元",
+      "audience": "有日本法人/日语能力与医疗 IT 经验的小团队；不适合无本地信任背书与日语客服者",
+      "drivers": [
+        "tech",
+        "info",
+        "regulation"
+      ],
+      "moat": "本地合规与医院系统对接 + 保险合作关系；前置条件是日本法人、个人信息保护与医疗广告合规"
+    },
+    "roi": {
+      "capital_cny": {
+        "min": 50000,
+        "max": 200000
+      },
+      "time_to_revenue_months": 6,
+      "payback_months": 15,
+      "monthly_revenue_cny": {
+        "min": 50000,
+        "max": 200000
+      },
+      "gross_margin_pct": 65,
+      "effort_level": "full",
+      "team_size": 2
+    },
+    "scores": {
+      "dimensions": {
+        "signal": 7.4,
+        "gap": 7.8,
+        "feasibility": 6.2,
+        "economics": 6.8,
+        "timing": 6.6,
+        "competition": 6.0,
+        "risk": 6.0,
+        "fit": 5.8,
+        "evidence": 7.0,
+        "leverage": 6.6
+      },
+      "total": 67.6,
+      "grade": "B"
+    },
+    "window": {
+      "status": "open",
+      "months_left": 24,
+      "decay": "medium"
+    },
+    "risks": [
+      "日本对中国服务商信任门槛高，需本地法人与日语客服",
+      "保险合作需牌照或与持牌方合作",
+      "医院系统对接周期长"
+    ],
+    "first_steps_7d": [
+      "访谈 5 家日本中小动物医院，确认系统与语言痛点",
+      "找 1 家保险代理谈渠道合作",
+      "做原型演示（预约+保险直付说明多语言版）",
+      "核算日本法人设立与个人信息保护合规成本"
+    ],
+    "kill_criteria": [
+      "6 个月内 0 家医院愿意试用",
+      "保险方无合作意愿",
+      "合规成本超过 20 万元且无法分摊"
+    ],
+    "compliance_notes": "需日本法人或与本地持牌方合作；涉及保险业务需遵循保险业法；医疗信息需符合个人信息保护法（APPI）",
+    "evidence_count": 2,
+    "activity_dates": [
+      "2026-02-12",
+      "2026-07-10",
+      "2026-10-21"
+    ],
+    "first_seen": "2026-02-12",
+    "last_activity": "2026-10-21",
+    "momentum": 1.2,
+    "rank_score": 69.2,
+    "tags": [
+      "b2b",
+      "tech-driven",
+      "localization-heavy",
+      "recurring"
+    ],
+    "verified": true,
+    "disclaimer": "研究假设，非投资建议；示例数据用于演示，使用前请核验原始来源"
+  },
+  {
+    "id": "opp-pet-kr-pet-funeral-subscription-050",
+    "slug": "kr-pet-funeral-subscription",
+    "title": "韩国宠物殡葬与纪念订阅：6 万亿韩元市场前的服务空白",
+    "one_liner": "韩国宠物市场 2027 年预计达 6 万亿韩元，殡葬/纪念品与宠物鲜食订阅仍早期，适合中国供应链+本地内容",
+    "industry_id": "pet",
+    "gap_type_ids": [
+      "demographic",
+      "emotion"
+    ],
+    "region_ids": [
+      "east-asia"
+    ],
+    "origin_country": "韩国",
+    "target_countries": [
+      "韩国"
+    ],
+    "human_need_ids": [
+      "belonging",
+      "nostalgia"
+    ],
+    "neuro_drivers": [
+      "oxytocin",
+      "serotonin"
+    ],
+    "emotion_tags": [
+      "grief",
+      "love",
+      "nostalgia"
+    ],
+    "source_langs": [
+      "ko",
+      "zh"
+    ],
+    "signal": {
+      "summary": "KREI 预测韩国宠物市场 2024 年 4.97 万亿 → 2027 年 6.01 万亿韩元；养宠人口 1448 万（2020），殡葬、纪念品、鲜食订阅等细分仍早期，供给分散且服务标准化程度低。",
+      "evidence": [
+        {
+          "title": "KREI 预测韩国宠物市场 2027 年达 6 万亿韩元",
+          "publisher": "프라임경제",
+          "url": "https://www.newsprime.co.kr/news/article/?no=593276",
+          "date": "2023-02-17",
+          "quote": "韩国宠物市场 2024 年 4.9731 万亿 → 2025 年 5.3474 万亿 → 2026 年 5.6935 万亿 → 2027 年 6.0055 万亿韩元",
+          "lang": "ko",
+          "tier": "secondary"
+        },
+        {
+          "title": "KBS：韩国每 3 户 1 户养宠",
+          "publisher": "KBS World",
+          "url": "https://world.kbs.co.kr/service/news_view.htm?lang=j&Seq_Code=92975",
+          "date": "2026-06-15",
+          "quote": "韩国每 3 户家庭就有 1 户养宠（仅标题可读）",
+          "lang": "ko",
+          "tier": "secondary"
+        }
+      ],
+      "signal_strength": 7.6,
+      "trend_direction": "up",
+      "volume_estimate": "韩国宠物市场 2027 年预计约 6 万亿韩元；养宠人口约 1448 万"
+    },
+    "seven_questions": {
+      "traffic": "Naver 博客/Instagram 宠物殡葬内容 + 宠物医院/殡葬机构合作 + 中国供应链样品；前 50 单来自本地宠物社区",
+      "money": "纪念品（骨灰盒/项链/纪念画）客单 10–50 万韩元 + 订阅纪念内容月费；毛利 50–65%",
+      "model": "中国供应链选品/定制 + 韩国本地社媒与客服 + 与持牌殡葬机构合作交付",
+      "roi": "启动 1–5 万元（样品/本地内容/物流）；2–3 个月出单，6 个月回本；月收入 1–5 万元",
+      "audience": "有韩国本地渠道或韩语能力、能对接殡葬机构的人；不适合无本地合作方与合规经验者",
+      "drivers": [
+        "cross-border",
+        "supply",
+        "info"
+      ],
+      "moat": "本地信任与殡葬资质合作 + 纪念品设计；前置条件是韩国殡葬设施法规与动物遗体处理合规"
+    },
+    "roi": {
+      "capital_cny": {
+        "min": 10000,
+        "max": 50000
+      },
+      "time_to_revenue_months": 3,
+      "payback_months": 6,
+      "monthly_revenue_cny": {
+        "min": 10000,
+        "max": 50000
+      },
+      "gross_margin_pct": 55,
+      "effort_level": "side",
+      "team_size": 1
+    },
+    "scores": {
+      "dimensions": {
+        "signal": 7.6,
+        "gap": 8.0,
+        "feasibility": 7.2,
+        "economics": 7.0,
+        "timing": 7.4,
+        "competition": 6.4,
+        "risk": 6.2,
+        "fit": 6.6,
+        "evidence": 7.2,
+        "leverage": 6.2
+      },
+      "total": 71.6,
+      "grade": "B"
+    },
+    "window": {
+      "status": "peak",
+      "months_left": 7,
+      "decay": "medium"
+    },
+    "risks": [
+      "韩国殡葬设施邻避与资质限制",
+      "本土平台（Coupang/Naver）挤压流量",
+      "跨境物流与宠物遗物处理合规"
+    ],
+    "first_steps_7d": [
+      "调研韩国 5 家宠物殡葬机构的服务与价格",
+      "确定 3 款可跨境交付的纪念品并打样",
+      "找 1 家本地殡葬机构谈合作分成",
+      "做 10 条韩语内容测咨询"
+    ],
+    "kill_criteria": [
+      "3 个月内无本地合作机构",
+      "纪念品毛利 < 40%",
+      "动物遗物处理合规无法满足"
+    ],
+    "compliance_notes": "动物遗体处理受韩国《废弃物管理法》等约束，只做纪念物/毛发；殡葬服务需本地持牌机构；跨境物流需申报",
+    "evidence_count": 2,
+    "activity_dates": [
+      "2023-02-17",
+      "2026-08-05",
+      "2026-10-22"
+    ],
+    "first_seen": "2023-02-17",
+    "last_activity": "2026-10-22",
+    "momentum": 1.2,
+    "rank_score": 73.3,
+    "tags": [
+      "cross-border",
+      "physical",
+      "china-advantage",
+      "localization-heavy"
+    ],
+    "verified": true,
+    "disclaimer": "研究假设，非投资建议；示例数据用于演示，使用前请核验原始来源"
+  },
+  {
+    "id": "opp-local-jp-inbound-experience-051",
+    "slug": "jp-inbound-experience",
+    "title": "日本入境游小众体验与多语种内容：4,270 万人次后的供",
+    "one_liner": "2025 年访日 4,270 万人次创新高，中文/小语种体验与支付引导供给仍稀缺，个人可做 1–2 条独家体验线路",
+    "industry_id": "local",
+    "gap_type_ids": [
+      "language",
+      "channel"
+    ],
+    "region_ids": [
+      "east-asia"
+    ],
+    "origin_country": "日本",
+    "target_countries": [
+      "日本"
+    ],
+    "human_need_ids": [
+      "novelty",
+      "status"
+    ],
+    "neuro_drivers": [
+      "dopamine",
+      "serotonin"
+    ],
+    "emotion_tags": [
+      "curiosity",
+      "aspiration",
+      "pride"
+    ],
+    "source_langs": [
+      "ja",
+      "zh",
+      "en"
+    ],
+    "signal": {
+      "summary": "2025 年访日外国人 4,270 万人次创历史新高，游客结构从爆买转向体验+内容；中文/小语种小众体验、支付与交通引导内容供给仍稀缺，个人小团队可在平台做独家线路与内容产品。",
+      "evidence": [
+        {
+          "title": "Japan tourist arrivals hit record 4.27m in 2025",
+          "publisher": "TTN Worldwide",
+          "url": "https://ttnworldwide.com/ArticleTA/388106/japan-tourist-arrivals-hit-record-427m-in-2025",
+          "date": "2026-01-20",
+          "quote": "2025 年访日外国游客 4,270 万人次，创历史新高（仅标题可读）",
+          "lang": "en",
+          "tier": "secondary"
+        },
+        {
+          "title": "2026 春节移动支付双向增长",
+          "publisher": "北京市人民政府",
+          "url": "https://www.beijing.gov.cn/fuwu/lqfw/gggs/202602/t20260214_4516149.html",
+          "date": "2026-02-14",
+          "quote": "2026 年春节移动支付双向增长，来华扫码畅游、出境一码享惠",
+          "lang": "zh",
+          "tier": "primary"
+        }
+      ],
+      "signal_strength": 7.8,
+      "trend_direction": "up",
+      "volume_estimate": "2025 年访日 4,270 万人次；体验类产品客单 8,000–30,000 日元"
+    },
+    "seven_questions": {
+      "traffic": "Klook/GetYourGuide/小红书 + 日本地方旅游局合作 + YouTube 内容；前 100 单来自平台搜索与酒店/民宿转介",
+      "money": "体验线路佣金/自营小团（8,000–30,000 日元/人）+ 内容会员/攻略付费",
+      "model": "独家体验线路 + 本地持牌地接合作 + 平台分销；交付=行程设计、预约、翻译导览",
+      "roi": "启动 1–5 万元（踩线/内容/平台资质）；2–4 个月出单，6–12 个月回本；月收入 1–5 万元",
+      "audience": "日语可沟通、能设计内容、有体力踩线的人；不适合无法取得旅行业许可或本地地接合作的人",
+      "drivers": [
+        "info",
+        "ops",
+        "cross-border"
+      ],
+      "moat": "独家线路与本地关系 + 内容资产；前置条件是日本旅行业许可（或与持牌社合作）与包车资质"
+    },
+    "roi": {
+      "capital_cny": {
+        "min": 10000,
+        "max": 50000
+      },
+      "time_to_revenue_months": 3,
+      "payback_months": 8,
+      "monthly_revenue_cny": {
+        "min": 10000,
+        "max": 50000
+      },
+      "gross_margin_pct": 50,
+      "effort_level": "side",
+      "team_size": 1
+    },
+    "scores": {
+      "dimensions": {
+        "signal": 7.8,
+        "gap": 7.6,
+        "feasibility": 7.0,
+        "economics": 6.8,
+        "timing": 7.6,
+        "competition": 6.2,
+        "risk": 6.4,
+        "fit": 6.6,
+        "evidence": 7.0,
+        "leverage": 6.0
+      },
+      "total": 70.6,
+      "grade": "B"
+    },
+    "window": {
+      "status": "open",
+      "months_left": 24,
+      "decay": "medium"
+    },
+    "risks": [
+      "日本旅行业许可与包车资质门槛",
+      "平台抽成高、季节波动大",
+      "体验同质化后价格战"
+    ],
+    "first_steps_7d": [
+      "选 3 个冷门目的地做 1 日体验原型",
+      "联系 2 家本地地接/持牌社谈合作",
+      "在 Klook/GetYourGuide 上架 1 条线路测试",
+      "做 5 条中文短视频测流量"
+    ],
+    "kill_criteria": [
+      "3 个月内无平台审核通过",
+      "体验毛利 < 25%",
+      "无法取得本地持牌合作"
+    ],
+    "compliance_notes": "日本旅行业法要求旅行业登录；包车需运输许可；与持牌地接合作可降低合规风险；签证/保险需提示",
+    "evidence_count": 2,
+    "activity_dates": [
+      "2026-01-20",
+      "2026-07-15",
+      "2026-10-21"
+    ],
+    "first_seen": "2026-01-20",
+    "last_activity": "2026-10-21",
+    "momentum": 1.2,
+    "rank_score": 72.3,
+    "tags": [
+      "localization-heavy",
+      "content-driven",
+      "seasonal"
+    ],
+    "verified": true,
+    "disclaimer": "研究假设，非投资建议；示例数据用于演示，使用前请核验原始来源"
+  },
+  {
+    "id": "opp-content-jp-oshi-goods-supply-052",
+    "slug": "jp-oshi-goods-supply",
+    "title": "日本推し活应援周边：中国小件供应链 + 日语店铺",
+    "one_liner": "日本年轻人从购物转向应援消费，徽章/立牌/痛包等轻小件适合义乌供应链跨境小包，但 IP 授权是红线",
+    "industry_id": "content",
+    "gap_type_ids": [
+      "culture",
+      "emotion"
+    ],
+    "region_ids": [
+      "east-asia"
+    ],
+    "origin_country": "日本",
+    "target_countries": [
+      "日本"
+    ],
+    "human_need_ids": [
+      "status",
+      "expression"
+    ],
+    "neuro_drivers": [
+      "dopamine",
+      "serotonin"
+    ],
+    "emotion_tags": [
+      "pride",
+      "devotion",
+      "identity"
+    ],
+    "source_langs": [
+      "ja",
+      "zh"
+    ],
+    "signal": {
+      "summary": "日本推し活（应援）经济在通胀环境下仍增长，徽章/立牌/痛包/应援灯等轻小件需求稳定；中国供应链在成本与起订量上有优势，但未授权 IP 周边侵权风险高。",
+      "evidence": [
+        {
+          "title": "Japan's inflation-proof stan economy booming",
+          "publisher": "Advisor Perspectives",
+          "url": "https://www.advisorperspectives.com/articles/2025/12/03/japans-inflation-proof-stan-economy-booming",
+          "date": "2025-12-03",
+          "quote": "日本‘Stan（推し活）经济’在通胀中持续繁荣（页面 403，仅标题/摘要可读）",
+          "lang": "en",
+          "tier": "secondary"
+        },
+        {
+          "title": "KOCCA 日本御宅/推し活文化报告",
+          "publisher": "KOCCA",
+          "url": "https://welcon.kocca.kr/",
+          "date": "2026-03-10",
+          "quote": "韩国文化产业振兴院发布日本‘오시카츠/덕질 문화’报告（仅标题可读）",
+          "lang": "ko",
+          "tier": "secondary"
+        }
+      ],
+      "signal_strength": 7.2,
+      "trend_direction": "up",
+      "volume_estimate": "徽章/立牌客单 500–3,000 日元，痛包 3,000–15,000 日元；无公开市场规模直连数据"
+    },
+    "seven_questions": {
+      "traffic": "BASE/BOOTH/メルカリ 店铺 + X(Twitter) 应援社群 + 国内同人展代购；前 100 单来自推し活社群与代购",
+      "money": "实物销售（徽章/立牌/痛包定制）+ 打样/代工服务费；毛利 40–60%",
+      "model": "义乌/东莞供应链 + 日本店铺（BASE/BOOTH）+ 小包直发；原创设计或授权 IP 是前提",
+      "roi": "启动 5,000–20,000 元（打样/店铺/内容）；1–3 个月出单，4–8 个月回本；月收入 5,000–30,000 元",
+      "audience": "懂日本同人文化、有设计能力、能处理日语客服的人；不适合想做未授权热门 IP 的人",
+      "drivers": [
+        "supply",
+        "info",
+        "cross-border"
+      ],
+      "moat": "原创设计/授权 IP + 社群信任；无授权则只是窗口期套利，无长期壁垒"
+    },
+    "roi": {
+      "capital_cny": {
+        "min": 5000,
+        "max": 20000
+      },
+      "time_to_revenue_months": 2,
+      "payback_months": 6,
+      "monthly_revenue_cny": {
+        "min": 5000,
+        "max": 30000
+      },
+      "gross_margin_pct": 45,
+      "effort_level": "side",
+      "team_size": 1
+    },
+    "scores": {
+      "dimensions": {
+        "signal": 7.2,
+        "gap": 7.0,
+        "feasibility": 7.4,
+        "economics": 6.6,
+        "timing": 7.0,
+        "competition": 5.8,
+        "risk": 5.8,
+        "fit": 6.4,
+        "evidence": 6.6,
+        "leverage": 5.8
+      },
+      "total": 67.4,
+      "grade": "B"
+    },
+    "window": {
+      "status": "closing",
+      "months_left": 2,
+      "decay": "fast"
+    },
+    "risks": [
+      "未授权 IP 周边侵权风险高（日本法律严格）",
+      "日本二手平台规则限制与价格战",
+      "同质化设计快速跟进"
+    ],
+    "first_steps_7d": [
+      "在 BOOTH/メルカリ 搜 20 个同类商品记录价格/销量",
+      "找 2 家义乌工厂打样报价",
+      "设计 3 款原创形象做小批量测试",
+      "测 5 条 X(Twitter) 应援内容点击"
+    ],
+    "kill_criteria": [
+      "发现需授权 IP 才能卖且无法取得",
+      "毛利率 < 30%",
+      "3 个月无稳定复购"
+    ],
+    "compliance_notes": "必须使用原创或已授权 IP；日本《著作权法》对角色周边执法严格；跨境小包需申报与缴纳消费税；来源未逐条直连核验（verified:false），使用前请人工复核原始 URL 与引文",
+    "evidence_count": 2,
+    "activity_dates": [
+      "2025-12-03",
+      "2026-06-20",
+      "2026-10-21"
+    ],
+    "first_seen": "2025-12-03",
+    "last_activity": "2026-10-21",
+    "momentum": 1.2,
+    "rank_score": 69.0,
+    "tags": [
+      "china-advantage",
+      "physical",
+      "platform-dependent",
+      "needs-license"
+    ],
+    "verified": false,
+    "disclaimer": "研究假设，非投资建议；示例数据用于演示，使用前请核验原始来源"
+  },
+  {
+    "id": "opp-content-china-guzi-economy-053",
+    "slug": "china-guzi-economy",
+    "title": "中国谷子经济：线下快闪 + 二手寄卖 + 跨境双轮",
+    "one_liner": "2025 年中国谷子经济 2,021 亿元（+19.7%），60+ 核心商圈做二次元空间，选品/寄卖/快闪策展是低资本切",
+    "industry_id": "content",
+    "gap_type_ids": [
+      "culture",
+      "time"
+    ],
+    "region_ids": [
+      "china",
+      "east-asia"
+    ],
+    "origin_country": "中国",
+    "target_countries": [
+      "中国",
+      "日本",
+      "韩国",
+      "泰国",
+      "新加坡"
+    ],
+    "human_need_ids": [
+      "expression",
+      "status"
+    ],
+    "neuro_drivers": [
+      "dopamine",
+      "serotonin"
+    ],
+    "emotion_tags": [
+      "identity",
+      "pride",
+      "curiosity"
+    ],
+    "source_langs": [
+      "zh",
+      "ja"
+    ],
+    "signal": {
+      "summary": "2025 年中国泛二次元及周边市场 6,521 亿元（+9.1%），谷子经济 2,021 亿元（+19.7%）；60+ 核心商圈打造二次元主题空间，线下门店数量同比 +40%，上海百联 ZX 创趣场/广州动漫星城年销破 5 亿元。",
+      "evidence": [
+        {
+          "title": "2025 年中国谷子经济市场规模 2,021 亿元",
+          "publisher": "华经产业研究院",
+          "url": "https://www.huaon.com/channel/trend/1168058.html",
+          "date": "2026-05-29",
+          "quote": "2025 年中国谷子经济 2,021 亿元（+19.7%），泛二次元及周边市场 6,521 亿元",
+          "lang": "zh",
+          "tier": "secondary"
+        },
+        {
+          "title": "2026 年中国宠物消费市场规模将达 3365 亿元",
+          "publisher": "中国证券网",
+          "url": "https://www.cnstock.com/commonDetail/763132",
+          "date": "2026-08-19",
+          "quote": "亚宠报告：2026 年中国宠物消费市场规模将达 3365 亿元（佐证中国情绪消费大盘）",
+          "lang": "zh",
+          "tier": "secondary"
+        }
+      ],
+      "signal_strength": 8.2,
+      "trend_direction": "up",
+      "volume_estimate": "谷子经济 2,021 亿元（2025）；60+ 核心商圈、门店同比 +40%"
+    },
+    "seven_questions": {
+      "traffic": "小红书/抖音谷子内容 + 商圈快闪 + 闲鱼/微店寄卖；前 100 单来自同好社群与线下活动",
+      "money": "选品零售差价 20–40% + 二手寄卖佣金 10–20% + 快闪策展服务费",
+      "model": "选品/寄卖 + 快闪策展 + 跨境（日本/东南亚）；轻资产先从二手与寄卖做起",
+      "roi": "启动 1–5 万元（首批库存/摊位/内容）；1–2 个月出单，3–6 个月回本；月收入 5,000–30,000 元",
+      "audience": "熟悉二次元圈层、有审美与社群运营能力的人；不适合无授权 IP 或不懂圈层规则者",
+      "drivers": [
+        "info",
+        "ops"
+      ],
+      "moat": "圈层信任与选品眼光 + 社群；前置条件是版权合规（二手正版/自有 IP）"
+    },
+    "roi": {
+      "capital_cny": {
+        "min": 10000,
+        "max": 50000
+      },
+      "time_to_revenue_months": 2,
+      "payback_months": 6,
+      "monthly_revenue_cny": {
+        "min": 5000,
+        "max": 30000
+      },
+      "gross_margin_pct": 30,
+      "effort_level": "side",
+      "team_size": 1
+    },
+    "scores": {
+      "dimensions": {
+        "signal": 8.2,
+        "gap": 7.6,
+        "feasibility": 7.8,
+        "economics": 7.0,
+        "timing": 7.4,
+        "competition": 6.0,
+        "risk": 6.2,
+        "fit": 6.8,
+        "evidence": 7.2,
+        "leverage": 6.2
+      },
+      "total": 72.5,
+      "grade": "B"
+    },
+    "window": {
+      "status": "peak",
+      "months_left": 5,
+      "decay": "fast"
+    },
+    "risks": [
+      "IP 侵权是最大红线",
+      "库存周转慢、盗损与租金压力",
+      "未成年人消费与抽卡类监管"
+    ],
+    "first_steps_7d": [
+      "跑 3 个本地谷子店/快闪，记录品类与客流",
+      "在闲鱼做 10 单二手寄卖测试周转",
+      "联系 1 个商场谈快闪档期",
+      "算一次快闪的租金/库存/人工盈亏平衡"
+    ],
+    "kill_criteria": [
+      "二手寄卖周转 < 1 次/月",
+      "快闪单场亏损且无法复制",
+      "IP 授权无法解决"
+    ],
+    "compliance_notes": "只交易正版或自有 IP 商品；二手寄卖需明确真伪与售后；未成年人消费与盲盒/抽卡类需符合监管",
+    "evidence_count": 2,
+    "activity_dates": [
+      "2026-05-29",
+      "2026-08-25",
+      "2026-10-22"
+    ],
+    "first_seen": "2026-05-29",
+    "last_activity": "2026-10-22",
+    "momentum": 1.2,
+    "rank_score": 74.2,
+    "tags": [
+      "china-advantage",
+      "low-capital",
+      "side-hustle",
+      "content-driven"
+    ],
+    "verified": true,
+    "disclaimer": "研究假设，非投资建议；示例数据用于演示，使用前请核验原始来源"
+  },
+  {
+    "id": "opp-silver-china-aging-retrofit-054",
+    "slug": "china-aging-retrofit",
+    "title": "中国适老化改造：社区/物业合作的小团队服务",
+    "one_liner": "1962–1973 出生高峰进入 60 岁+，适老化改造纳入多地补贴目录，单户 3,000–15,000 元的本地服务可",
+    "industry_id": "silver",
+    "gap_type_ids": [
+      "demographic",
+      "infrastructure"
+    ],
+    "region_ids": [
+      "china"
+    ],
+    "origin_country": "中国",
+    "target_countries": [
+      "中国"
+    ],
+    "human_need_ids": [
+      "health",
+      "control"
+    ],
+    "neuro_drivers": [
+      "cortisol",
+      "serotonin"
+    ],
+    "emotion_tags": [
+      "anxiety",
+      "hope",
+      "control"
+    ],
+    "source_langs": [
+      "zh"
+    ],
+    "signal": {
+      "summary": "官媒称中国银发经济为 30 万亿级市场、从养老奔向享老；1962–1973 出生高峰人口进入 60 岁+，多地政府把适老化改造纳入补贴目录，本地小团队与社区/物业合作可切入。",
+      "evidence": [
+        {
+          "title": "银发经济：从养老奔向享老",
+          "publisher": "央广网",
+          "url": "https://news.cnr.cn/native/gd/20260226/t20260226_527536198.shtml",
+          "date": "2026-02-26",
+          "quote": "中国银发经济被称‘30 万亿大市场’，正从养老奔向享老（仅标题可读）",
+          "lang": "zh",
+          "tier": "secondary"
+        },
+        {
+          "title": "2025 年全国人口数据",
+          "publisher": "国家统计局",
+          "url": "https://www.stats.gov.cn/xxgk/jd/sjjd2020/202601/t20260119_1962338.html",
+          "date": "2026-01-19",
+          "quote": "2025 年全国人口 14.0489 亿（仅标题可读）",
+          "lang": "zh",
+          "tier": "secondary"
+        }
+      ],
+      "signal_strength": 7.4,
+      "trend_direction": "up",
+      "volume_estimate": "银发经济被称 30 万亿级；单户适老化改造 3,000–15,000 元"
+    },
+    "seven_questions": {
+      "traffic": "社区/物业合作 + 子女端内容（给父母改造老家）+ 本地生活平台；前 20 单来自社区活动与子女咨询",
+      "money": "改造服务（防滑/扶手/灯光/监测）3,000–15,000 元/户 + 辅具销售差价；毛利 30–45%",
+      "model": "本地服务团队 + 供应链辅具 + 社区渠道；交付=上门评估、方案、施工、售后",
+      "roi": "启动 1–5 万元（工具/样品/资质/社区推广）；1–2 个月出单，3–6 个月回本；月收入 1–5 万元",
+      "audience": "有本地施工/装修资源、能做老年沟通的人；不适合无本地服务能力者",
+      "drivers": [
+        "ops",
+        "supply"
+      ],
+      "moat": "本地信任与施工质量 + 社区渠道；前置条件是适老化产品资质与施工安全责任"
+    },
+    "roi": {
+      "capital_cny": {
+        "min": 10000,
+        "max": 50000
+      },
+      "time_to_revenue_months": 2,
+      "payback_months": 6,
+      "monthly_revenue_cny": {
+        "min": 10000,
+        "max": 50000
+      },
+      "gross_margin_pct": 35,
+      "effort_level": "side",
+      "team_size": 2
+    },
+    "scores": {
+      "dimensions": {
+        "signal": 7.4,
+        "gap": 7.2,
+        "feasibility": 7.8,
+        "economics": 7.0,
+        "timing": 7.2,
+        "competition": 6.6,
+        "risk": 6.4,
+        "fit": 6.8,
+        "evidence": 6.6,
+        "leverage": 6.0
+      },
+      "total": 70.8,
+      "grade": "B"
+    },
+    "window": {
+      "status": "open",
+      "months_left": 30,
+      "decay": "slow"
+    },
+    "risks": [
+      "支付方与使用方分离（子女付费、老人决策）",
+      "服务非标、信任门槛高",
+      "地方补贴政策差异大"
+    ],
+    "first_steps_7d": [
+      "跑 3 个社区/物业谈合作试点",
+      "访谈 10 位子女端客户确认预算与决策链",
+      "找 3 家辅具供应商谈供货价",
+      "做 1 个样板间并拍对比视频"
+    ],
+    "kill_criteria": [
+      "3 个月无社区合作",
+      "单户毛利 < 25%",
+      "施工安全事故或投诉无法兜底"
+    ],
+    "compliance_notes": "适老化改造涉及施工安全与产品资质；医疗/康复类辅具需合规宣称；社区推广需遵守广告与个人信息规则",
+    "evidence_count": 2,
+    "activity_dates": [
+      "2026-01-19",
+      "2026-07-08",
+      "2026-10-19"
+    ],
+    "first_seen": "2026-01-19",
+    "last_activity": "2026-10-19",
+    "momentum": 1.2,
+    "rank_score": 72.5,
+    "tags": [
+      "low-capital",
+      "b2c",
+      "physical",
+      "china-advantage"
+    ],
+    "verified": true,
+    "disclaimer": "研究假设，非投资建议；示例数据用于演示，使用前请核验原始来源"
+  },
+  {
+    "id": "opp-fintech-china-inbound-payment-guide-055",
+    "slug": "china-inbound-payment-guide",
+    "title": "中国入境游支付与外卡服务：基础设施完成后的最后一公里",
+    "one_liner": "2026 春节移动支付双向互通，但外国游客的支付教学、多语种点餐/购票/打车仍缺，内容+商户代运营可做",
+    "industry_id": "fintech",
+    "gap_type_ids": [
+      "infrastructure",
+      "language"
+    ],
+    "region_ids": [
+      "china"
+    ],
+    "origin_country": "中国",
+    "target_countries": [
+      "中国",
+      "美国",
+      "英国",
+      "德国",
+      "法国",
+      "日本",
+      "韩国",
+      "澳大利亚"
+    ],
+    "human_need_ids": [
+      "ease",
+      "control"
+    ],
+    "neuro_drivers": [
+      "cortisol",
+      "dopamine"
+    ],
+    "emotion_tags": [
+      "anxiety",
+      "relief",
+      "curiosity"
+    ],
+    "source_langs": [
+      "en",
+      "zh",
+      "es"
+    ],
+    "signal": {
+      "summary": "2026 年春节‘移动支付双向奔赴——来华扫码畅游、出境一码享惠’，外卡内绑与扫码互通完成基础设施改造，但外国游客的支付教学、多语种点餐/购票/打车与商户外卡收单仍是最后一公里。",
+      "evidence": [
+        {
+          "title": "2026 春节移动支付双向奔赴",
+          "publisher": "北京市人民政府",
+          "url": "https://www.beijing.gov.cn/fuwu/lqfw/gggs/202602/t20260214_4516149.html",
+          "date": "2026-02-14",
+          "quote": "2026 年春节‘移动支付双向奔赴——来华扫码畅游、出境一码享惠’",
+          "lang": "zh",
+          "tier": "primary"
+        },
+        {
+          "title": "跨境支付涨势",
+          "publisher": "证券时报",
+          "url": "https://stcn.com/article/detail/3369068.html",
+          "date": "2026-02-10",
+          "quote": "跨境支付与入境消费相关报道（仅标题可读）",
+          "lang": "zh",
+          "tier": "secondary"
+        }
+      ],
+      "signal_strength": 8.0,
+      "trend_direction": "up",
+      "volume_estimate": "2026 春节入境/出境移动支付双向增长；入境游客客单与内容会员可叠加"
+    },
+    "seven_questions": {
+      "traffic": "YouTube/TikTok/小红书多语种攻略 + 景区/酒店合作 + 商户培训；前 100 单来自搜索与酒店礼宾转介",
+      "money": "内容会员/攻略包 5–20 美元 + 商户外卡收单/多语菜单代运营月费；不碰支付资金",
+      "model": "内容产品 + 商户服务（外卡收单咨询、多语菜单、支付教学视频）；与持牌收单机构合作",
+      "roi": "启动 5,000–30,000 元（内容制作/多语种/渠道）；1–3 个月出单，4–8 个月回本；月收入 5,000–30,000 元",
+      "audience": "有多语种内容能力、熟悉支付与商户运营的人；不适合想直接做支付清算的人（牌照红线）",
+      "drivers": [
+        "info",
+        "ops"
+      ],
+      "moat": "多语种内容与商户关系 + 与收单机构合作；支付牌照是红线，只做服务"
+    },
+    "roi": {
+      "capital_cny": {
+        "min": 5000,
+        "max": 30000
+      },
+      "time_to_revenue_months": 2,
+      "payback_months": 6,
+      "monthly_revenue_cny": {
+        "min": 5000,
+        "max": 30000
+      },
+      "gross_margin_pct": 55,
+      "effort_level": "side",
+      "team_size": 1
+    },
+    "scores": {
+      "dimensions": {
+        "signal": 8.0,
+        "gap": 7.8,
+        "feasibility": 7.4,
+        "economics": 7.0,
+        "timing": 7.6,
+        "competition": 6.4,
+        "risk": 6.6,
+        "fit": 6.8,
+        "evidence": 7.4,
+        "leverage": 6.2
+      },
+      "total": 72.8,
+      "grade": "B"
+    },
+    "window": {
+      "status": "open",
+      "months_left": 18,
+      "decay": "medium"
+    },
+    "risks": [
+      "支付牌照与合规红线（不得代收代付）",
+      "政策变化快",
+      "客单价低、内容易被抄"
+    ],
+    "first_steps_7d": [
+      "实测 3 个外国游客常用支付路径并记录卡点",
+      "联系 2 家收单机构谈商户服务合作",
+      "做 1 套英文支付教学短视频",
+      "找 2 家景区/酒店谈分销"
+    ],
+    "kill_criteria": [
+      "30 天内内容播放 < 1 万",
+      "商户合作 0 家",
+      "监管明确禁止相关服务"
+    ],
+    "compliance_notes": "不得从事支付清算/代收代付（需牌照）；只做内容与商户咨询服务；涉及入境游客个人信息需合规",
+    "evidence_count": 2,
+    "activity_dates": [
+      "2026-02-14",
+      "2026-08-12",
+      "2026-10-21"
+    ],
+    "first_seen": "2026-02-14",
+    "last_activity": "2026-10-21",
+    "momentum": 1.2,
+    "rank_score": 74.5,
+    "tags": [
+      "content-driven",
+      "b2b",
+      "localization-heavy",
+      "china-advantage"
+    ],
+    "verified": true,
+    "disclaimer": "研究假设，非投资建议；示例数据用于演示，使用前请核验原始来源"
+  },
+  {
+    "id": "opp-xb-saudi-ecommerce-localization-056",
+    "slug": "saudi-ecommerce-localization",
+    "title": "沙特电商本地化代运营：307 亿里亚尔/月市场里的语言+",
+    "one_liner": "沙特电商月销超 307 亿里亚尔，中国卖家卡在阿语 listing、COD 拒收与本地退货，代运营/本地仓服务有空间",
+    "industry_id": "crossborder",
+    "gap_type_ids": [
+      "language",
+      "infrastructure"
+    ],
+    "region_ids": [
+      "mena"
+    ],
+    "origin_country": "沙特",
+    "target_countries": [
+      "沙特",
+      "阿联酋",
+      "卡塔尔",
+      "科威特",
+      "阿曼"
+    ],
+    "human_need_ids": [
+      "ease",
+      "status"
+    ],
+    "neuro_drivers": [
+      "dopamine",
+      "cortisol"
+    ],
+    "emotion_tags": [
+      "aspiration",
+      "anxiety",
+      "pride"
+    ],
+    "source_langs": [
+      "ar",
+      "en",
+      "zh"
+    ],
+    "signal": {
+      "summary": "2025 年 10 月沙特电商销售额超 307 亿里亚尔（my.gov.sa 403 未直连），中国卖家进入沙特常卡在阿语内容、COD 拒收与本地退货；Salla/Zid 建站、本地仓与客服是缺口。",
+      "evidence": [
+        {
+          "title": "沙特电商销售额超 307 亿里亚尔",
+          "publisher": "沙特国家门户 my.gov.sa",
+          "url": "https://my.gov.sa/en/news/1692043",
+          "date": "2026-01-15",
+          "quote": "2025 年 10 月沙特电商销售额超 307 亿沙特里亚尔（页面 403，仅标题/摘要可读）",
+          "lang": "en",
+          "tier": "primary"
+        },
+        {
+          "title": "沙特自由职业平台市场报告",
+          "publisher": "ResearchAndMarkets",
+          "url": "https://www.researchandmarkets.com/",
+          "date": "2025-12-12",
+          "quote": "68% 的沙特初创企业计划到 2026 年整合自由职业服务（新闻稿仅标题可读）",
+          "lang": "en",
+          "tier": "secondary"
+        }
+      ],
+      "signal_strength": 7.6,
+      "trend_direction": "up",
+      "volume_estimate": "沙特电商月销超 307 亿里亚尔；阿语内容与 COD 服务供给不足"
+    },
+    "seven_questions": {
+      "traffic": "Salla/Zid 生态服务商 + 中国卖家社群 + 沙特本地商会；前 10 个客户来自跨境卖家群与平台服务商转介",
+      "money": "代运营月费 3,000–15,000 里亚尔 + listing 翻译按条收费 + 本地退货/客服按单",
+      "model": "阿语 listing/客服 + 本地仓/退货 + Salla/Zid 建站；交付=内容、履约、售后",
+      "roi": "启动 2–10 万元（本地合作/阿语团队/仓储）；3–6 个月出单，8–15 个月回本；月收入 1–8 万元",
+      "audience": "有阿语能力或沙特本地合作方、懂电商运营的团队；不适合无本地退货方案者",
+      "drivers": [
+        "cross-border",
+        "ops",
+        "info"
+      ],
+      "moat": "阿语内容与本地履约网络 + 平台服务商资质；前置条件是沙特 SASO 认证与本地合作方"
+    },
+    "roi": {
+      "capital_cny": {
+        "min": 20000,
+        "max": 100000
+      },
+      "time_to_revenue_months": 4,
+      "payback_months": 12,
+      "monthly_revenue_cny": {
+        "min": 10000,
+        "max": 80000
+      },
+      "gross_margin_pct": 45,
+      "effort_level": "side",
+      "team_size": 2
+    },
+    "scores": {
+      "dimensions": {
+        "signal": 7.6,
+        "gap": 8.2,
+        "feasibility": 6.8,
+        "economics": 7.0,
+        "timing": 7.2,
+        "competition": 6.2,
+        "risk": 6.0,
+        "fit": 6.0,
+        "evidence": 6.8,
+        "leverage": 6.2
+      },
+      "total": 70.3,
+      "grade": "B"
+    },
+    "window": {
+      "status": "peak",
+      "months_left": 8,
+      "decay": "fast"
+    },
+    "risks": [
+      "沙特本地化要求（SASO 认证、阿拉伯语标签）",
+      "COD 拒收率高",
+      "文化与宗教内容审核"
+    ],
+    "first_steps_7d": [
+      "访谈 5 个在沙特卖货的中国卖家确认痛点",
+      "联系 2 家沙特本地仓/退货服务商",
+      "做 10 条阿语 listing 翻译样例",
+      "算一单 COD 拒收率对毛利的影响"
+    ],
+    "kill_criteria": [
+      "3 个月无付费客户",
+      "本地退货方案成本 > 收入 40%",
+      "SASO 认证无法解决"
+    ],
+    "compliance_notes": "需 SASO 认证与阿拉伯语标签；COD/退货涉及本地消费者保护法；广告与内容需符合宗教文化规范；来源未逐条直连核验（verified:false），使用前请人工复核原始 URL 与引文",
+    "evidence_count": 2,
+    "activity_dates": [
+      "2026-01-15",
+      "2026-08-10",
+      "2026-10-20"
+    ],
+    "first_seen": "2026-01-15",
+    "last_activity": "2026-10-20",
+    "momentum": 1.2,
+    "rank_score": 72.0,
+    "tags": [
+      "localization-heavy",
+      "b2b",
+      "cross-border",
+      "china-advantage"
+    ],
+    "verified": false,
+    "disclaimer": "研究假设，非投资建议；示例数据用于演示，使用前请核验原始来源"
+  },
+  {
+    "id": "opp-content-uae-eid-gifting-057",
+    "slug": "uae-eid-gifting",
+    "title": "UAE 开斋节礼赠：节庆情绪消费的确定性窗口",
+    "one_liner": "GCC 礼赠文化强、客单价高，开斋节/宰牲节礼盒（椰枣/香水/家居/儿童礼）适合中国供应链+阿语包装+本地仓",
+    "industry_id": "content",
+    "gap_type_ids": [
+      "culture",
+      "time"
+    ],
+    "region_ids": [
+      "mena"
+    ],
+    "origin_country": "阿联酋",
+    "target_countries": [
+      "阿联酋",
+      "沙特",
+      "卡塔尔",
+      "科威特",
+      "巴林",
+      "阿曼"
+    ],
+    "human_need_ids": [
+      "status",
+      "belonging"
+    ],
+    "neuro_drivers": [
+      "dopamine",
+      "oxytocin"
+    ],
+    "emotion_tags": [
+      "pride",
+      "ritual",
+      "love"
+    ],
+    "source_langs": [
+      "ar",
+      "en"
+    ],
+    "signal": {
+      "summary": "GCC 礼赠文化强、客单价高，线上礼赠基础设施（次日达、数字卡）成熟；中国礼盒供应链有优势，但需阿语包装、宗教审美与本地仓配合，窗口集中在斋月前 4–6 周。",
+      "evidence": [
+        {
+          "title": "UAE 开斋节线上礼赠交易激增 115%",
+          "publisher": "Economy Middle East",
+          "url": "https://economymiddleeast.com/news/eid-al-fitr-2026-online-gifting-transactions-surge-115-percent-in-uae-ahead-of-holiday/",
+          "date": "2026-03-01",
+          "quote": "2026 年开斋节前 UAE 线上礼赠交易激增 115%（页面 403，仅标题/摘要可读）",
+          "lang": "en",
+          "tier": "secondary"
+        },
+        {
+          "title": "GEM 2025/2026 全球创业报告",
+          "publisher": "GEM Consortium",
+          "url": "https://www.gemconsortium.org/report/51858",
+          "date": "2026-02-26",
+          "quote": "UAE 连续第 5 年被评为全球创业环境最佳（NECI 第一）",
+          "lang": "en",
+          "tier": "primary"
+        }
+      ],
+      "signal_strength": 7.4,
+      "trend_direction": "up",
+      "volume_estimate": "2026 开斋节前 UAE 线上礼赠 +115%；礼盒客单 100–500 迪拉姆"
+    },
+    "seven_questions": {
+      "traffic": "Instagram/TikTok 阿语内容 + 企业礼赠 B2B + 本地电商平台；前 50 单来自企业客户与节庆搜索",
+      "money": "节庆礼盒销售（100–500 迪拉姆）+ 企业定制礼赠；毛利 35–50%",
+      "model": "中国供应链礼盒 + 阿语包装/宗教审美设计 + 迪拜本地仓/次日达；企业礼赠 B2B 为主",
+      "roi": "启动 2–8 万元（打样/包装/本地仓）；节庆前 1 个月出单，单季回本；月收入 2–10 万元（季节性）",
+      "audience": "有阿语/本地渠道或企业客户资源、能控供应链的人；不适合无法应对短窗口与库存风险者",
+      "drivers": [
+        "supply",
+        "info",
+        "cross-border"
+      ],
+      "moat": "供应链+阿语包装+本地仓时效；窗口期套利为主，长期壁垒是客户关系"
+    },
+    "roi": {
+      "capital_cny": {
+        "min": 20000,
+        "max": 80000
+      },
+      "time_to_revenue_months": 2,
+      "payback_months": 5,
+      "monthly_revenue_cny": {
+        "min": 20000,
+        "max": 100000
+      },
+      "gross_margin_pct": 40,
+      "effort_level": "side",
+      "team_size": 2
+    },
+    "scores": {
+      "dimensions": {
+        "signal": 7.4,
+        "gap": 7.8,
+        "feasibility": 7.2,
+        "economics": 6.8,
+        "timing": 7.8,
+        "competition": 6.4,
+        "risk": 6.2,
+        "fit": 6.2,
+        "evidence": 6.8,
+        "leverage": 6.0
+      },
+      "total": 70.6,
+      "grade": "B"
+    },
+    "window": {
+      "status": "closing",
+      "months_left": 1,
+      "decay": "fast"
+    },
+    "risks": [
+      "节庆窗口短（斋月前 4–6 周），库存风险高",
+      "宗教图案/颜色禁忌",
+      "本地品牌忠诚度高"
+    ],
+    "first_steps_7d": [
+      "调研 10 个 UAE 热销开斋节礼盒的价格与内容",
+      "找 2 家中国礼盒厂打样",
+      "联系 1 家迪拜本地仓谈节庆档期",
+      "做 1 份企业礼赠报价单给 5 家公司"
+    ],
+    "kill_criteria": [
+      "节庆前 2 周未备货到仓",
+      "礼盒毛利 < 25%",
+      "宗教审美/合规问题导致退货"
+    ],
+    "compliance_notes": "阿语标签与宗教内容审核；食品需 Gulf 食品标准；企业礼赠需符合当地商业惯例",
+    "evidence_count": 2,
+    "activity_dates": [
+      "2026-02-26",
+      "2026-07-20",
+      "2026-10-20"
+    ],
+    "first_seen": "2026-02-26",
+    "last_activity": "2026-10-20",
+    "momentum": 1.2,
+    "rank_score": 72.3,
+    "tags": [
+      "seasonal",
+      "physical",
+      "b2b",
+      "china-advantage"
+    ],
+    "verified": true,
+    "disclaimer": "研究假设，非投资建议；示例数据用于演示，使用前请核验原始来源"
+  },
+  {
+    "id": "opp-xb-vietnam-tiktok-shop-ops-058",
+    "slug": "vietnam-tiktok-shop-ops",
+    "title": "越南 TikTok Shop 代运营：GMV +66% ",
+    "one_liner": "2025 年越南 TikTok Shop GMV +66%，本地达人供给不足，中国供应链+越南语直播/达人分销可做代运营",
+    "industry_id": "crossborder",
+    "gap_type_ids": [
+      "platform",
+      "channel"
+    ],
+    "region_ids": [
+      "sea"
+    ],
+    "origin_country": "越南",
+    "target_countries": [
+      "越南",
+      "泰国",
+      "印尼",
+      "马来西亚",
+      "菲律宾"
+    ],
+    "human_need_ids": [
+      "novelty",
+      "status"
+    ],
+    "neuro_drivers": [
+      "dopamine",
+      "adrenaline"
+    ],
+    "emotion_tags": [
+      "aspiration",
+      "curiosity",
+      "pride"
+    ],
+    "source_langs": [
+      "vi",
+      "en",
+      "zh"
+    ],
+    "signal": {
+      "summary": "2025 年 TikTok Shop 越南 GMV +66%，平台从低价白牌转向品牌+直播，本地达人供给不足；中国团队有成熟直播与投流方法论，可切‘中国供应链+越南达人’代运营。",
+      "evidence": [
+        {
+          "title": "TikTok Shop 越南 GMV 增长 66%",
+          "publisher": "越南工贸部报",
+          "url": "https://congthuong.vn/tiktok-shop-tang-truong-66-mo-rong-he-sinh-thai-thuong-mai-so-467087.html",
+          "date": "2026-10-08",
+          "quote": "2025 年 TikTok Shop 越南 GMV +66%，扩展数字商业生态（仅标题可读）",
+          "lang": "vi",
+          "tier": "secondary"
+        },
+        {
+          "title": "TikTok Shop 越南交易额 +66%",
+          "publisher": "越通社",
+          "url": "https://www.vietnamplus.vn/tong-gia-tri-giao-dich-cua-tiktok-shop-tai-viet-nam-tang-66-nam-2025-post1126796.vnp",
+          "date": "2026-01-10",
+          "quote": "2025 年 TikTok Shop 越南 GMV 同比增长 66%（仅标题可读）",
+          "lang": "vi",
+          "tier": "secondary"
+        }
+      ],
+      "signal_strength": 7.8,
+      "trend_direction": "up",
+      "volume_estimate": "TikTok Shop 越南 GMV +66%（2025）；直播代运营月费 1,000–5,000 美元"
+    },
+    "seven_questions": {
+      "traffic": "TikTok 达人分销 + 越南语直播 + 中国供应链选品；前 20 个客户来自中国卖家群与 MCN 转介",
+      "money": "代运营月费 1,000–5,000 美元 + 销售佣金 5–15% + 达人撮合费",
+      "model": "中国供应链 + 越南达人/直播团队 + 店铺运营；交付=选品、内容、直播、投流",
+      "roi": "启动 2–10 万元（达人/直播/样品）；2–4 个月出单，6–10 个月回本；月收入 1–8 万元",
+      "audience": "有越南语/本地 MCN 合作、懂 TikTok 投流的人；不适合无本地达人资源者",
+      "drivers": [
+        "ops",
+        "info",
+        "cross-border"
+      ],
+      "moat": "达人资源与投流方法论 + 供应链；平台政策变化快，窗口期属性强"
+    },
+    "roi": {
+      "capital_cny": {
+        "min": 20000,
+        "max": 100000
+      },
+      "time_to_revenue_months": 3,
+      "payback_months": 8,
+      "monthly_revenue_cny": {
+        "min": 10000,
+        "max": 80000
+      },
+      "gross_margin_pct": 35,
+      "effort_level": "side",
+      "team_size": 2
+    },
+    "scores": {
+      "dimensions": {
+        "signal": 7.8,
+        "gap": 7.6,
+        "feasibility": 7.4,
+        "economics": 7.0,
+        "timing": 7.6,
+        "competition": 6.2,
+        "risk": 6.4,
+        "fit": 6.4,
+        "evidence": 7.0,
+        "leverage": 6.2
+      },
+      "total": 71.5,
+      "grade": "B"
+    },
+    "window": {
+      "status": "peak",
+      "months_left": 6,
+      "decay": "fast"
+    },
+    "risks": [
+      "越南电商税与进口合规趋严",
+      "平台政策变化快",
+      "本地竞争（Sapo/Haravan 生态）"
+    ],
+    "first_steps_7d": [
+      "联系 3 家越南 MCN 谈达人报价",
+      "选 10 个中国供应链测品",
+      "在 1 个店铺跑 2 周直播测试",
+      "算达人佣金+投流后的单均毛利"
+    ],
+    "kill_criteria": [
+      "ROI < 1.2",
+      "2 个月无稳定出单",
+      "平台政策禁止代运营模式"
+    ],
+    "compliance_notes": "越南电商与进口需合规申报；直播内容需符合广告法；达人合作需明确税务与分成",
+    "evidence_count": 2,
+    "activity_dates": [
+      "2025-12-15",
+      "2026-08-01",
+      "2026-10-20"
+    ],
+    "first_seen": "2025-12-15",
+    "last_activity": "2026-10-20",
+    "momentum": 1.2,
+    "rank_score": 73.2,
+    "tags": [
+      "platform-dependent",
+      "b2b",
+      "content-driven",
+      "china-advantage"
+    ],
+    "verified": true,
+    "disclaimer": "研究假设，非投资建议；示例数据用于演示，使用前请核验原始来源"
+  },
+  {
+    "id": "opp-xb-sea-halal-beauty-supply-059",
+    "slug": "sea-halal-beauty-supply",
+    "title": "东南亚清真美妆供应链：宗教合规+审美双重差",
+    "one_liner": "印尼/马来西亚穆斯林女性消费力上升，清真认证彩妆/护肤供给少，中国工厂可做 OEM + 认证代工对接",
+    "industry_id": "crossborder",
+    "gap_type_ids": [
+      "culture",
+      "regulation"
+    ],
+    "region_ids": [
+      "sea",
+      "mena"
+    ],
+    "origin_country": "中国",
+    "target_countries": [
+      "印尼",
+      "马来西亚",
+      "沙特",
+      "阿联酋",
+      "新加坡"
+    ],
+    "human_need_ids": [
+      "status",
+      "expression"
+    ],
+    "neuro_drivers": [
+      "dopamine",
+      "serotonin"
+    ],
+    "emotion_tags": [
+      "identity",
+      "pride",
+      "aspiration"
+    ],
+    "source_langs": [
+      "id",
+      "ms",
+      "en",
+      "zh"
+    ],
+    "signal": {
+      "summary": "东南亚穆斯林女性消费力上升，但‘清真+好用+好看’供给少；wudhu 友好指甲油、可净礼配方等细分缺口明显，中国供应链能做配方与包材，只差认证与本地审美。",
+      "evidence": [
+        {
+          "title": "Southeast Asia Halal Cosmetics Market 2025–2033",
+          "publisher": "GII Research",
+          "url": "https://www.giiresearch.com/report/umi1988639-southeast-asia-halal-cosmetics-market-current.html",
+          "date": "2026-05-01",
+          "quote": "东南亚清真美妆市场报告覆盖 2025–2033（仅标题可读）",
+          "lang": "en",
+          "tier": "secondary"
+        },
+        {
+          "title": "印尼清真认证强制时间表",
+          "publisher": "LPPOM-MUI",
+          "url": "https://halalmui.org/en/the-government-has-postponed-the-mandatory-halal-requirement-for-smes-and-imported-products-this-is-lppoms-response/",
+          "date": "2026-01-10",
+          "quote": "印尼政府推迟对中小微企业与进口产品的强制清真要求（正文截断）",
+          "lang": "en",
+          "tier": "primary"
+        }
+      ],
+      "signal_strength": 7.4,
+      "trend_direction": "up",
+      "volume_estimate": "东南亚清真美妆报告覆盖 2025–2033；OEM 订单客单 5–50 万元"
+    },
+    "seven_questions": {
+      "traffic": "对接印尼/马来西亚本地品牌与渠道商 + 中国工厂 OEM；前 5 个客户来自跨境美妆卖家与本地品牌",
+      "money": "OEM 代工费 + 配方/包材服务费 + 认证咨询；毛利 20–35%",
+      "model": "中国工厂配方/包材 + 本地品牌/渠道 + 清真认证（LPPOM/BPJPH）；交付=打样、认证、量产",
+      "roi": "启动 5–30 万元（打样/认证/差旅）；6–12 个月出单，18 个月回本；月收入 5–30 万元",
+      "audience": "有美妆供应链与认证资源、能对接东南亚品牌的人；不适合无认证能力与本地渠道者",
+      "drivers": [
+        "supply",
+        "cross-border",
+        "regulation"
+      ],
+      "moat": "配方+认证+供应链柔性；前置条件是清真认证与本地品牌关系"
+    },
+    "roi": {
+      "capital_cny": {
+        "min": 50000,
+        "max": 300000
+      },
+      "time_to_revenue_months": 8,
+      "payback_months": 18,
+      "monthly_revenue_cny": {
+        "min": 50000,
+        "max": 300000
+      },
+      "gross_margin_pct": 30,
+      "effort_level": "full",
+      "team_size": 2
+    },
+    "scores": {
+      "dimensions": {
+        "signal": 7.4,
+        "gap": 8.0,
+        "feasibility": 6.6,
+        "economics": 6.8,
+        "timing": 6.8,
+        "competition": 6.0,
+        "risk": 6.2,
+        "fit": 6.2,
+        "evidence": 6.8,
+        "leverage": 6.0
+      },
+      "total": 68.6,
+      "grade": "B"
+    },
+    "window": {
+      "status": "open",
+      "months_left": 24,
+      "decay": "medium"
+    },
+    "risks": [
+      "配方与认证（酒精/动物源成分）复杂",
+      "本地品牌竞争激烈",
+      "宗教审美误判"
+    ],
+    "first_steps_7d": [
+      "找 2 家印尼/马来品牌谈 OEM 需求",
+      "联系 1 家清真认证机构评估周期与费用",
+      "做 3 款 wudhu 友好指甲油/护肤品打样",
+      "算认证+打样+量产的总投入"
+    ],
+    "kill_criteria": [
+      "认证周期 > 12 个月且成本不可控",
+      "订单毛利 < 20%",
+      "无本地品牌愿意合作"
+    ],
+    "compliance_notes": "需 LPPOM-MUI/BPJPH 清真认证；化妆品需目的国注册（印尼 BPOM 等）；包装需阿语/印尼语标签；来源未逐条直连核验（verified:false），使用前请人工复核原始 URL 与引文",
+    "evidence_count": 2,
+    "activity_dates": [
+      "2026-01-10",
+      "2026-06-18",
+      "2026-10-20"
+    ],
+    "first_seen": "2026-01-10",
+    "last_activity": "2026-10-20",
+    "momentum": 1.2,
+    "rank_score": 70.2,
+    "tags": [
+      "needs-supply-chain",
+      "b2b",
+      "china-advantage",
+      "localization-heavy"
+    ],
+    "verified": false,
+    "disclaimer": "研究假设，非投资建议；示例数据用于演示，使用前请核验原始来源"
+  },
+  {
+    "id": "opp-fintech-brazil-pix-payment-060",
+    "slug": "brazil-pix-payment",
+    "title": "巴西 Pix 支付集成：即时支付时代的结账优化服务",
+    "one_liner": "Pix 在巴西电商已超过信用卡，预计 2028 年占电商支付 50%，跨境独立站缺 Pix+分期能力，配置服务可收费",
+    "industry_id": "fintech",
+    "gap_type_ids": [
+      "infrastructure",
+      "platform"
+    ],
+    "region_ids": [
+      "latam"
+    ],
+    "origin_country": "巴西",
+    "target_countries": [
+      "巴西",
+      "墨西哥",
+      "阿根廷",
+      "智利",
+      "哥伦比亚"
+    ],
+    "human_need_ids": [
+      "ease",
+      "control"
+    ],
+    "neuro_drivers": [
+      "dopamine",
+      "cortisol"
+    ],
+    "emotion_tags": [
+      "relief",
+      "control",
+      "hope"
+    ],
+    "source_langs": [
+      "pt",
+      "es",
+      "en"
+    ],
+    "signal": {
+      "summary": "Pix 在巴西电商已超过信用卡，预计 2028 年占电商支付约 50%；Mercado Pago 处理 TPV 710 亿美元（+41%）、月活 7200 万；中国独立站常只接信用卡导致转化流失，Pix+分期+订阅配置是缺口。",
+      "evidence": [
+        {
+          "title": "MercadoLibre 2025 Q3 财报：TPV 与用户增长",
+          "publisher": "MercadoLibre",
+          "url": "https://news.mercadolibre.com/resultados-financieros-tercer-trimestre-2025",
+          "date": "2025-10-29",
+          "quote": "Mercado Pago 处理 TPV 710 亿美元（+41%）、月活 7200 万（+29%）",
+          "lang": "es",
+          "tier": "primary"
+        },
+        {
+          "title": "Pix 超过信用卡占电商支付",
+          "publisher": "IstoÉ Dinheiro",
+          "url": "https://istoedinheiro.com.br/pix-supera-cartoes-de-credito-commerce",
+          "date": "2026-04-10",
+          "quote": "Pix 在巴西电商已超过信用卡，2028 年预计占电商支付约 50%（仅标题可读）",
+          "lang": "pt",
+          "tier": "secondary"
+        }
+      ],
+      "signal_strength": 7.8,
+      "trend_direction": "up",
+      "volume_estimate": "Mercado Pago TPV 710 亿美元；Pix 预计 2028 年占电商支付 50%"
+    },
+    "seven_questions": {
+      "traffic": "Shopify/WooCommerce 生态服务商 + 拉美支付机构合作 + 跨境卖家社群；前 20 个客户来自独立站卖家",
+      "money": "支付配置服务按项目 1,000–5,000 美元 + 订阅对账服务月费；不碰资金清算",
+      "model": "结账配置（Pix/分期/Pix Automático）+ 对账 + 本地化咨询；与持牌 PSP 合作",
+      "roi": "启动 5,000–30,000 元（学习/合作/内容）；2–4 个月出单，6–10 个月回本；月收入 5,000–40,000 元",
+      "audience": "懂跨境独立站与支付集成、能读葡语文档的人；不适合无持牌 PSP 合作直接收单的人",
+      "drivers": [
+        "tech",
+        "info",
+        "cross-border"
+      ],
+      "moat": "技术集成+本地支付关系；支付牌照是红线，只做配置服务"
+    },
+    "roi": {
+      "capital_cny": {
+        "min": 5000,
+        "max": 30000
+      },
+      "time_to_revenue_months": 2,
+      "payback_months": 8,
+      "monthly_revenue_cny": {
+        "min": 5000,
+        "max": 40000
+      },
+      "gross_margin_pct": 70,
+      "effort_level": "side",
+      "team_size": 1
+    },
+    "scores": {
+      "dimensions": {
+        "signal": 7.8,
+        "gap": 7.8,
+        "feasibility": 7.8,
+        "economics": 7.2,
+        "timing": 7.6,
+        "competition": 6.6,
+        "risk": 7.0,
+        "fit": 6.8,
+        "evidence": 7.4,
+        "leverage": 6.4
+      },
+      "total": 74.0,
+      "grade": "B"
+    },
+    "window": {
+      "status": "open",
+      "months_left": 18,
+      "decay": "medium"
+    },
+    "risks": [
+      "巴西支付牌照要求（需与持牌 PSP 合作）",
+      "合规与反洗钱要求",
+      "技术集成与本地化门槛"
+    ],
+    "first_steps_7d": [
+      "实测 3 个跨境独立站的巴西结账失败率",
+      "联系 2 家 PSP 谈合作/佣金",
+      "做 1 份 Pix+分期配置服务报价",
+      "找 3 个卖家做免费诊断换案例"
+    ],
+    "kill_criteria": [
+      "3 个月无付费客户",
+      "PSP 合作无法达成",
+      "集成成本超过 3 万元且无法标准化"
+    ],
+    "compliance_notes": "不得无牌从事支付/清算；只做技术与配置服务并与持牌 PSP 合作；需遵守巴西 LGPD 个人信息保护",
+    "evidence_count": 2,
+    "activity_dates": [
+      "2025-10-29",
+      "2026-08-15",
+      "2026-10-22"
+    ],
+    "first_seen": "2025-10-29",
+    "last_activity": "2026-10-22",
+    "momentum": 1.2,
+    "rank_score": 75.8,
+    "tags": [
+      "tech-driven",
+      "b2b",
+      "remote",
+      "china-advantage"
+    ],
+    "verified": true,
+    "disclaimer": "研究假设，非投资建议；示例数据用于演示，使用前请核验原始来源"
+  },
+  {
+    "id": "opp-fintech-mexico-cod-oxxo-ops-061",
+    "slug": "mexico-cod-oxxo-ops",
+    "title": "墨西哥 COD/OXXO 现金支付与拒收率优化：被忽视的",
+    "one_liner": "墨西哥大量消费者无银行账户，COD 与 OXXO 现金支付是刚需，中国卖家因拒收率高放弃市场，风控+确认+客服可收费",
+    "industry_id": "fintech",
+    "gap_type_ids": [
+      "infrastructure",
+      "culture"
+    ],
+    "region_ids": [
+      "latam"
+    ],
+    "origin_country": "墨西哥",
+    "target_countries": [
+      "墨西哥",
+      "巴西",
+      "阿根廷",
+      "秘鲁",
+      "智利"
+    ],
+    "human_need_ids": [
+      "ease",
+      "control"
+    ],
+    "neuro_drivers": [
+      "cortisol",
+      "dopamine"
+    ],
+    "emotion_tags": [
+      "anxiety",
+      "relief",
+      "control"
+    ],
+    "source_langs": [
+      "es",
+      "en"
+    ],
+    "signal": {
+      "summary": "墨西哥大量消费者无银行账户/不用信用卡，COD 与 OXXO Pay 是刚需；Mercado Pago 官方文档支持 OXXO 现金支付，中国卖家因 COD 拒收率高而放弃墨西哥市场。",
+      "evidence": [
+        {
+          "title": "Mercado Pago 支持 OXXO Pay 现金支付",
+          "publisher": "Mercado Pago 开发者文档",
+          "url": "https://www.mercadopago.com.mx/blog/aceptar-pagos-efectivo-oxxo-pay-checkout",
+          "date": "2026-03-15",
+          "quote": "Mercado Pago 官方文档支持 OXXO Pay 现金支付（仅标题可读）",
+          "lang": "es",
+          "tier": "primary"
+        },
+        {
+          "title": "MercadoLibre 墨西哥 GMV +34%",
+          "publisher": "MercadoLibre",
+          "url": "https://news.mercadolibre.com/resultados-financieros-tercer-trimestre-2025",
+          "date": "2025-10-29",
+          "quote": "墨西哥 GMV +34%、商品数 +42%（2025 Q3）",
+          "lang": "es",
+          "tier": "primary"
+        }
+      ],
+      "signal_strength": 7.4,
+      "trend_direction": "up",
+      "volume_estimate": "墨西哥 COD/OXXO 拒收率 15–30%；服务按单收费 0.5–2 美元"
+    },
+    "seven_questions": {
+      "traffic": "跨境卖家社群 + 墨西哥本地物流/客服合作 + 平台服务商；前 20 个客户来自中国卖家",
+      "money": "COD 风控/短信确认/本地客服按单收费 + OXXO 接入服务费",
+      "model": "风控+短信确认+本地客服 + OXXO/PayPal 等支付接入；与物流商分成",
+      "roi": "启动 1–5 万元（系统/本地客服/测试）；2–4 个月出单，6–10 个月回本；月收入 5,000–30,000 元",
+      "audience": "有西语能力或本地客服资源、懂 COD 风控的人；不适合无本地客服能力者",
+      "drivers": [
+        "ops",
+        "info",
+        "cross-border"
+      ],
+      "moat": "本地客服与风控数据 + 物流关系；前置条件是支付/隐私合规与本地合作"
+    },
+    "roi": {
+      "capital_cny": {
+        "min": 10000,
+        "max": 50000
+      },
+      "time_to_revenue_months": 3,
+      "payback_months": 8,
+      "monthly_revenue_cny": {
+        "min": 5000,
+        "max": 30000
+      },
+      "gross_margin_pct": 50,
+      "effort_level": "side",
+      "team_size": 2
+    },
+    "scores": {
+      "dimensions": {
+        "signal": 7.4,
+        "gap": 7.6,
+        "feasibility": 7.0,
+        "economics": 7.0,
+        "timing": 7.2,
+        "competition": 6.4,
+        "risk": 6.4,
+        "fit": 6.2,
+        "evidence": 6.8,
+        "leverage": 6.0
+      },
+      "total": 69.8,
+      "grade": "B"
+    },
+    "window": {
+      "status": "peak",
+      "months_left": 8,
+      "decay": "medium"
+    },
+    "risks": [
+      "COD 拒收与欺诈损失",
+      "现金对账复杂",
+      "平台/物流规则变化"
+    ],
+    "first_steps_7d": [
+      "统计 3 个墨西哥店铺的 COD 拒收率",
+      "联系 2 家本地物流/客服外包报价",
+      "设计短信确认+WhatsApp 回访流程",
+      "跑 100 单小规模测试拒收率"
+    ],
+    "kill_criteria": [
+      "拒收率下降 < 5 个百分点",
+      "单均服务成本 > 毛利 30%",
+      "本地客服无法覆盖时区"
+    ],
+    "compliance_notes": "需遵守墨西哥消费者保护与个人数据法；支付接入需持牌 PSP；COD 现金处理需物流合规",
+    "evidence_count": 2,
+    "activity_dates": [
+      "2025-10-29",
+      "2026-07-25",
+      "2026-10-20"
+    ],
+    "first_seen": "2025-10-29",
+    "last_activity": "2026-10-20",
+    "momentum": 1.2,
+    "rank_score": 71.5,
+    "tags": [
+      "b2b",
+      "localization-heavy",
+      "china-advantage"
+    ],
+    "verified": true,
+    "disclaimer": "研究假设，非投资建议；示例数据用于演示，使用前请核验原始来源"
+  },
+  {
+    "id": "opp-green-kenya-payg-solar-channel-062",
+    "slug": "kenya-payg-solar-channel",
+    "title": "肯尼亚 PAYG 太阳能渠道与配件：硬件+金融的复合生意",
+    "one_liner": "Sun King 1.56 亿美元证券化覆盖 100 万+ 肯尼亚人，中国光伏/储能供应链可做配件分销与 PAYG 风控",
+    "industry_id": "green",
+    "gap_type_ids": [
+      "infrastructure",
+      "price"
+    ],
+    "region_ids": [
+      "africa"
+    ],
+    "origin_country": "肯尼亚",
+    "target_countries": [
+      "肯尼亚",
+      "坦桑尼亚",
+      "乌干达",
+      "尼日利亚",
+      "加纳"
+    ],
+    "human_need_ids": [
+      "survival",
+      "control"
+    ],
+    "neuro_drivers": [
+      "cortisol",
+      "dopamine"
+    ],
+    "emotion_tags": [
+      "hope",
+      "relief",
+      "fear"
+    ],
+    "source_langs": [
+      "en",
+      "sw"
+    ],
+    "signal": {
+      "summary": "Sun King 完成 1.56 亿美元证券化、为 100 万+ 肯尼亚人提供太阳能；非洲电网覆盖不足 + M-Pesa 移动支付成熟让 PAYG 跑通，中国光伏/储能供应链成本优势明显。",
+      "evidence": [
+        {
+          "title": "Sun King 1.56 亿美元证券化服务百万肯尼亚人",
+          "publisher": "Sun King",
+          "url": "https://sunking.com/news-blog/156m-sun-king-securitisation-to-deliver-solar-for-over-a-million-kenyans/",
+          "date": "2026-05-10",
+          "quote": "Sun King 1.56 亿美元证券化，为 100 万+ 肯尼亚人提供太阳能（仅标题可读）",
+          "lang": "en",
+          "tier": "primary"
+        },
+        {
+          "title": "可持续金融推动非洲离网太阳能扩张",
+          "publisher": "Sun King",
+          "url": "https://sunking.com/news-blog/sustainable-finance-drives-rapid-expansion-of-off-grid-solar-in-africa/",
+          "date": "2026-06-10",
+          "quote": "可持续金融推动非洲离网太阳能快速扩张（仅标题可读）",
+          "lang": "en",
+          "tier": "primary"
+        }
+      ],
+      "signal_strength": 7.2,
+      "trend_direction": "up",
+      "volume_estimate": "非洲离网太阳能 PAYG 覆盖百万级用户；配件客单 10–80 美元"
+    },
+    "seven_questions": {
+      "traffic": "本地分销商/手机店 + 教会/社区组织 + M-Pesa 分期；前 100 单来自本地分销与社区团购",
+      "money": "硬件销售（太阳能灯/风扇/电视配件）+ 安装售后费 + PAYG 分期利差",
+      "model": "中国硬件 + 肯尼亚本地分销/售后 + M-Pesa 分期；轻资产先做配件分销",
+      "roi": "启动 5–30 万元（库存/本地合作/认证）；3–6 个月出单，8–15 个月回本；月收入 1–8 万元",
+      "audience": "有非洲本地渠道/清关经验、能管理售后的人；不适合无本地回款风控能力者",
+      "drivers": [
+        "supply",
+        "ops",
+        "capital"
+      ],
+      "moat": "本地渠道与售后网络 + 供应链成本；前置条件是肯尼亚 ERC 认证与回款风控"
+    },
+    "roi": {
+      "capital_cny": {
+        "min": 50000,
+        "max": 300000
+      },
+      "time_to_revenue_months": 4,
+      "payback_months": 12,
+      "monthly_revenue_cny": {
+        "min": 10000,
+        "max": 80000
+      },
+      "gross_margin_pct": 30,
+      "effort_level": "full",
+      "team_size": 2
+    },
+    "scores": {
+      "dimensions": {
+        "signal": 7.2,
+        "gap": 7.4,
+        "feasibility": 6.4,
+        "economics": 6.8,
+        "timing": 7.0,
+        "competition": 6.0,
+        "risk": 5.8,
+        "fit": 5.8,
+        "evidence": 6.4,
+        "leverage": 5.8
+      },
+      "total": 66.6,
+      "grade": "B"
+    },
+    "window": {
+      "status": "open",
+      "months_left": 24,
+      "decay": "medium"
+    },
+    "risks": [
+      "PAYG 回款风险（坏账）",
+      "汇率与认证/关税",
+      "售后网络成本高"
+    ],
+    "first_steps_7d": [
+      "联系 2 家肯尼亚本地分销商谈合作",
+      "调研 10 个热销太阳能配件价格",
+      "算一笔 100 台配件的回款周期",
+      "找 1 家 M-Pesa 集成服务商评估分期方案"
+    ],
+    "kill_criteria": [
+      "回款违约率 > 10%",
+      "认证/关税使毛利 < 20%",
+      "本地售后成本不可控"
+    ],
+    "compliance_notes": "肯尼亚 ERC 认证与 KEBS 标准；PAYG 分期需金融合规；进口关税与外汇管制需核查",
+    "evidence_count": 2,
+    "activity_dates": [
+      "2026-05-10",
+      "2026-08-08",
+      "2026-10-20"
+    ],
+    "first_seen": "2026-05-10",
+    "last_activity": "2026-10-20",
+    "momentum": 1.2,
+    "rank_score": 68.2,
+    "tags": [
+      "physical",
+      "b2b",
+      "china-advantage",
+      "needs-supply-chain"
+    ],
+    "verified": true,
+    "disclaimer": "研究假设，非投资建议；示例数据用于演示，使用前请核验原始来源"
+  },
+  {
+    "id": "opp-xb-africa-jumia-ops-063",
+    "slug": "africa-jumia-ops",
+    "title": "Jumia 中国卖家代运营：非洲最后一公里的服务缺口",
+    "one_liner": "Jumia 2025 GMV 8.186 亿美元、中国战略推动国际销售 +82%，平台主动引入中国卖家，代运营与本地仓服",
+    "industry_id": "crossborder",
+    "gap_type_ids": [
+      "platform",
+      "infrastructure"
+    ],
+    "region_ids": [
+      "africa"
+    ],
+    "origin_country": "尼日利亚",
+    "target_countries": [
+      "尼日利亚",
+      "埃及",
+      "肯尼亚",
+      "南非",
+      "加纳",
+      "科特迪瓦"
+    ],
+    "human_need_ids": [
+      "ease",
+      "status"
+    ],
+    "neuro_drivers": [
+      "dopamine",
+      "cortisol"
+    ],
+    "emotion_tags": [
+      "hope",
+      "aspiration",
+      "anxiety"
+    ],
+    "source_langs": [
+      "en",
+      "fr"
+    ],
+    "signal": {
+      "summary": "Jumia 2025 全年收入 1.889 亿美元（+13%）、GMV 8.186 亿美元（+14%），‘China pivot’推动国际销售 +82%；平台流量便宜、竞争少，但物流、退货与 COD 仍是痛点。",
+      "evidence": [
+        {
+          "title": "Jumia Group 2025 年收入与 GMV",
+          "publisher": "Nairametrics",
+          "url": "https://nairametrics.com/2026/02/10/jumia-group-revenue-rises-to-188-9m-in-2025-cuts-loss/",
+          "date": "2026-02-10",
+          "quote": "Jumia 2025 全年收入 1.889 亿美元（+13%）、GMV 8.186 亿美元（+14%）",
+          "lang": "en",
+          "tier": "secondary"
+        },
+        {
+          "title": "Jumia 中国战略推动国际销售 +82%",
+          "publisher": "TechCabal",
+          "url": "https://techcabal.com/2026/02/11/jumias-china-pivot-fuels-82-surge-in-international-sales/",
+          "date": "2026-02-11",
+          "quote": "Jumia 中国战略推动国际销售 +82%（仅标题可读）",
+          "lang": "en",
+          "tier": "secondary"
+        }
+      ],
+      "signal_strength": 7.6,
+      "trend_direction": "up",
+      "volume_estimate": "Jumia 2025 GMV 8.186 亿美元；国际销售 +82%"
+    },
+    "seven_questions": {
+      "traffic": "Jumia 卖家社群 + 中国跨境服务商 + 本地仓合作；前 20 个客户来自 Jumia 招商与卖家群",
+      "money": "代运营月费 500–3,000 美元 + 销售佣金 5–10% + 本地仓/退货服务费",
+      "model": "选品+上架+客服 + 非洲本地仓/退货 + COD 对账；交付=店铺运营与履约",
+      "roi": "启动 2–10 万元（本地仓/客服/样品）；2–5 个月出单，6–12 个月回本；月收入 1–8 万元",
+      "audience": "有非洲电商/清关经验、能处理多国物流的人；不适合无本地退货方案者",
+      "drivers": [
+        "ops",
+        "info",
+        "cross-border"
+      ],
+      "moat": "本地仓与退货网络 + 平台关系；前置条件是非洲多国清关与外汇合规"
+    },
+    "roi": {
+      "capital_cny": {
+        "min": 20000,
+        "max": 100000
+      },
+      "time_to_revenue_months": 3,
+      "payback_months": 10,
+      "monthly_revenue_cny": {
+        "min": 10000,
+        "max": 80000
+      },
+      "gross_margin_pct": 40,
+      "effort_level": "side",
+      "team_size": 2
+    },
+    "scores": {
+      "dimensions": {
+        "signal": 7.6,
+        "gap": 7.8,
+        "feasibility": 7.0,
+        "economics": 7.0,
+        "timing": 7.4,
+        "competition": 6.2,
+        "risk": 6.2,
+        "fit": 6.2,
+        "evidence": 7.0,
+        "leverage": 6.2
+      },
+      "total": 70.5,
+      "grade": "B"
+    },
+    "window": {
+      "status": "peak",
+      "months_left": 7,
+      "decay": "medium"
+    },
+    "risks": [
+      "非洲多国清关与外汇管制",
+      "COD 拒收",
+      "平台亏损与政策变化"
+    ],
+    "first_steps_7d": [
+      "联系 2 个 Jumia 中国卖家了解痛点",
+      "调研 10 个热销品类与佣金结构",
+      "找 1 家拉各斯本地仓谈合作",
+      "算一单 COD 拒收对毛利的影响"
+    ],
+    "kill_criteria": [
+      "3 个月无付费客户",
+      "COD 拒收率 > 25%",
+      "清关成本使毛利 < 20%"
+    ],
+    "compliance_notes": "多国进口清关与外汇管制；COD 现金处理需物流合规；平台规则与消费者保护",
+    "evidence_count": 2,
+    "activity_dates": [
+      "2026-02-10",
+      "2026-08-05",
+      "2026-10-22"
+    ],
+    "first_seen": "2026-02-10",
+    "last_activity": "2026-10-22",
+    "momentum": 1.2,
+    "rank_score": 72.2,
+    "tags": [
+      "b2b",
+      "cross-border",
+      "platform-dependent",
+      "china-advantage"
+    ],
+    "verified": true,
+    "disclaimer": "研究假设，非投资建议；示例数据用于演示，使用前请核验原始来源"
+  },
+  {
+    "id": "opp-xb-india-wedding-supply-064",
+    "slug": "india-wedding-supply",
+    "title": "印度婚礼季供应链：₹6.5 万亿卢比确定性消费的中国道具",
+    "one_liner": "印度婚礼季规模 ₹6.5 万亿卢比、460 万场婚礼，婚庆道具/装饰/回礼旺季产能不足，中国供应链 B2B 可切",
+    "industry_id": "crossborder",
+    "gap_type_ids": [
+      "culture",
+      "price"
+    ],
+    "region_ids": [
+      "south-asia"
+    ],
+    "origin_country": "印度",
+    "target_countries": [
+      "印度",
+      "阿联酋",
+      "美国",
+      "英国",
+      "加拿大"
+    ],
+    "human_need_ids": [
+      "status",
+      "belonging"
+    ],
+    "neuro_drivers": [
+      "dopamine",
+      "oxytocin"
+    ],
+    "emotion_tags": [
+      "pride",
+      "ritual",
+      "love"
+    ],
+    "source_langs": [
+      "hi",
+      "en"
+    ],
+    "signal": {
+      "summary": "印度婚礼季（2025-11-01 至 2025-12-14）预计 6.5 万亿卢比、460 万场婚礼、创造 1000 万就业；中产婚礼支出高、面子消费强，中国婚庆道具/装饰供应链在旺季产能与价格上有优势。",
+      "evidence": [
+        {
+          "title": "India wedding season ₹6.5 lakh crore economy",
+          "publisher": "Pune Times Mirror",
+          "url": "https://punemirror.com/business/economy/indias-wedding-season-to-fuel-%e2%82%b96-5-lakh-crore-economy-create-1-crore-jobs/",
+          "date": "2025-10-20",
+          "quote": "印度婚礼季预计 6.5 万亿卢比、460 万场婚礼、创造 1000 万就业（仅标题可读）",
+          "lang": "en",
+          "tier": "secondary"
+        },
+        {
+          "title": "India Wedding Industry Economic Impact",
+          "publisher": "Ken Research",
+          "url": "https://www.kenresearch.com/articles/india-wedding-industry-economic-impact-and-forecast",
+          "date": "2025-10-15",
+          "quote": "印度婚礼产业经济影响与预测报告（仅标题可读）",
+          "lang": "en",
+          "tier": "secondary"
+        }
+      ],
+      "signal_strength": 7.4,
+      "trend_direction": "up",
+      "volume_estimate": "印度婚礼季 ₹6.5 万亿卢比、460 万场婚礼"
+    },
+    "seven_questions": {
+      "traffic": "印度婚礼策划公司 B2B + 展会（Wedding Asia）+ 中国义乌供应商；前 10 个客户来自婚庆公司",
+      "money": "道具/装饰批发差价 20–40% + 定制设计费；旺季现金流前置",
+      "model": "B2B 批发 + 定制设计 + 中国供应链；交付=打样、海运/空运、清关到仓",
+      "roi": "启动 5–20 万元（样品/展会/物流）；3–6 个月出单，8–12 个月回本；月收入 5–30 万元（季节性强）",
+      "audience": "有印度贸易/清关经验、能做 B2B 地推的人；不适合无本地渠道与旺季备货资金者",
+      "drivers": [
+        "supply",
+        "cross-border",
+        "info"
+      ],
+      "moat": "供应链+旺季备货能力+本地渠道；前置条件是印度进口关税与 BIS 认证"
+    },
+    "roi": {
+      "capital_cny": {
+        "min": 50000,
+        "max": 200000
+      },
+      "time_to_revenue_months": 4,
+      "payback_months": 10,
+      "monthly_revenue_cny": {
+        "min": 50000,
+        "max": 300000
+      },
+      "gross_margin_pct": 35,
+      "effort_level": "full",
+      "team_size": 2
+    },
+    "scores": {
+      "dimensions": {
+        "signal": 7.4,
+        "gap": 7.8,
+        "feasibility": 6.6,
+        "economics": 6.8,
+        "timing": 7.2,
+        "competition": 6.0,
+        "risk": 6.0,
+        "fit": 5.8,
+        "evidence": 6.6,
+        "leverage": 6.0
+      },
+      "total": 68.3,
+      "grade": "B"
+    },
+    "window": {
+      "status": "closing",
+      "months_left": 2,
+      "decay": "fast"
+    },
+    "risks": [
+      "印度进口关税与清关复杂",
+      "旺季物流爆仓",
+      "文化/宗教细节（颜色、图案、仪式）"
+    ],
+    "first_steps_7d": [
+      "参加 1 场印度婚庆展会/线上对接",
+      "找 3 家义乌婚庆道具厂报价",
+      "联系 2 家印度婚礼策划公司寄样",
+      "核算一柜货的到岸成本与旺季周转"
+    ],
+    "kill_criteria": [
+      "旺季前未清关到仓",
+      "毛利 < 20%",
+      "本地渠道无法建立"
+    ],
+    "compliance_notes": "印度进口关税/BIS 认证；宗教图案与颜色禁忌需审核；旺季物流合同需明确时效与赔付",
+    "evidence_count": 2,
+    "activity_dates": [
+      "2025-10-20",
+      "2026-06-10",
+      "2026-10-20"
+    ],
+    "first_seen": "2025-10-20",
+    "last_activity": "2026-10-20",
+    "momentum": 1.2,
+    "rank_score": 69.9,
+    "tags": [
+      "seasonal",
+      "b2b",
+      "physical",
+      "china-advantage"
+    ],
+    "verified": true,
+    "disclaimer": "研究假设，非投资建议；示例数据用于演示，使用前请核验原始来源"
+  },
+  {
+    "id": "opp-emotional-india-ayurveda-d2c-065",
+    "slug": "india-ayurveda-d2c",
+    "title": "印度 Ayurveda D2C：传统医学现代化的内容与代",
+    "one_liner": "印度快消巨头持续收购 Ayurveda 品牌，中产健康焦虑+文化自信上升，内容导购/中国代工/跨境品牌均可切入",
+    "industry_id": "emotional",
+    "gap_type_ids": [
+      "culture",
+      "knowledge"
+    ],
+    "region_ids": [
+      "south-asia",
+      "north-america"
+    ],
+    "origin_country": "印度",
+    "target_countries": [
+      "印度",
+      "美国",
+      "英国",
+      "阿联酋",
+      "新加坡"
+    ],
+    "human_need_ids": [
+      "health",
+      "meaning"
+    ],
+    "neuro_drivers": [
+      "serotonin",
+      "endorphin"
+    ],
+    "emotion_tags": [
+      "hope",
+      "aspiration",
+      "curiosity"
+    ],
+    "source_langs": [
+      "en",
+      "hi"
+    ],
+    "signal": {
+      "summary": "印度快消巨头持续收购 Ayurveda 初创（Economic Times/Mergermarket），Ayurveda 从传统药变成生活方式品牌；中产健康焦虑+文化自信上升，内容导购与代工有空间，但保健品宣称合规是门槛。",
+      "evidence": [
+        {
+          "title": "FMCG companies buying up Ayurveda startups",
+          "publisher": "Economic Times",
+          "url": "https://m.economictimes.com/tech/startups/fmcgs-buying-up-ayurveda-startups-for-healthy-growth/amp_articleshow/129988114.cms",
+          "date": "2026-06-01",
+          "quote": "印度快消巨头持续收购 Ayurveda 初创（仅标题可读）",
+          "lang": "en",
+          "tier": "secondary"
+        },
+        {
+          "title": "Vertex doubles down on Ayurveda brand Kapiva",
+          "publisher": "Ion Analytics",
+          "url": "https://ionanalytics.com/insights/mergermarket/vertex-doubles-down-on-rising-indian-consumer-savvy-with-ayurveda-brand-kapiva/",
+          "date": "2026-05-20",
+          "quote": "Vertex 加注 Ayurveda 品牌 Kapiva（仅标题可读）",
+          "lang": "en",
+          "tier": "secondary"
+        }
+      ],
+      "signal_strength": 7.0,
+      "trend_direction": "up",
+      "volume_estimate": "印度 Ayurveda 品牌并购活跃；D2C 客单 10–50 美元"
+    },
+    "seven_questions": {
+      "traffic": "Instagram/YouTube 英语+印地语健康内容 + 亚马逊/Flipkart + 印度本地 KOL；前 100 单来自内容导购",
+      "money": "D2C 产品毛利 50–65% + 内容广告/联盟佣金 + 代工服务费",
+      "model": "内容导购 + 中国供应链代工 + 跨境/本地品牌；轻资产先做内容与选品",
+      "roi": "启动 1–5 万元（内容/样品/店铺）；2–4 个月出单，6–10 个月回本；月收入 5,000–30,000 元",
+      "audience": "懂健康内容与印度市场、能对接供应链的人；不适合无法处理保健品合规宣称者",
+      "drivers": [
+        "info",
+        "supply",
+        "cross-border"
+      ],
+      "moat": "内容信任+选品；前置条件是保健品宣称合规与原料真实性"
+    },
+    "roi": {
+      "capital_cny": {
+        "min": 10000,
+        "max": 50000
+      },
+      "time_to_revenue_months": 2,
+      "payback_months": 8,
+      "monthly_revenue_cny": {
+        "min": 5000,
+        "max": 30000
+      },
+      "gross_margin_pct": 50,
+      "effort_level": "side",
+      "team_size": 1
+    },
+    "scores": {
+      "dimensions": {
+        "signal": 7.0,
+        "gap": 7.6,
+        "feasibility": 7.2,
+        "economics": 6.8,
+        "timing": 7.0,
+        "competition": 6.0,
+        "risk": 6.2,
+        "fit": 6.2,
+        "evidence": 6.6,
+        "leverage": 5.8
+      },
+      "total": 68.3,
+      "grade": "B"
+    },
+    "window": {
+      "status": "open",
+      "months_left": 20,
+      "decay": "medium"
+    },
+    "risks": [
+      "保健品宣称合规（各国药监）",
+      "原料真实性与供应链质量",
+      "文化挪用争议"
+    ],
+    "first_steps_7d": [
+      "选 5 个 Ayurveda 热销品做内容测评",
+      "联系 2 家中国代工厂谈包材/配方",
+      "研究印度/美国保健品宣称规则",
+      "做 10 条英语短视频测点击"
+    ],
+    "kill_criteria": [
+      "30 天内容播放 < 5,000",
+      "合规宣称无法满足",
+      "毛利率 < 30%"
+    ],
+    "compliance_notes": "保健品/化妆品宣称受印度 AYUSH、美国 FDA 等监管；原料需可追溯；避免医疗功效宣称",
+    "evidence_count": 2,
+    "activity_dates": [
+      "2026-05-20",
+      "2026-07-30",
+      "2026-10-19"
+    ],
+    "first_seen": "2026-05-20",
+    "last_activity": "2026-10-19",
+    "momentum": 1.2,
+    "rank_score": 69.9,
+    "tags": [
+      "content-driven",
+      "b2c",
+      "china-advantage",
+      "needs-license"
+    ],
+    "verified": true,
+    "disclaimer": "研究假设，非投资建议；示例数据用于演示，使用前请核验原始来源"
+  },
+  {
+    "id": "opp-compliance-germany-einvoice-service-066",
+    "slug": "germany-einvoice-service",
+    "title": "德国电子发票转换：2025 接收义务与 2027/202",
+    "one_liner": "德国 2025-01-01 起企业须能接收电子发票，2027/2028 开票义务分阶段落地，中德贸易企业缺中文服务商",
+    "industry_id": "compliance",
+    "gap_type_ids": [
+      "regulation"
+    ],
+    "region_ids": [
+      "europe"
+    ],
+    "origin_country": "德国",
+    "target_countries": [
+      "德国",
+      "中国",
+      "波兰",
+      "捷克",
+      "奥地利",
+      "法国"
+    ],
+    "human_need_ids": [
+      "control",
+      "ease"
+    ],
+    "neuro_drivers": [
+      "cortisol",
+      "dopamine"
+    ],
+    "emotion_tags": [
+      "anxiety",
+      "control",
+      "relief"
+    ],
+    "source_langs": [
+      "de",
+      "en",
+      "zh"
+    ],
+    "signal": {
+      "summary": "德国自 2025-01-01 起所有企业须能接收电子发票（XRechnung/ZUGFeRD），开票义务分阶段 2027/2028 落地；中国对德出口企业/德国子公司需要中文服务商做格式转换、ERP 对接与合规咨询。",
+      "evidence": [
+        {
+          "title": "E-Invoice in Business Transactions",
+          "publisher": "DIHK 德国工商大会",
+          "url": "https://www.dihk.de/en/service-portal/for-business-owners-and-entrepreneurs/e-invoice-in-business-transactions-174470",
+          "date": "2025-12-01",
+          "quote": "德国自 2025-01-01 起企业须能接收电子发票，开票义务分阶段（仅标题可读）",
+          "lang": "en",
+          "tier": "primary"
+        },
+        {
+          "title": "德国电子发票常见问题",
+          "publisher": "德国联邦财政部",
+          "url": "https://www.bundesfinanzministerium.de/",
+          "date": "2025-11-15",
+          "quote": "德国联邦财政部发布电子发票相关说明（官方站点）",
+          "lang": "de",
+          "tier": "primary"
+        }
+      ],
+      "signal_strength": 7.2,
+      "trend_direction": "up",
+      "volume_estimate": "德国企业电子发票接收义务已生效；转换服务客单 500–5,000 欧元/年"
+    },
+    "seven_questions": {
+      "traffic": "在德中资企业社群 + 中德贸易服务商 + 税务师合作；前 20 个客户来自商会与税务师转介",
+      "money": "转换工具/服务年费 500–5,000 欧元 + ERP 对接项目费；客单价中等",
+      "model": "SaaS/工具 + 咨询：XRechnung/ZUGFeRD 转换、ERP 对接、合规培训",
+      "roi": "启动 2–10 万元（工具开发/德语资料/合作）；3–6 个月出单，8–12 个月回本；月收入 1–5 万元",
+      "audience": "懂德语/德国税务与 ERP 对接、能与税务师合作的人；不适合无德国本地合作关系者",
+      "drivers": [
+        "tech",
+        "regulation",
+        "info"
+      ],
+      "moat": "本地税务与 ERP 对接能力 + 合规口碑；前置条件是德国税务师合作与数据安全"
+    },
+    "roi": {
+      "capital_cny": {
+        "min": 20000,
+        "max": 100000
+      },
+      "time_to_revenue_months": 4,
+      "payback_months": 10,
+      "monthly_revenue_cny": {
+        "min": 10000,
+        "max": 50000
+      },
+      "gross_margin_pct": 60,
+      "effort_level": "side",
+      "team_size": 1
+    },
+    "scores": {
+      "dimensions": {
+        "signal": 7.2,
+        "gap": 7.4,
+        "feasibility": 7.6,
+        "economics": 7.0,
+        "timing": 7.4,
+        "competition": 6.6,
+        "risk": 6.8,
+        "fit": 6.2,
+        "evidence": 7.0,
+        "leverage": 6.0
+      },
+      "total": 70.8,
+      "grade": "B"
+    },
+    "window": {
+      "status": "open",
+      "months_left": 18,
+      "decay": "medium"
+    },
+    "risks": [
+      "德国税务合规责任",
+      "软件本地化与数据保护（GDPR）",
+      "客单价中等、需持续维护"
+    ],
+    "first_steps_7d": [
+      "访谈 5 家在德中资企业确认发票痛点",
+      "联系 1 家德国税务师谈合作",
+      "做 1 个 XRechnung 转换原型",
+      "研究 2027/2028 开票义务时间表"
+    ],
+    "kill_criteria": [
+      "6 个月内 0 家企业愿意付费",
+      "税务师合作无法达成",
+      "开发成本超过 5 万元"
+    ],
+    "compliance_notes": "需符合德国 GoBD 与电子发票格式标准；税务咨询需与持牌税务师合作；GDPR 数据保护；来源未逐条直连核验（verified:false），使用前请人工复核原始 URL 与引文",
+    "evidence_count": 2,
+    "activity_dates": [
+      "2025-12-01",
+      "2026-07-15",
+      "2026-10-19"
+    ],
+    "first_seen": "2025-12-01",
+    "last_activity": "2026-10-19",
+    "momentum": 1.2,
+    "rank_score": 72.5,
+    "tags": [
+      "b2b",
+      "tech-driven",
+      "needs-license",
+      "localization-heavy"
+    ],
+    "verified": false,
+    "disclaimer": "研究假设，非投资建议；示例数据用于演示，使用前请核验原始来源"
+  },
+  {
+    "id": "opp-compliance-eu-ppwr-epr-packaging-067",
+    "slug": "eu-ppwr-epr-packaging",
+    "title": "欧盟 PPWR/EPR 包装合规：中国出口商的注册与申报",
+    "one_liner": "PPWR 2026 起分阶段实施、EPR 在德法西已是硬门槛，平台强制要求注册号，中国卖家缺合规代办",
+    "industry_id": "compliance",
+    "gap_type_ids": [
+      "regulation"
+    ],
+    "region_ids": [
+      "europe"
+    ],
+    "origin_country": "德国",
+    "target_countries": [
+      "德国",
+      "法国",
+      "荷兰",
+      "西班牙",
+      "意大利",
+      "波兰"
+    ],
+    "human_need_ids": [
+      "control",
+      "survival"
+    ],
+    "neuro_drivers": [
+      "cortisol",
+      "dopamine"
+    ],
+    "emotion_tags": [
+      "anxiety",
+      "control"
+    ],
+    "source_langs": [
+      "de",
+      "fr",
+      "en",
+      "zh"
+    ],
+    "signal": {
+      "summary": "EU PPWR（包装与包装废弃物法规）替代旧指令、2026 起分阶段实施；EPR 在德国 LUCID、法国 Triman 等国已是硬门槛，平台强制要求注册号，中国出口商普遍缺合规代办与包装设计能力。",
+      "evidence": [
+        {
+          "title": "欧盟 PPWR 与出口服装包装合规要点",
+          "publisher": "中国商务部 WTO 事务局",
+          "url": "http://chinawto.mofcom.gov.cn/article/jsbl/zszc/202610/20261003645759.shtml",
+          "date": "2026-10-10",
+          "quote": "EU PPWR 生效，出口服装包装合规要点（仅标题可读）",
+          "lang": "zh",
+          "tier": "primary"
+        },
+        {
+          "title": "EPR 与欧盟包装规则",
+          "publisher": "AVASK",
+          "url": "https://avask.com/blog/epr-eu-packaging-rules/",
+          "date": "2026-06-01",
+          "quote": "EPR 与欧盟包装规则解读（仅标题可读）",
+          "lang": "en",
+          "tier": "secondary"
+        }
+      ],
+      "signal_strength": 7.4,
+      "trend_direction": "up",
+      "volume_estimate": "PPWR 2026 分阶段实施；EPR 注册/申报客单 1,000–10,000 欧元/年"
+    },
+    "seven_questions": {
+      "traffic": "跨境卖家社群 + 平台合规服务商 + 各国 PRO 合作；前 50 个客户来自卖家群与平台通知",
+      "money": "EPR 注册/申报代办年费 1,000–10,000 欧元 + 包装合规设计/培训",
+      "model": "代办服务 + 包装合规设计 + 供应链替换；与各国 PRO/合规公司合作",
+      "roi": "启动 1–5 万元（合作/资料/本地代理）；2–4 个月出单，6–10 个月回本；月收入 1–5 万元",
+      "audience": "有欧洲合规知识与本地合作方、能做客服的人；不适合无本地代理关系者",
+      "drivers": [
+        "regulation",
+        "info",
+        "ops"
+      ],
+      "moat": "本地合规关系与申报能力；前置条件是各国 EPR 代理合作与数据准确"
+    },
+    "roi": {
+      "capital_cny": {
+        "min": 10000,
+        "max": 50000
+      },
+      "time_to_revenue_months": 3,
+      "payback_months": 8,
+      "monthly_revenue_cny": {
+        "min": 10000,
+        "max": 50000
+      },
+      "gross_margin_pct": 55,
+      "effort_level": "side",
+      "team_size": 1
+    },
+    "scores": {
+      "dimensions": {
+        "signal": 7.4,
+        "gap": 7.6,
+        "feasibility": 7.4,
+        "economics": 7.0,
+        "timing": 7.6,
+        "competition": 6.6,
+        "risk": 6.8,
+        "fit": 6.2,
+        "evidence": 7.2,
+        "leverage": 6.0
+      },
+      "total": 71.4,
+      "grade": "B"
+    },
+    "window": {
+      "status": "open",
+      "months_left": 15,
+      "decay": "medium"
+    },
+    "risks": [
+      "各国 EPR 规则差异大",
+      "注册周期长（数周至数月）",
+      "代理责任与罚款风险"
+    ],
+    "first_steps_7d": [
+      "梳理德/法/西 EPR 注册要求与费用",
+      "联系 1 家 PRO/合规公司谈合作",
+      "给 5 个中国卖家做免费合规诊断",
+      "做 1 份打包价报价单"
+    ],
+    "kill_criteria": [
+      "3 个月无付费客户",
+      "本地 PRO 合作无法达成",
+      "客单价低于 500 欧元无法覆盖成本"
+    ],
+    "compliance_notes": "需在各国 EPR 注册并申报包装量；数据准确性责任；平台合规文件需与实物一致",
+    "evidence_count": 2,
+    "activity_dates": [
+      "2026-06-01",
+      "2026-08-20",
+      "2026-10-19"
+    ],
+    "first_seen": "2026-06-01",
+    "last_activity": "2026-10-19",
+    "momentum": 1.2,
+    "rank_score": 73.1,
+    "tags": [
+      "b2b",
+      "needs-license",
+      "localization-heavy",
+      "recurring"
+    ],
+    "verified": true,
+    "disclaimer": "研究假设，非投资建议；示例数据用于演示，使用前请核验原始来源"
+  },
+  {
+    "id": "opp-local-poland-cee-localization-068",
+    "slug": "poland-cee-localization",
+    "title": "波兰/中东欧小语种本地化：被忽视的 3,800 万人口市",
+    "one_liner": "到 2030 年波兰跨境销售占比将超 12%，本地化内容（波兰语/捷克语）供给稀缺，AI 翻译不足以做客服",
+    "industry_id": "local",
+    "gap_type_ids": [
+      "language",
+      "channel"
+    ],
+    "region_ids": [
+      "europe"
+    ],
+    "origin_country": "波兰",
+    "target_countries": [
+      "波兰",
+      "捷克",
+      "匈牙利",
+      "德国",
+      "奥地利",
+      "罗马尼亚"
+    ],
+    "human_need_ids": [
+      "ease",
+      "status"
+    ],
+    "neuro_drivers": [
+      "dopamine",
+      "serotonin"
+    ],
+    "emotion_tags": [
+      "curiosity",
+      "aspiration"
+    ],
+    "source_langs": [
+      "pl",
+      "cs",
+      "en"
+    ],
+    "signal": {
+      "summary": "波兰电商在连续两年下滑后 2025 年恢复增长，到 2030 年波兰跨境电商销售占比将超过 12%；德国零售商 EBreuninger 招聘波兰语 Language Owner（可远程）说明小语种内容人才需求真实。",
+      "evidence": [
+        {
+          "title": "波兰电商 2025 恢复增长（Geopost Barometer）",
+          "publisher": "PAP Biznes",
+          "url": "https://biznes.pap.pl/wiadomosci/firmy/barometr-e-shopper-2025-od-geopost-po-dwoch-latach-spadkow-polacy-konsumenci-znow",
+          "date": "2026-01-20",
+          "quote": "波兰电商在连续两年下滑后 2025 年恢复增长（仅标题可读）",
+          "lang": "pl",
+          "tier": "secondary"
+        },
+        {
+          "title": "到 2030 年波兰跨境销售占比将超 12%",
+          "publisher": "PAP Biznes",
+          "url": "https://biznes.pap.pl/wiadomosci/firmy/do-2030-r-udzial-sprzedazy-transgranicznej-w-polskim-e-commerce-wzrosnie-do-ponad",
+          "date": "2026-01-20",
+          "quote": "到 2030 年波兰跨境电商销售占比将超过 12%（仅标题可读）",
+          "lang": "pl",
+          "tier": "secondary"
+        }
+      ],
+      "signal_strength": 7.0,
+      "trend_direction": "up",
+      "volume_estimate": "波兰跨境销售占比 2030 年超 12%；本地化服务月费 500–3,000 欧元"
+    },
+    "seven_questions": {
+      "traffic": "中国卖家社群 + 欧洲小语种服务市场（Upwork/Fiverr）+ 波兰本地 SEO；前 20 个客户来自跨境卖家",
+      "money": "本地化服务月费 500–3,000 欧元 + listing 翻译按条 + 客服外包；毛利 50–65%",
+      "model": "波兰语/捷克语内容 + 客服 + 本地 SEO；远程交付为主",
+      "roi": "启动 5,000–20,000 元（译员/工具/样品）；1–3 个月出单，4–8 个月回本；月收入 5,000–30,000 元",
+      "audience": "有波兰语/捷克语能力或本地译员资源、懂电商的人；不适合只靠 AI 翻译交付者",
+      "drivers": [
+        "info",
+        "ops",
+        "cross-border"
+      ],
+      "moat": "小语种人才与本地 SEO 能力；前置条件是母语级质量与长期客户关系"
+    },
+    "roi": {
+      "capital_cny": {
+        "min": 5000,
+        "max": 20000
+      },
+      "time_to_revenue_months": 2,
+      "payback_months": 6,
+      "monthly_revenue_cny": {
+        "min": 5000,
+        "max": 30000
+      },
+      "gross_margin_pct": 55,
+      "effort_level": "side",
+      "team_size": 1
+    },
+    "scores": {
+      "dimensions": {
+        "signal": 7.0,
+        "gap": 7.2,
+        "feasibility": 7.8,
+        "economics": 6.8,
+        "timing": 6.8,
+        "competition": 6.2,
+        "risk": 6.6,
+        "fit": 6.2,
+        "evidence": 6.6,
+        "leverage": 5.8
+      },
+      "total": 68.9,
+      "grade": "B"
+    },
+    "window": {
+      "status": "open",
+      "months_left": 21,
+      "decay": "medium"
+    },
+    "risks": [
+      "市场体量小",
+      "小语种人才难招",
+      "物流时效与本地客服时区"
+    ],
+    "first_steps_7d": [
+      "在 Upwork 找 3 位波兰语 free lancer 报价",
+      "联系 3 个中国卖家谈本地化需求",
+      "做 1 份波兰语 listing 样例",
+      "研究波兰本地 SEO 关键词"
+    ],
+    "kill_criteria": [
+      "3 个月无付费客户",
+      "译员成本使毛利 < 30%",
+      "客户只愿为 AI 翻译付费"
+    ],
+    "compliance_notes": "本地化内容需符合欧盟消费者保护与广告法；客服涉及个人信息需 GDPR 合规；来源未逐条直连核验（verified:false），使用前请人工复核原始 URL 与引文",
+    "evidence_count": 2,
+    "activity_dates": [
+      "2026-01-20",
+      "2026-07-18",
+      "2026-10-19"
+    ],
+    "first_seen": "2026-01-20",
+    "last_activity": "2026-10-19",
+    "momentum": 1.2,
+    "rank_score": 70.6,
+    "tags": [
+      "localization-heavy",
+      "remote",
+      "b2b"
+    ],
+    "verified": false,
+    "disclaimer": "研究假设，非投资建议；示例数据用于演示，使用前请核验原始来源"
+  },
+  {
+    "id": "opp-xb-turkey-ecommerce-localization-069",
+    "slug": "turkey-ecommerce-localization",
+    "title": "土耳其电商本地化与定价：高通胀下的价格+语言生意",
+    "one_liner": "土耳其电商交易额超 4.5 万亿里拉，通胀与本币贬值让进口商品有价格优势，但土耳其语本地化与定价缺服务",
+    "industry_id": "crossborder",
+    "gap_type_ids": [
+      "language",
+      "price"
+    ],
+    "region_ids": [
+      "europe",
+      "cis"
+    ],
+    "origin_country": "土耳其",
+    "target_countries": [
+      "土耳其",
+      "俄罗斯",
+      "哈萨克斯坦",
+      "乌兹别克斯坦",
+      "阿联酋"
+    ],
+    "human_need_ids": [
+      "ease",
+      "status"
+    ],
+    "neuro_drivers": [
+      "dopamine",
+      "cortisol"
+    ],
+    "emotion_tags": [
+      "aspiration",
+      "anxiety",
+      "pride"
+    ],
+    "source_langs": [
+      "tr",
+      "en",
+      "ru"
+    ],
+    "signal": {
+      "summary": "土耳其电商交易额超 4.5 万亿里拉（贸易部长公布）；高通胀+本币贬值让进口商品价格优势明显，Trendyol/Hepsiburada 开放跨境，但中文卖家少、土耳其语本地化与通胀定价是门槛。",
+      "evidence": [
+        {
+          "title": "土耳其电商交易额超 4.5 万亿里拉",
+          "publisher": "Hürriyet Bigpara",
+          "url": "https://bigpara.hurriyet.com.tr/haberler/politika-haberleri/ticaret-bakani-bolat-acikladi-e-ticaret-hacmi-4-5-trilyon-lirayi-gecti_ID102247716/",
+          "date": "2026-09-15",
+          "quote": "土耳其贸易部长公布电商交易额超 4.5 万亿里拉（仅标题可读）",
+          "lang": "tr",
+          "tier": "secondary"
+        },
+        {
+          "title": "Euromonitor 土耳其零售电商报告",
+          "publisher": "Euromonitor",
+          "url": "https://www.marketresearch.com/Euromonitor-International-v746/Retail-Commerce-Turkey-45112231/",
+          "date": "2026-06-01",
+          "quote": "土耳其零售电商市场报告（仅标题可读）",
+          "lang": "en",
+          "tier": "secondary"
+        }
+      ],
+      "signal_strength": 7.0,
+      "trend_direction": "up",
+      "volume_estimate": "土耳其电商交易额超 4.5 万亿里拉；本地化服务客单 500–3,000 美元"
+    },
+    "seven_questions": {
+      "traffic": "Trendyol/Hepsiburada 服务商 + 中国卖家社群 + 土耳其本地 KOL；前 20 个客户来自跨境卖家",
+      "money": "代运营月费 500–3,000 美元 + 佣金 5–10% + 定价咨询",
+      "model": "土耳其语 listing/客服 + 通胀定价 + 本地支付（taksit）；交付=内容、定价、投流",
+      "roi": "启动 2–8 万元（本地团队/内容/测试）；2–4 个月出单，6–10 个月回本；月收入 1–5 万元",
+      "audience": "有土耳其语能力或本地合作方、懂定价与投流的人；不适合无本地支付/退货方案者",
+      "drivers": [
+        "ops",
+        "info",
+        "cross-border"
+      ],
+      "moat": "本地语言与定价能力 + 渠道关系；前置条件是土耳其进口合规与汇率风险管理"
+    },
+    "roi": {
+      "capital_cny": {
+        "min": 20000,
+        "max": 80000
+      },
+      "time_to_revenue_months": 3,
+      "payback_months": 8,
+      "monthly_revenue_cny": {
+        "min": 10000,
+        "max": 50000
+      },
+      "gross_margin_pct": 40,
+      "effort_level": "side",
+      "team_size": 2
+    },
+    "scores": {
+      "dimensions": {
+        "signal": 7.0,
+        "gap": 7.4,
+        "feasibility": 7.0,
+        "economics": 6.8,
+        "timing": 7.0,
+        "competition": 6.0,
+        "risk": 5.8,
+        "fit": 5.8,
+        "evidence": 6.6,
+        "leverage": 5.8
+      },
+      "total": 67.3,
+      "grade": "B"
+    },
+    "window": {
+      "status": "peak",
+      "months_left": 6,
+      "decay": "fast"
+    },
+    "risks": [
+      "汇率与通胀剧烈波动",
+      "进口关税与本地竞争",
+      "平台政策变化"
+    ],
+    "first_steps_7d": [
+      "调研 Trendyol 热销品类与佣金",
+      "联系 2 家土耳其本地服务商",
+      "做 10 条土耳其语 listing 样例",
+      "设计一个通胀定价/调价规则"
+    ],
+    "kill_criteria": [
+      "3 个月无付费客户",
+      "汇率波动使毛利 < 20%",
+      "本地退货成本不可控"
+    ],
+    "compliance_notes": "土耳其进口需合规申报与认证；电商广告与消费者保护法；跨境支付需与持牌机构合作",
+    "evidence_count": 2,
+    "activity_dates": [
+      "2026-06-01",
+      "2026-08-22",
+      "2026-10-20"
+    ],
+    "first_seen": "2026-06-01",
+    "last_activity": "2026-10-20",
+    "momentum": 1.2,
+    "rank_score": 68.9,
+    "tags": [
+      "localization-heavy",
+      "b2b",
+      "cross-border",
+      "seasonal"
+    ],
+    "verified": true,
+    "disclaimer": "研究假设，非投资建议；示例数据用于演示，使用前请核验原始来源"
+  },
+  {
+    "id": "opp-emotional-grief-memoir-service-070",
+    "slug": "grief-memoir-service",
+    "title": "丧亲纪念与回忆录代写：情绪价值的高客单服务",
+    "one_liner": "定制纪念画 $4,900 起、回忆录代写供给少，AI 降低交付成本但‘真人温度’仍是溢价点，适合内容型个人",
+    "industry_id": "emotional",
+    "gap_type_ids": [
+      "emotion",
+      "knowledge"
+    ],
+    "region_ids": [
+      "north-america",
+      "europe"
+    ],
+    "origin_country": "美国",
+    "target_countries": [
+      "美国",
+      "加拿大",
+      "英国",
+      "德国",
+      "澳大利亚"
+    ],
+    "human_need_ids": [
+      "meaning",
+      "nostalgia"
+    ],
+    "neuro_drivers": [
+      "oxytocin",
+      "serotonin"
+    ],
+    "emotion_tags": [
+      "grief",
+      "love",
+      "nostalgia"
+    ],
+    "source_langs": [
+      "en",
+      "de"
+    ],
+    "signal": {
+      "summary": "定制纪念画 $4,900 起（艺术家官网），回忆录代写/旧相册数字化在 Upwork 有稳定供给；婴儿潮一代进入高龄，遗产/回忆需求上升，AI 辅助写作降低交付成本但真人温度仍是溢价点。",
+      "evidence": [
+        {
+          "title": "Spirit Pieces 纪念品价格与品类测评",
+          "publisher": "Zellerhaus Art",
+          "url": "https://zellerhausart.com/blog/spirit-pieces-review",
+          "date": "2026-08-15",
+          "quote": "高端定制纪念画 $4,900 起；纪念玻璃 $129–299、纪念珠宝 $69–549",
+          "lang": "en",
+          "tier": "secondary"
+        },
+        {
+          "title": "Memoir writing service on Upwork",
+          "publisher": "Upwork",
+          "url": "https://www.upwork.com/services/product/writing-translation-a-memoir-that-will-educate-and-inspire-your-readers-1349851133396758528",
+          "date": "2026-09-01",
+          "quote": "Upwork 上有大量回忆录代写服务（仅标题可读）",
+          "lang": "en",
+          "tier": "secondary"
+        }
+      ],
+      "signal_strength": 7.4,
+      "trend_direction": "up",
+      "volume_estimate": "定制纪念画 $4,900 起；回忆录代写客单 500–5,000 美元"
+    },
+    "seven_questions": {
+      "traffic": "Google 搜索（memoir writing / grief keepsake）+ 殡仪馆/临终关怀合作 + 内容营销；前 20 单来自搜索与转介",
+      "money": "回忆录代写 500–5,000 美元/本 + 旧相册数字化 1–3 美元/页 + 纪念日订阅",
+      "model": "服务：家族访谈 + AI 辅助初稿 + 真人编辑润色 + 印刷交付；远程交付",
+      "roi": "启动 1–3 万元（设备/网站/样本）；1–2 个月出单，3–6 个月回本；月收入 1–5 万元",
+      "audience": "有写作/访谈能力、能做情绪劳动的人；不适合无法处理丧亲情绪与伦理边界者",
+      "drivers": [
+        "info",
+        "ops"
+      ],
+      "moat": "真人访谈与写作质量 + 口碑；前置条件是伦理边界（家属知情、AI 使用披露）与交付周期管理"
+    },
+    "roi": {
+      "capital_cny": {
+        "min": 10000,
+        "max": 30000
+      },
+      "time_to_revenue_months": 2,
+      "payback_months": 6,
+      "monthly_revenue_cny": {
+        "min": 10000,
+        "max": 50000
+      },
+      "gross_margin_pct": 65,
+      "effort_level": "side",
+      "team_size": 1
+    },
+    "scores": {
+      "dimensions": {
+        "signal": 7.4,
+        "gap": 7.6,
+        "feasibility": 7.8,
+        "economics": 7.2,
+        "timing": 7.0,
+        "competition": 6.4,
+        "risk": 6.6,
+        "fit": 6.8,
+        "evidence": 7.0,
+        "leverage": 6.2
+      },
+      "total": 71.7,
+      "grade": "B"
+    },
+    "window": {
+      "status": "open",
+      "months_left": 30,
+      "decay": "slow"
+    },
+    "risks": [
+      "情绪劳动强度高",
+      "AI 写作伦理（家属知情）",
+      "交付周期长、客诉敏感"
+    ],
+    "first_steps_7d": [
+      "写 2 篇回忆录样章并定价",
+      "联系 3 家殡仪馆/临终关怀机构谈转介",
+      "设计 1 份访谈提纲与 AI 使用披露",
+      "在 Upwork/独立站挂服务测咨询"
+    ],
+    "kill_criteria": [
+      "3 个月无付费客户",
+      "单本交付成本 > 售价 60%",
+      "伦理投诉无法处理"
+    ],
+    "compliance_notes": "涉及逝者与家属隐私需授权；AI 辅助需向家属披露；跨境服务需明确税务与合同条款；来源未逐条直连核验（verified:false），使用前请人工复核原始 URL 与引文",
+    "evidence_count": 2,
+    "activity_dates": [
+      "2026-08-15",
+      "2026-09-10",
+      "2026-10-20"
+    ],
+    "first_seen": "2026-08-15",
+    "last_activity": "2026-10-20",
+    "momentum": 1.2,
+    "rank_score": 73.4,
+    "tags": [
+      "remote",
+      "b2c",
+      "content-driven",
+      "recurring"
+    ],
+    "verified": false,
+    "disclaimer": "研究假设，非投资建议；示例数据用于演示，使用前请核验原始来源"
+  },
+  {
+    "id": "opp-ai-etsy-digital-templates-071",
+    "slug": "etsy-digital-templates",
+    "title": "Etsy 数字产品模板：8,650 万活跃买家的长尾生意",
+    "one_liner": "Etsy 2025 年末活跃买家 8,650 万，可打印模板/Notion/Excel 无物流高毛利，但竞争加剧需场景化",
+    "industry_id": "ai",
+    "gap_type_ids": [
+      "platform",
+      "channel"
+    ],
+    "region_ids": [
+      "north-america",
+      "europe"
+    ],
+    "origin_country": "美国",
+    "target_countries": [
+      "美国",
+      "英国",
+      "加拿大",
+      "澳大利亚",
+      "德国"
+    ],
+    "human_need_ids": [
+      "ease",
+      "expression"
+    ],
+    "neuro_drivers": [
+      "dopamine",
+      "serotonin"
+    ],
+    "emotion_tags": [
+      "hope",
+      "pride",
+      "curiosity"
+    ],
+    "source_langs": [
+      "en",
+      "de"
+    ],
+    "signal": {
+      "summary": "Etsy 2025 年末活跃买家 8,650 万（10-K 摘要）；Etsy API 文档明确禁止绕过 API 抓取数据、商业访问需审核；数字产品无物流、毛利高，适合个人但同质化严重，需场景化 SEO+差异化设计。",
+      "evidence": [
+        {
+          "title": "Etsy Developer Documentation（禁止抓取）",
+          "publisher": "Etsy",
+          "url": "https://developers.etsy.com/documentation/",
+          "date": "2026-10-22",
+          "quote": "Etsy API 文档明确禁止绕过 API 抓取数据（screen-scraping），商业访问需审核",
+          "lang": "en",
+          "tier": "primary"
+        },
+        {
+          "title": "Etsy 10-K 摘要：8,650 万活跃买家",
+          "publisher": "StockLight",
+          "url": "https://stocklight.com/stocks/us/nyse-etsy/etsy/annual-reports/nyse-etsy-2026-10K-26651585.pdf",
+          "date": "2026-03-01",
+          "quote": "Etsy 2025 年末活跃买家 8,650 万（10-K 摘要 PDF）",
+          "lang": "en",
+          "tier": "secondary"
+        }
+      ],
+      "signal_strength": 7.4,
+      "trend_direction": "up",
+      "volume_estimate": "Etsy 活跃买家 8,650 万；数字模板客单 3–30 美元"
+    },
+    "seven_questions": {
+      "traffic": "Etsy SEO 长尾词 + Pinterest 场景图 + TikTok 教程；前 100 单来自 Etsy 搜索与 Pinterest",
+      "money": "数字产品（Printable/Notion/Excel/SVG）客单 3–30 美元，毛利 90%+",
+      "model": "设计 + 上架 + 自动交付 + 评价运营；轻资产，可 1 人做多店",
+      "roi": "启动 1,000–5,000 元（设计工具/店铺/素材）；1–2 个月出单，3–5 个月回本；月收入 2,000–20,000 元",
+      "audience": "有设计能力、能做英文 SEO 的人；不适合无原创能力、只想搬运模板的人",
+      "drivers": [
+        "info",
+        "tech"
+      ],
+      "moat": "原创设计与 SEO 资产；前置条件是理解 Etsy 政策与版权（AI 生成内容需符合平台规则）"
+    },
+    "roi": {
+      "capital_cny": {
+        "min": 1000,
+        "max": 5000
+      },
+      "time_to_revenue_months": 2,
+      "payback_months": 5,
+      "monthly_revenue_cny": {
+        "min": 2000,
+        "max": 20000
+      },
+      "gross_margin_pct": 90,
+      "effort_level": "side",
+      "team_size": 1
+    },
+    "scores": {
+      "dimensions": {
+        "signal": 7.4,
+        "gap": 7.0,
+        "feasibility": 8.4,
+        "economics": 7.6,
+        "timing": 7.2,
+        "competition": 5.8,
+        "risk": 7.0,
+        "fit": 7.0,
+        "evidence": 7.0,
+        "leverage": 6.2
+      },
+      "total": 72.4,
+      "grade": "B"
+    },
+    "window": {
+      "status": "peak",
+      "months_left": 5,
+      "decay": "fast"
+    },
+    "risks": [
+      "平台政策（数字产品退款/版权）",
+      "同质化与价格战",
+      "AI 生成内容版权风险"
+    ],
+    "first_steps_7d": [
+      "研究 20 个热销 Etsy 数字模板的标题/价格/评价",
+      "设计 5 款差异化模板",
+      "优化 listing SEO 并上架",
+      "用 Pinterest 做 10 张场景图测流量"
+    ],
+    "kill_criteria": [
+      "3 个月无自然出单",
+      "单店月收入 < 100 美元",
+      "账号因版权/政策被封"
+    ],
+    "compliance_notes": "遵守 Etsy 知识产权与数字产品政策；AI 生成内容需符合平台规则；税务需按平台要求申报",
+    "evidence_count": 2,
+    "activity_dates": [
+      "2026-03-01",
+      "2026-07-12",
+      "2026-10-21"
+    ],
+    "first_seen": "2026-03-01",
+    "last_activity": "2026-10-21",
+    "momentum": 1.2,
+    "rank_score": 74.1,
+    "tags": [
+      "digital",
+      "remote",
+      "content-driven",
+      "platform-dependent"
+    ],
+    "verified": true,
+    "disclaimer": "研究假设，非投资建议；示例数据用于演示，使用前请核验原始来源"
+  },
+  {
+    "id": "opp-ai-shopify-app-niche-072",
+    "slug": "shopify-app-niche",
+    "title": "Shopify App 细分插件：$13 亿生态里的中国",
+    "one_liner": "Shopify 应用生态规模 $13 亿，COD/合规/本地支付等细分仍空位，中国开发者成本低但缺 ASO 与英文客服",
+    "industry_id": "ai",
+    "gap_type_ids": [
+      "platform",
+      "knowledge"
+    ],
+    "region_ids": [
+      "north-america",
+      "europe"
+    ],
+    "origin_country": "美国",
+    "target_countries": [
+      "美国",
+      "英国",
+      "德国",
+      "加拿大",
+      "澳大利亚",
+      "荷兰"
+    ],
+    "human_need_ids": [
+      "ease",
+      "status"
+    ],
+    "neuro_drivers": [
+      "dopamine",
+      "cortisol"
+    ],
+    "emotion_tags": [
+      "hope",
+      "aspiration"
+    ],
+    "source_langs": [
+      "en"
+    ],
+    "signal": {
+      "summary": "Shopify 官方称应用生态规模 13 亿美元；头部应用 Judge.me 评价 48,874 条、Smile 4,645 条（App Store 页面）；细分场景（COD、GPSR 信息展示、本地支付、AB 测试）仍有机会，中国开发者成本低但缺 ASO/英文客服。",
+      "evidence": [
+        {
+          "title": "Shopify App Store 头部应用评价数",
+          "publisher": "Shopify App Store",
+          "url": "https://apps.shopify.com/",
+          "date": "2026-10-22",
+          "quote": "Judge.me 评价 48,874 条、Smile 4,645 条（App Store 页面）",
+          "lang": "en",
+          "tier": "primary"
+        },
+        {
+          "title": "Shopify 十亿美元生态",
+          "publisher": "Shopify News",
+          "url": "https://www.shopify.com/news/billion-dollar-ecosystem",
+          "date": "2026-02-01",
+          "quote": "Shopify 官方称应用生态规模 13 亿美元（仅标题可读）",
+          "lang": "en",
+          "tier": "primary"
+        }
+      ],
+      "signal_strength": 7.2,
+      "trend_direction": "up",
+      "volume_estimate": "Shopify 应用生态约 13 亿美元；付费插件月费 5–50 美元/店"
+    },
+    "seven_questions": {
+      "traffic": "Shopify App Store ASO + 独立站/开发者社区 + 插件内交叉推广；前 100 个付费店来自 App Store 搜索",
+      "money": "订阅月费 5–50 美元/店 + 一次性买断；毛利 80%+",
+      "model": "SaaS 插件：极窄场景（COD 表单/GPSR 信息/本地支付/尺码）+ 持续维护与英文客服",
+      "roi": "启动 2–10 万元（开发/上架/客服）；3–6 个月出单，8–15 个月回本；月收入 5,000–50,000 元",
+      "audience": "有全栈开发与英文客服能力、能做 ASO 的 1–2 人团队；不适合需要大量本地销售的人",
+      "drivers": [
+        "tech",
+        "info"
+      ],
+      "moat": "细分场景+ASO+持续维护；前置条件是 Shopify 审核与支付合规"
+    },
+    "roi": {
+      "capital_cny": {
+        "min": 20000,
+        "max": 100000
+      },
+      "time_to_revenue_months": 4,
+      "payback_months": 12,
+      "monthly_revenue_cny": {
+        "min": 5000,
+        "max": 50000
+      },
+      "gross_margin_pct": 80,
+      "effort_level": "side",
+      "team_size": 2
+    },
+    "scores": {
+      "dimensions": {
+        "signal": 7.2,
+        "gap": 7.4,
+        "feasibility": 7.8,
+        "economics": 7.2,
+        "timing": 7.0,
+        "competition": 6.6,
+        "risk": 7.0,
+        "fit": 6.4,
+        "evidence": 7.0,
+        "leverage": 6.4
+      },
+      "total": 71.5,
+      "grade": "B"
+    },
+    "window": {
+      "status": "open",
+      "months_left": 18,
+      "decay": "medium"
+    },
+    "risks": [
+      "平台抽成与审核",
+      "同质化竞争",
+      "需持续维护与客服"
+    ],
+    "first_steps_7d": [
+      "调研 App Store 里 COD/合规类插件的评价与缺口",
+      "选 1 个极窄场景做 MVP",
+      "上架并优化 ASO",
+      "找 3 个 Shopify 店主试用"
+    ],
+    "kill_criteria": [
+      "6 个月付费店 < 20 家",
+      "审核被拒且无法整改",
+      "月维护成本 > 收入 50%"
+    ],
+    "compliance_notes": "遵守 Shopify App 政策与数据保护（GDPR）；支付类插件需符合 PCI 等要求；避免误导性营销",
+    "evidence_count": 2,
+    "activity_dates": [
+      "2026-02-01",
+      "2026-08-18",
+      "2026-10-22"
+    ],
+    "first_seen": "2026-02-01",
+    "last_activity": "2026-10-22",
+    "momentum": 1.2,
+    "rank_score": 73.2,
+    "tags": [
+      "tech-driven",
+      "b2b",
+      "remote",
+      "platform-dependent",
+      "china-advantage"
+    ],
+    "verified": true,
+    "disclaimer": "研究假设，非投资建议；示例数据用于演示，使用前请核验原始来源"
+  },
+  {
+    "id": "opp-manufacturing-west-africa-shea-processing-073",
+    "slug": "west-africa-shea-processing",
+    "title": "西非乳木果本地加工：出口禁令下的设备与原料机会",
+    "one_liner": "尼日利亚乳木果原料出口禁令延至 2027-02-25、黄油价格是原料 10–20 倍，本地加工设备/技术输出有窗口",
+    "industry_id": "manufacturing",
+    "gap_type_ids": [
+      "regulation",
+      "price"
+    ],
+    "region_ids": [
+      "africa"
+    ],
+    "origin_country": "尼日利亚",
+    "target_countries": [
+      "尼日利亚",
+      "加纳",
+      "科特迪瓦",
+      "美国",
+      "法国",
+      "德国"
+    ],
+    "human_need_ids": [
+      "survival",
+      "health"
+    ],
+    "neuro_drivers": [
+      "serotonin",
+      "endorphin"
+    ],
+    "emotion_tags": [
+      "hope",
+      "pride",
+      "fear"
+    ],
+    "source_langs": [
+      "en",
+      "fr"
+    ],
+    "signal": {
+      "summary": "尼日利亚 2025-08-26 实施 6 个月原料乳木果出口禁令并延长至 2027-02-25，官方称黄油价格是原料的 10–20 倍，目标把加工留在本地；西非出口禁令正重塑美妆供应链，本地加工产能不足。",
+      "evidence": [
+        {
+          "title": "尼日利亚延长乳木果原料出口禁令",
+          "publisher": "新华社",
+          "url": "https://english.news.cn/20260226/d7ae10b2b1214bf39412cc6f639d6d56/c.html",
+          "date": "2026-02-26",
+          "quote": "尼日利亚总统 2025-08-26 实施 6 个月原料乳木果出口禁令并延长至 2027-02-25；黄油价格是原料的 10–20 倍",
+          "lang": "en",
+          "tier": "primary"
+        },
+        {
+          "title": "Africa's raw materials ban supply chains new reckoning",
+          "publisher": "BeautyMatter",
+          "url": "https://beautymatter.com/articles/africas-raw-materials-ban-supply-chains-new-reckoning",
+          "date": "2026-01-15",
+          "quote": "西非多国出口禁令正重塑美妆供应链（仅标题可读）",
+          "lang": "en",
+          "tier": "secondary"
+        }
+      ],
+      "signal_strength": 7.6,
+      "trend_direction": "up",
+      "volume_estimate": "尼日利亚乳木果原料出口禁令延至 2027-02-25；黄油价格 10–20 倍"
+    },
+    "seven_questions": {
+      "traffic": "本地合作社 + 美妆品牌采购 + 中国设备商渠道；前 5 个客户来自西非合作社与美妆原料商",
+      "money": "初加工设备销售/租赁 + 技术培训 + 黄油/皂基销售；毛利 25–40%",
+      "model": "设备+技术输出 + 本地合资初加工 + 对欧美/中国出口；交付=设备、培训、质检",
+      "roi": "启动 10–50 万元（设备/合资/认证）；6–12 个月出单，18–24 个月回本；月收入 5–30 万元",
+      "audience": "有机械/油脂加工经验、能跨境管理本地合作的人；不适合无本地合资伙伴与电力保障者",
+      "drivers": [
+        "supply",
+        "regulation",
+        "capital"
+      ],
+      "moat": "设备/工艺+本地合资关系+出口渠道；前置条件是当地政局/电力稳定与出口许可"
+    },
+    "roi": {
+      "capital_cny": {
+        "min": 100000,
+        "max": 500000
+      },
+      "time_to_revenue_months": 8,
+      "payback_months": 20,
+      "monthly_revenue_cny": {
+        "min": 50000,
+        "max": 300000
+      },
+      "gross_margin_pct": 30,
+      "effort_level": "full",
+      "team_size": 3
+    },
+    "scores": {
+      "dimensions": {
+        "signal": 7.6,
+        "gap": 8.0,
+        "feasibility": 6.0,
+        "economics": 6.8,
+        "timing": 7.0,
+        "competition": 6.0,
+        "risk": 5.6,
+        "fit": 5.6,
+        "evidence": 6.8,
+        "leverage": 6.0
+      },
+      "total": 67.5,
+      "grade": "B"
+    },
+    "window": {
+      "status": "open",
+      "months_left": 20,
+      "decay": "medium"
+    },
+    "risks": [
+      "政局/汇率/电力不稳",
+      "原料质量波动",
+      "出口禁令政策反复"
+    ],
+    "first_steps_7d": [
+      "联系 2 家西非乳木果合作社",
+      "找 1 家中国油脂设备厂报价",
+      "调研欧盟/美国原料采购标准",
+      "算设备+初加工的投资回收期"
+    ],
+    "kill_criteria": [
+      "本地电力/物流成本使加工无利可图",
+      "出口许可无法取得",
+      "合资伙伴信用风险过高"
+    ],
+    "compliance_notes": "尼日利亚出口禁令与出口许可；黄油/化妆品原料需符合欧盟/美国标准；设备出口与本地合资需法律尽调",
+    "evidence_count": 2,
+    "activity_dates": [
+      "2026-01-15",
+      "2026-08-01",
+      "2026-10-22"
+    ],
+    "first_seen": "2026-01-15",
+    "last_activity": "2026-10-22",
+    "momentum": 1.2,
+    "rank_score": 69.1,
+    "tags": [
+      "needs-supply-chain",
+      "b2b",
+      "china-advantage"
+    ],
+    "verified": true,
+    "disclaimer": "研究假设，非投资建议；示例数据用于演示，使用前请核验原始来源"
+  },
+  {
+    "id": "opp-green-africa-solar-accessories-074",
+    "slug": "africa-solar-accessories",
+    "title": "非洲离网太阳能配件：中国供应链的分销补位",
+    "one_liner": "非洲离网太阳能快速扩张、M-Pesa 分期成熟，太阳能灯/风扇/电视配件等小件跨境分销门槛低于整机",
+    "industry_id": "green",
+    "gap_type_ids": [
+      "infrastructure",
+      "price"
+    ],
+    "region_ids": [
+      "africa"
+    ],
+    "origin_country": "中国",
+    "target_countries": [
+      "肯尼亚",
+      "尼日利亚",
+      "乌干达",
+      "坦桑尼亚",
+      "加纳",
+      "南非"
+    ],
+    "human_need_ids": [
+      "survival",
+      "ease"
+    ],
+    "neuro_drivers": [
+      "cortisol",
+      "dopamine"
+    ],
+    "emotion_tags": [
+      "hope",
+      "relief"
+    ],
+    "source_langs": [
+      "en",
+      "sw"
+    ],
+    "signal": {
+      "summary": "Sun King 等离网太阳能企业快速扩张（1.56 亿美元证券化、覆盖 100 万+ 肯尼亚人），M-Pesa 分期成熟；整机竞争激烈，但太阳能灯/风扇/电视配件等小件跨境分销门槛更低。",
+      "evidence": [
+        {
+          "title": "Sun King 证券化与离网太阳能扩张",
+          "publisher": "Sun King",
+          "url": "https://sunking.com/news-blog/156m-sun-king-securitisation-to-deliver-solar-for-over-a-million-kenyans/",
+          "date": "2026-05-10",
+          "quote": "Sun King 1.56 亿美元证券化，为 100 万+ 肯尼亚人提供太阳能（仅标题可读）",
+          "lang": "en",
+          "tier": "primary"
+        },
+        {
+          "title": "Sustainable finance drives off-grid solar in Africa",
+          "publisher": "Sun King",
+          "url": "https://sunking.com/news-blog/sustainable-finance-drives-rapid-expansion-of-off-grid-solar-in-africa/",
+          "date": "2026-06-10",
+          "quote": "可持续金融推动非洲离网太阳能快速扩张（仅标题可读）",
+          "lang": "en",
+          "tier": "primary"
+        }
+      ],
+      "signal_strength": 7.0,
+      "trend_direction": "up",
+      "volume_estimate": "离网太阳能覆盖百万级用户；配件客单 5–60 美元"
+    },
+    "seven_questions": {
+      "traffic": "本地手机店/五金店分销 + 社区团购 + M-Pesa 分期；前 100 单来自本地分销商",
+      "money": "配件批发差价 15–30% + 售后配件；毛利 25–40%",
+      "model": "中国供应链配件 + 肯尼亚/尼日利亚本地分销 + 售后；轻资产先做批发",
+      "roi": "启动 3–15 万元（库存/认证/物流）；2–4 个月出单，6–10 个月回本；月收入 1–5 万元",
+      "audience": "有非洲清关/分销经验的人；不适合无本地回款与售后能力者",
+      "drivers": [
+        "supply",
+        "ops"
+      ],
+      "moat": "供应链成本+本地分销网络；前置条件是 ERC/KEBS 认证与回款风控"
+    },
+    "roi": {
+      "capital_cny": {
+        "min": 30000,
+        "max": 150000
+      },
+      "time_to_revenue_months": 3,
+      "payback_months": 8,
+      "monthly_revenue_cny": {
+        "min": 10000,
+        "max": 50000
+      },
+      "gross_margin_pct": 30,
+      "effort_level": "side",
+      "team_size": 2
+    },
+    "scores": {
+      "dimensions": {
+        "signal": 7.0,
+        "gap": 7.4,
+        "feasibility": 7.2,
+        "economics": 6.8,
+        "timing": 7.0,
+        "competition": 6.2,
+        "risk": 6.0,
+        "fit": 5.8,
+        "evidence": 6.4,
+        "leverage": 5.8
+      },
+      "total": 67.8,
+      "grade": "B"
+    },
+    "window": {
+      "status": "peak",
+      "months_left": 8,
+      "decay": "medium"
+    },
+    "risks": [
+      "认证与关税成本",
+      "回款与汇率风险",
+      "售后与质量问题"
+    ],
+    "first_steps_7d": [
+      "调研 10 个非洲热销太阳能配件",
+      "联系 2 家肯尼亚分销商",
+      "核算认证/关税后的到岸价",
+      "跑 100 台小批量测试回款"
+    ],
+    "kill_criteria": [
+      "回款违约率 > 10%",
+      "认证成本使毛利 < 15%",
+      "本地售后成本不可控"
+    ],
+    "compliance_notes": "需 ERC/KEBS 等认证；进口关税与外汇管制；產品质量与售后责任需明确",
+    "evidence_count": 2,
+    "activity_dates": [
+      "2026-05-10",
+      "2026-08-05",
+      "2026-10-19"
+    ],
+    "first_seen": "2026-05-10",
+    "last_activity": "2026-10-19",
+    "momentum": 1.2,
+    "rank_score": 69.4,
+    "tags": [
+      "physical",
+      "b2b",
+      "china-advantage",
+      "needs-supply-chain"
+    ],
+    "verified": true,
+    "disclaimer": "研究假设，非投资建议；示例数据用于演示，使用前请核验原始来源"
+  },
+  {
+    "id": "opp-content-japan-anime-pilgrimage-content-075",
+    "slug": "japan-anime-pilgrimage-content",
+    "title": "日本动漫圣地巡礼内容与导览：体验消费的内容化机会",
+    "one_liner": "日本入境游转向体验+内容，动漫圣地巡礼供给分散，中文/英文内容+小团导览可用内容资产获客",
+    "industry_id": "content",
+    "gap_type_ids": [
+      "language",
+      "channel"
+    ],
+    "region_ids": [
+      "east-asia"
+    ],
+    "origin_country": "日本",
+    "target_countries": [
+      "日本",
+      "中国",
+      "美国",
+      "韩国",
+      "中国香港"
+    ],
+    "human_need_ids": [
+      "novelty",
+      "belonging"
+    ],
+    "neuro_drivers": [
+      "dopamine",
+      "oxytocin"
+    ],
+    "emotion_tags": [
+      "curiosity",
+      "devotion",
+      "pride"
+    ],
+    "source_langs": [
+      "ja",
+      "zh",
+      "en"
+    ],
+    "signal": {
+      "summary": "2025 年访日外国人 4,270 万人次，游客结构从爆买转向体验+内容；动漫圣地巡礼供给分散、缺乏多语种整合，内容+小团导览可做差异化。",
+      "evidence": [
+        {
+          "title": "2025 年访日外国人 4,270 万人次",
+          "publisher": "TTN Worldwide",
+          "url": "https://ttnworldwide.com/ArticleTA/388106/japan-tourist-arrivals-hit-record-427m-in-2025",
+          "date": "2026-01-20",
+          "quote": "2025 年访日外国游客 4,270 万人次创历史新高（仅标题可读）",
+          "lang": "en",
+          "tier": "secondary"
+        },
+        {
+          "title": "日本观光厅入境消费动向调查",
+          "publisher": "日本观光厅",
+          "url": "https://www.mlit.go.jp/kankocho/news02_00071.html",
+          "date": "2026-02-01",
+          "quote": "日本观光厅发布 2025 年入境消费动向调查（仅标题可读）",
+          "lang": "ja",
+          "tier": "primary"
+        }
+      ],
+      "signal_strength": 7.0,
+      "trend_direction": "up",
+      "volume_estimate": "访日游客 4,270 万人次；圣地巡礼小团客单 10,000–40,000 日元"
+    },
+    "seven_questions": {
+      "traffic": "YouTube/小红书/哔哩哔哩内容 + Klook/GetYourGuide + 酒店/民宿合作；前 100 单来自内容与平台搜索",
+      "money": "小团导览（10,000–40,000 日元/人）+ 内容会员/攻略 + 联名周边；毛利 40–55%",
+      "model": "内容资产 + 本地持牌地接合作 + 平台分销；交付=线路设计、导览、内容",
+      "roi": "启动 1–5 万元（踩线/拍摄/平台）；2–4 个月出单，6–10 个月回本；月收入 1–5 万元",
+      "audience": "懂动漫文化、能拍摄剪辑与日语沟通的人；不适合无本地持牌合作与版权意识者",
+      "drivers": [
+        "info",
+        "ops"
+      ],
+      "moat": "内容资产与社群+本地地接合作；前置条件是旅行业许可与版权（动画场景拍摄）"
+    },
+    "roi": {
+      "capital_cny": {
+        "min": 10000,
+        "max": 50000
+      },
+      "time_to_revenue_months": 3,
+      "payback_months": 8,
+      "monthly_revenue_cny": {
+        "min": 10000,
+        "max": 50000
+      },
+      "gross_margin_pct": 45,
+      "effort_level": "side",
+      "team_size": 1
+    },
+    "scores": {
+      "dimensions": {
+        "signal": 7.0,
+        "gap": 7.6,
+        "feasibility": 7.2,
+        "economics": 6.6,
+        "timing": 7.2,
+        "competition": 6.2,
+        "risk": 6.2,
+        "fit": 6.4,
+        "evidence": 6.6,
+        "leverage": 5.8
+      },
+      "total": 68.5,
+      "grade": "B"
+    },
+    "window": {
+      "status": "peak",
+      "months_left": 8,
+      "decay": "medium"
+    },
+    "risks": [
+      "动画场景版权与拍摄许可",
+      "日本旅行业许可门槛",
+      "体验同质化"
+    ],
+    "first_steps_7d": [
+      "选 3 个动漫圣地做线路原型",
+      "联系 1 家本地持牌地接谈合作",
+      "拍 5 条双语短视频测点击",
+      "在 Klook 上架 1 条线路"
+    ],
+    "kill_criteria": [
+      "3 个月无平台审核通过",
+      "线路毛利 < 20%",
+      "版权/许可无法解决"
+    ],
+    "compliance_notes": "日本旅行业法需登录/与持牌社合作；动画场景拍摄需版权方/地方政府许可；跨境收款需合规",
+    "evidence_count": 2,
+    "activity_dates": [
+      "2026-01-20",
+      "2026-07-20",
+      "2026-10-19"
+    ],
+    "first_seen": "2026-01-20",
+    "last_activity": "2026-10-19",
+    "momentum": 1.2,
+    "rank_score": 70.1,
+    "tags": [
+      "content-driven",
+      "localization-heavy",
+      "seasonal"
+    ],
+    "verified": true,
+    "disclaimer": "研究假设，非投资建议；示例数据用于演示，使用前请核验原始来源"
+  },
+  {
+    "id": "opp-xb-saudi-salla-zid-build-076",
+    "slug": "saudi-salla-zid-build",
+    "title": "沙特 Salla/Zid 建站与运营：本土电商基础设施的",
+    "one_liner": "沙特电商月销超 307 亿里亚尔，Salla/Zid 本土建站生态缺中文服务商，建站+阿语 listing+支付对接可做",
+    "industry_id": "crossborder",
+    "gap_type_ids": [
+      "language",
+      "platform"
+    ],
+    "region_ids": [
+      "mena"
+    ],
+    "origin_country": "沙特",
+    "target_countries": [
+      "沙特",
+      "阿联酋",
+      "卡塔尔",
+      "巴林",
+      "科威特"
+    ],
+    "human_need_ids": [
+      "ease",
+      "status"
+    ],
+    "neuro_drivers": [
+      "dopamine",
+      "cortisol"
+    ],
+    "emotion_tags": [
+      "aspiration",
+      "anxiety"
+    ],
+    "source_langs": [
+      "ar",
+      "en",
+      "zh"
+    ],
+    "signal": {
+      "summary": "沙特电商月销超 307 亿里亚尔；Salla/Zid 是本土主流建站平台，中国卖家进入沙特常缺阿语建站、支付（Mada/Apple Pay）与本地物流对接能力。",
+      "evidence": [
+        {
+          "title": "沙特电商销售额超 307 亿里亚尔",
+          "publisher": "沙特国家门户",
+          "url": "https://my.gov.sa/en/news/1692043",
+          "date": "2026-01-15",
+          "quote": "2025 年 10 月沙特电商销售额超 307 亿沙特里亚尔（页面 403，仅标题/摘要可读）",
+          "lang": "en",
+          "tier": "primary"
+        },
+        {
+          "title": "Salla 官方开发者平台",
+          "publisher": "Salla",
+          "url": "https://docs.salla.dev/",
+          "date": "2026-06-01",
+          "quote": "Salla 开放平台提供建站与支付对接文档（官方站点）",
+          "lang": "en",
+          "tier": "primary"
+        }
+      ],
+      "signal_strength": 7.0,
+      "trend_direction": "up",
+      "volume_estimate": "沙特电商月销超 307 亿里亚尔；建站服务客单 1,000–8,000 美元"
+    },
+    "seven_questions": {
+      "traffic": "Salla/Zid 服务商市场 + 中国卖家社群 + 沙特商会；前 20 个客户来自跨境卖家与平台转介",
+      "money": "建站/迁移项目 1,000–8,000 美元 + 运营月费 + 支付/物流对接费",
+      "model": "建站+阿语内容+支付/物流对接；交付=站点、内容、测试、培训",
+      "roi": "启动 1–5 万元（学习/本地合作/内容）；2–4 个月出单，6–10 个月回本；月收入 5,000–30,000 元",
+      "audience": "有阿语/前端能力、了解 Salla/Zid 生态的人；不适合无本地支付对接经验者",
+      "drivers": [
+        "tech",
+        "info",
+        "cross-border"
+      ],
+      "moat": "平台生态与阿语能力+本地支付关系；前置条件是沙特本地合作与数据合规"
+    },
+    "roi": {
+      "capital_cny": {
+        "min": 10000,
+        "max": 50000
+      },
+      "time_to_revenue_months": 3,
+      "payback_months": 8,
+      "monthly_revenue_cny": {
+        "min": 5000,
+        "max": 30000
+      },
+      "gross_margin_pct": 55,
+      "effort_level": "side",
+      "team_size": 1
+    },
+    "scores": {
+      "dimensions": {
+        "signal": 7.0,
+        "gap": 7.4,
+        "feasibility": 7.2,
+        "economics": 6.8,
+        "timing": 7.0,
+        "competition": 6.0,
+        "risk": 6.2,
+        "fit": 5.8,
+        "evidence": 6.6,
+        "leverage": 5.8
+      },
+      "total": 67.8,
+      "grade": "B"
+    },
+    "window": {
+      "status": "open",
+      "months_left": 16,
+      "decay": "medium"
+    },
+    "risks": [
+      "沙特本地化要求（SASO/阿语）",
+      "平台生态变化快",
+      "支付/物流对接复杂"
+    ],
+    "first_steps_7d": [
+      "注册 Salla 开发者账号并做 1 个 Demo 站点",
+      "调研 10 个沙特电商站点结构与支付",
+      "联系 1 家本地物流谈对接",
+      "给 3 个中国卖家做免费诊断"
+    ],
+    "kill_criteria": [
+      "3 个月无付费客户",
+      "平台审核/资质无法通过",
+      "交付成本高于报价"
+    ],
+    "compliance_notes": "需 SASO 认证与阿语标签；支付需与持牌机构合作；数据合规（沙特 PDPL）；来源未逐条直连核验（verified:false），使用前请人工复核原始 URL 与引文",
+    "evidence_count": 2,
+    "activity_dates": [
+      "2026-01-15",
+      "2026-08-10",
+      "2026-10-19"
+    ],
+    "first_seen": "2026-01-15",
+    "last_activity": "2026-10-19",
+    "momentum": 1.2,
+    "rank_score": 69.4,
+    "tags": [
+      "tech-driven",
+      "b2b",
+      "localization-heavy",
+      "china-advantage"
+    ],
+    "verified": false,
+    "disclaimer": "研究假设，非投资建议；示例数据用于演示，使用前请核验原始来源"
+  },
+  {
+    "id": "opp-pet-kr-pet-food-subscription-077",
+    "slug": "kr-pet-food-subscription",
+    "title": "韩国宠物鲜食与营养订阅：6 万亿韩元市场的复购生意",
+    "one_liner": "韩国宠物市场 2027 年预计 6 万亿韩元、1,448 万养宠人，鲜食/营养订阅复购强，中国供应链+本地内容可做",
+    "industry_id": "pet",
+    "gap_type_ids": [
+      "demographic",
+      "emotion"
+    ],
+    "region_ids": [
+      "east-asia"
+    ],
+    "origin_country": "韩国",
+    "target_countries": [
+      "韩国",
+      "日本",
+      "中国",
+      "新加坡",
+      "美国"
+    ],
+    "human_need_ids": [
+      "health",
+      "belonging"
+    ],
+    "neuro_drivers": [
+      "oxytocin",
+      "serotonin"
+    ],
+    "emotion_tags": [
+      "love",
+      "hope",
+      "anxiety"
+    ],
+    "source_langs": [
+      "ko",
+      "zh"
+    ],
+    "signal": {
+      "summary": "韩国宠物市场 2027 年预计 6.0055 万亿韩元（KREI 预测）、养宠人口 1448 万（2020）；宠物鲜食/营养订阅复购强，中国供应链与本地内容结合可切入，但食品进口与配方合规是门槛。",
+      "evidence": [
+        {
+          "title": "KREI：韩国宠物市场 2027 年达 6 万亿韩元",
+          "publisher": "프라임경제",
+          "url": "https://www.newsprime.co.kr/news/article/?no=593276",
+          "date": "2023-02-17",
+          "quote": "韩国宠物市场 2024 年 4.97 万亿 → 2027 年 6.0055 万亿韩元",
+          "lang": "ko",
+          "tier": "secondary"
+        },
+        {
+          "title": "韩日宠物保险与医疗支出对比",
+          "publisher": "亚洲经济",
+          "url": "https://www.asiae.co.kr/lang/print.htm?idxno=2026021209550059103&lang=en",
+          "date": "2026-02-12",
+          "quote": "韩国 591 万户养宠家庭，26.2% 家庭近两年宠物医疗花费超 100 万韩元",
+          "lang": "en",
+          "tier": "secondary"
+        }
+      ],
+      "signal_strength": 7.2,
+      "trend_direction": "up",
+      "volume_estimate": "韩国宠物市场 2027 年约 6 万亿韩元；订阅客单 3–10 万韩元/月"
+    },
+    "seven_questions": {
+      "traffic": "Instagram/Naver 博客鲜食内容 + 宠物医院/美容店合作 + 订阅制；前 100 单来自本地宠物社群",
+      "money": "订阅制鲜食/营养品 3–10 万韩元/月，毛利 40–55%；复购率高",
+      "model": "本地内容+订阅运营 + 中国/本地代工 + 冷链配送；交付=配方、生产、订阅配送",
+      "roi": "启动 3–15 万元（配方/代工/内容/冷链）；3–6 个月出单，8–15 个月回本；月收入 2–10 万元",
+      "audience": "有宠物营养知识/本地内容能力、能对接代工与冷链的人；不适合无食品合规能力者",
+      "drivers": [
+        "supply",
+        "info",
+        "ops"
+      ],
+      "moat": "配方/内容+订阅复购；前置条件是韩国饲料/食品合规与冷链"
+    },
+    "roi": {
+      "capital_cny": {
+        "min": 30000,
+        "max": 150000
+      },
+      "time_to_revenue_months": 4,
+      "payback_months": 12,
+      "monthly_revenue_cny": {
+        "min": 20000,
+        "max": 100000
+      },
+      "gross_margin_pct": 45,
+      "effort_level": "side",
+      "team_size": 2
+    },
+    "scores": {
+      "dimensions": {
+        "signal": 7.2,
+        "gap": 7.6,
+        "feasibility": 7.0,
+        "economics": 7.2,
+        "timing": 7.2,
+        "competition": 6.4,
+        "risk": 6.2,
+        "fit": 6.2,
+        "evidence": 6.8,
+        "leverage": 6.0
+      },
+      "total": 69.7,
+      "grade": "B"
+    },
+    "window": {
+      "status": "open",
+      "months_left": 22,
+      "decay": "medium"
+    },
+    "risks": [
+      "韩国饲料/食品进口合规",
+      "冷链成本与保质期",
+      "本土品牌与平台竞争"
+    ],
+    "first_steps_7d": [
+      "调研 10 个韩国宠物鲜食订阅品牌",
+      "联系 2 家代工厂谈配方/起订量",
+      "研究韩国饲料公定规格",
+      "做 10 条韩语内容测订阅意向"
+    ],
+    "kill_criteria": [
+      "食品合规无法满足",
+      "订阅毛利 < 30%",
+      "3 个月订阅留存 < 40%"
+    ],
+    "compliance_notes": "需符合韩国饲料公定规格与进口检疫；食品标签需韩语；冷链配送需合规",
+    "evidence_count": 2,
+    "activity_dates": [
+      "2023-02-17",
+      "2026-08-15",
+      "2026-10-21"
+    ],
+    "first_seen": "2023-02-17",
+    "last_activity": "2026-10-21",
+    "momentum": 1.2,
+    "rank_score": 71.4,
+    "tags": [
+      "recurring",
+      "physical",
+      "china-advantage",
+      "needs-license"
+    ],
+    "verified": true,
+    "disclaimer": "研究假设，非投资建议；示例数据用于演示，使用前请核验原始来源"
+  },
+  {
+    "id": "opp-silver-jp-senior-digital-care-078",
+    "slug": "jp-senior-digital-care",
+    "title": "日本银发数字照护工具：高龄社会的多语言导诊与记录",
+    "one_liner": "日本宠物/银发市场共同面临高龄与外国人增加，多语言健康记录与家属共享工具存在细分空间",
+    "industry_id": "silver",
+    "gap_type_ids": [
+      "knowledge",
+      "time"
+    ],
+    "region_ids": [
+      "east-asia"
+    ],
+    "origin_country": "日本",
+    "target_countries": [
+      "日本",
+      "韩国",
+      "中国",
+      "中国香港"
+    ],
+    "human_need_ids": [
+      "health",
+      "control"
+    ],
+    "neuro_drivers": [
+      "cortisol",
+      "oxytocin"
+    ],
+    "emotion_tags": [
+      "anxiety",
+      "relief",
+      "hope"
+    ],
+    "source_langs": [
+      "ja",
+      "en",
+      "zh"
+    ],
+    "signal": {
+      "summary": "日本高龄化与在日外国人增加，医疗/照护场景的多语言沟通与家属共享记录仍是纸质/分散状态；轻量工具+服务可切入，但医疗合规与本地信任门槛高。",
+      "evidence": [
+        {
+          "title": "日本宠物保险/医疗数字化背景",
+          "publisher": "亚洲经济",
+          "url": "https://www.asiae.co.kr/lang/print.htm?idxno=2026021209550059103&lang=en",
+          "date": "2026-02-12",
+          "quote": "日本宠物保险渗透率约 21.4%，院内结算数字化程度高（可迁移到照护场景）",
+          "lang": "en",
+          "tier": "secondary"
+        },
+        {
+          "title": "KREI 韩国宠物市场预测（区域对照）",
+          "publisher": "프라임경제",
+          "url": "https://www.newsprime.co.kr/news/article/?no=593276",
+          "date": "2023-02-17",
+          "quote": "韩国宠物市场 2027 年预计 6 万亿韩元（区域老龄化与照护需求对照）",
+          "lang": "ko",
+          "tier": "secondary"
+        }
+      ],
+      "signal_strength": 6.8,
+      "trend_direction": "up",
+      "volume_estimate": "日本高龄化与在日外国人增加；照护工具月费 1–5 万日元"
+    },
+    "seven_questions": {
+      "traffic": "在日外国人社群 + 照护机构/药局合作 + 日语内容；前 20 个客户来自机构合作",
+      "money": "SaaS 月费 1–5 万日元/机构 + 多语言翻译按次 + 培训",
+      "model": "多语言健康记录/家属共享 + 照护机构服务；交付=工具、培训、支持",
+      "roi": "启动 5–30 万元（开发/本地法人/合规）；6–12 个月出单，15–24 个月回本；月收入 5–20 万元",
+      "audience": "有日本本地合作方、懂照护/医疗合规的团队；不适合无本地信任与日语支持者",
+      "drivers": [
+        "tech",
+        "info",
+        "regulation"
+      ],
+      "moat": "本地合规与机构关系+多语言能力；前置条件是日本法人、个人信息保护与医疗广告合规"
+    },
+    "roi": {
+      "capital_cny": {
+        "min": 50000,
+        "max": 300000
+      },
+      "time_to_revenue_months": 8,
+      "payback_months": 18,
+      "monthly_revenue_cny": {
+        "min": 50000,
+        "max": 200000
+      },
+      "gross_margin_pct": 60,
+      "effort_level": "full",
+      "team_size": 2
+    },
+    "scores": {
+      "dimensions": {
+        "signal": 6.8,
+        "gap": 7.4,
+        "feasibility": 6.0,
+        "economics": 6.4,
+        "timing": 6.6,
+        "competition": 6.2,
+        "risk": 5.8,
+        "fit": 5.4,
+        "evidence": 6.4,
+        "leverage": 5.8
+      },
+      "total": 64.3,
+      "grade": "C"
+    },
+    "window": {
+      "status": "open",
+      "months_left": 24,
+      "decay": "medium"
+    },
+    "risks": [
+      "日本医疗/照护合规门槛高",
+      "本地信任建立慢",
+      "开发与本地化成本高"
+    ],
+    "first_steps_7d": [
+      "访谈 5 家在日照护机构确认痛点",
+      "找 1 家本地合作方谈试点",
+      "做 1 个多语言记录原型",
+      "核算本地法人与合规成本"
+    ],
+    "kill_criteria": [
+      "6 个月内 0 家机构试点",
+      "合规成本超过 30 万元",
+      "本地合作方无法落实"
+    ],
+    "compliance_notes": "日本个人信息保护法（要配慮個人情報）；医疗广告与照护服务资质；需本地合作方",
+    "evidence_count": 2,
+    "activity_dates": [
+      "2023-02-17",
+      "2026-08-20",
+      "2026-10-21"
+    ],
+    "first_seen": "2023-02-17",
+    "last_activity": "2026-10-21",
+    "momentum": 1.2,
+    "rank_score": 65.8,
+    "tags": [
+      "b2b",
+      "tech-driven",
+      "localization-heavy",
+      "needs-license"
+    ],
+    "verified": true,
+    "disclaimer": "研究假设，非投资建议；示例数据用于演示，使用前请核验原始来源"
+  },
+  {
+    "id": "opp-content-china-shortdrama-id-l10n-079",
+    "slug": "china-shortdrama-id-l10n",
+    "title": "中国短剧印尼语本地化：非英语市场的配音与字幕供给缺口",
+    "one_liner": "2025 年全球短剧 IAP 超 28 亿美元（+116%），印尼/巴西/中东配音与字幕供给短缺，小团队可做本地化外包",
+    "industry_id": "content",
+    "gap_type_ids": [
+      "language",
+      "time"
+    ],
+    "region_ids": [
+      "sea",
+      "china"
+    ],
+    "origin_country": "中国",
+    "target_countries": [
+      "印尼",
+      "泰国",
+      "越南",
+      "菲律宾",
+      "马来西亚",
+      "巴西"
+    ],
+    "human_need_ids": [
+      "novelty",
+      "status"
+    ],
+    "neuro_drivers": [
+      "dopamine",
+      "adrenaline"
+    ],
+    "emotion_tags": [
+      "curiosity",
+      "hope",
+      "pride"
+    ],
+    "source_langs": [
+      "id",
+      "zh",
+      "en"
+    ],
+    "signal": {
+      "summary": "2025 年全球短剧应用内购收入超 28 亿美元（+116%），DramaBox 收入 5.3 亿美元（+75%）；短剧出海已从买量进入本地化质量竞争，非英语市场（印尼/巴西/中东）配音与字幕供给短缺。",
+      "evidence": [
+        {
+          "title": "2025 全球短剧 IAP 超 28 亿美元",
+          "publisher": "新华财经",
+          "url": "https://m.cnfin.com/wx/share?url=//m.cnfin.com/gs-lb//zixun/20260114/4365190_1.html",
+          "date": "2026-01-14",
+          "quote": "2025 年全球短剧应用内购收入超 28 亿美元（+116%）；DramaBox 收入 5.3 亿美元（+75%）",
+          "lang": "zh",
+          "tier": "secondary"
+        },
+        {
+          "title": "Sensor Tower 短剧数据报道",
+          "publisher": "Sensor Tower",
+          "url": "https://sensortower.com/",
+          "date": "2026-01-14",
+          "quote": "Sensor Tower 发布 2025 短剧应用收入与下载数据（官方站点）",
+          "lang": "en",
+          "tier": "secondary"
+        }
+      ],
+      "signal_strength": 7.6,
+      "trend_direction": "up",
+      "volume_estimate": "全球短剧 IAP 超 28 亿美元；本地化项目 500–5,000 美元/部"
+    },
+    "seven_questions": {
+      "traffic": "短剧平台/发行方 B2B + 本地化服务商 + 印尼语内容社群；前 5 个客户来自出海短剧公司",
+      "money": "翻译+配音+字幕按分钟/按部收费（500–5,000 美元/部）+ 文化审校",
+      "model": "小团队本地化：印尼语翻译、配音、字幕、文化审校；远程交付",
+      "roi": "启动 1–5 万元（译员/配音/工具）；1–3 个月出单，4–8 个月回本；月收入 1–5 万元",
+      "audience": "有印尼语能力与影视本地化经验、能组织配音资源的人；不适合只做机器翻译者",
+      "drivers": [
+        "info",
+        "ops",
+        "cross-border"
+      ],
+      "moat": "语言+配音资源+文化审校质量；前置条件是母语级质量与版权合规"
+    },
+    "roi": {
+      "capital_cny": {
+        "min": 10000,
+        "max": 50000
+      },
+      "time_to_revenue_months": 2,
+      "payback_months": 6,
+      "monthly_revenue_cny": {
+        "min": 10000,
+        "max": 50000
+      },
+      "gross_margin_pct": 50,
+      "effort_level": "side",
+      "team_size": 2
+    },
+    "scores": {
+      "dimensions": {
+        "signal": 7.6,
+        "gap": 7.6,
+        "feasibility": 7.6,
+        "economics": 7.0,
+        "timing": 7.4,
+        "competition": 6.2,
+        "risk": 6.4,
+        "fit": 6.6,
+        "evidence": 7.0,
+        "leverage": 6.0
+      },
+      "total": 71.3,
+      "grade": "B"
+    },
+    "window": {
+      "status": "peak",
+      "months_left": 6,
+      "decay": "fast"
+    },
+    "risks": [
+      "平台账期与压价",
+      "版权与宗教敏感内容",
+      "AI 配音冲击人工价格"
+    ],
+    "first_steps_7d": [
+      "联系 3 家短剧出海公司确认本地化需求",
+      "找 2 位印尼语译员/配音测试样片",
+      "报价 1 部剧的本地化成本",
+      "做 1 分钟样片给客户评估"
+    ],
+    "kill_criteria": [
+      "3 个月无付费客户",
+      "单部毛利 < 30%",
+      "AI 配音把价格压到成本以下"
+    ],
+    "compliance_notes": "需内容版权授权；印尼/巴西内容分级与宗教敏感审核；配音版权与合同明确",
+    "evidence_count": 2,
+    "activity_dates": [
+      "2026-01-14",
+      "2026-08-05",
+      "2026-10-22"
+    ],
+    "first_seen": "2026-01-14",
+    "last_activity": "2026-10-22",
+    "momentum": 1.2,
+    "rank_score": 73.0,
+    "tags": [
+      "localization-heavy",
+      "b2b",
+      "content-driven",
+      "china-advantage"
+    ],
+    "verified": true,
+    "disclaimer": "研究假设，非投资建议；示例数据用于演示，使用前请核验原始来源"
+  },
+  {
+    "id": "opp-xb-china-pet-memorial-b2b-080",
+    "slug": "china-pet-memorial-b2b",
+    "title": "中国宠物纪念品 B2B 白牌：给海外殡葬机构供货",
+    "one_liner": "海外宠物殡葬机构缺稳定中国供应链，玻璃/陶瓷/木质纪念品白牌 B2B 订单更稳、客单高于零售",
+    "industry_id": "crossborder",
+    "gap_type_ids": [
+      "geo",
+      "price"
+    ],
+    "region_ids": [
+      "china",
+      "north-america",
+      "europe",
+      "oceania"
+    ],
+    "origin_country": "中国",
+    "target_countries": [
+      "美国",
+      "英国",
+      "德国",
+      "加拿大",
+      "澳大利亚",
+      "新西兰"
+    ],
+    "human_need_ids": [
+      "belonging",
+      "nostalgia"
+    ],
+    "neuro_drivers": [
+      "oxytocin",
+      "serotonin"
+    ],
+    "emotion_tags": [
+      "grief",
+      "love"
+    ],
+    "source_langs": [
+      "en",
+      "zh"
+    ],
+    "signal": {
+      "summary": "海外宠物殡葬机构本地手工交付慢（约 6 周）、成本高，需要稳定的纪念品白牌供应；中国玻璃/陶瓷/木质工艺供应链可做 B2B 供货，订单更稳、可避开零售同质化价格战。",
+      "evidence": [
+        {
+          "title": "宠物殡葬与纪念品市场升温",
+          "publisher": "搜狐",
+          "url": "https://www.sohu.com/a/952762371_121478199",
+          "date": "2025-11-10",
+          "quote": "景德镇工厂宠物骨灰盒/雕像年销 6000 多万人民币，销往美洲/欧洲/澳洲",
+          "lang": "zh",
+          "tier": "secondary"
+        },
+        {
+          "title": "Spirit Pieces 纪念品价格与品类",
+          "publisher": "Zellerhaus Art",
+          "url": "https://zellerhausart.com/blog/spirit-pieces-review",
+          "date": "2026-08-15",
+          "quote": "纪念玻璃 $129–299、纪念珠宝 $69–549，交付约 6 周",
+          "lang": "en",
+          "tier": "secondary"
+        }
+      ],
+      "signal_strength": 7.6,
+      "trend_direction": "up",
+      "volume_estimate": "海外殡葬机构白牌采购客单 500–5,000 美元/批"
+    },
+    "seven_questions": {
+      "traffic": "海外宠物殡葬机构 B2B 邮件/展会 + 独立站白牌页面 + 领英开发；前 10 个客户来自殡葬协会与展会",
+      "money": "白牌供货差价 25–40% + 定制设计费；B2B 订单稳定但账期长",
+      "model": "中国工厂白牌供货 + 英文目录/样品 + 海外仓/直发；交付=打样、生产、包装、物流",
+      "roi": "启动 2–10 万元（样品/目录/展会/包装）；2–4 个月出单，6–12 个月回本；月收入 2–10 万元",
+      "audience": "有工厂资源、英语 B2B 开发能力、能做品控的人；不适合无稳定工厂与账期承受力者",
+      "drivers": [
+        "supply",
+        "cross-border",
+        "info"
+      ],
+      "moat": "工厂资源+品控+海外渠道；前置条件是防碎包装与目的国进口合规"
+    },
+    "roi": {
+      "capital_cny": {
+        "min": 20000,
+        "max": 100000
+      },
+      "time_to_revenue_months": 3,
+      "payback_months": 10,
+      "monthly_revenue_cny": {
+        "min": 20000,
+        "max": 100000
+      },
+      "gross_margin_pct": 40,
+      "effort_level": "side",
+      "team_size": 2
+    },
+    "scores": {
+      "dimensions": {
+        "signal": 7.6,
+        "gap": 8.0,
+        "feasibility": 7.2,
+        "economics": 7.2,
+        "timing": 7.2,
+        "competition": 6.0,
+        "risk": 6.4,
+        "fit": 6.2,
+        "evidence": 7.0,
+        "leverage": 6.0
+      },
+      "total": 71.1,
+      "grade": "B"
+    },
+    "window": {
+      "status": "open",
+      "months_left": 20,
+      "decay": "slow"
+    },
+    "risks": [
+      "B2B 账期与汇率风险",
+      "易碎品破损与退货",
+      "海外殡葬机构资质与合规要求"
+    ],
+    "first_steps_7d": [
+      "在领英/展会找 10 家海外宠物殡葬机构",
+      "准备英文产品目录与样品",
+      "算一单白牌供货的到岸成本",
+      "寄 3 家机构样品测试反馈"
+    ],
+    "kill_criteria": [
+      "3 个月无样品反馈",
+      "白牌毛利 < 25%",
+      "账期超过 90 天无法承受"
+    ],
+    "compliance_notes": "动物遗骸相关制品受限，只做纪念物/毛发；陶瓷/玻璃出口需安全声明；B2B 合同明确责任",
+    "evidence_count": 2,
+    "activity_dates": [
+      "2025-11-10",
+      "2026-06-18",
+      "2026-10-20"
+    ],
+    "first_seen": "2025-11-10",
+    "last_activity": "2026-10-20",
+    "momentum": 1.2,
+    "rank_score": 72.8,
+    "tags": [
+      "b2b",
+      "china-advantage",
+      "needs-supply-chain",
+      "physical"
+    ],
+    "verified": true,
+    "disclaimer": "研究假设，非投资建议；示例数据用于演示，使用前请核验原始来源"
   }
 ]

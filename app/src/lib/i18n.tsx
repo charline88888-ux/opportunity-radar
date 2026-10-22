@@ -11,7 +11,7 @@ export const DOC_TITLE = {
 } as const
 
 export const EN_CONTENT_NOTICE =
-  'Opportunity content (titles, one-liners, evidence, Q&A) is Chinese-only in v0.5.1.'
+  'Opportunity content (titles, one-liners, evidence, Q&A) is Chinese-only in v0.6.0.'
 
 let currentLang: Lang = loadLang()
 
@@ -86,6 +86,14 @@ function patternTranslate(raw: string): string | null {
   if (text.startsWith('窗口价值衰减（按')) return `Window value decay (by ${text.replace(/^窗口价值衰减（按/, '').replace(/）$/, '')})`
   if (text.includes('现有分桶')) return text.replace(/现有分桶/g, 'buckets')
   if (text.startsWith('报告在浏览器本地用已打包数据生成')) return 'Reports are generated locally from bundled data (Blob download, offline); the scanner also produces same-structure reports, complementing each other.'
+  if (text.startsWith('当前窗口状态 ')) {
+    return text
+      .replace(/^当前窗口状态 /, 'Current window status ')
+      .replace(/，衰减 /, ', decay ')
+      .replace(/；如果要做，现在就该进入 7 天验证（/, '; if pursuing, start the 7-day validation now (')
+      .replace(/）。$/, ').')
+  }
+  if ((m = text.match(/^全部有效 (\d+) 条$/))) return `${m[1]} active`
   if ((m = text.match(/^(\d+) 天验证动作清单$/))) return `${m[1]}-day validation checklist`
   if (text === '勾选即本地保存（localStorage），不联网、不上传。') return 'Checked items save in localStorage; no network, no upload.'
   if (text === '区域 × 类别覆盖热力') return 'Region × category coverage heatmap'

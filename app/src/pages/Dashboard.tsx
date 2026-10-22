@@ -61,6 +61,7 @@ const KPI_DEFS = [
   { key: 'week', label: '本周新上榜', en: 'NEW THIS WEEK', accent: '#4cc9f0', icon: TrendingUp },
   { key: 'aplus', label: 'A 级以上', en: 'GRADE A+', accent: '#ffd166', icon: Sparkles },
   { key: 'value', label: '开放窗口价值', en: 'OPEN VALUE / MO', accent: '#f472b6', icon: Globe2 },
+  { key: 'coverage', label: '国家/地区覆盖', en: 'COUNTRIES / REGIONS', accent: '#a78bfa', icon: Globe2 },
 ] as const
 
 function KpiCard({
@@ -129,6 +130,7 @@ export default function Dashboard() {
   const { items: experiments } = useExperiments()
   const { profile, capability } = useProfile()
   const alertCenter = useAlerts()
+  const countryCoverage = useMemo(() => new Set(opportunities.flatMap((o) => o.target_countries)).size, [])
   const recTop = useMemo(() => recommendTop(profile, 3), [profile])
   useEffect(() => {
     for (const row of recTop) recordRecEvent({ opp_id: row.opp.id, event: 'impression', rec_score: row.recScore, fit: row.fit })
@@ -369,7 +371,7 @@ export default function Dashboard() {
         }
       />
 
-      <section className="grid grid-cols-2 gap-2.5 md:grid-cols-3 xl:grid-cols-5">
+      <section className="grid grid-cols-2 gap-2.5 md:grid-cols-3 xl:grid-cols-6">
         <KpiCard
           label={KPI_DEFS[0].label} en={KPI_DEFS[0].en} accent={KPI_DEFS[0].accent} icon={KPI_DEFS[0].icon}
           value={fmtInt(kpi.total_opps)}
@@ -400,6 +402,11 @@ export default function Dashboard() {
           value={`¥${fmtCny(stats.open_window_value_cny)}`}
           unit="/ 月"
           sub={<><span>{openWindows} 个开放/鼎盛窗口</span><span className="ml-auto font-mono text-dim">SUM</span></>}
+        />
+        <KpiCard
+          label={KPI_DEFS[5].label} en={KPI_DEFS[5].en} accent={KPI_DEFS[5].accent} icon={KPI_DEFS[5].icon}
+          value={fmtInt(countryCoverage)}
+          sub={<><span>目标国家/地区</span><span className="ml-auto font-mono text-dim">{fmtInt(kpi.total_opps)} OPPS</span></>}
         />
       </section>
 

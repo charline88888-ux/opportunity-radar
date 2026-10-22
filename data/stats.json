@@ -1,57 +1,93 @@
 {
   "meta": {
-    "data_version": "0.5.1",
+    "data_version": "0.6.0",
     "as_of": "2026-10-22",
     "generator": "scanner/pipeline.py"
   },
   "kpi": {
-    "total_opps": 46,
-    "new_today": 8,
+    "total_opps": 80,
+    "new_today": 17,
     "new_first_seen_today": 0,
-    "grade_a_plus": 11,
+    "grade_a_plus": 12,
     "industries_covered": 14,
     "regions_covered": 11,
-    "avg_total": 71.4,
-    "verified_count": 5,
-    "evidence_total": 88
+    "avg_total": 70.8,
+    "verified_count": 32,
+    "evidence_total": 156
   },
   "by_grade": {
     "S": 0,
-    "A": 11,
-    "B": 34,
-    "C": 1,
+    "A": 12,
+    "B": 66,
+    "C": 2,
     "D": 0
   },
   "by_industry": [
     {
-      "id": "compliance",
-      "name": "合规与专业服务",
-      "count": 6,
-      "avg_total": 74.8
-    },
-    {
       "id": "crossborder",
       "name": "跨境电商与供应链",
-      "count": 6,
+      "count": 14,
+      "avg_total": 70.4
+    },
+    {
+      "id": "compliance",
+      "name": "合规与专业服务",
+      "count": 8,
+      "avg_total": 73.8
+    },
+    {
+      "id": "content",
+      "name": "内容与 IP 出海",
+      "count": 8,
+      "avg_total": 69.9
+    },
+    {
+      "id": "pet",
+      "name": "宠物经济",
+      "count": 7,
       "avg_total": 71.7
     },
     {
       "id": "emotional",
       "name": "情绪疗愈与心理",
-      "count": 4,
-      "avg_total": 68.9
+      "count": 6,
+      "avg_total": 69.3
     },
     {
       "id": "ai",
       "name": "AI 与效率工具",
-      "count": 3,
-      "avg_total": 72.4
+      "count": 5,
+      "avg_total": 72.2
     },
     {
-      "id": "content",
-      "name": "内容与 IP 出海",
-      "count": 3,
-      "avg_total": 69.8
+      "id": "fintech",
+      "name": "支付与金融科技",
+      "count": 5,
+      "avg_total": 70.4
+    },
+    {
+      "id": "green",
+      "name": "绿色能源与可持续",
+      "count": 5,
+      "avg_total": 69.1
+    },
+    {
+      "id": "manufacturing",
+      "name": "产业与制造",
+      "count": 5,
+      "avg_total": 71.5
+    },
+    {
+      "id": "silver",
+      "name": "银发与健康",
+      "count": 5,
+      "avg_total": 68.6
+    },
+    {
+      "id": "local",
+      "name": "本地生活与服务",
+      "count": 4,
+      "avg_total": 73.7
     },
     {
       "id": "culture",
@@ -66,244 +102,214 @@
       "avg_total": 68.2
     },
     {
-      "id": "green",
-      "name": "绿色能源与可持续",
-      "count": 3,
-      "avg_total": 70.4
-    },
-    {
-      "id": "manufacturing",
-      "name": "产业与制造",
-      "count": 3,
-      "avg_total": 71.6
-    },
-    {
-      "id": "pet",
-      "name": "宠物经济",
-      "count": 3,
-      "avg_total": 73.3
-    },
-    {
-      "id": "silver",
-      "name": "银发与健康",
-      "count": 3,
-      "avg_total": 69.3
-    },
-    {
-      "id": "fintech",
-      "name": "支付与金融科技",
-      "count": 2,
-      "avg_total": 67.8
-    },
-    {
       "id": "gaming",
       "name": "游戏与社交",
       "count": 2,
       "avg_total": 69.2
-    },
-    {
-      "id": "local",
-      "name": "本地生活与服务",
-      "count": 2,
-      "avg_total": 77.7
     }
   ],
   "by_gap_type": [
     {
       "id": "language",
       "name": "语言 / 翻译差",
-      "count": 20,
-      "avg_total": 73.0
-    },
-    {
-      "id": "regulation",
-      "name": "监管 / 政策差",
-      "count": 17,
-      "avg_total": 71.5
+      "count": 28,
+      "avg_total": 72.1
     },
     {
       "id": "knowledge",
       "name": "认知 / 圈层差",
-      "count": 15,
-      "avg_total": 71.3
+      "count": 21,
+      "avg_total": 70.7
     },
     {
-      "id": "channel",
-      "name": "渠道 / 流量结构差",
-      "count": 13,
-      "avg_total": 72.4
+      "id": "regulation",
+      "name": "监管 / 政策差",
+      "count": 21,
+      "avg_total": 71.1
     },
     {
       "id": "culture",
       "name": "文化 / 宗教差",
-      "count": 12,
-      "avg_total": 73.1
+      "count": 19,
+      "avg_total": 71.7
     },
     {
-      "id": "price",
-      "name": "价格 / 供应链差",
-      "count": 10,
-      "avg_total": 70.7
-    },
-    {
-      "id": "demographic",
-      "name": "人口 / 结构差",
-      "count": 9,
-      "avg_total": 69.9
+      "id": "channel",
+      "name": "渠道 / 流量结构差",
+      "count": 18,
+      "avg_total": 71.9
     },
     {
       "id": "infrastructure",
       "name": "基础设施差",
-      "count": 9,
-      "avg_total": 69.0
+      "count": 18,
+      "avg_total": 69.8
+    },
+    {
+      "id": "price",
+      "name": "价格 / 供应链差",
+      "count": 17,
+      "avg_total": 70.1
     },
     {
       "id": "platform",
       "name": "平台规则差",
-      "count": 8,
-      "avg_total": 70.3
+      "count": 14,
+      "avg_total": 70.7
     },
     {
       "id": "time",
       "name": "时间差（趋势时差）",
-      "count": 8,
-      "avg_total": 70.7
+      "count": 13,
+      "avg_total": 70.1
+    },
+    {
+      "id": "demographic",
+      "name": "人口 / 结构差",
+      "count": 12,
+      "avg_total": 70.1
     },
     {
       "id": "emotion",
       "name": "情绪 / 心理差",
-      "count": 7,
-      "avg_total": 71.7
+      "count": 11,
+      "avg_total": 71.1
     },
     {
       "id": "geo",
       "name": "地理 / 市场差",
-      "count": 7,
-      "avg_total": 69.5
+      "count": 9,
+      "avg_total": 70.3
     }
   ],
   "by_region": [
     {
       "id": "europe",
       "name": "欧洲",
-      "count": 18,
-      "avg_total": 72.2
-    },
-    {
-      "id": "north-america",
-      "name": "北美",
-      "count": 18,
-      "avg_total": 71.0
+      "count": 27,
+      "avg_total": 71.9
     },
     {
       "id": "east-asia",
       "name": "东亚",
-      "count": 15,
-      "avg_total": 69.6
+      "count": 24,
+      "avg_total": 69.5
+    },
+    {
+      "id": "north-america",
+      "name": "北美",
+      "count": 24,
+      "avg_total": 71.2
     },
     {
       "id": "sea",
       "name": "东南亚",
-      "count": 9,
-      "avg_total": 72.0
+      "count": 12,
+      "avg_total": 71.6
     },
     {
       "id": "mena",
       "name": "中东与北非",
-      "count": 7,
-      "avg_total": 72.1
-    },
-    {
-      "id": "latam",
-      "name": "拉美",
-      "count": 5,
-      "avg_total": 72.5
-    },
-    {
-      "id": "africa",
-      "name": "非洲",
-      "count": 3,
-      "avg_total": 70.8
+      "count": 11,
+      "avg_total": 71.1
     },
     {
       "id": "china",
       "name": "中国大陆",
-      "count": 2,
-      "avg_total": 70.9
+      "count": 8,
+      "avg_total": 72.0
+    },
+    {
+      "id": "africa",
+      "name": "非洲",
+      "count": 7,
+      "avg_total": 69.3
+    },
+    {
+      "id": "latam",
+      "name": "拉美",
+      "count": 7,
+      "avg_total": 72.3
     },
     {
       "id": "oceania",
       "name": "大洋洲",
-      "count": 2,
-      "avg_total": 69.2
+      "count": 4,
+      "avg_total": 71.2
     },
     {
       "id": "south-asia",
       "name": "南亚",
-      "count": 2,
-      "avg_total": 68.0
+      "count": 4,
+      "avg_total": 68.1
     },
     {
       "id": "cis",
       "name": "独联体与中亚",
-      "count": 1,
-      "avg_total": 67.7
+      "count": 2,
+      "avg_total": 67.5
     }
   ],
   "by_need": [
     {
-      "id": "control",
-      "name": "掌控与秩序",
-      "count": 23,
-      "avg_total": 71.4
-    },
-    {
       "id": "status",
       "name": "尊重与身份",
-      "count": 21,
-      "avg_total": 70.9
+      "count": 35,
+      "avg_total": 70.5
     },
     {
-      "id": "belonging",
-      "name": "归属与陪伴",
-      "count": 16,
-      "avg_total": 71.3
+      "id": "control",
+      "name": "掌控与秩序",
+      "count": 33,
+      "avg_total": 71.0
     },
     {
       "id": "ease",
       "name": "舒适与省力",
-      "count": 16,
-      "avg_total": 70.4
+      "count": 29,
+      "avg_total": 70.3
+    },
+    {
+      "id": "belonging",
+      "name": "归属与陪伴",
+      "count": 23,
+      "avg_total": 71.1
     },
     {
       "id": "survival",
       "name": "生存与安全",
-      "count": 13,
-      "avg_total": 71.7
+      "count": 17,
+      "avg_total": 70.9
     },
     {
       "id": "health",
       "name": "健康与身体",
-      "count": 10,
-      "avg_total": 70.3
-    },
-    {
-      "id": "meaning",
-      "name": "意义与信仰",
-      "count": 10,
-      "avg_total": 73.3
+      "count": 16,
+      "avg_total": 69.8
     },
     {
       "id": "expression",
       "name": "表达与创造",
-      "count": 8,
-      "avg_total": 71.3
+      "count": 12,
+      "avg_total": 70.9
+    },
+    {
+      "id": "meaning",
+      "name": "意义与信仰",
+      "count": 12,
+      "avg_total": 72.7
     },
     {
       "id": "novelty",
       "name": "新奇与探索",
-      "count": 8,
-      "avg_total": 71.1
+      "count": 12,
+      "avg_total": 70.9
+    },
+    {
+      "id": "nostalgia",
+      "name": "怀旧与记忆",
+      "count": 7,
+      "avg_total": 73.7
     },
     {
       "id": "fairness",
@@ -316,12 +322,6 @@
       "name": "自我实现与成长",
       "count": 5,
       "avg_total": 69.8
-    },
-    {
-      "id": "nostalgia",
-      "name": "怀旧与记忆",
-      "count": 3,
-      "avg_total": 75.4
     }
   ],
   "score_histogram": [
@@ -331,8 +331,8 @@
     0,
     0,
     0,
-    18,
-    28,
+    33,
+    47,
     0,
     0
   ],
@@ -412,27 +412,27 @@
     {
       "date": "2026-10-19",
       "new_count": 0,
-      "active_count": 2,
-      "avg_score": 67.8
+      "active_count": 10,
+      "avg_score": 69.0
     },
     {
       "date": "2026-10-20",
       "new_count": 0,
-      "active_count": 3,
-      "avg_score": 70.0
+      "active_count": 13,
+      "avg_score": 69.7
     },
     {
       "date": "2026-10-21",
       "new_count": 0,
-      "active_count": 2,
-      "avg_score": 72.4
+      "active_count": 9,
+      "avg_score": 70.0
     },
     {
       "date": "2026-10-22",
       "new_count": 0,
-      "active_count": 8,
-      "avg_score": 73.8
+      "active_count": 17,
+      "avg_score": 72.8
     }
   ],
-  "open_window_value_cny": 4180000
+  "open_window_value_cny": 6550000
 }

@@ -1,0 +1,29 @@
+[pipeline] 数据版本 0.6.0 / 基准日 2026-10-22
+[pipeline] 采集完成：27 条原始信号，4/4 个适配器正常
+[pipeline]   · rss                ok    13 条原始信号
+[pipeline]   · reddit             ok    7 条原始信号
+[pipeline]   · google_trends      ok    4 条原始信号
+[pipeline]   · ecommerce_reviews  ok    3 条原始信号
+[pipeline] 归一完成：27 → 27 条信号（有痛点短语 1 条，有趋势序列 4 条）
+[pipeline] 去重完成：27 → 24 条（合并 3 条，重复率 11.1%）
+[pipeline] 评分检查：80 条机会总分/等级/rank_score 与公式一致
+[pipeline] 榜单已生成：day=17 / week=49 / month=57 / year=80 → data/rankings.json（delta_basis=history, history_as_of=2026-10-21）
+[pipeline] 历史快照已写入：data\history\rankings-2026-10-22.json
+[pipeline] 统计已生成：80 条机会 / A 级以上 12 条 / 平均分 70.8 / 开放窗口价值 6550000 元 → data/stats.json
+[pipeline] SQLite 已同步：data\radar.db（221184 bytes） / opportunities=80 evidence=156 rankings_history=468 source_health=8
+[pipeline]   · 提示 opp-local-furusato-nozei-024: verified=true，请确认所有证据 URL 实际可访问
+[pipeline]   · 提示 opp-local-umrah-service-025: verified=true，请确认所有证据 URL 实际可访问
+[pipeline]   · 提示 opp-crossborder-kbeauty-029: verified=true，请确认所有证据 URL 实际可访问
+[pipeline]   · 提示 opp-crossborder-mercadolibre-030: verified=true，请确认所有证据 URL 实际可访问
+[pipeline]   · 提示 opp-manufacturing-shea-butter-031: verified=true，请确认所有证据 URL 实际可访问
+[pipeline]   · 提示 opp-manufacturing-ceramic-pet-memorial-supply-047: verified=true，请确认所有证据 URL 实际可访问
+[pipeline]   · 提示 opp-pet-kr-pet-insurance-claims-048: verified=true，请确认所有证据 URL 实际可访问
+[pipeline]   · 提示 opp-pet-jp-pet-insurance-settlement-049: verified=true，请确认所有证据 URL 实际可访问
+[pipeline]   · 提示 opp-pet-kr-pet-funeral-subscription-050: verified=true，请确认所有证据 URL 实际可访问
+[pipeline]   · 提示 opp-local-jp-inbound-experience-051: verified=true，请确认所有证据 URL 实际可访问
+[pipeline]   · 提示 opp-content-china-guzi-economy-053: verified=true，请确认所有证据 URL 实际可访问
+[pipeline]   · 提示 opp-silver-china-aging-retrofit-054: verified=true，请确认所有证据 URL 实际可访问
+[pipeline]   · 提示 opp-fintech-china-inbound-payment-guide-055: verified=true，请确认所有证据 URL 实际可访问
+[pipeline]   · 提示 opp-content-uae-eid-gifting-057: verified=true，请确认所有证据 URL 实际可访问
+[pipeline]   · 提示 opp-xb-vietnam-tiktok-shop-ops-058: verified=true，请确认所有证据 URL 实际可访问
+[pipeline] 校验完成：20/20 条规则通过

@@ -1,6 +1,6 @@
 {
   "meta": {
-    "data_version": "0.5.1",
+    "data_version": "0.6.0",
     "as_of": "2026-10-22",
     "generated_at": "2026-10-22T18:17:45+08:00",
     "generator": "scanner/fetch.py",

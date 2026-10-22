@@ -855,20 +855,46 @@ class TestYearbook(unittest.TestCase):
             md_path = Path(result["md"])
             self.assertTrue(html_path.exists() and md_path.exists())
             self.assertFalse(result["sample"])
-            self.assertEqual(result["opportunities"], 46)
+            self.assertGreaterEqual(result["opportunities"], 80)  # v0.6.0：机会库 ≥80
             self.assertEqual(result["top20"], 20)
             self.assertGreaterEqual(result["a_grade"], 1)
             self.assertIsNone(result["brier"])
+            # v0.6.0 新指标摘要
+            self.assertEqual(len(result["window_status"]), 4)
+            self.assertEqual(sum(result["window_status"].values()), result["opportunities"])
+            self.assertEqual(len(result["months_left_buckets"]), 5)
+            self.assertEqual(sum(result["months_left_buckets"].values()), result["opportunities"])
+            self.assertEqual(result["monthly_grade_months"], 12)
+            self.assertEqual(result["gap_heat_months"], 12)
             html_text = html_path.read_text(encoding="utf-8")
             md_text = md_path.read_text(encoding="utf-8")
             self.assertIn("年度年鉴", html_text)
             self.assertIn("<style>", html_text)
             self.assertIn("月度时间线", html_text)
+            self.assertIn("月度等级分布", html_text)
+            self.assertIn("信息差热度", html_text)
+            self.assertIn("窗口衰减统计", html_text)
             self.assertIn("规则生成，非投资建议", html_text)
             self.assertIn("免责声明", html_text)
             for label in ("1 月", "10 月", "12 月"):
                 self.assertIn(label, md_text)
             self.assertIn("年榜 Top20", md_text)
+
+    def test_metrics_consistency_and_quota_config(self):
+        """v0.6.0：年鉴指标与数据独立复算一致；V02/V08 新配额常量生效。"""
+        self.assertEqual(config.WINDOW_QUOTAS, {"day": 10, "week": 20, "month": 30, "year": 80})
+        report = yearbook.build_report(self.YEAR, experiments_path=None, sample=False)
+        self.assertEqual(len(report["monthly_grades"]), 12)
+        for row in report["monthly_grades"]:
+            self.assertEqual(sum(row["grades"].values()), row["active"])
+        self.assertEqual(len(report["gap_heat"]), 12)
+        for row in report["gap_heat"]:
+            self.assertLessEqual(len(row["gaps"]), 3)
+        decay = report["window_decay"]
+        self.assertEqual(decay["samples"], report["counts"]["opportunities"])
+        self.assertEqual(sum(decay["by_status"].values()), decay["samples"])
+        self.assertEqual(sum(decay["by_decay"].values()), decay["samples"])
+        self.assertEqual(len(report["suggestions"]), 3)
 
     def test_with_experiments_reuses_calibrate_brier(self):
         sample = config.FIXTURES_DIR / "experiments-sample.json"

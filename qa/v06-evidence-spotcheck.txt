@@ -1,0 +1,7 @@
+== evidence-spotcheck ==
+  · 机会库 80 条；新增 34 条（基线 46）
+  · 抽样 12 条（行业 11 类，verified:true 11 条）
+  · 证据实测：URL 尝试 24 条，可访问 23，引文相符 19；抽检机会中有可核验证据 12/12；verified:true 抽检通过 11
+
+P0 = 0  P1 = 0  P2 = 0
+RESULT: PASS

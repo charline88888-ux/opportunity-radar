@@ -2,6 +2,38 @@
 
 格式：`data_version` + 日期 + 变更内容 + 影响面。契约变更（字段/枚举/公式）必须同步更新 `docs/12-数据契约与字段字典.md` 并通知 Lead、前端、红队。
 
+## data-v0.6.0 · 2026-10-22 · MINOR 增量（机会库 46→80、配额提高、年鉴指标细化）
+
+> 向后兼容：字段不变；数量/覆盖要求与榜单配额提高。机会库 46 → **80 条**（新增 34 条，id 047–080）。
+
+### 机会库扩充（34 条新增，基于 research/cases.md / handoff-to-data.md）
+- **覆盖**（80 条合并后）：14 行业各 ≥2（最少 gaming 2、education 3、culture 3）；11 区域全覆盖；12 类信息差全覆盖；目标国家/地区 **53 个**；中国供应链/中文市场角度 **42 条**；`verified:true` **32 条**（2026-10-22 逐条 HTTP 直连核验 URL 后置 true，含原有 5 条）。
+- **等级分布**：A 12 / B 66 / C 2；均分 70.8；证据总数 156 条（每条 ≥2）。
+- **日期配额**：按 `last_activity` 布置 → day 17 / week 49 / month 57 / year 80（配额 day≥10/week≥20/month≥30/year≥80）。
+- 新增 id（供前端核对）：
+  `opp-manufacturing-ceramic-pet-memorial-supply-047`、`opp-pet-kr-pet-insurance-claims-048`、`opp-pet-jp-pet-insurance-settlement-049`、`opp-pet-kr-pet-funeral-subscription-050`、`opp-local-jp-inbound-experience-051`、`opp-content-jp-oshi-goods-supply-052`、`opp-content-china-guzi-economy-053`、`opp-silver-china-aging-retrofit-054`、`opp-fintech-china-inbound-payment-guide-055`、`opp-xb-saudi-ecommerce-localization-056`、`opp-content-uae-eid-gifting-057`、`opp-xb-vietnam-tiktok-shop-ops-058`、`opp-xb-sea-halal-beauty-supply-059`、`opp-fintech-brazil-pix-payment-060`、`opp-fintech-mexico-cod-oxxo-ops-061`、`opp-green-kenya-payg-solar-channel-062`、`opp-xb-africa-jumia-ops-063`、`opp-xb-india-wedding-supply-064`、`opp-emotional-india-ayurveda-d2c-065`、`opp-compliance-germany-einvoice-service-066`、`opp-compliance-eu-ppwr-epr-packaging-067`、`opp-local-poland-cee-localization-068`、`opp-xb-turkey-ecommerce-localization-069`、`opp-emotional-grief-memoir-service-070`、`opp-ai-etsy-digital-templates-071`、`opp-ai-shopify-app-niche-072`、`opp-manufacturing-west-africa-shea-processing-073`、`opp-green-africa-solar-accessories-074`、`opp-content-japan-anime-pilgrimage-content-075`、`opp-xb-saudi-salla-zid-build-076`、`opp-pet-kr-pet-food-subscription-077`、`opp-silver-jp-senior-digital-care-078`、`opp-content-china-shortdrama-id-l10n-079`、`opp-xb-china-pet-memorial-b2b-080`。
+
+### 配额与校验（V02/V08 按 v0.6.0 契约收紧）
+- **V02**：机会 ≥80、14 行业各 ≥2、11 区域全覆盖、目标国家/地区 ≥50、中国角度 ≥25。
+- **V08**：day ≥10 / week ≥20 / month ≥30 / year ≥80（`config.WINDOW_QUOTAS` 同步提高）。
+- 物化后 `rankings.json` day 17 / week 49 / month 57 / year 80；`stats.kpi`（total_opps 80 / grade_a_plus 12 / verified_count 32 / evidence_total 156）与实际一致。
+- 历史回放重生成：10-20（day13/week23/month31/year54）、10-21（day9/week32/month40/year63）；10-22 真实快照与 rankings 一致。
+
+### 年鉴指标细化（`scanner/yearbook.py`）
+- 新增 **月度等级分布**（S/A/B/C/D × 12 个月）、**信息差热度**（每月 Top3）、**窗口衰减统计**（status/decay/months_left 分桶）、**实验漏斗**（有 `--experiments` 时：总样本→已决→成功率）。
+- 其余保持：年榜 Top20、月度时间线、行业/区域/信息差分布、A 级清单、窗口收尾、评分分布、3 条规则化建议、免责；`generated_at` 确定性。
+- 2026 年鉴实际运行（含样例实验摘要）：80 条机会 / Top20 20 / A 级及以上 12 / 收尾 3 / Brier 0.2338；HTML 27,092 B、MD 12,320 B。
+
+### 版本与复核
+- 全部 data meta 升 **0.6.0**；四窗口报告 8 文件、校准报告、年鉴按 0.6.0 重生成；`radar.db` 重建（80/156/468/8 行）。
+- `--all` exit 0 且**幂等**（data 下所有 JSON + radar.db 连跑两次 SHA256 全一致）；validate **20/20 PASS**；unittest **58/58 OK**（新增年鉴指标/配额测试）。
+- 指纹（SHA256 前 16）：opportunities `88FDA5AB84B7F826`、rankings `DBC3784F4E404AF4`、history-10-20 `32385A95E403A167`、history-10-21 `1CBF6DCD43F6AF89`、history-10-22 `EB54D17C9F6F02F0`、stats `FEDE36584020035F`、source-health `E7DDFDE8DE62E62D`、sources `046E14E942E3AF83`、radar.db `40A02F54FAD02471`、yearbook html `89514DC57EE819EE`、calibration html `701D4CCD9FAFA8A9`。
+
+### 已知不足
+- 新增 34 条为研究底稿改写，证据以公开报道/官网为主；`verified:true` 表示核验日 URL 可打开，不保证长期有效。
+- 部分目标国家/地区仅作市场参考（未逐国做合规尽调）；跨境/宗教/医疗/金融类机会仍须人工合规核查。
+- 榜单 day/week 窗口条数受 `last_activity` 布置影响（当前均超配额），后续每日运行应保持当日新增 6+。
+
 ## data-v0.5.1 · 2026-10-22 · PATCH（AI 富化 provider mock / 在线路径可验证）
 
 > PATCH：只扩展 `scanner/enrich.py` 与版本号；机会库/榜单/历史/source-health 口径不变（JSON 内容仅 meta.data_version 变化）。

@@ -87,7 +87,7 @@ data/opportunities.json  ── score.py/materialize.py 重算 → 回写派生�
 | 文件 | 职责 | 契约依据 |
 |---|---|---|
 | `pipeline.py` | CLI：`--all` 离线全链路、`--replay-as-of/--replay-days` 历史回放、`--fetch`、`--report`、`--db-rebuild` | §5.2 / §1.2 |
-| `config.py` | 路径、数据版本（0.4.0）、as_of、窗口配额、采集参数、source-health 枚举、固定枚举数量、禁词 | §1/§3/§9 |
+| `config.py` | 路径、数据版本（0.6.0）、as_of、窗口配额（v0.6.0：day≥10/week≥20/month≥30/year≥80）、采集参数、枚举、禁词 | §1/§3/§9 |
 | `common.py` | JSON 读写、日期/ISO 周/窗口 key、`round1`（ROUND_HALF_UP）、文本工具 | §2 |
 | `history.py` | 快照写读、上一期查找、回放生成（`build_replay_snapshot`）、快照结构校验；v0.3 回放 `reconstructed=true`/`replay_as_of` | §1.2/§5.1 |
 | `score.py` | 10 维加权 `total`、`grade`、`rank_score`，Decimal 精确计算 | §4.5 |
@@ -99,10 +99,10 @@ data/opportunities.json  ── score.py/materialize.py 重算 → 回写派生�
 | `report.py` | 四窗口报告（自包含 HTML + Markdown），`generated_at` 确定性 | §1.1 |
 | `enrich.py` | AI 富化 outbox：`--provider offline/mock/online`（mock 本地模拟走同一请求/解析流程，不联网）；输出 `enriched-<date>.json` + `REVIEW.md`；token/成本估算、`--limit`、超时重试、缓存标注；`needs_human=true`、永不自动入库、key 不落盘、`--dry-run` | §1.3/§1.5 |
 | `calibrate.py` | 实验校准报告：Brier（docs/04 §12.9.5）、等级×成功率、花费/耗时、建议；输出 `data/reports/calibration-<date>.{html,md}` | §1.3 |
-| `yearbook.py` | 年度年鉴：Top20/月度时间线/分布/A 级清单/窗口收尾/评分分布/可选实验摘要/规则化 3 条方向建议；输出 `data/reports/yearbook-<year>.{html,md}`，`generated_at` 确定性 | §1.4 |
-| `validate.py` | V01–V20；V19 快照/回放规则、V20 source-health v2 收紧 | §9 |
+| `yearbook.py` | 年度年鉴：Top20/月度时间线/月度等级分布/信息差热度/窗口衰减统计/分布/A 级清单/窗口收尾/评分分布/可选实验漏斗+摘要/规则化 3 条方向建议；输出 `data/reports/yearbook-<year>.{html,md}`，`generated_at` 确定性 | §1.4/§1.6 |
+| `validate.py` | V01–V20；**v0.6.0 配额收紧**：V02（≥80 条/14 行业各≥2/11 区域/≥50 国家/中国角度≥25）、V08（day≥10/week≥20/month≥30/year≥80）；V19 快照、V20 source-health v2 | §9 |
 | `adapters/` | `rss` / `reddit` / `google_trends` / `ecommerce_reviews` 离线适配器 | §1/§6 |
-| `tests/test_scanner.py` | 55 条单测：公式/舍入/边界/窗口/榜单/tie-breaker/物化/validate/归一/去重/history delta/回退/回放链与幂等/source-health 合法-非法/报告/SQLite/feed 解析/红源筛选/enrich offline+mock+本地HTTP+失败回退+缓存/calibrate Brier+边界/yearbook 5 类 | docs/04 §10.4 |
+| `tests/test_scanner.py` | 58 条单测：公式/舍入/边界/窗口/榜单/tie-breaker/物化/validate/归一/去重/history delta/回退/回放链与幂等/source-health/报告/SQLite/feed 解析/红源筛选/enrich offline+mock+本地HTTP+失败回退+缓存/calibrate Brier+边界/yearbook 6 类（含 v0.6.0 指标与配额测试） | docs/04 §10.4 |
 
 ## 4. 历史快照、回放与真实 delta（v0.3.0）
 
@@ -127,7 +127,7 @@ data/opportunities.json  ── score.py/materialize.py 重算 → 回写派生�
 
 ## 6. 校验规则与退出码
 
-- `validate.py` 实现 V01–V20：**V19**（所有历史快照结构合法、`snapshot_at` 日期对齐、回放必须有 `replay_as_of`、最新快照=当日真实快照且与 rankings 一致）；**V20**（source-health：`mode` 枚举、`cached=true → mode=cache 且 latency=0`、`http_status` int/null、`ok=false` 必须有非空 `error`、`meta.mode` 合法）。
+- `validate.py` 实现 V01–V20：**v0.6.0 配额收紧**——V02（机会 ≥80、14 行业各 ≥2、11 区域全覆盖、目标国家/地区 ≥50、中国供应链/中文市场角度 ≥25）、V08（day ≥10 / week ≥20 / month ≥30 / year ≥80）；**V19**（所有历史快照结构合法、`snapshot_at` 日期对齐、回放必须有 `replay_as_of`、最新快照=当日真实快照且与 rankings 一致）；**V20**（source-health：`mode` 枚举、`cached=true → mode=cache 且 latency=0`、`http_status` int/null、`ok=false` 必须有非空 `error`、`meta.mode` 合法）。
 - 任一失败 → 退出码 1；附加提示（标题长度、verified 复查提醒）不影响退出码。
 - 评分容差 ±0.05；`total/rank_score` 用 Decimal `ROUND_HALF_UP`。
 
@@ -152,11 +152,11 @@ data/opportunities.json  ── score.py/materialize.py 重算 → 回写派生�
 - **Brier**：`p = clamp(total/100, 0.01, 0.99)`；`o = positive→1 / negative→0`；`inconclusive`/未匹配/无评分排除；`Brier = mean((p−o)²)`；基线 0.25；样本 <3 显示「样本不足」。
 - 报告含样本数/结果分布/等级×成功率/花费/耗时/建议/免责；`--sample` 在报告顶部标注「样例数据（sample）」。
 
-## 8. 年度年鉴（v0.5.0）
+## 8. 年度年鉴（v0.5.0，v0.6.0 指标细化）
 
 - `python scanner/yearbook.py --year 2026 [--experiments <export.json>] [--sample] [--out-dir]` → `data/reports/yearbook-<year>.html/.md`（HTML 自包含可打印）。
-- 内容：年榜 Top20（等级/行业/区域/窗口）、月度时间线（按 `activity_dates` 聚合，无活动月份显示 0，含行业/信息差 Top2 主题）、行业/区域/信息差/等级/窗口状态分布、A 级清单（≥75）、窗口收尾或 ≤3 个月机会、评分分布（CSS 条形）、可选实验摘要（复用 `calibrate.py` 的 `load_export/build_records/compute_brier/spend_hours`）、规则化「年度 3 个方向建议」（标注「规则生成，非投资建议」）、免责。
-- `generated_at` 固定为 `as_of + T00:00:00+08:00`，双跑字节一致（幂等）；无实验/有实验/空年份/非法实验 JSON 均有单测覆盖。2026 年鉴关键统计：46 条机会 / Top20 20 / A 级 11 / 收尾 0；带样例实验摘要 Brier 0.2338（sample 标注）。
+- 内容：年榜 Top20（等级/行业/区域/窗口）、月度时间线（按 `activity_dates` 聚合，无活动月份显示 0，含行业/信息差 Top2 主题）、**v0.6.0 新增：月度等级分布（S/A/B/C/D）、信息差热度（每月 Top3）、窗口衰减统计（status/decay/months_left 分桶）、实验漏斗（总样本→已决→成功率）**、行业/区域/信息差/等级/窗口状态分布、A 级清单（≥75）、窗口收尾或 ≤3 个月机会、评分分布（CSS 条形）、可选实验摘要（复用 `calibrate.py` 的 `load_export/build_records/compute_brier/spend_hours`）、规则化「年度 3 个方向建议」（标注「规则生成，非投资建议」）、免责。
+- `generated_at` 固定为 `as_of + T00:00:00+08:00`，双跑字节一致（幂等）；无实验/有实验/空年份/非法实验 JSON/指标一致性均有单测覆盖。2026 年鉴关键统计：80 条机会 / Top20 20 / A 级 12 / 收尾 3 / Brier 0.2338（样例实验，sample 标注）；窗口衰减 open 63 / peak 14 / closing 3。
 
 ## 9. 已知限制
 

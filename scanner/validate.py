@@ -190,16 +190,37 @@ def _v01(ctx: dict[str, Any]) -> str:
 
 # ---------------------------------------------------------------- V02
 def _v02(ctx: dict[str, Any]) -> str:
+    """v0.6.0：机会库配额提高——≥80 条、14 行业各 ≥2、11 区域全覆盖、
+    目标国家/地区 ≥50、中国供应链/中文市场角度 ≥25。"""
     opportunities = _opps(ctx)
     taxonomy = _taxonomy(ctx)
-    _require(len(opportunities) >= 40, f"机会数 {len(opportunities)} < 40")
+    _require(len(opportunities) >= 80, f"机会数 {len(opportunities)} < 80")
     industries = {opp["industry_id"] for opp in opportunities}
     expected = {item["id"] for item in taxonomy["industries"]}
     missing = expected - industries
     _require(not missing, f"行业覆盖缺失：{sorted(missing)}")
+    counts = {industry: 0 for industry in expected}
+    for opp in opportunities:
+        counts[opp["industry_id"]] = counts.get(opp["industry_id"], 0) + 1
+    thin = sorted(industry for industry, count in counts.items() if count < 2)
+    _require(not thin, f"行业条数 <2：{thin}（{ {k: counts[k] for k in thin} }）")
     regions = {region for opp in opportunities for region in opp.get("region_ids", [])}
-    _require(len(regions) >= 10, f"区域覆盖 {len(regions)} < 10")
-    return f"{len(opportunities)} 条机会 / 14 行业 / {len(regions)} 区域"
+    region_domain = {item["id"] for item in taxonomy["regions"]}
+    _require(set(regions) == region_domain, f"区域覆盖不完整：缺 {sorted(region_domain - regions)}")
+    countries = {country for opp in opportunities for country in opp.get("target_countries", [])}
+    _require(len(countries) >= 50, f"目标国家/地区 {len(countries)} < 50")
+    china_angle = sum(
+        1
+        for opp in opportunities
+        if opp.get("origin_country") == "中国"
+        or "china" in (opp.get("region_ids") or [])
+        or "china-advantage" in (opp.get("tags") or [])
+    )
+    _require(china_angle >= 25, f"中国供应链/中文市场角度 {china_angle} < 25")
+    return (
+        f"{len(opportunities)} 条机会 / 14 行业各 ≥2 / {len(regions)} 区域 / "
+        f"{len(countries)} 国家地区 / 中国角度 {china_angle}"
+    )
 
 
 # ---------------------------------------------------------------- V03

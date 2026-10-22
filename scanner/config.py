@@ -27,7 +27,7 @@ CALENDAR_PATH = DATA_DIR / "calendar.json"
 SOURCE_HEALTH_PATH = DATA_DIR / "source-health.json"
 DB_PATH = DATA_DIR / "radar.db"
 
-DATA_VERSION = "0.5.1"
+DATA_VERSION = "0.6.0"
 DEFAULT_AS_OF = "2026-10-22"
 CURRENT_WEEK = "2026-W43"
 CURRENT_MONTH = "2026-10"
@@ -61,8 +61,8 @@ LLM_PRICE_INPUT_PER_1K_USD = 0.00015
 LLM_PRICE_OUTPUT_PER_1K_USD = 0.0006
 LLM_PROVIDERS = {"offline", "mock", "online"}
 
-# 榜单配额（契约 5.1）
-WINDOW_QUOTAS = {"day": 6, "week": 12, "month": 20, "year": 40}
+# 榜单配额（契约 5.1，v0.6.0 配额提高）
+WINDOW_QUOTAS = {"day": 10, "week": 20, "month": 30, "year": 80}
 
 # 窗口展示标签模板
 WINDOW_LABELS = {

@@ -90,9 +90,19 @@ const ROADMAP = [
 
 const HISTORY = [
   {
-    version: 'v0.5.1',
+    version: 'v0.6.0',
     date: '2026-10-22',
     tag: '当前版本',
+    items: [
+      '适配 80+ 机会库：四窗口、筛选、详情、推荐、预警、校准与年鉴在更大库上验证；新增「国家/地区覆盖」KPI（目标 ≥50）',
+      '年鉴新增指标：月度等级分布、信息差月度热度、窗口衰减统计、实验漏斗/成功率；与后端 yearbook.py 指标口径对齐',
+      'i18n 新文案双语收尾；About 升 v0.6.0；数据侧 0.6.0 配额与版本同步',
+    ],
+  },
+  {
+    version: 'v0.5.1',
+    date: '2026-10-22',
+    tag: '上一版本',
     items: [
       '/yearbook 分数口径修正：「年榜第 1 名总分」（rank1.total=77.4）与「年度最高总分」（max(total)=78.6）分列，并加 tooltip/说明',
       '/data 新增可选口令加密导出：PBKDF2-SHA256(210000) + AES-GCM-256，随机 salt/iv，外层 schema 0.5.1；导入自动识别明文/加密，错误口令/损坏密文/旧版本明确提示且不应用',
@@ -193,7 +203,12 @@ const EN_DOCS: Array<[string, string, string]> = [
 ]
 
 const EN_HISTORY = [
-  { version: 'v0.5.1', date: '2026-10-22', tag: 'Current', items: [
+  { version: 'v0.6.0', date: '2026-10-22', tag: 'Current', items: [
+    '80+ opportunity library: validated rankings, filters, detail, recommendations, alerts, calibration, and yearbook at larger scale; new “Countries / regions” KPI (target ≥50)',
+    'Yearbook metrics: monthly grade mix, monthly gap heat, window decay stats, experiment funnel/success rate; aligned with backend yearbook.py',
+    'i18n bilingual wrap-up; About v0.6.0; data 0.6.0 quota/version synced',
+  ]},
+  { version: 'v0.5.1', date: '2026-10-22', tag: 'Previous', items: [
     'Yearbook score labels corrected: “Rank 1 total” (rank1.total=77.4) and “Year max total” (max(total)=78.6), with tooltips/notes',
     'Optional password-encrypted data bundle export: PBKDF2-SHA256(210000) + AES-GCM-256, random salt/iv, outer schema 0.5.1; import auto-detects plain/encrypted, rejects wrong password/corrupt ciphertext/old versions',
     'Password stays in memory only, never stored or uploaded; forgotten passwords are unrecoverable; plaintext bundle upgrades to 0.5.1 and remains importable',
@@ -291,13 +306,13 @@ function AboutEn() {
             </a>
           </div>
           <div className="mt-2 rounded border border-signal/20 bg-signal/[0.03] px-2.5 py-2">
-            <div className="mono-label text-signal">v0.5.1 changes</div>
+            <div className="mono-label text-signal">v0.6.0 changes</div>
             <div className="mt-0.5 text-[10.5px] leading-relaxed text-muted">
-              Yearbook score labels corrected (rank1.total vs max(total)) · optional password-encrypted data bundle (PBKDF2-SHA256 210k + AES-GCM-256, schema 0.5.1) · auto-detect plain/encrypted import with wrong-password/corrupt/old-version errors · i18n polish · version 0.5.1.
+              80+ opportunity library validated across rankings/detail/recommendations/alerts/calibration/yearbook · new countries/regions KPI · yearbook monthly grade/gap heat/window decay/experiment funnel · i18n polish · version 0.6.0.
             </div>
           </div>
           <div className="mt-2 rounded border border-amber/25 bg-amber/[0.04] px-2.5 py-2 text-[10.5px] leading-relaxed text-amber">
-            Bilingual note: all static UI strings switch between Chinese and English. Opportunity content (titles, one-liners, evidence, seven Q&A) intentionally remains Chinese in v0.5.1 and is marked in the UI. Switching language does not reload the page or reset routes, filters, or profile state.
+            Bilingual note: all static UI strings switch between Chinese and English. Opportunity content (titles, one-liners, evidence, seven Q&A) intentionally remains Chinese in v0.6.0 and is marked in the UI. Switching language does not reload the page or reset routes, filters, or profile state.
           </div>
           <div className="mt-3 rounded border border-line/70 bg-black/20 px-2.5 py-2 font-mono text-[10px] leading-relaxed text-dim">
             <div>sync: node app/scripts/sync-data.mjs --strict</div>
@@ -459,9 +474,9 @@ export default function About() {
             </a>
           </div>
           <div className="mt-2 rounded border border-signal/20 bg-signal/[0.03] px-2.5 py-2">
-            <div className="mono-label text-signal">v0.5.1 本轮变更</div>
+            <div className="mono-label text-signal">v0.6.0 本轮变更</div>
             <div className="mt-0.5 text-[10.5px] leading-relaxed text-muted">
-              /yearbook 分数口径修正（年榜第 1 名总分 vs 年度最高总分，附 tooltip）· /data 可选口令加密备份（PBKDF2-SHA256 210k + AES-GCM-256，schema 0.5.1；自动识别明文/加密，错误口令/损坏码/旧版不应用）· i18n 收尾 · 版本 0.5.1。
+              适配 80+ 机会库（榜单/详情/推荐/预警/校准/年鉴）· 新增「国家/地区覆盖」KPI · 年鉴新增月度等级分布、信息差热度、窗口衰减、实验漏斗 · i18n 收尾 · 版本 0.6.0。
             </div>
           </div>
           <div className="mt-2 rounded border border-amber/25 bg-amber/[0.04] px-2.5 py-2 text-[10.5px] leading-relaxed text-amber">
