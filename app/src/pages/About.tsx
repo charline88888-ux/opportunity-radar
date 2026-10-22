@@ -28,6 +28,7 @@ import {
   calendarEvents,
   dataAsOf,
   dataMeta,
+  historyBasisReplayLabel,
   historyMeta,
   isMockData,
   onlineUrl,
@@ -35,6 +36,8 @@ import {
   playbooks,
   rankingsDeltaBasis,
   rankingsHistoryAsOf,
+  rankingsHistoryReplayAsOf,
+  rankingsHistoryReconstructed,
   rankingsTieBreaker,
   repoUrl,
   sourceHealth,
@@ -56,7 +59,7 @@ const DOCS = [
   ['09', '风险合规与红队清单', '合规红线、红色风险与发布 checklist'],
   ['10', '版本与发布管理', '版本冻结、回滚与 releases 规则'],
   ['11', '补充清单 · 40 件事', '容易踩的坑与放大器'],
-  ['12', '数据契约与字段字典', '唯一数据接口标准（data-v0.2.0，含 history/source-health 增量）'],
+  ['12', '数据契约与字段字典', '唯一数据接口标准（data-v0.3.0，含 history 回放 / source-health v2 增量）'],
 ]
 
 const STACK = [
@@ -72,32 +75,46 @@ const STACK = [
   ['数据', '构建期同步 ../data/*.json → src/data/，无运行时请求'],
   ['离线', 'vite-plugin-singlefile 单文件 dist（file:// 双击可用）'],
   ['实验', 'localStorage 实验记录 + Blob 报告/机会卡导出'],
+  ['推荐', '7 维画像 × 机会需求向量 → fit / rec_score / MMR'],
+  ['预警', '本地规则引擎 + localStorage 已读/忽略'],
 ]
 
 const ROADMAP = [
-  { version: 'v0.3.0', title: '扫描自动化（规划）', items: ['本地代理接入公开 API', '--fetch 信号人工审核工作流', '机会订阅与提醒', '评分回测与校准看板'] },
-  { version: 'v0.4.0', title: '协作与多语言（规划）', items: ['多语言数据源适配', '团队共享只读快照', '移动端完整适配', '插件化数据源'] },
+  { version: 'v0.4.0', title: '扫描自动化（规划）', items: ['--fetch 信号人工审核工作流', '机会订阅与提醒', '评分回测与校准增强', '本地代理接入公开 API'] },
+  { version: 'v0.5.0', title: '协作与多语言（规划）', items: ['多语言数据源适配', '团队共享只读快照', '移动端完整适配', '插件化数据源'] },
   { version: 'v1.0.0', title: '稳定契约与生态', items: ['数据契约 1.0 冻结', '发布流程自动化', '历史趋势与回测数据库', '公开数据源适配器市场'] },
 ]
 
 const HISTORY = [
   {
-    version: 'v0.2.0',
+    version: 'v0.3.0',
     date: '2026-10-22',
     tag: '当前版本',
     items: [
-      '新增第 9 个路由 /lab 实验台：localStorage 实验 CRUD、统计、复盘周期、JSON/Markdown 导出',
-      '详情页实验状态卡（加入/更新/结案）+ Markdown 机会卡复制与下载 + 本周报告导出',
-      '榜单页/详情页浏览器端报告导出（Markdown + 自包含可打印 HTML，Blob 下载）',
-      '接入 data-v0.2.0：rankings.meta.delta_basis/history_as_of、history 快照、source-health 可选数据',
+      '新增 /profile 个人画像：3 步向导 + 5 预设 + localStorage，7 维能力向量',
+      '推荐引擎 lib/recommend.ts：需求向量 + 硬约束 + fit + rec_score=0.6×total+0.4×fit×100 + MMR + 双解释',
+      '排行榜新增「为你推荐」模式；指挥台显示画像摘要、推荐 Top3 与预警数',
+      '新增 /alerts 预警中心：窗口关闭 / 实验超期 / 采集源失败 / 未核验证据 / 高匹配未行动',
+      '新增 /calibration 回测校准：实验 outcome 与预测等级 join，成功率 / 花费 / 分桶 / 校准建议 / 导出',
+      '数据接入 v0.3：source-health v2（mode/latency/error/cached）、历史回放快照与真实 delta（较上一快照）',
+    ],
+  },
+  {
+    version: 'v0.2.0',
+    date: '2026-10-22',
+    tag: '上一版本',
+    items: [
+      '新增 /lab 实验台：localStorage 实验 CRUD、统计、复盘周期、JSON/Markdown 导出',
+      '详情页实验状态卡 + Markdown 机会卡复制与下载 + 本周报告导出',
+      '榜单页/详情页浏览器端报告导出（Markdown + 自包含可打印 HTML）',
+      '接入 data-v0.2.0：rankings.meta.delta_basis/history_as_of、history 快照、source-health',
       'P2 修复：1024 卡片栅格、Dashboard「新上榜」口径文案、榜单 delta 口径标签',
-      'About 升级 v0.2.0：GitHub 仓库 / GitHub Pages 线上版链接、路线图与版本历史',
     ],
   },
   {
     version: 'v0.1.0',
     date: '2026-10-22',
-    tag: '上一版本',
+    tag: '历史版本',
     items: [
       '8 个路由：指挥台 / 排行榜 / 机会详情 / 扫描室 / 方法论 / 数据源 / 日历 / 关于',
       '数据契约 data-v0.1.0：taxonomy / opportunities / rankings / stats / sources / playbooks / calendar',
@@ -118,10 +135,10 @@ export default function About() {
   return (
     <div>
       <PageHeader
-        index="08"
+        index="11"
         kicker="ABOUT · 关于"
         title="关于机会雷达"
-        description="本地优先的个人商机研究工具：用「人性需求信号 + 文化差异信号」发现全世界的赚钱信息差，按日 / 周 / 月 / 年榜单交付，并为每个机会强制回答商业驱动七问。v0.2.0 起支持 7 天实验台、报告导出与历史快照口径。"
+        description="本地优先的个人商机研究工具：用「人性需求信号 + 文化差异信号」发现全世界的赚钱信息差，按日 / 周 / 月 / 年榜单交付，并为每个机会强制回答商业驱动七问。v0.3.0 起支持个人画像、为你推荐、预警中心与截图/实验回测校准。"
         actions={
           <div className="flex flex-wrap items-center gap-2">
             <Badge tone="signal"><PackageCheck className="h-3 w-3" /> v{appVersion}</Badge>
@@ -158,7 +175,7 @@ export default function About() {
               { label: '数据源', value: allSources.length },
               { label: '扫描剧本', value: playbooks.length },
               { label: '日历节点', value: calendarEvents.length },
-              { label: '历史快照', value: historyMeta.available ? historyMeta.count : '未提供' },
+              { label: '历史快照', value: historyMeta.available ? `${historyMeta.count}${historyMeta.snapshots.some((s) => s.reconstructed) ? `（回放 ${historyMeta.snapshots.filter((s) => s.reconstructed).length}）` : ''}` : '未提供' },
               { label: '采集健康', value: sourceHealth.available ? `${sourceHealth.ok_count}/${sourceHealth.total} ok` : '未提供' },
             ].map((x) => (
               <div key={x.label} className="flex items-baseline justify-between rounded border border-line/70 px-2.5 py-1.5">
@@ -186,9 +203,9 @@ export default function About() {
             </a>
           </div>
           <div className="mt-2 rounded border border-signal/20 bg-signal/[0.03] px-2.5 py-2">
-            <div className="mono-label text-signal">v0.2.0 本轮变更</div>
+            <div className="mono-label text-signal">v0.3.0 本轮变更</div>
             <div className="mt-0.5 text-[10.5px] leading-relaxed text-muted">
-              /lab 实验台（localStorage CRUD + 统计 + 导出）· 详情页实验状态与 Markdown 机会卡 · 榜单/详情报告导出 · history 快照与 delta_basis 口径 · source-health 可选接入 · 1024 栅格与「新上榜」P2 修复。
+              /profile 个人画像与 7 维能力向量 · 推荐引擎（fit + rec_score + MMR + 双解释）· 排行榜「为你推荐」· /alerts 预警中心 · /calibration 回测校准（outcome × 预测等级）· source-health v2 展示 · 历史回放与真实 delta 口径。
             </div>
           </div>
           <div className="mt-3 rounded border border-line/70 bg-black/20 px-2.5 py-2 font-mono text-[10px] leading-relaxed text-dim">
@@ -206,8 +223,8 @@ export default function About() {
           <div className="space-y-1.5">
             {[
               ['data/*.json', '7 个核心 JSON 必须为真实数据（strict）'],
-              ['data/history/rankings-*.json', '可选：历史快照 → delta_basis=history'],
-              ['data/source-health.json', '可选：在线采集健康 → Dashboard / 本页'],
+              ['data/history/rankings-*.json', '可选：真实快照 + 历史回放（reconstructed）→ delta_basis'],
+              ['data/source-health.json', '可选：v2 采集健康（mode / error / latency / cached）'],
               ['scripts/sync-data.mjs', '同步 + 契约自检；可选缺失不阻塞 strict'],
               ['src/data/*.json', '前端唯一 import 目录（构建期生成）'],
               ['app/dist/index.html', '单文件离线产物，HashRouter + base ./'],
@@ -221,25 +238,47 @@ export default function About() {
               </div>
             ))}
           </div>
-          <div className="mt-2 grid grid-cols-1 gap-1 rounded border border-line/70 bg-white/[0.015] px-2 py-1.5 text-[10px] sm:grid-cols-3">
+          <div className="mt-2 grid grid-cols-1 gap-1 rounded border border-line/70 bg-white/[0.015] px-2 py-1.5 text-[10px] sm:grid-cols-4">
             <div className="flex items-center gap-1">
               <History className="h-3 w-3 text-cyan" />
               <span className="text-dim">快照</span>
               <span className="num text-muted">{historyMeta.count}</span>
             </div>
             <div className="flex items-center gap-1">
+              <History className="h-3 w-3 text-amber" />
+              <span className="text-dim">回放</span>
+              <span className="num text-muted">{historyMeta.snapshots.filter((s) => s.reconstructed).length}</span>
+            </div>
+            <div className="flex items-center gap-1">
               <Database className="h-3 w-3 text-signal" />
               <span className="text-dim">采集</span>
-              <span className="text-muted">{sourceHealth.available ? `${sourceHealth.ok_count}/${sourceHealth.total} ok` : '可选未提供'}</span>
+              <span className="text-muted">{sourceHealth.available ? `${sourceHealth.ok_count}/${sourceHealth.total} ok · ${sourceHealth.mode || '—'}` : '可选未提供'}</span>
             </div>
             <div className="flex items-center gap-1">
               <Database className="h-3 w-3 text-amber" />
               <span className="text-dim">口径</span>
-              <span className="text-muted">{rankingsDeltaBasis === 'history' ? '较上一快照' : '相邻窗口'}</span>
+              <span className="text-muted">{rankingsDeltaBasis === 'history' ? `较上一快照（${rankingsHistoryAsOf || '—'}）` : '相邻窗口'}</span>
             </div>
           </div>
+          {historyBasisReplayLabel && (
+            <div className="mt-1 flex flex-wrap items-center gap-1.5 font-mono text-[9px] text-dim">
+              <Badge tone="amber">{historyBasisReplayLabel}</Badge>
+              <span>上一份快照为历史回放（replay_as_of {rankingsHistoryReplayAsOf || '—'}），仅用于补足 delta 演示与历史对照。</span>
+            </div>
+          )}
           {rankingsDeltaBasis === 'history' && rankingsHistoryAsOf && (
             <div className="mt-1 font-mono text-[9px] text-dim">history_as_of = {rankingsHistoryAsOf} · tie_breaker = {rankingsTieBreaker || 'rank_score → momentum → evidence_count → last_activity → opp_id'}</div>
+          )}
+          {historyMeta.snapshots.length > 0 && (
+            <div className="mt-1 flex flex-wrap gap-1">
+              {historyMeta.snapshots.map((s) => (
+                <span key={s.file} className={cn('inline-flex items-center gap-1 rounded border px-1.5 py-0.5 font-mono text-[9px]', s.reconstructed ? 'border-amber/30 text-amber' : 'border-line/70 text-dim')} title={s.file}>
+                  {s.date}
+                  {s.reconstructed ? ' · 回放' : ' · 实采'}
+                  {s.delta_basis ? ` · ${s.delta_basis}` : ''}
+                </span>
+              ))}
+            </div>
           )}
           <div className="mt-2 border-t border-line/70 pt-2">
             <div className="mb-1 flex items-center justify-between">
@@ -314,22 +353,33 @@ export default function About() {
               <>
                 <div className="mb-2 flex flex-wrap items-center gap-2 text-[10.5px]">
                   <Badge tone={sourceHealth.fail_count ? 'amber' : 'signal'}>成功 {sourceHealth.ok_count}/{sourceHealth.total}</Badge>
+                  <Badge tone="cyan">mode {sourceHealth.mode || '—'}</Badge>
                   <span className="font-mono text-[9.5px] text-dim">{sourceHealth.checked_at || '—'}</span>
-                  <span className="ml-auto text-[9.5px] text-dim">来源 data/source-health.json（可选）</span>
+                  <span className="ml-auto text-[9.5px] text-dim">来源 data/source-health.json（v2 可选）</span>
                 </div>
-                <div className="max-h-[190px] space-y-1 overflow-auto">
+                <div className="max-h-[260px] space-y-1 overflow-auto">
                   {sourceHealth.sources.map((s) => (
-                    <div key={s.id} className="flex items-center gap-2 rounded border border-line/70 px-2 py-1 text-[10px]">
-                      <span className={cn('h-1.5 w-1.5 shrink-0 rounded-full', s.ok ? 'bg-signal' : 'bg-danger')} />
-                      <span className="min-w-0 flex-1 truncate text-muted">{s.name || s.id}</span>
-                      <span className="font-mono text-[9px] text-dim">{s.http_status ?? '—'}</span>
-                      <span className="font-mono text-[9px] text-dim">{s.items != null ? `${s.items} items` : ''}</span>
-                      <Badge tone={s.ok ? 'signal' : 'danger'}>{s.ok ? 'OK' : 'FAIL'}</Badge>
+                    <div key={s.id} className="rounded border border-line/70 px-2 py-1 text-[10px]">
+                      <div className="flex items-center gap-2">
+                        <span className={cn('h-1.5 w-1.5 shrink-0 rounded-full', s.ok ? 'bg-signal' : 'bg-danger')} />
+                        <span className="min-w-0 flex-1 truncate text-muted">{s.name || s.id}</span>
+                        <span className="rounded border border-line/60 px-1 py-0.5 font-mono text-[8.5px] text-dim">{s.mode || '—'}</span>
+                        <span className="font-mono text-[9px] text-dim">{s.http_status ?? '—'}</span>
+                        <span className="font-mono text-[9px] text-dim">{s.latency_ms != null ? `${s.latency_ms}ms` : '—'}</span>
+                        <span className="font-mono text-[9px] text-dim">{s.items != null ? `${s.items} items` : ''}</span>
+                        {s.cached && <span className="font-mono text-[8.5px] text-cyan">cached</span>}
+                        <Badge tone={s.ok ? 'signal' : 'danger'}>{s.ok ? 'OK' : 'FAIL'}</Badge>
+                      </div>
+                      {!s.ok && (
+                        <div className="mt-0.5 pl-3.5 font-mono text-[9px] leading-relaxed text-danger/90" title={String(s.error || '')}>
+                          error：{String(s.error || '未返回可用内容')}
+                        </div>
+                      )}
                     </div>
                   ))}
                 </div>
                 <div className="mt-1 text-[9.5px] leading-relaxed text-dim">
-                  <span className="font-mono text-muted">pipeline.py --fetch</span> 会限速抓取公开 RSS 并写入 scanner/outbox 供人工复核；不自动进入机会库。
+                  <span className="font-mono text-muted">pipeline.py --fetch</span> 会限速抓取公开 RSS 并写入 scanner/outbox 供人工复核；不自动进入机会库。失败源必须给出可复核的 error 原因。
                 </div>
               </>
             ) : (

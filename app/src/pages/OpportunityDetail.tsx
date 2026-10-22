@@ -54,6 +54,7 @@ import {
   gapName,
   getOppRanks,
   gradeName,
+  historyBasisReplayLabel,
   industryColor,
   industryName,
   lookups,
@@ -64,6 +65,7 @@ import {
   oppBySlug,
   rankingsDeltaBasis,
   rankingsHistoryAsOf,
+  rankingsHistoryReplayAsOf,
   regionName,
   relatedOpportunities,
   tagName,
@@ -359,6 +361,14 @@ export default function OpportunityDetail() {
           >
             榜单口径：{deltaBasisLabel}
           </span>
+          {historyBasisReplayLabel && (
+            <span
+              className="rounded border border-amber/40 bg-amber/10 px-1.5 py-0.5 font-mono text-[10px] text-amber"
+              title={`上一份快照为历史回放（replay_as_of ${rankingsHistoryReplayAsOf || '—'}），仅用于补足 delta 演示与历史对照`}
+            >
+              {historyBasisReplayLabel}
+            </span>
+          )}
           <span className="font-mono text-[10px] text-dim">WINDOW</span>
           <span className="rounded border px-1.5 py-0.5 font-mono text-[10px]" style={{ color: WINDOW_STATUS_HEX[opp.window.status], borderColor: `${WINDOW_STATUS_HEX[opp.window.status]}55`, background: `${WINDOW_STATUS_HEX[opp.window.status]}14` }}>
             {WINDOW_STATUS_LABEL[opp.window.status]} · {opp.window.months_left}M · {DECAY_LABEL[opp.window.decay]}

@@ -1,9 +1,11 @@
-"""历史快照（data/history/rankings-<date>.json）读写与上一期查找。
+"""历史快照（data/history/rankings-<date>.json）读写、上一期查找与历史回放。
 
-v0.2.0：每次 `pipeline.py --all` 按 as_of 写一份快照（同日覆盖），
-下一步运行若存在更早快照，则 delta 用「上一快照同窗口名次」计算。
-快照内容 = rankings.json + meta.snapshot_at（逻辑时间，确定性）+ meta.reconstructed=false，
-因此同日重复运行内容完全一致（幂等）。
+data-v0.3.0：
+- 真实每日快照：`--all` 按 as_of 写一份，`meta.reconstructed=false`；
+- 历史回放快照：`--replay-as-of <date> --replay-days N` 生成确定性回放，
+  `meta.reconstructed=true`、`meta.replay_as_of=<date>`，只按当日窗口规则重排现有机会
+  （仅纳入 last_activity ≤ 回放日的机会，不新增/不修改机会库）；
+- `meta.snapshot_at` 为确定性逻辑时间（`<date>T00:00:00+08:00`），同日重复生成字节一致（幂等）。
 """
 from __future__ import annotations
 
@@ -22,16 +24,57 @@ def snapshot_path(day: date, history_dir: Path | None = None) -> Path:
     return (history_dir or config.HISTORY_DIR) / f"{FILENAME_PREFIX}{day.isoformat()}.json"
 
 
-def write_snapshot(rankings: dict[str, Any], as_of: date, history_dir: Path | None = None) -> Path:
-    """写入（覆盖）as_of 当天的榜单快照；内容确定，重复运行字节一致。"""
+def write_snapshot(
+    rankings: dict[str, Any],
+    as_of: date,
+    history_dir: Path | None = None,
+    *,
+    reconstructed: bool = False,
+) -> Path:
+    """写入（覆盖）as_of 当天快照；内容确定，重复运行字节一致。
+
+    reconstructed=True 表示历史回放（v0.3.0），必须带 meta.replay_as_of。
+    """
     snapshot = deepcopy(rankings)
     meta = snapshot.setdefault("meta", {})
     meta["snapshot_at"] = f"{as_of.isoformat()}{config.SNAPSHOT_TIME_SUFFIX}"
-    meta["reconstructed"] = False
+    meta["reconstructed"] = bool(reconstructed)
     meta["data_version"] = config.DATA_VERSION
+    if reconstructed:
+        meta["replay_as_of"] = as_of.isoformat()
+    else:
+        meta.pop("replay_as_of", None)
     path = snapshot_path(as_of, history_dir)
     dump_json(path, snapshot)
     return path
+
+
+def build_replay_snapshot(
+    opportunities: list[dict[str, Any]],
+    replay_date: date,
+    history_dir: Path | None = None,
+) -> tuple[Path, dict[str, Any]]:
+    """生成单个历史回放快照（确定性）。
+
+    - 只纳入 `last_activity <= replay_date` 的机会，避免「未来信号」进入回放；
+    - 上一期取严格早于 replay_date 的最近快照（回放可按日期顺序链式生成）；
+    - 不写回 data/opportunities.json、不改变评分与排序规则。
+    """
+    from . import rank  # 延迟导入，避免模块级循环依赖
+
+    available = [
+        opp
+        for opp in opportunities
+        if str(opp.get("last_activity", "")) <= replay_date.isoformat()
+    ]
+    previous = find_previous_snapshot(replay_date, history_dir)
+    rankings = rank.build_rankings(
+        available,
+        replay_date,
+        previous_snapshot=previous[1] if previous else None,
+    )
+    path = write_snapshot(rankings, replay_date, history_dir, reconstructed=True)
+    return path, rankings
 
 
 def _snapshot_date(path: Path) -> date | None:
@@ -79,33 +122,59 @@ def snapshot_rank_maps(snapshot: dict[str, Any]) -> dict[str, dict[str, int]]:
 
 def snapshot_summary(history_dir: Path | None = None) -> dict[str, Any]:
     snapshots = list_snapshots(history_dir)
-    latest = snapshots[-1] if snapshots else None
+    rows = []
+    for day, path in snapshots:
+        snapshot = load_json(path)
+        meta = snapshot.get("meta") or {}
+        rows.append(
+            {
+                "date": day.isoformat(),
+                "reconstructed": bool(meta.get("reconstructed")),
+                "delta_basis": meta.get("delta_basis"),
+                "history_as_of": meta.get("history_as_of"),
+            }
+        )
     return {
-        "count": len(snapshots),
-        "dates": [day.isoformat() for day, _ in snapshots],
-        "latest": latest[0].isoformat() if latest else None,
+        "count": len(rows),
+        "dates": [row["date"] for row in rows],
+        "latest": rows[-1]["date"] if rows else None,
+        "snapshots": rows,
     }
 
 
 def validate_snapshot_shape(snapshot: dict[str, Any], day: date) -> list[str]:
-    """V19 辅助：快照结构检查，返回问题列表。"""
+    """V19 辅助：单份快照结构检查（v0.3.0 收紧），返回问题列表。"""
     issues: list[str] = []
     if not isinstance(snapshot, dict):
         return [f"{day}: 快照不是对象"]
     meta = snapshot.get("meta") or {}
-    if not meta.get("snapshot_at"):
+    snapshot_at = meta.get("snapshot_at")
+    if not snapshot_at:
         issues.append(f"{day}: 缺少 meta.snapshot_at")
     else:
         try:
-            datetime.fromisoformat(str(meta["snapshot_at"]))
+            parsed_at = datetime.fromisoformat(str(snapshot_at))
         except ValueError:
             issues.append(f"{day}: meta.snapshot_at 非 ISO8601")
-    if meta.get("reconstructed") is not False:
-        issues.append(f"{day}: meta.reconstructed 必须为 false")
+            parsed_at = None
+        if parsed_at is not None and parsed_at.date() != day:
+            issues.append(f"{day}: meta.snapshot_at 日期 {parsed_at.date()} 与文件名不一致")
+    reconstructed = meta.get("reconstructed")
+    if not isinstance(reconstructed, bool):
+        issues.append(f"{day}: meta.reconstructed 必须为 bool")
+    elif reconstructed:
+        if meta.get("replay_as_of") != day.isoformat():
+            issues.append(f"{day}: 回放快照必须有 meta.replay_as_of={day.isoformat()}")
+    else:
+        if meta.get("replay_as_of") is not None:
+            issues.append(f"{day}: 真实快照不应带 meta.replay_as_of")
     if meta.get("data_version") != config.DATA_VERSION:
         issues.append(f"{day}: meta.data_version={meta.get('data_version')} ≠ {config.DATA_VERSION}")
     if meta.get("as_of") != day.isoformat():
         issues.append(f"{day}: meta.as_of={meta.get('as_of')} 与文件名不一致")
+    basis = meta.get("delta_basis")
+    if basis not in config.DELTA_BASES:
+        issues.append(f"{day}: meta.delta_basis={basis} 非法")
     windows = snapshot.get("windows")
     if not isinstance(windows, dict):
         return issues + [f"{day}: windows 缺失"]
@@ -121,4 +190,20 @@ def validate_snapshot_shape(snapshot: dict[str, Any], day: date) -> list[str]:
         ranks = [item.get("rank") for item in items]
         if ranks != list(range(1, len(items) + 1)):
             issues.append(f"{day}: windows.{window}.rank 未从 1 连续")
+        for item in items:
+            change = item.get("change")
+            delta = item.get("delta")
+            if change not in {"new", "up", "down", "flat"}:
+                issues.append(f"{day}: {window}:{item.get('opp_id')} change 非法")
+                continue
+            if basis == "adjacent-window" and window == "year" and delta is not None:
+                issues.append(f"{day}: {window} adjacent-window 口径下 delta 应为 null")
+            if change == "new" and delta is not None:
+                issues.append(f"{day}: {window}:{item.get('opp_id')} change=new 但 delta 非 null")
+            if change == "up" and not (isinstance(delta, int) and delta > 0):
+                issues.append(f"{day}: {window}:{item.get('opp_id')} change=up 但 delta≤0")
+            if change == "down" and not (isinstance(delta, int) and delta < 0):
+                issues.append(f"{day}: {window}:{item.get('opp_id')} change=down 但 delta≥0")
+            if change == "flat" and delta != 0:
+                issues.append(f"{day}: {window}:{item.get('opp_id')} change=flat 但 delta≠0")
     return issues

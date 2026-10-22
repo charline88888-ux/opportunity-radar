@@ -14,7 +14,7 @@ from __future__ import annotations
 
 import argparse
 import sys
-from datetime import date
+from datetime import date, timedelta
 from pathlib import Path
 from typing import Any
 
@@ -204,6 +204,33 @@ def stage_report(periods: list[str]) -> list[dict[str, str]]:
     return written
 
 
+def stage_replay(base_date: date, days: int) -> list[dict[str, Any]]:
+    """生成确定性历史回放快照（v0.3.0）：base_date 之前的 N 天各一份。"""
+    if days < 1:
+        raise SystemExit("--replay-days 必须 ≥ 1")
+    opportunities = _load_opportunities()
+    results: list[dict[str, Any]] = []
+    for offset in range(days, 0, -1):
+        replay_date = base_date - timedelta(days=offset)
+        path, rankings = history.build_replay_snapshot(opportunities, replay_date)
+        counts = rankings["meta"]["counts"]
+        results.append(
+            {
+                "date": replay_date.isoformat(),
+                "path": str(path),
+                "delta_basis": rankings["meta"]["delta_basis"],
+                "counts": counts,
+            }
+        )
+        log(
+            f"回放快照：{replay_date.isoformat()}（reconstructed=true, "
+            f"delta_basis={rankings['meta']['delta_basis']}, "
+            + " / ".join(f"{window}={counts[window]}" for window in ("day", "week", "month", "year"))
+            + f"）→ {path.relative_to(config.ROOT)}"
+        )
+    return results
+
+
 def stage_validate() -> int:
     report_data = validate.run_validation()
     passed = sum(1 for row in report_data.rows if row["ok"])
@@ -217,7 +244,7 @@ def stage_validate() -> int:
 
 # ---------------------------------------------------------------- 入口
 def main(argv: list[str] | None = None) -> int:
-    parser = argparse.ArgumentParser(description="机会雷达扫描流水线（data-v0.2.0）")
+    parser = argparse.ArgumentParser(description="机会雷达扫描流水线（data-v0.3.0）")
     parser.add_argument("--all", action="store_true", help="离线完整流水线（含历史快照/SQLite/校验）")
     parser.add_argument("--collect", action="store_true", help="运行采集适配器（离线 fixtures）")
     parser.add_argument("--normalize", action="store_true", help="归一化原始信号")
@@ -231,6 +258,18 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--no-cache", action="store_true", help="真实采集时禁用 6 小时文件缓存")
     parser.add_argument("--report", action="store_true", help="生成四窗口 HTML/MD 报告")
     parser.add_argument("--period", action="append", choices=["day", "week", "month", "year"], help="报告窗口（可重复）")
+    parser.add_argument(
+        "--replay-as-of",
+        type=str,
+        default=None,
+        help="历史回放基准日 YYYY-MM-DD（生成该日之前 N 天的重建快照，默认当前 as_of）",
+    )
+    parser.add_argument(
+        "--replay-days",
+        type=int,
+        default=config.REPLAY_DEFAULT_DAYS,
+        help="回放天数（默认 2：生成基准日前 2 天的快照，reconstructed=true）",
+    )
     parser.add_argument("--validate", action="store_true", help="运行 V01–V20 数据校验")
     parser.add_argument("--fix", action="store_true", help="兼容别名：评分回写现在总是自动执行")
     args = parser.parse_args(argv)
@@ -238,6 +277,7 @@ def main(argv: list[str] | None = None) -> int:
     flags = [
         args.all, args.collect, args.normalize, args.dedupe, args.score, args.rank, args.stats,
         args.db_rebuild, args.fetch, args.report, args.validate,
+        args.replay_as_of is not None,
     ]
     if not any(flags):
         parser.print_help()
@@ -260,6 +300,17 @@ def main(argv: list[str] | None = None) -> int:
         return 0
 
     full = args.all
+    if args.replay_as_of is not None:
+        try:
+            replay_base = date.fromisoformat(args.replay_as_of)
+        except ValueError:
+            log(f"--replay-as-of 非法日期：{args.replay_as_of}")
+            return 2
+        if replay_base > as_of:
+            log(f"--replay-as-of {replay_base} 晚于当前 as_of {as_of}，拒绝生成未来回放")
+            return 2
+        stage_replay(replay_base, args.replay_days)
+        full = True  # 回放后自动重算当前榜单（带 history delta）/统计/SQLite/校验
     if args.collect or full or args.normalize or args.dedupe:
         records, _health = stage_collect(as_of)
         signals = stage_normalize(records, as_of)

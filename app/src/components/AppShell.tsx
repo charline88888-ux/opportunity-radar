@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom'
 import {
+  Bell,
   BookOpenCheck,
   CalendarDays,
   Command,
@@ -13,21 +14,27 @@ import {
   Search,
   ShieldCheck,
   Sparkles,
+  Target,
+  UserRound,
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { appVersion, dataAsOf, dataMeta, isMockData, opportunities, stats } from '@/lib/data'
 import { useExperiments } from '@/lib/experiments'
+import { useAlerts } from '@/lib/alerts'
 import { Badge, InfoTip } from './ui'
 
 const NAV = [
   { to: '/', id: '01', label: '指挥台', en: 'COMMAND', icon: LayoutDashboard, desc: 'KPI · 今日榜 · 全景信号' },
-  { to: '/rankings', id: '02', label: '排行榜', en: 'RANKINGS', icon: ListOrdered, desc: '日 / 周 / 月 / 年四榜单' },
+  { to: '/rankings', id: '02', label: '排行榜', en: 'RANKINGS', icon: ListOrdered, desc: '综合榜 / 为你推荐' },
   { to: '/scanner', id: '03', label: '扫描室', en: 'SCANNER', icon: Radar, desc: '热力矩阵 · 剧本 · 数据源健康' },
   { to: '/method', id: '04', label: '方法论', en: 'METHOD', icon: BookOpenCheck, desc: '评分模型 · 七问 · 文化维度' },
   { to: '/sources', id: '05', label: '数据源矩阵', en: 'SOURCES', icon: Database, desc: '12 大类平台 · 合规等级' },
   { to: '/calendar', id: '06', label: '全球商业日历', en: 'CALENDAR', icon: CalendarDays, desc: '节庆 / 税季 / 开学节点' },
   { to: '/lab', id: '07', label: '实验台', en: 'LAB', icon: FlaskConical, desc: '7 天验证 · 记录与复盘' },
-  { to: '/about', id: '08', label: '关于', en: 'ABOUT', icon: Info, desc: '版本 · 文档 · 免责声明' },
+  { to: '/profile', id: '08', label: '个人画像', en: 'PROFILE', icon: UserRound, desc: '7 维能力 · 推荐基础' },
+  { to: '/alerts', id: '09', label: '预警中心', en: 'ALERTS', icon: Bell, desc: '窗口 / 实验 / 源 / 匹配' },
+  { to: '/calibration', id: '10', label: '回测校准', en: 'CALIBRATION', icon: Target, desc: '预测等级 vs 实验结果' },
+  { to: '/about', id: '11', label: '关于', en: 'ABOUT', icon: Info, desc: '版本 · 文档 · 免责声明' },
 ]
 
 function RadarMark() {

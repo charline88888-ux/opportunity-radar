@@ -4,6 +4,7 @@ import { gapName, industryName, oppById } from './data'
 import { fmtCnyRange, fmtScore } from './utils'
 
 export type ExperimentStatus = 'active' | 'verified' | 'abandoned'
+export type ExperimentOutcome = 'positive' | 'negative' | 'inconclusive'
 
 export interface Experiment {
   id: string
@@ -12,6 +13,8 @@ export interface Experiment {
   started_at: string
   budget_cny: number
   status: ExperimentStatus
+  outcome: ExperimentOutcome | null
+  ended_at: string | null
   conclusion: string
   spend_cny: number
   hours: number
@@ -24,6 +27,14 @@ export const EXPERIMENT_STATUS: Record<ExperimentStatus, { label: string; color:
   verified: { label: '已验证', color: '#3ddc97', tone: 'signal' },
   abandoned: { label: '已放弃', color: '#ff5d5d', tone: 'danger' },
 }
+
+export const EXPERIMENT_OUTCOME: Record<ExperimentOutcome, { label: string; short: string; color: string; description: string }> = {
+  positive: { label: '正向结果', short: '正向', color: '#3ddc97', description: '验证到真实需求/付费/可交付信号，值得继续' },
+  negative: { label: '负向结果', short: '负向', color: '#ff5d5d', description: '证伪或未达到验证标准，应止损' },
+  inconclusive: { label: '结果不明确', short: '不明确', color: '#8b93a7', description: '样本不足或外部因素干扰，需要下一轮验证' },
+}
+
+export const OUTCOME_OPTIONS: ExperimentOutcome[] = ['positive', 'negative', 'inconclusive']
 
 export const REVIEW_CYCLE_DAYS = 7
 export const ACTIVE_CAPACITY = 1
@@ -44,6 +55,8 @@ function safeLoad(): Experiment[] {
         started_at: String(x.started_at || dayjs().format('YYYY-MM-DD')),
         budget_cny: Number(x.budget_cny) || 0,
         status: (['active', 'verified', 'abandoned'].includes(x.status) ? x.status : 'active') as ExperimentStatus,
+        outcome: (['positive', 'negative', 'inconclusive'].includes(x.outcome) ? x.outcome : null) as ExperimentOutcome | null,
+        ended_at: x.ended_at == null ? null : String(x.ended_at),
         conclusion: String(x.conclusion || ''),
         spend_cny: Number(x.spend_cny) || 0,
         hours: Number(x.hours) || 0,
@@ -100,6 +113,8 @@ export function addExperiment(input: {
     started_at: input.started_at || dayjs().format('YYYY-MM-DD'),
     budget_cny: Number(input.budget_cny) || 0,
     status: 'active',
+    outcome: null,
+    ended_at: null,
     conclusion: '',
     spend_cny: 0,
     hours: 0,
@@ -227,7 +242,9 @@ export function experimentsToMarkdown(items: Experiment[]): string {
     lines.push(
       `## ${x.title}`,
       '',
-      `- 状态：${statusLabel(x.status)} · 开始日期：${x.started_at}（第 ${experimentDay(x)} 天，第 ${review.cycle} 个周期）`,
+      `- 状态：${statusLabel(x.status)}${x.outcome ? ` · 结果：${EXPERIMENT_OUTCOME[x.outcome].label}` : ''} · 开始日期：${x.started_at}${
+        x.ended_at ? ` · 结案日期：${x.ended_at}` : ''
+      }（第 ${experimentDay(x)} 天，第 ${review.cycle} 个周期）`,
       `- 机会 ID：${x.opp_id} · 行业：${opp ? industryName(opp.industry_id) : '—'} · 信息差：${opp ? opp.gap_type_ids.map(gapName).join(' / ') : '—'}`,
       `- 预算：¥${x.budget_cny.toLocaleString('zh-CN')} · 已花费：¥${x.spend_cny.toLocaleString('zh-CN')} · 耗时：${x.hours} 小时`,
       `- 复盘日期：${review.dueDate}${review.overdue ? '（已逾期）' : ''}`,
@@ -245,7 +262,7 @@ export function experimentsToMarkdown(items: Experiment[]): string {
 export function experimentsToJson(items: Experiment[]): string {
   return JSON.stringify(
     {
-      schema: 'opportunity-radar/experiments@0.2.0',
+      schema: 'opportunity-radar/experiments@0.3.0',
       exported_at: dayjs().toISOString(),
       stats: experimentStats(items),
       items,

@@ -334,6 +334,17 @@ def run_fetch(
         signals = normalized_count
 
         ok = bool(result["ok"] and parse_error is None and items)
+        mode = "cache" if result["cached"] else "online-fetch"
+        http_status = int(result["status"]) if result["status"] else None
+        error = parse_error or result["error"]
+        if not ok and not error:
+            if result["ok"]:
+                error = f"返回内容不是可解析的 feed（http_status={result['status']}，有效条目 0 条）"
+            else:
+                error = "网络请求失败（无响应/连接异常）"
+        note = str(source.get("notes", ""))[:120]
+        if result["cached"]:
+            note = (note + "；缓存命中（latency 记 0）") if note else "缓存命中（latency 记 0）"
         health_rows.append(
             {
                 "id": source["id"],
@@ -343,14 +354,18 @@ def run_fetch(
                 "access": source.get("access"),
                 "compliance": source.get("compliance"),
                 "ok": ok,
-                "status": result["status"],
+                # v0.3.0 source-health v2
+                "mode": mode,
+                "http_status": http_status,
                 "latency_ms": int(result["latency_ms"]),
+                "cached": bool(result["cached"]),
                 "items": len(items),
                 "signals": signals,
-                "cached": bool(result["cached"]),
                 "checked_at": datetime.now().astimezone().isoformat(timespec="seconds"),
-                "error": parse_error or result["error"],
-                "note": source.get("notes", "")[:120],
+                "error": error,
+                # v0.2.0 兼容字段（旧前端仍可读）
+                "status": result["status"],
+                "note": note,
             }
         )
 
@@ -383,6 +398,12 @@ def run_fetch(
     )
 
     ok_count = sum(1 for row in health_rows if row["ok"])
+    if not health_rows:
+        overall_mode = "offline"
+    elif all(row["mode"] == "cache" for row in health_rows):
+        overall_mode = "cache"
+    else:
+        overall_mode = "online-fetch"
     health_payload = {
         "meta": {
             "data_version": config.DATA_VERSION,
@@ -392,7 +413,10 @@ def run_fetch(
             "count": len(health_rows),
             "ok_count": ok_count,
             "failed_count": len(health_rows) - ok_count,
-            "mode": "online-fetch",
+            "mode": overall_mode,
+            "cached_count": sum(1 for row in health_rows if row["cached"]),
+            "online_count": sum(1 for row in health_rows if row["mode"] == "online-fetch"),
+            "note": "source-health v2：mode/http_status/latency_ms/cached/items/error；缓存命中 latency 记 0",
         },
         "sources": health_rows,
     }

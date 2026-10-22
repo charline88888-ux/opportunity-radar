@@ -138,6 +138,7 @@ if (fs.existsSync(historyDir)) {
       as_of: m.as_of || date,
       snapshot_at: m.snapshot_at || null,
       reconstructed: m.reconstructed === true,
+      replay_as_of: m.replay_as_of || null,
       delta_basis: m.delta_basis || null,
       window_counts: Object.fromEntries(
         ['day', 'week', 'month', 'year'].map((k) => [k, Array.isArray(windows[k]?.items) ? windows[k].items.length : 0]),
@@ -149,11 +150,21 @@ if (fs.existsSync(historyDir)) {
     historyMeta.available = true
     historyMeta.count = historyMeta.snapshots.length
     historyMeta.latest_date = latest.date
-    // history_as_of 表示「上一份可对比快照」；只有一份快照时没有上期，delta 仍回退相邻窗口
+    // 优先使用 rankings.meta.history_as_of（扫描器权威），否则用倒数第二份快照
     historyMeta.history_as_of =
-      historyMeta.snapshots.length >= 2 ? historyMeta.snapshots[historyMeta.snapshots.length - 2].date : null
+      typeof metaOf(bundled['rankings.json'] || {}).history_as_of === 'string' &&
+      metaOf(bundled['rankings.json'] || {}).history_as_of
+        ? metaOf(bundled['rankings.json'] || {}).history_as_of
+        : historyMeta.snapshots.length >= 2
+          ? historyMeta.snapshots[historyMeta.snapshots.length - 2].date
+          : null
     historyMeta.note = 'ok'
-    report.push(`  ✓ real  history/（可选，${historyMeta.count} 份快照，最新 ${latest.date}）`)
+    const replayCount = historyMeta.snapshots.filter((s) => s.reconstructed).length
+    report.push(
+      `  ✓ real  history/（可选，${historyMeta.count} 份快照，最新 ${latest.date}${
+        replayCount ? `，回放 ${replayCount} 份` : ''
+      }）`,
+    )
   } else {
     report.push('  ~ 可选  history/ 存在但无合法快照（前端降级）')
   }
@@ -165,6 +176,7 @@ fs.writeFileSync(path.join(outDir, '_history.json'), JSON.stringify(historyMeta,
 const sourceHealthPath = path.join(realDir, 'source-health.json')
 const sourceHealth = {
   available: false,
+  mode: null,
   checked_at: null,
   total: 0,
   ok_count: 0,
@@ -182,6 +194,8 @@ if (rawSourceHealth) {
         ? rawSourceHealth.items
         : []
   sourceHealth.available = true
+  sourceHealth.mode =
+    rawSourceHealth.meta?.mode || list.find((x) => x && x.mode)?.mode || null
   sourceHealth.checked_at =
     rawSourceHealth.checked_at || rawSourceHealth.meta?.checked_at || list.find((x) => x && x.checked_at)?.checked_at || null
   sourceHealth.sources = list
@@ -371,12 +385,15 @@ for (const s of historyMeta.snapshots) {
   if (!/^\d{4}-\d{2}-\d{2}$/.test(s.date)) historyIssues.push(`${s.file} 快照日期非法`)
   if (!s.snapshot_at) historyIssues.push(`${s.file} 缺少 meta.snapshot_at`)
   if (s.date > asOf) historyIssues.push(`${s.file} 快照日期晚于 as_of`)
+  if (s.reconstructed && !s.replay_as_of) historyIssues.push(`${s.file} 回放快照缺少 meta.replay_as_of`)
 }
 add(
   historyMeta.available ? (historyIssues.length ? 'FAIL' : 'PASS') : 'PASS',
   'history',
   historyMeta.available
-    ? `${historyMeta.count} 份快照 · 最新 ${historyMeta.latest_date} · 上期 ${historyMeta.history_as_of}${
+    ? `${historyMeta.count} 份快照（回放 ${
+        historyMeta.snapshots.filter((s) => s.reconstructed).length
+      }）· 最新 ${historyMeta.latest_date} · 上期 ${historyMeta.history_as_of}${
         historyIssues.length ? ` · 问题 ${historyIssues.length} 项` : ''
       }`
     : '可选未提供：delta 回退相邻窗口口径（不阻塞构建）',
@@ -388,6 +405,11 @@ if (sourceHealth.available) {
   const knownSourceIds = new Set(
     sourceCategories.flatMap((c) => (Array.isArray(c.sources) ? c.sources.map((s) => s.id) : [])),
   )
+  const rawShMeta = rawSourceHealth?.meta && typeof rawSourceHealth.meta === 'object' ? rawSourceHealth.meta : {}
+  const hasV2 = String(rawShMeta.data_version || '') >= '0.3.0' || sourceHealth.sources.some((s) => s && 'mode' in s)
+  if (sourceHealth.mode && !['online-fetch', 'cache', 'offline'].includes(sourceHealth.mode)) {
+    sourceHealthIssues.push(`meta.mode 非法：${sourceHealth.mode}`)
+  }
   for (const s of sourceHealth.sources) {
     if (!s || typeof s !== 'object') {
       sourceHealthIssues.push('source-health 条目非法')
@@ -397,15 +419,27 @@ if (sourceHealth.available) {
     if (typeof s.ok !== 'boolean') sourceHealthIssues.push(`${s.id} ok 非布尔`)
     if (s.checked_at && !/^\d{4}-\d{2}-\d{2}/.test(s.checked_at)) sourceHealthIssues.push(`${s.id} checked_at 非法`)
     if (s.latency_ms != null && !(Number(s.latency_ms) >= 0)) sourceHealthIssues.push(`${s.id} latency_ms 非法`)
+    if (hasV2) {
+      if (!['online-fetch', 'cache', 'offline'].includes(s.mode)) sourceHealthIssues.push(`${s.id} mode 非法`)
+      if (typeof s.cached !== 'boolean') sourceHealthIssues.push(`${s.id} cached 非布尔`)
+      if (!Number.isInteger(s.latency_ms) || s.latency_ms < 0) sourceHealthIssues.push(`${s.id} latency_ms 非整数≥0`)
+      if (s.http_status != null && !Number.isInteger(s.http_status)) sourceHealthIssues.push(`${s.id} http_status 非整数`)
+      if (s.ok === false && !(typeof s.error === 'string' && s.error.trim())) {
+        sourceHealthIssues.push(`${s.id} 失败源缺少非空 error 原因`)
+      }
+      if (s.items != null && (!Number.isInteger(s.items) || s.items < 0)) sourceHealthIssues.push(`${s.id} items 非整数≥0`)
+    }
   }
 }
 add(
   sourceHealth.available ? (sourceHealthIssues.length ? 'FAIL' : 'PASS') : 'PASS',
   'source-health',
   sourceHealth.available
-    ? `${sourceHealth.total} 源 · 成功 ${sourceHealth.ok_count} / 失败 ${sourceHealth.fail_count} · 检查于 ${
-        sourceHealth.checked_at || '—'
-      }${sourceHealthIssues.length ? ` · 问题 ${sourceHealthIssues.length} 项` : ''}`
+    ? `${sourceHealth.total} 源 · 成功 ${sourceHealth.ok_count} / 失败 ${sourceHealth.fail_count} · mode ${
+        sourceHealth.mode || '—'
+      } · 检查于 ${sourceHealth.checked_at || '—'}${
+        sourceHealthIssues.length ? ` · 问题 ${sourceHealthIssues.length} 项` : ''
+      }`
     : '可选未提供：前端隐藏采集健康（不阻塞构建）',
 )
 for (const msg of sourceHealthIssues.slice(0, 5)) add('FAIL', 'source-health', msg)
@@ -437,9 +471,12 @@ const meta = {
     playbooks: playbooks.length,
     calendar: calendar.length,
     history_snapshots: historyMeta.count,
+    history_replay_snapshots: historyMeta.snapshots.filter((s) => s.reconstructed).length,
     source_health_available: sourceHealth.available,
     source_health_ok: sourceHealth.ok_count,
     source_health_total: sourceHealth.total,
+    source_health_failed: sourceHealth.fail_count,
+    source_health_mode: sourceHealth.mode || null,
   },
   optional: {
     history: {
@@ -451,10 +488,12 @@ const meta = {
     },
     source_health: {
       available: sourceHealth.available,
+      mode: sourceHealth.mode || null,
       checked_at: sourceHealth.checked_at,
       total: sourceHealth.total,
       ok: sourceHealth.ok_count,
       failed: sourceHealth.fail_count,
+      failed_ids: sourceHealth.sources.filter((s) => s && s.ok === false).map((s) => s.id),
     },
   },
   validation: {
@@ -464,7 +503,7 @@ const meta = {
   },
   notes: mockFiles.length
     ? '部分数据为契约占位（mock），仅开发预览可用；正式构建需真实数据通过 strict 校验。'
-    : '全部核心数据来自 ../data 真实产出并通过契约自检；history / source-health 为可选，缺失不影响构建。',
+    : '全部核心数据来自 ../data 真实产出并通过契约自检；history / source-health 为 v0.3 可选增强，缺失不影响构建。',
 }
 fs.writeFileSync(path.join(outDir, '_meta.json'), JSON.stringify(meta, null, 2) + '\n')
 
@@ -479,7 +518,9 @@ for (const c of checks) {
 const fails = checks.filter((c) => c.level === 'FAIL')
 console.log('')
 console.log(
-  `[verify] 机会数 ${opportunities.length} · 榜单 day ${(windows.day?.items || []).length} / week ${(windows.week?.items || []).length} / month ${(windows.month?.items || []).length} / year ${(windows.year?.items || []).length} · 数据源 ${sourceCount} · 剧本 ${playbooks.length} · 日历 ${calendar.length} · 历史快照 ${historyMeta.count} · 采集健康 ${sourceHealth.available ? `${sourceHealth.ok_count}/${sourceHealth.total} ok` : '未提供'}`,
+  `[verify] 机会数 ${opportunities.length} · 榜单 day ${(windows.day?.items || []).length} / week ${(windows.week?.items || []).length} / month ${(windows.month?.items || []).length} / year ${(windows.year?.items || []).length} · 数据源 ${sourceCount} · 剧本 ${playbooks.length} · 日历 ${calendar.length} · 历史快照 ${historyMeta.count}（回放 ${
+    historyMeta.snapshots.filter((s) => s.reconstructed).length
+  }）· 采集健康 ${sourceHealth.available ? `${sourceHealth.ok_count}/${sourceHealth.total} ok · ${sourceHealth.mode || '—'}` : '未提供'}`,
 )
 console.log(`[verify] 结果：${fails.length ? `FAIL（${fails.length} 项）` : 'PASS'} · 数据来源=${meta.source} · 数据版本=${meta.data_version} · as_of=${asOf} · delta_basis=${deltaBasis}`)
 

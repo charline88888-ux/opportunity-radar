@@ -11,6 +11,7 @@ import tempfile
 import unittest
 from datetime import date
 from pathlib import Path
+from unittest import mock
 
 if __package__ in (None, ""):
     sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
@@ -445,6 +446,208 @@ class TestFetchParsing(unittest.TestCase):
         }
         selected = fetch.select_sources(sources, limit=10)
         self.assertEqual([source["id"] for source in selected], ["green-rss"])
+
+
+class TestReplaySnapshots(unittest.TestCase):
+    """v0.3.0：历史回放快照（reconstructed=true）与链式 delta。"""
+
+    @staticmethod
+    def _opp(opp_id: str, last_activity: str, total: float = 70.0, momentum: float = 1.0) -> dict:
+        return {
+            "id": opp_id,
+            "last_activity": last_activity,
+            "momentum": momentum,
+            "evidence_count": 1,
+            "rank_score": score.compute_rank_score(total, momentum),
+            "scores": {"total": total},
+        }
+
+    def _opps(self) -> list[dict]:
+        return [
+            self._opp("opp-replay-001", "2026-10-20", total=80.0),
+            self._opp("opp-replay-002", "2026-10-21", total=90.0),
+            self._opp("opp-replay-003", "2026-10-22", total=75.0),
+        ]
+
+    def test_replay_chain_metadata_and_filtering(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            history_dir = Path(tmp)
+            path_20, rankings_20 = history.build_replay_snapshot(
+                self._opps(), date(2026, 10, 20), history_dir=history_dir
+            )
+            snapshot_20 = common.load_json(path_20)
+            self.assertTrue(snapshot_20["meta"]["reconstructed"])
+            self.assertEqual(snapshot_20["meta"]["replay_as_of"], "2026-10-20")
+            self.assertEqual(snapshot_20["meta"]["snapshot_at"], "2026-10-20T00:00:00+08:00")
+            self.assertEqual(rankings_20["meta"]["delta_basis"], "adjacent-window")
+            # 只纳入 last_activity <= 回放日的机会（不出现未来信号）
+            year_ids = [item["opp_id"] for item in rankings_20["windows"]["year"]["items"]]
+            self.assertEqual(year_ids, ["opp-replay-001"])
+
+            path_21, rankings_21 = history.build_replay_snapshot(
+                self._opps(), date(2026, 10, 21), history_dir=history_dir
+            )
+            snapshot_21 = common.load_json(path_21)
+            self.assertEqual(snapshot_21["meta"]["replay_as_of"], "2026-10-21")
+            self.assertEqual(rankings_21["meta"]["delta_basis"], "history")
+            self.assertEqual(rankings_21["meta"]["history_as_of"], "2026-10-20")
+            year_items = {item["opp_id"]: item for item in rankings_21["windows"]["year"]["items"]}
+            # 上期已出现且名次变化的才有 delta；新出现为 null/new
+            self.assertEqual(year_items["opp-replay-001"]["change"], "down")  # 上期第1 → 本期第2
+            self.assertIsNone(year_items["opp-replay-002"]["delta"])
+            self.assertEqual(year_items["opp-replay-002"]["change"], "new")
+
+    def test_replay_is_idempotent(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            history_dir = Path(tmp)
+            path_1, _ = history.build_replay_snapshot(self._opps(), date(2026, 10, 20), history_dir=history_dir)
+            first = path_1.read_text(encoding="utf-8")
+            path_2, _ = history.build_replay_snapshot(self._opps(), date(2026, 10, 20), history_dir=history_dir)
+            second = path_2.read_text(encoding="utf-8")
+            self.assertEqual(first, second)
+
+    def test_snapshot_shape_rejects_real_snapshot_with_replay_as_of(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            history_dir = Path(tmp)
+            path, _ = history.build_replay_snapshot(self._opps(), date(2026, 10, 20), history_dir=history_dir)
+            snapshot = common.load_json(path)
+            snapshot["meta"]["reconstructed"] = False
+            issues = history.validate_snapshot_shape(snapshot, date(2026, 10, 20))
+            self.assertTrue(any("replay_as_of" in issue for issue in issues))
+
+
+class TestSourceHealthV20(unittest.TestCase):
+    """v0.3.0：source-health v2 的 V20 收紧规则（合法/非法）。"""
+
+    @staticmethod
+    def _sources_ctx() -> dict:
+        return {
+            "sources": {
+                "categories": [
+                    {
+                        "id": "demand",
+                        "sources": [
+                            {"id": "hnrss", "name": "HNRSS"},
+                            {"id": "reddit", "name": "Reddit"},
+                        ],
+                    }
+                ]
+            }
+        }
+
+    @staticmethod
+    def _row(**overrides) -> dict:
+        row = {
+            "id": "hnrss",
+            "ok": True,
+            "mode": "online-fetch",
+            "http_status": 200,
+            "latency_ms": 1234,
+            "cached": False,
+            "items": 20,
+            "checked_at": "2026-10-22T17:30:00+08:00",
+            "error": None,
+        }
+        row.update(overrides)
+        return row
+
+    def _run(self, payload: dict) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / "source-health.json"
+            common.dump_json(path, payload)
+            with mock.patch.object(config, "SOURCE_HEALTH_PATH", path):
+                validate._v20(self._sources_ctx())
+
+    def _expect_failure(self, payload: dict) -> None:
+        with self.assertRaises(validate.CheckFailure):
+            self._run(payload)
+
+    def test_valid_health_passes(self):
+        payload = {
+            "meta": {"mode": "online-fetch", "count": 2},
+            "sources": [
+                self._row(),
+                self._row(
+                    id="reddit",
+                    ok=False,
+                    mode="online-fetch",
+                    http_status=None,
+                    latency_ms=0,
+                    cached=False,
+                    items=0,
+                    error="URLError: timed out",
+                ),
+            ],
+        }
+        self.assertIsInstance(self._run(payload), type(None))
+
+    def test_cached_row_requires_zero_latency(self):
+        payload = {
+            "meta": {"mode": "cache", "count": 1},
+            "sources": [self._row(mode="cache", cached=True, latency_ms=0)],
+        }
+        self._run(payload)
+        self._expect_failure(
+            {
+                "meta": {"mode": "cache", "count": 1},
+                "sources": [self._row(mode="cache", cached=True, latency_ms=12)],
+            }
+        )
+
+    def test_failed_row_requires_error_reason(self):
+        self._expect_failure(
+            {
+                "meta": {"mode": "online-fetch", "count": 1},
+                "sources": [self._row(ok=False, error="")],
+            }
+        )
+
+    def test_missing_http_status_and_bad_meta_mode(self):
+        bad_row = self._row()
+        bad_row.pop("http_status")
+        self._expect_failure({"meta": {"mode": "online-fetch", "count": 1}, "sources": [bad_row]})
+        self._expect_failure({"meta": {"mode": "bogus", "count": 1}, "sources": [self._row()]})
+
+
+class TestHistoryDeltaNewSemantics(unittest.TestCase):
+    """v0.3.0：history 口径下，上期未出现的机会 → null/new（不回退相邻窗口）。"""
+
+    def test_new_item_is_null_not_adjacent(self):
+        as_of = date(2026, 10, 22)
+        opps = [
+            {
+                "id": "opp-new-001",
+                "last_activity": "2026-10-22",
+                "momentum": 1.0,
+                "evidence_count": 1,
+                "rank_score": 80.0,
+                "scores": {"total": 80.0},
+            },
+            {
+                "id": "opp-new-002",
+                "last_activity": "2026-10-20",
+                "momentum": 1.0,
+                "evidence_count": 1,
+                "rank_score": 80.0,
+                "scores": {"total": 80.0},
+            },
+        ]
+        previous = {
+            "meta": {"as_of": "2026-10-21"},
+            "windows": {
+                # day 窗口上期存在（有 opp-new-002），但本期只有 opp-new-001 → new，不回退 week
+                "day": {"items": [{"opp_id": "opp-new-002", "rank": 1}]},
+                "week": {"items": [{"opp_id": "opp-new-002", "rank": 1}]},
+                "month": {"items": []},
+                "year": {"items": []},
+            },
+        }
+        rankings = rank.build_rankings(opps, as_of, previous_snapshot=previous)
+        day_items = {item["opp_id"]: item for item in rankings["windows"]["day"]["items"]}
+        self.assertIsNone(day_items["opp-new-001"]["delta"])
+        self.assertEqual(day_items["opp-new-001"]["change"], "new")
+        # month/year 上期为空 → 回退 adjacent-window
+        self.assertEqual(rankings["windows"]["month"]["delta_basis"], "adjacent-window")
 
 
 if __name__ == "__main__":

@@ -5,6 +5,7 @@ import {
   ArrowUpRight,
   Activity,
   BarChart3,
+  Bell,
   CalendarClock,
   Database,
   Flame,
@@ -16,7 +17,9 @@ import {
   Radar as RadarIcon,
   ShieldCheck,
   Sparkles,
+  Target,
   TrendingUp,
+  UserRound,
 } from 'lucide-react'
 import { Chart } from '@/components/charts/Chart'
 import { OpportunityCard } from '@/components/OpportunityCard'
@@ -37,6 +40,8 @@ import {
   rankings,
   rankingsDeltaBasis,
   rankingsHistoryAsOf,
+  historyBasisReplayLabel,
+  rankingsHistoryReplayAsOf,
   regionName,
   sourceHealth,
   stats,
@@ -44,6 +49,9 @@ import {
   WINDOW_LABEL,
 } from '@/lib/data'
 import { ACTIVE_CAPACITY, experimentReviewInfo, useExperiments } from '@/lib/experiments'
+import { useProfile, profileSummaryRows, CAPABILITY_LABELS, type CapabilityVector } from '@/lib/profile'
+import { recommendTop } from '@/lib/recommend'
+import { useAlerts } from '@/lib/alerts'
 import { cn, fmtCny, fmtInt, fmtPct, fmtScore, gradeColor } from '@/lib/utils'
 
 const KPI_DEFS = [
@@ -118,6 +126,9 @@ function topRankingItems(windowKey: 'day' | 'week' | 'month' | 'year', n: number
 export default function Dashboard() {
   const kpi = stats.kpi
   const { items: experiments } = useExperiments()
+  const { profile, capability } = useProfile()
+  const alertCenter = useAlerts()
+  const recTop = useMemo(() => recommendTop(profile, 3), [profile])
   const activeExperiments = experiments.filter((x) => x.status === 'active')
   const dayCount = rankings.windows.day?.items?.length || 0
   const weekCount = rankings.windows.week?.items?.length || 0
@@ -340,6 +351,18 @@ export default function Dashboard() {
             >
               <FlaskConical className="h-3 w-3" /> 进行中实验 {activeExperiments.length}/{ACTIVE_CAPACITY}
             </Link>
+            <Link
+              to="/alerts"
+              className={cn(
+                'inline-flex h-7 items-center gap-1 rounded border px-2.5 text-[11.5px] transition-colors',
+                alertCenter.unreadCount
+                  ? 'border-amber/40 bg-amber/10 text-amber hover:bg-amber/20'
+                  : 'border-line bg-panel-2 text-muted hover:border-line-strong hover:text-ink',
+              )}
+              title="预警中心：窗口关闭 / 实验超期 / 源失败 / 未核验 / 高匹配未行动"
+            >
+              <Bell className="h-3 w-3" /> 预警 {alertCenter.unreadCount}
+            </Link>
             <Link to="/rankings" className="inline-flex h-7 items-center gap-1 rounded border border-signal/40 bg-signal/10 px-2.5 text-[11.5px] text-signal hover:bg-signal/20">
               查看完整榜单 <ArrowUpRight className="h-3 w-3" />
             </Link>
@@ -388,6 +411,11 @@ export default function Dashboard() {
           <Badge tone={rankingsDeltaBasis === 'history' ? 'signal' : 'amber'}>
             {deltaBasisLabel}
           </Badge>
+          {historyBasisReplayLabel && (
+            <span className="rounded border border-amber/40 bg-amber/10 px-1.5 py-0.5 font-mono text-[9px] text-amber" title={`上期快照为历史回放（replay_as_of ${rankingsHistoryReplayAsOf || '—'}），用于补足 delta 演示`}>
+              {historyBasisReplayLabel}
+            </span>
+          )}
           {rankingsDeltaBasis === 'history' && <span className="font-mono">上期 {rankingsHistoryAsOf || '—'}</span>}
         </span>
         <span className="flex items-center gap-1.5 text-[10.5px] text-dim">
@@ -398,7 +426,10 @@ export default function Dashboard() {
         <span className="flex items-center gap-1.5 text-[10.5px] text-dim">
           采集健康
           {sourceHealth.available ? (
-            <span className="font-mono text-muted">成功 {sourceHealth.ok_count}/{sourceHealth.total} · {sourceHealth.checked_at || '—'}</span>
+            <span className="font-mono text-muted">
+              成功 {sourceHealth.ok_count}/{sourceHealth.total} · mode {sourceHealth.mode || '—'} · {sourceHealth.checked_at || '—'}
+              {sourceHealth.fail_count > 0 && <span className="ml-1 text-danger">· 失败 {sourceHealth.fail_count}</span>}
+            </span>
           ) : (
             <span className="text-dim">未提供（可选）</span>
           )}
@@ -424,6 +455,81 @@ export default function Dashboard() {
           </Link>
         </Panel>
       )}
+
+      <div className="mt-2.5 grid grid-cols-1 gap-2.5 xl:grid-cols-12">
+        <Panel className="xl:col-span-4">
+          <div className="flex items-center justify-between border-b border-line/70 px-3 py-2">
+            <div className="flex items-center gap-1.5">
+              <UserRound className="h-3.5 w-3.5 text-signal" />
+              <span className="text-[12px] font-semibold text-ink">个人画像</span>
+            </div>
+            <Link to="/profile" className="text-[10px] text-muted hover:text-signal">{profile ? '编辑 →' : '去设置 →'}</Link>
+          </div>
+          {profile && capability ? (
+            <div className="p-3">
+              <div className="flex flex-wrap gap-x-3 gap-y-1 text-[10.5px]">
+                {profileSummaryRows(profile).slice(0, 4).map((row) => (
+                  <span key={row.label} className="text-dim">{row.label} <span className="text-muted">{row.value}</span></span>
+                ))}
+              </div>
+              <div className="mt-2 flex flex-wrap gap-1">
+                {(Object.keys(CAPABILITY_LABELS) as Array<keyof CapabilityVector>).map((k) => (
+                  <span key={k} className="rounded border border-line/70 px-1.5 py-0.5 font-mono text-[9px] text-dim">
+                    {CAPABILITY_LABELS[k]} <span className="text-cyan">{(capability as CapabilityVector)[k].toFixed(1)}</span>
+                  </span>
+                ))}
+              </div>
+              <div className="mt-2 flex items-center justify-between border-t border-line/60 pt-2 text-[10px] text-dim">
+                <span>驱动「为你推荐」与高匹配预警</span>
+                <Link to="/rankings?mode=recommend" className="text-signal hover:underline">看推荐 →</Link>
+              </div>
+            </div>
+          ) : (
+            <div className="p-3">
+              <p className="text-[10.5px] leading-relaxed text-muted">还没有个人画像。设置资金 / 时间 / 技能 / 英语 / 风险后，机会会按「你的机会」重排，并解锁高匹配预警。</p>
+              <Link to="/profile" className="mt-2 inline-flex h-7 items-center gap-1 rounded border border-signal/40 bg-signal/10 px-2.5 text-[11px] text-signal hover:bg-signal/20">
+                <UserRound className="h-3 w-3" /> 设置画像（3 步）
+              </Link>
+            </div>
+          )}
+        </Panel>
+
+        <Panel className="xl:col-span-8">
+          <div className="flex items-center justify-between border-b border-line/70 px-3 py-2">
+            <div className="flex items-center gap-1.5">
+              <Target className="h-3.5 w-3.5 text-cyan" />
+              <span className="text-[12px] font-semibold text-ink">为你推荐 · Top 3</span>
+              <span className="font-mono text-[9px] text-dim">0.6×total + 0.4×fit×100</span>
+            </div>
+            <Link to="/rankings?mode=recommend" className="text-[10px] text-muted hover:text-signal">全部推荐 →</Link>
+          </div>
+          {!profile ? (
+            <div className="p-3 text-[10.5px] leading-relaxed text-dim">
+              设置画像后，这里会显示与你的资金、时间、技能最匹配的 3 条机会（含 fit 与推荐解释）。
+            </div>
+          ) : !recTop.length ? (
+            <div className="p-3 text-[10.5px] text-dim">当前没有满足硬约束的推荐；可到画像页调整能力向量或查看硬约束原因。</div>
+          ) : (
+            <div className="divide-y divide-line/50">
+              {recTop.map((row) => (
+                <Link key={row.opp.id} to={`/opportunities/${row.opp.id}`} className="flex items-center gap-3 px-3 py-2 transition-colors hover:bg-white/[0.02]">
+                  <span className={cn('num w-6 shrink-0 text-[16px] font-semibold', row.rank === 1 ? 'text-amber' : 'text-dim')}>{String(row.rank).padStart(2, '0')}</span>
+                  <GradeBadge grade={row.opp.scores.grade} />
+                  <div className="min-w-0 flex-1">
+                    <div className="truncate text-[11.5px] text-ink">{row.opp.title}</div>
+                    <div className="truncate text-[9.5px] text-dim">{row.reasons.positive.replace('【为什么推荐】', '')}</div>
+                  </div>
+                  <div className="shrink-0 text-right">
+                    <div className="num text-[13px] font-semibold text-signal">{fmtScore(row.recScore)}</div>
+                    <div className="font-mono text-[9px] text-cyan">fit {Math.round(row.fit * 100)}%</div>
+                  </div>
+                  <ArrowUpRight className="h-3 w-3 shrink-0 text-dim" />
+                </Link>
+              ))}
+            </div>
+          )}
+        </Panel>
+      </div>
 
       <div className="mt-3 grid grid-cols-1 gap-3 xl:grid-cols-12">
         <SectionCard

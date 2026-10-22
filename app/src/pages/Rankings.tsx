@@ -1,6 +1,18 @@
 import { useMemo, useState } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
-import { ArrowDownWideNarrow, FileJson, FileText, LayoutGrid, ListOrdered, Rows3, SlidersHorizontal } from 'lucide-react'
+import {
+  AlertTriangle,
+  ArrowDownWideNarrow,
+  FileJson,
+  FileText,
+  LayoutGrid,
+  ListOrdered,
+  Rows3,
+  SlidersHorizontal,
+  Sparkles,
+  Target,
+  UserRound,
+} from 'lucide-react'
 import { PageHeader } from '@/components/PageHeader'
 import { OpportunityCard } from '@/components/OpportunityCard'
 import {
@@ -21,6 +33,7 @@ import {
   deltaBasisText,
   gapName,
   gapHalfLife,
+  historyBasisReplayLabel,
   industryColor,
   industryName,
   oppById,
@@ -28,14 +41,20 @@ import {
   rankings,
   rankingsDeltaBasis,
   rankingsHistoryAsOf,
+  rankingsHistoryReplayAsOf,
   RANKING_WINDOWS,
   regionName,
   taxonomy,
   WINDOW_LABEL,
 } from '@/lib/data'
 import { downloadPeriodReport } from '@/lib/exports'
+import { CAPABILITY_LABELS, profileSummaryRows, useProfile, type CapabilityVector } from '@/lib/profile'
+import {
+  recommendOpportunities,
+  type RecommendationRow,
+} from '@/lib/recommend'
 import type { ChangeType, Opportunity, WindowKey } from '@/types'
-import { cn, fmtInt, fmtScore, gradeColor } from '@/lib/utils'
+import { cn, fmtInt, fmtPct, fmtScore, gradeColor } from '@/lib/utils'
 
 type SortKey = 'rank' | 'total' | 'momentum'
 const SORT_OPTIONS: Array<{ value: SortKey; label: string }> = [
@@ -172,6 +191,71 @@ function RankTable({ rows }: { rows: RankRow[] }) {
   )
 }
 
+function RecommendationCard({ row }: { row: RecommendationRow }) {
+  const o = row.opp
+  const fitPct = Math.round(row.fit * 100)
+  return (
+    <Panel className={cn('p-3', row.hardConstraints.length && 'border-amber/30')}>
+      <div className="flex items-start gap-3">
+        <div className="flex w-10 shrink-0 flex-col items-center">
+          <span className={cn('num text-[22px] font-semibold leading-none', row.rank <= 3 ? 'text-amber' : 'text-dim')}>
+            {String(row.rank).padStart(2, '0')}
+          </span>
+          <span className="mono-label mt-1 !text-[8px]">REC</span>
+        </div>
+        <div className="min-w-0 flex-1">
+          <div className="flex flex-wrap items-center gap-1.5">
+            <GradeBadge grade={o.scores.grade} />
+            <Link to={`/opportunities/${o.id}`} className="min-w-0 truncate text-[13.5px] font-semibold text-ink hover:text-signal">
+              {o.title}
+            </Link>
+            <span className="inline-flex items-center gap-1 rounded border border-line bg-panel-2 px-1.5 py-0.5 text-[10px] text-muted">
+              <span className="h-1.5 w-1.5 rounded-sm" style={{ background: industryColor(o.industry_id) }} />
+              {industryName(o.industry_id)}
+            </span>
+            {o.gap_type_ids.slice(0, 2).map((g) => (
+              <span key={g} className="rounded border border-line/80 px-1.5 py-0.5 text-[10px] text-dim">{gapName(g)}</span>
+            ))}
+          </div>
+          <p className="mt-1 line-clamp-2 text-[11px] leading-relaxed text-muted">{o.one_liner}</p>
+          <div className="mt-2 grid grid-cols-2 gap-2 sm:grid-cols-4">
+            <div>
+              <div className="mono-label">推荐分 rec_score</div>
+              <div className="num text-[16px] font-semibold text-signal">{fmtScore(row.recScore)}</div>
+            </div>
+            <div>
+              <div className="mono-label">画像匹配 fit</div>
+              <div className="num text-[14px] text-cyan">{fitPct}%</div>
+              <ProgressBar value={row.fit} max={1} tone="cyan" className="mt-1" />
+            </div>
+            <div>
+              <div className="mono-label">机会总分</div>
+              <div className="num text-[13px] text-muted">{fmtScore(o.scores.total)} <span className="text-[9px] text-dim">/ {o.scores.grade}</span></div>
+            </div>
+            <div>
+              <div className="mono-label">窗口</div>
+              <div className="text-[11px] text-muted">{o.window.status} · {o.window.months_left}M</div>
+            </div>
+          </div>
+          {row.hardConstraints.length > 0 && (
+            <div className="mt-2 flex flex-wrap gap-1">
+              {row.hardConstraints.map((c) => (
+                <span key={c.id} className="inline-flex items-center gap-1 rounded border border-danger/35 bg-danger/[0.06] px-1.5 py-0.5 text-[9.5px] text-danger" title={c.detail}>
+                  <AlertTriangle className="h-2.5 w-2.5" /> 硬约束 · {c.label}
+                </span>
+              ))}
+            </div>
+          )}
+          <div className="mt-2 space-y-1 rounded border border-line/60 bg-black/15 px-2 py-1.5">
+            <p className="text-[10.5px] leading-relaxed text-signal/90">{row.reasons.positive}</p>
+            <p className={cn('text-[10.5px] leading-relaxed', row.hardConstraints.length ? 'text-amber' : 'text-muted')}>{row.reasons.caution}</p>
+          </div>
+        </div>
+      </div>
+    </Panel>
+  )
+}
+
 export default function Rankings() {
   const [params, setParams] = useSearchParams()
   const initialWindow = (['day', 'week', 'month', 'year'].includes(params.get('w') || '') ? params.get('w') : 'week') as WindowKey
@@ -223,6 +307,177 @@ export default function Rankings() {
   const activeIndustry = taxonomy.industries.find((x) => x.id === industry)
   const daysLeft = windowData?.items?.length || 0
 
+  /* ---------- v0.3.0 为你推荐模式 ---------- */
+  const [mode, setMode] = useState<'overall' | 'recommend'>(params.get('mode') === 'recommend' ? 'recommend' : 'overall')
+  const [includeHard, setIncludeHard] = useState(false)
+  const { profile, capability } = useProfile()
+
+  const switchMode = (next: 'overall' | 'recommend') => {
+    setMode(next)
+    const nextParams = new URLSearchParams(params)
+    if (next === 'recommend') nextParams.set('mode', 'recommend')
+    else nextParams.delete('mode')
+    setParams(nextParams, { replace: true })
+  }
+
+  const modeSwitch = (
+    <Segmented
+      value={mode}
+      onChange={switchMode}
+      options={[
+        { value: 'overall', label: <><ListOrdered className="h-3 w-3" /> 综合榜</> },
+        { value: 'recommend', label: <><Target className="h-3 w-3" /> 为你推荐</> },
+      ]}
+    />
+  )
+
+  const recommendation = useMemo(
+    () => (profile ? recommendOpportunities(profile, { includeHard, limit: 30 }) : null),
+    [profile, includeHard],
+  )
+  const recRows = useMemo(() => {
+    let rows = recommendation?.rows || []
+    if (industry !== 'all') rows = rows.filter((r) => r.opp.industry_id === industry)
+    if (gap !== 'all') rows = rows.filter((r) => r.opp.gap_type_ids.includes(gap))
+    return rows
+  }, [recommendation, industry, gap])
+  const recStats = useMemo(() => {
+    const rows = recRows
+    const avgFit = rows.length ? rows.reduce((a, r) => a + r.fit, 0) / rows.length : 0
+    const top = rows[0]?.recScore || 0
+    return { count: rows.length, avgFit, top }
+  }, [recRows])
+
+  if (mode === 'recommend') {
+    return (
+      <div>
+        <PageHeader
+          index="02"
+          kicker="RANKINGS · 为你推荐"
+          title="为你推荐 · 按画像重排机会"
+          description="在综合榜的基础上叠加个人能力向量：fit 由 7 维能力与机会需求推导，rec_score = 0.6×机会总分 + 0.4×fit×100，并用 MMR 做行业/区域/信息差多样性；硬约束机会默认不进入推荐。"
+          actions={
+            <div className="flex flex-wrap items-center gap-2">
+              {modeSwitch}
+              <Link to="/profile" className="inline-flex h-7 items-center gap-1 rounded border border-line bg-panel-2 px-2.5 text-[11.5px] text-muted hover:border-line-strong hover:text-ink">
+                <UserRound className="h-3 w-3" /> {profile ? '修改画像' : '设置画像'}
+              </Link>
+            </div>
+          }
+        />
+
+        {!profile ? (
+          <Panel className="p-4">
+            <EmptyState
+              icon={<UserRound className="h-5 w-5" />}
+              title="还没有个人画像，无法生成推荐"
+              hint="先花 1 分钟设置资金/时间/技能/英语/风险 7 维画像；推荐会按你的能力向量重排机会，并解释为什么推荐、为什么不推荐。"
+            />
+            <div className="mt-3 flex flex-wrap items-center justify-center gap-2">
+              <Link to="/profile" className="inline-flex h-8 items-center gap-1.5 rounded border border-signal/40 bg-signal/10 px-3 text-[12px] text-signal">
+                <UserRound className="h-3.5 w-3.5" /> 去设置画像
+              </Link>
+              <button onClick={() => switchMode('overall')} className="inline-flex h-8 items-center gap-1.5 rounded border border-line px-3 text-[12px] text-muted hover:text-ink">
+                返回综合榜
+              </button>
+            </div>
+          </Panel>
+        ) : (
+          <>
+            <Panel className="mb-3 flex flex-wrap items-center gap-x-4 gap-y-2 px-3 py-2.5">
+              <span className="mono-label flex items-center gap-1"><Sparkles className="h-3 w-3 text-amber" /> PROFILE</span>
+              {profileSummaryRows(profile).slice(0, 4).map((row) => (
+                <span key={row.label} className="text-[10.5px] text-dim">
+                  {row.label} <span className="text-muted">{row.value}</span>
+                </span>
+              ))}
+              <span className="flex flex-wrap gap-1">
+                {(['capital', 'time', 'tech', 'content', 'supply', 'english', 'risk'] as Array<keyof CapabilityVector>).map((k) => (
+                  <span key={k} className="rounded border border-line/70 px-1.5 py-0.5 font-mono text-[9px] text-dim">
+                    {CAPABILITY_LABELS[k]} <span className="text-cyan">{(capability as CapabilityVector)[k].toFixed(1)}</span>
+                  </span>
+                ))}
+              </span>
+              <div className="ml-auto flex items-center gap-2">
+                <button
+                  onClick={() => setIncludeHard((v) => !v)}
+                  className={cn(
+                    'inline-flex h-6 items-center gap-1 rounded border px-2 text-[10.5px] transition-colors',
+                    includeHard ? 'border-amber/40 bg-amber/10 text-amber' : 'border-line text-muted hover:text-ink',
+                  )}
+                >
+                  <AlertTriangle className="h-3 w-3" /> {includeHard ? '已包含硬约束' : '显示硬约束'}
+                </button>
+                <Link to="/profile" className="text-[10.5px] text-signal hover:underline">编辑画像 →</Link>
+              </div>
+            </Panel>
+
+            <div className="mb-3 grid grid-cols-2 gap-2.5 sm:grid-cols-4">
+              {[
+                { label: '推荐候选', value: fmtInt(recStats.count), unit: `MMR 排序 · Top 30`, color: '#3ddc97' },
+                { label: '硬约束过滤', value: fmtInt(recommendation?.filteredByHard || 0), unit: '条（资金/资质/供应链/英语）', color: '#ffb547' },
+                { label: '平均 fit', value: fmtPct(recStats.avgFit * 100, 0), unit: '画像 × 机会需求', color: '#4cc9f0' },
+                { label: '最高 rec_score', value: fmtScore(recStats.top), unit: '0.6×total + 0.4×fit×100', color: '#ffd166' },
+              ].map((s) => (
+                <Panel key={s.label} className="px-3 py-2">
+                  <div className="mono-label">{s.label}</div>
+                  <div className="num mt-0.5 text-[18px] font-semibold leading-none" style={{ color: s.color }}>{s.value}</div>
+                  <div className="mt-0.5 text-[9.5px] text-dim">{s.unit}</div>
+                </Panel>
+              ))}
+            </div>
+
+            <div className="mb-2 flex flex-wrap items-center gap-1.5">
+              <button
+                onClick={() => setIndustry('all')}
+                className={cn('rounded border px-2 py-1 text-[11px]', industry === 'all' ? 'border-signal/45 bg-signal/12 text-signal' : 'border-line text-muted')}
+              >
+                全部行业
+              </button>
+              {taxonomy.industries.map((ind) => (
+                <button
+                  key={ind.id}
+                  onClick={() => setIndustry(industry === ind.id ? 'all' : ind.id)}
+                  className={cn(
+                    'inline-flex items-center gap-1.5 rounded border px-2 py-1 text-[11px]',
+                    industry === ind.id ? 'border-line-strong bg-white/[0.06] text-ink' : 'border-line text-muted hover:text-ink',
+                  )}
+                >
+                  <span className="h-1.5 w-1.5 rounded-sm" style={{ background: ind.color }} />
+                  {ind.name}
+                </button>
+              ))}
+              <select
+                value={gap}
+                onChange={(e) => setGap(e.target.value)}
+                className="ml-auto h-[27px] rounded border border-line bg-panel-2 px-1.5 text-[10.5px] text-muted outline-none"
+                aria-label="信息差筛选"
+              >
+                <option value="all">全部信息差</option>
+                {taxonomy.gap_types.map((g) => <option key={g.id} value={g.id}>{g.name}</option>)}
+              </select>
+            </div>
+
+            {!recRows.length ? (
+              <EmptyState title="当前筛选下没有推荐机会" hint="尝试清空行业/信息差筛选，或到画像页调整能力向量。" />
+            ) : (
+              <div className="space-y-2.5">
+                {recRows.map((row) => (
+                  <RecommendationCard key={row.opp.id} row={row} />
+                ))}
+              </div>
+            )}
+
+            <div className="mt-3 rounded border border-line/70 bg-panel/50 px-3 py-2 text-[10px] leading-relaxed text-dim">
+              推荐只改变注意力排序，不改变 data/rankings.json 的权威名次；fit 与 rec_score 在浏览器本地计算、不上传。硬约束默认过滤，
+              打开「显示硬约束」可查看被过滤原因。样本与画像均可随时在 /profile 与 /lab 调整。
+            </div>
+          </>
+        )}
+      </div>
+    )
+  }
+
   return (
     <div>
       <PageHeader
@@ -232,6 +487,7 @@ export default function Rankings() {
         description="以 rank_score 排序的权威榜单（唯一来源 data/rankings.json）。窗口归属、名次与排名变化均由扫描器计算，前端不重算；支持 14 行业板块、12 类信息差、总分/动量排序与卡片/表格双视图。"
         actions={
           <div className="flex flex-wrap items-center gap-2">
+            {modeSwitch}
             <Badge tone="signal"><ListOrdered className="h-3 w-3" /> {windowData?.key || '—'}</Badge>
             <Badge tone="neutral">{windowData?.label || WINDOW_LABEL[win]}</Badge>
             <Segmented
@@ -259,6 +515,14 @@ export default function Rankings() {
         </span>
         {windowBasis === 'history' && rankingsHistoryAsOf && (
           <span className="font-mono text-[9.5px] text-dim">history_as_of {rankingsHistoryAsOf}</span>
+        )}
+        {historyBasisReplayLabel && (
+          <span
+            className="inline-flex items-center gap-1 rounded border border-amber/40 bg-amber/10 px-1.5 py-0.5 font-mono text-[9.5px] text-amber"
+            title={`上期快照为历史回放（replay_as_of ${rankingsHistoryReplayAsOf || '—'}），仅用于补足 delta 演示与历史对照`}
+          >
+            {historyBasisReplayLabel}
+          </span>
         )}
         <div className="ml-auto flex flex-wrap items-center gap-1.5">
           <button

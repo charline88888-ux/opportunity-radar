@@ -2,6 +2,33 @@
 
 格式：`data_version` + 日期 + 变更内容 + 影响面。契约变更（字段/枚举/公式）必须同步更新 `docs/12-数据契约与字段字典.md` 并通知 Lead、前端、红队。
 
+## data-v0.3.0 · 2026-10-22 · MINOR 增量（source-health v2 / 历史回放 / 真实 delta）
+
+> 向后兼容：不删除、不改名既有字段。v0.1.0/v0.2.0 快照见 `releases/`。
+
+### 增量
+- **source-health v2**：每源 `mode ∈ {online-fetch,cache,offline}`、`http_status`(int/null)、`latency_ms`（真实测量；缓存命中 0 且 `cached=true`）、`cached`、`items`、`error`（`ok=false` 必填非空原因）、`checked_at`；`meta.mode/cached_count/online_count`。
+- **历史回放快照**：`--replay-as-of <date> --replay-days N` 生成基准日前 N 天的确定性回放（`meta.reconstructed=true`、`meta.replay_as_of`、`snapshot_at` 确定性、只纳入 `last_activity ≤ 回放日` 的机会）。当前 `data/history/` 3 份：`rankings-2026-10-20.json`（回放，day3/week5/month13/year36，adjacent-window）、`rankings-2026-10-21.json`（回放，day2/week7/month15/year38，history）、`rankings-2026-10-22.json`（真实，day8/week15/month23/year46，history）。
+- **真实 delta**：`rankings.json.meta.delta_basis="history"`、`history_as_of="2026-10-21"`；窗口对比 day 用上一日快照、week/month/year 用同 key 上期；仅两期都出现的机会有 delta，新增 `null/new`；回退口径保留（回放 10-20 即 adjacent-window 示例）。当前 week/month/year 分别 7/15/38 条有 delta，8 条 10-22 新机会为 new。
+- **V19/V20 收紧**：V19 校验全部快照结构、`snapshot_at` 日期对齐、回放必须 `replay_as_of`、最新快照=当日真实快照且与 rankings 一致；V20 校验 source-health v2 全部字段与一致性（缓存 latency=0、失败必须有 error、`meta.mode` 合法）。
+- 数据版本：taxonomy/rankings/stats/sources/playbooks/calendar `meta.data_version` → `0.3.0`；报告改为确定性 `generated_at`（同日重跑字节一致）；单测 28 → **36 条**（新增回放链/幂等、source-health 合法/非法、history 新增不回退）。
+
+### 真实验证结果（2026-10-22 实际运行）
+- `pipeline.py --replay-as-of 2026-10-22 --replay-days 2`：生成 10-20/10-21 回放并重算当前榜单 → 10-22 `delta_basis=history`、`history_as_of=2026-10-21`。
+- `pipeline.py --all`：exit 0，**幂等**（连跑两次 opportunities/rankings/3 份 history/stats/radar.db/reports SHA256 全一致）；validate **20/20 PASS**。
+- `pipeline.py --fetch --no-cache`：真实网络，8 源 **5 成功 / 3 失败**（129 条信号）；失败原因如实写入 source-health：reddit `URLError: timed out`、itunes-reviews 与 shopify-changelog「返回内容不是可解析的 feed（http_status=200，有效条目 0 条）」。成功源真实 latency 848–9218ms。
+- `report.py --all`：4 窗口 × HTML/MD，确定性生成、重跑一致。
+- `db.py --rebuild`：46 opportunities / 88 evidence / 211 rankings_history / 8 source_health。
+- `python -m unittest discover -s scanner/tests`：**36/36 OK**。
+
+### 指纹（SHA256 前 16）
+`opportunities.json` `52B30E45B356CEA9`（未变）｜`rankings.json` `DBF852C62C9B7DDE`｜`history/rankings-2026-10-20.json` `4C48B00AEA36F74E`｜`rankings-2026-10-21.json` `DE8D5A63223EC52C`｜`rankings-2026-10-22.json` `B74E31E950CC39AA`｜`stats.json` `C8C0B24735B933D1`｜`source-health.json` `C3021C8973860B90`｜`radar.db` `424F46DE30F9E368`
+
+### 已知不足
+- 回放快照是「按当日窗口规则重排现有机会」的演示口径（非真实历史存档），UI/文档需明示 `reconstructed=true`。
+- 采集仍只覆盖 RSS/JSON feed；reddit 本次网络超时、itunes/shopify 返回非 feed，属真实网络/源变化，已如实记录，可重跑 `--fetch` 刷新。
+- `verified:true` 仍 5 条；公开 API 源未接线。
+
 ## data-v0.2.0 · 2026-10-22 · MINOR 增量（历史快照 / SQLite / 真实采集 / 报告）
 
 > 向后兼容：不删除、不改名 v0.1.0 的任何必填字段；只新增可选文件/字段与历史快照机制。v0.1.0 快照见 `releases/v0.1.0/`。

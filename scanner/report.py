@@ -123,7 +123,8 @@ def build_window_data(period: str, taxonomy: dict[str, Any], opportunities: list
         "grade_counts": counts,
         "avg_total": avg_total,
         "as_of": rankings["meta"]["as_of"],
-        "generated_at": datetime.now().astimezone().isoformat(timespec="seconds"),
+        # 确定性逻辑生成时间（同日重跑字节一致；真实运行时间见 pipeline 日志）
+        "generated_at": f"{rankings['meta']['as_of']}{config.SNAPSHOT_TIME_SUFFIX}",
         "data_version": rankings["meta"].get("data_version", config.DATA_VERSION),
         "disclaimer": config.DISCLAIMER,
     }

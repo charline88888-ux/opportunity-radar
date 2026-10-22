@@ -16,13 +16,16 @@ import {
   Trash2,
   Wallet,
   XCircle,
+  Target,
 } from 'lucide-react'
 import { PageHeader } from '@/components/PageHeader'
 import { Badge, Button, EmptyState, Panel, ProgressBar, SectionCard, Segmented } from '@/components/ui'
 import { dataAsOf, opportunities, oppById, rankingsDeltaBasis, rankingsHistoryAsOf, historyMeta } from '@/lib/data'
 import {
   ACTIVE_CAPACITY,
+  EXPERIMENT_OUTCOME,
   EXPERIMENT_STATUS,
+  OUTCOME_OPTIONS,
   REVIEW_CYCLE_DAYS,
   experimentDay,
   experimentReviewInfo,
@@ -30,6 +33,7 @@ import {
   statusLabel,
   useExperiments,
   type Experiment,
+  type ExperimentOutcome,
   type ExperimentStatus,
 } from '@/lib/experiments'
 import { downloadExperiments } from '@/lib/exports'
@@ -61,6 +65,20 @@ function StatusBadge({ status }: { status: ExperimentStatus }) {
   )
 }
 
+function OutcomeBadge({ outcome }: { outcome: ExperimentOutcome | null }) {
+  if (!outcome) return <span className="rounded border border-line/70 px-1.5 py-0.5 font-mono text-[9.5px] text-dim">未结案结果</span>
+  const meta = EXPERIMENT_OUTCOME[outcome]
+  return (
+    <span
+      className="inline-flex items-center gap-1 rounded border px-1.5 py-0.5 font-mono text-[9.5px]"
+      style={{ color: meta.color, borderColor: `${meta.color}55`, background: `${meta.color}12` }}
+      title={meta.description}
+    >
+      结果 · {meta.short}
+    </span>
+  )
+}
+
 function ExperimentCard({
   item,
   editing,
@@ -81,6 +99,8 @@ function ExperimentCard({
   const day = experimentDay(item)
   const [draft, setDraft] = useState<Partial<Experiment>>({
     status: item.status,
+    outcome: item.outcome,
+    ended_at: item.ended_at,
     spend_cny: item.spend_cny,
     hours: item.hours,
     conclusion: item.conclusion,
@@ -89,11 +109,21 @@ function ExperimentCard({
   useEffect(() => {
     setDraft({
       status: item.status,
+      outcome: item.outcome,
+      ended_at: item.ended_at,
       spend_cny: item.spend_cny,
       hours: item.hours,
       conclusion: item.conclusion,
     })
-  }, [item.status, item.spend_cny, item.hours, item.conclusion, editing])
+  }, [item.status, item.outcome, item.ended_at, item.spend_cny, item.hours, item.conclusion, editing])
+
+  const closeWith = (status: ExperimentStatus, outcome: ExperimentOutcome) =>
+    onUpdate({
+      status,
+      outcome,
+      ended_at: dayjs().format('YYYY-MM-DD'),
+      conclusion: item.conclusion || EXPERIMENT_OUTCOME[outcome].description,
+    })
 
   return (
     <Panel className={cn('p-3', item.status === 'active' && 'border-amber/25')}>
@@ -101,6 +131,7 @@ function ExperimentCard({
         <div className="min-w-0 flex-1">
           <div className="flex min-w-0 flex-wrap items-center gap-1.5">
             <StatusBadge status={item.status} />
+            <OutcomeBadge outcome={item.outcome} />
             <Link to={`/opportunities/${item.opp_id}`} className="min-w-0 truncate text-[13px] font-semibold text-ink hover:text-signal">
               {item.title}
             </Link>
@@ -109,6 +140,7 @@ function ExperimentCard({
           </div>
           <div className="mt-1 flex flex-wrap items-center gap-x-3 gap-y-1 font-mono text-[9.5px] text-dim">
             <span>开始 {item.started_at}</span>
+            {item.ended_at && <span>结案 {item.ended_at}</span>}
             <span>第 {day} 天 / {REVIEW_CYCLE_DAYS} 天周期</span>
             <span className={cn(review.overdue ? 'text-danger' : review.daysLeft <= 1 ? 'text-amber' : '')}>
               复盘 {review.dueDate}{review.overdue ? ' · 已逾期' : review.daysLeft === 0 ? ' · 今天' : ` · 还有 ${review.daysLeft} 天`}
@@ -120,11 +152,14 @@ function ExperimentCard({
             <>
               {item.status === 'active' && (
                 <>
-                  <Button size="xs" variant="primary" onClick={() => onUpdate({ status: 'verified', conclusion: item.conclusion || '已验证：达到 7 天验证目标' })}>
-                    <CheckCircle2 className="h-3 w-3" /> 已验证
+                  <Button size="xs" variant="primary" onClick={() => closeWith('verified', 'positive')}>
+                    <CheckCircle2 className="h-3 w-3" /> 正向结案
                   </Button>
-                  <Button size="xs" variant="outline" onClick={() => onUpdate({ status: 'abandoned', conclusion: item.conclusion || '已放弃：未达验证标准' })}>
-                    <XCircle className="h-3 w-3" /> 已放弃
+                  <Button size="xs" variant="outline" onClick={() => closeWith('abandoned', 'negative')}>
+                    <XCircle className="h-3 w-3" /> 负向结案
+                  </Button>
+                  <Button size="xs" variant="ghost" onClick={() => closeWith('abandoned', 'inconclusive')}>
+                    结果不明确
                   </Button>
                 </>
               )}
@@ -189,6 +224,28 @@ function ExperimentCard({
               </select>
             </label>
             <label className="block">
+              <span className="mono-label">结果 outcome（用于校准）</span>
+              <select
+                className={inputCls}
+                value={draft.outcome || ''}
+                onChange={(e) => setDraft((d) => ({ ...d, outcome: (e.target.value || null) as ExperimentOutcome | null }))}
+              >
+                <option value="">未结案 / 暂无结果</option>
+                {OUTCOME_OPTIONS.map((o) => (
+                  <option key={o} value={o}>{EXPERIMENT_OUTCOME[o].label}</option>
+                ))}
+              </select>
+            </label>
+            <label className="block">
+              <span className="mono-label">结案日期</span>
+              <input
+                type="date"
+                className={inputCls}
+                value={draft.ended_at || ''}
+                onChange={(e) => setDraft((d) => ({ ...d, ended_at: e.target.value || null }))}
+              />
+            </label>
+            <label className="block">
               <span className="mono-label">已花费 CNY</span>
               <input
                 type="number"
@@ -209,6 +266,9 @@ function ExperimentCard({
                 onChange={(e) => setDraft((d) => ({ ...d, hours: Number(e.target.value) || 0 }))}
               />
             </label>
+            <div className="rounded border border-line/60 bg-black/15 px-2 py-1.5 text-[9.5px] leading-relaxed text-dim">
+              outcome 与机会评分 join 后，会在「回测校准」页检查预测等级是否说得准；样本 &lt;3 只做方向性提示。
+            </div>
           </div>
           <label className="mt-2 block">
             <span className="mono-label">结论 / 复盘记录</span>
@@ -222,7 +282,17 @@ function ExperimentCard({
           </label>
           <div className="mt-1.5 flex justify-end gap-1.5">
             <Button size="xs" variant="ghost" onClick={onCancelEdit}>取消</Button>
-            <Button size="xs" variant="primary" onClick={() => onUpdate(draft)}>保存记录</Button>
+            <Button
+              size="xs"
+              variant="primary"
+              onClick={() => {
+                const patch: Partial<Experiment> = { ...draft }
+                if (patch.outcome && !patch.ended_at) patch.ended_at = dayjs().format('YYYY-MM-DD')
+                onUpdate(patch)
+              }}
+            >
+              保存记录
+            </Button>
           </div>
         </div>
       )}
@@ -278,6 +348,13 @@ export default function Lab() {
             <Button size="sm" variant="outline" onClick={() => downloadExperiments(items, 'json')} disabled={!items.length}>
               <FileJson className="h-3.5 w-3.5" /> 导出 JSON
             </Button>
+            <Link
+              to="/calibration"
+              className="inline-flex h-7 items-center gap-1.5 rounded border border-cyan/35 bg-cyan/10 px-2.5 text-[12px] text-cyan transition-colors hover:bg-cyan/20"
+              title="回测校准：预测等级 vs 实验结果"
+            >
+              <Target className="h-3.5 w-3.5" /> 回测校准
+            </Link>
           </div>
         }
       />

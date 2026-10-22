@@ -1,0 +1,9 @@
+2026-10-20: 回放复算匹配口径 = ['A:cutoff(last_activity<=as_of)']
+  counts: {'day': 3, 'week': 5, 'month': 13, 'year': 36}
+2026-10-21: 回放复算匹配口径 = ['A:cutoff(last_activity<=as_of)']
+  counts: {'day': 2, 'week': 7, 'month': 15, 'year': 38}
+{
+  "p0": [],
+  "p1": []
+}
+RESULT: PASS

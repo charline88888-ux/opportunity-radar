@@ -405,12 +405,6 @@ export const rankingWindowMeta = rankings.windows
 export const rankingsDeltaBasis: DeltaBasis = rankings.meta.delta_basis || 'adjacent-window'
 export const rankingsHistoryAsOf: string | null = rankings.meta.history_as_of ?? null
 export const rankingsTieBreaker: string = rankings.meta.tie_breaker || ''
-export const deltaBasisLabel =
-  rankingsDeltaBasis === 'history' ? '较上一快照' : '相邻窗口（历史快照不足 1 天）'
-export const deltaBasisShort = rankingsDeltaBasis === 'history' ? '较上一快照' : '相邻窗口口径'
-export function deltaBasisText(basis: DeltaBasis | undefined | null): string {
-  return basis === 'history' ? '较上一快照' : '相邻窗口（历史快照不足 1 天）'
-}
 
 /** 某个机会在所有榜单中的名次 */
 export function getOppRanks(oppId: string) {
@@ -600,6 +594,7 @@ export const historyMeta: HistoryMeta = {
       as_of: str(s.as_of) || undefined,
       snapshot_at: str(s.snapshot_at) || null,
       reconstructed: bool(s.reconstructed),
+      replay_as_of: s.replay_as_of == null ? null : str(s.replay_as_of) || null,
       delta_basis: s.delta_basis == null ? null : str(s.delta_basis),
       window_counts: isObj(s.window_counts)
         ? Object.fromEntries(Object.entries(s.window_counts).map(([k, v]) => [k, int(v)]))
@@ -611,6 +606,7 @@ export const historyMeta: HistoryMeta = {
 const rawSourceHealth = obj(sourceHealthJson)
 export const sourceHealth: SourceHealth = {
   available: bool(rawSourceHealth.available),
+  mode: str(rawSourceHealth.mode) || null,
   checked_at: str(rawSourceHealth.checked_at) || null,
   total: int(rawSourceHealth.total),
   ok_count: int(rawSourceHealth.ok_count),
@@ -621,6 +617,7 @@ export const sourceHealth: SourceHealth = {
       id: str(s.id),
       name: str(s.name) || undefined,
       ok: bool(s.ok),
+      mode: str(s.mode) || undefined,
       checked_at: str(s.checked_at) || undefined,
       latency_ms: typeof s.latency_ms === 'number' ? num(s.latency_ms) : undefined,
       http_status:
@@ -640,6 +637,30 @@ export const sourceHealth: SourceHealth = {
 }
 export const sourceHealthById = new Map(sourceHealth.sources.map((s) => [s.id, s]))
 
+/* ============================ v0.3.0 delta / history 口径展示 ============================ */
+
+export const rankingsHistorySnapshot =
+  historyMeta.snapshots.find((s) => s.date === rankingsHistoryAsOf) || null
+export const rankingsHistoryReconstructed = rankingsHistorySnapshot?.reconstructed ?? false
+export const rankingsHistoryReplayAsOf = rankingsHistorySnapshot?.replay_as_of ?? null
+export const historyReplaySnapshots = historyMeta.snapshots.filter((s) => s.reconstructed)
+
+export const deltaBasisLabel =
+  rankingsDeltaBasis === 'history' && rankingsHistoryAsOf
+    ? `较上一快照（${rankingsHistoryAsOf}）`
+    : '相邻窗口（历史快照不足 1 天）'
+export const deltaBasisShort =
+  rankingsDeltaBasis === 'history' ? '较上一快照' : '相邻窗口口径'
+export function deltaBasisText(basis: DeltaBasis | undefined | null): string {
+  if (basis === 'history') {
+    return rankingsHistoryAsOf ? `较上一快照（${rankingsHistoryAsOf}）` : '较上一快照'
+  }
+  return '相邻窗口（历史快照不足 1 天）'
+}
+/** 上一份用于 delta 的快照是否为历史回放（reconstructed=true） */
+export const historyBasisReplayLabel =
+  rankingsDeltaBasis === 'history' && rankingsHistoryReconstructed ? '历史回放' : null
+
 /* ============================ meta & lookups ============================ */
 
 export const dataMeta: DataMeta = {
@@ -657,10 +678,12 @@ export const dataMeta: DataMeta = {
     source_health: sourceHealth.available
       ? {
           available: true,
+          mode: sourceHealth.mode,
           checked_at: sourceHealth.checked_at,
           total: sourceHealth.total,
           ok: sourceHealth.ok_count,
           failed: sourceHealth.fail_count,
+          failed_ids: sourceHealth.sources.filter((s) => !s.ok).map((s) => s.id),
         }
       : { available: false },
   },
@@ -677,7 +700,7 @@ export const dataMeta: DataMeta = {
 }
 
 export const isMockData = dataMeta.source !== 'real'
-export const appVersion = '0.2.0'
+export const appVersion = '0.3.0'
 export const dataAsOf = asOf
 export const repoUrl = 'https://github.com/charline88888-ux/opportunity-radar'
 export const onlineUrl = 'https://charline88888-ux.github.io/opportunity-radar/'

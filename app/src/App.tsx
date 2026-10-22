@@ -13,6 +13,9 @@ import Method from '@/pages/Method'
 import Sources from '@/pages/Sources'
 import CalendarPage from '@/pages/Calendar'
 import Lab from '@/pages/Lab'
+import Profile from '@/pages/Profile'
+import Alerts from '@/pages/Alerts'
+import Calibration from '@/pages/Calibration'
 import About from '@/pages/About'
 
 function ScrollToTop() {
@@ -58,6 +61,9 @@ export default function App() {
               <Route path="/sources" element={<Sources />} />
               <Route path="/calendar" element={<CalendarPage />} />
               <Route path="/lab" element={<Lab />} />
+              <Route path="/profile" element={<Profile />} />
+              <Route path="/alerts" element={<Alerts />} />
+              <Route path="/calibration" element={<Calibration />} />
               <Route path="/about" element={<About />} />
               <Route path="*" element={<NotFound />} />
             </Routes>

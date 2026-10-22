@@ -69,19 +69,32 @@ def _delta_for(
     rank: int,
     window: str,
     history_ranks: dict[str, dict[str, int]],
+    window_has_history: bool,
     current_rank_maps: dict[str, dict[str, int]],
 ) -> tuple[int | None, str]:
-    """返回 (delta, change)。history 优先，其次相邻窗口回退。"""
-    prev_rank = (history_ranks.get(window) or {}).get(opp_id)
-    if prev_rank is None:
-        reference = REFERENCE[window]
-        if reference is not None:
-            prev_rank = current_rank_maps.get(reference, {}).get(opp_id)
-    if prev_rank is None:
-        return None, "new"
-    delta = int(prev_rank - rank)
-    change = "up" if delta > 0 else "down" if delta < 0 else "flat"
-    return delta, change
+    """返回 (delta, change)。
+
+    v0.3.0 真实 delta：
+    - 上一快照该窗口非空（window_has_history）→ 只比较同窗口上期名次；
+      两期都出现才有 delta，新增为 null/new（不再回退相邻窗口）；
+    - 上一快照缺失或该窗口上期为空 → 回退 adjacent-window 口径。
+    """
+    if window_has_history:
+        prev_rank = (history_ranks.get(window) or {}).get(opp_id)
+        if prev_rank is None:
+            return None, "new"
+        delta = int(prev_rank - rank)
+        change = "up" if delta > 0 else "down" if delta < 0 else "flat"
+        return delta, change
+
+    reference = REFERENCE[window]
+    if reference is not None:
+        prev_rank = current_rank_maps.get(reference, {}).get(opp_id)
+        if prev_rank is not None:
+            delta = int(prev_rank - rank)
+            change = "up" if delta > 0 else "down" if delta < 0 else "flat"
+            return delta, change
+    return None, "new"
 
 
 def build_rankings(
@@ -111,16 +124,16 @@ def build_rankings(
     windows: dict[str, Any] = {}
     for window in WINDOWS:
         items = []
-        window_uses_history = False
+        # 上一快照该窗口非空 → 该窗口用 history 口径；否则整体回退 adjacent-window
+        window_has_history = previous_snapshot is not None and bool(history_ranks.get(window))
         for idx, opp in enumerate(sorted_by_window[window]):
             rank = idx + 1
-            if (history_ranks.get(window) or {}).get(opp["id"]) is not None:
-                window_uses_history = True
             delta, change = _delta_for(
                 opp_id=opp["id"],
                 rank=rank,
                 window=window,
                 history_ranks=history_ranks,
+                window_has_history=window_has_history,
                 current_rank_maps=current_rank_maps,
             )
             items.append(
@@ -137,7 +150,7 @@ def build_rankings(
             "key": window_key(window, as_of),
             "label": window_label(window, as_of),
             "count": len(items),
-            "delta_basis": "history" if window_uses_history else "adjacent-window",
+            "delta_basis": "history" if window_has_history else "adjacent-window",
             "items": items,
         }
 

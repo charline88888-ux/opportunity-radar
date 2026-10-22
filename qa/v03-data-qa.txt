@@ -1,0 +1,16 @@
+==================================================================================
+机会雷达 v0.3.0 · 红队独立数据验收（qa/data-qa-v03.py）
+==================================================================================
+P0 = 0    P1 = 0    P2 = 0
+----------------------------------------------------------------------------------
+  · history 2026-10-20: reconstructed=True replay_as_of=2026-10-20 counts={'day': 3, 'week': 5, 'month': 13, 'year': 36}
+  · history 2026-10-21: reconstructed=True replay_as_of=2026-10-21 counts={'day': 2, 'week': 7, 'month': 15, 'year': 38}
+  · history 2026-10-22: reconstructed=False replay_as_of=None counts={'day': 8, 'week': 15, 'month': 23, 'year': 46}
+  · delta 独立复算：92 条（有可比上期 60 条，新增 32 条）
+  · source-health：8 源 / ok=5 / failed=3 / meta.mode=online-fetch
+  ·   失败源：reddit error='URLError: <urlopen error timed out>' http_status=None mode=online-fetch
+  ·   失败源：itunes-reviews error='返回内容不是可解析的 feed（http_status=200，有效条目 0 条）' http_status=200 mode=online-fetch
+  ·   失败源：shopify-changelog error='返回内容不是可解析的 feed（http_status=200，有效条目 0 条）' http_status=200 mode=online-fetch
+  · reports: html=4 md=4
+  · radar.db rankings_history rows=211（3 份快照）
+==================================================================================

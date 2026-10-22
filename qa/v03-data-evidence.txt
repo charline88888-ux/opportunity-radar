@@ -1,0 +1,60 @@
+== 数据指纹（SHA256 前 16）==
+data/opportunities.json  52b30e45b356cea9
+data/rankings.json  dbf852c62c9b7dde
+data/history/rankings-2026-10-20.json  4c48b00aea36f74e
+data/history/rankings-2026-10-21.json  de8d5a63223ec52c
+data/history/rankings-2026-10-22.json  b74e31e950cc39aa
+data/stats.json  c8c0b24735b933d1
+data/source-health.json  c3021c8973860b90
+data/taxonomy.json  496bc19a8f4e5504
+data/radar.db  424f46de30f9e368
+rankings.meta: delta_basis=history history_as_of=2026-10-21
+day [history] n=8 有delta=0 new=8 up=0 down=0 flat=0
+   ('opp-crossborder-mercadolibre-030', 'rank', 1, 'delta', None, 'change', 'new')
+   ('opp-pet-memorial-glass-001', 'rank', 2, 'delta', None, 'change', 'new')
+   ('opp-emotional-grieftech-007', 'rank', 3, 'delta', None, 'change', 'new')
+   ('opp-xb-temu-eu-compliance-014', 'rank', 4, 'delta', None, 'change', 'new')
+   ('opp-pet-china-endlife-002', 'rank', 5, 'delta', None, 'change', 'new')
+   ('opp-culture-ramadan-027', 'rank', 6, 'delta', None, 'change', 'new')
+week [history] n=15 有delta=7 new=8 up=0 down=7 flat=0
+   ('opp-crossborder-mercadolibre-030', 'rank', 1, 'delta', None, 'change', 'new')
+   ('opp-pet-memorial-glass-001', 'rank', 2, 'delta', None, 'change', 'new')
+   ('opp-local-umrah-service-025', 'rank', 3, 'delta', -2, 'change', 'down')
+   ('opp-emotional-grieftech-007', 'rank', 4, 'delta', None, 'change', 'new')
+   ('opp-xb-temu-eu-compliance-014', 'rank', 5, 'delta', None, 'change', 'new')
+   ('opp-pet-china-endlife-002', 'rank', 6, 'delta', None, 'change', 'new')
+month [history] n=23 有delta=15 new=8 up=0 down=15 flat=0
+   ('opp-crossborder-mercadolibre-030', 'rank', 1, 'delta', None, 'change', 'new')
+   ('opp-pet-memorial-glass-001', 'rank', 2, 'delta', None, 'change', 'new')
+   ('opp-local-umrah-service-025', 'rank', 3, 'delta', -2, 'change', 'down')
+   ('opp-local-furusato-nozei-024', 'rank', 4, 'delta', -2, 'change', 'down')
+   ('opp-emotional-grieftech-007', 'rank', 5, 'delta', None, 'change', 'new')
+   ('opp-xb-temu-eu-compliance-014', 'rank', 6, 'delta', None, 'change', 'new')
+year [history] n=46 有delta=38 new=8 up=0 down=38 flat=0
+   ('opp-crossborder-mercadolibre-030', 'rank', 1, 'delta', None, 'change', 'new')
+   ('opp-pet-memorial-glass-001', 'rank', 2, 'delta', None, 'change', 'new')
+   ('opp-local-umrah-service-025', 'rank', 3, 'delta', -2, 'change', 'down')
+   ('opp-local-furusato-nozei-024', 'rank', 4, 'delta', -2, 'change', 'down')
+   ('opp-emotional-grieftech-007', 'rank', 5, 'delta', None, 'change', 'new')
+   ('opp-xb-temu-eu-compliance-014', 'rank', 6, 'delta', None, 'change', 'new')
+样例 umrah week: {"opp_id": "opp-local-umrah-service-025", "rank": 3, "rank_score": 81.4, "total": 76.8, "delta": -2, "change": "down"}
+样例 umrah month: {"opp_id": "opp-local-umrah-service-025", "rank": 3, "rank_score": 81.4, "total": 76.8, "delta": -2, "change": "down"}
+样例 umrah year: {"opp_id": "opp-local-umrah-service-025", "rank": 3, "rank_score": 81.4, "total": 76.8, "delta": -2, "change": "down"}
+10-21 meta: basis=history history_as_of=2026-10-20
+10-20 meta: basis=adjacent-window history_as_of=None
+10-21 delta 独立复算: checked=54 ok=True
+source-health meta={"data_version": "0.3.0", "as_of": "2026-10-22", "generated_at": "2026-10-22T17:25:44+08:00", "generator": "scanner/fetch.py", "count": 8, "ok_count": 5, "failed_count": 3, "mode": "online-fetch", "cached_count": 0, "online_count": 8, "note": "source-health v2：mode/http_status/latency_ms/cached/items/error；缓存命中 latency 记 0"}
+  reddit             ok=False mode=online-fetch cached=False http=None latency=0     items=0   error=URLError: <urlopen error timed out>
+  itunes-reviews     ok=False mode=online-fetch cached=False http=200  latency=317   items=0   error=返回内容不是可解析的 feed（http_status=200，有效条目 0 条）
+  shopify-changelog  ok=False mode=online-fetch cached=False http=200  latency=2649  items=0   error=返回内容不是可解析的 feed（http_status=200，有效条目 0 条）
+  hnrss              ok=True  mode=online-fetch cached=False http=200  latency=9218  items=20  error=
+  app-store-rss      ok=True  mode=online-fetch cached=False http=200  latency=874   items=30  error=
+  arxiv-rss          ok=True  mode=online-fetch cached=False http=200  latency=1501  items=30  error=
+  techcrunch-rss     ok=True  mode=online-fetch cached=False http=200  latency=931   items=20  error=
+  producthunt-feed   ok=True  mode=online-fetch cached=False http=200  latency=1223  items=30  error=
+data_version[taxonomy]=0.3.0
+data_version[rankings]=0.3.0
+data_version[stats]=0.3.0
+data_version[sources]=0.3.0
+data_version[playbooks]=0.3.0
+data_version[calendar]=0.3.0

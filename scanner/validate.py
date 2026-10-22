@@ -667,22 +667,43 @@ def _v18(ctx: dict[str, Any]) -> str:
 
 # ---------------------------------------------------------------- V19
 def _v19(ctx: dict[str, Any]) -> str:
+    """v0.3.0 收紧：所有历史快照结构合法；回放必须 reconstructed=true + replay_as_of；
+    最新一份快照 = 当日真实快照，且与 rankings.json windows 顺序/分数一致。"""
     rankings = _rankings(ctx)
     as_of = _as_of(ctx)
-    as_of_iso = as_of.isoformat()
-    snapshot_file = history.snapshot_path(as_of)
-    _require(snapshot_file.exists(), f"缺少当天历史快照 {snapshot_file.relative_to(config.ROOT)}")
-    snapshot = common.load_json(snapshot_file)
-    issues = history.validate_snapshot_shape(snapshot, as_of)
-    # 与同日 rankings.json 的窗口 items 顺序/分数一致
-    if snapshot.get("windows") != rankings.get("windows"):
-        issues.append("快照 windows 与 rankings.json 不一致")
-    _require(not issues, "；".join(issues[:8]))
     snapshots = history.list_snapshots()
-    for day, _path in snapshots:
+    _require(bool(snapshots), "data/history/ 下没有任何历史快照")
+    issues: list[str] = []
+    replay_dates: list[str] = []
+    for day, path in snapshots:
+        snapshot = common.load_json(path)
+        issues.extend(history.validate_snapshot_shape(snapshot, day))
         if day > as_of:
-            raise CheckFailure(f"历史快照日期 {day} 晚于 as_of {as_of_iso}")
-    return f"{len(snapshots)} 份历史快照合法，最新快照与 rankings 一致"
+            issues.append(f"{day}: 历史快照日期晚于 as_of {as_of.isoformat()}")
+        if (snapshot.get("meta") or {}).get("reconstructed") is True:
+            replay_dates.append(day.isoformat())
+    _require(not issues, "；".join(issues[:8]))
+
+    latest_day, latest_path = snapshots[-1]
+    _require(
+        latest_day == as_of,
+        f"最新快照日期 {latest_day} 必须等于 as_of {as_of.isoformat()}（真实快照）",
+    )
+    latest = common.load_json(latest_path)
+    _require(
+        (latest.get("meta") or {}).get("reconstructed") is False,
+        "最新快照必须是真实快照（meta.reconstructed=false）",
+    )
+    _require(latest.get("windows") == rankings.get("windows"), "最新快照 windows 与 rankings.json 不一致")
+    # 最新快照的 delta_basis / history_as_of 必须与当前 rankings 一致
+    _require(
+        (latest.get("meta") or {}).get("delta_basis") == (rankings.get("meta") or {}).get("delta_basis"),
+        "最新快照 meta.delta_basis 与 rankings.json 不一致",
+    )
+    return (
+        f"{len(snapshots)} 份历史快照合法（回放 {len(replay_dates)} 份："
+        f"{', '.join(replay_dates) or '无'}；最新 {latest_day} 与 rankings 一致）"
+    )
 
 
 # ---------------------------------------------------------------- V20
@@ -700,30 +721,57 @@ def _v20(ctx: dict[str, Any]) -> str:
     }
     rows = data.get("sources") or []
     _require(isinstance(rows, list), "source-health.sources 不是数组")
+    meta = data.get("meta") or {}
     errors: list[str] = []
+    if meta.get("mode") not in config.SOURCE_HEALTH_META_MODES:
+        errors.append(f"meta.mode={meta.get('mode')} 非法")
+    if meta.get("count") is not None and meta.get("count") != len(rows):
+        errors.append("meta.count 与 sources 数量不一致")
     for row in rows:
         source_id = row.get("id")
         if source_id not in valid_ids:
             errors.append(f"{source_id}: id 不在 sources.json")
         if not isinstance(row.get("ok"), bool):
             errors.append(f"{source_id}: ok 非 bool")
+        mode = row.get("mode")
+        if mode not in config.SOURCE_HEALTH_MODES:
+            errors.append(f"{source_id}: mode={mode} 非法")
+        if not isinstance(row.get("cached"), bool):
+            errors.append(f"{source_id}: cached 非 bool")
         latency = row.get("latency_ms")
         if not isinstance(latency, int) or latency < 0:
             errors.append(f"{source_id}: latency_ms 非非负整数")
+        if "http_status" not in row:
+            errors.append(f"{source_id}: 缺少 http_status")
+        else:
+            http_status = row.get("http_status")
+            if http_status is not None and (not isinstance(http_status, int) or http_status < 0):
+                errors.append(f"{source_id}: http_status 非 int/null")
         checked_at = row.get("checked_at")
         try:
             datetime.fromisoformat(str(checked_at))
         except (TypeError, ValueError):
             errors.append(f"{source_id}: checked_at 非法")
-        status = row.get("status")
-        if status is not None and (not isinstance(status, int) or status < 0):
-            errors.append(f"{source_id}: status 非法")
         items = row.get("items")
-        if items is not None and (not isinstance(items, int) or items < 0):
-            errors.append(f"{source_id}: items 非法")
+        if not isinstance(items, int) or items < 0:
+            errors.append(f"{source_id}: items 非非负整数")
+        if row.get("cached") is True:
+            if mode != "cache":
+                errors.append(f"{source_id}: cached=true 时 mode 必须为 cache")
+            if latency != 0:
+                errors.append(f"{source_id}: 缓存命中 latency_ms 必须为 0")
+        if mode == "cache" and row.get("cached") is not True:
+            errors.append(f"{source_id}: mode=cache 时 cached 必须为 true")
+        if row.get("ok") is False:
+            error_text = row.get("error")
+            if not isinstance(error_text, str) or not error_text.strip():
+                errors.append(f"{source_id}: ok=false 时 error 必须为非空原因")
+        if row.get("ok") is True and mode == "offline":
+            errors.append(f"{source_id}: offline 模式不应 ok=true")
     _require(not errors, "；".join(errors[:12]))
     ok_count = sum(1 for row in rows if row.get("ok"))
-    return f"{len(rows)} 个源健康度合法（ok={ok_count}）"
+    modes = sorted({row.get("mode") for row in rows})
+    return f"{len(rows)} 个源健康度合法（ok={ok_count}，modes={modes}）"
 
 
 # ---------------------------------------------------------------- 附加（非 V 规则，仅提示）

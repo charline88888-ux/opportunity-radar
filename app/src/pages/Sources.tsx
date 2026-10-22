@@ -1,10 +1,11 @@
 import { useMemo, useState } from 'react'
+import { Link } from 'react-router-dom'
 import type { EChartsOption } from 'echarts'
-import { Database, ExternalLink, Filter, Search, ShieldCheck } from 'lucide-react'
+import { Activity, CloudOff, Database, ExternalLink, Filter, Search, ShieldCheck } from 'lucide-react'
 import { Chart } from '@/components/charts/Chart'
 import { PageHeader } from '@/components/PageHeader'
 import { Badge, EmptyState, Panel, ProgressBar, SectionCard } from '@/components/ui'
-import { allSources, regionName, sources } from '@/lib/data'
+import { allSources, regionName, sourceHealth, sourceHealthById, sources } from '@/lib/data'
 import {
   ACCESS_LABEL,
   cn,
@@ -21,6 +22,28 @@ const LEGEND = [
   { id: 'yellow', label: '黄 · 灰区需限速', desc: '抓取前读 ToS，控制频率，优先官方接口' },
   { id: 'red', label: '红 · 不建议自动抓取', desc: '仅人工浏览，不绕过登录/付费墙' },
 ] as const
+
+function SourceHealthCell({ id }: { id: string }) {
+  const sh = sourceHealthById.get(id)
+  if (!sourceHealth.available || !sh) return <span className="text-[9.5px] text-dim">—</span>
+  return (
+    <div className="min-w-0">
+      <div className="flex items-center gap-1.5">
+        <span className={cn('h-1.5 w-1.5 shrink-0 rounded-full', sh.ok ? 'bg-signal' : 'bg-danger')} />
+        <span className={cn('font-mono text-[9.5px]', sh.ok ? 'text-muted' : 'text-danger')}>{sh.ok ? 'OK' : 'FAIL'}</span>
+        <span className="font-mono text-[9px] text-dim">{sh.mode || '—'}</span>
+        {sh.latency_ms != null && <span className="font-mono text-[9px] text-dim">{sh.latency_ms}ms</span>}
+        {sh.cached && <span className="font-mono text-[8.5px] text-cyan">cached</span>}
+      </div>
+      {!sh.ok && (
+        <div className="mt-0.5 truncate font-mono text-[8.5px] text-danger/80" title={String(sh.error || '')}>
+          {String(sh.error || '失败')}
+        </div>
+      )}
+      {sh.ok && sh.http_status != null && <div className="font-mono text-[8.5px] text-dim">HTTP {sh.http_status} · {sh.items ?? 0} items</div>}
+    </div>
+  )
+}
 
 export default function Sources() {
   const [query, setQuery] = useState('')
@@ -205,6 +228,32 @@ export default function Sources() {
         </SectionCard>
       </div>
 
+      <Panel className="mb-3 flex flex-wrap items-center gap-x-4 gap-y-2 px-3 py-2">
+        {sourceHealth.available ? (
+          <>
+            <Activity className="h-4 w-4 text-signal" />
+            <span className="text-[11px] text-muted">
+              在线采集健康：<span className="num text-signal">{sourceHealth.ok_count}/{sourceHealth.total} ok</span>
+              <span className="ml-2 font-mono text-[10px] text-dim">mode {sourceHealth.mode || '—'}</span>
+              <span className="ml-2 font-mono text-[10px] text-dim">{sourceHealth.checked_at || '—'}</span>
+            </span>
+            {sourceHealth.fail_count > 0 && <Badge tone="danger">失败 {sourceHealth.fail_count} 个 · 见 About/预警中心</Badge>}
+            <span className="ml-auto flex items-center gap-2 text-[10px]">
+              <span className="text-dim">v2 字段：mode / latency / cached / error / checked_at</span>
+              <Link to="/alerts" className="text-muted hover:text-signal">查看预警 →</Link>
+            </span>
+          </>
+        ) : (
+          <>
+            <CloudOff className="h-4 w-4 text-dim" />
+            <span className="text-[11px] text-muted">
+              离线模式：未运行在线采集（<span className="font-mono text-dim">data/source-health.json</span> 可选缺失）；下表为静态数据源矩阵。
+            </span>
+            <span className="ml-auto text-[10px] text-dim">运行 <span className="font-mono">python scanner/pipeline.py --fetch</span> 后显示实测健康</span>
+          </>
+        )}
+      </Panel>
+
       <Panel className="mb-3 flex flex-wrap items-center gap-x-5 gap-y-2 px-3 py-2">
         <span className="mono-label">合规色图例</span>
         {LEGEND.map((l) => (
@@ -239,7 +288,7 @@ export default function Sources() {
               bodyClassName="p-0"
             >
               <div className="overflow-x-auto">
-                <table className="table-dense min-w-[980px]">
+                <table className="table-dense min-w-[1100px]">
                   <thead>
                     <tr>
                       <th className="w-44">名称</th>
@@ -249,6 +298,7 @@ export default function Sources() {
                       <th className="w-20">成本</th>
                       <th className="w-24">合规色</th>
                       <th className="w-24">价值分</th>
+                      <th className="w-36">在线健康</th>
                       <th>备注 / 采集要点</th>
                     </tr>
                   </thead>
@@ -278,6 +328,7 @@ export default function Sources() {
                             <span className="num text-[10px] text-muted">{fmtScore(s.value_score)}</span>
                           </div>
                         </td>
+                        <td><SourceHealthCell id={s.id} /></td>
                         <td className="max-w-[460px] text-[10px] leading-relaxed text-dim">{s.notes}</td>
                       </tr>
                     ))}

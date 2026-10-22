@@ -258,7 +258,7 @@ export interface Rankings {
   windows: Record<WindowKey, RankingWindow>
 }
 
-/** sync-data.mjs 生成的 history 快照元信息（v0.2.0 可选） */
+/** sync-data.mjs 生成的 history 快照元信息（v0.2.0 可选，v0.3.0 增加回放字段） */
 export interface HistorySnapshotMeta {
   file: string
   date: string
@@ -266,6 +266,7 @@ export interface HistorySnapshotMeta {
   as_of?: string
   snapshot_at?: string | null
   reconstructed?: boolean
+  replay_as_of?: string | null
   delta_basis?: string | null
   window_counts?: Record<string, number>
 }
@@ -279,11 +280,12 @@ export interface HistoryMeta {
   note?: string
 }
 
-/** data/source-health.json（v0.2.0 可选，真实 --fetch 后生成） */
+/** data/source-health.json（v0.2.0 可选；v0.3.0 增加 mode/http_status/error 等 v2 字段） */
 export interface SourceHealthEntry {
   id: string
   name?: string
   ok: boolean
+  mode?: 'online-fetch' | 'cache' | 'offline' | string
   checked_at?: string
   latency_ms?: number
   http_status?: number | null
@@ -301,6 +303,7 @@ export interface SourceHealthEntry {
 
 export interface SourceHealth {
   available: boolean
+  mode?: string | null
   checked_at?: string | null
   total: number
   ok_count: number
@@ -444,7 +447,15 @@ export interface DataMeta {
       history_as_of?: string | null
       snapshots?: HistorySnapshotMeta[]
     }
-    source_health?: { available: boolean; checked_at?: string | null; total?: number; ok?: number; failed?: number }
+    source_health?: {
+      available: boolean
+      mode?: string | null
+      checked_at?: string | null
+      total?: number
+      ok?: number
+      failed?: number
+      failed_ids?: string[]
+    }
   }
   validation?: { passed: number; failed: number; checks: DataValidationCheck[] }
   notes?: string

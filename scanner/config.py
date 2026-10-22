@@ -27,7 +27,7 @@ CALENDAR_PATH = DATA_DIR / "calendar.json"
 SOURCE_HEALTH_PATH = DATA_DIR / "source-health.json"
 DB_PATH = DATA_DIR / "radar.db"
 
-DATA_VERSION = "0.2.0"
+DATA_VERSION = "0.3.0"
 DEFAULT_AS_OF = "2026-10-22"
 CURRENT_WEEK = "2026-W43"
 CURRENT_MONTH = "2026-10"
@@ -35,8 +35,12 @@ CURRENT_YEAR = "2026"
 
 # v0.2.0：历史快照 / delta / 采集 / 报告
 DELTA_BASES = {"history", "adjacent-window"}
-SNAPSHOT_TIME_SUFFIX = "T00:00:00+08:00"  # 快照逻辑时间（确定性，保证 --all 幂等）
-FETCH_USER_AGENT = "OpportunityRadar/0.2 (local personal research tool; +https://example.local/radar)"
+SNAPSHOT_TIME_SUFFIX = "T00:00:00+08:00"  # 快照逻辑时间（确定性，保证 --all / replay 幂等）
+# v0.3.0：source-health v2 + 历史回放
+SOURCE_HEALTH_MODES = {"online-fetch", "cache", "offline"}
+SOURCE_HEALTH_META_MODES = {"online-fetch", "cache", "offline"}
+REPLAY_DEFAULT_DAYS = 2
+FETCH_USER_AGENT = "OpportunityRadar/0.3 (local personal research tool; +https://example.local/radar)"
 FETCH_TIMEOUT_SEC = 12
 FETCH_MAX_RETRIES = 2
 FETCH_MIN_INTERVAL_SEC = 1.0  # 同域限速（每域 ≤1 req/s）
