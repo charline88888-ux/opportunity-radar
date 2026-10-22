@@ -66,6 +66,8 @@ function collectStats(obj, file) {
   return null
 }
 
+const metaOf = (obj) => (obj && typeof obj.meta === 'object' ? obj.meta : {})
+
 /* ============================ 1. 同步 ============================ */
 
 fs.mkdirSync(outDir, { recursive: true })
@@ -106,6 +108,93 @@ for (const file of FILES) {
   fs.writeFileSync(path.join(outDir, file), JSON.stringify(bundled[file], null, 2) + '\n')
 }
 
+/* ---- 1.1 v0.2.0 可选数据：history 快照 / source-health（缺失不阻塞 strict 构建） ---- */
+
+const historyDir = path.join(realDir, 'history')
+const historyMeta = {
+  available: false,
+  count: 0,
+  latest_date: null,
+  history_as_of: null,
+  snapshots: [],
+  note: '可选未提供：delta 回退相邻窗口口径',
+}
+if (fs.existsSync(historyDir)) {
+  const historyFiles = fs
+    .readdirSync(historyDir)
+    .filter((f) => /^rankings-\d{4}-\d{2}-\d{2}\.json$/.test(f))
+    .sort()
+  for (const file of historyFiles) {
+    const obj = readJsonSafe(path.join(historyDir, file))
+    if (!obj || typeof obj !== 'object') continue
+    const m = metaOf(obj)
+    const dateMatch = file.match(/(\d{4}-\d{2}-\d{2})/)
+    const date = dateMatch ? dateMatch[1] : m.as_of || ''
+    const windows = obj.windows && typeof obj.windows === 'object' ? obj.windows : {}
+    historyMeta.snapshots.push({
+      file,
+      date,
+      data_version: m.data_version || '',
+      as_of: m.as_of || date,
+      snapshot_at: m.snapshot_at || null,
+      reconstructed: m.reconstructed === true,
+      delta_basis: m.delta_basis || null,
+      window_counts: Object.fromEntries(
+        ['day', 'week', 'month', 'year'].map((k) => [k, Array.isArray(windows[k]?.items) ? windows[k].items.length : 0]),
+      ),
+    })
+  }
+  if (historyMeta.snapshots.length) {
+    const latest = historyMeta.snapshots[historyMeta.snapshots.length - 1]
+    historyMeta.available = true
+    historyMeta.count = historyMeta.snapshots.length
+    historyMeta.latest_date = latest.date
+    // history_as_of 表示「上一份可对比快照」；只有一份快照时没有上期，delta 仍回退相邻窗口
+    historyMeta.history_as_of =
+      historyMeta.snapshots.length >= 2 ? historyMeta.snapshots[historyMeta.snapshots.length - 2].date : null
+    historyMeta.note = 'ok'
+    report.push(`  ✓ real  history/（可选，${historyMeta.count} 份快照，最新 ${latest.date}）`)
+  } else {
+    report.push('  ~ 可选  history/ 存在但无合法快照（前端降级）')
+  }
+} else {
+  report.push('  ~ 可选  history/ 未提供（前端降级为相邻窗口口径）')
+}
+fs.writeFileSync(path.join(outDir, '_history.json'), JSON.stringify(historyMeta, null, 2) + '\n')
+
+const sourceHealthPath = path.join(realDir, 'source-health.json')
+const sourceHealth = {
+  available: false,
+  checked_at: null,
+  total: 0,
+  ok_count: 0,
+  fail_count: 0,
+  sources: [],
+  note: '可选未提供',
+}
+const rawSourceHealth = fs.existsSync(sourceHealthPath) ? readJsonSafe(sourceHealthPath) : null
+if (rawSourceHealth) {
+  const list = Array.isArray(rawSourceHealth)
+    ? rawSourceHealth
+    : Array.isArray(rawSourceHealth.sources)
+      ? rawSourceHealth.sources
+      : Array.isArray(rawSourceHealth.items)
+        ? rawSourceHealth.items
+        : []
+  sourceHealth.available = true
+  sourceHealth.checked_at =
+    rawSourceHealth.checked_at || rawSourceHealth.meta?.checked_at || list.find((x) => x && x.checked_at)?.checked_at || null
+  sourceHealth.sources = list
+  sourceHealth.total = list.length
+  sourceHealth.ok_count = list.filter((x) => x && x.ok === true).length
+  sourceHealth.fail_count = list.filter((x) => !(x && x.ok === true)).length
+  if (rawSourceHealth.meta) sourceHealth.meta = rawSourceHealth.meta
+  report.push(`  ✓ real  source-health.json（可选，${sourceHealth.total} 源）`)
+} else {
+  report.push('  ~ 可选  source-health.json 未提供（前端隐藏采集健康）')
+}
+fs.writeFileSync(path.join(outDir, 'source-health.json'), JSON.stringify(sourceHealth, null, 2) + '\n')
+
 /* ============================ 2. 契约自检 ============================ */
 
 const checks = []
@@ -118,7 +207,6 @@ const sources = bundled['sources.json'] || {}
 const playbooks = pickList(bundled['playbooks.json'], ['playbooks', 'items'])
 const calendar = pickList(bundled['calendar.json'], ['events', 'items'])
 const stats = bundled['stats.json'] || {}
-const metaOf = (obj) => (obj && typeof obj.meta === 'object' ? obj.meta : {})
 const asOf =
   metaOf(rankings).as_of || metaOf(stats).as_of || metaOf(taxonomy).as_of || metaOf(sources).as_of || '2026-10-22'
 
@@ -249,6 +337,16 @@ add(
   `day ${(windows.day?.items || []).length} / week ${(windows.week?.items || []).length} / month ${(windows.month?.items || []).length} / year ${(windows.year?.items || []).length}（配额 6/12/20/40）`,
 )
 
+const rankingsMeta = metaOf(rankings)
+const deltaBasis = rankingsMeta.delta_basis || 'adjacent-window'
+add(
+  ['history', 'adjacent-window'].includes(deltaBasis) ? 'PASS' : 'FAIL',
+  'rankings-meta',
+  `delta_basis=${deltaBasis} · history_as_of=${rankingsMeta.history_as_of ?? 'null'} · tie_breaker=${
+    rankingsMeta.tie_breaker ? '已声明' : '兼容缺省'
+  }`,
+)
+
 const sourceCategories = Array.isArray(sources.categories) ? sources.categories : []
 const sourceCount = sourceCategories.reduce((a, c) => a + (Array.isArray(c.sources) ? c.sources.length : 0), 0)
 add(
@@ -266,6 +364,51 @@ add(
   'stats',
   `kpi.total_opps=${kpi.total_opps ?? '—'}（实际 ${opportunities.length}）· new_today=${kpi.new_today ?? '—'} · A+ ${kpi.grade_a_plus ?? '—'}`,
 )
+
+/* ---- v0.2.0 可选数据校验（缺失不阻塞；存在但非法则 FAIL） ---- */
+const historyIssues = []
+for (const s of historyMeta.snapshots) {
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(s.date)) historyIssues.push(`${s.file} 快照日期非法`)
+  if (!s.snapshot_at) historyIssues.push(`${s.file} 缺少 meta.snapshot_at`)
+  if (s.date > asOf) historyIssues.push(`${s.file} 快照日期晚于 as_of`)
+}
+add(
+  historyMeta.available ? (historyIssues.length ? 'FAIL' : 'PASS') : 'PASS',
+  'history',
+  historyMeta.available
+    ? `${historyMeta.count} 份快照 · 最新 ${historyMeta.latest_date} · 上期 ${historyMeta.history_as_of}${
+        historyIssues.length ? ` · 问题 ${historyIssues.length} 项` : ''
+      }`
+    : '可选未提供：delta 回退相邻窗口口径（不阻塞构建）',
+)
+for (const msg of historyIssues.slice(0, 5)) add('FAIL', 'history', msg)
+
+const sourceHealthIssues = []
+if (sourceHealth.available) {
+  const knownSourceIds = new Set(
+    sourceCategories.flatMap((c) => (Array.isArray(c.sources) ? c.sources.map((s) => s.id) : [])),
+  )
+  for (const s of sourceHealth.sources) {
+    if (!s || typeof s !== 'object') {
+      sourceHealthIssues.push('source-health 条目非法')
+      continue
+    }
+    if (!knownSourceIds.has(s.id)) sourceHealthIssues.push(`未知源 ${s.id}`)
+    if (typeof s.ok !== 'boolean') sourceHealthIssues.push(`${s.id} ok 非布尔`)
+    if (s.checked_at && !/^\d{4}-\d{2}-\d{2}/.test(s.checked_at)) sourceHealthIssues.push(`${s.id} checked_at 非法`)
+    if (s.latency_ms != null && !(Number(s.latency_ms) >= 0)) sourceHealthIssues.push(`${s.id} latency_ms 非法`)
+  }
+}
+add(
+  sourceHealth.available ? (sourceHealthIssues.length ? 'FAIL' : 'PASS') : 'PASS',
+  'source-health',
+  sourceHealth.available
+    ? `${sourceHealth.total} 源 · 成功 ${sourceHealth.ok_count} / 失败 ${sourceHealth.fail_count} · 检查于 ${
+        sourceHealth.checked_at || '—'
+      }${sourceHealthIssues.length ? ` · 问题 ${sourceHealthIssues.length} 项` : ''}`
+    : '可选未提供：前端隐藏采集健康（不阻塞构建）',
+)
+for (const msg of sourceHealthIssues.slice(0, 5)) add('FAIL', 'source-health', msg)
 
 if (strict && mockFiles.length) {
   add('FAIL', 'data-source', `${mockFiles.length} 个文件仍为 mock：${mockFiles.join(', ')}；strict 构建必须全部为真实数据`)
@@ -285,12 +428,34 @@ const meta = {
   synced_at: new Date().toISOString(),
   data_version: sourceMeta.data_version || metaOf(taxonomy).data_version || 'unknown',
   as_of: asOf,
+  delta_basis: deltaBasis,
+  history_as_of: rankingsMeta.history_as_of ?? historyMeta.history_as_of ?? null,
   counts: {
     opportunities: opportunities.length,
     rankings: Object.fromEntries(Object.entries(windowQuota).map(([k]) => [k, (windows[k]?.items || []).length])),
     sources: sourceCount,
     playbooks: playbooks.length,
     calendar: calendar.length,
+    history_snapshots: historyMeta.count,
+    source_health_available: sourceHealth.available,
+    source_health_ok: sourceHealth.ok_count,
+    source_health_total: sourceHealth.total,
+  },
+  optional: {
+    history: {
+      available: historyMeta.available,
+      count: historyMeta.count,
+      latest_date: historyMeta.latest_date,
+      history_as_of: historyMeta.history_as_of,
+      snapshots: historyMeta.snapshots,
+    },
+    source_health: {
+      available: sourceHealth.available,
+      checked_at: sourceHealth.checked_at,
+      total: sourceHealth.total,
+      ok: sourceHealth.ok_count,
+      failed: sourceHealth.fail_count,
+    },
   },
   validation: {
     passed: checks.filter((c) => c.level === 'PASS').length,
@@ -299,7 +464,7 @@ const meta = {
   },
   notes: mockFiles.length
     ? '部分数据为契约占位（mock），仅开发预览可用；正式构建需真实数据通过 strict 校验。'
-    : '全部数据来自 ../data 真实产出，并通过契约自检。',
+    : '全部核心数据来自 ../data 真实产出并通过契约自检；history / source-health 为可选，缺失不影响构建。',
 }
 fs.writeFileSync(path.join(outDir, '_meta.json'), JSON.stringify(meta, null, 2) + '\n')
 
@@ -314,9 +479,9 @@ for (const c of checks) {
 const fails = checks.filter((c) => c.level === 'FAIL')
 console.log('')
 console.log(
-  `[verify] 机会数 ${opportunities.length} · 榜单 day ${(windows.day?.items || []).length} / week ${(windows.week?.items || []).length} / month ${(windows.month?.items || []).length} / year ${(windows.year?.items || []).length} · 数据源 ${sourceCount} · 剧本 ${playbooks.length} · 日历 ${calendar.length}`,
+  `[verify] 机会数 ${opportunities.length} · 榜单 day ${(windows.day?.items || []).length} / week ${(windows.week?.items || []).length} / month ${(windows.month?.items || []).length} / year ${(windows.year?.items || []).length} · 数据源 ${sourceCount} · 剧本 ${playbooks.length} · 日历 ${calendar.length} · 历史快照 ${historyMeta.count} · 采集健康 ${sourceHealth.available ? `${sourceHealth.ok_count}/${sourceHealth.total} ok` : '未提供'}`,
 )
-console.log(`[verify] 结果：${fails.length ? `FAIL（${fails.length} 项）` : 'PASS'} · 数据来源=${meta.source} · 数据版本=${meta.data_version} · as_of=${asOf}`)
+console.log(`[verify] 结果：${fails.length ? `FAIL（${fails.length} 项）` : 'PASS'} · 数据来源=${meta.source} · 数据版本=${meta.data_version} · as_of=${asOf} · delta_basis=${deltaBasis}`)
 
 if (strict && fails.length) {
   console.error('[sync-data] strict 模式校验失败，终止构建。请先让 ../data 满足 docs/12 契约。')

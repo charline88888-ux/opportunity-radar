@@ -1,0 +1,3 @@
+# SQLite 派生库：可由 data/*.json 重建，不入库、不入发布
+radar.db
+radar.db-*

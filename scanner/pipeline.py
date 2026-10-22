@@ -1,11 +1,14 @@
-"""扫描流水线命令行入口（Python 3.11，纯标准库）。
+"""扫描流水线命令行入口（Python 3.11，纯标准库）— data-v0.2.0。
 
 用法：
-    python scanner/pipeline.py --all            # 一键：采集→归一→去重→评分→排榜→统计→校验
-    python scanner/pipeline.py --all --fix      # 同时把派生字段写回 data/opportunities.json
-    python scanner/pipeline.py --collect        # 仅运行离线适配器
-    python scanner/pipeline.py --rank           # 仅重算榜单
-    python scanner/pipeline.py --validate       # 仅运行 V01–V15 校验
+    python scanner/pipeline.py --all            # 离线：采集→归一→去重→评分→排榜(+历史快照)→统计→SQLite→校验
+    python scanner/pipeline.py --db-rebuild     # 仅从 data/*.json 重建 data/radar.db
+    python scanner/pipeline.py --fetch          # 真实在线采集（唯一联网命令；写 outbox + source-health）
+    python scanner/pipeline.py --report         # 生成四窗口 HTML/MD 报告
+    python scanner/pipeline.py --report --period day --period year
+    python scanner/pipeline.py --collect        # 仅运行离线 fixtures 适配器
+    python scanner/pipeline.py --rank           # 仅重算榜单 + 写历史快照
+    python scanner/pipeline.py --validate       # 仅运行 V01–V20 校验
 """
 from __future__ import annotations
 
@@ -17,12 +20,14 @@ from typing import Any
 
 if __package__ in (None, ""):  # 支持 python scanner/pipeline.py 直接运行
     sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
-    from scanner import common, config, materialize, normalize, rank, score, stats, validate  # noqa: E402
+    from scanner import common, config, db, history, materialize, normalize, rank, report, score, stats, validate  # noqa: E402
     from scanner import dedupe as dedupe_mod  # noqa: E402
+    from scanner import fetch as fetch_mod  # noqa: E402
     from scanner.adapters import load_all  # noqa: E402
 else:  # pragma: no cover
-    from . import common, config, materialize, normalize, rank, score, stats, validate
+    from . import common, config, db, history, materialize, normalize, rank, report, score, stats, validate
     from . import dedupe as dedupe_mod
+    from . import fetch as fetch_mod
     from .adapters import load_all
 
 FIXTURE_PATH = config.FIXTURES_DIR / "raw_signals.json"
@@ -90,16 +95,16 @@ def stage_normalize(records: list[dict[str, Any]], as_of: date) -> list[dict[str
 
 
 def stage_dedupe(signals: list[dict[str, Any]]) -> list[dict[str, Any]]:
-    deduped, report = dedupe_mod.dedupe(signals)
-    common.dump_json(
-        config.BUILD_DIR / "dedupe_report.json",
-        {"meta": {"as_of": report.get("as_of", "")}, **report},
-    )
+    deduped, report_data = dedupe_mod.dedupe(signals)
+    common.dump_json(config.BUILD_DIR / "dedupe_report.json", report_data)
     common.dump_json(
         config.BUILD_DIR / "signals_deduped.json",
         {"meta": {"count": len(deduped)}, "signals": deduped},
     )
-    log(f"去重完成：{report['input']} → {report['output']} 条（合并 {report['removed']} 条，重复率 {report['duplicate_rate']:.1%}）")
+    log(
+        f"去重完成：{report_data['input']} → {report_data['output']} 条"
+        f"（合并 {report_data['removed']} 条，重复率 {report_data['duplicate_rate']:.1%}）"
+    )
     return deduped
 
 
@@ -125,7 +130,7 @@ def stage_score(
         log(f"评分检查：{len(mismatched)} 条机会的派生字段与公式不一致（如 {mismatched[:3]}）")
     else:
         log(f"评分检查：{len(opportunities)} 条机会总分/等级/rank_score 与公式一致")
-    # 契约 5.2.1：不一致时以计算值为准；这里统一回写，保证 --all 幂等且 validate 15/15。
+    # 契约 5.2.1：不一致时以计算值为准；统一回写，保证 --all 幂等。
     if opportunities != materialized:
         common.dump_json(config.OPPORTUNITIES_PATH, materialized)
         log("已按契约公式回写 data/opportunities.json（派生字段以扫描器计算值为准）")
@@ -133,14 +138,20 @@ def stage_score(
 
 
 def stage_rank(opportunities: list[dict[str, Any]], as_of: date) -> dict[str, Any]:
-    rankings = rank.build_rankings(opportunities, as_of)
+    previous = history.find_previous_snapshot(as_of)
+    previous_snapshot = previous[1] if previous else None
+    rankings = rank.build_rankings(opportunities, as_of, previous_snapshot=previous_snapshot)
     common.dump_json(config.RANKINGS_PATH, rankings)
+    snapshot_path = history.write_snapshot(rankings, as_of)
     counts = rankings["meta"]["counts"]
+    basis = rankings["meta"]["delta_basis"]
+    history_as_of = rankings["meta"].get("history_as_of")
     log(
         "榜单已生成："
         + " / ".join(f"{window}={counts[window]}" for window in ("day", "week", "month", "year"))
-        + " → data/rankings.json"
+        + f" → data/rankings.json（delta_basis={basis}, history_as_of={history_as_of}）"
     )
+    log(f"历史快照已写入：{snapshot_path.relative_to(config.ROOT)}")
     return rankings
 
 
@@ -155,34 +166,80 @@ def stage_stats(opportunities: list[dict[str, Any]], taxonomy: dict[str, Any], a
     return payload
 
 
+def stage_db() -> dict[str, Any]:
+    result = db.rebuild()
+    log(
+        f"SQLite 已同步：{Path(result['db_path']).relative_to(config.ROOT)}（{result['size_bytes']} bytes）"
+        + " / " + " ".join(f"{key}={value}" for key, value in result["counts"].items())
+    )
+    return result
+
+
+def stage_fetch(as_of: date, limit: int, cache_enabled: bool) -> dict[str, Any]:
+    fetch_mod.ensure_outbox_ignore()
+    result = fetch_mod.run_fetch(as_of.isoformat(), limit=limit, cache_enabled=cache_enabled)
+    for row in result["health"]:
+        status = "OK" if row["ok"] else "FAIL"
+        log(
+            f"  · [{status}] {row['id']:<16} status={row['status']:<4} {row['latency_ms']:>5}ms "
+            f"items={row['items']:<3} cached={row['cached']}"
+            + (f" error={row['error']}" if row["error"] else "")
+        )
+    log(
+        f"真实采集完成：{result['ok_count']}/{len(result['health'])} 个源成功，"
+        f"{result['raw_count']} 条原始 → {result['signal_count']} 条信号"
+    )
+    log(f"outbox（人工复核，不入机会库）：{Path(result['outbox_path']).relative_to(config.ROOT)}")
+    log(f"源健康度：{Path(result['source_health_path']).relative_to(config.ROOT)}")
+    return result
+
+
+def stage_report(periods: list[str]) -> list[dict[str, str]]:
+    written = report.generate(periods)
+    for row in written:
+        log(
+            f"报告已生成：{row['period']:<5} {row['count']:>3} 条 → "
+            f"{Path(row['html']).relative_to(config.ROOT)} / {Path(row['md']).relative_to(config.ROOT)}"
+        )
+    return written
+
+
 def stage_validate() -> int:
-    report = validate.run_validation()
-    passed = sum(1 for row in report.rows if row["ok"])
-    for row in report.failures:
+    report_data = validate.run_validation()
+    passed = sum(1 for row in report_data.rows if row["ok"])
+    for row in report_data.failures:
         log(f"  ✗ {row['rule']} {row['name']}：{row['detail']}")
-    for warning in report.warnings[:15]:
+    for warning in report_data.warnings[:15]:
         log(f"  · 提示 {warning}")
-    log(f"校验完成：{passed}/{len(report.rows)} 条规则通过")
-    return 0 if not report.failures else 1
+    log(f"校验完成：{passed}/{len(report_data.rows)} 条规则通过")
+    return 0 if not report_data.failures else 1
 
 
 # ---------------------------------------------------------------- 入口
 def main(argv: list[str] | None = None) -> int:
-    parser = argparse.ArgumentParser(description="机会雷达扫描流水线")
-    parser.add_argument("--all", action="store_true", help="运行完整流水线并校验")
+    parser = argparse.ArgumentParser(description="机会雷达扫描流水线（data-v0.2.0）")
+    parser.add_argument("--all", action="store_true", help="离线完整流水线（含历史快照/SQLite/校验）")
     parser.add_argument("--collect", action="store_true", help="运行采集适配器（离线 fixtures）")
     parser.add_argument("--normalize", action="store_true", help="归一化原始信号")
     parser.add_argument("--dedupe", action="store_true", help="去重并合并跨源信号")
     parser.add_argument("--score", action="store_true", help="按公式重算评分并检查一致性")
-    parser.add_argument("--rank", action="store_true", help="重算日/周/月/年榜单")
+    parser.add_argument("--rank", action="store_true", help="重算日/周/月/年榜单并写历史快照")
     parser.add_argument("--stats", action="store_true", help="重算聚合统计")
-    parser.add_argument("--validate", action="store_true", help="运行 V01–V15 数据校验")
-    parser.add_argument("--fix", action="store_true", help="把派生字段写回 data/opportunities.json")
+    parser.add_argument("--db-rebuild", action="store_true", help="从 JSON 重建 data/radar.db")
+    parser.add_argument("--fetch", action="store_true", help="真实在线采集（唯一联网命令，写出 outbox + source-health）")
+    parser.add_argument("--fetch-limit", type=int, default=config.FETCH_DEFAULT_LIMIT, help="真实采集最多尝试的源数")
+    parser.add_argument("--no-cache", action="store_true", help="真实采集时禁用 6 小时文件缓存")
+    parser.add_argument("--report", action="store_true", help="生成四窗口 HTML/MD 报告")
+    parser.add_argument("--period", action="append", choices=["day", "week", "month", "year"], help="报告窗口（可重复）")
+    parser.add_argument("--validate", action="store_true", help="运行 V01–V20 数据校验")
+    parser.add_argument("--fix", action="store_true", help="兼容别名：评分回写现在总是自动执行")
     args = parser.parse_args(argv)
 
-    if not any(
-        [args.all, args.collect, args.normalize, args.dedupe, args.score, args.rank, args.stats, args.validate]
-    ):
+    flags = [
+        args.all, args.collect, args.normalize, args.dedupe, args.score, args.rank, args.stats,
+        args.db_rebuild, args.fetch, args.report, args.validate,
+    ]
+    if not any(flags):
         parser.print_help()
         return 0
 
@@ -190,13 +247,23 @@ def main(argv: list[str] | None = None) -> int:
     as_of = _as_of(taxonomy)
     log(f"数据版本 {config.DATA_VERSION} / 基准日 {as_of.isoformat()}")
 
-    full = args.all
-    signals: list[dict[str, Any]] | None = None
+    # 仅数据库重建 / 仅真实采集 / 仅报告：互不阻塞
+    if args.db_rebuild and not any([args.all, args.collect, args.normalize, args.score, args.rank, args.stats, args.fetch, args.report, args.validate]):
+        stage_db()
+        return 0
+    if args.fetch and not any([args.all, args.collect, args.rank, args.stats, args.report, args.validate]):
+        stage_fetch(as_of, args.fetch_limit, cache_enabled=not args.no_cache)
+        return 0
+    if args.report and not any([args.all, args.collect, args.rank, args.stats, args.validate]):
+        periods = args.period or ["day", "week", "month", "year"]
+        stage_report(periods)
+        return 0
 
+    full = args.all
     if args.collect or full or args.normalize or args.dedupe:
         records, _health = stage_collect(as_of)
         signals = stage_normalize(records, as_of)
-        signals = stage_dedupe(signals)
+        stage_dedupe(signals)
 
     if args.score or full or args.rank or args.stats:
         opportunities = stage_score(_load_opportunities(), taxonomy, as_of, fix=args.fix)
@@ -207,6 +274,12 @@ def main(argv: list[str] | None = None) -> int:
         stage_rank(opportunities, as_of)
     if args.stats or full:
         stage_stats(opportunities, taxonomy, as_of)
+    if full or args.db_rebuild:
+        stage_db()
+    if args.fetch:
+        stage_fetch(as_of, args.fetch_limit, cache_enabled=not args.no_cache)
+    if args.report or (full and args.period):
+        stage_report(args.period or ["day", "week", "month", "year"])
     if args.validate or full:
         return stage_validate()
     return 0

@@ -32,6 +32,7 @@ export function fmtCnyFull(n: number | null | undefined): string {
 export function fmtCnyRange(min: number | null | undefined, max: number | null | undefined): string {
   if (min === null || min === undefined || max === null || max === undefined) return '—'
   if (!Number.isFinite(min) || !Number.isFinite(max)) return '—'
+  if (min === max) return `¥${fmtInt(min)}`
   const trim = (n: number, digits: number) => String(Number(n.toFixed(digits)))
   if (max >= 1e8) return `¥${trim(min / 1e8, 2)}–${trim(max / 1e8, 2)} 亿`
   if (max >= 1e4) return `¥${trim(min / 1e4, 1)}–${trim(max / 1e4, 1)} 万`

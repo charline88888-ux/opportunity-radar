@@ -94,19 +94,19 @@ if (process.env.CDP_MOBILE) {
 }
 await sleep(waitMs)
 
+if (evalExpr) {
+  const res = await send('Runtime.evaluate', { expression: evalExpr, awaitPromise: true, returnByValue: true })
+  const value = res?.result?.value
+  console.log('EVAL_RESULT: ' + (typeof value === 'string' ? value : JSON.stringify(value)))
+  await sleep(5000)
+}
+
 if (process.env.CDP_SCREENSHOT) {
   const shot = await send('Page.captureScreenshot', { format: 'png', captureBeyondViewport: false })
   if (shot?.data) {
     fs.writeFileSync(process.env.CDP_SCREENSHOT, Buffer.from(shot.data, 'base64'))
     console.log('SCREENSHOT: ' + process.env.CDP_SCREENSHOT)
   }
-}
-
-if (evalExpr) {
-  const res = await send('Runtime.evaluate', { expression: evalExpr, awaitPromise: true, returnByValue: true })
-  const value = res?.result?.value
-  console.log('EVAL_RESULT: ' + (typeof value === 'string' ? value : JSON.stringify(value)))
-  await sleep(5000)
 }
 
 const errors = logs.filter((l) => l.kind === 'exception' || l.level === 'error' || l.kind === 'log-error')

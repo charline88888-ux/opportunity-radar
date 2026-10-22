@@ -6,8 +6,11 @@ import {
   Activity,
   BarChart3,
   CalendarClock,
+  Database,
   Flame,
+  FlaskConical,
   Globe2,
+  History,
   Layers3,
   PieChart,
   Radar as RadarIcon,
@@ -22,7 +25,9 @@ import { Badge, GradeBadge, Panel, ProgressBar, SectionCard, Sparkline } from '@
 import {
   dataAsOf,
   dataMeta,
+  deltaBasisLabel,
   gapName,
+  historyMeta,
   industryColor,
   industryName,
   lookups,
@@ -30,11 +35,15 @@ import {
   oppById,
   opportunities,
   rankings,
+  rankingsDeltaBasis,
+  rankingsHistoryAsOf,
   regionName,
+  sourceHealth,
   stats,
   taxonomy,
   WINDOW_LABEL,
 } from '@/lib/data'
+import { ACTIVE_CAPACITY, experimentReviewInfo, useExperiments } from '@/lib/experiments'
 import { cn, fmtCny, fmtInt, fmtPct, fmtScore, gradeColor } from '@/lib/utils'
 
 const KPI_DEFS = [
@@ -108,8 +117,13 @@ function topRankingItems(windowKey: 'day' | 'week' | 'month' | 'year', n: number
 
 export default function Dashboard() {
   const kpi = stats.kpi
+  const { items: experiments } = useExperiments()
+  const activeExperiments = experiments.filter((x) => x.status === 'active')
   const dayCount = rankings.windows.day?.items?.length || 0
   const weekCount = rankings.windows.week?.items?.length || 0
+  const weekChangeCount = (rankings.windows.week?.items || []).filter((x) => x.change !== 'flat').length
+  const weekKpiLabel = rankingsDeltaBasis === 'history' ? '本周新上榜' : '较周榜变化'
+  const weekKpiValue = rankingsDeltaBasis === 'history' ? kpi.new_week ?? weekCount : weekChangeCount
   const aPlusShare = kpi.total_opps ? (kpi.grade_a_plus / kpi.total_opps) * 100 : 0
   const openWindows = opportunities.filter((o) => o.window.status === 'open' || o.window.status === 'peak').length
   const trend = stats.trend_14d || []
@@ -314,6 +328,18 @@ export default function Dashboard() {
               <ShieldCheck className="h-3 w-3" /> 契约自检 {dataMeta.validation?.failed ? 'FAIL' : 'PASS'}
             </Badge>
             <Badge tone="neutral">数据基准 {dataAsOf}</Badge>
+            <Link
+              to="/lab"
+              className={cn(
+                'inline-flex h-7 items-center gap-1 rounded border px-2.5 text-[11.5px] transition-colors',
+                activeExperiments.length > ACTIVE_CAPACITY
+                  ? 'border-amber/40 bg-amber/10 text-amber hover:bg-amber/20'
+                  : 'border-cyan/40 bg-cyan/10 text-cyan hover:bg-cyan/20',
+              )}
+              title="实验台：7 天验证记录与复盘"
+            >
+              <FlaskConical className="h-3 w-3" /> 进行中实验 {activeExperiments.length}/{ACTIVE_CAPACITY}
+            </Link>
             <Link to="/rankings" className="inline-flex h-7 items-center gap-1 rounded border border-signal/40 bg-signal/10 px-2.5 text-[11.5px] text-signal hover:bg-signal/20">
               查看完整榜单 <ArrowUpRight className="h-3 w-3" />
             </Link>
@@ -335,9 +361,12 @@ export default function Dashboard() {
           spark={sparkNew.map((n) => n + (kpi.new_today || 1))}
         />
         <KpiCard
-          label={KPI_DEFS[2].label} en={KPI_DEFS[2].en} accent={KPI_DEFS[2].accent} icon={KPI_DEFS[2].icon}
-          value={fmtInt(kpi.new_week ?? weekCount)}
-          sub={<><span>{rankings.windows.week?.label || '本周'}</span><span className="ml-auto font-mono text-cyan">{weekCount} 入榜</span></>}
+          label={weekKpiLabel} en={rankingsDeltaBasis === 'history' ? 'NEW THIS WEEK' : 'WEEK DELTA'} accent={KPI_DEFS[2].accent} icon={KPI_DEFS[2].icon}
+          value={fmtInt(weekKpiValue)}
+          sub={<>
+            <span>{rankingsDeltaBasis === 'history' ? rankings.windows.week?.label || '本周' : deltaBasisLabel}</span>
+            <span className="ml-auto font-mono text-cyan">{weekCount} 入榜</span>
+          </>}
         />
         <KpiCard
           label={KPI_DEFS[3].label} en={KPI_DEFS[3].en} accent={KPI_DEFS[3].accent} icon={KPI_DEFS[3].icon}
@@ -351,6 +380,50 @@ export default function Dashboard() {
           sub={<><span>{openWindows} 个开放/鼎盛窗口</span><span className="ml-auto font-mono text-dim">SUM</span></>}
         />
       </section>
+
+      <Panel className="mt-2.5 flex flex-wrap items-center gap-x-5 gap-y-2 px-3 py-2">
+        <span className="mono-label flex items-center gap-1"><Database className="h-3 w-3 text-cyan" /> DATA HEALTH</span>
+        <span className="flex items-center gap-1.5 text-[10.5px] text-dim">
+          榜单口径
+          <Badge tone={rankingsDeltaBasis === 'history' ? 'signal' : 'amber'}>
+            {deltaBasisLabel}
+          </Badge>
+          {rankingsDeltaBasis === 'history' && <span className="font-mono">上期 {rankingsHistoryAsOf || '—'}</span>}
+        </span>
+        <span className="flex items-center gap-1.5 text-[10.5px] text-dim">
+          <History className="h-3 w-3 text-dim" />
+          历史快照 <span className="num text-muted">{historyMeta.count}</span>
+          {historyMeta.available ? <span className="font-mono">最新 {historyMeta.latest_date}</span> : <span className="text-amber">未提供（可选）</span>}
+        </span>
+        <span className="flex items-center gap-1.5 text-[10.5px] text-dim">
+          采集健康
+          {sourceHealth.available ? (
+            <span className="font-mono text-muted">成功 {sourceHealth.ok_count}/{sourceHealth.total} · {sourceHealth.checked_at || '—'}</span>
+          ) : (
+            <span className="text-dim">未提供（可选）</span>
+          )}
+        </span>
+        <Link to="/about" className="ml-auto text-[10.5px] text-muted hover:text-signal">数据说明 →</Link>
+      </Panel>
+
+      {activeExperiments.length > 0 && (
+        <Panel className={cn('mt-2.5 flex flex-wrap items-center gap-2 px-3 py-2', activeExperiments.length > ACTIVE_CAPACITY ? 'border-amber/35 bg-amber/[0.05]' : 'border-cyan/25 bg-cyan/[0.04]')}>
+          <FlaskConical className={cn('h-4 w-4', activeExperiments.length > ACTIVE_CAPACITY ? 'text-amber' : 'text-cyan')} />
+          <span className="text-[11px] text-ink">
+            进行中实验 <span className={cn('num font-semibold', activeExperiments.length > ACTIVE_CAPACITY ? 'text-amber' : 'text-cyan')}>{activeExperiments.length}/{ACTIVE_CAPACITY}</span>
+            {activeExperiments.length > ACTIVE_CAPACITY ? ' · 超过个人产能上限，建议先结案' : ' · 保持每周复盘'}
+          </span>
+          <span className="min-w-0 flex-1 truncate text-[10.5px] text-dim">
+            {activeExperiments.slice(0, 2).map((x) => {
+              const review = experimentReviewInfo(x)
+              return `${x.title}（${review.overdue ? '复盘逾期' : review.daysLeft === 0 ? '今天复盘' : `${review.daysLeft} 天后复盘`}）`
+            }).join(' · ')}
+          </span>
+          <Link to="/lab" className="inline-flex h-6 shrink-0 items-center gap-1 rounded border border-line bg-panel-2 px-2 text-[10.5px] text-muted hover:text-ink">
+            打开实验台 <ArrowUpRight className="h-3 w-3" />
+          </Link>
+        </Panel>
+      )}
 
       <div className="mt-3 grid grid-cols-1 gap-3 xl:grid-cols-12">
         <SectionCard
@@ -478,7 +551,7 @@ export default function Dashboard() {
           className="xl:col-span-5"
           eyebrow="WINDOW OVERVIEW"
           title="四窗口速览"
-          subtitle="日 / 周 / 月 / 年榜单规模与榜首"
+          subtitle={`日 / 周 / 月 / 年榜单规模与榜首 · 口径：${deltaBasisLabel}`}
           right={<Link to="/rankings" className="text-[11px] text-muted hover:text-signal">去排行榜 →</Link>}
           bodyClassName="p-3"
         >

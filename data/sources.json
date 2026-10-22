@@ -1,10 +1,10 @@
 {
   "meta": {
-    "data_version": "0.1.0",
+    "data_version": "0.2.0",
     "as_of": "2026-10-22",
-    "count": 63,
+    "count": 67,
     "last_checked": "2026-10-22",
-    "note": "合规等级与可访问性依据 research/platform-matrix-validation.md（2026-10-22 核验）。红/黄源只允许人工浏览，不自动抓取、不绕过登录或验证码。"
+    "note": "合规等级与可访问性依据 research/platform-matrix-validation.md（2026-10-22 核验）。红/黄源只允许人工浏览，不自动抓取、不绕过登录或验证码；v0.2.0 新增 4 个可被 `pipeline.py --fetch` 采集的公开 RSS 源（hnrss/techcrunch/producthunt/arxiv）。"
   },
   "categories": [
     {
@@ -101,6 +101,29 @@
           "last_checked": "2026-10-22",
           "check_result": "http_200",
           "notes": "页面可读（✅200），GraphQL API 需 token；看评论区的『还缺什么』比看榜单更有价值"
+        },
+        {
+          "id": "hnrss",
+          "name": "Hacker News RSS（hnrss.org）",
+          "url": "https://hnrss.org/frontpage",
+          "regions": [
+            "north-america",
+            "europe",
+            "east-asia"
+          ],
+          "signal_types": [
+            "discussion",
+            "new_product",
+            "tech_trend"
+          ],
+          "access": "rss",
+          "frequency": "daily",
+          "cost": "free",
+          "compliance": "green",
+          "value_score": 8.0,
+          "last_checked": "2026-10-22",
+          "check_result": "http_200",
+          "notes": "公开 RSS，`--fetch` 实际采集源之一；只用标题/摘要，限速 ≤1 req/s，不抓评论"
         }
       ]
     },
@@ -520,6 +543,49 @@
           "last_checked": "2026-10-22",
           "check_result": "doc_only",
           "notes": "页面可浏览，API v5 需 token；欧美审美与礼赠季节性判断的好来源"
+        },
+        {
+          "id": "techcrunch-rss",
+          "name": "TechCrunch RSS",
+          "url": "https://techcrunch.com/feed/",
+          "regions": [
+            "north-america",
+            "europe"
+          ],
+          "signal_types": [
+            "funding",
+            "new_product",
+            "industry_news"
+          ],
+          "access": "rss",
+          "frequency": "daily",
+          "cost": "free",
+          "compliance": "yellow",
+          "value_score": 7.6,
+          "last_checked": "2026-10-22",
+          "check_result": "doc_only",
+          "notes": "公开 RSS；黄区源，个人研究用途、限速与缓存，不转售原文"
+        },
+        {
+          "id": "producthunt-feed",
+          "name": "Product Hunt RSS",
+          "url": "https://www.producthunt.com/feed",
+          "regions": [
+            "north-america",
+            "europe"
+          ],
+          "signal_types": [
+            "new_product",
+            "early_adopter"
+          ],
+          "access": "rss",
+          "frequency": "daily",
+          "cost": "free",
+          "compliance": "yellow",
+          "value_score": 7.4,
+          "last_checked": "2026-10-22",
+          "check_result": "doc_only",
+          "notes": "公开 RSS；看新品标题与一句话描述，不自动抓评论区"
         }
       ]
     },
@@ -865,6 +931,29 @@
           "last_checked": "2026-10-22",
           "check_result": "doc_only",
           "notes": "官方 API 免费；看下载量与 demo 热度判断 AI 能力下放速度"
+        },
+        {
+          "id": "arxiv-rss",
+          "name": "arXiv RSS（cs.AI）",
+          "url": "http://export.arxiv.org/rss/cs.AI",
+          "regions": [
+            "north-america",
+            "europe",
+            "east-asia",
+            "china"
+          ],
+          "signal_types": [
+            "paper",
+            "tech_trend"
+          ],
+          "access": "rss",
+          "frequency": "daily",
+          "cost": "free",
+          "compliance": "green",
+          "value_score": 7.8,
+          "last_checked": "2026-10-22",
+          "check_result": "doc_only",
+          "notes": "arXiv 官方 RSS；论文标题/摘要级信号，适合判断技术拐点"
         }
       ]
     },

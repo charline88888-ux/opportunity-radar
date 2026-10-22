@@ -12,6 +12,10 @@ ROOT = SCANNER_DIR.parent
 DATA_DIR = ROOT / "data"
 FIXTURES_DIR = SCANNER_DIR / "fixtures"
 BUILD_DIR = SCANNER_DIR / "build"
+HISTORY_DIR = DATA_DIR / "history"
+REPORTS_DIR = DATA_DIR / "reports"
+OUTBOX_DIR = SCANNER_DIR / "outbox"
+FETCH_CACHE_DIR = BUILD_DIR / "fetch-cache"
 
 TAXONOMY_PATH = DATA_DIR / "taxonomy.json"
 OPPORTUNITIES_PATH = DATA_DIR / "opportunities.json"
@@ -20,12 +24,28 @@ STATS_PATH = DATA_DIR / "stats.json"
 SOURCES_PATH = DATA_DIR / "sources.json"
 PLAYBOOKS_PATH = DATA_DIR / "playbooks.json"
 CALENDAR_PATH = DATA_DIR / "calendar.json"
+SOURCE_HEALTH_PATH = DATA_DIR / "source-health.json"
+DB_PATH = DATA_DIR / "radar.db"
 
-DATA_VERSION = "0.1.0"
+DATA_VERSION = "0.2.0"
 DEFAULT_AS_OF = "2026-10-22"
 CURRENT_WEEK = "2026-W43"
 CURRENT_MONTH = "2026-10"
 CURRENT_YEAR = "2026"
+
+# v0.2.0：历史快照 / delta / 采集 / 报告
+DELTA_BASES = {"history", "adjacent-window"}
+SNAPSHOT_TIME_SUFFIX = "T00:00:00+08:00"  # 快照逻辑时间（确定性，保证 --all 幂等）
+FETCH_USER_AGENT = "OpportunityRadar/0.2 (local personal research tool; +https://example.local/radar)"
+FETCH_TIMEOUT_SEC = 12
+FETCH_MAX_RETRIES = 2
+FETCH_MIN_INTERVAL_SEC = 1.0  # 同域限速（每域 ≤1 req/s）
+FETCH_CACHE_TTL_SEC = 6 * 3600
+FETCH_DEFAULT_LIMIT = 8
+FETCH_MAX_ITEMS_PER_SOURCE = 30  # 单源单次最多保留的条数（评论流/长列表防爆）
+FETCHABLE_ACCESS = {"rss"}  # v0.2.0 只自动采集 RSS/JSON feed；公开 API 端点需单独接线
+FETCHABLE_COMPLIANCE = {"green", "yellow"}
+SOURCE_HEALTH_STATUSES = {200, 301, 302, 304, 403, 404, 429, 500, 503}
 
 # 榜单配额（契约 5.1）
 WINDOW_QUOTAS = {"day": 6, "week": 12, "month": 20, "year": 40}

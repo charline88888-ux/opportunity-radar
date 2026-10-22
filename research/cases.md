@@ -430,8 +430,9 @@
 ### C38 丧亲纪念与回忆录：情绪价值的高客单服务
 - **行业/区域**：`emotional` ｜ `north-america` + `europe` ｜ 信息差：`emotion`（主）+ `knowledge`
 - **卖什么**：定制纪念画/纪念物（含骨灰/遗物）、回忆录代写、悼词/讣告撰写、旧相册/录像数字化、纪念日订阅（每年寄送追思内容）。
-- **价格/规模证据**：定制纪念画 **$4,900 起**（`[A]` 艺术家官网，✅已打开，2026-08）；另有"悲伤支持工具/纪念日"免费内容引流（同一站点）；Reddit 用户讨论"旧剪贴簿扫描"服务：**$80/50 页、利润约 $70**，且抱怨现有公司"每页数美元、要等数月"（`[A]` 用户原声，Reddit r/Entrepreneur RSS，✅已打开，2026-10-18）；Upwork 有大量回忆录代写服务（`[A]` 平台，⏳仅标题）。
-- **来源**：https://zellerhausart.com/blog/spirit-pieces-review ✅已打开（2026-08）；https://www.reddit.com/r/Entrepreneur/.rss ✅已打开（2026-10-18 条目）；https://www.upwork.com/services/product/writing-translation-a-memoir-that-will-educate-and-inspire-your-readers-1349851133396758528 ⏳仅标题
+- **价格/规模证据**：定制纪念画 **$4,900 起**（`[A]` 艺术家官网，✅已打开，2026-08）；另有"悲伤支持工具/纪念日"免费内容引流（同一站点）；Upwork 有大量回忆录代写服务（`[A]` 平台，⏳仅标题）。
+  - **需求侧轶事（弱证据，不作价格依据）**：Reddit r/Entrepreneur 有一条「旧剪贴簿扫描」讨论，发帖人自估 **$80/50 页、利润约 $70**，并抱怨现有公司"每页数美元、要等数月"。**该帖 permalink 可定位（见下），但 Reddit 对未登录自动请求返回动态壳（2026-10-22 实测：HTML 200 但正文为空、`.json` 403），引文不可由第三方机器复现**；本条仅用于说明"需求存在"的轶事，不进入 `signal.evidence` 的硬证据，也不支撑 ROI 数字。
+- **来源**：https://zellerhausart.com/blog/spirit-pieces-review ✅已打开（2026-08）；https://www.reddit.com/r/Entrepreneur/comments/1x9cw20/rate_my_idea_i_got_some_scrap_books_from_my_dad/ ⏳帖子可定位（HTTP 200 但正文为动态壳，不可机器复现；原帖 ID `1x9cw20`，发布于 2026-10-18，2026-10-22 通过该版块公开 RSS 读到原文）；https://www.upwork.com/services/product/writing-translation-a-memoir-that-will-educate-and-inspire-your-readers-1349851133396758528 ⏳仅标题
 - **为什么现在**：婴儿潮一代进入高龄，遗产/回忆需求爆发；AI 辅助写作降低交付成本；但"真人温度"仍是溢价点。
 - **个人可切入角度**：做"回忆录代写+家族访谈"服务（中文/英文）；或做旧相册数字化（低资本，设备+流程）；或做纪念日订阅。
 - **风险**：情绪劳动强度高；AI 写作伦理（家属知情）；交付周期长；客诉敏感。
@@ -482,7 +483,7 @@
 | https://www.gemconsortium.org/report/51858 | ✅200 | GEM 2025/2026（UAE NECI 第一） |
 | https://developers.etsy.com/documentation/ | ✅200 | Etsy API/禁抓取 |
 | https://apps.shopify.com/ | ✅200 | Shopify App Store 评价数 |
-| https://www.reddit.com/r/Entrepreneur/.rss | ✅200 | 用户原声（扫描旧相册 $80/50 页） |
+| https://www.reddit.com/r/Entrepreneur/comments/1x9cw20/rate_my_idea_i_got_some_scrap_books_from_my_dad/ | ⏳200（正文动态壳，不可复现引文） | 需求侧轶事（扫描旧相册自估 $80/50 页）——**已按红队 P2-9 降级，不作证据**；动态 RSS `reddit.com/r/Entrepreneur/.rss` 只证明"源可访问"，不能作为具体引文 URL |
 | https://www.drewry.co.uk/supply-chain-advisors/supply-chain-expertise/world-container-index-assessed-by-drewry | ✅200 | WCI 运价（2026-10-15） |
 | https://datalab.naver.com/ | ✅200 | 韩国购物趋势（日榜） |
 | https://ads.tiktok.com/business/creativecenter/ | ✅200 | 广告创意/趋势 |
@@ -534,6 +535,7 @@
 5. **Etsy 数字产品价格带**：Etsy 商品页反爬（429/403），无法逐条抓价。→ 替代：用 Etsy 10-K 活跃买家数 + Etsy API 文档（禁止抓取）说明平台规则；价格带在 data 中标为"经验区间，未逐条核验"。
 6. **Google Trends**：直连 429。→ 替代：用 Naver DataLab（已直连）、TikTok Creative Center（已直连）、Amazon Movers & Shakers（已直连）做趋势替代源。
 7. **韩国宠物市场 2025-2026 实际值**：KREI 数据为 2023 年发布的前瞻预测。→ 替代：用韩国 KB 金融 2025 报告（591 万户）与亚细亚经济 2026-02 报道（26.2% 家庭医疗支出）交叉。
+8. **Reddit 用户原声（C38 旧剪贴簿扫描轶事）**：原帖 permalink 可定位（[1x9cw20](https://www.reddit.com/r/Entrepreneur/comments/1x9cw20/rate_my_idea_i_got_some_scrap_books_from_my_dad/)），但 Reddit 对未登录自动请求只返回动态壳（2026-10-22 实测 HTML 200 空正文、`.json` 403），**第三方无法机器复现引文**。→ 处置（v0.2.0，响应红队 P2-9）：①证据 URL 从滚动 RSS `reddit.com/r/Entrepreneur/.rss` 改为具体帖子 permalink + 原帖 ID/发布日期；②该条降级为"需求侧轶事/弱证据"，**不进入 `signal.evidence`、不标 `verified:true`、不支撑 ROI 数字**；③价格证据只保留艺术家官网 $4,900 与 Upwork 供给；④动态 RSS 仅作"源可访问性"证据，历史条目必须保存 permalink + 抓取快照。
 
 ---
 
@@ -541,7 +543,7 @@
 
 1. **id 建议**：`opp-<industry>-<slug>-<3位序号>`，如 `opp-pet-memorial-glass-001`、`opp-culture-quran-translation-001`。
 2. **证据 tier**：本文件 `[A]` → `primary`；`[B]` → `secondary`；`[C]`/未核验 → 不入 evidence 或 `verified:false` + `compliance_notes` 注明。
-3. **`verified` 取值**：本节 §3 中 ✅200 的 URL 才能标 `true`；其余标 `false` 并在 `compliance_notes` 写"来源未直连，需人工复核"。
+3. **`verified` 取值**：只有 §3 中「✅200 **且正文可读**」的 URL 才能标 `true`；动态壳/正文截断/需登录/未直连一律标 `false`，并在 `compliance_notes` 写"来源未直连或不可复现，需人工复核"（例：Reddit permalink 只可定位，不可作为引文证据）。
 4. **信息差主类型**：按每案"信息差（主）"填 `gap_type_ids[0]`，其余 1–2 个作补充。
 5. **ROI 粗估**：见 `research/handoff-to-data.md` 的 12 个高价值案例，已给启动资金/回本/月收入区间。
 6. **窗口期**：`window.decay` 建议——监管类（C30–C35）`medium`（12–24 个月窗口）；平台类（C20/C22/C39/C40）`fast`（3–9 个月）；文化/宗教类（C15/C16/C01）`slow`（24–36 个月）。
@@ -554,3 +556,21 @@
 - 一手优先：政府/监管机构（CCPC、France Num、PEP、LPPOM、RIETI、韩国食品医药品安全处数据、Etsy/Shopify 官方文档、上市公司财报）优先于媒体。
 - 二次核对：同一数字尽量找 2 个独立来源（如宠物殡葬同时用 sohu + marketresearch 口径；韩国宠物保险用 asiae + petconomy 协会）。
 - 反爬说明：Jumia/Noon/Trustpilot/Google Trends/沙特政府站均有 Cloudflare/限流，已记录状态，不绕行、不伪造。
+- **动态内容可复现性规则（v0.2.0 新增，响应红队 P2-9）**：
+  1. RSS/首页/榜单等**滚动内容**只能证明"源可访问"，不能作为具体引文/数字的 URL；引用历史条目必须给**具体 permalink + 抓取日期 + 原文标题/ID**，必要时保存抓取文本快照。
+  2. 对返回动态壳或需登录的页面（Reddit HTML/`.json`、Etsy 店铺页、Amazon 榜单等），在证据表标「⏳动态壳/不可复现」，并把该条降级为轶事或 `verified:false`，不得进入 `signal.evidence` 的硬证据。
+  3. 本文件 §3 的 ✅200 只表示"抓取当日页面可打开"；`data/` 引用时仍需按 §5 与 §6 判断`verified`。
+
+---
+
+## 8. v0.2.0 修订记录（2026-10-22，响应红队 P2-9）
+
+| 项 | 修订前 | 修订后 |
+|---|---|---|
+| C38 证据 URL | `https://www.reddit.com/r/Entrepreneur/.rss`（动态 RSS，滚动更新，不可复现） | `https://www.reddit.com/r/Entrepreneur/comments/1x9cw20/rate_my_idea_i_got_some_scrap_books_from_my_dad/`（具体帖子 permalink + 原帖 ID `1x9cw20` + 发布日 2026-10-18） |
+| 证据等级 | 标为 `[A]` 用户原声 + "✅已打开" | 降级为**需求侧轶事/弱证据**：`⏳动态壳`（2026-10-22 实测 HTML 200 空正文、`.json` 403），**不进入 `signal.evidence`、不标 `verified:true`、不支撑 ROI** |
+| 价格证据 | 部分依赖该轶事的 $80/50 页数字 | 只保留艺术家官网 $4,900 起 + Upwork 供给；轶事数字仅作示意 |
+| 方法沉淀 | 无动态源规则 | §7 新增"动态内容可复现性规则"3 条；平台矩阵新增同类提醒；`handoff-to-data.md` H10 同步（scores.evidence 7.6→7.2、total 79.6→79.4） |
+| qa/report.md 研究遗留项核对 | — | v0.1.0 遗留项中仅 **P2-9（RSS 证据）** 属 research；本文件已修。其余 P1-1/P2-1/P2-2 在 `data/opportunities.json`（data-engineer 负责，§10.1 已闭环），P2-6 在前端，均非 research 范围 |
+
+> 复现方式：`web_fetch` 打开上述 permalink 实际得到动态壳（正文为空），因此**该帖只可"定位"不可"引文复现"**；本文件不再声称其正文可核验。

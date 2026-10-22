@@ -8,16 +8,16 @@ from __future__ import annotations
 
 import json
 import sys
-from datetime import date
+from datetime import date, datetime
 from pathlib import Path
 from typing import Any, Callable
 from urllib.parse import urlparse
 
 if __package__ in (None, ""):  # 支持 python scanner/validate.py 直接运行
     sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
-    from scanner import common, config, rank, score, stats  # noqa: E402
+    from scanner import common, config, history, rank, score, stats  # noqa: E402
 else:  # pragma: no cover - 作为包导入时
-    from . import common, config, rank, score, stats
+    from . import common, config, history, rank, score, stats
 
 # ---------------------------------------------------------------- 契约固定枚举（独立硬编码，用于校验 taxonomy 未漂移）
 EXPECTED_ENUMS: dict[str, set[str]] = {
@@ -128,6 +128,10 @@ def _as_of(ctx: dict[str, Any]) -> date:
 # ---------------------------------------------------------------- V01
 def _v01(ctx: dict[str, Any]) -> str:
     taxonomy = _taxonomy(ctx)
+    _require(
+        (taxonomy.get("meta") or {}).get("data_version") == config.DATA_VERSION,
+        f"taxonomy.meta.data_version={(taxonomy.get('meta') or {}).get('data_version')} ≠ {config.DATA_VERSION}",
+    )
     for collection, expected in EXPECTED_ENUMS.items():
         items = taxonomy.get(collection)
         _require(isinstance(items, list), f"taxonomy.{collection} 缺失")
@@ -364,10 +368,23 @@ def _v08(ctx: dict[str, Any]) -> str:
 
 
 def _v09(ctx: dict[str, Any]) -> str:
-    expected = rank.build_rankings(_opps(ctx), _as_of(ctx))
+    as_of = _as_of(ctx)
+    previous = history.find_previous_snapshot(as_of)
+    expected = rank.build_rankings(
+        _opps(ctx), as_of, previous_snapshot=previous[1] if previous else None
+    )
     actual = _rankings(ctx)
     _require(actual.get("windows") == expected.get("windows"), "rankings 与按规则重算结果不一致")
-    return "榜单与重算结果完全一致"
+    actual_meta = actual.get("meta") or {}
+    _require(
+        actual_meta.get("delta_basis") == expected["meta"]["delta_basis"],
+        f"rankings.meta.delta_basis={actual_meta.get('delta_basis')} ≠ 重算 {expected['meta']['delta_basis']}",
+    )
+    _require(
+        actual_meta.get("history_as_of") == expected["meta"]["history_as_of"],
+        "rankings.meta.history_as_of 与重算不一致",
+    )
+    return "榜单与重算结果完全一致（含 delta_basis）"
 
 
 # ---------------------------------------------------------------- V10
@@ -615,8 +632,16 @@ def _v17(ctx: dict[str, Any]) -> str:
 # ---------------------------------------------------------------- V18
 def _v18(ctx: dict[str, Any]) -> str:
     rankings = _rankings(ctx)
+    meta = rankings.get("meta") or {}
     windows = rankings.get("windows") or {}
     errors: list[str] = []
+    basis = meta.get("delta_basis")
+    if basis not in config.DELTA_BASES:
+        errors.append(f"meta.delta_basis={basis} 非法")
+    if "history_as_of" not in meta:
+        errors.append("meta.history_as_of 缺失")
+    if not meta.get("tie_breaker"):
+        errors.append("meta.tie_breaker 缺失")
     for window in ("day", "week", "month", "year"):
         for item in (windows.get(window) or {}).get("items") or []:
             change = item.get("change")
@@ -624,8 +649,10 @@ def _v18(ctx: dict[str, Any]) -> str:
             if change not in {"new", "up", "down", "flat"}:
                 errors.append(f"{window}:{item.get('opp_id')} change={change}")
                 continue
-            if window == "year" and delta is not None:
-                errors.append(f"year:{item.get('opp_id')} delta 应为 null")
+            # adjacent-window 口径下 year 无参照：delta 必须 null；
+            # history 口径下 year 有上一快照名次时允许 int。
+            if basis == "adjacent-window" and window == "year" and delta is not None:
+                errors.append(f"year:{item.get('opp_id')} adjacent-window 口径下 delta 应为 null")
             if change == "new" and delta is not None:
                 errors.append(f"{window}:{item.get('opp_id')} change=new 但 delta 非 null")
             if change == "up" and not (isinstance(delta, int) and delta > 0):
@@ -635,7 +662,68 @@ def _v18(ctx: dict[str, Any]) -> str:
             if change == "flat" and delta != 0:
                 errors.append(f"{window}:{item.get('opp_id')} change=flat 但 delta≠0")
     _require(not errors, "；".join(errors[:12]))
-    return "榜单 change/delta 语义一致"
+    return f"榜单 change/delta 语义一致（delta_basis={basis}）"
+
+
+# ---------------------------------------------------------------- V19
+def _v19(ctx: dict[str, Any]) -> str:
+    rankings = _rankings(ctx)
+    as_of = _as_of(ctx)
+    as_of_iso = as_of.isoformat()
+    snapshot_file = history.snapshot_path(as_of)
+    _require(snapshot_file.exists(), f"缺少当天历史快照 {snapshot_file.relative_to(config.ROOT)}")
+    snapshot = common.load_json(snapshot_file)
+    issues = history.validate_snapshot_shape(snapshot, as_of)
+    # 与同日 rankings.json 的窗口 items 顺序/分数一致
+    if snapshot.get("windows") != rankings.get("windows"):
+        issues.append("快照 windows 与 rankings.json 不一致")
+    _require(not issues, "；".join(issues[:8]))
+    snapshots = history.list_snapshots()
+    for day, _path in snapshots:
+        if day > as_of:
+            raise CheckFailure(f"历史快照日期 {day} 晚于 as_of {as_of_iso}")
+    return f"{len(snapshots)} 份历史快照合法，最新快照与 rankings 一致"
+
+
+# ---------------------------------------------------------------- V20
+def _v20(ctx: dict[str, Any]) -> str:
+    path = config.SOURCE_HEALTH_PATH
+    if not path.exists():
+        return "source-health.json 不存在（可选文件，跳过）"
+    data = common.load_json(path)
+    sources_doc = ctx.get("sources")
+    _require(sources_doc is not None, "校验 source-health 需要 sources.json")
+    valid_ids = {
+        source["id"]
+        for category in sources_doc.get("categories") or []
+        for source in category.get("sources") or []
+    }
+    rows = data.get("sources") or []
+    _require(isinstance(rows, list), "source-health.sources 不是数组")
+    errors: list[str] = []
+    for row in rows:
+        source_id = row.get("id")
+        if source_id not in valid_ids:
+            errors.append(f"{source_id}: id 不在 sources.json")
+        if not isinstance(row.get("ok"), bool):
+            errors.append(f"{source_id}: ok 非 bool")
+        latency = row.get("latency_ms")
+        if not isinstance(latency, int) or latency < 0:
+            errors.append(f"{source_id}: latency_ms 非非负整数")
+        checked_at = row.get("checked_at")
+        try:
+            datetime.fromisoformat(str(checked_at))
+        except (TypeError, ValueError):
+            errors.append(f"{source_id}: checked_at 非法")
+        status = row.get("status")
+        if status is not None and (not isinstance(status, int) or status < 0):
+            errors.append(f"{source_id}: status 非法")
+        items = row.get("items")
+        if items is not None and (not isinstance(items, int) or items < 0):
+            errors.append(f"{source_id}: items 非法")
+    _require(not errors, "；".join(errors[:12]))
+    ok_count = sum(1 for row in rows if row.get("ok"))
+    return f"{len(rows)} 个源健康度合法（ok={ok_count}）"
 
 
 # ---------------------------------------------------------------- 附加（非 V 规则，仅提示）
@@ -710,6 +798,8 @@ def run_validation() -> Report:
     report.check("V16", "必填字段完整性与窗口映射", lambda: _v16(ctx))
     report.check("V17", "证据日期/tier/URL 合法", lambda: _v17(ctx))
     report.check("V18", "榜单 change/delta 语义", lambda: _v18(ctx))
+    report.check("V19", "历史快照与 rankings 一致", lambda: _v19(ctx))
+    report.check("V20", "source-health 字段合法（可选）", lambda: _v20(ctx))
     _advisories(ctx, report)
     return report
 

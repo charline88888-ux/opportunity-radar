@@ -237,14 +237,77 @@ export interface RankingItem {
 export interface RankingWindow {
   key: string
   label: string
+  delta_basis?: DeltaBasis
   items: RankingItem[]
 }
 
 export type WindowKey = 'day' | 'week' | 'month' | 'year'
 
+export type DeltaBasis = 'history' | 'adjacent-window'
+
+export interface RankingsMeta extends TaxonomyMeta {
+  delta_basis?: DeltaBasis
+  history_as_of?: string | null
+  tie_breaker?: string
+  snapshot_at?: string
+  reconstructed?: boolean
+}
+
 export interface Rankings {
-  meta: TaxonomyMeta
+  meta: RankingsMeta
   windows: Record<WindowKey, RankingWindow>
+}
+
+/** sync-data.mjs 生成的 history 快照元信息（v0.2.0 可选） */
+export interface HistorySnapshotMeta {
+  file: string
+  date: string
+  data_version?: string
+  as_of?: string
+  snapshot_at?: string | null
+  reconstructed?: boolean
+  delta_basis?: string | null
+  window_counts?: Record<string, number>
+}
+
+export interface HistoryMeta {
+  available: boolean
+  count: number
+  latest_date?: string | null
+  history_as_of?: string | null
+  snapshots: HistorySnapshotMeta[]
+  note?: string
+}
+
+/** data/source-health.json（v0.2.0 可选，真实 --fetch 后生成） */
+export interface SourceHealthEntry {
+  id: string
+  name?: string
+  ok: boolean
+  checked_at?: string
+  latency_ms?: number
+  http_status?: number | null
+  error?: string | null
+  note?: string | null
+  consecutive_failures?: number
+  category?: string
+  items?: number
+  signals?: number
+  cached?: boolean
+  access?: string
+  compliance?: string
+  [key: string]: unknown
+}
+
+export interface SourceHealth {
+  available: boolean
+  checked_at?: string | null
+  total: number
+  ok_count: number
+  fail_count: number
+  sources: SourceHealthEntry[]
+  meta?: TaxonomyMeta
+  note?: string
 }
 
 export interface StatsKpi {
@@ -369,8 +432,20 @@ export interface DataMeta {
   synced_at?: string
   data_version?: string
   as_of?: string
+  delta_basis?: DeltaBasis
+  history_as_of?: string | null
   mock_files?: string[]
   counts?: Record<string, unknown>
+  optional?: {
+    history?: {
+      available: boolean
+      count: number
+      latest_date?: string | null
+      history_as_of?: string | null
+      snapshots?: HistorySnapshotMeta[]
+    }
+    source_health?: { available: boolean; checked_at?: string | null; total?: number; ok?: number; failed?: number }
+  }
   validation?: { passed: number; failed: number; checks: DataValidationCheck[] }
   notes?: string
 }

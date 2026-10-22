@@ -12,6 +12,7 @@ import Scanner from '@/pages/Scanner'
 import Method from '@/pages/Method'
 import Sources from '@/pages/Sources'
 import CalendarPage from '@/pages/Calendar'
+import Lab from '@/pages/Lab'
 import About from '@/pages/About'
 
 function ScrollToTop() {
@@ -56,6 +57,7 @@ export default function App() {
               <Route path="/method" element={<Method />} />
               <Route path="/sources" element={<Sources />} />
               <Route path="/calendar" element={<CalendarPage />} />
+              <Route path="/lab" element={<Lab />} />
               <Route path="/about" element={<About />} />
               <Route path="*" element={<NotFound />} />
             </Routes>

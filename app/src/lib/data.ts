@@ -6,9 +6,11 @@ import type {
   CalendarData,
   CalendarEvent,
   DataMeta,
+  DeltaBasis,
   GapType,
   Grade,
   GradeId,
+  HistoryMeta,
   HumanNeed,
   Industry,
   NeuroDriver,
@@ -16,12 +18,14 @@ import type {
   Playbook,
   Playbooks,
   Rankings,
+  RankingsMeta,
   RankingWindow,
   Region,
   ScoreDimension,
   Scores,
   SevenQuestions,
   SourceCategory,
+  SourceHealth,
   Sources,
   Stats,
   StatsBucket,
@@ -36,6 +40,8 @@ import sourcesJson from '@/data/sources.json'
 import playbooksJson from '@/data/playbooks.json'
 import calendarJson from '@/data/calendar.json'
 import statsJson from '@/data/stats.json'
+import historyJson from '@/data/_history.json'
+import sourceHealthJson from '@/data/source-health.json'
 import dataMetaJson from '@/data/_meta.json'
 import { clamp, isoWeekKey, round1 } from './utils'
 
@@ -340,6 +346,21 @@ function deriveWindow(key: WindowKey): RankingWindow {
   return { ...keyLabels[key], items }
 }
 
+function normalizeRankingsMeta(raw: unknown): RankingsMeta {
+  const m = obj(raw)
+  const basis = str(m.delta_basis)
+  return {
+    ...(m as RankingsMeta),
+    data_version: str(m.data_version) || undefined,
+    as_of: str(m.as_of) || asOf,
+    delta_basis: (basis === 'history' || basis === 'adjacent-window' ? basis : 'adjacent-window') as DeltaBasis,
+    history_as_of: m.history_as_of === null ? null : str(m.history_as_of) || null,
+    tie_breaker: str(m.tie_breaker) || undefined,
+    snapshot_at: str(m.snapshot_at) || undefined,
+    reconstructed: bool(m.reconstructed),
+  }
+}
+
 function normalizeRankings(raw: unknown): Rankings {
   const root = obj(raw)
   const windowsRaw = obj(root.windows)
@@ -366,18 +387,30 @@ function normalizeRankings(raw: unknown): Rankings {
       ? {
           key: str(w.key, derived.key),
           label: str(w.label, derived.label),
+          delta_basis: (w.delta_basis === 'history' || w.delta_basis === 'adjacent-window' ? w.delta_basis : undefined) as
+            | DeltaBasis
+            | undefined,
           items,
         }
       : derived
   }
   return {
-    meta: isObj(root.meta) ? root.meta : { data_version: 'unknown', as_of: asOf },
+    meta: normalizeRankingsMeta(root.meta),
     windows,
   }
 }
 
 export const rankings = normalizeRankings(rankingsJson)
 export const rankingWindowMeta = rankings.windows
+export const rankingsDeltaBasis: DeltaBasis = rankings.meta.delta_basis || 'adjacent-window'
+export const rankingsHistoryAsOf: string | null = rankings.meta.history_as_of ?? null
+export const rankingsTieBreaker: string = rankings.meta.tie_breaker || ''
+export const deltaBasisLabel =
+  rankingsDeltaBasis === 'history' ? '较上一快照' : '相邻窗口（历史快照不足 1 天）'
+export const deltaBasisShort = rankingsDeltaBasis === 'history' ? '较上一快照' : '相邻窗口口径'
+export function deltaBasisText(basis: DeltaBasis | undefined | null): string {
+  return basis === 'history' ? '较上一快照' : '相邻窗口（历史快照不足 1 天）'
+}
 
 /** 某个机会在所有榜单中的名次 */
 export function getOppRanks(oppId: string) {
@@ -550,6 +583,63 @@ export const calendarEvents: CalendarEvent[] = pickList(calendarJson, ['events',
   notes: str(e.notes),
 })).filter((e) => !!e.date).sort((a, b) => a.date.localeCompare(b.date))
 
+/* ============================ v0.2.0 可选数据：history / source-health ============================ */
+
+const rawHistory = obj(historyJson)
+export const historyMeta: HistoryMeta = {
+  available: bool(rawHistory.available),
+  count: int(rawHistory.count),
+  latest_date: str(rawHistory.latest_date) || null,
+  history_as_of: str(rawHistory.history_as_of) || null,
+  snapshots: arr(rawHistory.snapshots)
+    .filter(isObj)
+    .map((s) => ({
+      file: str(s.file),
+      date: str(s.date),
+      data_version: str(s.data_version) || undefined,
+      as_of: str(s.as_of) || undefined,
+      snapshot_at: str(s.snapshot_at) || null,
+      reconstructed: bool(s.reconstructed),
+      delta_basis: s.delta_basis == null ? null : str(s.delta_basis),
+      window_counts: isObj(s.window_counts)
+        ? Object.fromEntries(Object.entries(s.window_counts).map(([k, v]) => [k, int(v)]))
+        : undefined,
+    })),
+  note: str(rawHistory.note) || undefined,
+}
+
+const rawSourceHealth = obj(sourceHealthJson)
+export const sourceHealth: SourceHealth = {
+  available: bool(rawSourceHealth.available),
+  checked_at: str(rawSourceHealth.checked_at) || null,
+  total: int(rawSourceHealth.total),
+  ok_count: int(rawSourceHealth.ok_count),
+  fail_count: int(rawSourceHealth.fail_count),
+  sources: arr(rawSourceHealth.sources)
+    .filter(isObj)
+    .map((s) => ({
+      id: str(s.id),
+      name: str(s.name) || undefined,
+      ok: bool(s.ok),
+      checked_at: str(s.checked_at) || undefined,
+      latency_ms: typeof s.latency_ms === 'number' ? num(s.latency_ms) : undefined,
+      http_status:
+        typeof s.http_status === 'number' ? int(s.http_status) : typeof s.status === 'number' ? int(s.status) : null,
+      error: s.error == null ? null : str(s.error),
+      note: s.note == null ? null : str(s.note),
+      consecutive_failures: int(s.consecutive_failures),
+      category: str(s.category) || undefined,
+      items: typeof s.items === 'number' ? int(s.items) : undefined,
+      signals: typeof s.signals === 'number' ? int(s.signals) : undefined,
+      cached: typeof s.cached === 'boolean' ? bool(s.cached) : undefined,
+      access: str(s.access) || undefined,
+      compliance: str(s.compliance) || undefined,
+    })),
+  meta: isObj(rawSourceHealth.meta) ? (rawSourceHealth.meta as any) : undefined,
+  note: str(rawSourceHealth.note) || undefined,
+}
+export const sourceHealthById = new Map(sourceHealth.sources.map((s) => [s.id, s]))
+
 /* ============================ meta & lookups ============================ */
 
 export const dataMeta: DataMeta = {
@@ -558,8 +648,22 @@ export const dataMeta: DataMeta = {
   synced_at: str(rawMeta.synced_at) || undefined,
   data_version: str(rawMeta.data_version) || str(obj(rawTaxonomy.meta).data_version) || undefined,
   as_of: asOf,
+  delta_basis: rankingsDeltaBasis,
+  history_as_of: str(rawMeta.history_as_of) || rankingsHistoryAsOf,
   mock_files: strArr(rawMeta.mock_files),
   counts: isObj(rawMeta.counts) ? (rawMeta.counts as Record<string, unknown>) : undefined,
+  optional: {
+    history: historyMeta,
+    source_health: sourceHealth.available
+      ? {
+          available: true,
+          checked_at: sourceHealth.checked_at,
+          total: sourceHealth.total,
+          ok: sourceHealth.ok_count,
+          failed: sourceHealth.fail_count,
+        }
+      : { available: false },
+  },
   validation: isObj(rawMeta.validation)
     ? {
         passed: num(rawMeta.validation.passed),
@@ -573,8 +677,10 @@ export const dataMeta: DataMeta = {
 }
 
 export const isMockData = dataMeta.source !== 'real'
-export const appVersion = '0.1.0'
+export const appVersion = '0.2.0'
 export const dataAsOf = asOf
+export const repoUrl = 'https://github.com/charline88888-ux/opportunity-radar'
+export const onlineUrl = 'https://charline88888-ux.github.io/opportunity-radar/'
 
 const industryMap = mapNames(taxonomy.industries)
 const gapMap = mapNames(taxonomy.gap_types)

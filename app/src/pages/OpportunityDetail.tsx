@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
+import dayjs from 'dayjs'
 import type { EChartsOption } from 'echarts'
 import {
   AlertTriangle,
@@ -10,8 +11,12 @@ import {
   CircleCheck,
   Clock3,
   Coins,
+  Copy,
   Crosshair,
+  Download,
   ExternalLink,
+  FileText,
+  FlaskConical,
   Info,
   ListChecks,
   Megaphone,
@@ -31,6 +36,7 @@ import { OpportunityCard } from '@/components/OpportunityCard'
 import { PageHeader } from '@/components/PageHeader'
 import {
   Badge,
+  Button,
   EmptyState,
   GradeBadge,
   InfoTip,
@@ -42,6 +48,7 @@ import {
 import {
   dataAsOf,
   defaultWeights,
+  deltaBasisLabel,
   driverName,
   gapHalfLife,
   gapName,
@@ -55,11 +62,21 @@ import {
   emotionName,
   oppById,
   oppBySlug,
+  rankingsDeltaBasis,
+  rankingsHistoryAsOf,
   regionName,
   relatedOpportunities,
   tagName,
   taxonomy,
 } from '@/lib/data'
+import { copyText, downloadOpportunityMarkdown, downloadPeriodReport, opportunityCardMarkdown } from '@/lib/exports'
+import {
+  ACTIVE_CAPACITY,
+  EXPERIMENT_STATUS,
+  experimentDay,
+  experimentReviewInfo,
+  useExperiments,
+} from '@/lib/experiments'
 import {
   decayCurve,
   industryDimensionAverage,
@@ -162,6 +179,38 @@ export default function OpportunityDetail() {
   const ranks = opp ? getOppRanks(opp.id) : []
   const related = opp ? relatedOpportunities(opp, 3) : []
   const checklist = useChecklist(opp?.id || 'unknown', opp?.first_steps_7d.length || 0)
+  const { find: findExperiment, add: addExperiment, update: updateExperiment, items: experiments } = useExperiments()
+  const experiment = opp ? findExperiment(opp.id) : undefined
+
+  const [showExpForm, setShowExpForm] = useState(false)
+  const [expBudget, setExpBudget] = useState(opp?.roi.capital_cny.min || 3000)
+  const [expStart, setExpStart] = useState(dayjs().format('YYYY-MM-DD'))
+  const [expEditing, setExpEditing] = useState(false)
+  const [draftSpend, setDraftSpend] = useState(0)
+  const [draftHours, setDraftHours] = useState(0)
+  const [draftConclusion, setDraftConclusion] = useState('')
+  const [copied, setCopied] = useState(false)
+  const [copyFailed, setCopyFailed] = useState(false)
+
+  useEffect(() => {
+    setShowExpForm(false)
+    setExpEditing(false)
+    setExpBudget(opp?.roi.capital_cny.min || 3000)
+    setExpStart(dayjs().format('YYYY-MM-DD'))
+    setCopied(false)
+    setCopyFailed(false)
+  }, [id])
+
+  useEffect(() => {
+    if (!experiment) return
+    setDraftSpend(experiment.spend_cny)
+    setDraftHours(experiment.hours)
+    setDraftConclusion(experiment.conclusion)
+  }, [experiment?.id, experiment?.updated_at])
+
+  const experimentReview = experiment ? experimentReviewInfo(experiment) : null
+  const experimentDayNo = experiment ? experimentDay(experiment) : 0
+  const activeExperimentCount = experiments.filter((x) => x.status === 'active').length
 
   const normalized = useMemo(() => normalizeWeights(weights), [weights])
   const custom = useMemo(() => (opp ? scoreWithWeights(opp, weights) : { total: 0, grade: 'D' }), [opp, weights])
@@ -271,6 +320,13 @@ export default function OpportunityDetail() {
             <Badge tone="neutral">ID {opp.id}</Badge>
             <Badge tone="cyan">{opp.momentum.toFixed(1)}× 动量</Badge>
             <Badge tone="neutral">as_of {dataAsOf}</Badge>
+            <button
+              onClick={() => downloadOpportunityMarkdown(opp)}
+              className="inline-flex h-7 items-center gap-1 rounded border border-signal/35 bg-signal/10 px-2.5 text-[11.5px] text-signal transition-colors hover:bg-signal/20"
+              title="下载 Markdown 机会卡（七问 + 证据 + 动作 + 证伪 + 免责）"
+            >
+              <Download className="h-3 w-3" /> 机会卡 MD
+            </button>
             <Link to="/rankings" className="inline-flex h-7 items-center gap-1 rounded border border-line bg-panel-2 px-2.5 text-[11.5px] text-muted hover:border-line-strong hover:text-ink">
               查看榜单 <ArrowUpRight className="h-3 w-3" />
             </Link>
@@ -292,7 +348,17 @@ export default function OpportunityDetail() {
         <span className="text-[11.5px] text-dim">
           需求：{opp.human_need_ids.slice(0, 3).map((n) => <span key={n} className="ml-1 text-muted">{needName(n)}</span>)}
         </span>
-        <span className="ml-auto flex items-center gap-2">
+        <span className="ml-auto flex flex-wrap items-center gap-2">
+          <span
+            className="rounded border border-cyan/30 bg-cyan/[0.06] px-1.5 py-0.5 font-mono text-[10px] text-cyan"
+            title={
+              rankingsDeltaBasis === 'history'
+                ? `榜单 delta 为「较上一份历史快照」口径（上期 ${rankingsHistoryAsOf || '—'}）`
+                : '榜单 delta 为「相邻窗口」口径（历史快照不足 1 天）'
+            }
+          >
+            榜单口径：{deltaBasisLabel}
+          </span>
           <span className="font-mono text-[10px] text-dim">WINDOW</span>
           <span className="rounded border px-1.5 py-0.5 font-mono text-[10px]" style={{ color: WINDOW_STATUS_HEX[opp.window.status], borderColor: `${WINDOW_STATUS_HEX[opp.window.status]}55`, background: `${WINDOW_STATUS_HEX[opp.window.status]}14` }}>
             {WINDOW_STATUS_LABEL[opp.window.status]} · {opp.window.months_left}M · {DECAY_LABEL[opp.window.decay]}
@@ -634,6 +700,151 @@ export default function OpportunityDetail() {
             )}
           </SectionCard>
 
+          <SectionCard
+            eyebrow="EXPERIMENT"
+            title="7 天实验"
+            right={<FlaskConical className="h-4 w-4 text-cyan" />}
+            bodyClassName="p-3.5"
+          >
+            {experiment ? (
+              <>
+                <div className="flex items-center justify-between gap-2">
+                  <span
+                    className="inline-flex items-center gap-1 rounded border px-1.5 py-0.5 font-mono text-[10px]"
+                    style={{
+                      color: EXPERIMENT_STATUS[experiment.status].color,
+                      borderColor: `${EXPERIMENT_STATUS[experiment.status].color}55`,
+                      background: `${EXPERIMENT_STATUS[experiment.status].color}12`,
+                    }}
+                  >
+                    <span className="h-1.5 w-1.5 rounded-full" style={{ background: EXPERIMENT_STATUS[experiment.status].color }} />
+                    {EXPERIMENT_STATUS[experiment.status].label}
+                  </span>
+                  <span className="font-mono text-[9.5px] text-dim">第 {experimentDayNo} 天 / 7 天周期</span>
+                </div>
+                <div className="mt-2 grid grid-cols-3 gap-2">
+                  <div>
+                    <div className="mono-label">预算</div>
+                    <div className="num text-[11.5px] text-muted">{fmtCnyRange(experiment.budget_cny, experiment.budget_cny)}</div>
+                  </div>
+                  <div>
+                    <div className="mono-label">已花费</div>
+                    <div className="num text-[11.5px] text-ink">{fmtCnyRange(experiment.spend_cny, experiment.spend_cny)}</div>
+                  </div>
+                  <div>
+                    <div className="mono-label">耗时</div>
+                    <div className="num text-[11.5px] text-muted">{experiment.hours} h</div>
+                  </div>
+                </div>
+                <div className="mt-1.5 font-mono text-[9.5px] text-dim">
+                  开始 {experiment.started_at}
+                  {experimentReview && (
+                    <span className={cn('ml-2', experimentReview.overdue ? 'text-danger' : experimentReview.daysLeft <= 1 ? 'text-amber' : '')}>
+                      复盘 {experimentReview.dueDate}{experimentReview.overdue ? ' · 已逾期' : experimentReview.daysLeft === 0 ? ' · 今天' : ` · 还有 ${experimentReview.daysLeft} 天`}
+                    </span>
+                  )}
+                </div>
+                <div className="mt-1.5 rounded border border-line/60 bg-black/15 px-2 py-1.5 text-[10.5px] leading-relaxed text-muted">
+                  <span className="font-mono text-[9px] text-dim">CONCLUSION. </span>
+                  {experiment.conclusion || '尚未填写结论；点「更新记录」记录花费、耗时与验证结果。'}
+                </div>
+                {expEditing && (
+                  <div className="mt-2 rounded border border-cyan/25 bg-cyan/[0.03] p-2">
+                    <div className="grid grid-cols-2 gap-2">
+                      <label className="block">
+                        <span className="mono-label">已花费 CNY</span>
+                        <input type="number" min={0} value={draftSpend} onChange={(e) => setDraftSpend(Number(e.target.value) || 0)} className="h-7 w-full rounded border border-line bg-panel-2 px-2 text-[11.5px] outline-none focus:border-signal/50" />
+                      </label>
+                      <label className="block">
+                        <span className="mono-label">耗时（小时）</span>
+                        <input type="number" min={0} step={0.5} value={draftHours} onChange={(e) => setDraftHours(Number(e.target.value) || 0)} className="h-7 w-full rounded border border-line bg-panel-2 px-2 text-[11.5px] outline-none focus:border-signal/50" />
+                      </label>
+                    </div>
+                    <label className="mt-2 block">
+                      <span className="mono-label">结论 / 复盘记录</span>
+                      <textarea rows={2} value={draftConclusion} onChange={(e) => setDraftConclusion(e.target.value)} className="w-full rounded border border-line bg-panel-2 px-2 py-1 text-[11px] outline-none focus:border-signal/50" placeholder="验证到什么？下一步继续、加注还是止损？" />
+                    </label>
+                    <div className="mt-1.5 flex justify-end gap-1.5">
+                      <Button size="xs" variant="ghost" onClick={() => setExpEditing(false)}>取消</Button>
+                      <Button
+                        size="xs"
+                        variant="primary"
+                        onClick={() => {
+                          updateExperiment(experiment.id, { spend_cny: Number(draftSpend) || 0, hours: Number(draftHours) || 0, conclusion: draftConclusion })
+                          setExpEditing(false)
+                        }}
+                      >
+                        保存记录
+                      </Button>
+                    </div>
+                  </div>
+                )}
+                <div className="mt-2 flex flex-wrap items-center gap-1.5">
+                  {experiment.status === 'active' && (
+                    <>
+                      <Button size="xs" variant="primary" onClick={() => updateExperiment(experiment.id, { status: 'verified', conclusion: experiment.conclusion || '已验证：达到 7 天验证目标' })}>
+                        <CircleCheck className="h-3 w-3" /> 标记已验证
+                      </Button>
+                      <Button size="xs" variant="outline" onClick={() => updateExperiment(experiment.id, { status: 'abandoned', conclusion: experiment.conclusion || '已放弃：未达验证标准' })}>
+                        <XCircle className="h-3 w-3" /> 已放弃
+                      </Button>
+                    </>
+                  )}
+                  <Button size="xs" variant="ghost" onClick={() => setExpEditing((v) => !v)}>
+                    <Clock3 className="h-3 w-3" /> 更新记录
+                  </Button>
+                  <Link to="/lab" className="ml-auto inline-flex items-center gap-1 text-[10.5px] text-muted hover:text-signal">
+                    实验台 <ArrowUpRight className="h-3 w-3" />
+                  </Link>
+                </div>
+              </>
+            ) : (
+              <>
+                <p className="text-[11px] leading-relaxed text-muted">
+                  还没有加入实验。把这条机会当作一个 7 天可验证假设：记录预算、每天动作，7 天后按证伪条件决定继续或止损。
+                  {activeExperimentCount > ACTIVE_CAPACITY && (
+                    <span className="mt-1 block text-amber">当前已有 {activeExperimentCount} 个进行中实验，超过个人产能上限 {ACTIVE_CAPACITY}，建议先结案。</span>
+                  )}
+                </p>
+                {showExpForm ? (
+                  <div className="mt-2 rounded border border-signal/25 bg-signal/[0.03] p-2">
+                    <div className="grid grid-cols-2 gap-2">
+                      <label className="block">
+                        <span className="mono-label">开始日期</span>
+                        <input type="date" value={expStart} onChange={(e) => setExpStart(e.target.value)} className="h-7 w-full rounded border border-line bg-panel-2 px-2 text-[11.5px] outline-none focus:border-signal/50" />
+                      </label>
+                      <label className="block">
+                        <span className="mono-label">预算 CNY</span>
+                        <input type="number" min={0} value={expBudget} onChange={(e) => setExpBudget(Number(e.target.value) || 0)} className="h-7 w-full rounded border border-line bg-panel-2 px-2 text-[11.5px] outline-none focus:border-signal/50" />
+                      </label>
+                    </div>
+                    <div className="mt-2 flex justify-end gap-1.5">
+                      <Button size="xs" variant="ghost" onClick={() => setShowExpForm(false)}>取消</Button>
+                      <Button
+                        size="xs"
+                        variant="primary"
+                        onClick={() => {
+                          addExperiment({ opp_id: opp.id, started_at: expStart, budget_cny: Number(expBudget) || 0, title: opp.title })
+                          setShowExpForm(false)
+                        }}
+                      >
+                        <FlaskConical className="h-3 w-3" /> 加入并开始
+                      </Button>
+                    </div>
+                  </div>
+                ) : (
+                  <Button size="xs" variant="primary" className="mt-2" onClick={() => setShowExpForm(true)}>
+                    <FlaskConical className="h-3 w-3" /> 开始 7 天实验
+                  </Button>
+                )}
+                <div className="mt-2 flex items-center justify-between text-[9.5px] text-dim">
+                  <span>数据仅存本机 localStorage · 不联网</span>
+                  <Link to="/lab" className="hover:text-signal">打开实验台 →</Link>
+                </div>
+              </>
+            )}
+          </SectionCard>
+
           <SectionCard eyebrow="ROI" title="投入与回报" right={<TrendingUp className="h-4 w-4 text-signal" />} bodyClassName="p-3.5">
             <div className="grid grid-cols-2 gap-x-3 gap-y-2.5">
               <div>
@@ -723,6 +934,52 @@ export default function OpportunityDetail() {
             </div>
             <div className="mt-2 rounded border border-line/60 bg-black/20 px-2 py-1.5 text-[9.5px] leading-relaxed text-dim">
               <span className="text-amber">免责声明：</span>{opp.disclaimer}
+            </div>
+          </SectionCard>
+
+          <SectionCard eyebrow="EXPORT" title="导出与分享" right={<Download className="h-4 w-4 text-cyan" />} bodyClassName="p-3.5">
+            <div className="grid grid-cols-1 gap-1.5">
+              <button
+                onClick={async () => {
+                  const ok = await copyText(opportunityCardMarkdown(opp))
+                  setCopied(ok)
+                  setCopyFailed(!ok)
+                  window.setTimeout(() => {
+                    setCopied(false)
+                    setCopyFailed(false)
+                  }, 2600)
+                }}
+                className="flex items-center justify-between rounded border border-line/70 px-2 py-1.5 text-[10.5px] text-muted transition-colors hover:border-line-strong hover:text-ink"
+              >
+                <span className="flex items-center gap-1.5"><Copy className="h-3 w-3" /> 复制机会卡 Markdown</span>
+                <span className={cn('font-mono text-[9.5px]', copied ? 'text-signal' : copyFailed ? 'text-amber' : 'text-dim')}>
+                  {copied ? '已复制 ✓' : copyFailed ? '复制受限 · 请用下载' : '七问 + 证据 + 免责'}
+                </span>
+              </button>
+              <button
+                onClick={() => downloadOpportunityMarkdown(opp)}
+                className="flex items-center justify-between rounded border border-line/70 px-2 py-1.5 text-[10.5px] text-muted transition-colors hover:border-line-strong hover:text-ink"
+              >
+                <span className="flex items-center gap-1.5"><FileText className="h-3 w-3" /> 下载机会卡 .md</span>
+                <span className="font-mono text-[9.5px] text-dim">单条机会</span>
+              </button>
+              <button
+                onClick={() => downloadPeriodReport('week', 'md')}
+                className="flex items-center justify-between rounded border border-line/70 px-2 py-1.5 text-[10.5px] text-muted transition-colors hover:border-line-strong hover:text-ink"
+              >
+                <span className="flex items-center gap-1.5"><Download className="h-3 w-3" /> 导出本周报告 .md</span>
+                <span className="font-mono text-[9.5px] text-dim">含 Top10 七问</span>
+              </button>
+              <button
+                onClick={() => downloadPeriodReport('week', 'html')}
+                className="flex items-center justify-between rounded border border-line/70 px-2 py-1.5 text-[10.5px] text-muted transition-colors hover:border-line-strong hover:text-ink"
+              >
+                <span className="flex items-center gap-1.5"><FileText className="h-3 w-3" /> 导出本周报告 .html</span>
+                <span className="font-mono text-[9.5px] text-dim">自包含可打印</span>
+              </button>
+            </div>
+            <div className="mt-2 rounded border border-line/60 bg-white/[0.015] px-2 py-1.5 text-[9.5px] leading-relaxed text-dim">
+              报告在浏览器本地用已打包数据生成（Blob 下载，不联网）；扫描器也会在 <span className="font-mono">data/reports/</span> 生成同结构报告，二者互为补充。
             </div>
           </SectionCard>
         </aside>

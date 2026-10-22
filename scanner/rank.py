@@ -1,4 +1,4 @@
-"""榜单模块：按契约 5.1 的窗口规则生成 data/rankings.json。
+"""榜单模块：按契约 5.1（data-v0.2.0）生成 data/rankings.json。
 
 窗口归属（全部按 Asia/Shanghai 日界）：
 - day   : last_activity == as_of
@@ -8,11 +8,13 @@
 同一机会可同时出现在多个窗口。
 
 排序链（契约 §5.1）：rank_score 降序 → momentum 降序 → evidence_count 降序 →
-last_activity 降序 → opp_id 升序；`rank` 从 1 连续。
+last_activity 降序 → opp_id 升序；rank 从 1 连续。
 
-delta/change 口径（v0.1.0 明确）：以「相邻更大窗口」为参照——
-day 参照 week，week 参照 month，month 参照 year，year 无参照（delta=null, change="new"）。
-delta = 参照窗口名次 − 本窗口名次（正数=上升）。参照窗口中不存在 = 新上榜。
+delta 口径（v0.2.0）：
+1. 优先「上一份历史快照的同窗口名次」：delta = 上期名次 − 本期名次，delta_basis="history"；
+2. 无历史（首版/该窗口上期为空）：回退相邻更大窗口口径（day←week、week←month、
+   month←year、year 无参照），delta_basis="adjacent-window"；
+3. 完全无参照：delta=null、change="new"。
 """
 from __future__ import annotations
 
@@ -23,7 +25,7 @@ from . import config
 from .common import iso_week_key, month_key, window_key, window_label, year_key
 
 WINDOWS = ["day", "week", "month", "year"]
-# 参照窗口（上一窗口）
+# 相邻更大窗口参照（无历史时的回退口径）
 REFERENCE = {"day": "week", "week": "month", "month": "year", "year": None}
 
 
@@ -61,31 +63,66 @@ def _window_members(opportunities: list[dict], as_of: date) -> dict[str, list[di
     return by_window
 
 
-def build_rankings(opportunities: list[dict], as_of: date) -> dict[str, Any]:
-    members = _window_members(opportunities, as_of)
-    sorted_by_window = {w: sorted(members[w], key=_sort_key) for w in WINDOWS}
+def _delta_for(
+    *,
+    opp_id: str,
+    rank: int,
+    window: str,
+    history_ranks: dict[str, dict[str, int]],
+    current_rank_maps: dict[str, dict[str, int]],
+) -> tuple[int | None, str]:
+    """返回 (delta, change)。history 优先，其次相邻窗口回退。"""
+    prev_rank = (history_ranks.get(window) or {}).get(opp_id)
+    if prev_rank is None:
+        reference = REFERENCE[window]
+        if reference is not None:
+            prev_rank = current_rank_maps.get(reference, {}).get(opp_id)
+    if prev_rank is None:
+        return None, "new"
+    delta = int(prev_rank - rank)
+    change = "up" if delta > 0 else "down" if delta < 0 else "flat"
+    return delta, change
 
-    rank_maps: dict[str, dict[str, int]] = {}
+
+def build_rankings(
+    opportunities: list[dict],
+    as_of: date,
+    previous_snapshot: dict[str, Any] | None = None,
+) -> dict[str, Any]:
+    """生成榜单。`previous_snapshot` 为上一份历史快照（无则回退相邻窗口口径）。"""
+    members = _window_members(opportunities, as_of)
+    sorted_by_window = {window: sorted(members[window], key=_sort_key) for window in WINDOWS}
+
+    current_rank_maps: dict[str, dict[str, int]] = {}
     for window in WINDOWS:
-        rank_maps[window] = {
+        current_rank_maps[window] = {
             opp["id"]: idx + 1 for idx, opp in enumerate(sorted_by_window[window])
         }
+
+    history_ranks: dict[str, dict[str, int]] = {}
+    if previous_snapshot:
+        for window, data in (previous_snapshot.get("windows") or {}).items():
+            history_ranks[window] = {
+                item["opp_id"]: int(item["rank"])
+                for item in (data.get("items") or [])
+                if item.get("opp_id")
+            }
 
     windows: dict[str, Any] = {}
     for window in WINDOWS:
         items = []
-        reference = REFERENCE[window]
+        window_uses_history = False
         for idx, opp in enumerate(sorted_by_window[window]):
             rank = idx + 1
-            delta = None
-            change = "new"
-            if reference is not None:
-                prev_rank = rank_maps[reference].get(opp["id"])
-                if prev_rank is None:
-                    delta, change = None, "new"
-                else:
-                    delta = prev_rank - rank
-                    change = "up" if delta > 0 else "down" if delta < 0 else "flat"
+            if (history_ranks.get(window) or {}).get(opp["id"]) is not None:
+                window_uses_history = True
+            delta, change = _delta_for(
+                opp_id=opp["id"],
+                rank=rank,
+                window=window,
+                history_ranks=history_ranks,
+                current_rank_maps=current_rank_maps,
+            )
             items.append(
                 {
                     "opp_id": opp["id"],
@@ -96,24 +133,32 @@ def build_rankings(opportunities: list[dict], as_of: date) -> dict[str, Any]:
                     "change": change,
                 }
             )
-        day = as_of
         windows[window] = {
-            "key": window_key(window, day),
-            "label": window_label(window, day),
+            "key": window_key(window, as_of),
+            "label": window_label(window, as_of),
             "count": len(items),
+            "delta_basis": "history" if window_uses_history else "adjacent-window",
             "items": items,
         }
 
+    history_as_of = None
+    if previous_snapshot:
+        history_as_of = (previous_snapshot.get("meta") or {}).get("as_of")
     return {
         "meta": {
             "data_version": config.DATA_VERSION,
             "as_of": as_of.isoformat(),
             "generator": "scanner/pipeline.py",
             "window_rules": "day=last_activity==as_of; week=ISO week; month=YYYY-MM; year=YYYY",
-            "delta_rules": "delta 相对相邻更大窗口名次：day←week, week←month, month←year, year 无参照",
+            "delta_rules": (
+                "优先上一快照同窗口名次（delta=上期名次−本期名次）；无历史回退 adjacent-window："
+                "day←week, week←month, month←year, year 无参照"
+            ),
+            "delta_basis": "history" if previous_snapshot else "adjacent-window",
+            "history_as_of": history_as_of,
             "tie_breaker": "rank_score desc, momentum desc, evidence_count desc, last_activity desc, opp_id asc",
             "quotas": config.WINDOW_QUOTAS,
-            "counts": {w: windows[w]["count"] for w in WINDOWS},
+            "counts": {window: windows[window]["count"] for window in WINDOWS},
         },
         "windows": windows,
     }

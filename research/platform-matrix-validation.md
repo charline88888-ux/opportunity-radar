@@ -12,13 +12,14 @@
 
 - 本轮共整理 **62 个条目（约 60 个独立平台，12 大类）**；对其中 **20 个平台入口做了 `web_fetch` 直连尝试**：**✅ 成功 14 个**（Reddit RSS、iTunes 评论 RSS、Product Hunt、Naver DataLab、TikTok Creative Center、Amazon Movers、Etsy 开发者文档、Shopify App Store、1688、EUR-Lex、GEM、GitHub Trending、Drewry WCI、Etsy API Terms），**⛔ 被拦截/失败 6 个**（Trustpilot、Google Trends、Jumia、Noon、my.gov.sa、Salam Gateway），**⏳ 其余 42 个为文档级/间接验证**（依据平台公开文档与检索结果判断，未逐页直连）。
 - 另：`research/cases.md` 中已对 30+ 个证据页做过直连（含政府/平台/媒体），可与本文件交叉使用。
+- **重要可复现性提醒（v0.2.0，响应红队 P2-9）**：RSS/首页/榜单等**滚动内容只能证明"源在检查当日可访问"**，不能当作具体引文或数字的 URL；引用历史条目必须保存**具体 permalink + 抓取日期 + 原文 ID/标题**（必要时存文本快照）。本表中 Reddit RSS、iTunes Reviews RSS、Amazon Movers & Shakers、TikTok Creative Center、Naver DataLab 均属"滚动/动态"源，引用时按此规则处理；具体案例见 `research/cases.md` §5 第 8 条与 §8 修订记录。
 - 最容易被反爬拦截的：Jumia、Noon、Trustpilot、Google Trends、沙特政府站、Fiverr、LinkedIn、小红书、1688（部分接口）。**不要尝试绕行**，改用替代源或人工。
 - 最稳的免费源：政府/监管（EUR-Lex、CCPC、France Num、PEP、国家统计局）、官方 API（YouTube、arXiv、GitHub、World Bank、OECD、Eurostat、openFDA、iTunes RSS、Reddit RSS、GEM、Etsy API）。
 - 对个人版扫描器最实用的 8 个源：**Reddit RSS、Naver DataLab、TikTok Creative Center、Amazon Movers & Shakers、Etsy Open API、GEM、Drewry WCI、iTunes Reviews RSS**。
 
 ---
 
-## 1. 逐类平台验证表（48 个）
+## 1. 逐类平台验证表（62 个条目，12 大类）
 
 图例：访问 = `api` / `rss` / `html` / `manual` / `paid-api`；合规 = 绿/黄/红；核验 = ✅直连成功 / ⛔拦截 / ⏳文档级（未逐页直连）。
 

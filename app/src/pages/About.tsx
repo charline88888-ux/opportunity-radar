@@ -3,9 +3,15 @@ import {
   BookOpen,
   Boxes,
   CheckCircle2,
+  Database,
+  ExternalLink,
   FileCode2,
+  FlaskConical,
   GitBranch,
+  Github,
+  Globe2,
   HardDrive,
+  History,
   Info,
   Keyboard,
   Layers3,
@@ -16,7 +22,25 @@ import {
 } from 'lucide-react'
 import { PageHeader } from '@/components/PageHeader'
 import { Badge, Panel, SectionCard } from '@/components/ui'
-import { allSources, appVersion, calendarEvents, dataAsOf, dataMeta, isMockData, opportunities, playbooks, sources, taxonomy } from '@/lib/data'
+import {
+  allSources,
+  appVersion,
+  calendarEvents,
+  dataAsOf,
+  dataMeta,
+  historyMeta,
+  isMockData,
+  onlineUrl,
+  opportunities,
+  playbooks,
+  rankingsDeltaBasis,
+  rankingsHistoryAsOf,
+  rankingsTieBreaker,
+  repoUrl,
+  sourceHealth,
+  sources,
+  taxonomy,
+} from '@/lib/data'
 import { cn } from '@/lib/utils'
 
 const DOCS = [
@@ -32,7 +56,7 @@ const DOCS = [
   ['09', '风险合规与红队清单', '合规红线、红色风险与发布 checklist'],
   ['10', '版本与发布管理', '版本冻结、回滚与 releases 规则'],
   ['11', '补充清单 · 40 件事', '容易踩的坑与放大器'],
-  ['12', '数据契约与字段字典', '唯一数据接口标准（data-v0.1.0）'],
+  ['12', '数据契约与字段字典', '唯一数据接口标准（data-v0.2.0，含 history/source-health 增量）'],
 ]
 
 const STACK = [
@@ -46,25 +70,40 @@ const STACK = [
   ['日期', 'dayjs'],
   ['工具', 'clsx + tailwind-merge'],
   ['数据', '构建期同步 ../data/*.json → src/data/，无运行时请求'],
+  ['离线', 'vite-plugin-singlefile 单文件 dist（file:// 双击可用）'],
+  ['实验', 'localStorage 实验记录 + Blob 报告/机会卡导出'],
 ]
 
 const ROADMAP = [
-  { version: 'v0.2.0', title: '个人工作流增强', items: ['自定义机会录入与本地保存', '机会一页纸 Markdown 导出', '评分回测与校准看板', '更多数据源健康度指标'] },
-  { version: 'v0.3.0', title: '扫描自动化（可选）', items: ['本地代理接入公开 API', '多语言数据源适配', '机会订阅与提醒', '团队共享只读快照'] },
-  { version: 'v1.0.0', title: '稳定契约与生态', items: ['数据契约 1.0 冻结', '移动端完整适配', '插件化数据源', '发布流程自动化'] },
+  { version: 'v0.3.0', title: '扫描自动化（规划）', items: ['本地代理接入公开 API', '--fetch 信号人工审核工作流', '机会订阅与提醒', '评分回测与校准看板'] },
+  { version: 'v0.4.0', title: '协作与多语言（规划）', items: ['多语言数据源适配', '团队共享只读快照', '移动端完整适配', '插件化数据源'] },
+  { version: 'v1.0.0', title: '稳定契约与生态', items: ['数据契约 1.0 冻结', '发布流程自动化', '历史趋势与回测数据库', '公开数据源适配器市场'] },
 ]
 
 const HISTORY = [
   {
-    version: 'v0.1.0',
+    version: 'v0.2.0',
     date: '2026-10-22',
     tag: '当前版本',
+    items: [
+      '新增第 9 个路由 /lab 实验台：localStorage 实验 CRUD、统计、复盘周期、JSON/Markdown 导出',
+      '详情页实验状态卡（加入/更新/结案）+ Markdown 机会卡复制与下载 + 本周报告导出',
+      '榜单页/详情页浏览器端报告导出（Markdown + 自包含可打印 HTML，Blob 下载）',
+      '接入 data-v0.2.0：rankings.meta.delta_basis/history_as_of、history 快照、source-health 可选数据',
+      'P2 修复：1024 卡片栅格、Dashboard「新上榜」口径文案、榜单 delta 口径标签',
+      'About 升级 v0.2.0：GitHub 仓库 / GitHub Pages 线上版链接、路线图与版本历史',
+    ],
+  },
+  {
+    version: 'v0.1.0',
+    date: '2026-10-22',
+    tag: '上一版本',
     items: [
       '8 个路由：指挥台 / 排行榜 / 机会详情 / 扫描室 / 方法论 / 数据源 / 日历 / 关于',
       '数据契约 data-v0.1.0：taxonomy / opportunities / rankings / stats / sources / playbooks / calendar',
       '构建期 strict 校验：机会数、榜单配额、七问、10 维公式、枚举与数量',
       '深色「终端 + 编辑部」设计系统、ECharts 深色主题、权重可调演示',
-      'base "./" + HashRouter，dist/index.html 可 file:// 双击离线打开',
+      'base "./" + HashRouter + 单文件构建，dist/index.html 可 file:// 双击离线打开',
     ],
   },
   { version: 'v0.0.9-dev', date: '2026-10-21', tag: '内部迭代', items: ['页面骨架与图表主题', '数据接入层与降级策略', '权重实时重算组件'] },
@@ -79,15 +118,20 @@ export default function About() {
   return (
     <div>
       <PageHeader
-        index="07"
+        index="08"
         kicker="ABOUT · 关于"
         title="关于机会雷达"
-        description="本地优先的个人商机研究工具：用「人性需求信号 + 文化差异信号」发现全世界的赚钱信息差，按日 / 周 / 月 / 年榜单交付，并为每个机会强制回答商业驱动七问。"
+        description="本地优先的个人商机研究工具：用「人性需求信号 + 文化差异信号」发现全世界的赚钱信息差，按日 / 周 / 月 / 年榜单交付，并为每个机会强制回答商业驱动七问。v0.2.0 起支持 7 天实验台、报告导出与历史快照口径。"
         actions={
           <div className="flex flex-wrap items-center gap-2">
             <Badge tone="signal"><PackageCheck className="h-3 w-3" /> v{appVersion}</Badge>
             <Badge tone={isMockData ? 'amber' : 'signal'}>{isMockData ? 'DEMO DATA' : 'REAL DATA'}</Badge>
-            <Badge tone="neutral">data {dataMeta.data_version || '—'}</Badge>
+            <a href={repoUrl} target="_blank" rel="noreferrer noopener" className="inline-flex h-7 items-center gap-1 rounded border border-line bg-panel-2 px-2.5 text-[11.5px] text-muted transition-colors hover:border-line-strong hover:text-ink">
+              <Github className="h-3 w-3" /> 源码仓库
+            </a>
+            <a href={onlineUrl} target="_blank" rel="noreferrer noopener" className="inline-flex h-7 items-center gap-1 rounded border border-signal/35 bg-signal/10 px-2.5 text-[11.5px] text-signal transition-colors hover:bg-signal/20">
+              <Globe2 className="h-3 w-3" /> 线上版（随版本更新）
+            </a>
           </div>
         }
       />
@@ -108,18 +152,44 @@ export default function About() {
               </Panel>
             ))}
           </div>
-          <div className="mt-3 grid grid-cols-2 gap-2 md:grid-cols-4">
+          <div className="mt-3 grid grid-cols-2 gap-2 md:grid-cols-3">
             {[
               { label: '机会', value: opportunities.length },
               { label: '数据源', value: allSources.length },
               { label: '扫描剧本', value: playbooks.length },
               { label: '日历节点', value: calendarEvents.length },
+              { label: '历史快照', value: historyMeta.available ? historyMeta.count : '未提供' },
+              { label: '采集健康', value: sourceHealth.available ? `${sourceHealth.ok_count}/${sourceHealth.total} ok` : '未提供' },
             ].map((x) => (
               <div key={x.label} className="flex items-baseline justify-between rounded border border-line/70 px-2.5 py-1.5">
                 <span className="text-[10.5px] text-dim">{x.label}</span>
                 <span className="num text-[13px] text-muted">{x.value}</span>
               </div>
             ))}
+          </div>
+          <div className="mt-3 grid grid-cols-1 gap-2 sm:grid-cols-2">
+            <a href={repoUrl} target="_blank" rel="noreferrer noopener" className="group flex items-center gap-2 rounded border border-line/70 bg-white/[0.01] px-2.5 py-2 transition-colors hover:border-line-strong">
+              <Github className="h-4 w-4 shrink-0 text-muted" />
+              <span className="min-w-0">
+                <span className="block text-[11px] text-ink">GitHub 源码仓库</span>
+                <span className="block truncate font-mono text-[9px] text-dim">charline88888-ux/opportunity-radar</span>
+              </span>
+              <ExternalLink className="ml-auto h-3 w-3 shrink-0 text-dim group-hover:text-cyan" />
+            </a>
+            <a href={onlineUrl} target="_blank" rel="noreferrer noopener" className="group flex items-center gap-2 rounded border border-signal/25 bg-signal/[0.03] px-2.5 py-2 transition-colors hover:border-signal/50">
+              <Globe2 className="h-4 w-4 shrink-0 text-signal" />
+              <span className="min-w-0">
+                <span className="block text-[11px] text-ink">GitHub Pages 线上版（随版本更新）</span>
+                <span className="block truncate font-mono text-[9px] text-dim">charline88888-ux.github.io/opportunity-radar</span>
+              </span>
+              <ExternalLink className="ml-auto h-3 w-3 shrink-0 text-dim group-hover:text-signal" />
+            </a>
+          </div>
+          <div className="mt-2 rounded border border-signal/20 bg-signal/[0.03] px-2.5 py-2">
+            <div className="mono-label text-signal">v0.2.0 本轮变更</div>
+            <div className="mt-0.5 text-[10.5px] leading-relaxed text-muted">
+              /lab 实验台（localStorage CRUD + 统计 + 导出）· 详情页实验状态与 Markdown 机会卡 · 榜单/详情报告导出 · history 快照与 delta_basis 口径 · source-health 可选接入 · 1024 栅格与「新上榜」P2 修复。
+            </div>
           </div>
           <div className="mt-3 rounded border border-line/70 bg-black/20 px-2.5 py-2 font-mono text-[10px] leading-relaxed text-dim">
             <div>sync: node app/scripts/sync-data.mjs --strict</div>
@@ -135,10 +205,12 @@ export default function About() {
         <SectionCard className="xl:col-span-5" eyebrow="DATA PIPELINE" title="数据链路与 strict 校验">
           <div className="space-y-1.5">
             {[
-              ['data/*.json', '数据工程产出，唯一真实来源'],
-              ['scripts/sync-data.mjs', '同步 + 契约自检；strict 模式禁止 mock'],
+              ['data/*.json', '7 个核心 JSON 必须为真实数据（strict）'],
+              ['data/history/rankings-*.json', '可选：历史快照 → delta_basis=history'],
+              ['data/source-health.json', '可选：在线采集健康 → Dashboard / 本页'],
+              ['scripts/sync-data.mjs', '同步 + 契约自检；可选缺失不阻塞 strict'],
               ['src/data/*.json', '前端唯一 import 目录（构建期生成）'],
-              ['app/dist', '离线静态产物，HashRouter + base ./'],
+              ['app/dist/index.html', '单文件离线产物，HashRouter + base ./'],
             ].map(([a, b], i) => (
               <div key={a} className="flex items-start gap-2">
                 <span className="mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded-sm border border-line font-mono text-[8px] text-dim">{i + 1}</span>
@@ -149,6 +221,26 @@ export default function About() {
               </div>
             ))}
           </div>
+          <div className="mt-2 grid grid-cols-1 gap-1 rounded border border-line/70 bg-white/[0.015] px-2 py-1.5 text-[10px] sm:grid-cols-3">
+            <div className="flex items-center gap-1">
+              <History className="h-3 w-3 text-cyan" />
+              <span className="text-dim">快照</span>
+              <span className="num text-muted">{historyMeta.count}</span>
+            </div>
+            <div className="flex items-center gap-1">
+              <Database className="h-3 w-3 text-signal" />
+              <span className="text-dim">采集</span>
+              <span className="text-muted">{sourceHealth.available ? `${sourceHealth.ok_count}/${sourceHealth.total} ok` : '可选未提供'}</span>
+            </div>
+            <div className="flex items-center gap-1">
+              <Database className="h-3 w-3 text-amber" />
+              <span className="text-dim">口径</span>
+              <span className="text-muted">{rankingsDeltaBasis === 'history' ? '较上一快照' : '相邻窗口'}</span>
+            </div>
+          </div>
+          {rankingsDeltaBasis === 'history' && rankingsHistoryAsOf && (
+            <div className="mt-1 font-mono text-[9px] text-dim">history_as_of = {rankingsHistoryAsOf} · tie_breaker = {rankingsTieBreaker || 'rank_score → momentum → evidence_count → last_activity → opp_id'}</div>
+          )}
           <div className="mt-2 border-t border-line/70 pt-2">
             <div className="mb-1 flex items-center justify-between">
               <span className="mono-label">LAST BUILD VERIFY</span>
@@ -214,6 +306,44 @@ export default function About() {
             </div>
             <div className="mt-2 flex items-center gap-1.5 text-[10px] text-dim">
               <Keyboard className="h-3 w-3" /> 所有页面支持键盘焦点可见与 Hover 高亮。
+            </div>
+          </SectionCard>
+
+          <SectionCard eyebrow="SOURCE HEALTH" title="最近在线采集状态" right={<Database className="h-4 w-4 text-dim" />}>
+            {sourceHealth.available ? (
+              <>
+                <div className="mb-2 flex flex-wrap items-center gap-2 text-[10.5px]">
+                  <Badge tone={sourceHealth.fail_count ? 'amber' : 'signal'}>成功 {sourceHealth.ok_count}/{sourceHealth.total}</Badge>
+                  <span className="font-mono text-[9.5px] text-dim">{sourceHealth.checked_at || '—'}</span>
+                  <span className="ml-auto text-[9.5px] text-dim">来源 data/source-health.json（可选）</span>
+                </div>
+                <div className="max-h-[190px] space-y-1 overflow-auto">
+                  {sourceHealth.sources.map((s) => (
+                    <div key={s.id} className="flex items-center gap-2 rounded border border-line/70 px-2 py-1 text-[10px]">
+                      <span className={cn('h-1.5 w-1.5 shrink-0 rounded-full', s.ok ? 'bg-signal' : 'bg-danger')} />
+                      <span className="min-w-0 flex-1 truncate text-muted">{s.name || s.id}</span>
+                      <span className="font-mono text-[9px] text-dim">{s.http_status ?? '—'}</span>
+                      <span className="font-mono text-[9px] text-dim">{s.items != null ? `${s.items} items` : ''}</span>
+                      <Badge tone={s.ok ? 'signal' : 'danger'}>{s.ok ? 'OK' : 'FAIL'}</Badge>
+                    </div>
+                  ))}
+                </div>
+                <div className="mt-1 text-[9.5px] leading-relaxed text-dim">
+                  <span className="font-mono text-muted">pipeline.py --fetch</span> 会限速抓取公开 RSS 并写入 scanner/outbox 供人工复核；不自动进入机会库。
+                </div>
+              </>
+            ) : (
+              <div className="text-[10.5px] leading-relaxed text-dim">
+                暂无 source-health 数据（可选）。运行 <span className="font-mono text-muted">python scanner/pipeline.py --fetch</span> 后生成；缺失不影响页面与构建。
+              </div>
+            )}
+          </SectionCard>
+
+          <SectionCard eyebrow="REPORTS" title="报告与导出">
+            <div className="space-y-1.5 text-[10.5px] leading-relaxed text-muted">
+              <p><span className="text-cyan">前端导出：</span>榜单页 / 详情页可导出当前窗口 Markdown 与自包含 HTML（浏览器 Blob 生成，无需联网）；详情页还可复制/下载单条机会卡 Markdown。</p>
+              <p><span className="text-cyan">后端报告：</span>扫描器 <span className="font-mono text-dim">scanner/report.py</span> 会在 <span className="font-mono text-dim">data/reports/</span> 生成四窗口报告，内容与本页导出同构，适合归档与分发。</p>
+              <p>实验记录仅保存在本机 localStorage（<span className="font-mono text-dim">/lab</span> 可导出 JSON 备份），不会写入 data/，也不会上传。</p>
             </div>
           </SectionCard>
         </div>

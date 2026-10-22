@@ -419,7 +419,7 @@
   "emotion_tags": ["grief", "love", "nostalgia"],
   "source_langs": ["en", "zh"],
   "roi": { "capital_cny": {"min": 2000, "max": 10000}, "time_to_revenue_months": 1, "payback_months": 3, "monthly_revenue_cny": {"min": 8000, "max": 40000}, "gross_margin_pct": 75, "effort_level": "side", "team_size": 1 },
-  "scores": { "dimensions": {"signal": 8.0, "gap": 8.5, "feasibility": 8.6, "economics": 8.2, "timing": 7.6, "competition": 7.0, "risk": 7.2, "fit": 8.4, "evidence": 7.6, "leverage": 6.8}, "total": 79.6, "grade": "A" },
+  "scores": { "dimensions": {"signal": 8.0, "gap": 8.5, "feasibility": 8.6, "economics": 8.2, "timing": 7.6, "competition": 7.0, "risk": 7.2, "fit": 8.4, "evidence": 7.2, "leverage": 6.8}, "total": 79.4, "grade": "A" },
   "window": { "status": "open", "months_left": 24, "decay": "slow" },
   "tags": ["low-capital", "solo", "side-hustle", "digital", "content-driven"],
   "verified": false
@@ -427,7 +427,8 @@
 ```
 
 - **卖什么**：回忆录代写、家族访谈、旧相册/录像数字化、悼词/讣告、纪念日订阅、纪念画/纪念物。
-- **价格/规模证据**：定制纪念画 **$4,900 起**（艺术家官网 2026-08，`primary`，✅200）；Reddit 用户讨论旧剪贴簿扫描：**$80/50 页、利润约 $70**，抱怨现有公司"每页数美元、要等数月"（用户原声 2026-10-18，`primary`，✅200）；Upwork 有大量回忆录代写供给（`primary`，⏳）。
+- **价格/规模证据**：定制纪念画 **$4,900 起**（艺术家官网 2026-08，`primary`，✅200）；Upwork 有大量回忆录代写供给（`primary`，⏳）。
+  - **需求侧轶事（弱证据，已按红队 P2-9 降级）**：Reddit 有「旧剪贴簿扫描」讨论，发帖人自估 **$80/50 页、利润约 $70**；但 Reddit 对未登录自动请求返回动态壳（2026-10-22 实测 HTML 200 空正文、`.json` 403），**引文不可机器复现**——仅作"需求存在"的轶事，**不进入 `signal.evidence`、不标 `verified:true`、不支撑 ROI**。
 - **七问要点**：
   - `traffic`：Google SEO（"memoir writer"/"scan old photos"）+ 殡仪馆/临终关怀机构合作 + Reddit/本地社群。
   - `money`：回忆录 3,000–15,000 元/本；数字化 300–1,500 元/单；会员订阅。
@@ -440,7 +441,7 @@
 - **风险**：情绪劳动耗竭；AI 写作伦理；交付周期长；客诉敏感。
 - **证据 URL**：
   - https://zellerhausart.com/blog/spirit-pieces-review（2026-08，primary，✅200）
-  - https://www.reddit.com/r/Entrepreneur/.rss（2026-10-18 条目，primary，✅200）
+  - https://www.reddit.com/r/Entrepreneur/comments/1x9cw20/rate_my_idea_i_got_some_scrap_books_from_my_dad/（2026-10-18，⏳动态壳：帖子可定位、正文不可机器复现 → **不标 verified**）
   - https://www.upwork.com/services/product/writing-translation-a-memoir-that-will-educate-and-inspire-your-readers-1349851133396758528（⏳）
 
 ---

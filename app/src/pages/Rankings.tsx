@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
-import { ArrowDownWideNarrow, LayoutGrid, ListOrdered, Rows3, SlidersHorizontal } from 'lucide-react'
+import { ArrowDownWideNarrow, FileJson, FileText, LayoutGrid, ListOrdered, Rows3, SlidersHorizontal } from 'lucide-react'
 import { PageHeader } from '@/components/PageHeader'
 import { OpportunityCard } from '@/components/OpportunityCard'
 import {
@@ -17,6 +17,8 @@ import {
   TabsTrigger,
 } from '@/components/ui'
 import {
+  deltaBasisLabel,
+  deltaBasisText,
   gapName,
   gapHalfLife,
   industryColor,
@@ -24,11 +26,14 @@ import {
   oppById,
   opportunities,
   rankings,
+  rankingsDeltaBasis,
+  rankingsHistoryAsOf,
   RANKING_WINDOWS,
   regionName,
   taxonomy,
   WINDOW_LABEL,
 } from '@/lib/data'
+import { downloadPeriodReport } from '@/lib/exports'
 import type { ChangeType, Opportunity, WindowKey } from '@/types'
 import { cn, fmtInt, fmtScore, gradeColor } from '@/lib/utils'
 
@@ -184,6 +189,7 @@ export default function Rankings() {
   }
 
   const windowData = rankings.windows[win]
+  const windowBasis = windowData?.delta_basis || rankingsDeltaBasis
   const allRows = useMemo<RankRow[]>(
     () =>
       (windowData?.items || [])
@@ -239,6 +245,40 @@ export default function Rankings() {
           </div>
         }
       />
+
+      <div className="mb-2 flex flex-wrap items-center gap-2">
+        <span
+          className="inline-flex cursor-help items-center gap-1 rounded border border-cyan/30 bg-cyan/[0.06] px-1.5 py-0.5 font-mono text-[10px] text-cyan"
+          title={
+            windowBasis === 'history'
+              ? `delta 口径：较上一份历史快照（${rankingsHistoryAsOf || '—'}），正数=上升`
+              : 'delta 口径：相邻窗口（历史快照不足 1 天）；day←week、week←month、month←year'
+          }
+        >
+          口径：{deltaBasisText(windowBasis)}
+        </span>
+        {windowBasis === 'history' && rankingsHistoryAsOf && (
+          <span className="font-mono text-[9.5px] text-dim">history_as_of {rankingsHistoryAsOf}</span>
+        )}
+        <div className="ml-auto flex flex-wrap items-center gap-1.5">
+          <button
+            onClick={() => downloadPeriodReport(win, 'md')}
+            disabled={!windowData?.items?.length}
+            className="inline-flex h-7 items-center gap-1 rounded border border-line bg-panel-2 px-2 text-[11px] text-muted transition-colors hover:border-line-strong hover:text-ink disabled:opacity-45"
+            title="导出本期报告 Markdown（浏览器本地生成，无需联网）"
+          >
+            <FileText className="h-3 w-3" /> 导出本期报告 MD
+          </button>
+          <button
+            onClick={() => downloadPeriodReport(win, 'html')}
+            disabled={!windowData?.items?.length}
+            className="inline-flex h-7 items-center gap-1 rounded border border-line bg-panel-2 px-2 text-[11px] text-muted transition-colors hover:border-line-strong hover:text-ink disabled:opacity-45"
+            title="导出本期报告自包含 HTML（可打印）"
+          >
+            <FileJson className="h-3 w-3" /> 导出本期报告 HTML
+          </button>
+        </div>
+      </div>
 
       <div className="mb-3 flex flex-col gap-2 lg:flex-row lg:items-center lg:justify-between">
         <Tabs value={win} onValueChange={(v) => switchWindow(v as WindowKey)}>
@@ -315,7 +355,9 @@ export default function Rankings() {
           { label: '当前入榜', value: fmtInt(filtered.length), unit: `条 / 窗口 ${daysLeft}`, color: '#3ddc97' },
           { label: '平均总分', value: fmtScore(stats.avg), unit: '分', color: '#4cc9f0' },
           { label: '最高总分', value: fmtScore(stats.max), unit: '分', color: '#ffd166' },
-          { label: '新上榜', value: fmtInt(stats.newCount), unit: '条', color: '#ffb547' },
+          windowBasis === 'history'
+            ? { label: '新上榜', value: fmtInt(stats.newCount), unit: '条（较上一快照）', color: '#ffb547' }
+            : { label: '较上期变化', value: fmtInt(filtered.filter((r) => r.change !== 'flat').length), unit: '条（相邻窗口口径）', color: '#ffb547' },
         ].map((s) => (
           <Panel key={s.label} className="flex items-center justify-between px-3 py-2">
             <div>
@@ -340,7 +382,7 @@ export default function Rankings() {
       )}
 
       {!!top3.length && (
-        <div className="mb-3 grid grid-cols-1 gap-3 md:grid-cols-3">
+        <div className="mb-3 grid grid-cols-1 gap-3 md:grid-cols-2 xl:grid-cols-3">
           {top3.map((row, i) => (
             <TopCard key={row.opp.id} row={row} index={i} />
           ))}
@@ -348,7 +390,7 @@ export default function Rankings() {
       )}
 
       {!!rest.length && view === 'cards' && (
-        <div className="grid grid-cols-1 gap-2.5 md:grid-cols-2 2xl:grid-cols-3">
+        <div className="grid grid-cols-1 gap-2.5 md:grid-cols-2 xl:grid-cols-3">
           {rest.map((row) => (
             <OpportunityCard key={row.opp.id} opp={row.opp} rank={row.rank} showRank change={row.change} delta={row.delta} />
           ))}
@@ -368,7 +410,14 @@ export default function Rankings() {
             <div><span className="text-signal">week</span> = ISO 周（{rankings.windows.week?.key || '—'}）</div>
             <div><span className="text-signal">month</span> = YYYY-MM（{rankings.windows.month?.key || '—'}）</div>
             <div><span className="text-signal">year</span> = YYYY（{rankings.windows.year?.key || '—'}）</div>
-            <div className="pt-1 text-dim">delta = 相对上一窗口名次变化；new = 新上榜；flat = 持平。同一机会可同时出现在多个窗口。</div>
+            <div className="pt-1 text-dim">
+              delta 口径：{deltaBasisText(windowBasis)}
+              {windowBasis === 'history'
+                ? `（上期快照 ${rankingsHistoryAsOf || '—'}，delta = 上期名次 − 本期名次，正数=上升）`
+                : '（day←week、week←month、month←year；year 无参照时为 new）'}
+            </div>
+            <div className="text-dim">change ∈ {'{new, up, down, flat}'}，与 delta 符号一致；同一机会可同时出现在多个窗口。</div>
+            <div className="text-dim">tie_breaker：rank_score → momentum → evidence_count → last_activity → opp_id。</div>
           </div>
           <div className="mt-2 rounded border border-line/70 bg-black/20 px-2.5 py-2 font-mono text-[10.5px] leading-relaxed text-dim">
             <div>rank_score = min(100, total × (1 + 0.12 × (momentum − 1)))</div>

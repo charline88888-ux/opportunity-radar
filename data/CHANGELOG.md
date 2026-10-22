@@ -2,6 +2,43 @@
 
 格式：`data_version` + 日期 + 变更内容 + 影响面。契约变更（字段/枚举/公式）必须同步更新 `docs/12-数据契约与字段字典.md` 并通知 Lead、前端、红队。
 
+## data-v0.2.0 · 2026-10-22 · MINOR 增量（历史快照 / SQLite / 真实采集 / 报告）
+
+> 向后兼容：不删除、不改名 v0.1.0 的任何必填字段；只新增可选文件/字段与历史快照机制。v0.1.0 快照见 `releases/v0.1.0/`。
+
+### 新增文件与增量
+- `data/history/rankings-<date>.json`：每日榜单历史快照，`meta.snapshot_at`（确定性逻辑时间）+ `meta.reconstructed=false`；每次 `--all` 按 as_of 写入、同日覆盖。当前 1 份（2026-10-22）。
+- `rankings.json.meta` 新增 `delta_basis`（`history` / `adjacent-window`）、`history_as_of`（上一快照日期或 null）；`windows[].delta_basis` 标明该窗口实际口径；`tie_breaker` 落盘排序链。
+- `delta` 机制升级：有更早快照时按「上一快照同窗口名次」计算（delta=上期名次−本期名次）；否则回退相邻窗口口径。当前数据无更早快照 → `adjacent-window`，history 路径由单测临时快照覆盖。
+- `data/source-health.json`：在线采集源健康度（`--fetch` 生成，8 个源：7 成功 / 1 失败）。
+- `data/reports/`：四窗口自包含 HTML + Markdown 报告（8 个文件），含七问摘要、证据链接、风险与免责声明。
+- `data/radar.db`（gitignore）：SQLite 派生库，表 opportunities/evidence/rankings_history/source_health，当前 46/88/92/8 行，可由 JSON 全量重建。
+- `scanner/` 新增 `history.py` / `db.py` / `fetch.py` / `report.py`；`rank.py` 支持双 delta 口径；`validate.py` 新增 V19（历史快照一致性）/V20（source-health 合法性）→ **20/20 PASS**。
+- `data/sources.json` 从 63 → **67 个平台**：新增 4 个可采集公开 RSS 源（hnrss / techcrunch-rss / producthunt-feed / arxiv-rss）。
+- `scanner/outbox/`（gitignore）：`--fetch` 输出的人工复核队列，不自动写入机会库。
+
+### 真实验证结果（2026-10-22 实际运行）
+- `python scanner/pipeline.py --all`：exit 0，**幂等**（连跑两次：opportunities/rankings/history/stats/radar.db SHA256 全部一致），validate **20/20 PASS**。
+- `python scanner/pipeline.py --fetch`：**7/8 个源成功**，185 条原始信号：
+  - 成功：reddit（25）、itunes-reviews（30）、hnrss（20）、app-store-rss（30）、arxiv-rss（30）、techcrunch-rss（20）、producthunt-feed（30）；缓存命中后二次运行 0ms。
+  - 失败：shopify-changelog（返回 HTML 而非 feed，items=0）——已如实记录在 source-health。
+  - 合规：每域 ≤1 req/s、6h 缓存、明确 UA、12s 超时、失败重试 2 次；红区源不抓取；outbox 仅人工复核。
+- `python scanner/report.py --all`：4 窗口 × HTML/MD 共 8 个文件（day 8 条、week 15、month 23、year 46）。
+- `python -m unittest discover -s scanner/tests`：**28 条全绿**（新增 history delta/回退、报告生成、SQLite 重建、RSS/Atom/JSON feed 解析、红源筛选）。
+
+### 数据指纹（SHA256 前 16 位）
+- `opportunities.json` `52B30E45B356CEA9`（内容未变）
+- `rankings.json` `AD79B0AA1B8CFFF8`
+- `history/rankings-2026-10-22.json` `170F44478DC20A5D`
+- `stats.json` `4F58F249566C5627`
+- `radar.db` `D8F67AD20FE11CA0`（派生库，不入库）
+
+### 已知不足
+- 当前仓库只有 1 份历史快照 → 真实数据使用 adjacent-window；history 口径待次日运行自然生效（单测已覆盖）。
+- `--fetch` 只覆盖 RSS/JSON feed 类源；公开 API 源（YouTube/SEC/openFDA 等）尚未接线，openFDA 在部分网络有证书链问题。
+- `verified:true` 仍为 5 条（025/029/030/031 单证据待补第二独立来源）。
+- 4 个离线适配器继续保留用于可复现回归；真实采集与离线 fixtures 互不影响。
+
 ## data-v0.1.0 · 2026-10-22 · 首个冻结数据版本
 
 ### 最终交付规模

@@ -5,6 +5,7 @@ import {
   CalendarDays,
   Command,
   Database,
+  FlaskConical,
   Info,
   LayoutDashboard,
   ListOrdered,
@@ -15,6 +16,7 @@ import {
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { appVersion, dataAsOf, dataMeta, isMockData, opportunities, stats } from '@/lib/data'
+import { useExperiments } from '@/lib/experiments'
 import { Badge, InfoTip } from './ui'
 
 const NAV = [
@@ -24,7 +26,8 @@ const NAV = [
   { to: '/method', id: '04', label: '方法论', en: 'METHOD', icon: BookOpenCheck, desc: '评分模型 · 七问 · 文化维度' },
   { to: '/sources', id: '05', label: '数据源矩阵', en: 'SOURCES', icon: Database, desc: '12 大类平台 · 合规等级' },
   { to: '/calendar', id: '06', label: '全球商业日历', en: 'CALENDAR', icon: CalendarDays, desc: '节庆 / 税季 / 开学节点' },
-  { to: '/about', id: '07', label: '关于', en: 'ABOUT', icon: Info, desc: '版本 · 文档 · 免责声明' },
+  { to: '/lab', id: '07', label: '实验台', en: 'LAB', icon: FlaskConical, desc: '7 天验证 · 记录与复盘' },
+  { to: '/about', id: '08', label: '关于', en: 'ABOUT', icon: Info, desc: '版本 · 文档 · 免责声明' },
 ]
 
 function RadarMark() {
@@ -188,6 +191,8 @@ export function GlobalSearch() {
 
 function Sidebar() {
   const location = useLocation()
+  const { items: experiments } = useExperiments()
+  const activeExperiments = experiments.filter((x) => x.status === 'active').length
   const isActive = (to: string) =>
     to === '/' ? location.pathname === '/' : location.pathname.startsWith(to) || (to === '/rankings' && location.pathname.startsWith('/opportunities'))
 
@@ -225,7 +230,20 @@ function Sidebar() {
                 <span className="min-w-0 flex-1">
                   <span className="flex items-baseline justify-between gap-1">
                     <span className="text-[12.5px] leading-4">{item.label}</span>
-                    <span className="font-mono text-[8.5px] tracking-[0.1em] text-dim opacity-70">{item.en}</span>
+                    <span className="flex items-center gap-1">
+                      {item.to === '/lab' && activeExperiments > 0 && (
+                        <span
+                          className={cn(
+                            'inline-flex h-3.5 min-w-3.5 items-center justify-center rounded-full px-1 font-mono text-[8.5px] leading-none',
+                            activeExperiments > 1 ? 'bg-amber/20 text-amber' : 'bg-cyan/15 text-cyan',
+                          )}
+                          title={`进行中实验 ${activeExperiments} / 1`}
+                        >
+                          {activeExperiments}
+                        </span>
+                      )}
+                      <span className="font-mono text-[8.5px] tracking-[0.1em] text-dim opacity-70">{item.en}</span>
+                    </span>
                   </span>
                   <span className="mt-0.5 block truncate text-[10px] leading-3.5 text-dim">{item.desc}</span>
                 </span>

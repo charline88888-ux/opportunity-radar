@@ -1,10 +1,12 @@
 {
   "meta": {
-    "data_version": "0.1.0",
+    "data_version": "0.2.0",
     "as_of": "2026-10-22",
     "generator": "scanner/pipeline.py",
     "window_rules": "day=last_activity==as_of; week=ISO week; month=YYYY-MM; year=YYYY",
-    "delta_rules": "delta 相对相邻更大窗口名次：day←week, week←month, month←year, year 无参照",
+    "delta_rules": "优先上一快照同窗口名次（delta=上期名次−本期名次）；无历史回退 adjacent-window：day←week, week←month, month←year, year 无参照",
+    "delta_basis": "adjacent-window",
+    "history_as_of": null,
     "tie_breaker": "rank_score desc, momentum desc, evidence_count desc, last_activity desc, opp_id asc",
     "quotas": {
       "day": 6,
@@ -24,6 +26,7 @@
       "key": "2026-10-22",
       "label": "2026年10月22日",
       "count": 8,
+      "delta_basis": "adjacent-window",
       "items": [
         {
           "opp_id": "opp-crossborder-mercadolibre-030",
@@ -95,6 +98,7 @@
       "key": "2026-W43",
       "label": "2026年第43周",
       "count": 15,
+      "delta_basis": "adjacent-window",
       "items": [
         {
           "opp_id": "opp-crossborder-mercadolibre-030",
@@ -222,6 +226,7 @@
       "key": "2026-10",
       "label": "2026年10月",
       "count": 23,
+      "delta_basis": "adjacent-window",
       "items": [
         {
           "opp_id": "opp-crossborder-mercadolibre-030",
@@ -413,6 +418,7 @@
       "key": "2026",
       "label": "2026年",
       "count": 46,
+      "delta_basis": "adjacent-window",
       "items": [
         {
           "opp_id": "opp-crossborder-mercadolibre-030",

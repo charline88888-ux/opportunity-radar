@@ -7,6 +7,7 @@
 from __future__ import annotations
 
 import sys
+import tempfile
 import unittest
 from datetime import date
 from pathlib import Path
@@ -14,7 +15,20 @@ from pathlib import Path
 if __package__ in (None, ""):
     sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 
-from scanner import common, config, dedupe, materialize, normalize, rank, score, validate  # noqa: E402
+from scanner import (  # noqa: E402
+    common,
+    config,
+    db,
+    dedupe,
+    fetch,
+    history,
+    materialize,
+    normalize,
+    rank,
+    report,
+    score,
+    validate,
+)
 
 
 def _load_taxonomy() -> dict:
@@ -259,6 +273,178 @@ class TestNormalizeAndDedupe(unittest.TestCase):
         self.assertEqual(report["input"], 2)
         self.assertEqual(report["output"], 1)
         self.assertEqual(deduped[0]["duplicate_count"], 1)
+
+
+class TestHistoryDelta(unittest.TestCase):
+    """v0.2.0：history delta 路径 + adjacent-window 回退路径。"""
+
+    AS_OF = date(2026, 10, 22)
+
+    @staticmethod
+    def _opp(opp_id: str, last_activity: str, total: float = 70.0, momentum: float = 1.0, evidence: int = 1) -> dict:
+        return {
+            "id": opp_id,
+            "last_activity": last_activity,
+            "momentum": momentum,
+            "evidence_count": evidence,
+            "rank_score": score.compute_rank_score(total, momentum),
+            "scores": {"total": total},
+        }
+
+    def _previous_snapshot(self) -> dict:
+        return {
+            "meta": {"as_of": "2026-10-20"},
+            "windows": {
+                "day": {
+                    "items": [
+                        {"opp_id": "opp-test-hist-001", "rank": 2},
+                        {"opp_id": "opp-test-hist-002", "rank": 1},
+                    ],
+                    "delta_basis": "adjacent-window",
+                },
+                "week": {"items": [{"opp_id": "opp-test-hist-001", "rank": 1}], "delta_basis": "adjacent-window"},
+                # month / year 故意留空 → 该窗口回退 adjacent-window
+                "month": {"items": []},
+                "year": {"items": []},
+            },
+        }
+
+    def test_history_path(self):
+        opps = [
+            self._opp("opp-test-hist-001", "2026-10-22", total=80.0),
+            self._opp("opp-test-hist-002", "2026-10-22", total=70.0),
+        ]
+        rankings = rank.build_rankings(opps, self.AS_OF, previous_snapshot=self._previous_snapshot())
+        self.assertEqual(rankings["meta"]["delta_basis"], "history")
+        self.assertEqual(rankings["meta"]["history_as_of"], "2026-10-20")
+        day_items = {item["opp_id"]: item for item in rankings["windows"]["day"]["items"]}
+        self.assertEqual(day_items["opp-test-hist-001"]["rank"], 1)
+        self.assertEqual(day_items["opp-test-hist-001"]["delta"], 1)  # 上期 2 → 本期 1
+        self.assertEqual(day_items["opp-test-hist-001"]["change"], "up")
+        self.assertEqual(day_items["opp-test-hist-002"]["delta"], -1)
+        self.assertEqual(day_items["opp-test-hist-002"]["change"], "down")
+        self.assertEqual(rankings["windows"]["day"]["delta_basis"], "history")
+        # 上一快照该窗口为空 → 回退 adjacent-window
+        self.assertEqual(rankings["windows"]["year"]["delta_basis"], "adjacent-window")
+
+    def test_fallback_adjacent_path(self):
+        opps = [
+            self._opp("opp-test-adj-001", "2026-10-22", total=80.0),
+            self._opp("opp-test-adj-002", "2026-10-20", total=70.0),
+        ]
+        rankings = rank.build_rankings(opps, self.AS_OF, previous_snapshot=None)
+        self.assertEqual(rankings["meta"]["delta_basis"], "adjacent-window")
+        self.assertIsNone(rankings["meta"]["history_as_of"])
+        day_item = rankings["windows"]["day"]["items"][0]
+        # day(rank 1) 在 week 中也是 rank 1 → delta 0 flat
+        self.assertEqual(day_item["delta"], 0)
+        self.assertEqual(day_item["change"], "flat")
+        self.assertIsNone(rankings["windows"]["year"]["items"][0]["delta"])
+
+    def test_snapshot_roundtrip_and_find_previous(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            history_dir = Path(tmp)
+            opps = [self._opp("opp-test-snap-001", "2026-10-22", total=80.0)]
+            rankings = rank.build_rankings(opps, self.AS_OF)
+            path = history.write_snapshot(rankings, self.AS_OF, history_dir=history_dir)
+            self.assertTrue(path.exists())
+            snapshot = common.load_json(path)
+            self.assertEqual(snapshot["meta"]["snapshot_at"], "2026-10-22T00:00:00+08:00")
+            self.assertFalse(history.validate_snapshot_shape(snapshot, self.AS_OF))
+            # 同日快照不作为自身参照
+            self.assertIsNone(history.find_previous_snapshot(self.AS_OF, history_dir=history_dir))
+            previous = history.find_previous_snapshot(date(2026, 10, 23), history_dir=history_dir)
+            self.assertIsNotNone(previous)
+            self.assertEqual(previous[0], self.AS_OF)
+            after = rank.build_rankings(opps, date(2026, 10, 23), previous_snapshot=previous[1])
+            self.assertEqual(after["meta"]["history_as_of"], "2026-10-22")
+
+
+class TestReportAndDb(unittest.TestCase):
+    """v0.2.0：报告导出与 SQLite 重建。"""
+
+    def test_generate_reports(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            written = report.generate(["day", "year"], reports_dir=Path(tmp))
+            self.assertEqual(len(written), 2)
+            for row in written:
+                html_path = Path(row["html"])
+                md_path = Path(row["md"])
+                self.assertTrue(html_path.exists())
+                self.assertTrue(md_path.exists())
+                html_text = html_path.read_text(encoding="utf-8")
+                self.assertIn("机会雷达", html_text)
+                self.assertIn("<style>", html_text)
+                self.assertIn("https://", html_text)  # 证据链接
+                self.assertIn("免责声明", html_text)
+                md_text = md_path.read_text(encoding="utf-8")
+                self.assertIn("七问摘要", md_text)
+                self.assertIn("证据链接", md_text)
+
+    def test_db_rebuild(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            db_path = Path(tmp) / "radar.db"
+            result = db.rebuild(db_path=db_path, data_dir=config.DATA_DIR)
+            self.assertTrue(db_path.exists())
+            self.assertGreater(result["counts"]["opportunities"], 0)
+            self.assertGreater(result["counts"]["evidence"], 0)
+            info = db.info(db_path)
+            self.assertTrue(info["exists"])
+            self.assertEqual(info["rows"]["opportunities"], result["counts"]["opportunities"])
+
+
+class TestFetchParsing(unittest.TestCase):
+    """v0.2.0：真实采集的解析与合规筛选（离线测试，不联网）。"""
+
+    def test_parse_rss(self):
+        xml = (
+            "<rss version='2.0'><channel><title>feed</title>"
+            "<item><title>Hello</title><link>https://example.com/a</link>"
+            "<pubDate>Tue, 20 Oct 2026 08:00:00 GMT</pubDate><description>desc</description></item>"
+            "</channel></rss>"
+        )
+        records = fetch.parse_feed(xml, "test-rss", "demand")
+        self.assertEqual(len(records), 1)
+        self.assertEqual(records[0]["title"], "Hello")
+        self.assertEqual(records[0]["published"], "2026-10-20")
+
+    def test_parse_atom(self):
+        atom = (
+            "<feed xmlns='http://www.w3.org/2005/Atom'><title>t</title>"
+            "<entry><title>Atom title</title><link rel='alternate' href='https://example.com/b'/>"
+            "<published>2026-10-20T00:00:00Z</published><summary>sum</summary></entry></feed>"
+        )
+        records = fetch.parse_feed(atom, "test-atom", "social")
+        self.assertEqual(len(records), 1)
+        self.assertEqual(records[0]["title"], "Atom title")
+        self.assertEqual(records[0]["url"], "https://example.com/b")
+
+    def test_parse_json_feed(self):
+        payload = (
+            '{"feed": {"entry": [{"title": {"label": "JSON title"},'
+            ' "link": {"attributes": {"href": "https://example.com/c"}},'
+            ' "updated": {"label": "2026-10-20T00:00:00Z"}, "summary": {"label": "s"}}]}}'
+        )
+        records = fetch.parse_feed(payload, "test-json", "marketplace")
+        self.assertEqual(len(records), 1)
+        self.assertEqual(records[0]["title"], "JSON title")
+        self.assertEqual(records[0]["url"], "https://example.com/c")
+
+    def test_select_sources_skips_red(self):
+        sources = {
+            "categories": [
+                {
+                    "id": "demand",
+                    "sources": [
+                        {"id": "green-rss", "url": "https://example.com/rss", "access": "rss", "compliance": "green", "value_score": 9},
+                        {"id": "red-rss", "url": "https://example.com/red", "access": "rss", "compliance": "red", "value_score": 9},
+                        {"id": "green-html", "url": "https://example.com/html", "access": "html", "compliance": "green", "value_score": 9},
+                    ],
+                }
+            ]
+        }
+        selected = fetch.select_sources(sources, limit=10)
+        self.assertEqual([source["id"] for source in selected], ["green-rss"])
 
 
 if __name__ == "__main__":

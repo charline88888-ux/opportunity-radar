@@ -33,7 +33,16 @@ class _UnionFind:
 
 def _match_reason(left: dict[str, Any], right: dict[str, Any]) -> str | None:
     if left["canonical_url"] and left["canonical_url"] == right["canonical_url"]:
-        return "url"
+        # 同一 URL 只有在标题相同/高度相似时才算重复：
+        # 评论流、榜单页、列表页会对多条内容复用同一 URL，不能整组合并。
+        same_title = left["title_norm"] == right["title_norm"]
+        similar = (
+            len(left["title_norm"]) > TITLE_MIN_LEN
+            and jaccard(set(left["tokens"]), set(right["tokens"])) >= 0.6
+        )
+        if same_title or similar:
+            return "url"
+        return None
     title = left["title_norm"]
     if len(title) > TITLE_MIN_LEN and title == right["title_norm"]:
         return "title"
