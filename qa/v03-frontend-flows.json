@@ -1,0 +1,147 @@
+{
+  "results": [
+    {
+      "id": "T01",
+      "name": "画像已保存 + 能力向量展示",
+      "pass": true,
+      "detail": "OPPORTUNITY RADAR\n机会雷达\n全球商机扫描器 · 本地个人版\nNAVIGATION / 工作台\n01\n指挥台\nCOMMAND\nKPI · 今日榜 · 全景信号\n02\n排行榜\nRANKINGS\n综合榜 / 为你推荐\n03\n扫描室\nSCANNER\n热力矩阵 · 剧本 · 数据源健康\n04\n方法论\nMETHOD\n评分模型 · 七问 · 文化维度\n05\n数据源矩阵\nSOURCES\n12 大"
+    },
+    {
+      "id": "T02",
+      "name": "推荐榜卡片数量 ≥10",
+      "pass": true,
+      "detail": "cards=14"
+    },
+    {
+      "id": "T03",
+      "name": "rec_score/fit/total 与独立复算一致（全部展示卡片）",
+      "pass": true,
+      "detail": "checked=14"
+    },
+    {
+      "id": "T04",
+      "name": "宠物纪念玻璃：rec/fit/total 与独立复算一致",
+      "pass": true,
+      "detail": "{\"ui\":{\"rec\":78.9,\"fitPct\":80,\"total\":78.1},\"expected\":{\"rec\":78.9,\"fit\":0.8,\"need\":{\"capital\":4,\"time\":5,\"tech\":3,\"content\":4,\"supply\":7,\"english\":8,\"risk\":4},\"total\":78.1}}"
+    },
+    {
+      "id": "T05",
+      "name": "docs/04 T-v03-06 期望值与实际 UI 一致（文档已修正为 78.9/0.800）",
+      "pass": true,
+      "detail": "docs=78.9/0.8；UI=78.9/80%"
+    },
+    {
+      "id": "T06",
+      "name": "硬约束过滤计数展示",
+      "pass": true,
+      "detail": "expect filteredByHard=32"
+    },
+    {
+      "id": "T07",
+      "name": "推荐候选计数展示",
+      "pass": true,
+      "detail": "expect=14"
+    },
+    {
+      "id": "T08",
+      "name": "解释文案含 资金/技术/供应链（T-v03-13）",
+      "pass": true,
+      "detail": "A 宠物离世纪念玻璃：把骨灰毛发封进玻璃的定制生意 宠物经济 文化 / 宗教差 情绪 / 心理差 欧美宠物殡葬情绪消费升级，客单 120–400 美元，手工定制+独立站+跨境代发可小成本验证 推荐分 REC_SCORE 78.9 画像匹配 FIT 80% 机会总分 78.1 / A 窗口 open · 18M 【为什么推荐】你的资金（你 5.0 / 需求 4）、技术（你 3.3 / 需求 3）与该机会需求匹配；机会总分 78.1（A 级），主要靠「culture」类信息差，窗口状态 open、剩余约 18 个月（模"
+    },
+    {
+      "id": "T09",
+      "name": "切换「显示硬约束」后出现硬约束徽标",
+      "pass": true,
+      "detail": "ok"
+    },
+    {
+      "id": "T10",
+      "name": "榜单显示「较上一份历史快照（2026-10-21）」口径",
+      "pass": true,
+      "detail": "口径：较上一快照（2026-10-21）"
+    },
+    {
+      "id": "T11",
+      "name": "历史回放标记可见（text 或 tooltip title）",
+      "pass": true,
+      "detail": "[\"上期快照为历史回放（replay_as_of 2026-10-21），仅用于补足 delta 演示与历史对照\"]"
+    },
+    {
+      "id": "T12",
+      "name": "预警数 = 源失败+未核验A+高匹配（≤6）",
+      "pass": true,
+      "detail": "ui=15 expect=15 (src=3, unverifiedA=6, highMatch=8)"
+    },
+    {
+      "id": "T13",
+      "name": "预警含采集源失败原因",
+      "pass": true,
+      "detail": "OPPORTUNITY RADAR\n机会雷达\n全球商机扫描器 · 本地个人版\nNAVIGATION / 工作台\n01\n指挥台\nCOMMAND\nKPI · 今日榜 · 全景信号\n02\n排行榜\nRANKINGS\n综合榜 / 为你推荐\n03\n扫描室\nSCANNER\n热力矩阵 · 剧本 · 数据源健康\n04\n方法论\nMETHOD\n评分模型 · 七问 · 文化维度\n05\n数据源矩阵\nSOURCES\n12 大"
+    },
+    {
+      "id": "T14",
+      "name": "标为已读后未读数 -1 且持久化",
+      "pass": true,
+      "detail": "unread=14 read=1"
+    },
+    {
+      "id": "T15",
+      "name": "忽略后移出有效预警并持久化",
+      "pass": true,
+      "detail": "unread=13 ignored=1"
+    },
+    {
+      "id": "T16",
+      "name": "已忽略筛选视图可见 1 条",
+      "pass": true,
+      "detail": "OPPORTUNITY RADAR\n机会雷达\n全球商机扫描器 · 本地个人版\nNAVIGATION / 工作台\n01\n指挥台\nCOMMAND\nKPI · 今日榜 · 全景信号\n02\n排行榜\nRANKINGS\n综合榜 / 为你推荐\n03\n扫描室\nSCANNER\n热力矩阵 · 剧本 · 数据源健康\n04\n方法论\nMETHOD\n评分模型 · 七问 · 文化维度\n05\n数据源矩阵\nSOURCES\n12 大"
+    },
+    {
+      "id": "T17",
+      "name": "实验超期 11 天→warning、16 天→critical",
+      "pass": true,
+      "detail": "shown=17 critExp=true warnExp=true | 重 1 窗口关闭 / 长期未结案 注意 10 源失败 / 未核验 / 超期 提示 6 高匹配未行动 未读 全部 已忽略 当前显示 17 条 · 规则 2026-10-22 17:47 计算 严重 实验超期 实"
+    },
+    {
+      "id": "T18",
+      "name": "无样本空态",
+      "pass": true,
+      "detail": "OPPORTUNITY RADAR\n机会雷达\n全球商机扫描器 · 本地个人版\nNAVIGATION / 工作台\n01\n指挥台\nCOMMAND\nKPI · 今日榜 · 全景信号\n02\n排行榜\nRANKINGS\n综合榜 / 为你推荐\n03\n扫描室\nSCANNER\n热力矩阵 · 剧本 · 数据源健康\n04\n方法论\nMETHO"
+    },
+    {
+      "id": "T19",
+      "name": "n=2：样本不足、不展示成功率结论",
+      "pass": true,
+      "detail": "OPPORTUNITY RADAR\n机会雷达\n全球商机扫描器 · 本地个人版\nNAVIGATION / 工作台\n01\n指挥台\nCOMMAND\nKPI · 今日榜 · 全景信号\n02\n排行榜\nRANKINGS\n综合榜 / 为你推荐\n03\n扫描室\nSCANNER\n热力矩阵 · 剧本 · 数据源健康\n04\n方法论\nMETHOD\n评分模型 · 七问 · 文化维度\n05\n数据源矩阵\nSOURCES\n12 大类平台 · 合规等级\n06\n全球商业日历"
+    },
+    {
+      "id": "T20",
+      "name": "n=3：展示成功率（66.7% → UI 67%）",
+      "pass": true,
+      "detail": "成功率"
+    },
+    {
+      "id": "T21",
+      "name": "校准导出 JSON：schema@0.3.0 + 统计正确",
+      "pass": true,
+      "detail": "{\"file\":{\"schema\":\"opportunity-radar/calibration@0.3.0\",\"stats\":{\"samples\":3,\"positive\":2,\"negative\":1,\"inconclusive\":0,\"decided\":3,\"successRate\":66.7,\"avgTotal\":76.6,\"avgTotalPositive\":77.8,\"avgTotalNegative\":74.4,\"avgTotalInconclusive\":null,\"avgSpend\":1000,\"avgHours\":5,\"totalSpend\":3000,\"totalHour"
+    },
+    {
+      "id": "T22",
+      "name": "详情页显示「较上一快照」/窗口与实验状态",
+      "pass": true,
+      "detail": "OPPORTUNITY RADAR\n机会雷达\n全球商机扫描器 · 本地个人版\nNAVIGATION / 工作台\n01\n指挥台\nCOMMAND\nKPI · 今日榜 · 全景信号\n02\n排行榜\nRANKINGS\n综合榜 / 为你推荐\n03\n扫描室\nSCANNER\n热力矩阵 · 剧本 · 数据源健康\n04\n方法论\nMETHOD\n评分模型 · 七问 · 文化维度\n05\n数据源矩阵\nSOURCES\n12 大"
+    },
+    {
+      "id": "T23",
+      "name": "页面无 console error",
+      "pass": true,
+      "detail": "0"
+    }
+  ],
+  "summary": {
+    "pass": 23,
+    "fail": 0,
+    "total": 23
+  }
+}

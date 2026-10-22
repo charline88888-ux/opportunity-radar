@@ -1,0 +1,4 @@
+v0.3.0 MANIFEST 校验
+files=19 bad=NONE (19/19 OK)
+dist sha256=18dce4b854aa68a9571658309c0b76193f3dc42586f52a40af83e38454628374
+git_commit=0ca2c5c git_tag=v0.3.0

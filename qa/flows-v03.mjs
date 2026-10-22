@@ -95,7 +95,7 @@ const docFit = Number((docLine.match(/fit=([0-9.]+)/) || [])[1] ?? NaN)
 check('T05', 'docs/04 T-v03-06 期望值与实际 UI 一致（文档已修正为 78.9/0.800）', petCard && docRec === petCard.rec && Math.abs(docFit * 100 - petCard.fitPct) <= 1, `docs=${docRec}/${docFit}；UI=${petCard?.rec}/${petCard?.fitPct}%`)
 const recText = await bodyText()
 check('T06', '硬约束过滤计数展示', recText.includes('硬约束过滤') && new RegExp(`硬约束过滤\s*${expected.profiles['side-hustle'].filteredByHard}`).test(recText.replace(/\s+/g, ' ')) || recText.includes(`硬约束过滤`), `expect filteredByHard=${expected.profiles['side-hustle'].filteredByHard}`)
-check('T07', '推荐候选计数展示', new RegExp(`推荐候选\s*${Math.min(expected.profiles['side-hustle'].candidateCount, 30)}`).test(recText.replace(/\s+/g, ' ')), `expect=${Math.min(expected.profiles['side-hustle'].candidateCount, 30)}`)
+check('T07', '推荐候选计数展示', recText.replace(/\s+/g, ' ').includes(`推荐候选 ${Math.min(expected.profiles['side-hustle'].candidateCount, 30)}`), `expect=${Math.min(expected.profiles['side-hustle'].candidateCount, 30)}`)
 const reasonsOk = petCard && /资金/.test(petCard.text) && /技术/.test(petCard.text) && /供应链/.test(petCard.text)
 check('T08', '解释文案含 资金/技术/供应链（T-v03-13）', reasonsOk, (petCard?.text || '').slice(0, 260))
 // 显示硬约束 toggle

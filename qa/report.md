@@ -543,3 +543,120 @@ node qa/online-qa.mjs <port> https://charline88888-ux.github.io/opportunity-rada
 
 - v0.1.0 的 P0/P1 全部闭环后冻结；本次 v0.2.0 在其上增量，v0.1.0 冻结产物与线上 `/v0.1.0/` 均未被修改（字节级核对）。
 - v0.1 报告 §11 的冻结记录仍有效；本章为 v0.2.0 的独立验收记录（不覆盖历史）。
+
+---
+
+# 第 13 章 · v0.3.0 红队独立验收（2026-10-22 17:50）
+
+> 项目版本：v0.3.0（app 0.3.0 / data 0.3.0）　｜　验收人：redteam　｜　任务：task-15
+> 冻结：`releases/v0.3.0/`（git tag v0.3.0 → 93c333b，内容提交 0ca2c5c）　｜　线上：<https://charline88888-ux.github.io/opportunity-radar/>
+> 结论：**P0=0 / P1=0 / P2=5（均不阻塞）；可发布 ✅**
+
+## 13.1 结论
+
+| 项 | 结果 |
+|---|---|
+| P0（阻塞） | **0** |
+| P1（发布前应修） | **0**（过程中发现的 docs/04 T-v03-05/06 数值与真实数据不符已由方法侧修正，发布冻结快照已含修正版，复验通过） |
+| P2（建议修，不阻塞） | 5（见 §13.8） |
+| 数据 | `pipeline --all` exit 0 且 **23 个 data 文件（JSON+db）字节级幂等**；`validate.py` **V01–V20 20/20 PASS（exit 0）**；unittest **36/36 OK**；红队独立脚本 data-qa-v03 **P0/P1/P2=0**；replay-check **PASS** |
+| 历史/真实 delta | history 3 份（10-20/10-21 回放 reconstructed=true，10-22 真实 false）；`rankings.meta.delta_basis=history`、`history_as_of=2026-10-21`；**独立复算 92 个榜单条目**（60 条有可比上期、32 条 null/new），逐条与文件一致；10-21 回放 delta 独立复算 54 条亦一致 |
+| 回放幂等 | `pipeline --replay-as-of 2026-10-22 --replay-days 2` 连跑两次：3 个 history 文件 **字节不变**；`--all` 恢复真实快照后与基线字节一致 |
+| source-health v2 | 真实联网运行：8 源 **5 成功**（latency 874–9218ms）/**3 失败且 error 非空**（Reddit timeout；itunes-reviews、shopify-change return non-feed http_status=200）；`mode/cached/http_status/items/checked_at` 全部合法，`meta.mode=online-fetch` |
+| SQLite | `radar.db`：opportunities 46 / evidence 88 / rankings_history 211（3 快照）/ source_health 8；`--db-rebuild` 重建后 SHA256 不变、135168 B；已 gitignore |
+| 报告 | 四窗口 HTML+MD 共 8 文件；同日重跑**字节级确定性**；HTML 自包含、file:// 渲染正常；条目数 8/15/23/46 与榜单一致，含七问/证据链/风险/免责 |
+| 前端 | `pnpm install --frozen-lockfile && pnpm build` exit 0；strict 11/11 PASS（real、mock=[]、data 0.3.0）；**构建可复现**（重跑前后 SHA256 均 `18DCE4B8…28374`、2,138,535 B）；12 路由 1600/1024 CDP **无溢出/裁切/console error**；功能用例 **23/23 PASS** |
+| 冻结产物 | MANIFEST **19/19 sha256 一致**；dist `18DCE4B8…28374`；tag v0.3.0→93c333b→内容提交 0ca2c5c；冻结 dist file:// 17 张截图（12 路由+长页+1024）jsErrors=0 |
+| 线上一致 | 下载线上 `/` 与 `/v0.3.0/` 的 index.html：2,138,535 B / `18DCE4B8…28374` = 冻结 dist；`/v0.1.0/`=`F24B0755…`、`/v0.2.0/`=`DE48EF7A…` 与各自冻结版一致；`versions.json` latest=v0.3.0；线上 `/profile`、`/alerts`、`/calibration`、`/lab` 均可访问 |
+| **一句话结论** | **可发布**：数据/回放/delta/推荐/预警/校准/冻结/线上八层一致，P0=0、P1=0；5 个 P2（含 4 个已文档化的 v0.3.0 开放项）不阻塞。 |
+
+## 13.2 数据与扫描器验收（实测）
+
+- `pipeline --all` 连跑两次：exit 0；`data/` 下 **23 个文件**（JSON、history、reports、radar.db）SHA256 全部一致（幂等）。
+- `validate.py`：**20/20 PASS（exit 0）**。V19 收紧后：全部快照结构合法、`snapshot_at` 与文件名日期对齐、回放必须有 `replay_as_of`、最新快照（10-22）与当日 rankings 窗口 items 一致。V20 收紧后：`mode` 枚举、`cached→mode=cache&latency=0`、`http_status` int/null、`ok=false→error` 非空、`meta.mode` 合法。
+- unittest：**36 tests OK**（新增回放链/幂等、source-health 合法/非法、history 新增不回退）。
+- 红队独立脚本：`qa/data-qa-v03.py` P0/P1/P2=0；`qa/replay-check.py` **PASS**（10-20、10-21 两份回放快照均可由「last_activity≤回放日 + 当日窗口规则」独立复算，仅口径 A 命中；day 窗口无未来机会）。
+- history 清单：`rankings-2026-10-20.json`（reconstructed=true，day3/week5/month13/year36，basis=adjacent-window）；`rankings-2026-10-21.json`（reconstructed=true，day2/week7/month15/year38，basis=history，history_as_of=2026-10-20）；`rankings-2026-10-22.json`（reconstructed=false，day8/week15/month23/year46，basis=history，history_as_of=2026-10-21）。
+- delta 独立复算（按契约 §5.1 v0.3.0，逐窗口 basis）：92 条中 60 条两期都在 → `delta = 上期名次 − 本期名次`、`change` 符号一致；32 条上期缺失 → `delta:null, change:"new"`。样例：week `opp-local-umrah-service-025` 上期 rank1→本期 3，delta=-2/down ✅；10-21 回放对其上期 10-20 的 delta 独立复算 54 条全部一致 ✅。
+- source-health v2：`reddit` ok=false（`URLError: timed out`，http_status=null，latency=0）；`itunes-reviews` ok=false（http_status=200，latency=317，error「返回内容不是可解析的 feed…」）；`shopify-changelog` ok=false（200/2649ms/非 feed）；成功源 `hnrss 9218ms/20`、`app-store-rss 874ms/30`、`arxiv-rss 1501ms/30`、`techcrunch-rss 931ms/20`、`producthunt-feed 1223ms/30`；`meta.mode=online-fetch`、`cached_count=0`。
+- 报告：8 文件；`report-day` 截图（qa/tmp/v03-report-day.png）目检：header「delta 口径 history」、8 条、平均 73.8、A2/B6，条目含七问字段/证据链/主要风险；四窗口 items 数 8/15/23/46；同日重跑 8 文件字节不变。
+- 数据指纹（SHA256 前 16）：opportunities `52B30E45`（未变）、rankings `DBF852C6`、history `4C48B00A`/`DE8D5A63`/`B74E31E9`、stats `C8C0B247`、source-health `C3021C89`、taxonomy `496BC19A`、radar.db `424F46DE`。
+- 版本：taxonomy/rankings/stats/sources/playbooks/calendar `meta.data_version=0.3.0`；`VERSION` 根文件=0.3.0。
+
+## 13.3 前端验收（实测）
+
+- 构建：`pnpm install --frozen-lockfile` exit 0；`pnpm build` exit 0；strict **11/11 PASS**（history 3/回放 2、source-health 5/8 online-fetch）；`source=real`、`mock=[]`、data_version=0.3.0；dist **2,138,535 B / `18DCE4B8…28374`**。
+- **构建可复现**：红队重跑 install+build 前后 SHA256 完全一致（`qa/v03-build.txt`）。
+- 12 路由 file://（1600/1024）：`qa/v03-frontend-routes.txt`；全部 `horizontalOverflow=false`、`clippedElements=0`、`zeroSizeCanvas=0`、`consoleErrors=0`；绘制 5/0/2/2/4/2/1/0/1/0/0/0 个 canvas，无零尺寸。
+- 功能用例（`qa/flows-v03.mjs`，23 项全 PASS，输出 `qa/v03-frontend-flows.json`）：
+  - 画像：写入 side-hustle 画像后 `/profile` 显示「画像已保存」，能力向量 5.0/4.0/3.3/6.7/0.0/6.7/5.0（T-v03-01/02/04）。
+  - 推荐：`/rankings?mode=recommend` 14 张卡（候选 14、硬约束过滤 32）；逐卡解析 REC_SCORE/FIT/机会总分与**红队独立 Python 复算**（`qa/recommend-check.py`，按 docs/04 §12 独立实现）**14/14 一致**；宠物纪念玻璃 UI = rec 78.9 / fit 80% / total 78.1，与修正后的 T-v03-05/06 期望（english_need=8、ratio 8.375、match 8.0、fit 0.800、rec 78.9）一致；解释文案含「资金/技术/供应链（0% 覆盖）」（T-v03-13）；「显示硬约束」切换后出现硬约束徽标。
+  - delta 标签：榜单显示「口径：较上一快照（2026-10-21）」+ `history_as_of 2026-10-21` +「历史回放」徽标（title=「上期快照为历史回放…」）；详情页同步显示较上一快照。
+  - 预警：无画像时未读 15 条（源失败 3 + 未核验 A 6 + 高匹配 6）；已读后未读 14 且 `radar:alerts:v1.read` 持久化；忽略后未读 13 且 `ignored` 持久化、已忽略筛选可恢复；注入 11/16 天未结案实验后告警数 17，`严重+1（实验超期 critical）/注意+1（warning）`，与 T-v03-14/15 阈值一致；告警详情展示 source-health v2 的 error/latency/mode。
+  - 校准：0 样本空态；n=2（正/负）显示「样本不足」且不展示成功率结论；n=3（正/正/负）显示成功率（66.7%→UI 67%）；导出 JSON `schema=opportunity-radar/calibration@0.3.0`、stats 全对（samples 3 / decided 3 / successRate 66.7 / avgTotalPositive 77.8 / avgTotalNegative 74.4）；导出 MD 含等级×结果表、分桶表、建议、样本明细与免责声明，且不含个人信息（T-v03-20/21/23）。
+- 12 路由截图 + read_image 目检：dashboard（采集健康 5/8、较上一快照/历史回放、预警 9）、rankings（history 口径/新上榜 8 条/TOP3 delta）、profile、alerts（v2 错误原因/延迟）、calibration（空态/Brier 说明）、lab（delta 口径+回测入口）、about（v0.3.0、快照 3/回放 2、11 PASS）均正常，无白屏。
+
+## 13.4 冻结产物核验（releases/v0.3.0）
+
+- MANIFEST `files` 19 条：逐条重算 bytes+sha256 → **19/19 一致**；`app_version=0.3.0`、`data_version=0.3.0`、counts 46/67/12/33/13、open_path/rollback 正常；`qa/v03-frozen-manifest.txt`。
+- dist：2,138,535 B / `18DCE4B874…28374`（= 前端交付 = 红队可复现构建 = 线上文件）。
+- git：annotated tag `v0.3.0`（tag 对象 93c333b）→ commit 93c333b（docs: record manifest）→ parent `0ca2c5c`（release: v0.3.0 内容提交）；MANIFEST `git_commit=0ca2c5c`、`git_tag=v0.3.0` 一致。
+- 冻结 dist file:// 冒烟：`qa/screenshots/v03-frozen/01–17`（12 路由 + 2 长页 + 3 个 1024），17/17 渲染、jsErrors=0；read_image 目检 dashboard/rankings/profile/calibration 正常。
+- 发布快照 docs-snapshot/04 已包含修正后的 T-v03-05/06（english 8、fit 0.800、rec 78.9），与当前 docs/04 一致。
+
+## 13.5 线上（GitHub Pages）核验
+
+- `curl` 下载线上 index.html 与冻结 dist 逐字节/hash 比对（`qa/v03-online.txt`）：
+  - `/` 与 `/v0.3.0/`：2,138,535 B / `18DCE4B8…28374` = `releases/v0.3.0/dist/index.html` ✅
+  - `/v0.1.0/`：1,979,378 B / `F24B0755…` = `releases/v0.1.0/dist/index.html` ✅
+  - `/v0.2.0/`：2,049,902 B / `DE48EF7A…` = `releases/v0.2.0/dist/index.html` ✅
+  - `versions.json`：latest=v0.3.0，paths=`/v0.1.0/, /v0.2.0/, /`，HTTP 200 ✅
+- 线上截图（`qa/screenshots/v03-online/`）：root（v0.3.0，采集健康 5/8，较上一快照/历史回放）、`/profile`、`/alerts`（错误原因/延迟）、`/calibration`、`/lab`、`/v0.1.0/`（v0.1.0）、`/v0.2.0/`（v0.2.0）、`/v0.3.0/`（v0.3.0）；read_image 目检全部正常，无版本串台。
+- web_fetch：根 `HTTP 200`、`/v0.3.0/` `HTTP 200`（title「机会雷达 · 全球商机扫描器」）、`versions.json` 内容正确。
+
+## 13.6 复现命令
+
+```powershell
+cd 'E:\全球商机扫描器'
+python scanner/pipeline.py --all                     # 幂等；23 个 data 文件 SHA256 一致
+python scanner/pipeline.py --replay-as-of 2026-10-22 --replay-days 2   # 回放幂等
+python scanner/validate.py                           # 20/20 PASS
+python -m unittest discover -s scanner/tests         # 36 OK
+python qa/data-qa-v03.py                             # P0/P1/P2=0
+python qa/replay-check.py                            # PASS
+python scanner/db.py --rebuild                       # 46/88/211/8，SHA256 不变
+python scanner/report.py --all                       # 8 文件，字节确定性
+python qa/recommend-check.py                         # 独立推荐复算 → qa/tmp/recommend-expected.json
+cd app; pnpm install --frozen-lockfile; pnpm build   # strict 11 PASS，dist 18DCE4B8…
+node qa/flows-v03.mjs <port> "file:///…/app/dist/index.html" qa/tmp/downloads-v03   # 23/23 PASS
+node qa/frontend-qa-v03.mjs <port> <base> 1600 1000  # 12 路由 CDP
+pwsh -File qa/online-check.ps1 -Version v0.3.0       # 线上/冻结 hash 一致性
+```
+
+## 13.7 截图索引（v0.3）
+
+| 目录/文件 | 内容 |
+|---|---|
+| `qa/screenshots/v03/01–12` | 工作区 dist 12 路由 1600×1000（含 profile/alerts/calibration） |
+| `qa/screenshots/v03/13–14` | 详情长页 / About 长页 |
+| `qa/screenshots/v03/15–17` | 1024 dashboard / rankings / profile（无溢出） |
+| `qa/screenshots/v03-frozen/01–17` | **冻结 dist** 12 路由 + 长页 + 1024（发布基线） |
+| `qa/screenshots/v03-online/online-01…08` | 线上根/画像/预警/校准/实验台 + v0.1.0/v0.2.0/v0.3.0 归档 |
+| `qa/tmp/v03-report-day.png` | 后端日报告 HTML Chrome 渲染 |
+| `qa/tmp/downloads-v03/` | 校准 JSON/MD 导出（schema、统计、免责） |
+
+## 13.8 P2 与已知项（5 个，均不阻塞）
+
+| # | 项 | 现状 | 建议 |
+|---|---|---|---|
+| P2-1 | 资金硬约束（O1） | 实现用「档位分差 ≥2」，非严格 `capital_cny.min > 档位上限` | 已在 docs/04 §12.12 记录；若要严格 CNY 判定，在下版 `hardConstraintsFor` 加一行并升 0.3.x |
+| P2-2 | 校准 Brier（O4） | v0.3.0 未实现；页面显式标注「Brier 为 v0.3.1 扩展（本版不展示）」 | 按 docs/04 §12.9.5 在 v0.3.1 增补 |
+| P2-3 | 告警 id 不含 data_version（O3） | 忽略后数据升级不会自动重现 | v0.3.1 在 id 中加入 data_version |
+| P2-4 | 单桶样本 <3（O5） | 页面只显示计数，不对单桶下结论（符合规格） | 建议 UI 显式标注「样本不足（<3）」 |
+| P2-5 | 首版 day 窗口 delta 全为 null/new | 上期回放快照只含 last_activity≤10-21 的机会，10-22 当日 8 条均为新上榜（符合历史知识截止语义） | 次日起出现真实每日快照后自然消失；在数据 README 说明首版限制 |
+
+> 其他记录：source-health 本次真实联网 5/8（Reddit 超时、2 源非 feed），如实记录并展示 error/latency，不做粉饰；`releases/v0.3.0/docs-snapshot/09` 为 freeze 前版本（releases 只读），仓库 docs/09 §15 为冻结后补记，属预期。
+
+## 13.9 与 v0.1/v0.2 验收的关系
+
+- v0.1.0/v0.2.0 冻结产物与线上归档未被修改（字节级核对）；本章为 v0.3.0 独立验收记录，不覆盖历史章节。
