@@ -1,0 +1,14 @@
+# 依赖与构建产物（releases/ 下的冻结产物不入忽略）
+app/node_modules/
+app/dist/
+app/src/data/
+app/.vite/
+**/__pycache__/
+**/*.pyc
+.venv/
+*.log
+qa/tmp/
+qa/serve/
+research/tmp/
+.DS_Store
+Thumbs.db
