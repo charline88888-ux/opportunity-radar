@@ -1,0 +1,22 @@
+[i18n] dict entries: 1125
+[i18n] duplicate keys: 0
+[i18n] empty values: 0
+[i18n] source Chinese literals: 1338 · exact coverage (dictionary + explicit L() bilingual): 808 (60.4%)
+[i18n]   dictionary: 688 · explicit L(): 120 · missing: 530
+[i18n] uncovered samples (530):
+  - 关闭新鲜度提示
+  - [OpportunityRadar] 页面渲染异常：
+  - 级
+  - 未返回可用内容
+  - 查看数据页
+  - 校准良好（<0.15）
+  - 可接受（≤0.25 基线）
+  - 偏差偏大（>0.25 基线）
+  - 还没有带 outcome 的结案实验。先到实验台把进行中的实验结案，并标记「正向 / 负向 / 不明确」。
+  - 继续积累样本：优先选择不同等级（A/B/C）的机会各做一次小成本验证，避免只验证自己偏爱的机会。
+  - 继续按 7 天周期记录 outcome，并尽量保持「同一机会只用一种主要验证方式」，否则很难判断结果来自哪里。
+  - 样本 <10 时不要据此调整评分权重；校准建议只用于发现「系统性偏差」。
+  - # 机会雷达 · 回测校准报告
+  - ## 等级 × 结果分布
+  - | 等级 | 正向 | 负向 | 不明确 | 合计 |
+[i18n] 运行时 12 路由 zh/en 验收请用红队 qa/i18n-check.mjs（DOM 翻译层/英文分支会覆盖部分长句）。

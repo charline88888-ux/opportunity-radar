@@ -1,0 +1,4 @@
+v0.6.1 前端构建复现（红队重跑）
+before_sha256=77F302997B86198D3AD1F0C8B15AB4681B29926634E1401F88193FB6AA346105 before_bytes=2442119
+after_sha256=77F302997B86198D3AD1F0C8B15AB4681B29926634E1401F88193FB6AA346105 after_bytes=2442119
+reproducible=True; pnpm install --frozen-lockfile exit 0; pnpm build exit 0; strict PASS 11/11; source=real; mock_files=[]

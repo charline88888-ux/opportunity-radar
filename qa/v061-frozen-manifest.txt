@@ -1,0 +1,4 @@
+v0.6.1 MANIFEST 校验
+files=19 bad=NONE (19/19 OK)
+dist sha256=77f302997b86198d3ad1f0c8b15ab4681b29926634e1401f88193fb6aa346105 bytes=2442119
+git_commit=614346a git_tag=v0.6.1

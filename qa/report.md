@@ -1259,3 +1259,129 @@ pwsh -File qa/online-check.ps1 -Version v0.6.0       # 线上/冻结 hash 一致
 ## 18.11 与历史版本关系
 
 - v0.1.0–v0.5.1 冻结产物与线上归档未修改（逐字节核对）；本章为 v0.6.0 MINOR 独立验收，不覆盖历史章节。
+
+---
+
+# 第 19 章 · v0.6.1 PATCH 红队独立验收（2026-10-23 00:25）
+
+> 项目版本：v0.6.1（app 0.6.1 / data 0.6.1）　｜　验收人：redteam　｜　任务：task-35
+> 冻结：`releases/v0.6.1/`（git tag v0.6.1 → e9a8dfb，内容提交 614346a）｜dist 2,442,119 B / `77F30299…6105`
+> 结论：**P0=0 / P1=0 / P2=2（不阻塞）；冻结/线上/Actions 一致 → 可发布 ✅**
+
+## 19.1 结论
+
+| 项 | 结果 |
+|---|---|
+| P0（阻塞） | **0** |
+| P1（发布前应修） | **0** |
+| P2（建议修，不阻塞） | 2（i18n 静态精确覆盖 60.4%；站点结构变更未写 README/兼容说明——最新版不再生成 `/vX.Y.Z/` 归档） |
+| **`--as-of` 多日期** | `qa/asof-check.py` **PASS**：2026-10-22 基准 17/49/57/80；**2026-10-23 → day0/week49/month57/year80**；**2026-11-01 → 0/0/0/80**；**2027-01-01 → 全 0**；各日 validate **20/20**（非基准日仅结构校验并提示）、history 快照/meta/报告（8 文件文件名+基准日）/yearbook（自动跟随 as_of，空年份空态）全部跟随；同 as_of 双跑字节一致；非法日期 `2026-13-40` **exit 2**；`--replay-as-of` 与 `--as-of` 组合 3 份回放快照 replay_as_of≤as_of；**测试后 27 个 data 文件 SHA256 与基线全部一致、history 仅 10-20/10-21/10-22、validate 20/20** |
+| 数据基线 | validate **20/20**；unittest **64/64**；`--all` 幂等（27 文件 SHA256 一致）；data 0.6.1；指纹 opportunities `88FDA5AB`、rankings `5A890461`、stats `607FBCA6`、history-10-22 `71BF1115`、source-health `C199113D`、radar.db `1D248A1D`、yearbook `49ACD2DA`、calibration `C22053F7`（与数据交付一致） |
+| **daily-run.ps1** | 失败路径实测：`-Python python-does-not-exist-061` → **exit 1 + `scanner/logs/ALERT.txt`**（含时间/as_of/原因/日志/处理建议）+ 日志；成功路径实测：`-AsOf 2026-10-22` → **exit 0**、ALERT 清除、pipeline+validate+build 全过、**`current/index.html` 与 app/dist 逐字节一致（2,442,119 B）**、README as_of/generated_at 正确、日志含 `OK as_of`；**未来快照清理**：预置 `rankings-2026-12-31.json` 被 prune，history 恢复 3 份基准快照；数据基准日保持 2026-10-22 |
+| 计划任务/站点/发布 | `install-daily-task.ps1` 创建（查询 Status=Ready/Next Run）→ 删除（查询 not found）实测通过；`build_site.py` 组装 **PASS**（根 index.html=releases/v0.6.0 dist 逐字节、8 版本归档逐字节、versions.json latest、404/.nojekyll、双跑确定性、非法版本 exit2）；`publish.ps1` 参数校验（非法版本 exit2、无 GITHUB_TOKEN exit2、无推送）；scripts/*.ps1 语法解析 5/5；CI/deploy workflow YAML 解析+触发/权限/步骤静态检查 PASS（详见 qa/v061-scripts.txt） |
+| **前端新鲜度** | `qa/flows-v061.mjs` **58/58 PASS**：新鲜度三态（≤2 天正常无横幅 / 3–7 天 AGING 琥珀 / >7 天 STALE 红色 + daily-run.ps1 提示）、横幅关闭本次会话持久、EN 警告文案；/alerts 「数据过期」规则（warning 4 天 + critical 10 天，标题含 as_of、计数/严重度正确）、/data 基准日+距今+最新采集+current/index.html 提示、About「数据更新方式」+v0.6.1；v0.6.0 全量回归 48 项通过 |
+| 前端构建/i18n/路由 | build strict **11/11**、real/mock=[]；**可复现**（`77F30299…6105`，2,442,119 B）；14 路由 1600/1024 CDP 无溢出/console（yearbook 3 canvas）；i18n 运行时 **16/16 PASS ×2**（EN 非数据中文=0）；静态精确覆盖 **60.4%**（808/1338） |
+| **冻结产物** | MANIFEST **19/19 sha256 一致**；dist 2,442,119 B / `77F30299…6105`；tag v0.6.1（annotated tag 对象 6daa269）→ commit e9a8dfb（docs）→ 内容提交 614346a；冻结 dist file:// 21 张 zh 截图 + 16 张 zh/en 截图 jsErrors=0 |
+| **线上 + Actions** | 线上 `/` = 冻结 dist 同 hash/同 bytes；**新站结构：最新版无 `/v0.6.1/` 独立归档（根即最新，versions.json paths 不含 latest）**；历史 `/v0.1.0/`…`/v0.6.0/` 全部与各冻结版逐字节一致不串台；versions.json latest=v0.6.1；不存在路径 HTTP 404。**GitHub Actions（API 实测）**：Deploy workflow run `39812267604` **completed/success**（event=push、head=e9a8dfb）、CI run `39812262892` **completed/success**；tag ref→annotated tag 6daa269；gh-pages commit `fb7db0b` "deploy: v0.6.1 e9a8dfb…"；deployment env=github-pages sha=fb7db0b |
+| **一句话结论** | **可发布**：--as-of/每日任务/自动化发布/Actions/新鲜度/冻结/线上七层一致，P0=0、P1=0；2 个 P2 不阻塞。 |
+
+## 19.2 `--as-of` 与 validate 规则（实测）
+
+- 安全流程：先把 `data/` 完整备份 → 逐日测试 → 每日恢复并校验 SHA256；最终 **27 个文件与基线全部一致**（恢复后 validate 20/20、history 仅 3 份基准快照）；不把非基准日数据留在仓库。
+- 基准日 2026-10-22：day/week/month/year = **17/49/57/80**，validate 20/20。
+- `--all --as-of 2026-10-23` → **0/49/57/80**；`2026-11-01` → **0/0/0/80**；`2027-01-01` → **0/0/0/0**；每日 validate 均 **20/20**（V08 非基准日只校验结构、允许空榜，日志含「非基准日…仅校验结构」提示）；rankings/stats `meta.as_of`、`history/rankings-<date>.json`（reconstructed=false）、`--report` 四窗口 8 文件文件名/内容基准日、`yearbook --year` 自动跟随 rankings.meta.as_of 均一致；同 as_of 双跑字节一致。
+- 非法日期 `--as-of 2026-13-40` → **exit 2**（三种状态各测一次）。
+- `--replay-as-of 2026-10-23 --replay-days 2 --as-of 2026-10-23` → 3 份 reconstructed=true 快照，replay_as_of ≤ as_of 全部成立。
+- 基线数据：validate 20/20；unittest **64/64 OK**；`--all` 双跑 27 文件 SHA256 全一致；data 0.6.1；指纹与数据交付一致。
+
+## 19.3 每日任务 / 计划任务 / 站点 / 发布（实测）
+
+- `daily-run.ps1` 失败路径：坏 Python 可执行 → 控制台 FAIL、`scanner/logs/ALERT.txt`（时间/as_of/原因/日志/处理建议）、exit 1；测试后清除 ALERT。
+- `daily-run.ps1` 成功路径：`-AsOf 2026-10-22` → pipeline --all → validate → pnpm build → `current/index.html`；exit 0、无 ALERT、`current/index.html` 与 app/dist **逐字节一致（2,442,119 B）**、README as_of=2026-10-22、日志含 4 步与 OK；数据基准日不变、validate 20/20。
+- 未来快照清理：预置 `data/history/rankings-2026-12-31.json` 后被 daily-run 首步 prune，history 仅剩 2026-10-20/21/22 三份。
+- `install-daily-task.ps1 -TaskName OpportunityRadar-Redteam061 -Time 07:15`：创建 exit 0，`schtasks /Query` 显示 Status=Ready、Next Run 正确；`-Uninstall` exit 0，再查询 not found（未残留任务）。
+- `build_site.py`：根 index.html = releases/v0.6.0 dist 逐字节；8 个版本归档逐字节；versions.json latest=v0.6.0（以 v0.6.0 为 latest 组装时）；404/.nojekyll 齐全；双跑字节一致；非法版本 `0.6.0` exit 2；输出只写 `qa/tmp/`。
+- `publish.ps1`：`-Version 0.6.1` → exit 2（版本格式）；无 GITHUB_TOKEN → exit 2（不推送）；`scripts/*.ps1` 5 个语法解析全过；未执行任何 push。
+- Workflow 静态检查：`ci.yml`（push/PR/dispatch；权限 contents:read；validate+unittest+pnpm install/build+build_site）与 `deploy-pages.yml`（tag `v*.*.*`/dispatch；permissions contents:write；冻结 release 校验+build_site+peaceiris gh-pages；force_orphan）YAML 可解析、关键步骤齐全。
+
+## 19.4 前端新鲜度 / 数据过期预警 / 14 路由（实测）
+
+- `qa/flows-v061.mjs` **58/58 PASS**（v0.6.0 全量 48 + v0.6.1 新增 10）：
+  - 基准日（≤2 天）：无全站警告条，指挥台显示「数据基准 2026-10-22 · 距今 N 天」；
+  - 3–7 天（模拟 as_of=今天-4）：AGING 琥珀条「数据 4 天未更新，建议运行每日任务：scripts/daily-run.ps1」；/alerts 新增「数据过期」warning（标题含 as_of）；
+  - >7 天（今天-10）：STALE 红色条；/alerts critical（未读 10/严重 2 与页面计数一致）；
+  - 横幅关闭（本次会话）后刷新不重现；EN 模式文案「Data is N days old」；
+  - About「数据更新方式」（daily-run.ps1 / pipeline --all --as-of / --fetch→outbox / release.ps1+CI）与 v0.6.1 版本历史；/data 基准日/距今/最新采集/current/index.html 提示；/alerts 规则卡「数据过期」说明常显。
+- 14 路由 1600/1024 CDP：无横向溢出/裁切/零尺寸 canvas/console error；i18n 运行时 16/16 ×2（EN 非数据中文=0）、静态精确覆盖 60.4%。
+- 构建：`pnpm install --frozen-lockfile && pnpm build` exit 0；strict 11/11；dist **2,442,119 B / 77F30299…6105**；两次构建同 hash。
+- 截图目检：`v061-freshness/`（amber 5 天、red 13 天、/alerts 数据过期预警、/data、About 更新方式、EN stale）全部与代码行为一致；`v061/`、`v061-i18n/`、`v061-frozen/`、`v061-frozen-i18n/`、`v061-online/` 共 21+16+21+16+4 张。
+
+## 19.5 冻结产物核验（releases/v0.6.1）
+
+- MANIFEST 19 条逐条重算 bytes+sha256 → **19/19 一致**；counts 80/68/12/33/13；`git_commit=614346a`、`git_tag=v0.6.1`。
+- dist 2,442,119 B / `77F302997B86198D3AD1F0C8B15AB4681B29926634E1401F88193FB6AA346105`（= 本地构建 = 冻结 = 线上根）。
+- git：annotated tag v0.6.1（tag 对象 6daa269d…）→ commit e9a8dfb（docs: record manifest）→ 内容提交 614346a。
+- 冻结 dist file:// 冒烟：`qa/screenshots/v061-frozen/01–21` jsErrors=0；`v061-frozen-i18n/` 16 张 zh/en；read_image 目检 yearbook/data 等与本地一致（data v0.6.1 / as_of 2026-10-22 / 80 机会）。
+
+## 19.6 线上（GitHub Pages 新结构）与 GitHub Actions
+
+`pwsh -File qa/online-check.ps1 -Version v0.6.1`（qa/v061-online.txt）：
+
+| 项 | 结果 |
+|---|---|
+| 根 `/` | 2,442,119 B / `77F30299…6105` = 冻结 dist **逐字节一致** |
+| 最新版归档 | **无 `/v0.6.1/`**（新站结构：根=最新；versions.json paths 不含 latest）——按 Lead 口径 PASS |
+| 历史归档 | `/v0.1.0/`=`F24B0755…`、`/v0.2.0/`=`DE48EF7A…`、`/v0.3.0/`=`18DCE4B8…`、`/v0.3.1/`=`7C2E13D5…`、`/v0.4.0/`=`45E5A1D3…`、`/v0.5.0/`=`AD958D1C…`、`/v0.5.1/`=`DCFF2C55…`、`/v0.6.0/`=`36A6883D…` **全部与各自冻结 dist 逐字节一致**（未串台） |
+| versions.json | latest=**v0.6.1**；paths=`/v0.1.0/…/v0.6.0/`（不含最新版归档） |
+| 不存在路径 | HTTP **404**（未静默回退首页） |
+| **Actions API**（GitHub REST，公开仓库） | **Deploy `Deploy GitHub Pages (on release tag)` run 39812267604：completed/success**，event=push，head=e9a8dfb；**CI run 39812262892：completed/success**，head=e9a8dfb；tag ref→annotated tag `6daa269…`；gh-pages commit `fb7db0b…` "deploy: v0.6.1 e9a8dfb…"；deployment env=**github-pages** sha=`fb7db0b` |
+
+线上截图（`qa/screenshots/v061-online/`）：根（v0.6.1/80 机会/53 覆盖）、年榜、/data、/v0.6.0 归档，jsErrors=0、read_image 目检正常。
+
+## 19.7 复现命令
+
+```powershell
+cd 'E:\全球商机扫描器'
+python qa/asof-check.py                          # --as-of 多日期 + validate + 恢复基线 PASS
+python scanner/validate.py                       # 20/20
+python -m unittest discover -s scanner/tests     # 64 OK
+python scanner/pipeline.py --all                 # 幂等（27 文件 SHA256 一致）
+pwsh -File scripts/daily-run.ps1 -AsOf 2026-10-22                # 成功路径（current/index.html）
+pwsh -File scripts/daily-run.ps1 -AsOf 2026-10-22 -NoBuild -NoValidate -Python bad-python   # 失败路径（ALERT）
+pwsh -File scripts/install-daily-task.ps1 -TaskName OpportunityRadar-Redteam061 -Time 07:15
+pwsh -File scripts/install-daily-task.ps1 -TaskName OpportunityRadar-Redteam061 -Uninstall
+python scripts/build_site.py --releases releases --out qa/tmp/site-test --version v0.6.0
+pwsh -File scripts/publish.ps1 -Version 0.6.1    # 参数校验 exit 2（无 token 也不推送）
+python qa/scripts-check.py                       # 脚本/站点/CI PASS
+cd app; pnpm install --frozen-lockfile; pnpm build   # strict 11 PASS，77F30299…
+node qa/flows-v061.mjs <port> "file:///…/app/dist/index.html" qa/tmp/downloads-v061  # 58/58
+node qa/i18n-check.mjs <port> <base>             # 16/16 ×2
+node qa/frontend-qa-v03.mjs <port> <base> 1600 1000   # 14 路由 CDP
+pwsh -File qa/online-check.ps1 -Version v0.6.1   # 根/历史归档/versions/404 PASS（新站结构）
+# Actions：GitHub REST /repos/charline88888-ux/opportunity-radar/actions/runs（结果 qa/v061-actions-runs.json）
+```
+
+## 19.8 截图索引（v0.6.1）
+
+| 目录/文件 | 内容 |
+|---|---|
+| `qa/screenshots/v061/01–21` | 工作区 dist：14 路由 zh + 2 长页 + 5 个 1024 |
+| `qa/screenshots/v061-i18n/` | zh/en × 8 页 16 张 |
+| `qa/screenshots/v061-frozen/01–21` | 冻结 dist zh 14 路由 + 长页 + 1024 |
+| `qa/screenshots/v061-frozen-i18n/` | 冻结 dist zh/en × 8 页 16 张 |
+| `qa/screenshots/v061-freshness/` | 新鲜度三态 6 张：amber 5 天、red 13 天、/alerts 数据过期、/data、About 更新方式、EN stale |
+| `qa/screenshots/v061-online/` | 线上根/年榜/数据/v0.6.0 归档 |
+| `app/screenshots/final-v0.6.1/` | 前端自检 24 张（10 zh+10 EN+amber/red 各语言） |
+
+## 19.9 P2 与已知项（2 个，均不阻塞）
+
+| # | 项 | 现状 | 建议 |
+|---|---|---|---|
+| P2-1 | 站点结构变更 | v0.6.1 起最新版不再生成 `/vX.Y.Z/` 归档（根=最新），对外固定版本链接 `/v0.6.1/` 会 404；versions.json 仍可发现历史版本 | 在 README/发布文档明确新站结构与旧链接兼容策略（如需固定链接可恢复 latest 归档或重定向） |
+| P2-2 | i18n 静态精确覆盖率 | 60.4%（808/1338）达标；运行时 EN 非数据中文=0，余量为动态模板/DOM/数据 | 保持运行时检查为准；下版继续提升静态字典或记录残余清单 |
+
+> 过程说明：`--as-of`/daily-run 测试会临时改动 `data/`（非基准日），红队采用“完整备份→逐日测试→整体恢复→SHA256 全量核对”流程，最终 27 个 data 文件与基线一致、validate 20/20；失败路径 ALERT 已清理；`current/`、`scanner/logs/` 均在 .gitignore 内，不影响发布。
+
+## 19.10 与历史版本关系
+
+- v0.1.0–v0.6.0 冻结产物与线上历史归档未修改（逐字节核对）；本章为 v0.6.1 PATCH 独立验收，不覆盖历史章节。

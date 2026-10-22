@@ -1,0 +1,30 @@
+===== viewport 1600 =====
+#/                                             over=False clip=0 canvas=5 zero=0 err=0
+#/rankings                                     over=False clip=0 canvas=0 zero=0 err=0
+#/opportunities/opp-pet-memorial-glass-001     over=False clip=0 canvas=2 zero=0 err=0
+#/scanner                                      over=False clip=0 canvas=2 zero=0 err=0
+#/method                                       over=False clip=0 canvas=4 zero=0 err=0
+#/sources                                      over=False clip=0 canvas=2 zero=0 err=0
+#/calendar                                     over=False clip=0 canvas=1 zero=0 err=0
+#/lab                                          over=False clip=0 canvas=0 zero=0 err=0
+#/profile                                      over=False clip=0 canvas=1 zero=0 err=0
+#/alerts                                       over=False clip=0 canvas=0 zero=0 err=0
+#/calibration                                  over=False clip=0 canvas=0 zero=0 err=0
+#/yearbook                                     over=False clip=0 canvas=3 zero=0 err=0
+#/data                                         over=False clip=0 canvas=0 zero=0 err=0
+#/about                                        over=False clip=0 canvas=0 zero=0 err=0
+===== viewport 1024 =====
+#/                                             over=False clip=0 canvas=5 zero=0 err=0
+#/rankings                                     over=False clip=0 canvas=0 zero=0 err=0
+#/opportunities/opp-pet-memorial-glass-001     over=False clip=0 canvas=2 zero=0 err=0
+#/scanner                                      over=False clip=0 canvas=2 zero=0 err=0
+#/method                                       over=False clip=0 canvas=4 zero=0 err=0
+#/sources                                      over=False clip=0 canvas=2 zero=0 err=0
+#/calendar                                     over=False clip=0 canvas=1 zero=0 err=0
+#/lab                                          over=False clip=0 canvas=0 zero=0 err=0
+#/profile                                      over=False clip=0 canvas=1 zero=0 err=0
+#/alerts                                       over=False clip=0 canvas=0 zero=0 err=0
+#/calibration                                  over=False clip=0 canvas=0 zero=0 err=0
+#/yearbook                                     over=False clip=0 canvas=3 zero=0 err=0
+#/data                                         over=False clip=0 canvas=0 zero=0 err=0
+#/about                                        over=False clip=0 canvas=0 zero=0 err=0
