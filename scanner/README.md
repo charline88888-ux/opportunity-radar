@@ -34,7 +34,11 @@ python scanner/enrich.py --dry-run                      # 只打印摘要，不�
 # 实验校准报告（v0.4.0）：读前端 /calibration 导出的实验 JSON
 python scanner/calibrate.py --experiments scanner/fixtures/experiments-sample.json --sample
 
-# 单元测试（标准库 unittest，45 条）
+# 年度年鉴（v0.5.0）：年榜/月度时间线/分布/A 级清单/窗口收尾/实验摘要/3 条方向建议
+python scanner/yearbook.py --year 2026
+python scanner/yearbook.py --year 2026 --experiments scanner/fixtures/experiments-sample.json --sample
+
+# 单元测试（标准库 unittest，50 条）
 python -m unittest discover -s scanner/tests -v
 ```
 
@@ -94,6 +98,7 @@ data/opportunities.json  ── score.py/materialize.py 重算 → 回写派生�
 | `report.py` | 四窗口报告（自包含 HTML + Markdown），`generated_at` 确定性 | §1.1 |
 | `enrich.py` | AI 富化 outbox：offline-template / 可选 LLM（OpenAI 兼容）；输出 `enriched-<date>.json` + `REVIEW.md`；`needs_human=true`、永不自动入库、key 不落盘、`--dry-run` | §1.3 |
 | `calibrate.py` | 实验校准报告：Brier（docs/04 §12.9.5）、等级×成功率、花费/耗时、建议；输出 `data/reports/calibration-<date>.{html,md}` | §1.3 |
+| `yearbook.py` | 年度年鉴：Top20/月度时间线/分布/A 级清单/窗口收尾/评分分布/可选实验摘要/规则化 3 条方向建议；输出 `data/reports/yearbook-<year>.{html,md}`，`generated_at` 确定性 | §1.4 |
 | `validate.py` | V01–V20；V19 快照/回放规则、V20 source-health v2 收紧 | §9 |
 | `adapters/` | `rss` / `reddit` / `google_trends` / `ecommerce_reviews` 离线适配器 | §1/§6 |
 | `tests/test_scanner.py` | 45 条单测：公式/舍入/边界/窗口/榜单/tie-breaker/物化/validate/归一/去重/history delta/回退/回放链与幂等/source-health 合法-非法/报告/SQLite/feed 解析/红源筛选/enrich offline+dry-run+no-key/calibrate Brier+边界 | docs/04 §10.4 |
@@ -142,7 +147,13 @@ data/opportunities.json  ── score.py/materialize.py 重算 → 回写派生�
 - **Brier**：`p = clamp(total/100, 0.01, 0.99)`；`o = positive→1 / negative→0`；`inconclusive`/未匹配/无评分排除；`Brier = mean((p−o)²)`；基线 0.25；样本 <3 显示「样本不足」。
 - 报告含样本数/结果分布/等级×成功率/花费/耗时/建议/免责；`--sample` 在报告顶部标注「样例数据（sample）」。
 
-## 8. 已知限制
+## 8. 年度年鉴（v0.5.0）
+
+- `python scanner/yearbook.py --year 2026 [--experiments <export.json>] [--sample] [--out-dir]` → `data/reports/yearbook-<year>.html/.md`（HTML 自包含可打印）。
+- 内容：年榜 Top20（等级/行业/区域/窗口）、月度时间线（按 `activity_dates` 聚合，无活动月份显示 0，含行业/信息差 Top2 主题）、行业/区域/信息差/等级/窗口状态分布、A 级清单（≥75）、窗口收尾或 ≤3 个月机会、评分分布（CSS 条形）、可选实验摘要（复用 `calibrate.py` 的 `load_export/build_records/compute_brier/spend_hours`）、规则化「年度 3 个方向建议」（标注「规则生成，非投资建议」）、免责。
+- `generated_at` 固定为 `as_of + T00:00:00+08:00`，双跑字节一致（幂等）；无实验/有实验/空年份/非法实验 JSON 均有单测覆盖。2026 年鉴关键统计：46 条机会 / Top20 20 / A 级 11 / 收尾 0；带样例实验摘要 Brier 0.2338（sample 标注）。
+
+## 9. 已知限制
 
 1. 回放快照是「按当日窗口规则重排现有机会」的演示口径，非真实历史存档；UI 需用 `reconstructed=true` 明示。
 2. `--all` 不联网；`--fetch` 当前只覆盖 RSS/JSON feed，公开 API 未接线。

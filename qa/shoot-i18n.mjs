@@ -12,6 +12,8 @@ const pages = [
   ['profile', '#/profile'],
   ['alerts', '#/alerts'],
   ['calibration', '#/calibration'],
+  ['yearbook', '#/yearbook'],
+  ['data', '#/data'],
   ['about', '#/about'],
 ]
 

@@ -107,6 +107,28 @@ export function getAlertState(): AlertState {
   return stateCache
 }
 
+function normalizeAlertState(raw: unknown): AlertState {
+  const x = raw && typeof raw === 'object' && !Array.isArray(raw) ? (raw as Record<string, unknown>) : {}
+  return {
+    read: Array.isArray(x.read) ? [...new Set(x.read.filter((v): v is string => typeof v === 'string'))] : [],
+    ignored: Array.isArray(x.ignored) ? [...new Set(x.ignored.filter((v): v is string => typeof v === 'string'))] : [],
+  }
+}
+
+/** v0.5.0 数据包导入：覆盖已读/忽略状态 */
+export function replaceAlertState(raw: unknown) {
+  commit(normalizeAlertState(raw))
+}
+
+/** v0.5.0 数据包导入：合并已读/忽略（取并集，不取消已有状态） */
+export function mergeAlertState(raw: unknown) {
+  const imported = normalizeAlertState(raw)
+  commit({
+    read: [...new Set([...stateCache.read, ...imported.read])],
+    ignored: [...new Set([...stateCache.ignored, ...imported.ignored])],
+  })
+}
+
 export function buildAlerts(input: {
   profile: Profile | null
   experiments: Experiment[]

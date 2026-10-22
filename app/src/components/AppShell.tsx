@@ -4,9 +4,11 @@ import {
   Bell,
   BookOpenCheck,
   CalendarDays,
+  CalendarRange,
   Command,
   Database,
   FlaskConical,
+  HardDrive,
   Info,
   LayoutDashboard,
   ListOrdered,
@@ -35,7 +37,9 @@ const NAV = [
   { to: '/profile', id: '08', label: '个人画像', en: 'PROFILE', icon: UserRound, desc: '7 维能力 · 推荐基础' },
   { to: '/alerts', id: '09', label: '预警中心', en: 'ALERTS', icon: Bell, desc: '窗口 / 实验 / 源 / 匹配' },
   { to: '/calibration', id: '10', label: '回测校准', en: 'CALIBRATION', icon: Target, desc: '预测等级 vs 实验结果' },
-  { to: '/about', id: '11', label: '关于', en: 'ABOUT', icon: Info, desc: '版本 · 文档 · 免责声明' },
+  { to: '/yearbook', id: '11', label: '年度复盘', en: 'YEARBOOK', icon: CalendarRange, desc: '年榜 · 时间线 · 年度导出' },
+  { to: '/data', id: '12', label: '个人数据', en: 'DATA', icon: HardDrive, desc: '数据包导出 / 导入迁移' },
+  { to: '/about', id: '13', label: '关于', en: 'ABOUT', icon: Info, desc: '版本 · 文档 · 免责声明' },
 ]
 
 function RadarMark() {
@@ -414,7 +418,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
         <MobileNav />
         {lang === 'en' && (
           <div className="border-b border-amber/25 bg-amber/[0.06] px-4 py-1.5 text-[10.5px] leading-relaxed text-amber sm:px-6 lg:px-8">
-            <span className="font-mono text-[9px] tracking-wider text-amber/80">EN · V0.4.0 </span>
+            <span className="font-mono text-[9px] tracking-wider text-amber/80">EN · V0.5.0 </span>
             {EN_CONTENT_NOTICE}
           </div>
         )}

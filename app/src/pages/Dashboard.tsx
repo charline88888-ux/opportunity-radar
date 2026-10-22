@@ -1,4 +1,4 @@
-import { useMemo } from 'react'
+import { useEffect, useMemo } from 'react'
 import { Link } from 'react-router-dom'
 import type { EChartsOption } from 'echarts'
 import {
@@ -51,6 +51,7 @@ import {
 import { ACTIVE_CAPACITY, experimentReviewInfo, useExperiments } from '@/lib/experiments'
 import { useProfile, profileSummaryRows, CAPABILITY_LABELS, type CapabilityVector } from '@/lib/profile'
 import { recommendTop } from '@/lib/recommend'
+import { recordRecEvent } from '@/lib/rec_log'
 import { useAlerts } from '@/lib/alerts'
 import { cn, fmtCny, fmtInt, fmtPct, fmtScore, gradeColor } from '@/lib/utils'
 
@@ -129,6 +130,9 @@ export default function Dashboard() {
   const { profile, capability } = useProfile()
   const alertCenter = useAlerts()
   const recTop = useMemo(() => recommendTop(profile, 3), [profile])
+  useEffect(() => {
+    for (const row of recTop) recordRecEvent({ opp_id: row.opp.id, event: 'impression', rec_score: row.recScore, fit: row.fit })
+  }, [recTop])
   const activeExperiments = experiments.filter((x) => x.status === 'active')
   const dayCount = rankings.windows.day?.items?.length || 0
   const weekCount = rankings.windows.week?.items?.length || 0
@@ -507,7 +511,7 @@ export default function Dashboard() {
           ) : (
             <div className="divide-y divide-line/50">
               {recTop.map((row) => (
-                <Link key={row.opp.id} to={`/opportunities/${row.opp.id}`} className="flex items-center gap-3 px-3 py-2 transition-colors hover:bg-white/[0.02]">
+                <Link key={row.opp.id} to={`/opportunities/${row.opp.id}`} onClick={() => recordRecEvent({ opp_id: row.opp.id, event: 'view', rec_score: row.recScore, fit: row.fit })} className="flex items-center gap-3 px-3 py-2 transition-colors hover:bg-white/[0.02]">
                   <span className={cn('num w-6 shrink-0 text-[16px] font-semibold', row.rank === 1 ? 'text-amber' : 'text-dim')}>{String(row.rank).padStart(2, '0')}</span>
                   <GradeBadge grade={row.opp.scores.grade} />
                   <div className="min-w-0 flex-1">

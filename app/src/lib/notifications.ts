@@ -34,6 +34,27 @@ const saveState = (state: NotificationState) => {
   }
 }
 
+export function getNotificationState(): NotificationState {
+  return loadState()
+}
+
+/** v0.5.0 数据包导入：覆盖通知设置 */
+export function replaceNotificationState(raw: unknown) {
+  const x = raw && typeof raw === 'object' ? (raw as Record<string, unknown>) : {}
+  saveState({
+    enabled: x.enabled === true,
+    seen: Array.isArray(x.seen) ? x.seen.filter((v): v is string => typeof v === 'string') : [],
+  })
+}
+
+/** v0.5.0 数据包导入：合并通知设置（seen 取并集） */
+export function mergeNotificationState(raw: unknown) {
+  const current = loadState()
+  const x = raw && typeof raw === 'object' ? (raw as Record<string, unknown>) : {}
+  const seen = Array.isArray(x.seen) ? x.seen.filter((v): v is string => typeof v === 'string') : []
+  saveState({ enabled: current.enabled || x.enabled === true, seen: [...new Set([...current.seen, ...seen])] })
+}
+
 export function notificationSupported(): boolean {
   return typeof window !== 'undefined' && 'Notification' in window
 }

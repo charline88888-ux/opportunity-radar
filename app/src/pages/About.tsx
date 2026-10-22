@@ -60,7 +60,7 @@ const DOCS = [
   ['09', '风险合规与红队清单', '合规红线、红色风险与发布 checklist'],
   ['10', '版本与发布管理', '版本冻结、回滚与 releases 规则'],
   ['11', '补充清单 · 40 件事', '容易踩的坑与放大器'],
-  ['12', '数据契约与字段字典', '唯一数据接口标准（data-v0.4.0，含 enricher / 校准导出 / 双语说明）'],
+  ['12', '数据契约与字段字典', '唯一数据接口标准（data-v0.5.0，含年鉴 / 数据包 / rec_log 说明）'],
 ]
 
 const STACK = [
@@ -90,9 +90,20 @@ const ROADMAP = [
 
 const HISTORY = [
   {
-    version: 'v0.4.0',
+    version: 'v0.5.0',
     date: '2026-10-22',
     tag: '当前版本',
+    items: [
+      '新增 /yearbook 年度复盘：年榜 Top20、月度时间线、行业/区域/信息差/等级分布、A 级清单、窗口关闭/≤3 月、导出年鉴 MD/HTML；后端可生成自包含可打印年鉴',
+      '新增 /data 个人数据包：schema 0.5.0（profile/experiments/alerts_state/rec_log/settings），导出/校验/预览/覆盖或合并，纯本地跨设备手动迁移',
+      '新增 lib/rec_log.ts：曝光/查看/加入实验/忽略记录（上限 500、曝光每会话去重）；/calibration 推荐漏斗与校准 JSON rec_log 摘要',
+      'v0.4.1 收尾：i18n 残差清理（EN 非数据 UI 归零）、后端校准报告说明、通知细节检查；版本升 0.5.0',
+    ],
+  },
+  {
+    version: 'v0.4.0',
+    date: '2026-10-22',
+    tag: '上一版本',
     items: [
       '中英双语 UI：顶栏 zh/en 切换持久化、document.title/lang 同步、全部静态 UI 走 lib/i18n 字典；机会内容保持中文并在 EN 明确标注',
       'EN 图表 canvas 文案与日期/数字格式本地化；路由/筛选/画像状态在切换语言时不刷新、不丢失',
@@ -104,7 +115,7 @@ const HISTORY = [
   {
     version: 'v0.3.1',
     date: '2026-10-22',
-    tag: '上一版本',
+    tag: '历史版本',
     items: [
       '回测校准新增 Brier 分数（docs/04 §12.9.5）：p=clamp(total/100,.01,.99)、inconclusive 排除、二值样本 ≥3 展示并与基线 0.25 对比，导出 JSON/MD 含 Brier',
       '画像新增「严格资金过滤」开关（默认关）：开启后按资金档位上限过滤 roi.capital_cny.min，推荐页显示被过滤数量与原因；关闭沿用分数差硬约束',
@@ -167,11 +178,17 @@ const EN_DOCS: Array<[string, string, string]> = [
   ['09', 'Risk, compliance & red team', 'Red lines, risks, release checklist'],
   ['10', 'Version & release management', 'Freeze, rollback, releases'],
   ['11', '40 additional details', 'Common pitfalls and amplifiers'],
-  ['12', 'Data contract & field dictionary', 'Single data interface standard (data-v0.4.0)'],
+  ['12', 'Data contract & field dictionary', 'Single data interface standard (data-v0.5.0)'],
 ]
 
 const EN_HISTORY = [
-  { version: 'v0.4.0', date: '2026-10-22', tag: 'Current', items: [
+  { version: 'v0.5.0', date: '2026-10-22', tag: 'Current', items: [
+    'Yearbook /yearbook: Top 20, monthly timeline, industry/region/gap/grade distributions, A-grade list, closing windows, MD/HTML export; printable backend report',
+    'Personal data bundle /data: schema 0.5.0 (profile/experiments/alerts_state/rec_log/settings), export/validate/preview/replace-or-merge for manual cross-device migration',
+    'Recommendation log lib/rec_log.ts (impression/view/experiment/dismiss, 500 records, per-session impression dedupe); calibration funnel + rec_log summary in calibration JSON',
+    'v0.4.1 polish: i18n residual cleanup (0 non-data CJK UI in EN), backend calibration report note, notification detail check; version 0.5.0',
+  ]},
+  { version: 'v0.4.0', date: '2026-10-22', tag: 'Previous', items: [
     'Bilingual UI (zh/en) with persistent top-bar switch, document title/lang sync, localized charts and number formats',
     'Experiments export for scanner/calibrate.py using data-v0.4.0 schema; backend report command documented',
     'Optional desktop notifications for new critical alerts while the Alerts page is open; graceful permission fallback',
@@ -198,10 +215,10 @@ function AboutEn() {
   return (
     <div>
       <PageHeader
-        index="11"
-        kicker="ABOUT · About"
+        index="13"
+        kicker="ABOUT"
         title="About Opportunity Radar"
-        description="Local-first personal opportunity research: find global information gaps using human-need and cultural signals, delivered as day/week/month/year rankings with seven required business questions. v0.4.0 adds a bilingual UI, calibration-ready experiment export, and optional alert notifications."
+        description="Local-first personal opportunity research: find global information gaps using human-need and cultural signals, delivered as day/week/month/year rankings with seven required business questions. v0.5.0 adds a yearbook, a local data bundle for migration, and recommendation-funnel tracking."
         actions={
           <div className="flex flex-wrap items-center gap-2">
             <Badge tone="signal"><PackageCheck className="h-3 w-3" /> v{appVersion}</Badge>
@@ -257,13 +274,13 @@ function AboutEn() {
             </a>
           </div>
           <div className="mt-2 rounded border border-signal/20 bg-signal/[0.03] px-2.5 py-2">
-            <div className="mono-label text-signal">v0.4.0 changes</div>
+            <div className="mono-label text-signal">v0.5.0 changes</div>
             <div className="mt-0.5 text-[10.5px] leading-relaxed text-muted">
-              Bilingual zh/en UI (dictionary + DOM translation layer, localized ECharts/Axis text and number formats) · experiment export schema v0.4.0 for `scanner/calibrate.py` · optional desktop notifications on /alerts · data-v0.4.0 compatibility (enrich outbox never imported).
+              Yearbook /yearbook (Top 20, monthly timeline, distributions, A-grade & closing windows, MD/HTML export) · personal data bundle /data (schema 0.5.0, export/validate/preview/replace-or-merge) · rec_log funnel on /calibration · i18n residual polish · data-v0.5.0 compatibility.
             </div>
           </div>
           <div className="mt-2 rounded border border-amber/25 bg-amber/[0.04] px-2.5 py-2 text-[10.5px] leading-relaxed text-amber">
-            Bilingual note: all static UI strings switch between Chinese and English. Opportunity content (titles, one-liners, evidence, seven Q&A) intentionally remains Chinese in v0.4.0 and is marked in the UI. Switching language does not reload the page or reset routes, filters, or profile state.
+            Bilingual note: all static UI strings switch between Chinese and English. Opportunity content (titles, one-liners, evidence, seven Q&A) intentionally remains Chinese in v0.5.0 and is marked in the UI. Switching language does not reload the page or reset routes, filters, or profile state.
           </div>
           <div className="mt-3 rounded border border-line/70 bg-black/20 px-2.5 py-2 font-mono text-[10px] leading-relaxed text-dim">
             <div>sync: node app/scripts/sync-data.mjs --strict</div>
@@ -357,10 +374,10 @@ export default function About() {
   return (
     <div>
       <PageHeader
-        index="11"
+        index="13"
         kicker="ABOUT · 关于"
         title="关于机会雷达"
-        description="本地优先的个人商机研究工具：用「人性需求信号 + 文化差异信号」发现全世界的赚钱信息差，按日 / 周 / 月 / 年榜单交付，并为每个机会强制回答商业驱动七问。v0.4.0 新增中英双语 UI、实验导出校准、预警桌面通知。"
+        description="本地优先的个人商机研究工具：用「人性需求信号 + 文化差异信号」发现全世界的赚钱信息差，按日 / 周 / 月 / 年榜单交付，并为每个机会强制回答商业驱动七问。v0.5.0 新增年度复盘、个人数据包与推荐漏斗。"
         actions={
           <div className="flex flex-wrap items-center gap-2">
             <Badge tone="signal"><PackageCheck className="h-3 w-3" /> v{appVersion}</Badge>
@@ -425,14 +442,13 @@ export default function About() {
             </a>
           </div>
           <div className="mt-2 rounded border border-signal/20 bg-signal/[0.03] px-2.5 py-2">
-            <div className="mono-label text-signal">v0.4.0 本轮变更</div>
+            <div className="mono-label text-signal">v0.5.0 本轮变更</div>
             <div className="mt-0.5 text-[10.5px] leading-relaxed text-muted">
-              中英双语 UI（顶栏切换持久化、document.title/lang、图表 canvas 与数字格式本地化、EN 内容提示）· /calibration 导出实验 JSON（schema_version 0.4.0，供 scanner/calibrate.py）· /alerts 可选桌面通知（默认关）· 适配 data-v0.4.0（outbox 不入前端）。
+              新增 /yearbook 年度复盘（年榜 Top20 / 月度时间线 / 分布 / A 级 / 窗口风险 / MD+HTML 导出）· 新增 /data 个人数据包（schema 0.5.0，覆盖或合并迁移）· rec_log 推荐漏斗与校准导出摘要 · i18n 残差清理 · data-v0.5.0。
             </div>
           </div>
           <div className="mt-2 rounded border border-amber/25 bg-amber/[0.04] px-2.5 py-2 text-[10.5px] leading-relaxed text-amber">
-            双语说明 / Bilingual note：全部静态 UI 文案支持中英切换；机会内容（标题、一句话、证据、七问答案）在 v0.4.0 保持中文，EN 模式下页面顶部有明确标注。切换语言不刷新页面，路由、筛选与画像状态保持。
-          </div>
+            双语说明 / Bilingual note：全部静态 UI 文案支持中英切换；机会内容（标题、一句话、证据、七问答案）保持中文，EN 模式下页面顶部有明确标注。v0.5.0 新增 /yearbook 与 /data 均完整双语；数据包只在本机处理。</div>
           <div className="mt-3 rounded border border-line/70 bg-black/20 px-2.5 py-2 font-mono text-[10px] leading-relaxed text-dim">
             <div>sync: node app/scripts/sync-data.mjs --strict</div>
             <div>build: cd app &amp;&amp; pnpm install &amp;&amp; pnpm build</div>

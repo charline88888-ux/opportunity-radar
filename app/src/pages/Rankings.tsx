@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
 import {
   AlertTriangle,
@@ -49,6 +49,7 @@ import {
 } from '@/lib/data'
 import { downloadPeriodReport } from '@/lib/exports'
 import { capitalCap, CAPABILITY_LABELS, profileSummaryRows, useProfile, type CapabilityVector } from '@/lib/profile'
+import { recordRecEvent } from '@/lib/rec_log'
 import {
   recommendOpportunities,
   type RecommendationRow,
@@ -191,7 +192,7 @@ function RankTable({ rows }: { rows: RankRow[] }) {
   )
 }
 
-function RecommendationCard({ row }: { row: RecommendationRow }) {
+function RecommendationCard({ row, onDismiss }: { row: RecommendationRow; onDismiss?: () => void }) {
   const o = row.opp
   const fitPct = Math.round(row.fit * 100)
   return (
@@ -206,9 +207,23 @@ function RecommendationCard({ row }: { row: RecommendationRow }) {
         <div className="min-w-0 flex-1">
           <div className="flex flex-wrap items-center gap-1.5">
             <GradeBadge grade={o.scores.grade} />
-            <Link to={`/opportunities/${o.id}`} className="min-w-0 truncate text-[13.5px] font-semibold text-ink hover:text-signal">
+            <Link
+              to={`/opportunities/${o.id}`}
+              onClick={() => recordRecEvent({ opp_id: o.id, event: 'view', rec_score: row.recScore, fit: row.fit })}
+              className="min-w-0 truncate text-[13.5px] font-semibold text-ink hover:text-signal"
+            >
               {o.title}
             </Link>
+            {onDismiss && (
+              <button
+                type="button"
+                onClick={onDismiss}
+                className="ml-auto rounded border border-line px-1.5 py-0.5 text-[9.5px] text-dim hover:border-line-strong hover:text-muted"
+                title="忽略该推荐（仅记录，不改变数据）"
+              >
+                忽略
+              </button>
+            )}
             <span className="inline-flex items-center gap-1 rounded border border-line bg-panel-2 px-1.5 py-0.5 text-[10px] text-muted">
               <span className="h-1.5 w-1.5 rounded-sm" style={{ background: industryColor(o.industry_id) }} />
               {industryName(o.industry_id)}
@@ -341,12 +356,20 @@ export default function Rankings() {
     if (gap !== 'all') rows = rows.filter((r) => r.opp.gap_type_ids.includes(gap))
     return rows
   }, [recommendation, industry, gap])
+  const [dismissed, setDismissed] = useState<Set<string>>(new Set())
+  const visibleRecRows = useMemo(() => recRows.filter((r) => !dismissed.has(r.opp.id)), [recRows, dismissed])
+  useEffect(() => {
+    if (mode !== 'recommend') return
+    for (const row of visibleRecRows) {
+      recordRecEvent({ opp_id: row.opp.id, event: 'impression', rec_score: row.recScore, fit: row.fit })
+    }
+  }, [mode, visibleRecRows])
   const recStats = useMemo(() => {
-    const rows = recRows
+    const rows = visibleRecRows
     const avgFit = rows.length ? rows.reduce((a, r) => a + r.fit, 0) / rows.length : 0
     const top = rows[0]?.recScore || 0
     return { count: rows.length, avgFit, top }
-  }, [recRows])
+  }, [visibleRecRows])
 
   if (mode === 'recommend') {
     return (
@@ -474,12 +497,19 @@ export default function Rankings() {
               </select>
             </div>
 
-            {!recRows.length ? (
+            {!visibleRecRows.length ? (
               <EmptyState title="当前筛选下没有推荐机会" hint="尝试清空行业/信息差筛选，或到画像页调整能力向量。" />
             ) : (
               <div className="space-y-2.5">
-                {recRows.map((row) => (
-                  <RecommendationCard key={row.opp.id} row={row} />
+                {visibleRecRows.map((row) => (
+                  <RecommendationCard
+                    key={row.opp.id}
+                    row={row}
+                    onDismiss={() => {
+                      recordRecEvent({ opp_id: row.opp.id, event: 'dismiss', rec_score: row.recScore, fit: row.fit })
+                      setDismissed((prev) => new Set(prev).add(row.opp.id))
+                    }}
+                  />
                 ))}
               </div>
             )}

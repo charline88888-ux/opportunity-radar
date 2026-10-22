@@ -2,6 +2,27 @@
 
 格式：`data_version` + 日期 + 变更内容 + 影响面。契约变更（字段/枚举/公式）必须同步更新 `docs/12-数据契约与字段字典.md` 并通知 Lead、前端、红队。
 
+## data-v0.5.0 · 2026-10-22 · MINOR 增量（年度年鉴）
+
+> 向后兼容：不删除、不改名既有字段；机会库/榜单/历史/source-health 数据口径不变，仅版本号升 0.5.0。个人数据包与 `rec_log` 为前端 localStorage 本地数据，**不进入 data/**。
+
+### 新增工具
+- **`scanner/yearbook.py`（年度年鉴）**：`--year 2026 [--experiments <export.json>] [--sample]` → `data/reports/yearbook-2026.{html,md}`（HTML 自包含可打印、`generated_at` 用 as_of 固定值 → 双跑字节一致）。
+  - 年榜 Top20、月度时间线（按 `activity_dates` 聚合 12 个月，无活动月份显示 0，含行业/信息差 Top2 主题）、行业/区域/信息差/等级/窗口状态分布、A 级清单（≥75）、窗口收尾或 ≤3 个月机会、评分分布（CSS 条形，不依赖外网）、可选实验摘要（复用 `calibrate.py` 的 Brier/成功率/花费口径）、规则化「年度 3 个方向建议」（标注「规则生成，非投资建议」）、免责。
+  - 2026 年鉴实际运行（含样例实验摘要，`--sample`）：**46 条机会 / Top20 20 条 / A 级及以上 11 条 / 收尾窗口 0 条 / Brier 0.2338**；HTML 70 行 / 23,068 B（无实验版 22,745 B），MD 同步生成。
+  - 容错：无实验、空年份（0 机会）、非法实验 JSON（记录 `experiments_error` 并跳过摘要）均不崩溃；单测覆盖无实验/有实验/空年份/双跑确定性/非法 JSON 5 类。
+- 新增单测：unittest **45 → 50 条**（`TestYearbook`）；`TestCalibrate.test_generate_reports_and_invalid_export` 仍回归通过。
+
+### 版本与复核
+- 全部 data meta 升 **0.5.0**（taxonomy/rankings/stats/sources/playbooks/calendar/source-health + 3 份 history 快照重生成）；四窗口报告 8 文件、校准报告、年鉴全部按 0.5.0 重生成；`radar.db` 重建（46/88/211/8 行）。
+- `python scanner/pipeline.py --all`：exit 0、**幂等**；`validate.py` **20/20 PASS**；calibrate/enrich 回归可用。
+- 指纹（SHA256 前 16）：opportunities `52B30E45B356CEA9`（未变）、rankings `F6E91C3350377162`、history-10-22 `675AD8BE774B7478`、stats `89915E415CF435D1`、source-health `122B04353B2BC2E3`、sources `8EE05E408700051D`、radar.db `0C6026699FE3CEDD`、yearbook-2026.html `750DF083C29ADC9A` / .md `E73C905615E9A348`、calibration-2026-10-22.html `E23FACA50DF60302`。
+
+### 已知不足
+- 年鉴的「年度 3 个方向建议」是规则生成（非投资建议），仅用于复盘提示。
+- 年鉴实验摘要当前使用样例实验数据（fixtures/experiments-sample.json，已标注 sample）；真实结论需前端积累真实实验后重跑 `--yearbook --experiments`。
+- 采集仍只覆盖 RSS/JSON feed；`verified:true` 仍 5 条；个人数据包/rec_log 由前端负责，数据侧不落盘。
+
 ## data-v0.4.0 · 2026-10-22 · MINOR 增量（AI 富化 outbox + 实验校准报告）
 
 > 向后兼容：不删除、不改名既有字段；机会库/榜单/历史/source-health 数据口径不变，仅版本号升 0.4.0。

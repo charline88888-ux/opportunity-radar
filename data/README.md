@@ -1,10 +1,10 @@
-# data/ 数据底座使用说明（data-v0.4.0）
+# data/ 数据底座使用说明（data-v0.5.0）
 
-> 唯一接口标准：`docs/12-数据契约与字段字典.md`（data-v0.4.0 增量已冻结）。本目录所有 JSON 必须通过 `python scanner/validate.py`（V01–V20，退出码 0）。
+> 唯一接口标准：`docs/12-数据契约与字段字典.md`（data-v0.5.0 增量已冻结）。本目录所有 JSON 必须通过 `python scanner/validate.py`（V01–V20，退出码 0）。
 > 数据基准日 `as_of = 2026-10-22`（Asia/Shanghai），当前周 `2026-W43`（10-19～10-25），当前月 `2026-10`，当前年 `2026`。
-> v0.4.0 MINOR 增量：新增 **AI 富化 outbox（`scanner/enrich.py`）** 与 **实验校准报告（`scanner/calibrate.py`）**；机会库/榜单/历史/数据源口径不变，仅版本号升 0.4.0。
+> v0.5.0 MINOR 增量：新增 **年度年鉴（`scanner/yearbook.py`）**；个人数据包/推荐记录 `rec_log` 仅存在前端 localStorage（**不进入 data/**）。机会库/榜单/历史/数据源口径不变，仅版本号升 0.5.0。
 
-## 1. 文件清单与规模（data-v0.4.0）
+## 1. 文件清单与规模（data-v0.5.0）
 
 | 文件 | 作用 | 规模 | 生产者 | 消费者 |
 |---|---|---|---|---|
@@ -18,6 +18,7 @@
 | `source-health.json` | 在线采集源健康度 **v2**（`mode`/`http_status`/`latency_ms`/`cached`/`items`/`error`/`checked_at`，`meta.mode`） | **8 个源（8 成功 / 0 失败；2026-10-22 v0.3.1 实测）** | `--fetch` | 前端、运营 |
 | `reports/report-<period>-2026-10-22.{html,md}` | 四窗口自包含 HTML + Markdown 报告（确定性生成，可打印/分发） | 4 窗口 × 2 格式 | `report.py --all` | 用户、归档 |
 | `reports/calibration-2026-10-22.{html,md}` | 实验校准报告（v0.4.0 新增；Brier/等级×成功率/花费耗时/建议，样例数据标注 sample） | 1 份 HTML + 1 份 MD | `calibrate.py` | 用户、归档 |
+| `reports/yearbook-2026.{html,md}` | **年度年鉴**（v0.5.0 新增；年榜 Top20/月度时间线/分布/A 级清单/窗口收尾/评分分布/实验摘要/3 条方向建议） | 1 份 HTML + 1 份 MD | `yearbook.py` | 用户、归档 |
 | `sources.json` | 数据源矩阵 12 大类 | **68 个平台**（v0.3.1：reddit→manual、新增 lobsters、itunes GB、shopify 官方 feed.xml） | 数据工程 | 前端、`--fetch` |
 | `playbooks.json` | 扫描剧本 | **12 个** | 数据工程 | 前端、运营 |
 | `calendar.json` | 全球商业日历 2026-11～2028 | **33 个节点** | 数据工程 | 前端、方法论 |
@@ -86,23 +87,37 @@
 - 报告内容：样本数/结果分布/状态分布、等级×成功率、Brier 与排除明细、花费/耗时汇总、校准建议、免责声明。
 - 2026-10-22 样例运行（`--sample`，标注为演示数据）：6 条实验、5 条有效样本、**Brier 0.2338**；产物 `data/reports/calibration-2026-10-22.{html,md}`。
 
-## 8. SQLite 派生库（`data/radar.db`，gitignore）
+## 8. 年度年鉴与本地数据包（v0.5.0）
+
+### 8.1 `scanner/yearbook.py` —— 年度年鉴
+
+- `python scanner/yearbook.py --year 2026 [--experiments <export.json>] [--sample]` → `data/reports/yearbook-2026.html/.md`（HTML 自包含可打印，`generated_at` 用 as_of 固定值保证确定性）。
+- 内容：年榜 Top20（等级/行业/区域/窗口）、月度时间线（按 `activity_dates` 聚合，无活动月份显示 0，含行业/信息差 Top2 主题）、行业/区域/信息差/等级/窗口状态分布、A 级清单（≥75）、窗口收尾或 ≤3 个月机会、评分分布（CSS 条形）、可选实验摘要（复用 `calibrate.py` 的 Brier/成功率/花费口径）、规则化「年度 3 个方向建议」（标注「规则生成，非投资建议」）、免责。
+- 2026 年鉴当前关键统计：46 条机会 / Top20 20 条 / A 级及以上 11 条 / 收尾窗口 0 条；带样例实验摘要时 Brier 0.2338（sample 标注）。
+
+### 8.2 个人数据包与 `rec_log`（仅前端本地，不进入 data/）
+
+- 前端 `/data` 导出/导入单个 JSON：`{schema_version:"0.5.0", exported_at, profile, experiments, alerts_state, rec_log, settings}`；纯本地、不上传，用于多设备手动迁移（详见 docs/12 §1.4）。
+- `rec_log`：前端 localStorage 记录推荐曝光/查看/加入实验/忽略（上限 500 条滚动），用于「推荐命中率 = 加入实验数 / 曝光去重机会数」；**不入库、不进 data/**。
+- 数据工程只消费前端导出的 experiments JSON（供 `calibrate.py` / `yearbook.py --experiments`），不读写 `profile`/`alerts_state`/`rec_log`。
+
+## 9. SQLite 派生库（`data/radar.db`，gitignore）
 
 - 表：`meta / opportunities / evidence / rankings_history / source_health`；当前 46 / 88 / 211 / 8 行。
 - `--all` 后自动从 JSON 全量重建（临时文件 + 原子替换），`python scanner/db.py --rebuild` 可单独重建；**不入库、不入发布**（`data/.gitignore`）。
 
-## 9. 证据与可信度分级
+## 10. 证据与可信度分级
 
 - `verified:true`（5 条：024/025/029/030/031）全部证据 URL 实测 200；其余 41 条 `verified:false`，`compliance_notes` 已说明核验状态。
 - `evidence[].date` 优先来源发布日，无法确认时取检索/核验日并说明；`quote` 无法获得具体帖子/评论链接时降级为品类/主题/功能级事实描述，不编造 URL。
 - `tier`：`primary` 一手｜`secondary` 二手｜`marketing` 营销稿。
 
-## 10. 校验（`python scanner/validate.py`）
+## 11. 校验（`python scanner/validate.py`）
 
 V01–V18（V18 支持 history/adjacent 双口径）· **V19**（所有历史快照结构合法、`snapshot_at` 日期与文件名一致、回放必须有 `replay_as_of`、最新快照=当日真实快照且与 rankings 一致）· **V20**（source-health：`mode` 枚举、`cached`/`latency_ms` 一致性、`http_status` int/null、`ok=false` 必须有 `error`、`meta.mode` 合法）。
 当前结果：**20/20 PASS，退出码 0**。
 
-## 11. 复现命令
+## 12. 复现命令
 
 ```powershell
 python scanner/pipeline.py --replay-as-of 2026-10-22 --replay-days 2   # 生成 10-20/10-21 回放 + 重算当前榜单(history delta)
@@ -111,10 +126,12 @@ python scanner/pipeline.py --fetch --no-cache                          # 真实�
 python scanner/report.py --all                                         # 4 窗口报告（确定性）
 python scanner/enrich.py                                               # AI 富化 outbox（offline-template，永不自动入库）
 python scanner/calibrate.py --experiments scanner/fixtures/experiments-sample.json --sample  # 校准报告（样例）
+python scanner/yearbook.py --year 2026                                 # 年度年鉴（无实验摘要版本）
+python scanner/yearbook.py --year 2026 --experiments scanner/fixtures/experiments-sample.json --sample  # 年鉴（含样例实验摘要）
 python scanner/db.py --rebuild                                         # SQLite 重建
-python -m unittest discover -s scanner/tests                           # 45 条单测
+python -m unittest discover -s scanner/tests                           # 50 条单测
 ```
 
-## 12. 免责
+## 13. 免责
 
 机会卡片是研究假设与公开信息整理，**不构成投资建议、法律意见或收入承诺**。涉及跨境、金融、医疗、法律、宗教、内容版权时请自行做合规核查。`calendar.json` 中宗教节日日期为预计值，以当地观月/官方公告为准。

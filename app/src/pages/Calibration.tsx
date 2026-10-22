@@ -26,6 +26,8 @@ import {
 } from '@/lib/calibration'
 import { calibrationExperimentsExport, useExperiments } from '@/lib/experiments'
 import { useProfile } from '@/lib/profile'
+import { useRecLog } from '@/lib/rec_log'
+import { useI18n } from '@/lib/i18n'
 import { downloadText } from '@/lib/exports'
 import { cn, fmtCnyRange, fmtInt, fmtPct, fmtScore } from '@/lib/utils'
 
@@ -55,6 +57,9 @@ function OutcomePill({ outcome }: { outcome: string }) {
 export default function Calibration() {
   const { items } = useExperiments()
   const { profile } = useProfile()
+  const { summary: recSummary } = useRecLog()
+  const { lang } = useI18n()
+  const L = (zh: string, en: string) => (lang === 'en' ? en : zh)
   const data = useMemo(() => buildCalibration(items), [items])
   const s = data.stats
 
@@ -110,6 +115,9 @@ export default function Calibration() {
   const exportExperiments = () => {
     downloadText('radar-experiments-calibration.json', calibrationExperimentsExport(items, profile), 'application/json;charset=utf-8')
   }
+  const exportCalibrationJson = () => {
+    downloadText('radar-calibration.json', calibrationToJson(data, recSummary), 'application/json;charset=utf-8')
+  }
 
   return (
     <div>
@@ -121,8 +129,9 @@ export default function Calibration() {
         actions={
           <div className="flex flex-wrap items-center gap-2">
             <Badge tone={data.ready ? 'signal' : 'amber'}><Target className="h-3 w-3" /> 样本 {s.samples} 条{!data.ready ? ` / 建议 ≥${CALIBRATION_MIN_SAMPLES}` : ''}</Badge>
-            <Button size="sm" variant="outline" onClick={exportReport} disabled={!s.samples}><FileText className="h-3.5 w-3.5" /> 导出校准 MD</Button>
-            <Button size="sm" variant="outline" onClick={exportExperiments} disabled={!items.length}><FileJson className="h-3.5 w-3.5" /> 导出实验 JSON</Button>
+            <Button size="sm" variant="outline" onClick={exportReport} disabled={!s.samples}><FileText className="h-3.5 w-3.5" /> {L('导出校准 MD', 'Export calibration MD')}</Button>
+            <Button size="sm" variant="outline" onClick={exportCalibrationJson} disabled={!s.samples}><FileJson className="h-3.5 w-3.5" /> {L('导出校准 JSON', 'Export calibration JSON')}</Button>
+            <Button size="sm" variant="outline" onClick={exportExperiments} disabled={!items.length}><FileJson className="h-3.5 w-3.5" /> {L('导出实验 JSON', 'Export experiments JSON')}</Button>
             <span className="hidden max-w-[180px] font-mono text-[9px] leading-tight text-dim xl:inline">→ python scanner/calibrate.py --experiments &lt;file&gt;</span>
             <Link to="/lab" className="inline-flex h-7 items-center gap-1 rounded border border-signal/35 bg-signal/10 px-2.5 text-[11.5px] text-signal hover:bg-signal/20">
               <FlaskConical className="h-3 w-3" /> 去实验台
@@ -147,6 +156,42 @@ export default function Calibration() {
           </Panel>
         ))}
       </div>
+
+      <Panel className="mb-3 p-3">
+        <div className="mb-2 flex flex-wrap items-center justify-between gap-2">
+          <div className="flex items-center gap-2">
+            <Target className="h-4 w-4 text-cyan" />
+            <span className="text-[12px] font-semibold text-ink">{L('推荐漏斗', 'Recommendation funnel')}</span>
+            <span className="font-mono text-[9px] text-dim">from /rankings?mode=recommend · rec_log localStorage</span>
+          </div>
+          <span className="font-mono text-[9px] text-dim">{L('上限 500 条 · 本地记录', '500-record cap · local log')}</span>
+        </div>
+        <div className="grid grid-cols-2 gap-2 md:grid-cols-5">
+          {[
+            { label: L('曝光（去重机会）', 'Impressions (unique)'), value: recSummary.unique_impressions, unit: L(`记录 ${recSummary.impressions} 次`, `${recSummary.impressions} events`), color: '#4cc9f0' },
+            { label: L('查看', 'Views'), value: recSummary.unique_views, unit: L(`${recSummary.view_rate}% 曝光→查看`, `${recSummary.view_rate}% view rate`), color: '#cdd6e5' },
+            { label: L('加入实验', 'Experiments'), value: recSummary.unique_experiments, unit: L(`${recSummary.experiments} 次实验事件`, `${recSummary.experiments} events`), color: '#3ddc97' },
+            { label: L('命中率', 'Hit rate'), value: `${recSummary.hit_rate}%`, unit: L('实验 / 曝光去重', 'experiments / unique impressions'), color: '#ffd166' },
+            { label: L('忽略', 'Dismissed'), value: recSummary.unique_dismisses, unit: L(`${recSummary.dismisses} 次忽略`, `${recSummary.dismisses} events`), color: '#8b93a7' },
+          ].map((x) => (
+            <div key={x.label} className="rounded border border-line/70 px-2.5 py-1.5">
+              <div className="mono-label">{x.label}</div>
+              <div className="num text-[17px] font-semibold" style={{ color: x.color }}>{x.value}</div>
+              <div className="text-[9px] text-dim">{x.unit}</div>
+            </div>
+          ))}
+        </div>
+        {recSummary.unique_impressions === 0 && (
+          <div className="mt-2 text-[10px] text-dim">{L('还没有推荐行为记录：在「为你推荐」浏览/查看/忽略，或从详情加入实验后会自动累计；仅保存在本机。', 'No recommendation activity yet: browse/view/ignore in “For you”, or add an experiment from a detail page; it accumulates locally only.')}</div>
+        )}
+      </Panel>
+
+      <Panel className="mb-3 flex flex-wrap items-center gap-x-3 gap-y-1.5 border-line/70 bg-white/[0.015] px-3 py-2 text-[10px] text-dim">
+        <span className="font-semibold text-muted">{L('后端校准报告', 'Backend calibration report')}</span>
+        <span className="font-mono">python scanner/calibrate.py --experiments &lt;{L('导出实验 JSON', 'exported experiments JSON')}&gt;</span>
+        <span>→ <span className="font-mono">data/reports/calibration-&lt;date&gt;.html / .md</span></span>
+        <span>{L('浏览器不直接读取 data/reports；生成后自行打开文件。', 'The browser never reads data/reports directly; open the generated file yourself.')}</span>
+      </Panel>
 
       {!data.ready && (
         <Panel className="mb-3 flex flex-col gap-2 border-amber/30 bg-amber/[0.05] p-3 md:flex-row md:items-center">

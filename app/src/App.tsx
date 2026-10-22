@@ -16,6 +16,8 @@ import Lab from '@/pages/Lab'
 import Profile from '@/pages/Profile'
 import Alerts from '@/pages/Alerts'
 import Calibration from '@/pages/Calibration'
+import Yearbook from '@/pages/Yearbook'
+import DataPage from '@/pages/Data'
 import About from '@/pages/About'
 import { I18nProvider, useI18n } from '@/lib/i18n'
 
@@ -64,6 +66,8 @@ function AppRoutes() {
           <Route path="/profile" element={<Profile />} />
           <Route path="/alerts" element={<Alerts />} />
           <Route path="/calibration" element={<Calibration />} />
+          <Route path="/yearbook" element={<Yearbook />} />
+          <Route path="/data" element={<DataPage />} />
           <Route path="/about" element={<About />} />
           <Route path="*" element={<NotFound />} />
         </Routes>

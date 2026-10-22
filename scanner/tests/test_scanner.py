@@ -32,6 +32,7 @@ from scanner import (  # noqa: E402
     report,
     score,
     validate,
+    yearbook,
 )
 
 
@@ -837,6 +838,80 @@ class TestCalibrate(unittest.TestCase):
             common.dump_json(bad, {"foo": "bar"})
             with self.assertRaises(ValueError):
                 calibrate.generate(bad, out_dir=Path(tmp))
+
+
+class TestYearbook(unittest.TestCase):
+    """v0.5.0：年度年鉴（无/有实验、空年份、确定性、非法 JSON 容错）。"""
+
+    YEAR = 2026
+
+    def test_without_experiments(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            result = yearbook.generate(self.YEAR, out_dir=Path(tmp))
+            html_path = Path(result["html"])
+            md_path = Path(result["md"])
+            self.assertTrue(html_path.exists() and md_path.exists())
+            self.assertFalse(result["sample"])
+            self.assertEqual(result["opportunities"], 46)
+            self.assertEqual(result["top20"], 20)
+            self.assertGreaterEqual(result["a_grade"], 1)
+            self.assertIsNone(result["brier"])
+            html_text = html_path.read_text(encoding="utf-8")
+            md_text = md_path.read_text(encoding="utf-8")
+            self.assertIn("年度年鉴", html_text)
+            self.assertIn("<style>", html_text)
+            self.assertIn("月度时间线", html_text)
+            self.assertIn("规则生成，非投资建议", html_text)
+            self.assertIn("免责声明", html_text)
+            for label in ("1 月", "10 月", "12 月"):
+                self.assertIn(label, md_text)
+            self.assertIn("年榜 Top20", md_text)
+
+    def test_with_experiments_reuses_calibrate_brier(self):
+        sample = config.FIXTURES_DIR / "experiments-sample.json"
+        with tempfile.TemporaryDirectory() as tmp:
+            result = yearbook.generate(self.YEAR, experiments_path=sample, sample=True, out_dir=Path(tmp))
+            self.assertTrue(result["sample"])
+            export = calibrate.load_export(sample)
+            records = calibrate.build_records(export, calibrate.load_opportunities())
+            expected = calibrate.compute_brier(records)["brier"]
+            self.assertAlmostEqual(result["brier"], expected, places=4)
+            html_text = Path(result["html"]).read_text(encoding="utf-8")
+            self.assertIn("Brier", html_text)
+            self.assertIn("样例实验数据", html_text)
+
+    def test_empty_year(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            result = yearbook.generate(1999, out_dir=Path(tmp))
+            self.assertEqual(result["opportunities"], 0)
+            self.assertEqual(result["top20"], 0)
+            self.assertEqual(result["a_grade"], 0)
+            md_text = Path(result["md"]).read_text(encoding="utf-8")
+            html_text = Path(result["html"]).read_text(encoding="utf-8")
+            self.assertIn("本年度暂无机会", md_text)
+            self.assertIn("本年度暂无 A 级机会", html_text)
+            for label in ("1 月", "12 月"):
+                self.assertIn(label, md_text)
+
+    def test_deterministic_double_run(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            first = yearbook.generate(self.YEAR, out_dir=Path(tmp))
+            first_html = Path(first["html"]).read_text(encoding="utf-8")
+            first_md = Path(first["md"]).read_text(encoding="utf-8")
+            second = yearbook.generate(self.YEAR, out_dir=Path(tmp))
+            self.assertEqual(first_html, Path(second["html"]).read_text(encoding="utf-8"))
+            self.assertEqual(first_md, Path(second["md"]).read_text(encoding="utf-8"))
+            self.assertIn("2026-10-22T00:00:00+08:00", first_html)  # 确定性 generated_at
+
+    def test_invalid_experiments_json_tolerated(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            bad = Path(tmp) / "bad.json"
+            bad.write_text("{not-json", encoding="utf-8")
+            result = yearbook.generate(self.YEAR, experiments_path=bad, out_dir=Path(tmp))
+            self.assertIsNotNone(result["experiments_error"])
+            self.assertIsNone(result["brier"])
+            html_text = Path(result["html"]).read_text(encoding="utf-8")
+            self.assertIn("已跳过摘要", html_text)
 
 
 if __name__ == "__main__":

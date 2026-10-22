@@ -5,7 +5,7 @@ if (!port || !base) { console.error('usage: node qa/frontend-qa-v03.mjs <port> <
 const vw = Number(width || 1600), vh = Number(height || 1000)
 const routes = [
   '#/', '#/rankings', '#/opportunities/opp-pet-memorial-glass-001', '#/scanner', '#/method',
-  '#/sources', '#/calendar', '#/lab', '#/profile', '#/alerts', '#/calibration', '#/about',
+  '#/sources', '#/calendar', '#/lab', '#/profile', '#/alerts', '#/calibration', '#/yearbook', '#/data', '#/about',
 ]
 
 async function getTarget() {

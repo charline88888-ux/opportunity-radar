@@ -1,0 +1,13 @@
+
+== yearbook-check ==
+  · 年榜 Top20 顺序与 rankings year 窗口一致 ✅
+  · 年榜行 grade/total 与数据一致 ✅
+  · 月度活跃/新机会 12 个月与 activity_dates 独立复算一致 ✅
+  · 行业分布一致 ✅
+  · 无实验年鉴两次运行字节一致（确定性）✅
+  · 有实验年鉴：独立 Brier=0.2338，报告含 Brier=是
+  · 非法实验 JSON：exit=0 + 警告 + 跳过实验摘要（容错）✅
+  · 空数据年份 2020：exit=0 并生成空态报告 ✅
+
+P0 = 0  P1 = 0  P2 = 0
+RESULT: PASS

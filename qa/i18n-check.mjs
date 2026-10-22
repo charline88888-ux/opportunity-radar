@@ -77,8 +77,8 @@ const isDataText = (run) => {
   if (n.length < 2) return true
   return allowedNorm.some((a) => a.includes(n)) || allowedNorm.some((a) => n.includes(a) && a.length >= 4)
 }
-const EN_NAV = ['Command Deck', 'Rankings', 'Scanner', 'Method', 'Sources', 'Calendar', 'Lab', 'Profile', 'Alerts', 'Calibration', 'About']
-const routes = ['#/', '#/rankings', '#/opportunities/opp-pet-memorial-glass-001', '#/scanner', '#/method', '#/sources', '#/calendar', '#/lab', '#/profile', '#/alerts', '#/calibration', '#/about']
+const EN_NAV = ['Command Deck', 'Rankings', 'Scanner', 'Method', 'Sources', 'Calendar', 'Lab', 'Profile', 'Alerts', 'Calibration', 'Yearbook', 'Data', 'About']
+const routes = ['#/', '#/rankings', '#/opportunities/opp-pet-memorial-glass-001', '#/scanner', '#/method', '#/sources', '#/calendar', '#/lab', '#/profile', '#/alerts', '#/calibration', '#/yearbook', '#/data', '#/about']
 
 async function probe(route, lang) {
   await nav(route)
@@ -111,7 +111,7 @@ const enPages = []
 for (const r of routes) enPages.push(await probe(r, 'en'))
 const enHome = enPages[0]
 check('I07', 'EN：html lang=en 且 document.title 翻译为英文', enHome.lang === 'en' && !/[\u4e00-\u9fff]/.test(enHome.title), `lang=${enHome.lang} title=${enHome.title}`)
-check('I08', 'EN：导航全部翻译（≥10/11 英文导航标签）', EN_NAV.filter((x) => enHome.text.includes(x)).length >= 10, `found=${EN_NAV.filter((x) => enHome.text.includes(x)).join(',')}`)
+check('I08', 'EN：导航全部翻译（≥12/13 英文导航标签）', EN_NAV.filter((x) => enHome.text.includes(x)).length >= 12, `found=${EN_NAV.filter((x) => enHome.text.includes(x)).join(',')}`)
 check('I09', 'EN：显示「内容仅中文」提示条', enHome.banner, enHome.banner ? 'banner=✓' : 'missing')
 const uiCJK = enPages.map((p) => ({ route: p.route, unexplained: p.unexplained }))
 const uiCJKCount = uiCJK.reduce((a, x) => a + x.unexplained.length, 0)

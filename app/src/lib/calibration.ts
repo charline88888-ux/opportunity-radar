@@ -310,11 +310,12 @@ export function calibrationToMarkdown(data: CalibrationData): string {
   return lines.join('\n') + '\n'
 }
 
-export function calibrationToJson(data: CalibrationData): string {
+export function calibrationToJson(data: CalibrationData, recSummary?: unknown): string {
   return JSON.stringify(
     {
       schema: 'opportunity-radar/calibration@0.4.0',
       exported_at: dayjs().toISOString(),
+      ...(recSummary ? { recommendation_funnel: recSummary } : {}),
       brier: {
         value: data.stats.brier,
         n: data.stats.brierN,

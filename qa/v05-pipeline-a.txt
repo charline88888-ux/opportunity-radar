@@ -1,0 +1,19 @@
+[pipeline] 数据版本 0.5.0 / 基准日 2026-10-22
+[pipeline] 采集完成：27 条原始信号，4/4 个适配器正常
+[pipeline]   · rss                ok    13 条原始信号
+[pipeline]   · reddit             ok    7 条原始信号
+[pipeline]   · google_trends      ok    4 条原始信号
+[pipeline]   · ecommerce_reviews  ok    3 条原始信号
+[pipeline] 归一完成：27 → 27 条信号（有痛点短语 1 条，有趋势序列 4 条）
+[pipeline] 去重完成：27 → 24 条（合并 3 条，重复率 11.1%）
+[pipeline] 评分检查：46 条机会总分/等级/rank_score 与公式一致
+[pipeline] 榜单已生成：day=8 / week=15 / month=23 / year=46 → data/rankings.json（delta_basis=history, history_as_of=2026-10-21）
+[pipeline] 历史快照已写入：data\history\rankings-2026-10-22.json
+[pipeline] 统计已生成：46 条机会 / A 级以上 11 条 / 平均分 71.4 / 开放窗口价值 4180000 元 → data/stats.json
+[pipeline] SQLite 已同步：data\radar.db（135168 bytes） / opportunities=46 evidence=88 rankings_history=211 source_health=8
+[pipeline]   · 提示 opp-local-furusato-nozei-024: verified=true，请确认所有证据 URL 实际可访问
+[pipeline]   · 提示 opp-local-umrah-service-025: verified=true，请确认所有证据 URL 实际可访问
+[pipeline]   · 提示 opp-crossborder-kbeauty-029: verified=true，请确认所有证据 URL 实际可访问
+[pipeline]   · 提示 opp-crossborder-mercadolibre-030: verified=true，请确认所有证据 URL 实际可访问
+[pipeline]   · 提示 opp-manufacturing-shea-butter-031: verified=true，请确认所有证据 URL 实际可访问
+[pipeline] 校验完成：20/20 条规则通过

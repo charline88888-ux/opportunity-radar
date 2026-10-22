@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import dayjs from 'dayjs'
 import { dataMeta, gapName, industryName, oppById } from './data'
 import type { Profile } from './profile'
+import { recordRecEvent } from './rec_log'
 import { fmtCnyRange, fmtScore } from './utils'
 
 export type ExperimentStatus = 'active' | 'verified' | 'abandoned'
@@ -41,29 +42,30 @@ export const REVIEW_CYCLE_DAYS = 7
 export const ACTIVE_CAPACITY = 1
 export const STORAGE_KEY = 'radar:experiments:v1'
 
+function normalizeExperimentList(raw: unknown): Experiment[] {
+  if (!Array.isArray(raw)) return []
+  return raw
+    .filter((x) => x && typeof x === 'object' && typeof (x as any).opp_id === 'string')
+    .map((x: any) => ({
+      id: String(x.id || `exp-${x.opp_id}`),
+      opp_id: String(x.opp_id),
+      title: String(x.title || oppById.get(x.opp_id)?.title || '未命名实验'),
+      started_at: String(x.started_at || dayjs().format('YYYY-MM-DD')),
+      budget_cny: Number(x.budget_cny) || 0,
+      status: (['active', 'verified', 'abandoned'].includes(x.status) ? x.status : 'active') as ExperimentStatus,
+      outcome: (['positive', 'negative', 'inconclusive'].includes(x.outcome) ? x.outcome : null) as ExperimentOutcome | null,
+      ended_at: x.ended_at == null ? null : String(x.ended_at),
+      conclusion: String(x.conclusion || ''),
+      spend_cny: Number(x.spend_cny) || 0,
+      hours: Number(x.hours) || 0,
+      created_at: String(x.created_at || x.started_at || dayjs().toISOString()),
+      updated_at: String(x.updated_at || dayjs().toISOString()),
+    }))
+}
+
 function safeLoad(): Experiment[] {
   try {
-    const raw = localStorage.getItem(STORAGE_KEY)
-    if (!raw) return []
-    const parsed = JSON.parse(raw)
-    if (!Array.isArray(parsed)) return []
-    return parsed
-      .filter((x) => x && typeof x === 'object' && typeof x.opp_id === 'string')
-      .map((x) => ({
-        id: String(x.id || `exp-${x.opp_id}`),
-        opp_id: String(x.opp_id),
-        title: String(x.title || oppById.get(x.opp_id)?.title || '未命名实验'),
-        started_at: String(x.started_at || dayjs().format('YYYY-MM-DD')),
-        budget_cny: Number(x.budget_cny) || 0,
-        status: (['active', 'verified', 'abandoned'].includes(x.status) ? x.status : 'active') as ExperimentStatus,
-        outcome: (['positive', 'negative', 'inconclusive'].includes(x.outcome) ? x.outcome : null) as ExperimentOutcome | null,
-        ended_at: x.ended_at == null ? null : String(x.ended_at),
-        conclusion: String(x.conclusion || ''),
-        spend_cny: Number(x.spend_cny) || 0,
-        hours: Number(x.hours) || 0,
-        created_at: String(x.created_at || x.started_at || dayjs().toISOString()),
-        updated_at: String(x.updated_at || dayjs().toISOString()),
-      }))
+    return normalizeExperimentList(JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'))
   } catch {
     return []
   }
@@ -123,7 +125,23 @@ export function addExperiment(input: {
     updated_at: now,
   }
   commit([item, ...cache])
+  recordRecEvent({ opp_id: item.opp_id, event: 'experiment', rec_score: opp?.rank_score ?? 0, fit: 0 })
   return item
+}
+
+/** v0.5.0 数据包导入：覆盖全部实验 */
+export function replaceExperiments(raw: unknown) {
+  commit(normalizeExperimentList(raw))
+}
+
+/** v0.5.0 数据包导入：按 id 去重合并，同 id 取 updated_at 较新者 */
+export function mergeExperiments(raw: unknown) {
+  const map = new Map<string, Experiment>()
+  for (const item of [...cache, ...normalizeExperimentList(raw)]) {
+    const old = map.get(item.id)
+    if (!old || item.updated_at > old.updated_at) map.set(item.id, item)
+  }
+  commit([...map.values()].sort((a, b) => b.updated_at.localeCompare(a.updated_at)))
 }
 
 export function updateExperiment(id: string, patch: Partial<Omit<Experiment, 'id' | 'opp_id' | 'created_at'>>) {

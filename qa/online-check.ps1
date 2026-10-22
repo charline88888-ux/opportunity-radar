@@ -29,7 +29,8 @@ $checks = @(
   @{ name = "/v0.1.0/"; url = "$BaseUrl/v0.1.0/"; file = "online-v0.1.0.html" },
   @{ name = "/v0.2.0/"; url = "$BaseUrl/v0.2.0/"; file = "online-v0.2.0.html" },
   @{ name = "/v0.3.0/"; url = "$BaseUrl/v0.3.0/"; file = "online-v0.3.0.html" },
-  @{ name = "/v0.3.1/"; url = "$BaseUrl/v0.3.1/"; file = "online-v0.3.1.html" }
+  @{ name = "/v0.3.1/"; url = "$BaseUrl/v0.3.1/"; file = "online-v0.3.1.html" },
+  @{ name = "/v0.4.0/"; url = "$BaseUrl/v0.4.0/"; file = "online-v0.4.0.html" }
 )
 $fail = 0
 foreach ($c in $checks) {
