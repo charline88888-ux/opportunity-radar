@@ -1,0 +1,35 @@
+== 数据指纹（SHA256 前 16） ==
+data/opportunities.json  52b30e45b356cea9
+data/rankings.json  ad79b0aa1b8cfff8
+data/history/rankings-2026-10-22.json  170f44478dc20a5d
+data/stats.json  4f58f249566c5627
+data/source-health.json  9335eff3455805d6
+data/taxonomy.json  d0b01ff00fe79ccd
+data/radar.db  d8f67ad20fe11ca0
+data_version[taxonomy] = 0.2.0
+data_version[opportunities] = None
+data_version[rankings] = 0.2.0
+data_version[stats] = 0.2.0
+data_version[sources] = 0.2.0
+data_version[playbooks] = 0.2.0
+data_version[calendar] = 0.2.0
+rankings.meta.delta_basis = adjacent-window | history_as_of = None
+rankings counts = {"day": 8, "week": 15, "month": 23, "year": 46}
+radar.db tables = ['evidence', 'meta', 'opportunities', 'rankings_history', 'source_health']
+radar.db opportunities rows = 46
+radar.db evidence rows = 88
+radar.db rankings_history rows = 92
+radar.db source_health rows = 8
+radar.db meta rows = 4
+== 报告 ==
+day: html=25256B md=16381B sections=8 seven=True evidence=True disclaimer=True external_css=False
+week: html=43081B md=29826B sections=15 seven=True evidence=True disclaimer=True external_css=False
+month: html=63464B md=45115B sections=23 seven=True evidence=True disclaimer=True external_css=False
+year: html=120638B md=87817B sections=46 seven=True evidence=True disclaimer=True external_css=False
+source-health meta = {"count": 8, "ok_count": 7, "failed_count": 1, "mode": "online-fetch"}
+失败源 = [["shopify-changelog", false, "None"]]
+outbox signals = 185 | review = {"status": "pending", "note": "人工复核后再决定是否入库"}
+outbox 前 20 条是否混入 opportunities = False
+gitignore data/radar.db => ignored
+gitignore scanner/outbox/signals-2026-10-22.json => ignored
+gitignore scanner/fetch-cache/x => NOT ignored

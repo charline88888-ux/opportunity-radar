@@ -1,0 +1,37 @@
+$ node scripts/sync-data.mjs --strict && tsc --noEmit && vite build
+[sync-data] app/src/data 已更新
+  ✓ real  taxonomy.json
+  ✓ real  opportunities.json
+  ✓ real  rankings.json
+  ✓ real  stats.json
+  ✓ real  sources.json
+  ✓ real  playbooks.json
+  ✓ real  calendar.json
+  ✓ real  history/（可选，1 份快照，最新 2026-10-22）
+  ✓ real  source-health.json（可选，8 源）
+
+[verify] 契约自检
+  PASS  taxonomy       行业 14/14 · 需求 12/12 · 信息差 12/12 · 区域 11/11 · 评分维 10/10
+  PASS  weights        10 维权重合计 1.000（应 = 1.000）
+  PASS  opportunities  46 条（≥40）· 行业 14/14 · 区域 11/11 · 七问完整 46/46 · 证据合规 46/46 · 公式一致 46/46
+  PASS  rankings       day 8 / week 15 / month 23 / year 46（配额 6/12/20/40）
+  PASS  rankings-meta  delta_basis=adjacent-window · history_as_of=null · tie_breaker=已声明
+  PASS  sources        67 个平台 / 12 大类（≥60 / 12）
+  PASS  playbooks      12 个剧本（≥12）
+  PASS  calendar       33 个日历节点（≥24）
+  PASS  stats          kpi.total_opps=46（实际 46）· new_today=8 · A+ 11
+  PASS  history        1 份快照 · 最新 2026-10-22 · 上期 null
+  PASS  source-health  8 源 · 成功 7 / 失败 1 · 检查于 2026-10-22T10:42:34+08:00
+
+[verify] 机会数 46 · 榜单 day 8 / week 15 / month 23 / year 46 · 数据源 67 · 剧本 12 · 日历 33 · 历史快照 1 · 采集健康 7/8 ok
+[verify] 结果：PASS · 数据来源=real · 数据版本=0.2.0 · as_of=2026-10-22 · delta_basis=adjacent-window
+vite v6.4.4 building for production...
+transforming...
+✓ 2585 modules transformed.
+rendering chunks...
+[plugin vite:singlefile] 
+
+[plugin vite:singlefile] Inlining: index-CkR7BPar.js
+[plugin vite:singlefile] Inlining: style-COlME6Q6.css
+dist/index.html  2,049.90 kB
+✓ built in 4.94s

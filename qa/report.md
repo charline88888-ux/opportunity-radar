@@ -432,3 +432,114 @@ P1-3（tie-breaker）已由 data-engineer 方案 A 修复并经红队复验：
 | **结论** | **冻结产物核验通过，v0.1.0 可发布。** |
 
 > 发布后监控项：2 个 P2（前端 1024 卡片栅格/「新上榜」文案、cases.md RSS 证据）已在 v0.2.0 backlog；`verified:false` 仍是研究假设，使用前须复核原始来源（页面与 README 已声明）。
+
+---
+
+# 第 12 章 · v0.2.0 红队独立验收（2026-10-22 11:00）
+
+> 项目版本：v0.2.0（app 0.2.0 / data 0.2.0）　｜　验收人：redteam　｜　任务：task-12
+> 冻结：`releases/v0.2.0/`（git tag v0.2.0）　｜　线上：<https://charline88888-ux.github.io/opportunity-radar/>
+> 结论：**P0=0 / P1=0 / P2=6（均不阻塞）；可发布 ✅**
+
+## 12.1 结论
+
+| 项 | 结果 |
+|---|---|
+| P0（阻塞） | **0** |
+| P1（发布前应修） | **0** |
+| P2（建议修，不阻塞） | 6（见 §12.8） |
+| 数据 | pipeline --all exit 0 且 21 个 data 文件**字节级幂等**；validate **V01–V20 20/20 PASS（exit 0）**；unittest **28/28 OK**；红队独立脚本 data-qa-v02 **P0/P1/P2=0** |
+| 历史/真实 delta | history 快照与 rankings 一致（V19）；无历史时回退 adjacent-window ✅；红队**内存构造上期快照**独立验证 history 路径（delta=+1/up、-1/down、缺窗口回退、无副作用）PASS |
+| SQLite | `data/radar.db` 5 表（opportunities 46 / evidence 88 / rankings_history 92 / source_health 8 / meta 4）；`db.py --rebuild` 重建后 SHA256 **完全一致**；gitignore ✅ |
+| 真实采集 | `--fetch` 实际结果：8 源尝试、**7 源成功**、185 条信号入 outbox（review.status=pending，未进机会库）；红队独立联网 `fetch_url` 实测 HTTP 200/1.76s；选中源均 green/yellow、**red 源 0 个被选中** |
+| 报告 | 四窗口 HTML/MD 共 8 文件；HTML 自包含（0 外链 CSS/JS）、Chrome file:// 渲染正常；条目数与 rankings 一致（8/15/23/46）、含七问摘要+证据链接+免责；MD 同 |
+| 前端 | `pnpm install && pnpm build` exit 0；strict 11 PASS、source=real、mock=[]；**构建可复现**（重跑 SHA256 与交付一致）；9 路由 file:// 截图目检无白屏；CDP 1024/1600 共 20 路由次无溢出/裁切/console error；`/lab` 实验新增/持久化/导出全部通过 |
+| 冻结产物 | MANIFEST **19/19 sha256 一致**；dist SHA256 = `DE48EF7A…D0A7`；tag v0.2.0→e49364e（manifest 提交）→ d2ac16a（内容提交）；冻结 dist file:// 9 路由渲染 0 错误 |
+| 线上一致 | 下载线上根 `/` 与 `/v0.2.0/` 的 index.html，SHA256 均为 `DE48EF7A…D0A7`，与冻结 dist **完全相同**；`/v0.1.0/` = `F24B0755…B7737` 与 v0.1.0 冻结版相同；`versions.json` latest=v0.2.0；线上 `/lab` 可访问 |
+| **一句话结论** | **可发布**：数据/前端/报告/冻结产物/线上五层一致，P0=0、P1=0；6 个 P2 记入 v0.2.x backlog。 |
+
+## 12.2 数据与扫描器验收（实测）
+
+- `python scanner/pipeline.py --all` 连跑两次：exit 0；`data/` 下 **21 个文件（含 history / reports / radar.db / source-health）SHA256 前后完全一致**（幂等）。
+- `python scanner/validate.py`：**20/20 PASS**，新增 V19（history 快照与同日 rankings 一致：1 份快照合法）、V20（source-health 8 源字段合法）。
+- `python -m unittest discover -s scanner/tests`：**28 tests OK**（覆盖 history delta/回退、报告、SQLite 重建、RSS/Atom/JSON 解析、红源筛选）。
+- 红队独立脚本：
+  - `qa/data-qa-v02.py`：P0/P1/P2=0（版本 0.2.0、history、delta_basis、source-health、reports、SQLite 全覆盖）；
+  - `qa/history-check.py`：PASS（无历史重建与文件一致；构造上期快照后 delta/change 精确 +1/up、-1/down；缺窗口回退；无副作用）。
+- 数据指纹（SHA256 前 16，与 data-engineer 交付一致）：opportunities `52B30E45B356CEA9`、rankings `AD79B0AA1B8CFFF8`、history `170F44478DC20A5D`、stats `4F58F249566C5627`、source-health `9335EFF3455805D6`、taxonomy `D0B01FF00FE79CCD`、radar.db `D8F67AD20FE11CA0`。
+- 版本：taxonomy/rankings/stats/sources/playbooks/calendar `meta.data_version` 均为 0.2.0；rankings.meta 含 `delta_basis=adjacent-window`、`history_as_of=null`、`tie_breaker`；榜单 8/15/23/46，排序链与契约 §5.1 一致。
+- 报告：`data/reports/report-{day,week,month,year}-2026-10-22.{html,md}`；sections=8/15/23/46 与 rankings 一致；HTML 含 `<div class="seven">` 七问摘要、证据链、风险、免责（“研究假设，非投资建议”）；Chrome file:// 渲染成功（qa/tmp/report-day.png）。
+- 采集：`scanner/outbox/signals-2026-10-22.json` 185 条（7 源），meta.mode=online-fetch、review.status=pending；outbox 未混入 opportunities（抽样核对）；`data/source-health.json` 8 源、7 ok、1 失败（shopify-changelog）。
+
+## 12.3 前端验收（实测）
+
+- `cd app && pnpm install && pnpm build`：install exit 0；build exit 0；strict 自检 **11 PASS**（taxonomy/weights/opportunities/rankings/rankings-meta/sources 67/playbooks 12/calendar 33/stats/history 1/source-health 7-8 ok）；`source=real`、`mock_files=[]`；单文件 dist 2,049,902 B。
+- **构建可复现**：红队重跑 `pnpm build` 前后 dist SHA256 均为 `DE48EF7AA93FE473DBCE9C2F35AB7E419BEECC2486E21388DF5292F4B854D0A7`（与前端交付一致）。
+- 9 路由 file:// 截图（`qa/screenshots/v02/01–09`）+ read_image 目检：指挥台（进行中实验 0/1、较周榜变化 12、数据健康条）、排行榜（口径标签「相邻窗口（历史快照不足1天）」、导出按钮）、详情（7 天实验卡、机会卡 MD、榜单口径）、扫描室/方法论/数据源（67 平台）/日历/实验台/关于（v0.2.0、数据 0.2.0、历史快照 1、采集 7/8、GitHub+Pages 链接、11 PASS）均正常；无白屏。
+- CDP（1024/1600 × 10 路由次）：`horizontalOverflow=false`、`clippedElements=0`、`zeroSizeCanvas=0`、`consoleErrors=0`；404 兜底正常。
+- `/lab` 实验台：从详情点击「开始 7 天实验」→「加入并开始」→ localStorage `radar:experiments:v1` 写入 1 条 → `/lab` 列表显示进行中 1；导出 MD/JSON 下载成功（实验记录 MD 含状态/预算/复盘日期）；详情导出 `opportunity-opp-pet-memorial-glass-001.md`（含七问/证据/免责，4107B）；榜单导出 `report-week-2026-10-22.md/html`（含七问/证据/免责）。
+- P2 修复验证：1024 无溢出（栅格修复生效）；Dashboard/榜单/详情均显示 delta 口径标签；「新上榜」改为「较周榜变化 12」。
+- 已知（前端声明，核实一致）：根 VERSION 已在发布时 bump 为 0.2.0；剪贴板无权限时降级为下载（属浏览器权限，非缺陷）。
+
+## 12.4 冻结产物核验（releases/v0.2.0）
+
+- MANIFEST `files` 19 条：逐条重算 bytes+sha256 → **19/19 全部一致**；`app_version=0.2.0`、`data_version=0.2.0`、counts 46/67/12/33/13、open_path/rollback 正常。
+- dist：2,049,902 B，SHA256 `DE48EF7A…D0A7`（= 前端交付 = 红队可复现构建）。
+- git：annotated tag `v0.2.0`（tag 对象 e49364e）→ commit e49364e（docs: record manifest）→ parent `d2ac16a`（release: v0.2.0，内容提交）；MANIFEST `git_commit=d2ac16a`、`git_tag=v0.2.0` 一致。
+- 冻结 dist file:// 冒烟：`qa/screenshots/v02-frozen/01–10`（9 路由 + 1024 /lab），全部渲染、jsErrors=0；read_image 目检 dashboard/rankings/lab/about 正常（v0.2.0、REAL、免责、实验台、11 PASS）。
+- 旧版本隔离：`releases/v0.1.0/` 未被修改，线上 `/v0.1.0/` 仍是 v0.1.0（见 §12.5）。
+
+## 12.5 线上（GitHub Pages）核验
+
+- `https://charline88888-ux.github.io/opportunity-radar/`：HTTP 200；Chrome headless 截图 4 张（`qa/screenshots/v02-online/`），read_image 目检：指挥台/实验台/关于均为 v0.2.0 + REAL DATA + 数据 0.2.0，KPI 46 / 今日新信号 8 / A+ 11 / 开放窗口价值 ¥418 万。
+- **字节级一致性**：下载线上 index.html 与冻结 dist 比对——
+  - `/` 与 `/v0.2.0/`：2,049,902 B，SHA256 `DE48EF7A…D0A7` = `releases/v0.2.0/dist/index.html` ✅
+  - `/v0.1.0/`：1,979,378 B，SHA256 `F24B0755…B7737` = `releases/v0.1.0/dist/index.html` ✅
+  - `versions.json`：HTTP 200，latest=v0.2.0，versions 含 v0.1.0(`/v0.1.0/`)、v0.2.0(`/`)，与仓库 `qa/tmp/pages-site/versions.json` 一致。
+- `/lab` 线上可访问（hash 路由截图 normal）；线上与本地冻结版 bodyHash/文本长度/卡片顺序 CDP 对比 `consistent=True`。
+- 结论：线上版本与 v0.2.0 冻结产物**完全一致**，旧版归档可用，无版本串台。
+
+## 12.6 复现命令
+
+```powershell
+cd 'E:\全球商机扫描器'
+python scanner/pipeline.py --all
+python scanner/validate.py                 # 20/20 PASS
+python -m unittest discover -s scanner/tests   # 28 OK
+python qa/data-qa-v02.py                   # P0/P1/P2=0
+python qa/history-check.py                 # PASS（构造上期快照验证真实 delta）
+python scanner/db.py --rebuild             # 重建后 SHA256 不变
+cd app; pnpm install; pnpm build           # strict 11 PASS，dist 可复现
+# file:// 9 路由截图（qa/screenshots/v02/）与 CDP：见 qa/cdp-routes.mjs、qa/frontend-qa-v02.mjs
+node qa/online-qa.mjs <port> https://charline88888-ux.github.io/opportunity-radar/ "file:///…/releases/v0.2.0/dist/index.html"
+```
+
+## 12.7 截图索引（v0.2）
+
+| 目录/文件 | 内容 |
+|---|---|
+| `qa/screenshots/v02/01–09` | 工作区 dist 9 路由（dashboard/rankings/detail/scanner/method/sources/calendar/**lab**/about）1600×1000 |
+| `qa/screenshots/v02/10–12` | 详情长页 / Lab 长页 / About 长页 |
+| `qa/screenshots/v02/13–15` | 1024 下 dashboard / rankings / lab（无溢出） |
+| `qa/screenshots/v02-frozen/01–09 + 10` | **冻结 dist** 9 路由 + 1024 /lab（发布基线） |
+| `qa/screenshots/v02-online/online-01…05` | 线上 dashboard / rankings / **lab** / about / v0.1.0 归档 |
+| `qa/tmp/report-day.png` | 后端报告 HTML（data/reports/report-day）Chrome 渲染 |
+| `qa/tmp/downloads/*` | 前端导出的机会卡 MD、实验记录 MD/JSON、周报 MD/HTML |
+
+## 12.8 P2 清单（6 个，均不阻塞）
+
+| # | 位置 | 问题 | 建议 | 负责人 |
+|---|---|---|---|---|
+| P2-1 | `data/source-health.json`（shopify-changelog） | 失败源 `ok=false` 但 `error=null`、无失败原因（data-engineer 口述「HTML 非 feed」未落到数据）；V20 只校验字段合法，不要求原因 | fetch.py 失败时写 `error`（如 "not a feed / parse_failed:0 items"），并把失败原因写入 outbox meta | data-engineer |
+| P2-2 | `data/source-health.json`（全 8 行） | 所有源 `latency_ms=0`、`cached=true`（最终一次 fetch 命中缓存重新生成），但 `meta.mode="online-fetch"`，易被误读为「全部实时成功」 | meta 增加 `cached_count` / `mode=online-fetch(cached)`，或保留首次实时运行的 latency；README 说明健康度可能来自缓存 | data-engineer |
+| P2-3 | 发布数据 | 仅 1 份 history 快照 → 线上 `delta_basis=adjacent-window`（按契约回退，正确），但「真实历史 delta」仅靠单测/红队内存构造验证，未在真实数据出现 | 下一次 pipeline 运行自然产生第 2 份快照后，delta_basis 自动切 history；在 DEV/OPS 说明首版限制 | data-engineer / Lead |
+| P2-4 | `docs/00` 头部与 §12 | 头部仍写「版本 v0.1.0」，§12 验收表仍是 v0.1.0 数据（46 条、27→22 去重、V01–V15），与新增 §14 v0.2.0 章节并存；§12 引用 `qa/validate-final.txt`（v0.1） | 头部改 v0.2.0；§12 标注「v0.1.0 历史验收」并链接本章 §12；引用更新为 `qa/v02-validate.txt` | Lead |
+| P2-5 | `scanner/report.py:126` | `generated_at=datetime.now()`，重跑报告内容会变（`pipeline --all` 不重生成报告，故冻结产物不受影响；但报告不可字节复现） | 在 DEV/README 说明报告生成时间非确定性；如需归档可另存 rendered-at 字段 | data-engineer |
+| P2-6 | `releases/v0.2.0/docs-snapshot/09` | 冻结快照中的 docs/09 是 freeze 前版本（未含本次 v0.2 验收记录）——releases 只读，属预期；仓库 docs/09 已在冻结后补 v0.2 记录 | 发布说明注明「docs 快照 = freeze 时点」；后续版本快照自然包含 | Lead |
+
+> 另：`scripts/install-daily-task.ps1` 仅做静态检查（参数/命令正确），**未实际执行**（避免修改本机任务计划）；`scripts/deploy-pages.ps1` 结果由线上核验间接验证。
+
+## 12.9 与 v0.1.0 验收的关系
+
+- v0.1.0 的 P0/P1 全部闭环后冻结；本次 v0.2.0 在其上增量，v0.1.0 冻结产物与线上 `/v0.1.0/` 均未被修改（字节级核对）。
+- v0.1 报告 §11 的冻结记录仍有效；本章为 v0.2.0 的独立验收记录（不覆盖历史）。
