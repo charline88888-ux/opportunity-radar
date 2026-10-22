@@ -1,0 +1,75 @@
+{
+  "results": [
+    {
+      "id": "C01",
+      "name": "明文数据包导出：schema_version=0.5.1 + 明文六字段",
+      "pass": true,
+      "detail": "{\"schema\":\"0.5.1\",\"exp\":2}"
+    },
+    {
+      "id": "C02",
+      "name": "加密导出：外层字段合法（schema 0.5.1/encrypted/algo/kdf/iterations/salt 16B/iv 12B）",
+      "pass": true,
+      "detail": "{\"toggle\":{\"found\":true,\"via\":\"label\",\"toggled\":true},\"filled\":2,\"click\":{\"clicked\":true,\"label\":\"导出数据包\"},\"schema\":\"0.5.1\",\"enc\":true,\"saltBytes\":16,\"ivBytes\":12}"
+    },
+    {
+      "id": "C03",
+      "name": "加密包不包含明文 profile/experiments/rec_log 字段",
+      "pass": true,
+      "detail": "schema_version,encrypted,algo,kdf,iterations,salt_b64,iv_b64,ciphertext_b64,exported_at"
+    },
+    {
+      "id": "C04",
+      "name": "红队独立 PBKDF2+AES-GCM 解密成功且内容=导出前本地状态",
+      "pass": true,
+      "detail": "{\"exp\":2,\"rec\":6}"
+    },
+    {
+      "id": "C05",
+      "name": "正确口令：解密→预览→覆盖导入恢复（2 实验/3 推荐记录/画像/预警）",
+      "pass": true,
+      "detail": "{\"decrypt\":{\"clicked\":true,\"label\":\"解密并预览\"},\"apply\":{\"clicked\":true,\"label\":\"覆盖本机数据\"},\"exp\":2,\"rec\":6}"
+    },
+    {
+      "id": "C06",
+      "name": "错误口令：明确提示且不应用（本地状态不变）",
+      "pass": true,
+      "detail": "口令错误或密文损坏，无法解密"
+    },
+    {
+      "id": "C07",
+      "name": "损坏密文：明确提示且不应用（状态不变、不崩溃）",
+      "pass": true,
+      "detail": "导入校验失败"
+    },
+    {
+      "id": "C08",
+      "name": "旧明文包（0.5.1, encrypted=false）兼容导入",
+      "pass": true,
+      "detail": "{\"exp\":2}"
+    },
+    {
+      "id": "C09",
+      "name": "旧版本 0.5.0：明确提示/不应用",
+      "pass": true,
+      "detail": "版本 · 文档 · 免责声明"
+    },
+    {
+      "id": "C10",
+      "name": "口令不落盘（localStorage 无明文口令）",
+      "pass": true,
+      "detail": "1856 chars"
+    },
+    {
+      "id": "C11",
+      "name": "全程无 console error",
+      "pass": true,
+      "detail": "0"
+    }
+  ],
+  "summary": {
+    "pass": 11,
+    "fail": 0,
+    "total": 11
+  }
+}

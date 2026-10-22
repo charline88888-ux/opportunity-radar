@@ -371,7 +371,7 @@ try {
   const f = fs.readdirSync(downloadDir).filter((x) => /data.*\.json|bundle.*\.json|radar.*data.*\.json/i.test(x)).sort().at(-1)
   if (f) pkg = JSON.parse(fs.readFileSync(path.join(downloadDir, f), 'utf8'))
 } catch {}
-check('T38', '个人数据页：导出数据包 schema_version=0.5.0 + 六字段', /数据包|备份/.test(dataText) && /导入/.test(dataText) && dataExportClick && !!pkg && pkg.schema_version === '0.5.0' && 'profile' in pkg && Array.isArray(pkg.experiments) && pkg.alerts_state && Array.isArray(pkg.rec_log) && 'settings' in pkg, JSON.stringify({ schema: pkg && pkg.schema_version }).slice(0, 200))
+check('T38', '个人数据页：导出数据包 schema_version=0.5.0 + 六字段', /数据包|备份/.test(dataText) && /导入/.test(dataText) && dataExportClick && !!pkg && pkg.schema_version === '0.5.1' && 'profile' in pkg && Array.isArray(pkg.experiments) && pkg.alerts_state && Array.isArray(pkg.rec_log) && 'settings' in pkg, JSON.stringify({ schema: pkg && pkg.schema_version }).slice(0, 200))
 
 await nav('#/calibration'); await sleep(1200)
 const calV05 = await bodyText()

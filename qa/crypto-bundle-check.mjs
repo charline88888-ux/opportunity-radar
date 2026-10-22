@@ -96,6 +96,9 @@ await ev(`(() => {
 })()`)
 await reload()
 await nav('#/data'); await sleep(900)
+const baseState = await storageDump()
+const baseExp = baseState['radar:experiments:v1']?.length ?? 0
+const baseRec = baseState['radar:rec_log:v1']?.length ?? 0
 
 // ---------- 1) 明文导出（schema 0.5.1） ----------
 try { for (const f of fs.readdirSync(downloadDir)) if (/bundle|data.*\.json/i.test(f)) fs.unlinkSync(path.join(downloadDir, f)) } catch {}
@@ -142,7 +145,7 @@ try {
 } catch (e) {
   decrypted = { error: String(e) }
 }
-check('C04', '红队独立 PBKDF2+AES-GCM 解密成功且内容=导出前本地状态', !!decrypted && !decrypted.error && decrypted.profile?.capitalBand === 'b1-5w' && decrypted.experiments?.length === 2 && decrypted.rec_log?.length === 3, JSON.stringify({ error: decrypted?.error, exp: decrypted?.experiments?.length, rec: decrypted?.rec_log?.length }).slice(0, 300))
+check('C04', '红队独立 PBKDF2+AES-GCM 解密成功且内容=导出前本地状态', !!decrypted && !decrypted.error && decrypted.profile?.capitalBand === 'b1-5w' && decrypted.experiments?.length === baseExp && decrypted.rec_log?.length === baseRec, JSON.stringify({ error: decrypted?.error, exp: decrypted?.experiments?.length, rec: decrypted?.rec_log?.length }).slice(0, 300))
 
 // ---------- 4) 清空 → 正确口令导入恢复 ----------
 const clearState = async () => {
@@ -162,7 +165,7 @@ const applyClick = await clickButton(/覆盖本机数据|Replace local data/)
 await sleep(1400)
 const restored = await storageDump()
 check('C05', '正确口令：解密→预览→覆盖导入恢复（2 实验/3 推荐记录/画像/预警）',
-  decryptClick.clicked && /预览|覆盖|合并/.test(previewText) && applyClick.clicked && restored['radar:experiments:v1']?.length === 2 && restored['radar:rec_log:v1']?.length === 3 && restored['radar:profile:v1']?.capitalBand === 'b1-5w',
+  decryptClick.clicked && /预览|覆盖|合并/.test(previewText) && applyClick.clicked && restored['radar:experiments:v1']?.length === baseExp && restored['radar:rec_log:v1']?.length === baseRec && restored['radar:profile:v1']?.capitalBand === 'b1-5w',
   JSON.stringify({ decrypt: decryptClick, apply: applyClick, exp: restored['radar:experiments:v1']?.length, rec: restored['radar:rec_log:v1']?.length }).slice(0, 300))
 
 // ---------- 5) 错误口令 ----------

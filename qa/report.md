@@ -1009,3 +1009,118 @@ pwsh -File qa/online-check.ps1 -Version v0.5.0       # 线上/冻结 hash 一致
 ## 16.9 与历史版本关系
 
 - v0.1.0–v0.4.0 冻结产物与线上归档未修改（逐字节核对）；本章为 v0.5.0 独立验收，不覆盖历史章节。
+
+---
+
+# 第 17 章 · v0.5.1 PATCH 红队独立验收（2026-10-22 20:57）
+
+> 项目版本：v0.5.1（app 0.5.1 / data 0.5.1）　｜　验收人：redteam　｜　任务：task-28
+> 冻结：`releases/v0.5.1/`（git tag v0.5.1 → 44ceed7，内容提交 5f978de）｜dist 2,282,987 B / `DCFF2C55…CDE7`
+> 结论：**P0=0 / P1=0 / P2=1（不阻塞）；冻结产物/线上逐字节一致 → 可发布 ✅**
+> 过程 P1：验收中发现 `enrich.py --out-dir` 相对路径崩溃（exit 1，文件已写），已发 data-engineer 修复（common.display_path + resolve），回归单测 55→57，红队复验 PASS 后关闭。
+
+## 17.1 结论
+
+| 项 | 结果 |
+|---|---|
+| P0（阻塞） | **0** |
+| P1（发布前应修） | **0**（验收中发现 1 项 enrich 相对 `--out-dir` 崩溃，已修复并复验关闭：enrich/calibrate/yearbook 三个 CLI 相对路径均 exit 0，新增 2 条回归单测） |
+| P2（建议修，不阻塞） | 1（i18n 静态精确覆盖率 60.4%，刚达 ≥60% 目标，余量为动态模板/DOM/数据；运行时 EN 非数据中文=0） |
+| 数据 | `--all` exit 0 且 **27 个 data 文件字节级幂等**；validate **20/20 PASS**；unittest **57/57 OK**（55+2 回归）；data-qa-v051 **P0/P1/P2=0**；data 0.5.1 六文件一致；报告 8 文件 data-v0.5.1 + 年鉴/校准 |
+| **enrich provider mock** | `qa/enrich-provider-check.py` **PASS**：`--provider mock` 211 候选、`generator=mock-llm`/`model=mock-model`、schema/`needs_human=true` 与 offline 一致；`meta.usage` 含 input/output_tokens/estimated_cost_usd/calls/cache_hits/prices；`--limit 5` 生效；mock dry-run 零落盘；online 无 key exit 2+提示；opportunities.json SHA256 不变；outbox gitignore；本地 HTTP mock server 单测存在（无外网/key） |
+| 年鉴/校准回归 | yearbook 双跑字节一致、Brier 0.2338 与独立复算一致；calibrate 回归 PASS；engineer 数据指纹与红队复核一致 |
+| **加密数据包四态** | `qa/crypto-bundle-check.mjs` **11/11 PASS**：明文包 schema 0.5.1；加密包外层字段全合法（AES-GCM / PBKDF2-SHA256 / iterations=210000 / salt 16B / iv 12B / ciphertext_b64 / exported_at），**无明文 profile/experiments/rec_log 字段**；红队用 Node WebCrypto 独立 PBKDF2+AES-GCM 解密成功且内容=导出前本地状态；正确口令→解密→预览→覆盖恢复（画像/实验/预警/推荐记录）；**错误口令**明确提示且不应用；**损坏密文（翻转字节）**明确提示、状态不变、不崩溃；明文包兼容导入；旧 0.5.0 明确报「schema_version 必须为 0.5.1」且不应用；口令不落盘（localStorage 搜索无口令）；console error=0 |
+| **年鉴双分数标签** | `/yearbook` zh/en 均显示「年榜第 1 名总分 77.4（rank1.total）」与「年度最高总分 78.6（max(total)）」两张卡 + 口径说明 tooltip；flows T40/T41 PASS；read_image 目检 zh/en 正确（此前 P2-1 已关闭） |
+| i18n | `qa/i18n-check.mjs` **16/16 PASS @1600 与 @1024**（14 路由）：EN 非数据中文=0；导航/标题/提示条/切换不刷新+持久化；EN 无溢出/console；静态精确覆盖率 **60.4%**（Dictionary+L()：788/1304，≥60% 目标达标） |
+| 前端 | build strict **11/11**、real/mock=[]；**可复现**（重跑前后均 `DCFF2C55…CDE7`，2,282,987 B）；14 路由 1600/1024 CDP 无溢出/裁切/console error；功能用例 **43/43 PASS**（v0.5 全量回归 + 年鉴双标签） |
+| 冻结产物 | MANIFEST **19/19 sha256 一致**；dist `DCFF2C55…CDE7`；tag v0.5.1→44ceed7→内容提交 5f978de；冻结 dist file:// 21 张 zh 截图 + 16 张 zh/en 双语截图，jsErrors=0 |
+| 线上 | `/` 与 `/v0.5.1/` 均 2,282,987 B / `DCFF2C55…CDE7` = 冻结 dist；`/v0.5.0/`=`AD958D1C…`、`/v0.4.0/`=`45E5A1D3…`、`/v0.3.1/`=`7C2E13D5…`、`/v0.3.0/`=`18DCE4B8…`、`/v0.2.0/`=`DE48EF7A…`、`/v0.1.0/`=`F24B0755…` 与各自冻结版一致不串台；versions.json latest=v0.5.1；线上根/年鉴/数据截图目检正常 |
+| **一句话结论** | **可发布**：数据/enrich mock/加密数据包/年鉴标签/双语/冻结/线上七层一致，P0=0、P1=0（过程 P1 已修复复验）；P2=1 不阻塞。 |
+
+## 17.2 数据与 enrich 验收（实测）
+
+- `pipeline --all` 连跑两次：exit 0；`data/` 下 **27 个文件** SHA256 全一致；validate **20/20 PASS**；unittest **57/57 OK**（新增 2 条相对 out-dir 回归）；data-qa-v051 P0/P1/P2=0；data 0.5.1（taxonomy/rankings/stats/sources/playbooks/calendar/source-health/history）。
+- `enrich.py`：`--provider mock` 全量 211 候选（generator=mock-llm/model=mock-model/needs_human=true）；`--limit 5` 5 候选；`meta.usage={input_tokens,output_tokens,estimated_cost_usd,calls,cache_hits,prices}`（首次 1446/869/$0.000738；缓存命中时 tokens=0、`cache_hits>0` 属预期，README 已说明）；mock dry-run 零落盘；online 无 key exit 2+明确提示；opportunities.json 未写；outbox 全部 gitignore；本地标准库 http.server 的 `/chat/completions` 单测覆盖请求头/解析/token/缓存/失败回退。
+- **过程 P1（已修复）**：`--out-dir` 相对路径在 enrich 完成写文件后 `relative_to(ROOT)` 抛 ValueError → exit 1。data-engineer 新增 `common.display_path()` + 入口 resolve，enrich/calibrate/yearbook 三个 CLI 相对 out-dir 均 exit 0；红队复验命令通过，单测 55→57。数据 JSON 未改动、指纹不变。
+- 回归：offline enrich、calibrate（Brier 0.2338/双跑一致）、yearbook（双跑一致/Brier 样例一致）通过；四窗口/校准/年鉴报告按 0.5.1 重生成。
+- 指纹（SHA256 前 16，与交付一致）：opportunities `52B30E45`、rankings `69B7F0F8`、history-10-22 `CA5C8426`、stats `90DD20B1`、source-health `3972812D`、sources `45EB59AC`、radar.db `692920C0`、yearbook.html `056F7EFF`、calibration.html `5EC1CEC0`。
+
+## 17.3 前端验收（实测）
+
+- 构建：`pnpm install --frozen-lockfile && pnpm build` exit 0；strict 11/11；dist **2,282,987 B / `DCFF2C55…CDE7`**；**构建可复现**（重跑前后同 hash）。
+- 加密数据包（`qa/v051-crypto.json`，**11/11 PASS**）：
+  - 明文包 schema 0.5.1；加密包外层 `{schema_version, encrypted:true, algo:"AES-GCM", kdf:"PBKDF2-SHA256", iterations:210000, salt_b64(16B), iv_b64(12B), ciphertext_b64, exported_at}`，不含明文业务字段；
+  - 红队 Node WebCrypto 独立派生/解密：内容=导出前本地状态（画像/实验/推荐记录）；正确口令→解密→预览→覆盖恢复；错误口令/损坏密文/旧 0.5.0 均明确提示且不应用、状态不变；明文包兼容导入；口令不落盘；
+- 年鉴标签（flows T40/T41 + read_image）：zh「年榜第 1 名总分 77.4」「年度最高总分 78.6」；EN「RANK 1 TOTAL 77.4」「YEAR MAX TOTAL 78.6」+ tooltip 说明两口径可能对应不同机会。
+- 功能用例（`qa/v051-frontend-flows.json`，**43/43 PASS**）：v0.5 全量回归 + 年鉴双标签。
+- i18n（`qa/v051-i18n-1600/1024.json`，**16/16 ×2 PASS**）：EN 14 路由非数据中文=0；静态精确覆盖率 60.4%（788/1304，目标 ≥60% 达标；余量为动态模板/DOM/数据）。
+- 14 路由 1600/1024 CDP（`qa/v051-frontend-routes.txt`）：无横向溢出/裁切/零尺寸 canvas/console error。
+
+## 17.4 冻结产物核验（releases/v0.5.1）
+
+- MANIFEST `files` 19 条逐条重算 bytes+sha256 → **19/19 一致**；counts 46/68/12/33/13；`git_commit=5f978de`、`git_tag=v0.5.1`。
+- dist 2,282,987 B / `DCFF2C55DC06A5E608C79CC8D393351302F9DAAF779A88F06307EFFB7122CDE7`（= 本地构建 = 冻结 = 线上）。
+- git：annotated tag v0.5.1（tag 对象 44ceed7）→ commit 44ceed7（docs: record manifest）→ parent 5f978de（内容提交）。
+- 冻结 dist file:// 冒烟：`qa/screenshots/v051-frozen/01–21`（14 路由+2 长页+5 个 1024）jsErrors=0；`v051-frozen-i18n/` 16 张 zh/en 同源验证；read_image 目检 yearbook/data/EN 正常。
+
+## 17.5 线上（GitHub Pages）核验
+
+`pwsh -File qa/online-check.ps1 -Version v0.5.1`（qa/v051-online.txt）逐字节/hash 比对：
+
+| 路径 | 线上 bytes / SHA256 | 对照冻结版 | 结果 |
+|---|---|---|---|
+| `/`（最新） | 2,282,987 B / `DCFF2C55…CDE7` | `releases/v0.5.1/dist/index.html` | **PASS（同 hash）** |
+| `/v0.5.1/` | 2,282,987 B / `DCFF2C55…CDE7` | 同上 | **PASS（同 hash）** |
+| `/v0.5.0/` | 2,272,122 B / `AD958D1C…` | `releases/v0.5.0/` | PASS（未串台） |
+| `/v0.4.0/` | 2,233,063 B / `45E5A1D3…` | `releases/v0.4.0/` | PASS |
+| `/v0.3.1/` | 2,147,394 B / `7C2E13D5…` | `releases/v0.3.1/` | PASS |
+| `/v0.3.0/` | 2,138,535 B / `18DCE4B8…` | `releases/v0.3.0/` | PASS |
+| `/v0.2.0/` | 2,049,902 B / `DE48EF7A…` | `releases/v0.2.0/` | PASS |
+| `/v0.1.0/` | 1,979,378 B / `F24B0755…` | `releases/v0.1.0/` | PASS |
+| `versions.json` | latest=**v0.5.1**，paths=`/v0.1.0/, /v0.2.0/, /v0.3.0/, /v0.3.1/, /v0.4.0/, /v0.5.0/, /` | — | PASS |
+
+线上截图（`qa/screenshots/v051-online/`）：根、`/yearbook`（双分数标签）、`/data`（加密导出 UI）、`/v0.5.0/` 旧版归档，jsErrors=0、read_image 目检正常。
+
+## 17.6 复现命令
+
+```powershell
+cd 'E:\全球商机扫描器'
+python scanner/pipeline.py --all                     # 幂等；27 个 data 文件 SHA256 一致
+python scanner/validate.py                           # 20/20 PASS
+python -m unittest discover -s scanner/tests         # 57 OK
+python qa/data-qa-v051.py                            # P0/P1/P2=0
+python qa/enrich-provider-check.py                   # mock/limit/usage/无 key/dry-run/相对 out-dir PASS
+python qa/replay-check.py                            # PASS
+python scanner/enrich.py --provider mock --limit 5   # 5 候选、usage、不写机会库
+cd app; pnpm install --frozen-lockfile; pnpm build   # strict 11 PASS，DCFF2C55…
+node qa/flows-v051.mjs <port> "file:///…/app/dist/index.html" qa/tmp/downloads-v051  # 43/43 PASS
+node qa/crypto-bundle-check.mjs <port> <base> qa/tmp/downloads-v051-crypto           # 11/11 PASS
+node qa/i18n-check.mjs <port> <base>                 # 16/16 PASS ×2 视口
+node qa/frontend-qa-v03.mjs <port> <base> 1600 1000  # 14 路由 CDP
+node app/scripts/check-i18n.mjs                      # 静态精确覆盖率 60.4%
+pwsh -File qa/online-check.ps1 -Version v0.5.1       # 线上/冻结 hash 一致性（PASS）
+```
+
+## 17.7 截图索引（v0.5.1）
+
+| 目录/文件 | 内容 |
+|---|---|
+| `qa/screenshots/v051/01–21` | 工作区 dist：14 路由 zh + 2 长页 + 5 个 1024（含 yearbook 双标签、data 加密 UI） |
+| `qa/screenshots/v051-i18n/` | zh/en × 8 页 16 张（含 EN yearbook/data） |
+| `qa/screenshots/v051-frozen/01–21` | 冻结 dist zh 14 路由 + 长页 + 1024 |
+| `qa/screenshots/v051-frozen-i18n/` | 冻结 dist zh/en × 8 页 16 张 |
+| `qa/screenshots/v051-online/` | 线上根/年鉴/数据/v0.5.0 归档 |
+| `qa/tmp/downloads-v051-crypto/` | 明文包、加密包、损坏/旧版本样本 |
+| `app/screenshots/final-v0.5.1/` | 前端自检 22 张（10 zh+10 EN+加密态 zh/en） |
+
+## 17.8 P2 与已知项（1 个，不阻塞）
+
+| # | 项 | 现状 | 建议 |
+|---|---|---|---|
+| P2-1 | i18n 静态精确覆盖率 | 60.4%（788/1304）刚达 ≥60% 目标；余量为动态模板/DOM 翻译层/数据文本；运行时 EN 非数据中文=0 | 保持运行时检查为准；下版继续提升静态字典或记录残余清单 |
+
+> 其它：真实 LLM 未用真实 key 调用（仅本地 mock HTTP server 验证，符合 PATCH 范围）；成本为示例常量；年鉴实验摘要为样例数据（已标注）；上述均不阻塞。
+
+## 17.9 与历史版本关系
+
+- v0.1.0–v0.5.0 冻结产物与线上归档未修改（逐字节核对）；本章为 v0.5.1 PATCH 独立验收，不覆盖历史章节。
