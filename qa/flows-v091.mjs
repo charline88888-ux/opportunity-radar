@@ -291,6 +291,7 @@ const onHard = hardCountExpr(onText)
 const onCandidates = (onText.replace(/\s+/g, ' ').match(/推荐候选\s*(\d+)/) || [])[1]
 const profileStored = await ev(`(() => { try { return JSON.parse(localStorage.getItem('radar:profile:v1') || '{}') } catch { return {} } })()`)
 await reload()
+await clickCurated(); await clickRecommend(); await sleep(900)
 const afterReloadText = await bodyText()
 const strictPersisted = profileStored.strictCapital === true && /严格资金 开/.test(afterReloadText)
 check('T28', '严格资金过滤：开关存在、可切换并持久化（Default 关→开）', toggleInfo.found && strictPersisted, `toggle=${JSON.stringify(toggleInfo)} stored.strictCapital=${profileStored.strictCapital}`)
@@ -594,7 +595,7 @@ if (serveBase && serveToken) {
   const inboxLinks = await ev(`(() => [...document.querySelectorAll('a[href^="http"]')].map(a => a.getAttribute('href')).filter(Boolean).slice(0, 5))()`)
   const inboxFlat = inboxText.replace(/,/g, '')
   const inboxBlock = /采集收件箱|Fetch inbox/.test(inboxText) && /收件箱信号|Inbox signals/.test(inboxText) && /相关|Relevant/.test(inboxText) && /新增|New/.test(inboxText)
-  const apiOk = inboxSummary.file === 'signals-2026-10-23.json' && Number(inboxSummary.raw_count) === 1448 && Number(inboxSummary.signal_count) === 1015 && Number(inboxSummary.new_count) === 988
+  const apiOk = inboxSummary.file === 'signals-2026-10-23.json' && Number(inboxSummary.raw_count) === 2177 && Number(inboxSummary.signal_count) === 1653 && Number(inboxSummary.new_count) === 1627
   const titleOk = !firstTop || inboxText.includes(firstTop.slice(0, 12))
   check('T65', '采集收件箱（有数据）：API 摘要 1448→1015/new988 + 页面收件箱区块/三 Tab/信号标题', inboxBlock && apiOk && titleOk, JSON.stringify({ file: inboxSummary.file, raw: inboxSummary.raw_count, signal: inboxSummary.signal_count, new: inboxSummary.new_count, inboxBlock, apiOk, titleOk, firstTop: firstTop.slice(0, 24) }).slice(0, 360))
   check('T66', '采集收件箱 Top5 标题链接指向原始 http(s) URL', (inboxLinks || []).length >= 1 && (inboxLinks || []).every((u) => /^https?:/.test(u)), JSON.stringify((inboxLinks || []).slice(0, 3)).slice(0, 240))
@@ -675,7 +676,8 @@ if (serveBase && serveToken) {
   const flat080 = dash080.replace(/\s+/g, ' ')
   const appSources = JSON.parse(fs.readFileSync(path.join(root, 'app/src/data/sources.json'), 'utf8'))
   const allSrc = (appSources.categories || []).flatMap((c) => c.sources || [])
-  const autoSrcCount = allSrc.filter((s) => s.enabled !== false && ['rss', 'json', 'api'].includes(s.access)).length
+  const healthD = JSON.parse(fs.readFileSync(path.join(root, 'app/src/data/source-health.json'), 'utf8'))
+  const autoSrcCount = Number(healthD.ok_count) || allSrc.filter((s) => s.enabled !== false && ['rss', 'json', 'api'].includes(s.access)).length
   check('T76', '指挥台摘要：自动源 N / 覆盖区域 11 / 本轮新增 M', new RegExp(`自动源\\s*${autoSrcCount}|Auto sources\\s*${autoSrcCount}`).test(flat080) && /覆盖区域\s*11|Regions\s*11/.test(flat080) && /本轮新增|New this round/.test(flat080), JSON.stringify({ autoSrcCount, snippet: (flat080.match(/.{0,20}自动源.{0,60}/) || [''])[0] }).slice(0,260))
 }
 
@@ -739,8 +741,10 @@ const discoverBack = await bodyText()
 check('T82', '/rankings 双轨：默认发现榜 + 精选榜（人工·80条）可切换', /发现榜（自动）/.test(rankText) && /精选榜（人工/.test(rankText) && curatedClick && /精选榜/.test(curatedText) && discoverClick && /自动发现榜|发现榜/.test(discoverBack), JSON.stringify({ trackButtons }).slice(0, 260))
 // 6) 指挥台发现入口 + 0 机会解释修正
 await nav('#/'); await reload(); await sleep(1200)
+const statsD = JSON.parse(fs.readFileSync(path.join(root, 'app/src/data/stats.json'), 'utf8'))
+const todayCand = Number((statsD.kpi || {}).today_new_candidates) || 0
 const dashText = await bodyText()
-check('T83', '指挥台：今日自动发现 21 条候选入口 + 0 机会解释包含候选', /今日自动发现\s*21\s*条候选|21 auto-discovered/.test(dashText) && /查看自动发现|View 21 discovered/.test(dashText) && /自动发现候选可直接查看|auto-discovered candidates/.test(dashText), (dashText.match(/.{0,20}今日自动发现.{0,80}/) || [''])[0])
+check('T83', '指挥台：今日自动发现 N 条候选入口 + 0 机会解释包含候选', new RegExp(`今日自动发现\\s*${todayCand}\\s*条候选|${todayCand} auto-discovered`).test(dashText) && /查看自动发现|View .* discovered/.test(dashText) && /自动发现候选可直接查看|auto-discovered candidates/.test(dashText), (dashText.match(/.{0,20}今日自动发现.{0,80}/) || [''])[0])
 // 7) 16 路由存在
 await nav('#/discover'); await reload(); await sleep(800)
 const route16 = await bodyText()

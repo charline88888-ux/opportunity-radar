@@ -1625,3 +1625,53 @@ python qa/online-check-v07.py --version v0.7.2             # 新站结构 PASS
 
 **v0.9.0 可发布：200 条自动候选全部 unverified 全部上榜（日21/周124/月168/年199），验证/实验与收录/排序/展示完全解耦（代码/数据/文案均无门禁）；评分复算 200/200、去重确定性/109 单测/20 规则通过，MANIFEST 19/19、tag deploy+CI success、线上 root 与 /v0.9.0/ 同 hash 且旧归档不串台；P0=0、P1=0、4 个 P2 不阻塞。**
 
+
+---
+
+# 第 24 章 · v0.9.1 源扩充 + 候选质量红队验收（2026-10-23 17:00）
+
+> 版本：app 0.9.1 / data 0.9.1（as_of=2026-10-23）｜验收人：redteam｜任务：task-52
+> 冻结：`releases/v0.9.1/`（tag v0.9.1 → 48f8d9eb，内容提交 817880e）｜dist 3,491,761 B / `62BE0A2C…F987`
+> **结论：可发布（v0.9.1，P0=0 / P1=0 / P2=4，均不阻塞）**
+
+## 24.1 源扩充（独立复验 PASS）
+
+- `data/sources.json`：**160 平台 / 91 enabled 自动源（rss 85 + json 6、合规绿黄）/ 11/11 区域 / 10 disabled（notes+check_result 原因齐全）**；`fetch.select_sources(120)`=91 全部合规；新增 researcher RSS 已并入（Arab News 403→false、rest-of-world XML invalid token→false，均保留原因）。
+- `data/source-health.json`：**92 行 / ok 91 / failed 1（rest-of-world ParseError invalid token，http 200）/ items 2177 / mode=online-fetch**；失败源 error 非空、未静默。
+- 独立抽查 **新并入源 12/12 URL 可访问**（≥10）。
+
+## 24.2 候选质量（PASS）
+
+`qa/v091-check.py` **PASS（P0/P1=0，P2=1）**：
+- outbox：raw **2177** → signal **1653**、new **1627** / seen **26** / ledger **1627**；ledger 1627 行、fingerprint 唯一；is_new 与 meta 一致。
+- candidates：**200 条（business_signals 320）**；**gap 覆盖 200/200（missing 0、ratio 1.0、fallback 28）**、`gap_inference` 200/200、`source.cleaned=title`、`source.raw_title` 齐全；gap_inferred 28；**region 11/11、country 28**；评分 Decimal 独立复算 **200/200 一致**；title≤28 无 HTML；evidence URL 唯一（同 URL 保留最新）；七问/ROI estimated/免责/全 unverified。
+- candidate-rankings：**day95 / week200 / month200 / year200**；按 first_seen 归窗；排序（rank_score/momentum/evidence/last_seen/candidate_id）与独立复算一致；verification_affects_ranking=false（无门禁不变）。
+- stats：candidates_total=200 / today_new_candidates=95 / unverified_candidates=200；**精选 rankings.json 80 条内容与 v0.9.0 完全一致**（仅 data_version→0.9.1）；opportunities 指纹不变。
+- 确定性：`scanner/candidates.py --as-of 2026-10-23 --limit 200` 重跑字节一致；`--all --as-of` 双跑 **30 文件 0 变化**；validate **20/20**、unittest **115/115**；data 9 文件 meta=0.9.1；db 80/156/654/92；报告 8 文件 + 年鉴/校准 0.9.1。
+- 指纹与 data-engineer 最终值一致（candidates C3798E6D、candidate-rankings C98B65E2、rankings 9D1C1718、stats 1409469C、sources C4E34210、source-health B25ADF6D、radar E275243A、candidates.py 8C925BE3、config 5D0B537D、pipeline B79B027E、fetch CA8A9B2F、stats.py 808A81EF、validate BDE87EBA）。
+
+## 24.3 前端（PASS，2 项 flows 断言记 P2）
+
+- 最终构建 **3,491,761 B / `62BE0A2C…F987`** = releases/v0.9.1/dist；strict/两构建同 hash（frontend）；16 路由/1024 由 frontend 验证 console=0、i18n 16/16（EN 非数据中文=0）。
+- `qa/flows-v091.mjs` **88/90 PASS**（v0.6–v0.9 回归 + v0.9.1 新增）：/sources 160/自动91/人工69/11/11 + 失败源 Rest of World ParseError 原因；/discover 200 候选、日95/周200/月200/年200、gap 覆盖「信息差推断 200/200」、仅看有信息差、详情 gap_inference 说明 + 清洗后/原始标题；/rankings 双轨；指挥台 91/11/95；无验证门禁。
+- **2 项失败（P2）**：T86 `/control` 漏斗计数显示「源尝试 92 / 成功 92 / 失败 0」（source-health 真值 92 尝试/91 成功/1 失败；失败源 Rest of World ParseError 已在下方列出，未静默）——建议 v0.9.2 用 sourceHealth 或 outbox.source_health 修正；T87 红队脚本用 `meta.gap_inference_coverage.total`（数据无该字段），实际 UI 显示 200/200 正常（截图），属脚本断言问题。
+- 截图：`qa/screenshots/v091/` **14 张**（四窗口发现榜、候选详情含 gap 推断/清洗标题、双轨、指挥台、源页 160/91/69/11 失败源、控制台 zh/en/1024）+ frontend `final-v0.9.1` **16 张**；read_image 目检源页/详情/发现榜正常。
+
+## 24.4 冻结 + Actions + 线上
+
+- `qa/manifest-check.py --version v0.9.1`：**MANIFEST 19/19 与 tag blob 一致**；`verify_manifest.py --release releases/v0.9.1` → **MANIFEST OK (19/19)**；冻结 dist `62BE0A2C…`/3,491,761 B = app/dist；VERSION-README 含 v0.9.1（dist 内 0.9.1 标记 94）；内容提交 817880e 为 tag 祖先。
+- Actions：**Deploy run 39926809828 completed/success**（tag v0.9.1，head 48f8d9e）；**CI run 39926804361 success**；pages run 39926847798 success；gh-pages head `36b6a80`；Lead 独立核验一致。
+- 线上（`qa/online-check-v07.py --version v0.9.1`）**PASS**：`/` 与 `/v0.9.1/` 同 hash `62BE0A2C…`/3,491,761 B；root 内嵌 rankings.as_of=2026-10-23=tag 数据；含 /control；历史 v0.1.0…v0.9.0 全部与各自 tag 冻结 blob 逐字节一致不串台；versions latest=v0.9.1、path=/v0.9.1/；404 正常；daily_channel/live_as_of 缺失（可选 P2）。
+
+## 24.5 P2 清单（4 个，均不阻塞）
+
+| # | 项 | 现状 | 建议 |
+|---|---|---|---|
+| P2-1 | /control 漏斗成功/失败计数 | 当前 outbox 无 source_health 字段时回退 outbox.source_count → 显示 92/92/0，真值 92/91/1；失败源原因已列，未静默 | v0.9.2 用 sourceHealth.ok_count/failed_count 或后端 output source_health |
+| P2-2 | 红队 flows 2 项断言 | T86（P2-1 的真实表现）、T87（脚本用 meta.gap_inference_coverage.total，实际 UI 200/200 正常） | 下版修脚本 + T86 产品修正 |
+| P2-3 | source-health 92 行 vs enabled 91 | rest-of-world 运行后置 disabled，健康表保留 92 尝试行；原因/错误已记录 | 健康表注明 runtime-disabled 或过滤；XML 容错恢复源 |
+| P2-4 | versions daily 可选字段 / 历史发布项 | daily_channel/live_as_of 缺失（root=最新冻结当日数据）；历史 v0.7.0/v0.7.1 tag MANIFEST/autocrlf 旧项 | 下次 daily workflow 写回；后续沿用版本级 eol=lf |
+
+## 24.6 一句话
+
+**v0.9.1 可发布：源 160/91/11（新增源 12/12 可达、失败源诚实记录），候选 200 条 gap 覆盖 200/200、gap_inference/清洗标题字段齐全、region 11/11/country 28、四窗口 95/200/200/200，评分复算 200/200、115 单测/20 规则通过；MANIFEST 19/19、tag deploy+CI success、线上 root 与 /v0.9.1/ 同 hash 且旧归档不串台；P0=0、P1=0、4 个 P2 不阻塞（控制台漏斗计数 92/92/0 待 v0.9.2 修）。**

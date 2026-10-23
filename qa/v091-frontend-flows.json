@@ -1,0 +1,549 @@
+{
+  "results": [
+    {
+      "id": "T01",
+      "name": "画像已保存 + 能力向量展示",
+      "pass": true,
+      "detail": "OPPORTUNITY RADAR\n机会雷达\n全球商机扫描器 · 本地个人版\nNAVIGATION / 工作台\n01\n指挥台\nCOMMAND\nKPI · 今日榜 · 全景信号\n02\n控制台\nCONTROL\n一键更新 · 采集 · 定时任务\n03\n排行榜\nRANKINGS\n综合榜 / 为你推荐\n04\n自动发现\nDISCOVER\n信号自动候选 · 发现榜\n05\n扫描室\nSCANNER\n热力矩阵 · 剧"
+    },
+    {
+      "id": "T02",
+      "name": "推荐榜卡片数量 ≥10",
+      "pass": true,
+      "detail": "cards=30"
+    },
+    {
+      "id": "T03",
+      "name": "rec_score/fit/total 与独立复算一致（全部展示卡片）",
+      "pass": true,
+      "detail": "checked=30"
+    },
+    {
+      "id": "T04",
+      "name": "宠物纪念玻璃：rec/fit/total 与独立复算一致",
+      "pass": true,
+      "detail": "{\"ui\":{\"rec\":78.9,\"fitPct\":80,\"total\":78.1},\"expected\":{\"rec\":78.9,\"fit\":0.8,\"need\":{\"capital\":4,\"time\":5,\"tech\":3,\"content\":4,\"supply\":7,\"english\":8,\"risk\":4},\"total\":78.1}}"
+    },
+    {
+      "id": "T05",
+      "name": "docs/04 T-v03-06 期望值与实际 UI 一致（文档已修正为 78.9/0.800）",
+      "pass": true,
+      "detail": "docs=78.9/0.8；UI=78.9/80%"
+    },
+    {
+      "id": "T06",
+      "name": "硬约束过滤计数展示",
+      "pass": true,
+      "detail": "expect filteredByHard=47"
+    },
+    {
+      "id": "T07",
+      "name": "推荐候选计数展示",
+      "pass": true,
+      "detail": "expect=30"
+    },
+    {
+      "id": "T08",
+      "name": "解释文案含 资金/技术/供应链（T-v03-13）",
+      "pass": true,
+      "detail": "A 宠物离世纪念玻璃：把骨灰毛发封进玻璃的定制生意 忽略 宠物经济 文化 / 宗教差 情绪 / 心理差 欧美宠物殡葬情绪消费升级，客单 120–400 美元，手工定制+独立站+跨境代发可小成本验证 推荐分 REC_SCORE 78.9 画像匹配 FIT 80% 机会总分 78.1 / A 窗口 open · 18M 【为什么推荐】你的资金（你 5.0 / 需求 4）、技术（你 3.3 / 需求 3）与该机会需求匹配；机会总分 78.1（A 级），主要靠「culture」类信息差，窗口状态 open、剩余约 18 个"
+    },
+    {
+      "id": "T09",
+      "name": "切换「显示硬约束」后出现硬约束徽标",
+      "pass": true,
+      "detail": "ok"
+    },
+    {
+      "id": "T10",
+      "name": "榜单显示「较上一快照（history_as_of）」口径",
+      "pass": true,
+      "detail": "2026-10-22 :: 口径：较上一快照（2026-10-22）"
+    },
+    {
+      "id": "T11",
+      "name": "历史回放/快照标记可见（text 或 tooltip title）",
+      "pass": true,
+      "detail": "[\"delta 口径：较上一份历史快照（2026-10-22），正数=上升\"]"
+    },
+    {
+      "id": "T12",
+      "name": "预警数 = 源失败+未核验A+高匹配（≤6）",
+      "pass": true,
+      "detail": "ui=16 expect=16 (src=1, unverifiedA=6, highMatch=21)"
+    },
+    {
+      "id": "T13",
+      "name": "预警采集源规则：失败源 0 时不产生 source 告警卡片（本轮 8/8）",
+      "pass": true,
+      "detail": "failedSources=1 文本出现次数=4（规则说明占 1 次）"
+    },
+    {
+      "id": "T14",
+      "name": "标为已读后未读数 -1 且持久化",
+      "pass": true,
+      "detail": "unread=15 read=1"
+    },
+    {
+      "id": "T15",
+      "name": "忽略后移出有效预警并持久化",
+      "pass": true,
+      "detail": "unread=14 ignored=1"
+    },
+    {
+      "id": "T16",
+      "name": "已忽略筛选视图可见 1 条",
+      "pass": true,
+      "detail": "OPPORTUNITY RADAR\n机会雷达\n全球商机扫描器 · 本地个人版\nNAVIGATION / 工作台\n01\n指挥台\nCOMMAND\nKPI · 今日榜 · 全景信号\n02\n控制台\nCONTROL\n一键更新 · 采集 · 定时任务\n03\n排行榜\nRANKINGS\n综合榜 / 为你推荐\n04\n自动发现\nDISCOVER\n信号自动候选 · 发现榜\n05\n扫描室\nSCANNER\n热力矩阵 · 剧"
+    },
+    {
+      "id": "T17",
+      "name": "实验超期 11 天→warning、16 天→critical",
+      "pass": true,
+      "detail": "shown=18 critExp=true warnExp=true | 重 2 窗口关闭 / 长期未结案 注意 10 源失败 / 未核验 / 超期 提示 6 高匹配未行动 未读 全部 已忽略 当前显示 18 条 · 规则 2026-10-23 16:52 计算 严重 实验超期 实"
+    },
+    {
+      "id": "T18",
+      "name": "无样本空态",
+      "pass": true,
+      "detail": "OPPORTUNITY RADAR\n机会雷达\n全球商机扫描器 · 本地个人版\nNAVIGATION / 工作台\n01\n指挥台\nCOMMAND\nKPI · 今日榜 · 全景信号\n02\n控制台\nCONTROL\n一键更新 · 采集 · 定时任务\n03\n排行榜\nRANKINGS\n综合榜 / 为你推荐\n04\n自动发现\nDISCO"
+    },
+    {
+      "id": "T19",
+      "name": "n=2：样本不足、不展示成功率结论",
+      "pass": true,
+      "detail": "OPPORTUNITY RADAR\n机会雷达\n全球商机扫描器 · 本地个人版\nNAVIGATION / 工作台\n01\n指挥台\nCOMMAND\nKPI · 今日榜 · 全景信号\n02\n控制台\nCONTROL\n一键更新 · 采集 · 定时任务\n03\n排行榜\nRANKINGS\n综合榜 / 为你推荐\n04\n自动发现\nDISCOVER\n信号自动候选 · 发现榜\n05\n扫描室\nSCANNER\n热力矩阵 · 剧本 · 数据源健康\n06\n方法论\nMET"
+    },
+    {
+      "id": "T20",
+      "name": "n=3：展示成功率（66.7% → UI 67%）",
+      "pass": true,
+      "detail": "成功率"
+    },
+    {
+      "id": "T21",
+      "name": "实验导出 JSON：schema_version=0.4.0 + profile + experiments 齐全（docs/12 §1.3）",
+      "pass": true,
+      "detail": "{\"schema_version\":\"0.4.0\",\"exported_at\":\"2026-10-23T08:52:41.517Z\",\"profile\":true,\"n\":3}"
+    },
+    {
+      "id": "T21b",
+      "name": "实验导出 experiments 与页面/注入实验一致（opp_id/outcome）",
+      "pass": true,
+      "detail": "[[\"opp-pet-memorial-glass-001\",\"positive\"],[\"opp-crossborder-mercadolibre-030\",\"positive\"],[\"opp-emotional-grieftech-007\",\"negative\"]]"
+    },
+    {
+      "id": "T22",
+      "name": "详情页显示「较上一快照」/窗口与实验状态",
+      "pass": true,
+      "detail": "OPPORTUNITY RADAR\n机会雷达\n全球商机扫描器 · 本地个人版\nNAVIGATION / 工作台\n01\n指挥台\nCOMMAND\nKPI · 今日榜 · 全景信号\n02\n控制台\nCONTROL\n一键更新 · 采集 · 定时任务\n03\n排行榜\nRANKINGS\n综合榜 / 为你推荐\n04\n自动发现\nDISCOVER\n信号自动候选 · 发现榜\n05\n扫描室\nSCANNER\n热力矩阵 · 剧"
+    },
+    {
+      "id": "T23",
+      "name": "页面无 console error",
+      "pass": true,
+      "detail": "0"
+    },
+    {
+      "id": "T24",
+      "name": "Brier：UI 数值与独立复算一致（n=3）",
+      "pass": true,
+      "detail": "UI=0.189 expected=0.1885"
+    },
+    {
+      "id": "T25",
+      "name": "Brier：展示随机基线 0.25 与样本数",
+      "pass": true,
+      "detail": "baseline/samples"
+    },
+    {
+      "id": "T26",
+      "name": "实验导出 JSON 可交给 calibrate.py（Brier 字段由报告计算，导出本身不含 stats）",
+      "pass": true,
+      "detail": "file=qa/tmp/v04-experiment-export.json n=3"
+    },
+    {
+      "id": "T27",
+      "name": "校准页说明可用 scanner/calibrate.py 生成正式报告",
+      "pass": true,
+      "detail": "→ python scanner/calibrate.py --experiments <file>"
+    },
+    {
+      "id": "T27b",
+      "name": "单桶样本<3 提示（O5）",
+      "pass": true,
+      "detail": "级 / 总分）做 join，检查评分是否「说得准」。样本 <3 时只做方向性提示，不据此调整权重。"
+    },
+    {
+      "id": "T28",
+      "name": "严格资金过滤：开关存在、可切换并持久化（Default 关→开）",
+      "pass": true,
+      "detail": "toggle={\"found\":true,\"before\":\"严格资金 关\"} stored.strictCapital=true"
+    },
+    {
+      "id": "T29",
+      "name": "严格资金过滤：两态计数与独立复算一致（off=分数差 / on=档位上限）",
+      "pass": true,
+      "detail": "UI offHard=47 onStrict=6 onHard=41 onCand=30 · 复算 offHard=47 strict=6 onHard=41 cand=30"
+    },
+    {
+      "id": "T30",
+      "name": "告警升版：旧 data_version 的已读失效，全部重新提醒",
+      "pass": true,
+      "detail": "unread=16 expect=16"
+    },
+    {
+      "id": "T31",
+      "name": "告警升版：显示「数据已更新，重新提醒」类提示",
+      "pass": true,
+      "detail": "数据已更新（v0.9.1）：旧版本已读 2 条 / 忽略 0 条不再匹配当前告警 id，相关提醒已重新激活。"
+    },
+    {
+      "id": "T32",
+      "name": "告警升版：当前版本已读持久化（unread-1）",
+      "pass": true,
+      "detail": "unread=15 read=[\"source:reddit:0.3.0\",\"window:opp-pet-memorial-glass-001:0.3.0\",\"source:rest-of-world:2026-10-23T16:26:57+08:00\"]"
+    },
+    {
+      "id": "T33",
+      "name": "采集修复展示：/sources 正常渲染 source-health v2",
+      "pass": true,
+      "detail": "health_ok=91/92 err=0"
+    },
+    {
+      "id": "T34",
+      "name": "采集健康展示：前端数据与 source-health 一致（允许 7/8，失败源显示原因）",
+      "pass": true,
+      "detail": "91/92 failed=rest-of-world"
+    },
+    {
+      "id": "T35",
+      "name": "预警桌面通知：开关存在、点击无异常并持久化/说明权限状态",
+      "pass": true,
+      "detail": "{\"notifBefore\":{\"supported\":true,\"permission\":\"default\",\"keys\":[\"radar:alerts:v1\"]},\"notifToggle\":{\"found\":true,\"before\":\"桌面通知 关\"},\"notifAfter\":{\"keys\":[[\"radar:alerts:v1\",\"{\\\"read\\\":[\\\"source:reddit:0.3.0\\\",\\\"window:opp-pet-memorial-glass-001:0.3.0\\\",\\\"source\"]],\"text\":\"桌面通知 关\",\"permission\":\"defaul"
+    },
+    {
+      "id": "T36",
+      "name": "年度年鉴页：标题/年榜 Top20/月度时间线/免责 渲染",
+      "pass": true,
+      "detail": "OPPORTUNITY RADAR\n机会雷达\n全球商机扫描器 · 本地个人版\nNAVIGATION / 工作台\n01\n指挥台\nCOMMAND\nKPI · 今日榜 · 全景信号\n02\n控制台\nCONTROL\n一键更新 · 采集 · 定时任务\n03\n排行榜\nRANKINGS\n综合榜 / 为你推荐\n04\n自动发现\nDISCOVER\n信号自动候选 · 发现榜\n05\n扫描室\nSCANNER\n热力矩阵 · 剧"
+    },
+    {
+      "id": "T37",
+      "name": "年鉴导出 MD/HTML 含 Top20 + 免责（浏览器端生成）",
+      "pass": true,
+      "detail": "{\"ybFiles\":[\"radar-yearbook-2026.html\",\"radar-yearbook-2026.md\"]}"
+    },
+    {
+      "id": "T38",
+      "name": "个人数据页：导出数据包 schema 0.5.1+ + 六字段",
+      "pass": true,
+      "detail": "{\"schema\":\"0.5.1\"}"
+    },
+    {
+      "id": "T39",
+      "name": "校准页推荐漏斗卡：曝光/查看/加入实验/命中率/忽略",
+      "pass": true,
+      "detail": "推荐漏斗"
+    },
+    {
+      "id": "T40",
+      "name": "年鉴两处分数标签：年榜第1名总分=77.4 且 年度最高总分=78.6",
+      "pass": true,
+      "detail": "{\"rank1Label\":true,\"maxLabel\":true,\"rank1Value\":true,\"maxValue\":true,\"snippet\":\"机会 80 year 窗口 A 级/≥75 12 高分机会 年榜第 1 名总分 77.4 year 窗口 rank 1 年度最高总分 78.6 全部机会 max(total) 关\"}"
+    },
+    {
+      "id": "T41",
+      "name": "年鉴标签不再使用易误读的「年榜最高分」单一标签",
+      "pass": true,
+      "detail": "ok"
+    },
+    {
+      "id": "T42",
+      "name": "排行榜：周榜条数 ≥20（新配额）",
+      "pass": true,
+      "detail": "week=49"
+    },
+    {
+      "id": "T43",
+      "name": "排行榜：年榜深链 w=year 条数 ≥80（新配额）",
+      "pass": true,
+      "detail": "year=80"
+    },
+    {
+      "id": "T44",
+      "name": "指挥台/数据健康显示国家/地区覆盖 ≥50",
+      "pass": true,
+      "detail": "N VALUE / MO ¥655 万 / 月 77 个开放/鼎盛窗口 SUM 国家/地区覆盖 COUNTRIES / REGIONS 53 目标国家/地区 80 OPPS DATA "
+    },
+    {
+      "id": "T45",
+      "name": "年鉴新指标：月度等级分布/信息差热度/窗口衰减/实验漏斗 均渲染",
+      "pass": true,
+      "detail": "{\"monthlyGrade\":true,\"gapHeat\":true,\"windowDecay\":true,\"experimentFunnel\":true}"
+    },
+    {
+      "id": "T46",
+      "name": "大数据量下机会详情页正常（七问/评分/证据渲染）",
+      "pass": true,
+      "detail": "len=4305"
+    },
+    {
+      "id": "T47",
+      "name": "数据新鲜度（≤2 天）：指挥台显示基准日/距今天数，无全站警告条",
+      "pass": true,
+      "detail": "数据基准 2026-10-23 · 距今 0 天"
+    },
+    {
+      "id": "T48",
+      "name": "数据新鲜度（3–7 天）：琥珀警告条 + 每日任务命令",
+      "pass": true,
+      "detail": "AGING"
+    },
+    {
+      "id": "T49",
+      "name": "数据过期预警：3–7 天为 warning，标题含 as_of 且规则说明可见",
+      "pass": true,
+      "detail": "数据已 4 天未更新（as_of 2026-10-19）"
+    },
+    {
+      "id": "T50",
+      "name": "数据新鲜度（>7 天）：红色 STALE 警告条",
+      "pass": true,
+      "detail": "STALE"
+    },
+    {
+      "id": "T51",
+      "name": "数据过期预警：>7 天为 critical（高）且标题含 as_of",
+      "pass": true,
+      "detail": "数据已 10 天未更新，建议运行每日任务：scripts/daily-run.ps1"
+    },
+    {
+      "id": "T52",
+      "name": "新鲜度警告条可关闭且本次会话持久（关闭后刷新不重现）",
+      "pass": true,
+      "detail": "dismissed=true"
+    },
+    {
+      "id": "T53",
+      "name": "EN 新鲜度警告：Data is N days old + daily-run 命令",
+      "pass": true,
+      "detail": "Data is 10 days old. Run the daily task: scripts/daily-run.ps1"
+    },
+    {
+      "id": "T54",
+      "name": "About：数据更新方式（daily-run/--as-of/--fetch/release/CI）+ 版本 v0.6.1",
+      "pass": true,
+      "detail": "数据更新方式 / DATA UPDATES"
+    },
+    {
+      "id": "T55",
+      "name": "/data：显示数据基准日/距今/最新采集/current/index.html 提示",
+      "pass": true,
+      "detail": "数据基准日: 2026-10-23 · 距今 0 天"
+    },
+    {
+      "id": "T56",
+      "name": "/alerts 规则说明含「数据过期」阈值（as_of 距今 >7 高、3–7 中）",
+      "pass": true,
+      "detail": "数据过期：rankings.meta.as_of 距今 >7 天为高、3–7 天为中；数据更新后自动恢复。"
+    },
+    {
+      "id": "T57",
+      "name": "/control 未启动态：明确引导（启动脚本/serve.py/线上静态限制），不白屏",
+      "pass": true,
+      "detail": "OPPORTUNITY RADAR\n机会雷达\n全球商机扫描器 · 本地个人版\nNAVIGATION / 工作台\n01\n指挥台\nCOMMAND\nKPI · 今日榜 · 全景信号\n02\n控制台\nCONTROL\n一键更新 · 采集 · 定时任务\n03\n排行榜\nRANKINGS\n综合榜 / 为你推荐\n04\n自动发现\nDISCOVER\n信号自动候选 · 发现榜\n05\n扫描室\nSCANNER\n热力矩阵 · 剧本 · 数据源健康\n06\n方法论\nMET"
+    },
+    {
+      "id": "T58",
+      "name": "控制台连接真实 serve.py：状态卡/数据基准日/机会数/操作区/日志区",
+      "pass": true,
+      "detail": "OPPORTUNITY RADAR\n机会雷达\n全球商机扫描器 · 本地个人版\nNAVIGATION / 工作台\n01\n指挥台\nCOMMAND\nKPI · 今日榜 · 全景信号\n02\n控制台\nCONTROL\n一键更新 · 采集 · 定时任务\n03\n排行榜\nRANKINGS\n综合榜 / 为你推荐\n04\n自动发现\nDISCOVER\n信号自动候选 · 发现榜\n05\n扫描室\nSCANNER\n热力矩阵 · 剧本 · 数据源健康\n06\n方法论\nMETHOD\n评分模型 · 七问 · 文化维度\n07\n数据源矩阵\nSOURCES\n12"
+    },
+    {
+      "id": "T59",
+      "name": "控制台 token：URL hash token 加载后清理、不残留地址栏（sessionStorage 保存）",
+      "pass": true,
+      "detail": "{\"hash\":\"#/control\",\"stored\":true}"
+    },
+    {
+      "id": "T60",
+      "name": "控制台一键「构建工作副本」：后台 job 完成且 exit 0（实时日志）",
+      "pass": true,
+      "detail": "{\"click\":{\"clicked\":true},\"snippet\":\"成功\"}"
+    },
+    {
+      "id": "T61",
+      "name": "控制台每日任务启用/停用（schedule API 实际状态）",
+      "pass": true,
+      "detail": "{\"schedBefore\":\"not_installed\",\"clickEnable\":{\"clicked\":true,\"disabled\":false},\"enabledOk\":true,\"schedAfterEnable\":{\"task_name\":\"OpportunityRadar-Daily\",\"enabled\":true,\"status\":\"ready\",\"status_raw\":\"就绪\",\"next_run\":\"24/10/2026 上午7:00:00\",\"last_run\":\"30/11/1999 上午12:00:00\",\"last_result\":\"267011\"},\"cli"
+    },
+    {
+      "id": "T62",
+      "name": "控制台日志列表/预览：可见日志内容且不含 token",
+      "pass": true,
+      "detail": "{\"clicked\":true,\"name\":\"console.log\\n120KB\"}"
+    },
+    {
+      "id": "T63",
+      "name": "控制台 EN 文案：Local control / Local service connected / Update data now",
+      "pass": true,
+      "detail": "OPPORTUNITY RADAR\nOpportunity Radar\nGlobal opportunity scanner · local personal edition\nNAVIGATION / WORKSPACE\n01\nCommand Deck\nCOMMAND\nKPI · Today’s top · panorama\n02\nControl\nCONTROL\nOne-click update · fetch · schedule\n03\nRankings\nRANKINGS\n"
+    },
+    {
+      "id": "T64",
+      "name": "/control 未启动态含采集收件箱卡与空态说明",
+      "pass": true,
+      "detail": "OPPORTUNITY RADAR\n机会雷达\n全球商机扫描器 · 本地个人版\nNAVIGATION / 工作台\n01\n指挥台\nCOMMAND\nKPI · 今日榜 · 全景信号\n02\n控制台\nCONTROL\n一键更新 · 采集 · 定时任务\n03\n排行榜\nRANKINGS\n综合榜 / 为你推荐\n04\n自动发现\nDISCOVER\n信号自动候选 · 发现榜\n05\n扫描室\nSCANNER\n热力矩阵 · 剧本 · 数据源健康\n06\n方法论\nMET"
+    },
+    {
+      "id": "T65",
+      "name": "采集收件箱（有数据）：API 摘要 1448→1015/new988 + 页面收件箱区块/三 Tab/信号标题",
+      "pass": true,
+      "detail": "{\"file\":\"signals-2026-10-23.json\",\"raw\":2177,\"signal\":1653,\"new\":1627,\"inboxBlock\":true,\"apiOk\":true,\"titleOk\":true,\"firstTop\":\"Brain fog, missed diagno\"}"
+    },
+    {
+      "id": "T66",
+      "name": "采集收件箱 Top5 标题链接指向原始 http(s) URL",
+      "pass": true,
+      "detail": "[\"https://tech.eu/2026/10/23/brain-fog-missed-diagnoses-and-lost-careers-the-menopause-gap-cerebella-wants-to-close/\",\"https://nairametrics.com/2026/10/23/velvot-launches-finverse-an-e-invoicing-solution-for-nigerias-large-taxp/\",\"https://a"
+    },
+    {
+      "id": "T67",
+      "name": "收件箱刷新后保持有数据态",
+      "pass": true,
+      "detail": "refresh=true file=signals-2026-10-23.json"
+    },
+    {
+      "id": "T68",
+      "name": "收件箱空态：无 outbox 时显示「还没有采集记录」并可恢复",
+      "pass": true,
+      "detail": "empty=true file=signals-2026-10-23.json"
+    },
+    {
+      "id": "T69",
+      "name": "指挥台 0 机会解释（控制台可用）：正常现象 + 待复核信号数 + 入口",
+      "pass": true,
+      "detail": "{\"pendingApi\":1653,\"pendingTextOk\":true,\"snippet\":\" · 覆盖区域 11 · 本轮新增 1627 数据说明 → 今天没有新机会入库（正常现象） 机会库共 80 条可继续查看；今天没有新机会入库不等于数据丢失。 采集到的新信号在控制台「采集收件箱」等待人工复核（1653 条）。 另外，今天已有 95 条自动发现候选可直接查看（不要\"}"
+    },
+    {
+      "id": "T70",
+      "name": "日榜空态：今天暂无新机会（正常现象）+ 历史机会仍在周/月/年榜",
+      "pass": true,
+      "detail": "今天暂无新机会（正常现象）"
+    },
+    {
+      "id": "T71",
+      "name": "About：版本 v0.7.3 + 收件箱/0 机会解释变更说明",
+      "pass": true,
+      "detail": "OPPORTUNITY RADAR\n机会雷达\n全球商机扫描器 · 本地个人版\nNAVIGATION / 工作台\n01\n指挥台\nCOMMAND\nKPI · 今日榜 · 全景信号\n02\n控制台\nCONTROL\n一键更新 · 采集 · 定时任务\n03\n排行榜\nRANKINGS\n综合榜 / 为你推荐\n04\n自动发现\nDISCOVER\n信号自动候选 · 发现榜\n05\n扫描室\nSCANNER\n热力矩阵 · 剧本 · 数据源健康\n06\n方法论\nMETHOD\n评分模型 · 七问 · 文化维度"
+    },
+    {
+      "id": "T72",
+      "name": "控制台扫描边界与漏斗卡：原始/去重/新增/相关/已见 + 抓取规则 + 覆盖边界",
+      "pass": true,
+      "detail": "{\"hasFunnel\":true,\"hasRules\":true,\"hasBoundary\":true,\"outbox\":{\"raw\":2177,\"signal\":1653,\"new\":1627,\"relevant\":320}}"
+    },
+    {
+      "id": "T73",
+      "name": "收件箱三 Tab（相关/新增/全部）+ 相关性初筛说明",
+      "pass": true,
+      "detail": "{\"tabs\":[\"相关（含新增）\",\"新增\",\"全部\"]}"
+    },
+    {
+      "id": "T74",
+      "name": "收件箱「全部」Tab 可切换且仍显示信号/空态",
+      "pass": true,
+      "detail": "clicked=true"
+    },
+    {
+      "id": "T75",
+      "name": "/sources：自动/人工标记 + 自动 N/人工 M + 扩展源说明",
+      "pass": true,
+      "detail": "自动发现"
+    },
+    {
+      "id": "T76",
+      "name": "指挥台摘要：自动源 N / 覆盖区域 11 / 本轮新增 M",
+      "pass": true,
+      "detail": "{\"autoSrcCount\":91,\"snippet\":\"6:26:51+08:00· 失败 1 自动源 91 · 覆盖区域 11 · 本轮新增 1627 数据说明 → 今天没有新机会入库（正常现象） 机会库共 80 条可继\"}"
+    },
+    {
+      "id": "T77",
+      "name": "/discover 默认日榜：自动发现榜 + 未验证角标 + 四窗口 + 21 候选/标题",
+      "pass": true,
+      "detail": "{\"v09Day\":95,\"firstTitle\":\"Amazon -\",\"hasBadge\":true,\"snippet\":\"OPPORTUNITY RADAR\\n机会雷达\\n全球商机扫描器 · 本地个人版\\nNAVIGATION / 工作台\\n01\\n指挥台\\nCOMMAND\\nKPI · 今日榜 · 全景信号\\n02\\n控制台\\nCONTROL\\n一键更新 · 采集 · 定时任务\\n03\\n排行榜\\nRANKINGS\\n综合榜 / 为你推荐\\n04\\n自动发现\\nDISCOVER\\n信号自动候选 · 发现榜\\n05\\n扫描室\\nSCANNER\\n热力矩阵 · 剧\"}"
+    },
+    {
+      "id": "T78",
+      "name": "发现榜四窗口切换：周 124 / 月 168 / 年 199",
+      "pass": true,
+      "detail": "{\"v09Week\":200,\"v09Month\":200,\"v09Year\":200}"
+    },
+    {
+      "id": "T79",
+      "name": "发现榜搜索生效（标题关键词过滤后仍显示候选/空态）",
+      "pass": true,
+      "detail": "{\"queryToken\":\"Malaysia,\",\"searchOk\":true}"
+    },
+    {
+      "id": "T80",
+      "name": "候选详情：七问草稿/证据来源/ROI估算/评分与置信度/免责声明/加入观察(实验)",
+      "pass": true,
+      "detail": "{\"cardClicked\":true,\"links\":2,\"noGating\":true}"
+    },
+    {
+      "id": "T81",
+      "name": "候选详情证据链接为 http(s) 且无「验证后才能上榜」门禁文案",
+      "pass": true,
+      "detail": "[\"https://apps.apple.com/ae/app/amazon-shopping-made-easy/id297606951?uo=2\",\"https://apps.apple.com/ae/app/amazon-shopping-made-easy/id297606951?uo=2\"]"
+    },
+    {
+      "id": "T82",
+      "name": "/rankings 双轨：默认发现榜 + 精选榜（人工·80条）可切换",
+      "pass": true,
+      "detail": "{\"trackButtons\":[\"发现榜（自动）\",\"精选榜（人工 · 80 条）\"]}"
+    },
+    {
+      "id": "T83",
+      "name": "指挥台：今日自动发现 N 条候选入口 + 0 机会解释包含候选",
+      "pass": true,
+      "detail": "今日自动发现 95 条候选"
+    },
+    {
+      "id": "T84",
+      "name": "16 路由：/discover 可直接访问且渲染发现榜",
+      "pass": true,
+      "detail": "OPPORTUNITY RADAR\n机会雷达\n全球商机扫描器 · 本地个人版\nNAVIGATION / 工作台\n01\n指挥台\nCOMMAND\nKPI · 今日榜 · 全景信号\n02\n控制台\nCONTROL\n一键更新 · 采集 · 定时任务\n03\n排行榜\nRANKINGS\n综合榜 / 为你推荐\n04\n自动发现\nDISCO"
+    },
+    {
+      "id": "T85",
+      "name": "/sources：160 平台 / 自动 91 / 11 区域 / 失败源原因可见",
+      "pass": true,
+      "detail": "{\"total\":true,\"auto\":true,\"regions\":true,\"failed\":true}"
+    },
+    {
+      "id": "T86",
+      "name": "/control 漏斗：92 尝试 / 91 成功 / 1 失败（含失败源原因）",
+      "pass": false,
+      "detail": "{\"attempted\":true,\"ok\":false,\"failed\":false} :: AN BOUNDARY / FUNNEL 扫描边界与漏斗 每源尝试/成功/失败、原始→去重→本轮新增→生意相关漏斗；未覆盖平台不会假装已采集。 源尝试 92 成功 92 失败 0 原始信号 2177 去重后 1653 本轮新增 1627 生意相关 320 已见（历史"
+    },
+    {
+      "id": "T87",
+      "name": "/discover：信息差推断覆盖率 N/N + 仅看有信息差筛选",
+      "pass": false,
+      "detail": "{\"gapCov\":{\"inferred\":200,\"missing\":0,\"ratio\":1,\"fallback_used\":28,\"target_max_missing_ratio\":0.15},\"gapTextOk\":false}"
+    },
+    {
+      "id": "T88",
+      "name": "指挥台：自动源 91 / 区域 11 / 今日自动发现 95 条候选 + 0 解释含候选",
+      "pass": true,
+      "detail": "6:26:51+08:00· 失败 1 自动源 91 · 覆盖区域 11 · 本轮新增 1627 数据说明 → 今天没有新机会入库（正常现象） 机会库共 80 条可继续查看；今天没有新机会入库不等于数据丢失"
+    }
+  ],
+  "summary": {
+    "pass": 88,
+    "fail": 2,
+    "total": 90
+  }
+}
