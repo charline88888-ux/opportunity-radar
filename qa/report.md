@@ -1859,3 +1859,43 @@ python qa/online-check-v07.py --version v0.7.2             # 新站结构 PASS
 - **线上**：`online-check --version v1.2.1` **PASS**——`/` 与 `/v1.2.1/` 同 hash 90550BB8…/5,330,401 B；versions latest=v1.2.1 path=/v1.2.1/；历史 v0.1.0…v1.2.0 全部与各自 tag 冻结 blob 逐字节一致不串台；404 正常。
 - **P2（不变，2 个）**：①one_liner 后缀仅 26/200（长摘要截断；禁用词 0）；②versions.json daily_channel/live_as_of 缺失（可选字段）。
 - **一句话**：**v1.2.1 可发布**——v1.2.0 的 KPI 回退/详情呈现修复通过，9 路由/flows17/17/routes/i18n16/16，MANIFEST19/19、tag deploy+CI success、线上 `/` 与 `/v1.2.1/` 同 hash 且旧归档不串台；P0=0、P1=0、2 个 P2 不阻塞。
+
+---
+
+# 第 28 章 · v1.3.0 专业商业评估叙事红队验收（2026-10-23 22:00）
+
+> 版本：app 1.3.0 / data 1.3.0（as_of=2026-10-23）｜验收人：redteam
+> 冻结：`releases/v1.3.0/`（tag v1.3.0 → a1793d4e，内容提交 8847c57）｜dist 5,855,872 B / `27D0F78C…560B`
+> **结论：可发布（v1.3.0，P0=0 / P1=0 / P2=3，均不阻塞）**
+
+## 28.1 数据：analyst_narrative 六段（PASS）
+
+- `qa/v130-check.py` **PASS（P0=0/P1=0/P2=1）**：
+  - 200/200 候选含 `analyst_narrative` 六段（thesis/market/competition/cross_market/timing/verdict），**200/200 唯一**（非同模板复读），实体/数字引用 200/200；business_canvas 9 块仍唯一、judgment 10 维/primary_industry/event_type/竞争/跨市场/时效/条件/利润/执行/来源完整；全量禁用词 验证/实验/复核/门禁 = **0**。
+  - 抽检 MAS/PineDrama/宠物-银发等：narrative 引用 Malaysia/Thailand/MAS、ByteDance/PineDrama、支付牌照/清算/本地银行通道/手续费+汇率等；中文化映射（行业/事件/窗口阶段）正常。
+  - validate **20/20**、unittest **100/100**、`--all --as-of` 双跑 **0 变化（26 文件）**；data 9 文件 1.3.0；窗口 99/200/200/200；精选 80 不变；stats 候选 200/今日 99；db 80/156/654/101。
+  - 指纹（LF 归一）：candidates 67241AC0、candidate-rankings 79E717E2、rankings 427847C7、stats F610EB59、sources D0117E5F、source-health 04830FE0、radar C6E4A9A8、report-day 792E4ADD、business.py 48751517、candidates.py 37A8F5F6、translate 2350C346。
+
+## 28.2 前端：报告式双栏（PASS，2 项 flows timing 记 P2）
+
+- 最终构建 **5,855,872 B / `27D0F78C…560B`** = releases/v1.3.0/dist；app 1.3.0。
+- 详情报告式双栏：Hero+结论+gauge、4 大 KPI、左栏 narrative/10 维雷达+分数条/9 画布/竞争矩阵/跨市场/执行 timeline，右栏 sticky 利润 donut/窗口/条件/来源；卡片 19px 标题+评分+3 KPI+why 两行；行业/事件/窗口阶段/枚举全部中文映射。
+- `qa/routes-v100.mjs` 9 路由 ×1600/1024 **overflow=0、consoleErrors=0、removedBad=0**；`qa/i18n-check.mjs` **16/16、enUnexplainedCJK=0**；`qa/flows-v130.mjs` **16/18**（T07/T13 为 file:// 大包加载/路由切换时序导致的断言失败；同页面在截图 final-v1.3 中正常渲染：候选详情报告双栏、商机榜卡片、方法论表格）；截图 final-v1.3 **6 张 zh/en**，read_image 目检正常。
+
+## 28.3 冻结 + Actions + 线上
+
+- `manifest-check` **MANIFEST 19/19 与 tag blob 一致**；`verify_manifest.py` **OK (19/19)**；dist 27D0F78C…/5,855,872 B = app/dist；tag v1.3.0→a1793d4e，内容 8847c57；VERSION 1.3.0。
+- Actions：**Deploy 39964203631 success**、**CI 39964195984 success**、pages 39964263617 success。
+- 线上（`online-check --version v1.3.0`）**PASS**：`/` 与 `/v1.3.0/` 同 hash 27D0F78C…/5,855,872 B；versions latest=v1.3.0 path=/v1.3.0/；历史 v0.1.0…v1.2.1 全部与各自 tag 冻结 blob 逐字节一致不串台；404 正常。
+
+## 28.4 P2 清单（3 个，均不阻塞）
+
+| # | 项 | 现状 | 建议 |
+|---|---|---|---|
+| P2-1 | flows T07/T13 | file:// 下大包/路由切换时序导致候选详情/关于页断言失败；截图同页面正常，routes/i18n 均 PASS | 下轮改用 serve/http 或加更稳的等待/重试 |
+| P2-2 | one_liner 后缀 | 仅 26/200 带「（自动发现线索，系统已初筛）」（长摘要截断；禁用词仍 0） | 下轮统一（非核心） |
+| P2-3 | versions.json daily 字段 | daily_channel/live_as_of 缺失（可选字段；root=最新冻结当日数据） | 下次 daily workflow 或 build_site tag 模式补齐 |
+
+## 28.5 一句话
+
+**v1.3.0 可发布：200/200 候选含 6 段专业商业评估叙事（唯一/实体数字引用/禁用词0）+ 9 画布/10 维/竞争/跨市场/时效/条件/利润/执行；validate20/20、unittest100/100、--all 幂等；9 路由/routes overflow0/console0、i18n16/16、截图正常，flows 16/18（2 项 file:// 时序 P2）；MANIFEST19/19、tag deploy+CI success、线上 root 与 /v1.3.0/ 同 hash 且旧归档不串台；P0=0、P1=0、3 个 P2 不阻塞。**

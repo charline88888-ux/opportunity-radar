@@ -31,14 +31,14 @@ notes: list[str] = []
 FP = {
     "data/rankings.json": "427847c77e3183c4",
     "data/stats.json": "f610eb59682e2417",
-    "data/candidates.json": "6342e2cb4e52db7d",
+    "data/candidates.json": "67241ac004229367",
     "data/candidate-rankings.json": "79e717e24232293d",
     "data/sources.json": "d0117e5f7887cbed",
     "data/source-health.json": "04830fe03fd0ada6",
     "data/radar.db": "c6e4a9a8e6c6ca56",
     "data/reports/report-day-2026-10-23.html": "792e4add0cd9dac5",
     "data/opportunities.json": "88fda5ab84b7f826",
-    "scanner/business.py": "0a8c128ee8544a21",
+    "scanner/business.py": "4875151755add4f2",
     "scanner/candidates.py": "37a8f5f64895218c",
     "scanner/translate.py": "2350c346277fd68c",
 }
@@ -69,17 +69,17 @@ def main() -> int:
             versions[f] = (json.loads((DATA / f"{f}.json").read_text(encoding="utf-8")).get("meta") or {}).get("data_version")
         except Exception:
             versions[f] = "?"
-    badv = {k: v for k, v in versions.items() if v != "1.2.0"}
+    badv = {k: v for k, v in versions.items() if v != "1.3.0"}
     if badv:
-        P1.append(f"data meta 版本非 1.2.0：{badv}")
+        P1.append(f"data meta 版本非 1.3.0：{badv}")
     else:
-        notes.append("data 9 文件 meta=1.2.0 ✅")
+        notes.append("data 9 文件 meta=1.3.0 ✅")
     # candidates
     c = json.loads((DATA / "candidates.json").read_text(encoding="utf-8"))
     cm = c.get("meta") or {}
     cands = c.get("candidates") or []
-    if len(cands) != 200 or cm.get("data_version") != "1.2.0":
-        P0.append(f"candidates={len(cands)}/version={cm.get('data_version')} ≠ 200/1.2.0")
+    if len(cands) != 200 or cm.get("data_version") != "1.3.0":
+        P0.append(f"candidates={len(cands)}/version={cm.get('data_version')} ≠ 200/1.3.0")
     banned = ("verification_status", "verification_default", "verification_affects_ranking", "verified_by_system")
     leaked = []
     for x in cands:
@@ -277,7 +277,7 @@ def main() -> int:
         if not same:
             P1.append("精选 rankings 80 条内容与 v0.9.2 不一致")
         else:
-            notes.append("精选 80 条内容与 v1.0.1 完全一致（仅 data_version→1.2.0）✅")
+            notes.append("精选 80 条内容与 v1.0.1 完全一致（仅 data_version→1.3.0）✅")
     # stats
     st = json.loads((DATA / "stats.json").read_text(encoding="utf-8"))
     kpi = st.get("kpi") or {}

@@ -1,0 +1,65 @@
+{
+  "fetched_at": "2026-10-23T21:52:07.9594656+08:00",
+  "runs": [
+    {
+      "id": 39964263617,
+      "name": "pages build and deployment",
+      "event": "dynamic",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "12b84ded1ba2e04aff43cc677199a90fa5ba2eca",
+      "created_at": "2026-10-23T13:48:26Z",
+      "html_url": "https://github.com/charline88888-ux/opportunity-radar/actions/runs/39964263617"
+    },
+    {
+      "id": 39964203631,
+      "name": "Deploy GitHub Pages (on release tag)",
+      "event": "push",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "a1793d4e8e24e416be4f4ca7a10f07fdbc16e19f",
+      "created_at": "2026-10-23T13:48:00Z",
+      "html_url": "https://github.com/charline88888-ux/opportunity-radar/actions/runs/39964203631"
+    },
+    {
+      "id": 39964195984,
+      "name": "CI",
+      "event": "push",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "a1793d4e8e24e416be4f4ca7a10f07fdbc16e19f",
+      "created_at": "2026-10-23T13:47:56Z",
+      "html_url": "https://github.com/charline88888-ux/opportunity-radar/actions/runs/39964195984"
+    },
+    {
+      "id": 39960175116,
+      "name": "CI",
+      "event": "push",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "8e210c231bc0c8c7da5132e6cd80b57d8471f5b7",
+      "created_at": "2026-10-23T13:18:58Z",
+      "html_url": "https://github.com/charline88888-ux/opportunity-radar/actions/runs/39960175116"
+    },
+    {
+      "id": 39959374003,
+      "name": "pages build and deployment",
+      "event": "dynamic",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "185498f69fb1af2d66ae5ad865ac2b8b6d0a6b1d",
+      "created_at": "2026-10-23T13:13:03Z",
+      "html_url": "https://github.com/charline88888-ux/opportunity-radar/actions/runs/39959374003"
+    },
+    {
+      "id": 39959330134,
+      "name": "Deploy GitHub Pages (on release tag)",
+      "event": "push",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "04f3ed1fdbb4d4828d6110f2b15c10731841cb43",
+      "created_at": "2026-10-23T13:12:44Z",
+      "html_url": "https://github.com/charline88888-ux/opportunity-radar/actions/runs/39959330134"
+    }
+  ]
+}

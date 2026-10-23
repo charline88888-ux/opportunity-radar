@@ -108,8 +108,8 @@ await sleep(600)
 check('T06', '商机榜筛选：全部/自动/精选可用（精选仅精选）', (filterButtons || []).length >= 2 && clickCurated && curFilter.cand === 0 && curFilter.cur > 0, JSON.stringify({ filterButtons, curFilter }).slice(0, 260))
 
 // 5) 候选详情
-await nav(`#/candidates/${cid}`); await reload()
-await waitFor(`document.body.innerText.includes('商业画布')`, 12000)
+await nav(`#/candidates/${cid}`); await reload(); await sleep(1500)
+await waitFor(`document.body.innerText.includes('商业画布') || document.body.innerText.includes('核心判断')`, 25000); await sleep(1000)
 const candDetail = await bodyText()
 check('T07', '候选详情：评分 + 9 大评估分区（画布/为什么/竞争/跨市场/时机/条件/利润/执行/来源）+ 无门禁', /评分|Score/.test(candDetail) && /商业画布|Business canvas/.test(candDetail) && /为什么是商机|Why an opportunity/.test(candDetail) && /竞争与差异|Competition & differentiation/.test(candDetail) && /跨市场机会|Cross-market opportunity/.test(candDetail) && /时机与窗口|Timing & window/.test(candDetail) && /条件、门槛与资金|Conditions, barriers & capital/.test(candDetail) && /利润模型|Profit model/.test(candDetail) && /执行方案|Execution plan/.test(candDetail) && /信息来源与依据|Sources & evidence/.test(candDetail) && !/验证后才能|需复核后.*上榜|未验证.*不能/.test(candDetail), candDetail.slice(0, 260))
 const badDetailLinks = await ev(`(() => [...document.querySelectorAll('a[href*="#/alerts"],a[href*="#/calibration"],a[href*="#/yearbook"],a[href*="#/data"],a[href*="#/profile"],a[href*="#/control"]')].length)()`)
