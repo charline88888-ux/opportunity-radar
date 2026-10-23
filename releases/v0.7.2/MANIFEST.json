@@ -1,0 +1,122 @@
+{
+  "app_version": "0.7.2",
+  "data_version": "0.7.0",
+  "released_at": "2026-10-23T12:11:00+08:00",
+  "git_commit": "",
+  "git_tag": "v0.7.2",
+  "build": {
+    "node": "v24.15.0",
+    "pnpm": "11.2.2"
+  },
+  "validation": {
+    "pipeline": "pass",
+    "validate": "pass",
+    "build": "pass"
+  },
+  "counts": {
+    "opportunities": 80,
+    "sources": 68,
+    "playbooks": 12,
+    "calendar": 33,
+    "docs": 13
+  },
+  "files": [
+    {
+      "path": "CHANGELOG.md",
+      "bytes": 853,
+      "sha256": "5e23b478c865c7ee637de39d4306b331bee15ab52a68617910e44411ca2e478d"
+    },
+    {
+      "path": "DEV.md",
+      "bytes": 1752,
+      "sha256": "a24eb1598c76c0d557965827a4ad8ac7b1a04a22e1c0bb45a852dfe07da459b1"
+    },
+    {
+      "path": "OPS.md",
+      "bytes": 976,
+      "sha256": "35723be035e42987ad67597c403261405e86d3e0e3a49d552a6d2783bd58d095"
+    },
+    {
+      "path": "README.md",
+      "bytes": 461,
+      "sha256": "03f94aa7cd7d9a84e2cd944618493116fc780eea3936ab08c0fd2cfcc38f003a"
+    },
+    {
+      "path": "dist/index.html",
+      "bytes": 2463486,
+      "sha256": "99e229053a7ad52daf087d437b1975a836a9a95c9912309395cafc93f73ff7ba"
+    },
+    {
+      "path": "dist/VERSION-README.md",
+      "bytes": 461,
+      "sha256": "03f94aa7cd7d9a84e2cd944618493116fc780eea3936ab08c0fd2cfcc38f003a"
+    },
+    {
+      "path": "docs-snapshot/00-总览-执行摘要与路线图.md",
+      "bytes": 33197,
+      "sha256": "f1c08bfdd52c0b8a546f621882bf612cc458e052c5141e0166b90786792636b5"
+    },
+    {
+      "path": "docs-snapshot/01-业务蓝图与商业模式.md",
+      "bytes": 74835,
+      "sha256": "2bd688b19660016ce9391f647a4104d89b8adf7222a8c40e8927fbb93ec7fa36"
+    },
+    {
+      "path": "docs-snapshot/02-平台与数据源全矩阵.md",
+      "bytes": 97854,
+      "sha256": "7026508dd3fb20a608c5afcafb74637fb696894c66d392c3cace66bdc9019e44"
+    },
+    {
+      "path": "docs-snapshot/03-扫描方法论-人性需求逆向工程.md",
+      "bytes": 124517,
+      "sha256": "7e44f81285607ec194b94398dcef041c2f2c48cd399aa595747d9877f5706ae0"
+    },
+    {
+      "path": "docs-snapshot/04-评估评分体系与推荐算法.md",
+      "bytes": 151532,
+      "sha256": "86e79a5579eec4e91114dc369693c5c645b48d5a210025f58a3f6bb32c2308ec"
+    },
+    {
+      "path": "docs-snapshot/05-商业驱动七问框架.md",
+      "bytes": 67965,
+      "sha256": "0db6f05fd70c58e2dc0cada04b4105e07164c8f353a0f421a1211a78ae709c93"
+    },
+    {
+      "path": "docs-snapshot/06-产品形态与交付设计.md",
+      "bytes": 34034,
+      "sha256": "fc563d56ee606e029ae89a41fd624b11b26306c1e2795f28d1cb52706bed054d"
+    },
+    {
+      "path": "docs-snapshot/07-技术架构与扫描流水线.md",
+      "bytes": 43081,
+      "sha256": "a806c3d418d0334add916a5dfad529a20cce717de9482e2245be16d1b4cc42a9"
+    },
+    {
+      "path": "docs-snapshot/08-运营与增长手册.md",
+      "bytes": 73061,
+      "sha256": "d381bff5b14dce5955030667e7c2baeca8740ffa3517875b84f85bda2c69b461"
+    },
+    {
+      "path": "docs-snapshot/09-风险合规与红队清单.md",
+      "bytes": 46133,
+      "sha256": "d7aafcf8047b0a4bed066880c6e27d84afbbbac49061702a3eb9d648a4f9f9d1"
+    },
+    {
+      "path": "docs-snapshot/10-版本与发布管理.md",
+      "bytes": 14858,
+      "sha256": "3457d81a2aceefd90fda9c283a7e9e897aedb26f732bb721edea2cfcf9b6d113"
+    },
+    {
+      "path": "docs-snapshot/11-补充清单-你没想到的40件事.md",
+      "bytes": 16453,
+      "sha256": "8950961832317e5a92f545f1adf4e7998c38b2f6c6a196fabe9bbb1c36c79a3b"
+    },
+    {
+      "path": "docs-snapshot/12-数据契约与字段字典.md",
+      "bytes": 47192,
+      "sha256": "662177aaaec8b2bf6768c45c5cbd1c2fbd1985e419c39eee2a9c69e165dc5dd9"
+    }
+  ],
+  "open_path": "releases/v0.7.2/dist/index.html",
+  "rollback": "打开上一版本 releases/vPREV/dist/index.html"
+}

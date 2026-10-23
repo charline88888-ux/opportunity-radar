@@ -1,6 +1,6 @@
 # v0.7.1 开发文档（DEV）
 
-> 版本：v0.7.1（PATCH）　｜　数据版本：data-v0.7.1　｜　日期：2026-10-23　｜　上一版：v0.7.0
+> 版本：v0.7.1（PATCH）　｜　数据版本：data-v0.7.0　｜　日期：2026-10-23　｜　上一版：v0.7.0
 > 冻结目录：`releases/v0.7.1/`　｜　线上：https://charline88888-ux.github.io/opportunity-radar/
 
 ## 1. 本版目标

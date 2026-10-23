@@ -1,6 +1,6 @@
 # v0.7.1 运营文档（OPS）
 
-> 版本：v0.7.1　｜　数据版本：data-v0.7.1　｜　日期：2026-10-23　｜　线上：https://charline88888-ux.github.io/opportunity-radar/
+> 版本：v0.7.1　｜　数据版本：data-v0.7.0　｜　日期：2026-10-23　｜　线上：https://charline88888-ux.github.io/opportunity-radar/
 
 ## 1. 本版要点
 - 修复「云端每日更新构建失败」：非基准日（如今天无新机会）日榜为空时，前端严格自检不再误报配额不足，每日构建可正常上线。

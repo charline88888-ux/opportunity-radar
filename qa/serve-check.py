@@ -153,31 +153,50 @@ def main() -> int:
         if not free_port(port):
             P0.append(f"测试端口 {port} 被占用，请先停止服务")
             return report()
-    # ---------- 数据基线 ----------
+    # ---------- 数据基线（支持每日 as_of：独立复算窗口 + 关键指纹） ----------
     rankings = json.loads((ROOT / "data" / "rankings.json").read_text(encoding="utf-8"))
+    opps = json.loads((ROOT / "data" / "opportunities.json").read_text(encoding="utf-8"))
     meta = rankings.get("meta") or {}
     data_version = meta.get("data_version")
+    base_as_of = str(meta.get("as_of") or "")
     counts = {w: len(v.get("items") or []) for w, v in (rankings.get("windows") or {}).items()}
     if data_version != "0.7.0":
         P0.append(f"data_version={data_version!r} ≠ 0.7.0")
-    if counts != {"day": 17, "week": 49, "month": 57, "year": 80}:
-        P0.append(f"四窗口 {counts} ≠ 17/49/57/80")
-    fingerprints = {
-        "scanner/serve.py": "d721f672e0e37269",
-        "data/opportunities.json": "88fda5ab84b7f826",
-        "data/rankings.json": "a8ec7ef573091c36",
-        "data/stats.json": "33f4868622f7c8a6",
-        "data/source-health.json": "3c0527e6953ae7e3",
-        "data/sources.json": "0a37f7acb6baa03f",
-        "data/radar.db": "1fce72c7a0b628fa",
-    }
-    for rel, expect in fingerprints.items():
-        p = ROOT / rel
-        got = sha(p)[:16] if p.exists() else "MISSING"
+    # 独立按窗口规则复算（day=last_activity==as_of；week=ISO 周；month；year）
+    import datetime as _dt
+    try:
+        _as = _dt.date.fromisoformat(base_as_of)
+        iso = _as.isocalendar()
+        expected_counts = {"day": 0, "week": 0, "month": 0, "year": 0}
+        for o in opps:
+            la = str(o.get("last_activity") or "")
+            try:
+                ld = _dt.date.fromisoformat(la)
+            except ValueError:
+                continue
+            if la == base_as_of:
+                expected_counts["day"] += 1
+            if ld.isocalendar()[:2] == iso[:2]:
+                expected_counts["week"] += 1
+            if (ld.year, ld.month) == (_as.year, _as.month):
+                expected_counts["month"] += 1
+            if ld.year == _as.year:
+                expected_counts["year"] += 1
+        if counts != expected_counts:
+            P0.append(f"四窗口 {counts} ≠ 独立复算 {expected_counts}（as_of={base_as_of}）")
+        else:
+            notes.append(f"数据基线 as_of={base_as_of} / 窗口 {counts} 与独立复算一致 ✅")
+    except ValueError:
+        P0.append(f"rankings.meta.as_of 非法：{base_as_of!r}")
+    required_fp = {"scanner/serve.py": "bdd55a2801581d97", "scanner/tests/test_serve.py": "ad0ee16b471c2852", "data/opportunities.json": "88fda5ab84b7f826"}
+    for rel, expect in required_fp.items():
+        pp = ROOT / rel
+        got = sha(pp)[:16] if pp.exists() else "MISSING"
         if got != expect:
-            P2.append(f"指纹 {rel}={got} ≠ 交付 {expect}")
-    if not any(f.startswith("指纹") for f in P2):
-        notes.append("数据 0.7.0 / 四窗口 17/49/57/80 / 指纹与交付一致 ✅")
+            P1.append(f"关键指纹 {rel}={got} ≠ 交付 {expect}")
+    for rel in ("data/rankings.json", "data/stats.json", "data/source-health.json", "data/sources.json", "data/radar.db"):
+        pp = ROOT / rel
+        notes.append(f"指纹 {rel}={sha(pp)[:16] if pp.exists() else 'MISSING'}（每日数据会变化，仅记录）")
 
     # ---------- 启动（固定 token） ----------
     proc, token = start_server(PORT, TOKEN_FILE, TOKEN)
@@ -192,8 +211,8 @@ def main() -> int:
         st, body, _ = http("GET", f"{base}/api/health")
         if st != 200 or not isinstance(body, dict) or body.get("ok") is not True:
             P0.append(f"/api/health 异常：{st} {body}")
-        elif body.get("version") != "0.6.1":
-            P2.append(f"health server.version={body.get('version')!r}（根 VERSION 尚未升 0.7.0；发布前需 Lead 更新）")
+        elif body.get("version") != (ROOT / "VERSION").read_text(encoding="utf-8").strip():
+            P1.append(f"health server.version={body.get('version')!r} ≠ VERSION 文件")
         # 监听地址
         netstat = subprocess.run(["netstat", "-ano"], capture_output=True, text=True, encoding="utf-8", errors="replace")
         listen_lines = []
@@ -307,10 +326,10 @@ def main() -> int:
             P0.append(f"status schema 缺字段：{status if not isinstance(status, dict) else list(status)}")
         else:
             d = status.get("data") or {}
-            if d.get("data_version") != "0.7.0" or d.get("as_of") != "2026-10-22" or d.get("opportunities") != 80:
-                P1.append(f"status data 摘要异常：{d}")
-            if (d.get("counts") or {}) != {"day": 17, "week": 49, "month": 57, "year": 80}:
-                P2.append(f"status data.counts={d.get('counts')}")
+            if d.get("data_version") != "0.7.0" or d.get("as_of") != base_as_of or d.get("opportunities") != len(opps):
+                P1.append(f"status data 摘要异常：{d}（期望 as_of={base_as_of}, opps={len(opps)}）")
+            if (d.get("counts") or {}) != counts:
+                P2.append(f"status data.counts={d.get('counts')} ≠ 独立复算 {counts}")
             static_src = (d.get("current_build") or {}).get("path")
             if static_src and "current/index.html" not in static_src:
                 P2.append(f"静态优先级 current 未生效：current_build={static_src}")
@@ -380,10 +399,17 @@ def main() -> int:
                 notes.append("schedule disable（任务不存在）幂等：200 + not_installed ✅")
         st, r2, _ = http("POST", f"{base}/api/schedule", token=TOKEN, payload={"action": "enable", "fetch": False})
         task_exists = subprocess.run(["schtasks", "/Query", "/TN", "OpportunityRadar-Daily"], capture_output=True, text=True)
+        sched2 = (r2 or {}).get("schedule") or {}
+        output2 = str((r2 or {}).get("output", ""))
+        mojibake = ("\ufffd" in output2) or ("��" in output2) or ("ϵͳ" in output2) or ("������" in output2)
         if st != 200 or not isinstance(r2, dict) or r2.get("ok") is not True or task_exists.returncode != 0:
             P1.append(f"schedule enable 失败：{st} {r2} task_query={task_exists.returncode}")
+        elif sched2.get("enabled") is not True or sched2.get("status") not in ("ready", "Ready") or not sched2.get("next_run"):
+            P1.append(f"schedule enable 后状态未同步：{sched2}")
+        elif mojibake:
+            P1.append(f"schedule output 中文乱码：{output2[:160]!r}")
         else:
-            notes.append("schedule disable/enable 实测（schtasks 任务创建）✅")
+            notes.append(f"schedule enable 实测：任务创建 + 响应 enabled=true/status={sched2.get('status')}/next_run={sched2.get('next_run')} + 中文 output 可读 ✅")
         st, r3, _ = http("POST", f"{base}/api/schedule", token=TOKEN, payload={"action": "disable"})
         after = subprocess.run(["schtasks", "/Query", "/TN", "OpportunityRadar-Daily"], capture_output=True, text=True)
         if st != 200 or after.returncode == 0:
@@ -454,8 +480,8 @@ def main() -> int:
 
     # ---------- 单元测试 / validate / 幂等 ----------
     for label, cmd, expect in (
-        ("serve unittest", [sys.executable, "-m", "unittest", "scanner.tests.test_serve"], "Ran 17 tests"),
-        ("full unittest", [sys.executable, "-m", "unittest", "discover", "-s", "scanner/tests"], "Ran 81 tests"),
+        ("serve unittest", [sys.executable, "-m", "unittest", "scanner.tests.test_serve"], "Ran 25 tests"),
+        ("full unittest", [sys.executable, "-m", "unittest", "discover", "-s", "scanner/tests"], "Ran 89 tests"),
         ("validate", [sys.executable, "scanner/validate.py"], "20/20"),
     ):
         r = subprocess.run(cmd, cwd=ROOT, capture_output=True, text=True, encoding="utf-8", errors="replace", timeout=180)
@@ -464,15 +490,28 @@ def main() -> int:
             P0.append(f"{label} 失败：exit={r.returncode} 期望 {expect!r} :: {blob[-260:]}")
         else:
             notes.append(f"{label}：{expect} PASS ✅")
+    # 幂等：以当前数据 as_of 运行（避免把每日数据回退成基准日），跑两次比较，最后恢复备份
+    backup = TMP / "serve-data-backup"
+    shutil.rmtree(backup, ignore_errors=True)
+    shutil.copytree(ROOT / "data", backup)
     before = {str(p.relative_to(ROOT)): sha(p) for p in (ROOT / "data").rglob("*") if p.is_file()}
-    r1 = subprocess.run([sys.executable, "scanner/pipeline.py", "--all"], cwd=ROOT, capture_output=True, text=True, encoding="utf-8", errors="replace", timeout=180)
+    r1 = subprocess.run([sys.executable, "scanner/pipeline.py", "--all", "--as-of", base_as_of], cwd=ROOT, capture_output=True, text=True, encoding="utf-8", errors="replace", timeout=180)
     mid = {str(p.relative_to(ROOT)): sha(p) for p in (ROOT / "data").rglob("*") if p.is_file()}
-    r2 = subprocess.run([sys.executable, "scanner/pipeline.py", "--all"], cwd=ROOT, capture_output=True, text=True, encoding="utf-8", errors="replace", timeout=180)
+    r2 = subprocess.run([sys.executable, "scanner/pipeline.py", "--all", "--as-of", base_as_of], cwd=ROOT, capture_output=True, text=True, encoding="utf-8", errors="replace", timeout=180)
     after = {str(p.relative_to(ROOT)): sha(p) for p in (ROOT / "data").rglob("*") if p.is_file()}
-    if r1.returncode != 0 or r2.returncode != 0 or before != mid or mid != after:
-        P0.append(f"--all 幂等失败：exit={r1.returncode}/{r2.returncode} diff={[k for k in before if before[k] != after.get(k)][:5]}")
+    ok = (r1.returncode == 0 and r2.returncode == 0 and before == mid == after)
+    if not ok:
+        P0.append(f"--all --as-of {base_as_of} 幂等失败：exit={r1.returncode}/{r2.returncode} diff={[k for k in before if before[k] != after.get(k)][:5]}")
     else:
-        notes.append(f"--all 幂等：{len(after)} 个 data 文件 SHA256 一致 ✅")
+        notes.append(f"--all --as-of {base_as_of} 幂等：{len(after)} 个 data 文件 SHA256 一致 ✅")
+    # 恢复测试前数据（若 pipeline 以同 as_of 运行则本就一致，双保险）
+    shutil.rmtree(ROOT / "data")
+    shutil.copytree(backup, ROOT / "data")
+    restored = {str(p.relative_to(ROOT)): sha(p) for p in (ROOT / "data").rglob("*") if p.is_file()}
+    if restored != before:
+        P0.append("幂等测试后 data 未恢复到基线")
+    else:
+        notes.append("幂等测试后 data 恢复基线 SHA256 一致 ✅")
     return report()
 
 

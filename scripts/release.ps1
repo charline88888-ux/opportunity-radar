@@ -1,4 +1,4 @@
-﻿# release.ps1 — 冻结发布一个新版本（旧版本永不修改）
+# release.ps1 — 冻结发布一个新版本（旧版本永不修改）
 # 用法：
 #   powershell -ExecutionPolicy Bypass -File scripts/release.ps1 -Version v0.1.0
 #   powershell -ExecutionPolicy Bypass -File scripts/release.ps1 -Version v0.1.1 -SkipData -NoGit
@@ -34,10 +34,37 @@ $appVersion = $Version.TrimStart('v')
 $versionFile = Join-Path $RepoRoot 'VERSION'
 if (Test-Path $versionFile) { Set-Content -Path $versionFile -Value $appVersion -Encoding UTF8 }
 
+# v0.7.2：冻结时沿用当前数据的 as_of（仓库可能已推进到每日数据），避免历史快照晚于 as_of
+$currentAsOf = ''
+$rankingsPath = Join-Path $RepoRoot 'data\rankings.json'
+if (Test-Path $rankingsPath) {
+    try { $currentAsOf = (Get-Content $rankingsPath -Raw -Encoding UTF8 | ConvertFrom-Json).meta.as_of } catch { }
+}
+
+# v0.7.2：同步前端版本（package.json + 展示常量），避免冻结 dist 版本落后于发布版本
+$pkgFile = Join-Path $RepoRoot 'app\package.json'
+if (Test-Path $pkgFile) {
+    $pkgRaw = [System.IO.File]::ReadAllText($pkgFile)
+    $pkgRaw = [regex]::Replace($pkgRaw, '("version"\s*:\s*")[^"]+(")', ('${1}' + $appVersion + '${2}'))
+    [System.IO.File]::WriteAllText($pkgFile, $pkgRaw, (New-Object System.Text.UTF8Encoding($false)))
+}
+$dataTs = Join-Path $RepoRoot 'app\src\lib\data.ts'
+if (Test-Path $dataTs) {
+    $dataRaw = [System.IO.File]::ReadAllText($dataTs)
+    $dataRaw = [regex]::Replace($dataRaw, "(export const appVersion = ')[^']+(')", ('${1}' + $appVersion + '${2}'))
+    [System.IO.File]::WriteAllText($dataTs, $dataRaw, (New-Object System.Text.UTF8Encoding($false)))
+}
+$shellTsx = Join-Path $RepoRoot 'app\src\components\AppShell.tsx'
+if (Test-Path $shellTsx) {
+    $shellRaw = [System.IO.File]::ReadAllText($shellTsx)
+    $shellRaw = [regex]::Replace($shellRaw, 'EN · V\d+\.\d+\.\d+', ('EN · V' + $appVersion))
+    [System.IO.File]::WriteAllText($shellTsx, $shellRaw, (New-Object System.Text.UTF8Encoding($false)))
+}
+
 # ---------- 2. 数据流水线 + 校验 ----------
 if (-not $SkipData) {
     Step '运行数据流水线 pipeline.py --all'
-    $out = & python scanner/pipeline.py --all 2>&1
+    $pipelineArgs = @("scanner/pipeline.py", "--all"); if ($currentAsOf) { $pipelineArgs += @("--as-of", $currentAsOf) }; Write-Host "    as_of: $(if ($currentAsOf) { $currentAsOf } else { "default" })"; $out = & python @pipelineArgs 2>&1
     $code = $LASTEXITCODE
     $out | Select-Object -Last 12 | ForEach-Object { Write-Host "    $_" }
     if ($code -ne 0) { Fail "pipeline.py 退出码 $code" }
@@ -141,6 +168,17 @@ $readme = @"
 Set-Content -Path (Join-Path $ReleaseDir 'README.md') -Value $readme -Encoding UTF8
 Copy-Item -Path (Join-Path $ReleaseDir 'README.md') -Destination (Join-Path $ReleaseDir 'dist\VERSION-README.md') -Force
 
+# v0.7.2：为当前发布目录声明 LF，确保 MANIFEST sha256 与 git blob 一致（历史版本目录不受影响）
+$gitAttrFile = Join-Path $RepoRoot '.gitattributes'
+$attrLine = "releases/$Version/** text eol=lf"
+$attrCurrent = if (Test-Path $gitAttrFile) { [System.IO.File]::ReadAllText($gitAttrFile) } else { '' }
+if ($attrCurrent -notmatch [regex]::Escape($attrLine)) {
+    if ($attrCurrent -and -not $attrCurrent.EndsWith("`n")) { $attrCurrent += "`n" }
+    $attrCurrent += "$attrLine`n"
+    [System.IO.File]::WriteAllText($gitAttrFile, $attrCurrent, (New-Object System.Text.UTF8Encoding($false)))
+    Write-Host "    .gitattributes += $attrLine"
+}
+
 # ---------- 6. MANIFEST ----------
 Step '生成 MANIFEST.json'
 function Read-Json([string]$path) {
@@ -157,6 +195,16 @@ $gitCommit = ''
 $gitTag = ''
 try { $gitCommit = (git rev-parse --short HEAD 2>$null) } catch { }
 try { $gitTag = (git describe --tags --abbrev=0 2>$null) } catch { }
+
+# v0.7.2：MANIFEST 校验需要与 git blob 逐字节一致 → 先统一发布目录文本文件为 LF（无 BOM）
+$textExt = @('.md', '.json', '.html', '.txt', '.bat', '.ps1', '.py', '.mjs', '.js', '.css', '.yml', '.yaml')
+Get-ChildItem -Path $ReleaseDir -Recurse -File | Where-Object { $textExt -contains $_.Extension.ToLowerInvariant() } | ForEach-Object {
+    $bytes = [System.IO.File]::ReadAllBytes($_.FullName)
+    if ($bytes -contains 13) {
+        $text = [System.Text.Encoding]::UTF8.GetString($bytes).Replace("`r`n", "`n")
+        [System.IO.File]::WriteAllText($_.FullName, $text, (New-Object System.Text.UTF8Encoding($false)))
+    }
+}
 
 $files = @()
 Get-ChildItem -Path $ReleaseDir -Recurse -File | Where-Object { $_.Name -ne 'MANIFEST.json' } | ForEach-Object {
@@ -203,6 +251,14 @@ if (-not $NoGit) {
 
     git tag -a $Version -m "Opportunity Radar $Version (content commit $contentCommit)" | Out-Host
     if ($LASTEXITCODE -ne 0) { Write-Host '[WARN] git tag 失败（可能已存在）' -ForegroundColor Yellow }
+
+    # v0.7.2：用 git blob 逐字节复核 MANIFEST（防止 CRLF/写入顺序导致哈希不一致）
+    Step '校验 MANIFEST（git blob）'
+    $verifyOut = & python scripts/verify_manifest.py --release "releases/$Version" 2>&1
+    $verifyCode = $LASTEXITCODE
+    $verifyOut | ForEach-Object { Write-Host "    $_" }
+    if ($verifyCode -ne 0) { Fail "MANIFEST 校验失败（发布未通过）" }
+    Ok "MANIFEST git blob 校验通过"
     Ok "Git 完成：tag $Version 指向 MANIFEST 提交；内容提交 $contentCommit（如需推送：git push --tags）"
 } else { Write-Host '    （跳过 git）' -ForegroundColor Yellow }
 

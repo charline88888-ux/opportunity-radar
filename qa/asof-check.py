@@ -82,27 +82,52 @@ def main() -> int:
     base_hashes = snapshot_data()
     notes.append(f"data 基线备份：{len(base_hashes)} 个文件 → {BACKUP.relative_to(ROOT)}")
     try:
-        # ---------- 0) 基线状态 ----------
+        # ---------- 0) 基线状态（v0.7 每日通道：动态读取 as_of 并独立复算窗口） ----------
+        import datetime as _dt
         rankings = load("data/rankings.json")
         stats = load("data/stats.json")
+        opps = load("data/opportunities.json")
         mv = (rankings.get("meta") or {}).get("data_version")
         as_of = (rankings.get("meta") or {}).get("as_of")
-        if as_of != "2026-10-22":
-            P0.append(f"基线 rankings.meta.as_of={as_of!r} ≠ 2026-10-22（data 未恢复基准日？）")
-        if mv != "0.6.1":
-            P0.append(f"rankings.meta.data_version={mv!r} ≠ 0.6.1")
-        if stats.get("meta", {}).get("as_of") != "2026-10-22":
-            P1.append("基线 stats.meta.as_of 不是 2026-10-22")
-        if counts(rankings) != {"day": 17, "week": 49, "month": 57, "year": 80}:
-            P0.append(f"基线四窗口={counts(rankings)} ≠ 17/49/57/80")
+
+        def window_counts(target: str) -> dict[str, int]:
+            d = _dt.date.fromisoformat(target)
+            iso = d.isocalendar()
+            out = {"day": 0, "week": 0, "month": 0, "year": 0}
+            for o in opps:
+                la = str(o.get("last_activity") or "")
+                try:
+                    ld = _dt.date.fromisoformat(la)
+                except ValueError:
+                    continue
+                if la == target:
+                    out["day"] += 1
+                if ld.isocalendar()[:2] == iso[:2]:
+                    out["week"] += 1
+                if (ld.year, ld.month) == (d.year, d.month):
+                    out["month"] += 1
+                if ld.year == d.year:
+                    out["year"] += 1
+            return out
+
+        if mv != "0.7.0":
+            P0.append(f"rankings.meta.data_version={mv!r} ≠ 0.7.0")
+        if stats.get("meta", {}).get("as_of") != as_of:
+            P1.append(f"基线 stats.meta.as_of={(stats.get('meta') or {}).get('as_of')!r} ≠ rankings {as_of!r}")
+        base_expected = window_counts(as_of)
+        if counts(rankings) != base_expected:
+            P0.append(f"基线四窗口={counts(rankings)} ≠ 独立复算 {base_expected}（as_of={as_of}）")
+        else:
+            notes.append(f"基线 as_of={as_of} 窗口 {counts(rankings)} 与独立复算一致 ✅")
         v = run(["scanner/validate.py"])
         if not validate_ok(v):
             P0.append(f"基线 validate 失败：{v.returncode} {(v.stdout + v.stderr)[-200:]}")
 
         cases = [
-            ("2026-10-23", {"day": 0, "week": 49, "month": 57, "year": 80}),
-            ("2026-11-01", {"day": 0, "week": 0, "month": 0, "year": 80}),
-            ("2027-01-01", {"day": 0, "week": 0, "month": 0, "year": 0}),
+            ("2026-10-22", window_counts("2026-10-22")),
+            ("2026-10-23", window_counts("2026-10-23")),
+            ("2026-11-01", window_counts("2026-11-01")),
+            ("2027-01-01", window_counts("2027-01-01")),
         ]
         for target, expected in cases:
             out = run(["scanner/pipeline.py", "--all", "--as-of", target])
@@ -224,8 +249,10 @@ def main() -> int:
     else:
         notes.append(f"最终恢复：{len(restored)} 个 data 文件 SHA256 与基线全部一致 ✅")
     rankings2 = load("data/rankings.json")
-    if counts(rankings2) != {"day": 17, "week": 49, "month": 57, "year": 80} or (rankings2.get("meta") or {}).get("as_of") != "2026-10-22":
-        P0.append(f"恢复后基线状态异常：as_of={(rankings2.get('meta') or {}).get('as_of')} counts={counts(rankings2)}")
+    if (rankings2.get("meta") or {}).get("as_of") != as_of:
+        P0.append(f"恢复后 as_of={(rankings2.get('meta') or {}).get('as_of')} ≠ 测试前 {as_of}")
+    else:
+        notes.append(f"恢复后基线 as_of={as_of} 一致 ✅")
     v3 = run(["scanner/validate.py"])
     if not validate_ok(v3):
         P0.append(f"恢复后 validate 失败：{(v3.stdout + v3.stderr)[-200:]}")

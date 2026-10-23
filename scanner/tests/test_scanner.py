@@ -13,7 +13,7 @@ import sys
 import tempfile
 import threading
 import unittest
-from datetime import date
+from datetime import date, timedelta
 from pathlib import Path
 from unittest import mock
 
@@ -374,21 +374,29 @@ class TestReportAndDb(unittest.TestCase):
 
     def test_generate_reports(self):
         with tempfile.TemporaryDirectory() as tmp:
-            written = report.generate(["day", "year"], reports_dir=Path(tmp))
+            periods = ["day", "year"]
+            written = report.generate(periods, reports_dir=Path(tmp))
             self.assertEqual(len(written), 2)
-            for row in written:
+            counts = common.load_json(config.RANKINGS_PATH)["meta"]["counts"]
+            for period, row in zip(periods, written):
                 html_path = Path(row["html"])
                 md_path = Path(row["md"])
                 self.assertTrue(html_path.exists())
                 self.assertTrue(md_path.exists())
                 html_text = html_path.read_text(encoding="utf-8")
+                md_text = md_path.read_text(encoding="utf-8")
                 self.assertIn("机会雷达", html_text)
                 self.assertIn("<style>", html_text)
-                self.assertIn("https://", html_text)  # 证据链接
                 self.assertIn("免责声明", html_text)
-                md_text = md_path.read_text(encoding="utf-8")
-                self.assertIn("七问摘要", md_text)
-                self.assertIn("证据链接", md_text)
+                # 不依赖仓内数据当日 as_of：有 items 才断言证据链接，空窗口断言空态
+                if counts.get(period, 0) > 0:
+                    self.assertIn("https://", html_text)
+                    self.assertIn("七问摘要", md_text)
+                    self.assertIn("证据链接", md_text)
+                else:
+                    self.assertIn("该窗口暂无机会", html_text)
+                    self.assertIn("条目数：0", md_text)
+                    self.assertNotIn("https://", md_text)
 
     def test_db_rebuild(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -931,7 +939,11 @@ class TestYearbook(unittest.TestCase):
             second = yearbook.generate(self.YEAR, out_dir=Path(tmp))
             self.assertEqual(first_html, Path(second["html"]).read_text(encoding="utf-8"))
             self.assertEqual(first_md, Path(second["md"]).read_text(encoding="utf-8"))
-            self.assertIn("2026-10-22T00:00:00+08:00", first_html)  # 确定性 generated_at
+            # v0.7.2：generated_at 跟随 rankings.meta.as_of（每日运行会推进），不硬编码日期
+            as_of = json.loads(
+                (config.DATA_DIR / "rankings.json").read_text(encoding="utf-8")
+            )["meta"]["as_of"]
+            self.assertIn(f"{as_of}T00:00:00+08:00", first_html)
 
     def test_invalid_experiments_json_tolerated(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -1225,23 +1237,47 @@ class TestAsOf(unittest.TestCase):
             pipeline.resolve_as_of("2026-13-01")
 
     def test_rank_windows_shift_with_as_of(self):
+        """窗口归属随 as_of 变化；不硬编码仓内数据日期（每日运行会推进 as_of）。"""
         opps = common.load_json(config.OPPORTUNITIES_PATH)
-        base = pipeline.resolve_as_of(None)
-        counts0 = rank.build_rankings(opps, base)["meta"]["counts"]
-        # 次日：day 归零（当天无 last_activity），week/month/year 不变
-        r1 = rank.build_rankings(opps, date(2026, 10, 23))
-        self.assertEqual(r1["meta"]["as_of"], "2026-10-23")
-        self.assertEqual(r1["windows"]["day"]["key"], "2026-10-23")
-        self.assertEqual(r1["meta"]["counts"]["day"], 0)
-        self.assertEqual(r1["meta"]["counts"]["week"], counts0["week"])
-        self.assertEqual(r1["meta"]["counts"]["month"], counts0["month"])
-        self.assertEqual(r1["meta"]["counts"]["year"], counts0["year"])
-        # 下月：month 归零
-        r2 = rank.build_rankings(opps, date(2026, 11, 1))
-        self.assertEqual(r2["meta"]["counts"]["month"], 0)
-        self.assertEqual(r2["meta"]["counts"]["year"], counts0["year"])
-        # 下一年：year 归零
-        r3 = rank.build_rankings(opps, date(2027, 1, 1))
+        rankings = common.load_json(config.RANKINGS_PATH)
+        base = common.parse_date(rankings["meta"]["as_of"])
+
+        def count_window(window: str, as_of: date) -> int:
+            total = 0
+            for opp in opps:
+                last = common.parse_date(opp["last_activity"])
+                if window == "day":
+                    total += int(last == as_of)
+                elif window == "week":
+                    total += int(last.isocalendar()[:2] == as_of.isocalendar()[:2])
+                elif window == "month":
+                    total += int((last.year, last.month) == (as_of.year, as_of.month))
+                elif window == "year":
+                    total += int(last.year == as_of.year)
+            return total
+
+        expected_base = {window: count_window(window, base) for window in ("day", "week", "month", "year")}
+        self.assertEqual(rankings["meta"]["counts"], expected_base)
+        built_base = rank.build_rankings(opps, base)
+        self.assertEqual(built_base["meta"]["counts"], expected_base)
+
+        # 次日：所有窗口都按 as_of 重新计算（跨周/月/年时也随之变化）
+        next_day = base + timedelta(days=1)
+        r1 = rank.build_rankings(opps, next_day)
+        self.assertEqual(r1["meta"]["as_of"], next_day.isoformat())
+        self.assertEqual(r1["windows"]["day"]["key"], next_day.isoformat())
+        for window in ("day", "week", "month", "year"):
+            self.assertEqual(r1["meta"]["counts"][window], count_window(window, next_day), window)
+
+        # 下月第一天：month 归零（数据都在当前月及以前）
+        next_month = (base.replace(day=1) + timedelta(days=32)).replace(day=1)
+        r2 = rank.build_rankings(opps, next_month)
+        for window in ("day", "week", "month", "year"):
+            self.assertEqual(r2["meta"]["counts"][window], count_window(window, next_month), window)
+
+        # 下一年：year 归零（无未来年份活动）
+        next_year = date(base.year + 1, 1, 1)
+        r3 = rank.build_rankings(opps, next_year)
         self.assertEqual(sum(r3["meta"]["counts"].values()), 0)
 
     def test_validate_v08_quota_only_baseline(self):

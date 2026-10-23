@@ -1,6 +1,5 @@
 
 == serve-check ==
-  · 数据 0.7.0 / 四窗口 17/49/57/80 / 指纹与交付一致 ✅
   · 监听地址仅 127.0.0.1:8791 ✅（['127.0.0.1:8791']）
   · LAN IP 172.29.0.1:8791 不可连接（仅 loopback）✅
   · --host 0.0.0.0 拒绝启动 exit 2 ✅
@@ -14,18 +13,30 @@
   · 非 index 静态文件不注入 token ✅
   · status schema/数据摘要/静态优先级（current/index.html）✅
   · run build 202 + 并发 409 ✅
-  · run build 完成：state=ok exit=0 log_tail=37 行，耗时 11.7s
+  · run build 完成：state=ok exit=0 log_tail=37 行，耗时 11.2s
   · console.log 可读、tail≤200KB、不含 token ✅
   · schedule disable（任务不存在）幂等：200 + not_installed ✅
-  · schedule disable/enable 实测（schtasks 任务创建）✅
+  · schedule enable 实测：任务创建 + 响应 enabled=true/status=ready/next_run=24/10/2026 上午7:00:00 + 中文 output 可读 ✅
   · schedule disable 清理任务（测试后恢复无任务状态）✅
   · console.log 记录 API 调用且全 logs 不含 token ✅
   · serve 启动/运行输出不打印 token ✅
   · 无构建：503 + 引导文案 ✅
-  · serve unittest：Ran 17 tests PASS ✅
-  · full unittest：Ran 81 tests PASS ✅
+  · serve unittest：Ran 25 tests PASS ✅
   · validate：20/20 PASS ✅
-  · --all 幂等：27 个 data 文件 SHA256 一致 ✅
 
-P0 = 0  P1 = 0  P2 = 0
-RESULT: PASS
+P0 = 3  P1 = 1  P2 = 4
+  [P0] 四窗口 {'day': 0, 'week': 49, 'month': 57, 'year': 80} ≠ 17/49/57/80
+  [P0] full unittest 失败：exit=1 期望 'Ran 89 tests' :: 0.7.0\u3000｜\u3000自包含 HTML，可离线打开/打印（Ctrl+P）。</p>\n  <p><b>免责声明</b>：年度年鉴为公开信息整理与规则化统计，不构成投资建议、法律意见或收入承诺。</p>\n</footer>\n</div></body></html>\n'
+
+----------------------------------------------------------------------
+Ran 89 tests in 3.352s
+
+FAILED (failures=2)
+
+  [P0] --all 幂等失败：exit=1/1 diff=['data\\radar.db', 'data\\rankings.json', 'data\\stats.json']
+  [P1] status data 摘要异常：{'as_of': '2026-10-23', 'data_version': '0.7.0', 'opportunities': 80, 'counts': {'day': 0, 'week': 49, 'month': 57, 'year': 80}, 'current_build': {'path': 'current/index.html', 'size': 2463486, 'mtime': '2026-10-23T12:02:13+08:00'}, 'frozen_latest': {'version': 'v0.7.1', 'size': 2466255, 'mtime': '2026-10-23T12:04:48+08:00'}}
+  [P2] 指纹 data/rankings.json=197583c4fb943d59 ≠ 交付 a8ec7ef573091c36
+  [P2] 指纹 data/stats.json=07bd0e51b51c62e2 ≠ 交付 33f4868622f7c8a6
+  [P2] health server.version='0.7.1'（根 VERSION 尚未升 0.7.0；发布前需 Lead 更新）
+  [P2] status data.counts={'day': 0, 'week': 49, 'month': 57, 'year': 80}
+RESULT: FAIL

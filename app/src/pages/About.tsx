@@ -90,13 +90,13 @@ const ROADMAP = [
 
 const HISTORY = [
   {
-    version: 'v0.7.0',
+    version: 'v0.7.2',
     date: '2026-10-22',
     tag: '当前版本',
     items: [
       '新增 /control 本地控制台：网页一键更新数据、立即采集、构建工作副本、启用/停用每日自动任务',
       '控制台从 serve.py 注入/URL token 获取凭证，3s 轮询服务状态与任务日志；未启动时显示启动引导（启动机会雷达.bat / python scanner/serve.py --open），并说明线上静态页无法执行本地命令',
-      '本地最近日志列表与预览（仅 scanner/logs/，防路径穿越）；版本升 0.7.0',
+      '本地最近日志列表与预览（仅 scanner/logs/，防路径穿越）；版本升 0.7.2',
     ],
   },
   {
@@ -224,10 +224,10 @@ const EN_DOCS: Array<[string, string, string]> = [
 ]
 
 const EN_HISTORY = [
-  { version: 'v0.7.0', date: '2026-10-22', tag: 'Current', items: [
+  { version: 'v0.7.2', date: '2026-10-23', tag: 'Current', items: [
     '/control local console: one-click update, fetch, working-copy build, enable/disable daily task from the browser',
     'Console token via serve.py injection/URL, 3s status/job-log polling; offline guidance (Start Opportunity Radar.bat / python scanner/serve.py --open) and the architectural limit of static online pages',
-    'Local recent-log list and preview (scanner/logs/ only, path traversal blocked); version 0.7.0',
+    'Local recent-log list and preview (scanner/logs/ only, path traversal blocked); version 0.7.2',
   ]},
   { version: 'v0.6.1', date: '2026-10-22', tag: 'Previous', items: [
     'Data freshness: dashboard baseline date + age; 3–7 days amber, >7 days red site-wide warning (dismissible for this session)',
