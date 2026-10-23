@@ -28,10 +28,7 @@ CANDIDATE_LIMIT = int(getattr(config, "CANDIDATE_LIMIT", 200))
 WINDOWS = ("day", "week", "month", "year")
 STATUS_AUTO = "auto-discovered"
 VERIFICATION_NOT_STARTED = "not_started"
-SYSTEM_BOUNDARY = (
-    "系统自动评估商机信号（需求/信息差/证据/时效/可执行性）；仅代表发现与评估，"
-    "不代表收入承诺，也不验证个人商业结果。"
-)
+SYSTEM_BOUNDARY = "系统自动评估商机信号（需求/信息差/证据/时效/可执行性）；仅代表发现与评估，不代表收入承诺。"
 DISCLAIMER = "自动发现的候选线索：由公开信号自动生成，系统已做商机初筛评估（system_validation）；不代表收入承诺。"
 
 ZH_GLOSSARY = {
@@ -136,8 +133,8 @@ SEVEN_QUESTIONS = [
     ("竞品", "用户现在用什么替代方案，为什么不满意？"),
     ("差异", "我们的最小差异化是什么（一句话说清）？"),
     ("渠道", "第一个可执行、可量化的获客渠道是什么？"),
-    ("成本", "最小验证成本与最大风险分别是什么？"),
-    ("验证", "14 天内用什么可观察指标判断值得继续？"),
+    ("成本", "最小启动成本与最大风险分别是什么？"),
+    ("跟踪", "14 天内用什么可观察指标判断值得继续？"),
 ]
 GAP_DRIVERS = {
     "language": "语言本地化",
@@ -313,9 +310,9 @@ def _seven_questions(signal: dict[str, Any], industries: list[str], gaps: list[s
         "人群": "从该信号来源的读者/从业者中找最早 100 个种子用户（如原文评论区、相关社群）。",
         "竞品": "现有替代方案多为通用商品/服务；需人工对比价格、交付与本地化程度。",
         "差异": f"利用{gap_text}做出本地化/更快/更透明的供给（自动草稿，待人工细化）。",
-        "渠道": "先用来源媒体/社群做内容验证，再考虑搜索/平台/私域渠道（自动草稿）。",
+        "渠道": "先用来源媒体/社群做小成本测试，再考虑搜索/平台/私域渠道（自动草稿）。",
         "成本": "先按行业默认 ROI 估算最小启动成本；真实成本需人工核价。",
-        "验证": "14 天内观察到询价/预约/加购等可量化信号再投入（验证可选，不影响上榜）。",
+        "跟踪": "14 天内观察到询价/预约/加购等可量化信号再投入（自动草稿）。",
     }
     return {
         question: {"question": question, "answer": answers[question], "draft": True}
@@ -540,7 +537,7 @@ def _candidate_from_signal(
     summary = _clean_summary(signal, title)
     sectors = "、".join(INDUSTRY_NAMES.get(item, item) for item in industries[:2])
     one_liner = _truncate(
-        f"{sectors}｜{summary}（自动发现线索，系统已初筛，未实体验证）",
+        f"{sectors}｜{summary}（自动发现线索，系统已初筛）",
         120,
     )
     localize = _localize(
@@ -810,9 +807,8 @@ def build_candidates(
                 "tiers": source_meta.get("tiers"),
             },
             "note": (
-                "自动发现候选（discovery layer）：是否成立为商机由系统评估（system_validation，"
-                "需求/信息差/证据/时效/可执行性，无需人工/实验）；能否赚钱是个人线下实体验证"
-                "（verification_status 默认 not_started，不参与收录/排序）；不写入 opportunities.json。"
+                "自动发现候选（discovery layer）：由系统自动评估商机信号（system_validation：需求/信息差/证据/时效/可执行性）；"
+                "不写入 opportunities.json。"
             ),
             "disclaimer": DISCLAIMER,
         },

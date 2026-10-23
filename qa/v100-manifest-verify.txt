@@ -1,0 +1,1 @@
+[OK] MANIFEST OK (19/19) · release=releases/v1.0.0 · source=HEAD

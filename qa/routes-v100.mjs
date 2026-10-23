@@ -50,9 +50,9 @@ for (const width of [1600, 1024]) {
       const zero = canvases.filter((c) => !c.width || !c.height).length
       return { text: (main.innerText || '').slice(0, 300), overflow, canvases: canvases.length, zero }
     })()`)
-    const row = { width, route, overflow: info.overflow, canvases: info.canvases, zero, consoleErrors: [...consoleErrors], text: info.text }
+    const row = { width, route, overflow: info.overflow, canvases: info.canvases, zero: info.zero, consoleErrors: [...consoleErrors], text: info.text }
     rows.push(row)
-    console.log(`${width} ${route.padEnd(52)} over=${row.overflow} canvas=${row.canvases} zero=${zero} err=${row.consoleErrors.length} | ${row.text.replace(/\s+/g, ' ').slice(0, 60)}`)
+    console.log(`${width} ${route.padEnd(52)} over=${row.overflow} canvas=${row.canvases} zero=${row.zero} err=${row.consoleErrors.length} | ${row.text.replace(/\s+/g, ' ').slice(0, 60)}`)
   }
 }
 // 已删路由：不应渲染对应功能（NotFound/重定向均可，但不得出现该功能页头）

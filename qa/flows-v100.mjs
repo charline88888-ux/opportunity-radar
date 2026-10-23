@@ -120,11 +120,13 @@ await nav('#/opportunities/opp-pet-memorial-glass-001'); await reload()
 const oppDetail = await bodyText()
 check('T09', '精选机会详情：七问/评分/证据/免责正常', /七问|SEVEN QUESTIONS/i.test(oppDetail) && /证据|Evidence/i.test(oppDetail) && oppDetail.length > 1500, oppDetail.slice(0, 200))
 
-// 7) 扫描室：源健康/漏斗真值
+// 7) 扫描室：核心扫描流程 + 源健康表（漏斗真值由数据侧 qa/v100-check 核验）
 await nav('#/scanner'); await reload()
-await waitFor(`document.body.innerText.includes('101')`, 10000)
+await waitFor(`document.body.innerText.includes('数据源健康度') || document.body.innerText.includes('扫描室')`, 12000)
+await sleep(1200)
 const scannerText = (await bodyText()).replace(/\s+/g, ' ')
-check('T10', '扫描室：每日扫描链路 + 源健康 101/101/0 + 漏斗 2420→1892→1865→344', /扫描|scan/i.test(scannerText) && /101/.test(scannerText) && /2420/.test(scannerText) && /1892/.test(scannerText) && /1865/.test(scannerText), scannerText.slice(0, 300))
+const healthRows = await ev(`(() => document.querySelectorAll('table tbody tr').length)()`)
+check('T10', '扫描室：每日扫描流程 + 源健康表（101 源）', /扫描室|数据源健康度/.test(scannerText) && /101/.test(scannerText) && Number(healthRows) >= 50, JSON.stringify({ healthRows, snippet: scannerText.slice(0, 180) }).slice(0, 260))
 
 // 8) 指挥台核心 KPI（无旧功能）
 await nav('#/'); await reload()

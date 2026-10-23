@@ -138,7 +138,7 @@ check('I13', 'EN 切换：localStorage 持久化且刷新后保持', persisted.s
 // 切回中文
 await ev(`(() => { const b = [...document.querySelectorAll('button')].find((e) => (e.innerText || '').trim() === '中文'); if (b) b.click(); return !!b })()`)
 await sleep(1200)
-const backZh = await ev(`(() => ({ lang: document.documentElement.lang, hasZh: (document.body.innerText || '').includes('排行榜') }))()`)
+const backZh = await ev(`(() => ({ lang: document.documentElement.lang, hasZh: (document.body.innerText || '').includes('商机榜'), text: (document.body.innerText || '').slice(0, 500) }))()`)
 check('I14', '切回中文即时生效', String(backZh.lang).startsWith('zh') && (backZh.hasZh || /商机榜/.test((backZh.text || ''))), JSON.stringify(backZh))
 const enOverflow = enPages.filter((p) => p.horizontalOverflow)
 check('I16', 'EN 9 路由无横向溢出', enOverflow.length === 0, `overflow=${enOverflow.map((p) => p.route).join(',') || 'none'}`)

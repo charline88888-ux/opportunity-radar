@@ -1728,3 +1728,44 @@ python qa/online-check-v07.py --version v0.7.2             # 新站结构 PASS
 ## 25.7 一句话
 
 **v0.9.2 可发布：系统评估（8 checks、high53/medium133/low14 avg92.9、200/200 verified_by_system）与实体验证（not_started、可选、不影响排序/展示）边界清晰；中文标题 200/200（原文保留）；源 168/101/11、funnel 101/101/0（2420→1892→1865→344→200）控制台修复实测通过；MANIFEST 19/19、tag deploy+CI success、线上 root 与 /v0.9.2/ 同 hash 且旧归档不串台；P0=0、P1=0、4 个 P2 不阻塞。**
+
+---
+
+# 第 26 章 · v1.0.0 核心回归红队验收（2026-10-23 19:00）
+
+> 版本：app 1.0.0 / data 1.0.0（as_of=2026-10-23）｜验收人：redteam｜任务：task-60
+> 冻结：`releases/v1.0.0/`（tag v1.0.0 → 1dadd77e，内容提交 4a6612c）｜dist 3,483,763 B / `5A65F6CB…A717`
+> **结论：P0=0、P1=1（候选七问文案仍含验证/实验，400 处）、P2=2；不建议按当前冻结件直接交付，建议 v1.0.1 清洗文案后再发布。**
+
+## 26.1 核心回归（PASS）
+
+- **9 路由**：`/` 指挥台、`/rankings` 商机榜、`/candidates/:id` 候选详情、`/opportunities/:id` 精选详情、`/scanner` 扫描室、`/method` 方法论、`/sources` 数据源、`/calendar` 商业日历、`/about` 关于；删除的 8 路由（/discover /control /lab /calibration /profile /alerts /yearbook /data）全部 404，不渲染功能页。
+- **唯一商机榜**：自动候选 200 + 精选 80 混排，四窗口日/周/月/年，全部/精选筛选；候选全入榜（day99/week200/month200/year200，年窗口 200/200 覆盖）；精选 80 条内容与 v0.9.2 完全一致。
+- **删除非核心**：data/reports 仅 8 个四窗口报告（calibration/yearbook 已删）；experiments/profile/alerts/rec_log/yearbook 数据均不存在；candidates/meta 移除 verification_status/verified_by_system 等验证字段（保留纯 system_validation 评估）。
+- **数据**：sources 168/101/11/8；source-health 101/101/0/items2420；outbox raw2420→signal1892/new1865/seen27/ledger1865；validate **20/20**、unittest **123/123**、`--all` 双跑 **0 变化（26 文件）**；db 80/156/654/101；stats 精选80/候选200/今日99；关键指纹与 data-engineer 一致。
+- **P1 冷缓存 determinism 已修复**：删除 translation-cache 三文件后 `candidates.py --as-of 2026-10-23 --limit 200` **cold1 == committed（7FA17E27…）**、cold2==cold1；`--all` 后仍==committed（证据 qa/v100-cold 现场输出；已恢复缓存/候选文件）。
+- **前端**：dist 3,483,763 B / 5A65F6CB… = 冻结 dist；`qa/flows-v100.mjs` **15/15 PASS**（9 路由/无删除入口/商机榜混排/四窗口/筛选/候选详情/精选详情/扫描室源健康/指挥台核心 KPI）；`qa/routes-v100.mjs` 9 路由 ×1600/1024 **overflow=0、consoleErrors=0、removedBad=0**；i18n **16/16 PASS**；截图 v100 15 + v100-frozen 15（jsErrors=0）+ frontend final-v1.0 18；read_image 目检商机榜/候选详情正常。
+
+## 26.2 P1：候选七问文案仍含“验证/实验”（400 处）
+
+- `data/candidates.json` 200 条候选的 `seven_questions` 中，「渠道」答案含“先用来源媒体/社群做内容**验证**”，「验证」项答案含“14 天内观察到…再投入（**验证**可选，不影响上榜）”；**共 400 处（每条 2 处）**；`one_liner_zh` 另有 1 处“验证”。截图 `qa/screenshots/v100/03-candidate-detail.png` 可见「执行检查」段该文案。
+- 与 task-58/60「彻底移除验证/实验 UI 与文案（gating 正则 0）」直接冲突；属**数据模板文案**，不是逻辑门禁（排序/收录不受影响），但产品页可见。
+- 建议 v1.0.1：清洗七问模板（渠道→“内容核验/来源核验”；执行检查去掉“验证”与“验证可选”），重生成 candidates/candidate-rankings（窗口/评分/榜单计数不变），给新指纹；其余数据不动。
+
+## 26.3 冻结 + Actions + 线上
+
+- `qa/manifest-check.py --version v1.0.0`：**MANIFEST 19/19 与 tag blob 一致**；`verify_manifest.py` **MANIFEST OK (19/19)**；冻结 dist 5A65F6CB…/3,483,763 B = app/dist；tag 1dadd77e→内容 4a6612c；VERSION-README 含 v1.0.0。
+- Actions：**Deploy run 39941898800 success**（tag v1.0.0，head 1dadd77）；**CI run 39941894149 success**；**Daily data refresh & deploy run 39941894085 success**；pages run 39942332090 success（期间 39942288554 cancelled 属重试）；gh-pages 5a425ed。
+- 线上（`qa/online-check-v07.py --version v1.0.0`）**PASS**：`/` 与 `/v1.0.0/` 同 hash 5A65F6CB…/3,483,763 B；root 内嵌 as_of=2026-10-23=tag 数据；历史 v0.1.0…v0.9.2 全部与各自 tag 冻结 blob 逐字节一致不串台；versions latest=v1.0.0 path=/v1.0.0/；404 正常。
+
+## 26.4 P2 清单
+
+| # | 项 | 现状 | 建议 |
+|---|---|---|---|
+| P2-1 | repo 仍含本地控制台工具 | scanner/serve.py、test_serve.py、启动机会雷达.bat 仍在 repo；9 路由/冻结 MANIFEST 不含、产品不可见 | 删除或移入 dev-only 目录并注明 |
+| P2-2 | versions.json daily 字段 | daily_channel/live_as_of 缺失（可选字段；root=最新冻结当日数据） | 下次 daily workflow 写回或 build_site tag 模式补齐 |
+| P2-3 | Pages 传播 | 发布期间 pages run 一次 cancelled（39942288554），随后 39942332090 success；线上最终 PASS | 验收以最终成功 run/多轮重试为准 |
+
+## 26.5 一句话
+
+**v1.0.0 核心回归技术上通过（9 路由/唯一商机榜/候选 200 全入榜/精选 80/删除功能干净/冷缓存 determinism 已修复/冻结 MANIFEST 19/19/tag deploy+CI+daily success/线上同 hash），但发现 1 个 P1：200 条候选七问仍含“验证/实验”文案 400 处（可见于详情页），**不建议按当前冻结件直接交付，建议 v1.0.1 清洗文案后再发布**。**
