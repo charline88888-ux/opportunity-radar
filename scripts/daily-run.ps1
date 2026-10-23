@@ -1,4 +1,4 @@
-# daily-run.ps1 — 每日自动运行：推进 as_of → 更新数据 → 校验 → 构建 → 生成 current/index.html
+﻿# daily-run.ps1 — 每日自动运行：推进 as_of → 更新数据 → 校验 → 构建 → 生成 current/index.html
 # 用法：
 #   powershell -ExecutionPolicy Bypass -File scripts/daily-run.ps1
 #   powershell -ExecutionPolicy Bypass -File scripts/daily-run.ps1 -Fetch          # 同时真实采集（outbox 待人工复核）

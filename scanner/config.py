@@ -29,7 +29,7 @@ CANDIDATES_PATH = DATA_DIR / "candidates.json"
 CANDIDATE_RANKINGS_PATH = DATA_DIR / "candidate-rankings.json"
 DB_PATH = DATA_DIR / "radar.db"
 
-DATA_VERSION = "0.9.1"
+DATA_VERSION = "0.9.2"
 DEFAULT_AS_OF = "2026-10-22"
 CURRENT_WEEK = "2026-W43"
 CANDIDATE_LIMIT = 200  # v0.9.1：候选上限可配置（CLI --candidates-limit / candidates.py --limit）
@@ -48,7 +48,7 @@ FETCH_TIMEOUT_SEC = 20
 FETCH_MAX_RETRIES = 2
 FETCH_MIN_INTERVAL_SEC = 1.0  # 同域限速（每域 ≤1 req/s）
 FETCH_CACHE_TTL_SEC = 6 * 3600
-FETCH_DEFAULT_LIMIT = 60  # v0.8.0：默认扫描全部 enabled 自动源（原 8）
+FETCH_DEFAULT_LIMIT = 120  # v0.9.2：覆盖全部 enabled 自动源（原 60）
 FETCH_MAX_ITEMS_PER_SOURCE = 30  # 单源单次最多保留的条数（评论流/长列表防爆）
 FETCHABLE_ACCESS = {"rss", "json"}  # v0.8.0：RSS/Atom 与公开 JSON feed
 FETCHABLE_COMPLIANCE = {"green", "yellow"}

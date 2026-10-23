@@ -2,6 +2,35 @@
 
 格式：`data_version` + 日期 + 变更内容 + 影响面。契约变更（字段/枚举/公式）必须同步更新 `docs/12-数据契约与字段字典.md` 并通知 Lead、前端、红队。
 
+## data-v0.9.2 · 2026-10-23 · MINOR 增量（商机系统评估 + 中文候选 + 漏斗修复 + 源 168/101）
+
+> 边界原则（用户明确）：**“是不是商机”由系统评估（需求/信息差/证据/时效/可执行性），无需人工；“能不能赚钱”是个人线下实体验证（可选），系统不验证、不承诺、不作为门禁。**
+
+### A) 商机系统评估（`scanner/candidates.py`）
+- 每条候选新增 `system_validation`：`verified_by_system=true`、`level(high|medium|low)`、`score(0-100)`、`checks`（**8 项**：需求信号、信息差明确、证据链接、来源质量、时效、可执行性、地理/场景具体性、竞争/窗口）、`notes`（边界说明）；meta 新增 `system_validation_summary{high,medium,low,avg_score,verified_by_system,note}`。实测 200 条：**high 53 / medium 133 / low 14，avg 92.9**，纯自动计算、无人工/实验输入。
+- `verification_status` 语义改为**个人实体验证**：默认 **not_started**（可选 observing/tested），仅展示、**不参与收录/排序**；meta 增加 `verification_status_default`、`verification_affects_ranking=false`；stats 新增 `verification_not_started_candidates=200`、`system_verified_candidates=200`。
+
+### B) 候选中文化
+- 新增 `title_zh(≤28)/one_liner_zh(≤60)/title_original/translation_method(template|source-zh)`；英文源用词典+行业/信息差模板生成中文主标题，中文源保留原文；质量实测 **200/200 有中文标题（ratio 1.0；template 194 / source-zh 6）**，无英文整句直接搬运；英文原标题保留在 `title_original`。
+
+### C) 漏斗计数（控制台）
+- `serve.py` 的 `/api/status.outbox.funnel` 与 `source_count` 改为以 `data/source-health.json` 真值为准：**attempted 101 / ok 101 / failed 0**（含 `failed_sources[{id,http_status,error}]`）；raw 2420 → deduped 1892 → new 1865 → relevant(business) 344 → candidates 200（candidates meta 同步 `funnel`）。
+
+### D) 源修复/扩充（168 平台 / 101 enabled / 11 区域）
+- `fetch.py` 增加 XML 容错（清理未转义 `&`/控制字符后重试）→ **rest-of-world 恢复**（200/12 条）；**Arab News 403 换源 Middle East Monitor**（200/50）；补 8 个实测源：The New Arab、BBC Business、Guardian Business、NPR Business、Phys.org、ScienceDaily、MIT Technology Review、Wired；8 个 disabled 保留原因。
+- 干净重置 ledger/outbox 后 `--fetch --no-cache --fetch-limit 160`：**101/101 源成功**、2420 原始 → 1892 信号、**new 1865 / seen 27 / ledger 1865**；source-health 101 行 items 2420、mode=online-fetch。
+- 控制台 fetch 命令增加 `--fetch-limit 120`（覆盖全部 enabled）；job 日志流式解码改为 `_decode_locale` 逐行（UTF-8 严格优先/本地编码兜底）并给子进程设 `PYTHONIOENCODING=utf-8`。
+
+### E) 版本/复核
+- 全部 data meta 升 **0.9.2**（含 4 份 history、outbox/source-health）；候选四窗口 **day 99 / week 200 / month 200 / year 200**；stats 候选 200 / 今日新增 99；精选 80 条与 opportunities 内容口径不变；报告/年鉴/校准按 0.9.2 重生成；db 80/156/654/101。
+- validate **20/20**；unittest **117/117**（新增 XML 容错、system_validation/中文覆盖等）；`--all --as-of 2026-10-23` 双跑幂等（data JSON+db+reports 0 变化）。
+- 指纹（SHA256 前 16）：opportunities `88FDA5AB84B7F826`（未变）、rankings `70D0970C5FF94AC7`、stats `331BBBB9CA4F71D1`、candidates `EF822C7152AD1A65`、candidate-rankings `FC10B813E4D9C1A6`、sources `1354E3C4DA59AE38`、source-health `3A019B49C4E33311`、radar.db `ACFFA988B489E99B`、report-day-10-23 `B0861D45E123624B`、yearbook `6192622D29872171`、calibration `4B6E84C2F7B2918F`；代码 candidates.py `04E32E9976FFE079`、fetch.py `39F9E07D636F5125`、serve.py `BE893F5EA3B20176`、stats.py `56BB4E8C1BB26385`、config.py `64BE106E19F3B845`。
+
+### 已知不足
+- system_validation 为启发式评分，`level_thresholds={high:95,medium:87}` 按当前数据分布设定，后续可校准；不代表“能赚钱”。
+- 中文标题模板化（template 194/200），品牌/专名仍保留原文；后续可接离线词典/可选 LLM 提升自然度。
+- Google News/聚合源仍为宏观新闻；源 101 enabled，首跑联网约 6–8 分钟。
+
 ## data-v0.9.1 · 2026-10-23 · MINOR 增量（源 160/91 + 候选质量：清洗/gap 兜底/新鲜度）
 
 > 双轨与验证原则不变：自动候选直接上榜，`verification_status` 仅展示、不参与收录/排序；机会库仍 80 条人工库。

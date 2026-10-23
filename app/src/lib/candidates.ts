@@ -27,9 +27,27 @@ export interface CandidateRoi {
   gross_margin_pct?: number
 }
 
+export interface SystemValidationCheck {
+  id?: string
+  name?: string
+  passed?: boolean
+  note?: string
+}
+
+export interface SystemValidation {
+  level: 'high' | 'medium' | 'low' | string
+  score: number
+  checks: SystemValidationCheck[]
+  notes?: string
+}
+
 export interface Candidate {
   candidate_id: string
   title: string
+  title_zh?: string
+  title_original?: string
+  one_liner_zh?: string
+  translation_method?: string
   one_liner: string
   industry_ids: string[]
   gap_type_ids: string[]
@@ -43,6 +61,8 @@ export interface Candidate {
   confidence: number
   status: string
   verification_status: string
+  system_validation?: SystemValidation
+  verified_by_system?: boolean
   first_seen: string
   last_seen: string
   disclaimer: string
@@ -100,9 +120,22 @@ function normalizeCandidate(raw: unknown, index = 0): Candidate | null {
   const seven = isObj(raw.seven_questions)
     ? Object.fromEntries(Object.entries(raw.seven_questions).map(([k, v]) => [k, typeof v === 'string' ? v : isObj(v) ? str(v.answer, str(v.value)) : String(v)]))
     : arr(raw.seven_questions).map((q, i) => ({ key: str((q as Obj)?.key, `q${i + 1}`), value: str((q as Obj)?.value, str((q as Obj)?.answer)) }))
+  const scores = normalizeScores(raw.scores)
+  const svRaw = isObj(raw.system_validation) ? raw.system_validation : {}
+  const level = str(svRaw.level, scores.total >= 75 ? 'high' : scores.total >= 65 ? 'medium' : 'low')
+  const systemValidation: SystemValidation = {
+    level,
+    score: num(svRaw.score, scores.total),
+    checks: arr(svRaw.checks).filter(isObj).map((c) => ({ id: str(c.id), name: str(c.name), passed: c.passed === true, note: str(c.note) })),
+    notes: str(svRaw.notes),
+  }
   return {
     candidate_id: id,
     title,
+    title_zh: str(raw.title_zh),
+    title_original: str(raw.title_original),
+    one_liner_zh: str(raw.one_liner_zh),
+    translation_method: str(raw.translation_method),
     one_liner: str(raw.one_liner, str(raw.summary)),
     industry_ids: strs(raw.industry_ids),
     gap_type_ids: strs(raw.gap_type_ids),
@@ -112,10 +145,12 @@ function normalizeCandidate(raw: unknown, index = 0): Candidate | null {
     evidence,
     seven_questions: seven,
     roi: normalizeRoi(raw.roi),
-    scores: normalizeScores(raw.scores),
+    scores,
     confidence: num(raw.confidence, 60),
     status: str(raw.status, 'auto-discovered'),
-    verification_status: str(raw.verification_status, 'unverified'),
+    verification_status: str(raw.verification_status, 'not_started'),
+    system_validation: systemValidation,
+    verified_by_system: raw.verified_by_system !== false,
     first_seen: str(raw.first_seen),
     last_seen: str(raw.last_seen, str(raw.first_seen)),
     disclaimer: str(raw.disclaimer, '自动发现候选，未经验证，仅作研究线索，不构成投资建议。'),

@@ -1,6 +1,6 @@
-# scanner/ —— 机会雷达扫描流水线（Python 3.11，纯标准库，data-v0.9.1）
+# scanner/ —— 机会雷达扫描流水线（Python 3.11，纯标准库，data-v0.9.2）
 
-> 唯一数据标准：`docs/12-数据契约与字段字典.md`（data-v0.9.1）。扫描器是 `data/rankings.json`、`data/stats.json`、`data/history/*.json`、`data/source-health.json` 与 `scanner/outbox/` 的**唯一生成者**；按契约 4.5/5.x 重算派生字段、按 §9 做 V01–V20 校验；`scanner/serve.py` 提供本地控制台（v0.7.0）。
+> 唯一数据标准：`docs/12-数据契约与字段字典.md`（data-v0.9.2）。扫描器是 `data/rankings.json`、`data/stats.json`、`data/history/*.json`、`data/source-health.json` 与 `scanner/outbox/` 的**唯一生成者**；按契约 4.5/5.x 重算派生字段、按 §9 做 V01–V20 校验；`scanner/serve.py` 提供本地控制台（v0.7.0）。
 
 ## 1. 快速开始
 
@@ -52,7 +52,7 @@ python scanner/serve.py --port 8788 --open   # 自定义端口并自动打开 #/
 python scanner/candidates.py --as-of 2026-10-23
 python scanner/pipeline.py --candidates --as-of 2026-10-23
 
-# 单元测试（标准库 unittest，114 条）
+# 单元测试（标准库 unittest，117 条）
 python -m unittest discover -s scanner/tests -v
 ```
 
@@ -107,9 +107,9 @@ data/opportunities.json  ── score.py/materialize.py 重算 → 回写派生�
 | `materialize.py` | 机会对象物化：`evidence_count`、日期链、momentum clip、评分回写；缺维度抛错 | §4.1/§4.5 |
 | `rank.py` | 窗口、排序链、真实 delta（day 用上一日快照；week/month/year 同 key；两期都有才计算，新增 null/new；无历史回退 adjacent-window） | §5.1 |
 | `stats.py` | KPI（v0.9.0 含候选计数）、分组分布、评分直方图、14 天趋势、开放窗口价值 | §5.2 / §1.13 |
-| `candidates.py` | v0.9.1 自动候选：outbox business 信号 → 候选卡（标题/摘要清洗、gap 兜底覆盖 + `gap_inference` 说明、`source.cleaned/raw_title`、七问草稿/ROI/10 维启发式/confidence/unverified、同 URL 保留最新）+ 四窗口发现榜；上限可配；不写 opportunities.json | §1.13/§1.14 |
+| `candidates.py` | v0.9.2 自动候选：outbox business 信号 → 候选卡（标题/摘要清洗、gap 兜底、`system_validation` 8 项系统评估、中文 `title_zh/one_liner_zh`、七问草稿/ROI/10 维评分、`verification_status=not_started` 实体验证默认、同 URL 保留最新；上限可配）+ 四窗口发现榜；不写 opportunities.json | §1.13-§1.15 |
 | `db.py` | `data/radar.db`（opportunities/evidence/rankings_history/source_health），原子重建 | §1.1 |
-| `fetch.py` | 真实采集：RSS/Atom/JSON feed、enabled/priority 源选择、限速/缓存/UA/重试、账本去重、相关性初筛、outbox、source-health v2 | §1.2/§6/§1.12 |
+| `fetch.py` | 真实采集：RSS/Atom/JSON feed（v0.9.2 XML 容错）、enabled/priority 源选择、限速/缓存/UA/重试、账本去重、相关性初筛、outbox、source-health v2 | §1.2/§6/§1.12 |
 | `ledger.py` | 持久信号账本（SQLite `scanner/build/signal-ledger.sqlite`）：canonical_url/title_hash/content_hash、first_seen/last_seen/seen_count；跨批去重 | §1.12 |
 | `relevance.py` | 信号相关性初筛：relevance_score 0-100、industry/gap/region ids、tier（business/maybe/off-topic）、reasons；仅线索、不自动入库 | §1.12 |
 | `report.py` | 四窗口报告（自包含 HTML + Markdown），`generated_at` 确定性 | §1.1 |
@@ -119,7 +119,7 @@ data/opportunities.json  ── score.py/materialize.py 重算 → 回写派生�
 | `validate.py` | V01–V20；**v0.8.0 V10** 校验源注册表字段（enabled/priority/kind/lang/limits）且 enabled 自动源 ≥20；**v0.6.0 配额收紧**：V02（≥80 条/14 行业各≥2/11 区域/≥50 国家/中国角度≥25）、V08（完整配额只在基准日强制，其他 as_of 仅结构校验，v0.6.1）；V19 快照、V20 source-health v2 | §9 |
 | `serve.py` | **v0.7.0 本地控制台后端**：仅 127.0.0.1、token 认证、静态服务（current→app/dist→releases）+ token 注入 index、`/api/health|status|run|job|logs|log|schedule`、单任务 409、路径穿越防护、`scanner/logs/console.log` | §1.8 |
 | `adapters/` | `rss` / `reddit` / `google_trends` / `ecommerce_reviews` 离线适配器 | §1/§6 |
-| `tests/test_scanner.py` | 86 条单测：公式/舍入/边界/窗口/榜单/tie-breaker/物化/validate/归一/去重/history delta/回退/回放链与幂等/source-health/报告/SQLite/feed 解析/红源筛选/enrich/calibrate/yearbook/as-of/fetch --as-of/ledger/relevance/fetch-ledger 集成/候选生成与发现榜 | docs/04 §10.4 |
+| `tests/test_scanner.py` | 89 条单测：公式/舍入/边界/窗口/榜单/tie-breaker/物化/validate/归一/去重/history delta/回退/回放链与幂等/source-health/报告/SQLite/feed 解析/红源筛选/enrich/calibrate/yearbook/as-of/fetch --as-of/ledger/relevance/fetch-ledger 集成/候选生成与发现榜 | docs/04 §10.4 |
 | `tests/test_serve.py` | 28 条单测：health（含 Origin）/401/403/status（含 outbox 摘要）/静态与 SPA 回退/token 注入/无构建 503/run 409/job/logs 与路径穿越/schedule 校验与 disable 幂等/schtasks CSV 中英文解析/enable 后状态同步/locale 解码/fetch 命令 as-of/outbox 端点/token 不落日志 | §1.8 |
 
 ## 4. 历史快照、回放与真实 delta（v0.3.0）
@@ -214,7 +214,15 @@ data/opportunities.json  ── score.py/materialize.py 重算 → 回写派生�
 - **候选质量**：标题/摘要清洗（HTML/空白/来源尾缀/截断）；`gap_inference_coverage` 覆盖 200/200（fallback 28、missing 0、ratio 1.0）；`region_coverage` 11/11；`country_coverage` 28；同 canonical URL 保留最新；`config.CANDIDATE_LIMIT=200` + `--candidates-limit` 可配；`verification_affects_ranking=false` 不变。
 - data 版本 **0.9.1**（全部 meta），validate 20/20、unittest 114/114、`--all` 幂等。
 
-## 13. 已知限制
+## 13. v0.9.2 商机系统评估 + 中文候选 + 漏斗修复
+
+- **系统评估 vs 实体验证**：`system_validation`（8 checks：需求/信息差/证据/来源质量/时效/可执行性/地理具体性/竞争窗口）自动算 score/level，`verified_by_system=true`；`verification_status` 改为个人实体验证（默认 not_started），不参与收录/排序；meta `system_validation_summary` 分布 53/133/14、avg 92.9。
+- **中文候选**：`title_zh/one_liner_zh/title_original/translation_method`，离线模板+中文源保留；覆盖 200/200（template 194 / source-zh 6）。
+- **控制台**：`/api/status.outbox.funnel` 按 source-health 真值（101/101/0）+ 失败源原因；serve fetch 命令带 `--fetch-limit 120`；job 日志逐行 `_decode_locale` 解码（UTF-8 优先/本地编码兜底）并设 `PYTHONIOENCODING=utf-8`。
+- **源修复**：XML 容错恢复 rest-of-world；Arab News 403→Middle East Monitor；补 8 源（168 平台/101 enabled/11 区域），干净首跑 101/101 成功、2420 原始→1892 信号→new 1865。
+- data 版本 **0.9.2**（全部 meta）；validate 20/20、unittest 117/117、`--all` 幂等。
+
+## 14. 已知限制
 
 1. 回放快照是「按当日窗口规则重排现有机会」的演示口径，非真实历史存档；UI 需用 `reconstructed=true` 明示。
 2. `--all` 不联网；`--fetch` 当前只覆盖 RSS/JSON feed，公开 API 未接线。

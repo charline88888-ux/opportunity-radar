@@ -32,6 +32,17 @@ else:  # pragma: no cover
 _TAG_RE = re.compile(r"<[^>]+>")
 _ATOM_NS = {"a": "http://www.w3.org/2005/Atom"}
 _CONTENT_NS = {"content": "http://purl.org/rss/1.0/modules/content/"}
+_XML_INVALID_CHARS = re.compile(r"[\x00-\x08\x0b\x0c\x0e-\x1f]")
+_BARE_AMPERSAND = re.compile(r"&(?!(?:#\d+|#x[0-9a-fA-F]+|[A-Za-z][A-Za-z0-9]*);)")
+
+
+def _parse_xml(text: str) -> ET.Element:
+    """XML 容错解析（v0.9.2）：先原样解析；失败后清理控制字符/未转义 & 再试一次。"""
+    try:
+        return ET.fromstring(text)
+    except ET.ParseError:
+        cleaned = _BARE_AMPERSAND.sub("&amp;", _XML_INVALID_CHARS.sub("", text))
+        return ET.fromstring(cleaned)
 
 
 def _clean(text: str | None, limit: int = 500) -> str:
@@ -67,7 +78,7 @@ def parse_feed(text: str, source_id: str, source_category: str, lang: str = "en"
     """解析 RSS 2.0 / Atom / Apple 风格 JSON feed，返回统一 raw 记录（供 normalize 使用）。"""
     if text.lstrip().startswith("{"):
         return _parse_json_feed(text, source_id, source_category, lang=lang)
-    root = ET.fromstring(text)
+    root = _parse_xml(text)
     records: list[dict[str, Any]] = []
     now_iso = datetime.now().astimezone().isoformat(timespec="seconds")
 

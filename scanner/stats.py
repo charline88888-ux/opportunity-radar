@@ -119,10 +119,16 @@ def build_stats(
         "avg_total": round1(sum(totals) / len(totals)) if totals else 0.0,
         "verified_count": sum(1 for opp in opportunities if opp.get("verified") is True),
         "evidence_total": sum(len(opp.get("signal", {}).get("evidence", [])) for opp in opportunities),
-        # v0.9.0 自动发现轨（与精选人工库并行；验证状态不影响计数/排序）
+        # v0.9.0 自动发现轨（与精选人工库并行；v0.9.2：verification_status 语义=实体验证，默认 not_started）
         "candidates_total": len(candidate_rows),
         "today_new_candidates": sum(1 for candidate in candidate_rows if candidate.get("first_seen") == as_of_iso),
-        "unverified_candidates": sum(1 for candidate in candidate_rows if candidate.get("verification_status") == "unverified"),
+        "unverified_candidates": sum(
+            1 for candidate in candidate_rows if candidate.get("verification_status") in ("not_started", "unverified")
+        ),
+        "verification_not_started_candidates": sum(
+            1 for candidate in candidate_rows if candidate.get("verification_status") == "not_started"
+        ),
+        "system_verified_candidates": sum(1 for candidate in candidate_rows if candidate.get("verified_by_system") is True),
     }
 
     return {

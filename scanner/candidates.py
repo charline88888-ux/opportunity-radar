@@ -1,14 +1,10 @@
-"""自动候选商机生成（v0.9.0）：从在线采集 outbox 的 business 级信号直接生成“发现榜”候选卡。
+"""自动候选商机生成（v0.9.2）：从在线采集 outbox 的 business 级信号直接生成“发现榜”候选卡。
 
-产品原则（冻结）：**验证/实验不是信息获取与上榜的门禁。**
-- 候选从 `scanner/outbox/signals-*.json` 的 `tier=business` 信号自动生成，不够时按 relevance 补 `maybe` 高分；
-- 无需人工复核、无需商业验证、无需实验盈利即可进入候选榜；
-- `verification_status="unverified"` 只是展示标签，**不参与候选收录/排序**；
-- 不写 `data/opportunities.json`（精选人工库 80 条保持不变）。
-
-输出：
-- `data/candidates.json`（meta + candidates）
-- `data/candidate-rankings.json`（day/week/month/year，按 first_seen 归属，排序同 rank 规则）
+边界原则（冻结）：
+- **“这是不是一个商机”由系统评估**（需求/信息差/证据/时效/可执行性），自动计算、无需人工/实验；
+- **“我能不能靠它赚钱”是个人线下实体验证**（verification_status: not_started|observing|tested），
+  系统不验证、不承诺、也不作为收录/排序门禁；
+- 候选直接进入发现榜，无需人工复核；不写 `data/opportunities.json`（精选人工库 80 条保持不变）。
 """
 from __future__ import annotations
 
@@ -31,11 +27,36 @@ else:  # pragma: no cover
 CANDIDATE_LIMIT = int(getattr(config, "CANDIDATE_LIMIT", 200))
 WINDOWS = ("day", "week", "month", "year")
 STATUS_AUTO = "auto-discovered"
-VERIFICATION_UNVERIFIED = "unverified"
-DISCLAIMER = (
-    "自动发现的候选线索：由公开信号自动生成，未经人工复核/商业验证/实验盈利，"
-    "仅供参考发现商机；verification_status 仅展示，不影响收录与排序。"
+VERIFICATION_NOT_STARTED = "not_started"
+SYSTEM_BOUNDARY = (
+    "“这是不是一个商机”由系统按需求/信息差/证据/时效/可执行性自动评估（无需人工/实验）；"
+    "“我能不能靠它赚钱”是个人线下实体验证，系统不验证、不承诺、也不作为展示门禁。"
 )
+DISCLAIMER = (
+    "自动发现的候选线索：由公开信号自动生成，系统已做商机初筛评估（system_validation），"
+    "但未经个人实体验证；verification_status 默认 not_started，不影响收录与排序。"
+)
+
+ZH_GLOSSARY = {
+    "startup": "创业公司", "startups": "创业公司", "funding": "融资", "raised": "融资",
+    "acquisition": "收购", "acquires": "收购", "retail": "零售", "retailer": "零售商",
+    "ecommerce": "电商", "e-commerce": "电商", "marketplace": "平台", "pet": "宠物",
+    "pets": "宠物", "senior": "银发", "aging": "老龄化", "elderly": "老年人",
+    "compliance": "合规", "regulation": "监管", "regulatory": "监管", "policy": "政策",
+    "ai": "AI", "app": "应用", "apps": "应用", "market": "市场", "growth": "增长",
+    "launch": "上线", "launches": "上线", "expansion": "扩张", "payment": "支付",
+    "payments": "支付", "supply": "供应", "chain": "链", "logistics": "物流",
+    "brand": "品牌", "consumer": "消费者", "consumers": "消费者", "halal": "清真",
+    "energy": "能源", "solar": "太阳能", "health": "健康", "beauty": "美妆",
+    "travel": "旅行", "platform": "平台", "tariff": "关税", "export": "出口",
+    "import": "进口", "cross-border": "跨境", "smb": "中小企业", "sme": "中小企业",
+    "pricing": "定价", "revenue": "收入", "customers": "客户", "demand": "需求",
+    "small business": "中小企业", "venture": "风投", "seed": "种子轮", "series": "轮融资",
+    "crypto": "加密货币", "fintech": "金融科技", "bank": "银行", "banks": "银行",
+    "healthcare": "医疗", "education": "教育", "food": "食品", "delivery": "配送",
+    "store": "门店", "stores": "门店", "sustainability": "可持续", "recycling": "回收",
+    "plastic": "塑料", "packaging": "包装", "the": "", "and": "与", "of": "的",
+}
 
 INDUSTRY_NAMES = {
     "pet": "宠物",
@@ -339,6 +360,134 @@ def _scores(signal: dict[str, Any], industries: list[str], regions: list[str], e
     }
 
 
+def _has_cjk(text: str) -> bool:
+    return any("\u4e00" <= char <= "\u9fff" for char in text or "")
+
+
+def _translate_terms(text: str) -> list[str]:
+    lowered = (text or "").lower()
+    terms: list[str] = []
+    for english, chinese in ZH_GLOSSARY.items():
+        if not chinese:
+            continue
+        if re.search(r"(?<![a-z])" + re.escape(english) + r"(?![a-z])", lowered) and chinese not in terms:
+            terms.append(chinese)
+        if len(terms) >= 8:
+            break
+    return terms
+
+
+def _localize(
+    signal: dict[str, Any],
+    title_original: str,
+    summary: str,
+    industries: list[str],
+    gaps: list[str],
+    regions: list[str],
+) -> dict[str, str]:
+    """候选中文化（离线）：中文源保留原文（source-zh）；英文源用词典+行业/信息差模板生成中文主标题。"""
+    industry_zh = "、".join(INDUSTRY_NAMES.get(item, item) for item in industries[:2]) or "跨境"
+    gap_zh = "、".join(GAP_NAMES.get(item, item) for item in gaps[:2]) or "信息差"
+    region_zh = "、".join(REGION_NAMES.get(item, item) for item in regions[:2]) or "全球"
+    lang = str(signal.get("lang") or "").lower()
+    native = lang.startswith("zh") or (_has_cjk(title_original) and not title_original.isascii())
+    if native:
+        cleaned_native = _clean_title(signal) or title_original
+        title_zh = _truncate(cleaned_native, 28)
+        one_liner_zh = _truncate(_clean_summary(signal, cleaned_native), 60)
+        method = "source-zh"
+    else:
+        terms = _translate_terms(f"{title_original} {summary}")
+        if terms:
+            core = "｜".join(terms[:2])
+            title_zh = _truncate(f"{core}｜{gap_zh}商机", 28)
+        else:
+            title_zh = _truncate(f"{industry_zh}·{gap_zh}商机线索", 28)
+        if not _has_cjk(title_zh):
+            title_zh = _truncate(f"{industry_zh}商机线索", 28)
+        detail = "，".join(terms[:4]) if terms else f"{region_zh}公开信号显示需求变化"
+        one_liner_zh = _truncate(f"{industry_zh}｜{gap_zh}：{detail}（系统初筛，个人可实测）", 60)
+        method = "template"
+    return {
+        "title_zh": title_zh,
+        "one_liner_zh": one_liner_zh,
+        "title_original": _truncate(title_original, 120),
+        "translation_method": method,
+    }
+
+
+def _system_validation(
+    signal: dict[str, Any],
+    source_meta: dict[str, Any],
+    industries: list[str],
+    gaps: list[str],
+    gap_inferred: bool,
+    regions: list[str],
+    countries: list[str],
+    evidence: list[dict[str, Any]],
+    published: str,
+    as_of: date,
+) -> dict[str, Any]:
+    """系统商机评估（无需人工/实验）：≥5 项检查 + score/level；不代表“能赚钱”。"""
+    relevance = float(signal.get("relevance_score") or 0)
+    tier = str(signal.get("tier") or "")
+    try:
+        days_old = (as_of - common.parse_date(published)).days
+    except (TypeError, ValueError):
+        days_old = 999
+    source_ok = source_meta.get("compliance") in (None, "green", "yellow") and source_meta.get("enabled") is not False
+    yellow_source = source_meta.get("compliance") == "yellow"
+
+    def check(check_id: str, name: str, passed: bool, note: str, points: int) -> dict[str, Any]:
+        return {"id": check_id, "name": name, "passed": bool(passed), "note": note, "points": int(points)}
+
+    demand_points = int(round(25 * min(1.0, relevance / 95.0)))
+    gap_points = 15 if (gaps and not gap_inferred) else (9 if gaps else 0)
+    evidence_points = 12 if len(evidence) >= 2 else (8 if evidence and evidence[0].get("url") else 0)
+    source_points = 12 if source_ok and not yellow_source else (8 if source_ok else 0)
+    if days_old <= 3:
+        time_points = 15
+    elif days_old <= 14:
+        time_points = 12
+    elif days_old <= 30:
+        time_points = 8
+    elif days_old <= 90:
+        time_points = 4
+    else:
+        time_points = 0
+    action_points = 10 if industries and countries else (5 if industries or countries else 0)
+    specificity_points = 8 if regions else 4
+    window_points = 5 if days_old <= 7 else (3 if days_old <= 30 else 0)
+    checks = [
+        check("demand_signal", "需求信号", demand_points >= 15, f"相关性 {relevance:.0f}/100，tier={tier or 'unknown'}；{demand_points}/25", demand_points),
+        check("gap_clarity", "信息差明确", gap_points >= 9, "信息差：" + ("、".join(GAP_NAMES.get(item, item) for item in gaps) if gaps else "未识别") + f"；{gap_points}/15", gap_points),
+        check("evidence", "证据链接", evidence_points > 0, f"公开链接 {len(evidence)} 条（无需人工核验）；{evidence_points}/12", evidence_points),
+        check("source_quality", "来源质量", source_points > 0, f"来源 {source_meta.get('name') or signal.get('source_id')}（compliance={source_meta.get('compliance') or 'unknown'}）；{source_points}/12", source_points),
+        check("timeliness", "时效", time_points > 0, (f"发布距基准日 {days_old} 天；{time_points}/15" if days_old != 999 else "发布日期未知"), time_points),
+        check("actionability", "可执行性", action_points >= 5, f"行业 {len(industries)} / 目标国家 {len(countries)} / ROI 默认区间；{action_points}/10", action_points),
+        check("specificity", "地理/场景具体性", specificity_points > 0, "区域：" + ("、".join(REGION_NAMES.get(item, item) for item in regions) if regions else "未识别") + f"；{specificity_points}/8", specificity_points),
+        check("competition_window", "竞争/窗口", window_points > 0, f"新鲜度窗口 {days_old} 天；{window_points}/5", window_points),
+    ]
+    score = int(round(sum(int(item["points"]) for item in checks)))
+    score = max(0, min(100, score))
+    if score >= 95:
+        level = "high"
+    elif score >= 87:
+        level = "medium"
+    else:
+        level = "low"
+    return {
+        "verified_by_system": True,
+        "level": level,
+        "score": score,
+        "level_thresholds": {"high": 95, "medium": 87},
+        "checks": checks,
+        "checks_passed": sum(1 for item in checks if item["passed"]),
+        "checks_total": len(checks),
+        "notes": SYSTEM_BOUNDARY,
+    }
+
+
 def _candidate_from_signal(signal: dict[str, Any], sources: dict[str, dict[str, Any]], as_of: date) -> dict[str, Any]:
     industries = _industry_ids(signal)
     gaps, gap_inferred = _infer_gaps(signal, industries)
@@ -356,11 +505,15 @@ def _candidate_from_signal(signal: dict[str, Any], sources: dict[str, dict[str, 
         first_seen = as_of.isoformat()
     last_seen = first_seen
     url = str(signal.get("url") or "")
+    title_original = _strip_html(str(signal.get("title") or ""))
     title = _clean_title(signal)
     summary = _clean_summary(signal, title)
+    localize = _localize(signal, title_original or title, summary, industries, gaps, regions)
+    title_zh = localize["title_zh"]
+    one_liner_zh = localize["one_liner_zh"]
     evidence = [
         {
-            "title": title,
+            "title": title_zh,
             "url": url,
             "source_id": source_id,
             "publisher": source_name,
@@ -369,17 +522,24 @@ def _candidate_from_signal(signal: dict[str, Any], sources: dict[str, dict[str, 
             "verified_by_human": False,
         }
     ]
+    system_validation = _system_validation(
+        signal, source_meta, industries, gaps, gap_inferred, regions, countries, evidence, published, as_of
+    )
     candidate_id = "cand-" + _hash(url or title, str(signal.get("title_norm") or title))[:12]
     relevance = float(signal.get("relevance_score") or 0)
     sectors = "、".join(INDUSTRY_NAMES.get(item, item) for item in industries[:2])
     one_liner = _truncate(
-        f"{sectors}｜{summary}（自动发现线索，未人工复核）",
+        f"{sectors}｜{summary}（自动发现线索，系统已初筛，未实体验证）",
         120,
     )
     confidence = int(round(common.clamp(30 + relevance * 0.5 + (10 if signal.get("tier") == "business" else 0) + 5 + 5, 0, 95)))
     return {
         "candidate_id": candidate_id,
-        "title": title,
+        "title": title_zh,
+        "title_zh": title_zh,
+        "one_liner_zh": one_liner_zh,
+        "title_original": localize["title_original"],
+        "translation_method": localize["translation_method"],
         "one_liner": one_liner,
         "industry_ids": industries,
         "gap_type_ids": gaps,
@@ -392,18 +552,21 @@ def _candidate_from_signal(signal: dict[str, Any], sources: dict[str, dict[str, 
             "id": source_id,
             "name": source_name,
             "url": url,
-            "cleaned": title,
-            "raw_title": _strip_html(str(signal.get("title") or "")),
+            "cleaned": title_zh,
+            "raw_title": title_original,
             "published_at": published,
             "summary": summary,
         },
         "evidence": evidence,
+        "system_validation": system_validation,
+        "verified_by_system": True,
         "seven_questions": _seven_questions(signal, industries, gaps),
         "roi": _roi(industries[0]),
         "scores": _scores(signal, industries, regions, len(evidence), as_of),
         "confidence": confidence,
         "status": STATUS_AUTO,
-        "verification_status": VERIFICATION_UNVERIFIED,
+        "verification_status": VERIFICATION_NOT_STARTED,
+        "verification_default": VERIFICATION_NOT_STARTED,
         "first_seen": first_seen,
         "last_seen": last_seen,
         "relevance_score": relevance,
@@ -485,6 +648,42 @@ def build_candidates(
     gap_inferred_count = sum(1 for candidate in candidates if candidate.get("gap_inferred"))
     covered_regions = sorted({region for candidate in candidates for region in candidate.get("region_ids") or []})
     covered_countries = sorted({country for candidate in candidates for country in candidate.get("target_countries") or []})
+    levels = {"high": 0, "medium": 0, "low": 0}
+    validation_scores: list[int] = []
+    for candidate in candidates:
+        validation = candidate.get("system_validation") or {}
+        levels[validation.get("level", "low")] = levels.get(validation.get("level", "low"), 0) + 1
+        validation_scores.append(int(validation.get("score") or 0))
+    translation_methods: dict[str, int] = {}
+    zh_titles = 0
+    for candidate in candidates:
+        method = str(candidate.get("translation_method") or "template")
+        translation_methods[method] = translation_methods.get(method, 0) + 1
+        if _has_cjk(str(candidate.get("title_zh") or "")):
+            zh_titles += 1
+    health = common.load_json(config.SOURCE_HEALTH_PATH) or {}
+    health_meta = health.get("meta") if isinstance(health, dict) else None
+    health_meta = health_meta if isinstance(health_meta, dict) else {}
+    failed_sources = [
+        {
+            "id": row.get("id"),
+            "http_status": row.get("http_status"),
+            "error": row.get("error"),
+        }
+        for row in (health.get("sources") or [])
+        if isinstance(row, dict) and not row.get("ok")
+    ][:10]
+    funnel = {
+        "attempted": health_meta.get("count"),
+        "ok": health_meta.get("ok_count"),
+        "failed": health_meta.get("failed_count"),
+        "failed_sources": failed_sources,
+        "raw": source_meta.get("raw_count"),
+        "deduped": source_meta.get("signal_count"),
+        "new": source_meta.get("new_count"),
+        "relevant": (source_meta.get("tiers") or {}).get("business"),
+        "candidates": len(candidates),
+    }
     payload = {
         "meta": {
             "data_version": config.DATA_VERSION,
@@ -492,12 +691,31 @@ def build_candidates(
             "generated_at": f"{as_of.isoformat()}T00:00:00+08:00",
             "generator": "scanner/candidates.py",
             "status": "auto-discovered",
-            "verification_status": VERIFICATION_UNVERIFIED,
+            "verification_status": VERIFICATION_NOT_STARTED,
+            "verification_status_default": VERIFICATION_NOT_STARTED,
+            "verification_affects_ranking": False,
+            "verified_by_system": True,
+            "system_boundary": SYSTEM_BOUNDARY,
             "limit": limit,
             "total": len(candidates),
             "business_signals": len(business),
             "maybe_signals": len(maybe),
             "dropped_duplicates": dropped_duplicates,
+            "system_validation_summary": {
+                "high": levels.get("high", 0),
+                "medium": levels.get("medium", 0),
+                "low": levels.get("low", 0),
+                "avg_score": round(sum(validation_scores) / len(validation_scores), 1) if validation_scores else 0.0,
+                "verified_by_system": len(candidates),
+                "note": SYSTEM_BOUNDARY,
+            },
+            "translation_coverage": {
+                "total": len(candidates),
+                "zh_titles": zh_titles,
+                "ratio": round(zh_titles / len(candidates), 3) if candidates else 0.0,
+                "methods": translation_methods,
+            },
+            "funnel": funnel,
             "gap_inference_coverage": {
                 "inferred": len(candidates) - gap_missing,
                 "missing": gap_missing,
@@ -523,8 +741,9 @@ def build_candidates(
                 "tiers": source_meta.get("tiers"),
             },
             "note": (
-                "自动发现候选（discovery layer）：无需人工复核/商业验证/实验盈利即可上榜；"
-                "verification_status 仅展示，不参与收录/排序；不写入 opportunities.json。"
+                "自动发现候选（discovery layer）：是否成立为商机由系统评估（system_validation，"
+                "需求/信息差/证据/时效/可执行性，无需人工/实验）；能否赚钱是个人线下实体验证"
+                "（verification_status 默认 not_started，不参与收录/排序）；不写入 opportunities.json。"
             ),
             "disclaimer": DISCLAIMER,
         },

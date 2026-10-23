@@ -1,4 +1,5 @@
 import { useMemo, useState } from 'react'
+import { Link } from 'react-router-dom'
 import { ArrowUpRight, BadgeCheck, BookmarkPlus, Compass, ExternalLink, Filter, Search, ShieldAlert, Sparkles, X } from 'lucide-react'
 import { Badge, Button, EmptyState, Panel } from '@/components/ui'
 import { dataAsOf, gapName, industryName, regionName, taxonomy } from '@/lib/data'
@@ -49,6 +50,64 @@ function autoDraftEntries(candidate: Candidate): Array<{ key: string; value: str
     return candidate.seven_questions.map((x, i) => ({ key: x.key || `q${i + 1}`, value: x.value || '' }))
   }
   return Object.entries(candidate.seven_questions).map(([key, value]) => ({ key, value }))
+}
+
+function displayTitle(c: Candidate): string {
+  return c.title_zh || c.title
+}
+
+function displayOriginal(c: Candidate): string {
+  return c.title_original || c.source.raw_title || (c.title_zh && c.title_zh !== c.title ? c.title : '')
+}
+
+function displayOneLiner(c: Candidate): string {
+  return c.one_liner_zh || c.one_liner
+}
+
+function systemLevel(c: Candidate): 'high' | 'medium' | 'low' {
+  const level = c.system_validation?.level
+  return level === 'high' || level === 'medium' || level === 'low' ? level : (c.scores.total >= 75 ? 'high' : c.scores.total >= 65 ? 'medium' : 'low')
+}
+
+function systemLevelLabel(level: 'high' | 'medium' | 'low', L: L, score?: number): string {
+  return `${L('系统已评估', 'System-assessed')} · ${level}${score != null ? `/${Math.round(score)}` : ''}`
+}
+
+function physicalStatusLabel(status: string | undefined, L: L): string {
+  if (status === 'observing') return L('观察中（可选）', 'Observing (optional)')
+  if (status === 'tested') return L('已测试（可选）', 'Tested (optional)')
+  return L('未开始（可选）', 'Not started (optional)')
+}
+
+const CHECK_LABELS: Record<string, { zh: string; en: string }> = {
+  demand_signal: { zh: '需求信号', en: 'Demand signal' },
+  demand: { zh: '需求信号', en: 'Demand signal' },
+  gap_clear: { zh: '信息差明确', en: 'Clear information gap' },
+  gap: { zh: '信息差明确', en: 'Clear information gap' },
+  evidence: { zh: '公开证据', en: 'Public evidence' },
+  evidence_1: { zh: '公开证据', en: 'Public evidence' },
+  source_quality: { zh: '来源质量', en: 'Source quality' },
+  freshness: { zh: '时效性', en: 'Freshness' },
+  feasibility: { zh: '可执行性', en: 'Feasibility' },
+  geo_specific: { zh: '地理具体性', en: 'Geographic specificity' },
+  competition_window: { zh: '竞争与窗口', en: 'Competition / window' },
+  window: { zh: '竞争与窗口', en: 'Competition / window' },
+}
+
+function fallbackChecks(c: Candidate): Array<{ id?: string; name?: string; passed?: boolean; note?: string }> {
+  return [
+    { id: 'demand_signal', passed: c.confidence >= 55 || c.evidence.length > 0 },
+    { id: 'gap', passed: c.gap_type_ids.length > 0 },
+    { id: 'evidence', passed: c.evidence.length > 0 },
+    { id: 'source_quality', passed: !!c.source.name },
+    { id: 'freshness', passed: !!c.first_seen },
+    { id: 'feasibility', passed: true },
+  ]
+}
+
+function systemChecks(c: Candidate): Array<{ id?: string; name?: string; passed?: boolean; note?: string }> {
+  const checks = c.system_validation?.checks || []
+  return checks.length ? checks : fallbackChecks(c)
 }
 
 export function CandidateBoard({ className }: { className?: string }) {
@@ -113,7 +172,9 @@ export function CandidateBoard({ className }: { className?: string }) {
             {L(w.zh, w.en)}
           </button>
         ))}
-        <Badge tone="cyan"><Sparkles className="h-3 w-3" /> {L('自动发现 · 未验证', 'Auto-discovered · unverified')}</Badge>
+        <Badge tone="signal" title={L('系统已评估商机成立度（需求 / 信息差 / 证据 / 时效 / 可执行），无需人工验证；实体验证仅为个人可选。', 'The system assessed business viability (demand, gap, evidence, timing, feasibility); no human validation is required. Physical validation is optional and personal.')}>
+          <BadgeCheck className="h-3 w-3" /> {L('系统评估 · 无需人工验证', 'System-assessed · no manual validation needed')}
+        </Badge>
         <span className="rounded border border-line px-1.5 py-0.5 font-mono text-[9px] text-dim">
           {L(`信息差推断 ${gapInferenceCoverage.inferred}/${gapInferenceCoverage.total}`, `Gap inferred ${gapInferenceCoverage.inferred}/${gapInferenceCoverage.total}`)}
         </span>
@@ -157,11 +218,12 @@ export function CandidateBoard({ className }: { className?: string }) {
             <button key={c.candidate_id} type="button" onClick={() => setSelected(c)} className="panel panel-hover accent-top group relative flex flex-col overflow-hidden p-3 text-left" style={{ '--accent': '#4cc9f0' } as React.CSSProperties}>
               <div className="flex items-center gap-2">
                 <span className="num text-[20px] font-semibold text-dim">{String(rank).padStart(2, '0')}</span>
-                <Badge tone="cyan">{L('自动发现 · 未验证', 'Auto-discovered · unverified')}</Badge>
+                <Badge tone="signal" title={L('系统已评估商机成立度（需求 / 信息差 / 证据 / 时效 / 可执行），无需人工验证。', 'The system assessed business viability (demand, gap, evidence, timing, feasibility); no human validation is required.')}>{systemLevelLabel(systemLevel(c), L, c.system_validation?.score ?? c.scores.total)}</Badge>
                 <span className="ml-auto rounded border border-line px-1.5 py-0.5 font-mono text-[9px] text-dim">conf {c.confidence}</span>
               </div>
-              <div className="mt-1.5 line-clamp-2 text-[13px] font-semibold text-ink">{c.title}</div>
-              <div className="mt-1 line-clamp-2 text-[10.5px] leading-relaxed text-muted">{c.one_liner}</div>
+              <div className="mt-1.5 line-clamp-2 text-[13px] font-semibold text-ink">{displayTitle(c)}</div>
+              {displayOriginal(c) && displayOriginal(c) !== displayTitle(c) && <div className="mt-0.5 truncate text-[9px] text-dim">{displayOriginal(c)}</div>}
+              <div className="mt-1 line-clamp-2 text-[10.5px] leading-relaxed text-muted">{displayOneLiner(c)}</div>
               <div className="mt-2 flex flex-wrap gap-1">
                 {c.industry_ids.slice(0, 1).map((id) => <span key={id} className="rounded border border-line/60 px-1 py-0.5 text-[8.5px] text-dim">{industryName(id)}</span>)}
                 {c.gap_type_ids.slice(0, 1).map((id) => <span key={id} className="rounded border border-line/60 px-1 py-0.5 text-[8.5px] text-dim">{gapName(id)}{c.gap_inferred ? L(' · 推断', ' · inferred') : ''}</span>)}
@@ -189,12 +251,13 @@ export function CandidateBoard({ className }: { className?: string }) {
             <div className="flex items-start gap-2">
               <div className="min-w-0 flex-1">
                 <div className="flex flex-wrap items-center gap-2">
-                  <Badge tone="cyan"><Sparkles className="h-3 w-3" /> {L('自动发现 · 未验证', 'Auto-discovered · unverified')}</Badge>
+                  <Badge tone="signal" title={L('系统已评估商机成立度（需求 / 信息差 / 证据 / 时效 / 可执行），无需人工验证。', 'The system assessed business viability (demand, gap, evidence, timing, feasibility); no human validation is required.')}>{systemLevelLabel(systemLevel(selected), L, selected.system_validation?.score ?? selected.scores.total)}</Badge>
                   <span className="font-mono text-[9.5px] text-dim">{selected.candidate_id}</span>
                   <span className="rounded border border-line px-1.5 py-0.5 font-mono text-[9px] text-dim">conf {selected.confidence}</span>
                 </div>
-                <h2 className="mt-2 text-[18px] font-semibold text-ink">{selected.title}</h2>
-                <p className="mt-1 text-[11px] leading-relaxed text-muted">{selected.one_liner}</p>
+                <h2 className="mt-2 text-[18px] font-semibold text-ink">{displayTitle(selected)}</h2>
+                {displayOriginal(selected) && displayOriginal(selected) !== displayTitle(selected) && <div className="mt-0.5 text-[10px] text-dim">{L('原文标题', 'Original title')}: {displayOriginal(selected)}</div>}
+                <p className="mt-1 text-[11px] leading-relaxed text-muted">{displayOneLiner(selected)}</p>
               </div>
               <button type="button" onClick={() => setSelected(null)} className="rounded border border-line p-1 text-dim hover:text-ink" aria-label={L('关闭详情', 'Close details')}><X className="h-4 w-4" /></button>
             </div>
@@ -220,6 +283,28 @@ export function CandidateBoard({ className }: { className?: string }) {
                   <div>{L('月收入估算', 'Monthly revenue')}: {selected.roi.monthly_revenue_cny ? fmtCnyRange(selected.roi.monthly_revenue_cny.min ?? 0, selected.roi.monthly_revenue_cny.max ?? 0) : '—'}</div>
                   <div>{L('毛利率', 'Gross margin')}: {selected.roi.gross_margin_pct ?? '—'}%</div>
                 </div>
+              </div>
+            </div>
+            <div className="mt-3 rounded border border-signal/20 bg-signal/[0.03] p-2.5">
+              <div className="flex flex-wrap items-center gap-2">
+                <div className="mono-label">{L('系统评估', 'System assessment')}</div>
+                <Badge tone="signal">{systemLevelLabel(systemLevel(selected), L, selected.system_validation?.score ?? selected.scores.total)}</Badge>
+                <span className="font-mono text-[10px] text-dim">score {selected.system_validation?.score ?? selected.scores.total}</span>
+              </div>
+              <div className="mt-1 text-[9.5px] leading-relaxed text-dim">
+                {L('系统已评估商机成立度（需求 / 信息差 / 证据 / 时效 / 可执行），无需人工验证；这是自动评估，不是收益保证。', 'The system assessed business viability (demand, gap, evidence, timing, feasibility); no human validation is required. This is an automated assessment, not a revenue guarantee.')}
+              </div>
+              <div className="mt-2 grid grid-cols-1 gap-1 md:grid-cols-2">
+                {systemChecks(selected).map((check, i) => (
+                  <div key={`${check.id || check.name || i}`} className="flex items-start gap-1.5 rounded border border-line/50 px-2 py-1 text-[9.5px]">
+                    <span className={cn('mt-0.5 h-1.5 w-1.5 shrink-0 rounded-full', check.passed ? 'bg-signal' : 'bg-amber')} />
+                    <span className="min-w-0 flex-1">
+                      <span className="text-muted">{check.id && CHECK_LABELS[check.id] ? L(CHECK_LABELS[check.id].zh, CHECK_LABELS[check.id].en) : (check.name || check.id || `check ${i + 1}`)}</span>
+                      {check.note && <span className="block text-[8.5px] text-dim">{check.note}</span>}
+                    </span>
+                    <span className={check.passed ? 'text-signal' : 'text-amber'}>{check.passed ? 'PASS' : L('待观察', 'WATCH')}</span>
+                  </div>
+                ))}
               </div>
             </div>
             <div className="mt-3">
@@ -264,12 +349,21 @@ export function CandidateBoard({ className }: { className?: string }) {
             <div className="mt-3 rounded border border-amber/25 bg-amber/[0.04] px-2 py-1.5 text-[9.5px] leading-relaxed text-amber">
               <ShieldAlert className="mr-1 inline h-3 w-3" /> {selected.disclaimer}
             </div>
-            <div className="mt-3 flex flex-wrap items-center gap-2">
-              <Button size="sm" variant="outline" onClick={() => toggleWatch(selected.candidate_id)}>
-                <BookmarkPlus className="h-3.5 w-3.5" /> {watched.includes(selected.candidate_id) ? L('已加入观察', 'Watching') : L('加入观察（实验，可选）', 'Watch (optional experiment)')}
-              </Button>
-              {selected.source.url && <a href={selected.source.url} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 text-[10.5px] text-signal hover:underline">{L('打开原始来源', 'Open original source')} <ArrowUpRight className="h-3 w-3" /></a>}
-              <span className="ml-auto text-[9.5px] text-dim">{L('加入观察只是个人可选记录，不影响候选上榜。', 'Watching is an optional personal note; it never affects candidate ranking.')}</span>
+            <div className="mt-3 rounded border border-cyan/25 bg-cyan/[0.03] p-2.5">
+              <div className="mono-label mb-1">{L('实体验证（可选，个人）', 'Physical validation (optional, personal)')}</div>
+              <p className="text-[9.5px] leading-relaxed text-dim">
+                {L('仅当你打算线下尝试时使用；系统已评估商机成立度，无需人工验证。实体验证状态不参与候选收录、排序或展示。', 'Use only if you plan to test this offline; the system already assessed business viability, so no human validation is required. Physical-validation status never affects candidate listing, ranking or display.')}
+              </p>
+              <div className="mt-2 flex flex-wrap items-center gap-2">
+                <Button size="sm" variant="outline" onClick={() => toggleWatch(selected.candidate_id)}>
+                  <BookmarkPlus className="h-3.5 w-3.5" /> {watched.includes(selected.candidate_id) ? L('已加入观察', 'Watching') : L('加入观察（可选）', 'Watch (optional)')}
+                </Button>
+                <Link to="/lab" className="inline-flex h-7 items-center gap-1 rounded border border-line px-2 text-[10.5px] text-muted hover:text-ink">
+                  {L('记录实验 / 结案（可选）', 'Log experiment / close (optional)')}
+                </Link>
+                {selected.source.url && <a href={selected.source.url} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 text-[10.5px] text-signal hover:underline">{L('打开原始来源', 'Open original source')} <ArrowUpRight className="h-3 w-3" /></a>}
+                <span className="ml-auto font-mono text-[9px] text-dim">{L('实体验证状态', 'Physical status')}: {physicalStatusLabel(selected.verification_status, L)}</span>
+              </div>
             </div>
           </div>
         </div>

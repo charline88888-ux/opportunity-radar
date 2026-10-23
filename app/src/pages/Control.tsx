@@ -179,9 +179,9 @@ export default function Control() {
   const sourceHealthRows: Array<{ id?: string; name?: string; items?: number; ok?: boolean; error?: string }> = outbox?.source_health?.sources?.length
     ? outbox.source_health.sources
     : outboxSources.map((s) => ({ name: s.name, items: s.count, ok: true }))
-  const attempted = outbox?.source_health?.attempted ?? outbox?.source_count ?? 0
-  const okSources = outbox?.source_health?.ok ?? outbox?.source_count ?? 0
-  const failedSources = outbox?.source_health?.failed ?? Math.max(0, attempted - okSources)
+  const attempted = outbox?.funnel?.attempted ?? outbox?.source_health?.attempted ?? outbox?.source_count ?? 0
+  const okSources = outbox?.funnel?.ok ?? outbox?.source_health?.ok ?? outbox?.source_count ?? 0
+  const failedSources = outbox?.funnel?.failed ?? outbox?.source_health?.failed ?? Math.max(0, attempted - okSources)
   const inboxBase: ControlSignal[] = outboxSignals.length
     ? outboxSignals
     : (outbox?.top || []).map((x, i): ControlSignal => ({ signal_id: `top-${i}`, title: x.title, url: x.url, source_id: x.source_id, is_new: true, relevance_score: x.relevance_score }))

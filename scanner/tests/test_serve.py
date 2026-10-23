@@ -103,6 +103,27 @@ def make_root(tmp: Path, *, with_build: bool = True) -> Path:
             encoding="utf-8",
         )
         (outbox / "REVIEW.md").write_text("# 采集复核清单\n", encoding="utf-8")
+        # v0.9.2：控制台漏斗以 source-health 真值为准
+        (tmp / "data" / "source-health.json").write_text(
+            json.dumps(
+                {
+                    "meta": {
+                        "data_version": "0.9.2",
+                        "as_of": "2026-10-23",
+                        "count": 92,
+                        "ok_count": 91,
+                        "failed_count": 1,
+                        "mode": "online-fetch",
+                    },
+                    "sources": [
+                        {"id": "hnrss", "ok": True, "http_status": 200, "items": 20, "error": None, "cached": False, "latency_ms": 10, "mode": "online-fetch"},
+                        {"id": "rest-of-world", "ok": False, "http_status": 200, "items": 0, "error": "ParseError: invalid token", "cached": False, "latency_ms": 10, "mode": "online-fetch"},
+                    ],
+                },
+                ensure_ascii=False,
+            ),
+            encoding="utf-8",
+        )
     return tmp
 
 
@@ -222,6 +243,13 @@ class TestServeApi(ServeTestBase):
         self.assertEqual(len(outbox["top"]), 3)
         self.assertTrue(outbox["review_md"]["exists"])
         self.assertEqual(set(outbox["by_source"]), {"hnrss", "arxiv-rss", "lobsters"})
+        # v0.9.2：漏斗计数以 source-health 真值为准（92 尝试 / 91 ok / 1 failed）
+        self.assertEqual(outbox["source_count"], 92)
+        self.assertEqual(outbox["funnel"]["attempted"], 92)
+        self.assertEqual(outbox["funnel"]["ok"], 91)
+        self.assertEqual(outbox["funnel"]["failed"], 1)
+        self.assertEqual(outbox["funnel"]["failed_sources"][0]["id"], "rest-of-world")
+        self.assertEqual(outbox["funnel"]["new"], 0)
         self.assertNotIn(str(self.root), json.dumps(payload))  # 不返回绝对路径
 
     def test_outbox_endpoint(self):
@@ -232,6 +260,9 @@ class TestServeApi(ServeTestBase):
         self.assertTrue(payload["ok"])
         self.assertEqual(payload["outbox"]["raw_count"], 1448)
         self.assertEqual(payload["outbox"]["relevant_count"], 184)
+        self.assertEqual(payload["outbox"]["funnel"]["attempted"], 92)
+        self.assertEqual(payload["outbox"]["funnel"]["ok"], 91)
+        self.assertEqual(payload["outbox"]["funnel"]["failed"], 1)
         self.assertEqual(len(payload["signals"]), 2)
         first = payload["signals"][0]
         self.assertIn("title", first)
@@ -256,8 +287,10 @@ class TestServeApi(ServeTestBase):
 
     def test_fetch_command_uses_data_as_of(self):
         command = serve.fetch_command(self.root)
-        self.assertEqual(command[-2:], ["--as-of", "2026-10-22"])
+        self.assertEqual(command[command.index("--as-of") + 1], "2026-10-22")
         self.assertIn("--fetch", command)
+        self.assertIn("--fetch-limit", command)
+        self.assertGreaterEqual(int(command[command.index("--fetch-limit") + 1]), 120)
 
     def test_origin_check_forbidden(self):
         status, data = self.call("POST", "/api/run", origin="http://evil.example", body={"task": "build"})

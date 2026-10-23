@@ -1,10 +1,10 @@
 {
   "meta": {
-    "data_version": "0.9.1",
+    "data_version": "0.9.2",
     "as_of": "2026-10-22",
-    "count": 160,
+    "count": 168,
     "last_checked": "2026-10-23",
-    "note": "合规等级与可访问性依据 research/platform-matrix-validation.md（2026-10-22 核验）。红/黄源只允许人工浏览，不自动抓取、不绕过登录或验证码；v0.2.0 新增 4 个可被 `pipeline.py --fetch` 采集的公开 RSS 源（hnrss/techcrunch/producthunt/arxiv）。 v0.3.1 PATCH：修复 reddit（改 manual + 新增 lobsters 替代）/ itunes-reviews（GB storefront）/ shopify-changelog（官方 feed.xml）。 v0.8.0：新增可执行源注册表（Google News 多地区 query / Google Trends / 垂直媒体），字段增加 kind/lang/enabled/priority/limits；enabled=false 为实测不可用或暂不启用；fetch 只抓 enabled=true 的自动源。 v0.9.1：并入 researcher 25 个实测 RSS + restofworld 修复 + Google News TR/3 query + App Store 6 国；失败源 enabled=false 并记录原因。 v0.9.1 最终：rest-of-world URL 已修复但 XML 解析失败，保持 enabled=false。"
+    "note": "合规等级与可访问性依据 research/platform-matrix-validation.md（2026-10-22 核验）。红/黄源只允许人工浏览，不自动抓取、不绕过登录或验证码；v0.2.0 新增 4 个可被 `pipeline.py --fetch` 采集的公开 RSS 源（hnrss/techcrunch/producthunt/arxiv）。 v0.3.1 PATCH：修复 reddit（改 manual + 新增 lobsters 替代）/ itunes-reviews（GB storefront）/ shopify-changelog（官方 feed.xml）。 v0.8.0：新增可执行源注册表（Google News 多地区 query / Google Trends / 垂直媒体），字段增加 kind/lang/enabled/priority/limits；enabled=false 为实测不可用或暂不启用；fetch 只抓 enabled=true 的自动源。 v0.9.1：并入 researcher 25 个实测 RSS + restofworld 修复 + Google News TR/3 query + App Store 6 国；失败源 enabled=false 并记录原因。 v0.9.1 最终：rest-of-world URL 已修复但 XML 解析失败，保持 enabled=false。 v0.9.2：restofworld XML sanitize 恢复；Arab News 403 换源 Middle East Monitor；补 8 个实测源（NEWS/科技）→ enabled≥100。"
   },
   "categories": [
     {
@@ -1504,9 +1504,9 @@
           "error": null
         },
         {
-          "id": "arabnews",
-          "name": "Arab News",
-          "url": "https://www.arabnews.com/rss.xml",
+          "id": "mena-middleeastmonitor",
+          "name": "Middle East Monitor",
+          "url": "https://www.middleeastmonitor.com/feed/",
           "regions": [
             "mena"
           ],
@@ -1520,20 +1520,16 @@
           "compliance": "green",
           "value_score": 7.6,
           "last_checked": "2026-10-23",
+          "check_result": "http_200_items_50",
           "kind": "vertical-media",
           "lang": "en",
+          "enabled": true,
           "priority": 76,
           "limits": {
             "max_items": 30,
             "min_interval_sec": 1.0
           },
-          "enabled": false,
-          "check_result": "fetch_failed",
-          "notes": "v0.9.1 实测不可用（HTTP 403），enabled=false；可换 URL 后重启",
-          "ok": false,
-          "status": 403,
-          "items": 0,
-          "error": "HTTP 403"
+          "notes": "v0.9.2 替换 Arab News（原 Arab News，rss.xml 返回 403）→ Middle East Monitor（实测 200/50 条）"
         },
         {
           "id": "nairametrics",
@@ -1630,6 +1626,233 @@
           "status": 200,
           "items": 15,
           "error": null
+        },
+        {
+          "id": "mena-newarab",
+          "name": "The New Arab",
+          "url": "https://www.newarab.com/rss",
+          "regions": [
+            "mena"
+          ],
+          "signal_types": [
+            "trend",
+            "new_product"
+          ],
+          "access": "rss",
+          "frequency": "daily",
+          "cost": "free",
+          "compliance": "green",
+          "value_score": 7.2,
+          "last_checked": "2026-10-23",
+          "check_result": "http_200_items_115",
+          "kind": "vertical-media",
+          "lang": "en",
+          "enabled": true,
+          "priority": 72,
+          "limits": {
+            "max_items": 30,
+            "min_interval_sec": 1.0
+          },
+          "notes": "v0.9.2 新增 MENA 补充源（实测 200/115 条）"
+        },
+        {
+          "id": "guardian-business",
+          "name": "The Guardian Business",
+          "url": "https://www.theguardian.com/uk/business/rss",
+          "regions": [
+            "europe"
+          ],
+          "signal_types": [
+            "trend",
+            "new_product"
+          ],
+          "access": "rss",
+          "frequency": "daily",
+          "cost": "free",
+          "compliance": "green",
+          "value_score": 7.4,
+          "last_checked": "2026-10-23",
+          "check_result": "http_200_items_40",
+          "kind": "vertical-media",
+          "lang": "en",
+          "enabled": true,
+          "priority": 74,
+          "limits": {
+            "max_items": 30,
+            "min_interval_sec": 1.0
+          },
+          "notes": "v0.9.2 新增欧洲商业源（实测 200/40 条）"
+        },
+        {
+          "id": "bbc-business",
+          "name": "BBC Business",
+          "url": "https://feeds.bbci.co.uk/news/business/rss.xml",
+          "regions": [
+            "europe"
+          ],
+          "signal_types": [
+            "trend",
+            "new_product"
+          ],
+          "access": "rss",
+          "frequency": "daily",
+          "cost": "free",
+          "compliance": "green",
+          "value_score": 7.4,
+          "last_checked": "2026-10-23",
+          "check_result": "http_200_items_55",
+          "kind": "vertical-media",
+          "lang": "en",
+          "enabled": true,
+          "priority": 74,
+          "limits": {
+            "max_items": 30,
+            "min_interval_sec": 1.0
+          },
+          "notes": "v0.9.2 新增欧洲商业源（实测 200/55 条）"
+        },
+        {
+          "id": "npr-business",
+          "name": "NPR Business",
+          "url": "https://feeds.npr.org/1006/rss.xml",
+          "regions": [
+            "north-america"
+          ],
+          "signal_types": [
+            "trend",
+            "new_product"
+          ],
+          "access": "rss",
+          "frequency": "daily",
+          "cost": "free",
+          "compliance": "green",
+          "value_score": 7.2,
+          "last_checked": "2026-10-23",
+          "check_result": "http_200_items_10",
+          "kind": "vertical-media",
+          "lang": "en",
+          "enabled": true,
+          "priority": 72,
+          "limits": {
+            "max_items": 30,
+            "min_interval_sec": 1.0
+          },
+          "notes": "v0.9.2 新增北美商业源（实测 200/10 条）"
+        },
+        {
+          "id": "physorg",
+          "name": "Phys.org",
+          "url": "https://phys.org/rss-feed/",
+          "regions": [
+            "north-america",
+            "europe"
+          ],
+          "signal_types": [
+            "trend",
+            "new_product"
+          ],
+          "access": "rss",
+          "frequency": "daily",
+          "cost": "free",
+          "compliance": "green",
+          "value_score": 6.8,
+          "last_checked": "2026-10-23",
+          "check_result": "http_200_items_30",
+          "kind": "vertical-media",
+          "lang": "en",
+          "enabled": true,
+          "priority": 68,
+          "limits": {
+            "max_items": 30,
+            "min_interval_sec": 1.0
+          },
+          "notes": "v0.9.2 新增科技趋势源（实测 200/30 条）"
+        },
+        {
+          "id": "sciencedaily",
+          "name": "ScienceDaily",
+          "url": "https://www.sciencedaily.com/rss/top/science.xml",
+          "regions": [
+            "north-america"
+          ],
+          "signal_types": [
+            "trend",
+            "new_product"
+          ],
+          "access": "rss",
+          "frequency": "daily",
+          "cost": "free",
+          "compliance": "green",
+          "value_score": 6.6,
+          "last_checked": "2026-10-23",
+          "check_result": "http_200_items_60",
+          "kind": "vertical-media",
+          "lang": "en",
+          "enabled": true,
+          "priority": 66,
+          "limits": {
+            "max_items": 30,
+            "min_interval_sec": 1.0
+          },
+          "notes": "v0.9.2 新增科研趋势源（实测 200/60 条）"
+        },
+        {
+          "id": "techreview",
+          "name": "MIT Technology Review",
+          "url": "https://www.technologyreview.com/feed/",
+          "regions": [
+            "north-america",
+            "europe"
+          ],
+          "signal_types": [
+            "trend",
+            "new_product"
+          ],
+          "access": "rss",
+          "frequency": "daily",
+          "cost": "free",
+          "compliance": "green",
+          "value_score": 7.4,
+          "last_checked": "2026-10-23",
+          "check_result": "http_200_items_10",
+          "kind": "vertical-media",
+          "lang": "en",
+          "enabled": true,
+          "priority": 74,
+          "limits": {
+            "max_items": 30,
+            "min_interval_sec": 1.0
+          },
+          "notes": "v0.9.2 新增科技趋势源（实测 200/10 条）"
+        },
+        {
+          "id": "wired",
+          "name": "Wired",
+          "url": "https://www.wired.com/feed/rss",
+          "regions": [
+            "north-america",
+            "europe"
+          ],
+          "signal_types": [
+            "trend",
+            "new_product"
+          ],
+          "access": "rss",
+          "frequency": "daily",
+          "cost": "free",
+          "compliance": "green",
+          "value_score": 7.0,
+          "last_checked": "2026-10-23",
+          "check_result": "http_200_items_50",
+          "kind": "vertical-media",
+          "lang": "en",
+          "enabled": true,
+          "priority": 70,
+          "limits": {
+            "max_items": 30,
+            "min_interval_sec": 1.0
+          },
+          "notes": "v0.9.2 新增科技消费源（实测 200/50 条）"
         }
       ]
     },
@@ -3727,16 +3950,16 @@
           "compliance": "green",
           "value_score": 8.2,
           "last_checked": "2026-10-23",
-          "check_result": "parse_error",
+          "check_result": "http_200_items_12",
           "kind": "vertical-media",
           "lang": "en",
-          "enabled": false,
+          "enabled": true,
           "priority": 82,
           "limits": {
             "max_items": 30,
             "min_interval_sec": 1.0
           },
-          "notes": "v0.9.1 已修复 URL 为 https://restofworld.org/feed/latest/（HTTP 200/12 条，researcher 实测），但本机解析报 XML invalid token（feed 内含未转义字符），enabled=false；建议下轮加 XML 容错后重启"
+          "notes": "v0.9.2：URL 修复为 /feed/latest/ 且 fetch.py 增加 XML 容错（清理未转义 &/控制字符），实测 200/12 条恢复 enabled=true"
         },
         {
           "id": "aljazeera",

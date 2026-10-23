@@ -20,7 +20,9 @@ export default function Discover() {
         description={L('从公开采集信号自动生成候选商机，直接按日/周/月/年展示。验证与实验只是可选的个人动作，不是上榜或展示的门禁，也不参与候选排序。', 'Candidates are generated automatically from public fetched signals and ranked by day/week/month/year. Validation and experiments are optional personal actions—never a gate for listing or display, and never part of ranking.')}
         actions={
           <div className="flex flex-wrap items-center gap-2">
-            <Badge tone="cyan"><Sparkles className="h-3 w-3" /> {L('自动发现 · 未验证', 'Auto-discovered · unverified')}</Badge>
+            <Badge tone="signal" title={L('系统已评估商机成立度（需求 / 信息差 / 证据 / 时效 / 可执行），无需人工验证；实体验证仅为个人可选。', 'The system assessed business viability (demand, gap, evidence, timing, feasibility); no human validation is required. Physical validation is optional and personal.')}>
+              <Sparkles className="h-3 w-3" /> {L('系统评估 · 无需人工验证', 'System-assessed · no manual validation needed')}
+            </Badge>
             <Badge tone="signal">{L(`候选 ${candidates.length} 条`, `${candidates.length} candidates`)}</Badge>
             <Link to="/rankings?w=day" className="inline-flex h-7 items-center gap-1 rounded border border-line bg-panel-2 px-2.5 text-[11px] text-muted hover:text-ink">
               {L('精选榜（人工）', 'Curated rankings')} <ArrowUpRight className="h-3 w-3" />

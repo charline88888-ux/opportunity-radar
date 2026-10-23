@@ -47,7 +47,7 @@ export interface ControlOutbox {
   by_source?: Record<string, number> | Array<{ source_id?: string; source?: string; count?: number; name?: string }>
   top?: Array<{ title?: string; source_id?: string; url?: string; relevance_score?: number }>
   tier_counts?: { business?: number; maybe?: number; 'off-topic'?: number }
-  funnel?: { raw?: number; deduped?: number; new?: number; relevant?: number; seen?: number }
+  funnel?: { attempted?: number; ok?: number; failed?: number; raw?: number; deduped?: number; new?: number; relevant?: number; seen?: number }
   source_health?: {
     attempted?: number
     ok?: number

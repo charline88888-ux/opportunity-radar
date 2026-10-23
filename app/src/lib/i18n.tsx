@@ -11,7 +11,7 @@ export const DOC_TITLE = {
 } as const
 
 export const EN_CONTENT_NOTICE =
-  'Opportunity and auto-discovered candidate content (titles, one-liners, evidence, Q&A) is Chinese-only in v0.9.1.'
+  'Opportunity and auto-discovered candidate content (titles, one-liners, evidence, Q&A) is Chinese-only in v0.9.2.'
 
 let currentLang: Lang = loadLang()
 

@@ -1,4 +1,4 @@
-# release.ps1 — 冻结发布一个新版本（旧版本永不修改）
+﻿# release.ps1 — 冻结发布一个新版本（旧版本永不修改）
 # 用法：
 #   powershell -ExecutionPolicy Bypass -File scripts/release.ps1 -Version v0.1.0
 #   powershell -ExecutionPolicy Bypass -File scripts/release.ps1 -Version v0.1.1 -SkipData -NoGit
@@ -59,6 +59,14 @@ if (Test-Path $shellTsx) {
     $shellRaw = [System.IO.File]::ReadAllText($shellTsx)
     $shellRaw = [regex]::Replace($shellRaw, 'EN · V\d+\.\d+\.\d+', ('EN · V' + $appVersion))
     [System.IO.File]::WriteAllText($shellTsx, $shellRaw, (New-Object System.Text.UTF8Encoding($false)))
+}
+
+# v0.9.2：检查所有调用到的 .ps1 必须带 UTF-8 BOM（否则 Windows PowerShell 5.1 解析中文会失败）
+Get-ChildItem (Join-Path $RepoRoot 'scripts') -Filter '*.ps1' | ForEach-Object {
+    $bytes = [System.IO.File]::ReadAllBytes($_.FullName)
+    if ($bytes.Length -lt 3 -or $bytes[0] -ne 0xEF -or $bytes[1] -ne 0xBB -or $bytes[2] -ne 0xBF) {
+        Fail "脚本缺少 UTF-8 BOM（Windows PowerShell 5.1 会解析失败）: scripts/$($_.Name)"
+    }
 }
 
 # ---------- 2. 数据流水线 + 校验 ----------

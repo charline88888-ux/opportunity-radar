@@ -135,8 +135,17 @@ def data_as_of(root: Path) -> str:
 
 
 def fetch_command(root: Path) -> list[str]:
-    """v0.7.3：采集命令带 --as-of（与当前数据基准日一致），避免 signals-<旧日期>.json。"""
-    return [sys.executable, str(root / "scanner" / "pipeline.py"), "--fetch", "--as-of", data_as_of(root)]
+    """v0.7.3/v0.9.2：采集命令带 --as-of + --fetch-limit 120（覆盖全部 enabled 源，避免只抓 60 源覆盖健康表）。"""
+    limit = max(120, int(getattr(config, "FETCH_DEFAULT_LIMIT", 120)))
+    return [
+        sys.executable,
+        str(root / "scanner" / "pipeline.py"),
+        "--fetch",
+        "--as-of",
+        data_as_of(root),
+        "--fetch-limit",
+        str(limit),
+    ]
 
 
 def default_executor(root: Path, task: str, emit: Callable[[str], None]) -> int:
@@ -190,6 +199,9 @@ def _pnpm_command() -> list[str]:
 
 def _stream_command(args: list[str], cwd: Path, emit: Callable[[str], None]) -> int:
     emit(f"$ {' '.join(str(item) for item in args)}")
+    child_env = dict(os.environ)
+    child_env.setdefault("PYTHONIOENCODING", "utf-8")  # 子 Python 日志统一 UTF-8；PowerShell 仍由 _decode_locale 兜底
+    child_env.setdefault("PYTHONUTF8", "1")
     try:
         process = subprocess.Popen(
             args,
@@ -197,13 +209,15 @@ def _stream_command(args: list[str], cwd: Path, emit: Callable[[str], None]) -> 
             stdout=subprocess.PIPE,
             stderr=subprocess.STDOUT,
             shell=False,
+            env=child_env,
         )
     except FileNotFoundError as exc:
         emit(f"[job] 无法启动命令：{exc}")
         return 127
     assert process.stdout is not None
     for raw_line in process.stdout:
-        emit(_decode_locale(raw_line).rstrip("\n"))
+        # v0.9.2：PowerShell/Python 混合输出逐行按 UTF-8 严格优先、本地编码兜底解码，避免中文乱码
+        emit(_decode_locale(raw_line).rstrip("\r\n"))
     code = process.wait()
     emit(f"[job] 退出码 {code}")
     return int(code)
@@ -485,11 +499,36 @@ class ConsoleApp:
         ]
         review_path = self.outbox_dir() / "REVIEW.md"
         stat = path.stat()
+        health = _load_json(self.root / "data" / "source-health.json") or {}
+        health_meta = health.get("meta") if isinstance(health, dict) else None
+        health_meta = health_meta if isinstance(health_meta, dict) else {}
+        health_sources = health.get("sources") if isinstance(health, dict) else None
+        failed_sources = [
+            {
+                "id": row.get("id"),
+                "http_status": row.get("http_status"),
+                "error": row.get("error"),
+            }
+            for row in (health_sources or [])
+            if isinstance(row, dict) and not row.get("ok")
+        ][:10]
+        attempted = health_meta.get("count")
+        funnel = {
+            "attempted": attempted,
+            "ok": health_meta.get("ok_count"),
+            "failed": health_meta.get("failed_count"),
+            "failed_sources": failed_sources,
+            "raw": meta.get("raw_count"),
+            "deduped": meta.get("signal_count"),
+            "new": meta.get("new_count"),
+            "relevant": meta.get("relevant_count"),
+        }
         return {
             "file": path.name,
             "as_of": meta.get("as_of"),
             "generated_at": meta.get("generated_at"),
-            "source_count": meta.get("source_count"),
+            # v0.9.2：以 source-health 真值为准（attempted/ok/failed），避免显示“92/92/0”
+            "source_count": attempted if attempted is not None else meta.get("source_count"),
             "raw_count": meta.get("raw_count"),
             "signal_count": meta.get("signal_count", len(signals)),
             "new_count": meta.get("new_count"),
@@ -498,6 +537,7 @@ class ConsoleApp:
             "relevant_count": meta.get("relevant_count"),
             "tiers": meta.get("tiers"),
             "top_relevant": meta.get("top_relevant"),
+            "funnel": funnel,
             "by_source": dict(sorted(by_source.items())),
             "top": top,
             "review_md": {

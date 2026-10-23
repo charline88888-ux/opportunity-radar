@@ -1,10 +1,12 @@
-# data/ 数据底座使用说明（data-v0.9.1）
+# data/ 数据底座使用说明（data-v0.9.2）
 
-> 唯一接口标准：`docs/12-数据契约与字段字典.md`（data-v0.9.1）。本目录所有 JSON 必须通过 `python scanner/validate.py`（V01–V20，退出码 0）。
+> 唯一接口标准：`docs/12-数据契约与字段字典.md`（data-v0.9.2）。本目录所有 JSON 必须通过 `python scanner/validate.py`（V01–V20，退出码 0）。
 > 数据基准日 `as_of = 2026-10-22`（Asia/Shanghai），当前周 `2026-W43`（10-19～10-25），当前月 `2026-10`，当前年 `2026`；支持 `--as-of YYYY-MM-DD` 覆盖做真实每日运行。
+> **v0.9.2 MINOR（商机系统评估 + 中文候选 + 漏斗修复）**：候选新增 `system_validation{level/score/checks≥5}`+`verified_by_system=true`（系统评估「是不是商机」，无需人工/实验）；`verification_status` 语义改为个人实体验证，默认 `not_started`、不参与排序；候选新增 `title_zh/one_liner_zh/title_original/translation_method`（实测中文覆盖 **200/200**）；漏斗以 source-health 真值：**101 尝试 / 101 ok / 0 failed**（raw 2420 → 1892 → new 1865 → business 344 → 候选 200）；rest-of-world XML 容错恢复、Arab News→Middle East Monitor、补 8 源到 **168 平台 / 101 enabled**。
+>
 > **v0.9.1 MINOR（源 160 / 91 + 候选质量）**：`sources.json` 并 researcher 25 个实测 RSS + restofworld 修复 + Google News TR/3 query + App Store 6 国 → **160 平台 / 91 enabled 自动源 / 11/11 区域**（10 个禁用含原因）；真实 `--fetch --no-cache`：92 源尝试、**91 成功**、2177 原始 → 1653 信号、**new 1627**（账本重置干净首跑）；候选质量：标题/摘要清洗、gap 启发式覆盖 **200/200（fallback 28，空率 0%）**、region **11/11**、country 28、同 URL 保留最新、上限可配。
 >
-> **v0.9.0 MINOR（自动发现流）**：新增 `scanner/candidates.py`——从 outbox business 信号自动生成 **200 条候选机会卡**与四窗口**发现榜**（`data/candidates.json` / `data/candidate-rankings.json`，day 95 / week 200 / month 200 / year 200），与精选人工榜（`rankings.json`，80 条）并行；`verification_status="unverified"` 仅展示、**不影响候选收录/排序**；stats 增加 `candidates_total/today_new_candidates/unverified_candidates`。
+> **v0.9.0 MINOR（自动发现流）**：新增 `scanner/candidates.py`——从 outbox business 信号自动生成 **200 条候选机会卡**与四窗口**发现榜**（`data/candidates.json` / `data/candidate-rankings.json`，day 99 / week 200 / month 200 / year 200），与精选人工榜（`rankings.json`，80 条）并行；`verification_status="unverified"` 仅展示、**不影响候选收录/排序**；stats 增加 `candidates_total/today_new_candidates/unverified_candidates`。
 >
 > **v0.8.0 MINOR（采集增强）**：`sources.json` 升级为**可执行源注册表**（125 平台 / **57 个 enabled 自动源**，覆盖 11 区域）；新增**持久信号账本**（`scanner/build/signal-ledger.sqlite`，跨批去重，outbox 每条 `is_new`）与**相关性初筛**（`relevance_score/tier/reasons`）；机会库内容不变（仍 80 条人工库）。
 > **v0.6.1 PATCH**：`pipeline.py --as-of`（窗口/快照/统计/报告/年鉴日期全部按该日）+ V08 配额只在基准日强制（其他 as_of 允许空榜）+ report/yearbook 日期跟随 rankings.meta.as_of；机会库/榜单口径不变。
@@ -19,7 +21,7 @@
 - 同输入重复运行字节级确定性；测试不同 as_of 后请用 `--all` 恢复基准日状态（勿保留非基准日快照进仓库）。
 
 
-## 1. 文件清单与规模（data-v0.9.1）
+## 1. 文件清单与规模（data-v0.9.2）
 
 | 文件 | 作用 | 规模 | 生产者 | 消费者 |
 |---|---|---|---|---|
@@ -32,14 +34,14 @@
 | `history/rankings-2026-10-20.json` | **历史回放**（`reconstructed=true`、`replay_as_of=2026-10-20`） | day 13 / week 23 / month 31 / year 54 | `--replay-*` | 扫描器、前端 |
 | `history/rankings-2026-10-21.json` | **历史回放**（`reconstructed=true`、`replay_as_of=2026-10-21`，basis=history） | day 9 / week 32 / month 40 / year 63 | `--replay-*` | 扫描器、前端 |
 | `history/rankings-2026-10-22.json` | **真实每日快照**（`reconstructed=false`，与 rankings 一致） | day 17 / week 49 / month 57 / year 80 | `--all` | 扫描器、前端 |
-| `source-health.json` | 在线采集源健康度 **v2**（`mode`/`http_status`/`latency_ms`/`cached`/`items`/`error`/`checked_at`，`meta.mode`） | **92 个源（91 成功 / 1 失败；2026-10-23 v0.9.1 实测，2177 items；rest-of-world XML 解析失败）** | `--fetch` | 前端、运营 |
+| `source-health.json` | 在线采集源健康度 **v2**（`mode`/`http_status`/`latency_ms`/`cached`/`items`/`error`/`checked_at`，`meta.mode`） | **101 个源（101 成功 / 0 失败；2026-10-23 v0.9.2 实测，2420 items）** | `--fetch` | 前端、运营 |
 | `reports/report-<period>-2026-10-23.{html,md}` | 四窗口自包含 HTML + Markdown 报告（确定性生成，可打印/分发） | 4 窗口 × 2 格式 | `report.py --all` | 用户、归档 |
 | `reports/calibration-2026-10-22.{html,md}` | 实验校准报告（v0.4.0；Brier/等级×成功率/花费耗时/建议，样例数据标注 sample） | 1 份 HTML + 1 份 MD | `calibrate.py` | 用户、归档 |
 | `reports/yearbook-2026.{html,md}` | **年度年鉴**（v0.5.0；v0.6.0 增加月度等级分布/信息差热度/窗口衰减/实验漏斗） | 1 份 HTML + 1 份 MD | `yearbook.py` | 用户、归档 |
-| `sources.json` | **可执行源注册表** 12 大类（v0.8.0：`enabled/priority/kind/limits/enabled` 字段） | **160 个平台 / 91 个 enabled 自动源**（v0.9.1：researcher 25 RSS + Google News TR/3 query + App Store 6 国；10 个实测不可用源 enabled=false） | 数据工程 | 前端、`--fetch` |
+| `sources.json` | **可执行源注册表** 12 大类（v0.8.0：`enabled/priority/kind/limits/enabled` 字段） | **168 个平台 / 101 个 enabled 自动源**（v0.9.2：rest-of-world XML 容错恢复、Arab News→Middle East Monitor、补 8 个 NEWS/科技源；8 个实测不可用源 enabled=false） | 数据工程 | 前端、`--fetch` |
 | `playbooks.json` | 扫描剧本 | **12 个** | 数据工程 | 前端、运营 |
 | `calendar.json` | 全球商业日历 2026-11～2028 | **33 个节点** | 数据工程 | 前端、方法论 |
-| `radar.db`（gitignore） | SQLite 派生库（opportunities/evidence/rankings_history/source_health） | 80 / 156 / 654 / 92 行 | 扫描器 `--all`（`--db-rebuild` 可重建） | 扫描器 |
+| `radar.db`（gitignore） | SQLite 派生库（opportunities/evidence/rankings_history/source_health） | 80 / 156 / 654 / 101 行 | 扫描器 `--all`（`--db-rebuild` 可重建） | 扫描器 |
 
 ## 2. 派生字段口径（扫描器统一计算，手工不要硬写）
 
@@ -138,20 +140,27 @@ V01–V18（V18 支持 history/adjacent 双口径）· **V19**（所有历史快
 **v0.6.0 配额收紧**：V02（机会 ≥80、14 行业各 ≥2、11 区域全覆盖、目标国家/地区 ≥50、中国角度 ≥25）· V08（day ≥10 / week ≥20 / month ≥30 / year ≥80）。
 当前结果：**20/20 PASS，退出码 0**。
 
-## 12. v0.9.1 源扩充与候选质量
+## 12. v0.9.2 商机系统评估 + 中文候选 + 漏斗修复
+
+- **边界**：商机是否成立=系统职责（`system_validation`：需求/信息差/证据/时效/可执行性/地理具体性/竞争窗口共 8 项检查，自动计算）；能否赚钱=个人线下实体验证（`verification_status` 默认 `not_started`，可选 observing/tested），不参与收录/排序。meta `system_validation_summary` 分布 high 53 / medium 133 / low 14，avg 92.9；`verified_by_system=true`。
+- **中文候选**：`title_zh(≤28)/one_liner_zh(≤60)/title_original/translation_method(template|source-zh)`；英文源词典+行业/信息差模板生成中文主标题，中文源保留原文；实测 **200/200 有中文标题（ratio 1.0；template 194 / source-zh 6）**，无整句英文搬运。
+- **漏斗真值**：`/api/status.outbox.funnel` 与 candidates meta `funnel` 以 source-health 为准：**attempted 101 / ok 101 / failed 0**，raw 2420 → deduped 1892 → new 1865 → business 344 → candidates 200（含失败源原因字段）。
+- **源修复/扩充**：fetch.py 增加 XML 容错（未转义 &/控制字符）→ rest-of-world 恢复（12 条）；Arab News 403 换源 Middle East Monitor；补 The New Arab/BBC Business/Guardian Business/NPR Business/Phys.org/ScienceDaily/MIT Tech Review/Wired → **168 平台 / 101 enabled / 11 区域**；干净重置 ledger/outbox 后 `--fetch --no-cache --fetch-limit 160` 实测 **101/101 成功**。
+
+## 13. v0.9.1 源扩充与候选质量
 
 - **源扩充**：160 平台 / **91 enabled 自动源** / 11/11 区域；并入 researcher 25 个实测 RSS（Supply Chain Dive、FreightWaves、Skift、Petfood Industry、Tech.eu、RetailDetail、Euronews Business、36Kr、Japan Times、iFanr、SSPAI、CNA Asia、Bangkok Post、YourStory、ET Tech、Nairametrics、BusinessDay NG、Brazil Journal、Startup i、SmartCompany AU、vc.ru、Federal Register、WTO News、EU Commission Press 等；Arab News 403 disabled）、restofworld URL 修复（仍 XML 解析失败→disabled）、Google News **TR** + 3 query（retail startup funding US / 宠物消费 CN / 清真阿语 SA）、App Store **jp/br/in/ng/ae/au** 6 国（access=json）。
 - **干净首跑**：重置账本/outbox 后真实 `--fetch --no-cache --fetch-limit 120`：92 源尝试 **91 成功**（rest-of-world 失败）、2177 原始 → 1653 信号、**new 1627 / seen 26**（账本 1627）；source-health 92 行 items 2177。
 - **候选质量**：标题/摘要去 HTML/空白/来源尾缀/截断；gap 启发式兜底（industry/source_category/关键词）→ **覆盖 200/200、missing 0、fallback 28**；region 来源+关键词推断 → **11/11、inferred 0**；country 28；同 canonical URL 保留最新（first/last_seen）；上限 `config.CANDIDATE_LIMIT=200` 可配（CLI `--candidates-limit` / `candidates.py --limit`）；仍无验证门禁。
 
-## 13. v0.9.0 自动候选与发现榜（双轨，去掉验证门禁）
+## 14. v0.9.0 自动候选与发现榜（双轨，去掉验证门禁）
 
 - **产品原则**：验证/实验**不是**信息获取与上榜的门禁；自动发现候选直接进入发现榜，无需人工复核/商业验证/实验盈利；`verification_status` 仅标签展示，不参与收录/排序。
 - `scanner/candidates.py`：读最新 `scanner/outbox/signals-*.json` 的 `tier=business` 信号（184 条）优先、不足按 relevance 补 `maybe` 高分，上限 200、同 URL/同标题去重、确定性；每条含 `candidate_id/title(≤28)/one_liner/industry_ids/gap_type_ids/region_ids/target_countries/source/evidence≥1/seven_questions(自动草稿)/roi(行业默认区间,estimated)/scores(10 维+total/rank_score/grade)/confidence/status=auto-discovered/verification_status=unverified/first_seen/last_seen/disclaimer`。
 - 输出 `data/candidates.json`（meta + 200 条）与 `data/candidate-rankings.json`（day/week/month/year，按 first_seen 归窗、排序同 rank 规则）；**不改** `rankings.json`/`opportunities.json`；`stats.json` 增加候选计数（候选 200 / 今日新增 21 / unverified 200）。
 - 生成：`python scanner/candidates.py --as-of 2026-10-23`、`python scanner/pipeline.py --candidates --as-of 2026-10-23`；`--all` 自动包含；幂等（同输入同字节）。
 
-## 14. v0.8.0 采集增强（源注册表 / 持久去重 / 相关性初筛）
+## 15. v0.8.0 采集增强（源注册表 / 持久去重 / 相关性初筛）
 
 - **源注册表**：`data/sources.json` 增加 `access(rss|json|api|manual)`、`regions`、`lang`、`enabled`、`priority`、`limits`、`kind`；`--fetch` 只抓 `enabled=true` 且合规绿/黄、`access ∈ {rss,json}` 的源，按 priority/value_score 排序（默认 `--fetch-limit 60`）。
   2026-10-23 实测：57/57 enabled 源成功、1448 条原始 → 1015 条（批内去重后）；不可用源（itunes 空 feed、substack 非 feed、bing/rest-of-world/techinasia/entrackr/nature/dw 等）标 `enabled=false` 并记录原因。
@@ -159,7 +168,7 @@ V01–V18（V18 支持 history/adjacent 双口径）· **V19**（所有历史快
 - **相关性初筛**：每条信号增加 `relevance_score(0-100)`、`industry_ids/gap_type_ids/region_ids`、`tier(business/maybe/off-topic)`、`reasons`（离线规则，含招聘/广告/纯论文排除词）；meta 与 `/api/outbox` 提供 `relevant_count/tiers/top_relevant`。实测 1015 条：**business 184 / maybe 712 / off-topic 119**；仅线索排序，**不自动入库**。
 - 复现：`python scanner/pipeline.py --fetch --as-of 2026-10-23 --fetch-limit 60`（首跑联网约 3–4 分钟；二次命中缓存更快），重跑验证 `new_count → 0`。
 
-## 15. 复现命令
+## 16. 复现命令
 
 ```powershell
 python scanner/pipeline.py --replay-as-of 2026-10-22 --replay-days 2   # 生成 10-20/10-21 回放 + 重算当前榜单(history delta)
@@ -177,9 +186,9 @@ python scanner/calibrate.py --experiments scanner/fixtures/experiments-sample.js
 python scanner/yearbook.py --year 2026                                 # 年度年鉴（无实验摘要版本）
 python scanner/yearbook.py --year 2026 --experiments scanner/fixtures/experiments-sample.json --sample  # 年鉴（含样例实验摘要）
 python scanner/db.py --rebuild                                         # SQLite 重建
-python -m unittest discover -s scanner/tests                           # 114 条单测（含 serve.py 28 条）
+python -m unittest discover -s scanner/tests                           # 117 条单测（含 serve.py 28 条）
 ```
 
-## 16. 免责
+## 17. 免责
 
 机会卡片是研究假设与公开信息整理，**不构成投资建议、法律意见或收入承诺**。涉及跨境、金融、医疗、法律、宗教、内容版权时请自行做合规核查。`calendar.json` 中宗教节日日期为预计值，以当地观月/官方公告为准。
