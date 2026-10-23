@@ -1899,3 +1899,45 @@ python qa/online-check-v07.py --version v0.7.2             # 新站结构 PASS
 ## 28.5 一句话
 
 **v1.3.0 可发布：200/200 候选含 6 段专业商业评估叙事（唯一/实体数字引用/禁用词0）+ 9 画布/10 维/竞争/跨市场/时效/条件/利润/执行；validate20/20、unittest100/100、--all 幂等；9 路由/routes overflow0/console0、i18n16/16、截图正常，flows 16/18（2 项 file:// 时序 P2）；MANIFEST19/19、tag deploy+CI success、线上 root 与 /v1.3.0/ 同 hash 且旧归档不串台；P0=0、P1=0、3 个 P2 不阻塞。**
+
+---
+
+# 第 29 章 · v1.4.1 全栈审计修正终验（数据质量优先 63 + UI/UX 修复，2026-10-23 23:05）
+
+> 版本：app 1.4.1 / data 1.4.0（as_of=2026-10-23，63 条质量优先候选）｜验收人：redteam｜task-69
+> 冻结：`releases/v1.4.1/`（tag v1.4.1 → e2047a07，内容提交 d2ae699）｜dist 3,327,185 B / `B7D570C6…98D8`
+> **结论：可发布（v1.4.1，P0=0 / P1=0 / P2=4，均不阻塞）**
+
+## 29.1 数据（质量优先 63 条）PASS
+
+- 独立审计后按 Lead 决策收敛为 **63 条**质量优先候选（`candidates 31B94EEB…`，data 1.4.0）：
+  - **unittest 102/102 OK、validate 20/20**；`--all --as-of` 双跑 **0 变化**；**cold determinism：cold1==committed 31B94EEB、cold2==cold1、--all 后一致**（红队独立删 translation-cache 验证）。
+  - 标题 63/63 唯一、无「行业信号/市场观察/完成融资/发布新品」泛化标题；noise_flags 全空；禁用词 验证/实验/复核/门禁 = **0**；narrative 精简为 thesis/market/verdict 三段；四窗口 **day22/week50/month53/year63**；stats 候选 63。
+  - 审计 P1 修复：title_zh 英文为主仅 1（品牌词）；primary_industry 误判降至 ai=2、无 AI 关键词 0；**launch>window 矛盾=0**；非商机噪声/泛化标题已过滤（noise_flags 全空）；region 默认北美已消除（primary_region NA=5/63）。
+  - 指纹：candidates 31B94EEB、candidate-rankings 4018A797、stats EA337B5E、rankings 66AA8042、report-day F358D8EC、business.py 622918CE、candidates.py 24063B62、translate 2350C346。
+
+## 29.2 前端 UI/UX（修复独立复测）
+
+- 最终构建 **3,327,185 B / B7D570C6…98D8** = releases/v1.4.1/dist；app 1.4.1。
+- 字号：1440/1600/1024 下 candidate/rankings 页 **min font 10px，<12px 元素仅 1 个（⌘K 快捷键）**；正文 15/H1 34 达标。
+- sticky：候选详情 sticky 高 **584px（1440/1600）/811px（1024）< 900 视口**；有锚点导航；榜单默认 30 卡+加载更多+返回顶部；详情重复 token 大幅下降（`6–12 个月` 3→1、`55%`/`6个月` 重复消除）；1440/1600/1024 均无正文横向溢出（唯一例外见 P2-1）。
+- `qa/routes-v100.mjs` 9 路由×1600/1024：**consoleErrors=0、removedBad=0、overflow=1**（仅 1024 精选详情；见 P2-1）；`i18n` **16/16、enUnexplainedCJK=0**；截图 final-v1.4（含 zh-opportunity-1024）及 qa/screenshots/v141-final 目检正常。
+
+## 29.3 冻结 + Actions + 线上
+
+- `manifest-check` **MANIFEST 19/19 与 tag blob 一致**；`verify_manifest.py` **OK (19/19)**；tag v1.4.1→e2047a07，内容 d2ae699；VERSION/README/前端 1.4.1。
+- Actions：**Deploy 39974240731 success**、**CI 39974234499 success**、pages 39974300100 success。
+- 线上（`online-check --version v1.4.1`）**PASS**：`/` 与 `/v1.4.1/` 同 hash B7D570C6…/3,327,185 B；versions latest=v1.4.1 path=/v1.4.1/；历史 v0.1.0…v1.4.0 全部与各自 tag 冻结 blob 逐字节一致不串台；404 正常。
+
+## 29.4 P2 清单（4 个，均不阻塞）
+
+| # | 项 | 现状 | 建议 |
+|---|---|---|---|
+| P2-1 | 1024 精选详情 8px 横向溢出 | 独立 CDP：doc.client=1024、doc.scroll=1032；溢出元素为顶部 header 右侧控件（right=1031.875），非详情正文；frontend 声称 0 与实测不符 | v1.4.2 调 header 响应式（缩小搜索/状态控件或允许换行） |
+| P2-2 | region_ids 仍含 NA 35/63 | primary_region NA=5 已修正；region_ids 为多区域标签集合，语义需明确（若用于展示需收敛） | 文档注明或 UI 仅用 primary_region |
+| P2-3 | narrative market 段重复 25/63 | 从 198/200 大幅下降；仍 25 条 market 段相同 | 后续叙事去重优化 |
+| P2-4 | versions.json daily 字段/证据 URL 全量未复核 | daily_channel/live_as_of 缺失（可选）；本轮 evidence URL 未全量抓取 | 下轮 daily workflow 补齐；抽 ≥20 URL |
+
+## 29.5 一句话
+
+**v1.4.1 可发布：数据收敛为 63 条质量优先候选（102/102 单测、20/20 validate、cold determinism/--all 幂等、标题唯一/无噪声/禁用词0、四窗口 22/50/53/63）；前端 UI/UX 修复经独立测量（min font 10、sticky<900、锚点/返顶/30卡、重复大幅下降、i18n16/16、9 路由 console0）；MANIFEST19/19、tag deploy+CI success、线上 root 与 /v1.4.1/ 同 hash 且旧归档不串台；P0=0、P1=0、4 个 P2 不阻塞（1024 header 8px 溢出待 v1.4.2）。**

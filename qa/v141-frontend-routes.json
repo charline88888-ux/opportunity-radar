@@ -1,0 +1,209 @@
+{
+  "generated_at": "2026-10-23T14:59:17.839Z",
+  "rows": [
+    {
+      "width": 1600,
+      "route": "#/",
+      "overflow": false,
+      "canvases": 0,
+      "zero": 0,
+      "consoleErrors": [],
+      "text": "RADAR / 01\nCOMMAND · 指挥台\n全球商机雷达 · 每天扫描，商机入榜\n\n只做一件事：每天扫描公开信号，评估商机，把可做的线索放进商机榜。自动候选与精选机会统一展示，按评分排序。\n\n数据基准 2026-10-23 · 距今 0 天\n今日新候选 22\n进入商机榜\n今日新候选\n22\n日榜入榜\n候选总数\n63\n全部自动发现\n自动源\n100\n本轮成功 100/101\n覆盖区域\n11\n全球区域\n今日 TOP 候选\n来自公开信号自动发现，按评分排序，点击看详情\n查看全部 →\n自动发现\n合规\n市场变化\n评分\n74.5\nB\n欧盟理事会包装法规立场\nEU Council agrees negot"
+    },
+    {
+      "width": 1600,
+      "route": "#/rankings",
+      "overflow": false,
+      "canvases": 0,
+      "zero": 0,
+      "consoleErrors": [],
+      "text": "RADAR / 02\nRANKINGS · 排行榜 / 商机榜\n商机榜 · 每天扫描，按窗口入榜\n\n唯一榜单：自动发现候选全部入榜，精选机会以「精选」标签混排。日 / 周 / 月 / 年四个窗口直接可看，按评分排序。\n\n自动候选 63\n精选 80\n数据基准 2026-10-23\n日榜\n周榜\n月榜\n年榜\n全部 · 99\n精选 · 49\n当前 99 条\n全部行业\n宠物经济\n银发与健康\n情绪疗愈与心理\nAI 与效率工具\n跨境电商与供应链\n内容与 IP 出海\n教育与知识服务\n本地生活与服务\n绿色能源与可持续\n合规与专业服务\n文化与宗教\n支付与金融科技\n产业与制造\n全部区域\n北美\n欧洲\n中东与北非\n东南"
+    },
+    {
+      "width": 1600,
+      "route": "#/candidates/cand-5c555f56997d",
+      "overflow": false,
+      "canvases": 3,
+      "zero": 0,
+      "consoleErrors": [],
+      "text": "自动发现\n主行业: 金融支付\n事件: 政策/监管窗口\n马来西亚、泰国央行加入 MAS 跨境支付倡议\n原文: Malaysia, Thailand central banks join MAS cross-border payment initiative - The Business Times\n\n马来西亚、泰国、MAS（新加坡金管局）对应的政策/监管窗口不是新闻噪声：规则落地前的窗口期；金融支付的切入点是牌照/清算合规、本地银行通道与资金归集效率（关键卡点）。\n\n支付与金融科技\n跨境电商与供应链\n地理 / 市场差\n基础设施差\n东南亚\n北美\n综合评分\n66.2\nB\n置信度 95 · 2026年"
+    },
+    {
+      "width": 1600,
+      "route": "#/opportunities/opp-pet-memorial-glass-001",
+      "overflow": false,
+      "canvases": 0,
+      "zero": 0,
+      "consoleErrors": [],
+      "text": "RADAR / 02\nCURATED · 精选商机\n宠物离世纪念玻璃：把骨灰毛发封进玻璃的定制生意\n\n欧美宠物殡葬情绪消费升级，客单 120–400 美元，手工定制+独立站+跨境代发可小成本验证\n\n精选\n78.1 · A\n← 商机榜\n评分与等级\n78.1\nA\nsignal\n8.4\ngap\n7.6\nfeasibility\n8.4\neconomics\n8.2\ntiming\n7.6\ncompetition\n6.4\nrisk\n7.4\nfit\n8.2\nevidence\n7.8\nleverage\n6.6\nROI 估算\n启动资金: ¥3,000–8,000\n回本周期: 5 个月\n月收入估算: ¥0.8–3 "
+    },
+    {
+      "width": 1600,
+      "route": "#/scanner",
+      "overflow": false,
+      "canvases": 2,
+      "zero": 0,
+      "consoleErrors": [],
+      "text": "RADAR / 04\nSCANNER · 扫描室\n扫描室 · 信号采集与源健康\n\n把「人性需求 × 信号类型」变成可执行的扫描流程：热力矩阵看需求密度，桑基图看信息差流向，12 个剧本可直接照做，数据源健康度决定信号质量。\n\n168 个数据源\n12 大类\n12 个剧本\n模拟扫描\n纯前端演示 · 无网络请求\nSTANDBY\n开始模拟扫描\nPIPELINE / 扫描步骤\n1\n读取数据源矩阵\n加载 12 大类平台与健康度状态\n2\n拉取需求信号\n按人性需求 × 信号类型匹配候选\n3\n扣除噪声与重复\n过滤营销稿、单一来源与过期窗口\n4\n重算评分与动量\n按 10 维权重与 rank_score 公式评分\n"
+    },
+    {
+      "width": 1600,
+      "route": "#/method",
+      "overflow": false,
+      "canvases": 0,
+      "zero": 0,
+      "consoleErrors": [],
+      "text": "RADAR / 04\nMETHOD · 方法论\n商机评估方法：10 维判断 + 说明书结构\n\n商机不是“看起来新”，而是需求、信息差、可行性、经济性、时机、竞争、风险、匹配、证据、杠杆同时成立。候选详情按这份标准逐项写清楚。\n\n10 维评分 · 可解释判断\n10 维怎么判断\n维度\t数据来源\t判断标准\t常见误判\n信号强度\t公开讨论量、来源数量、证据等级\t多来源独立出现、有具体数字/实体/时间\t把营销稿/单一搬运当成趋势\n信息差\t区域/监管/价格/平台规则差异\t同一需求在两地存在可获得性/价格/合规差\t把普通新鲜感当结构性机会\n可行性\t启动资金、技能、供应链、交付链路\t个人/小团队 0–90 天能"
+    },
+    {
+      "width": 1600,
+      "route": "#/sources",
+      "overflow": false,
+      "canvases": 2,
+      "zero": 0,
+      "consoleErrors": [],
+      "text": "RADAR / 06\nSOURCES · 数据源矩阵\n数据源矩阵 · 12 大类平台\n\n所有信息源按「需求 / 趋势 / 电商 / 社媒 / 政策 / 资本 / 学术 / 供应链 / 文化 / 人才 / 数据 / 平台生态」12 大类整理；标注访问方式、频率、成本、合规色与价值分，是扫描室的上游。\n\n168 个平台\n自动 100 / 人工 68\n覆盖 11/11 区域\n12 大类\n平台总数\n168\n个\n绿 · 可稳定采集\n134\n个\n黄 · 灰区限速\n26\n个\n红 · 仅人工浏览\n8\n个\n全部合规色\n绿\n黄\n红\n全部分类\n需求与抱怨\n趋势与搜索\n电商与交易\n社媒与内容\n政策与监管\n资本与融资\n"
+    },
+    {
+      "width": 1600,
+      "route": "#/calendar",
+      "overflow": false,
+      "canvases": 1,
+      "zero": 0,
+      "consoleErrors": [],
+      "text": "RADAR / 07\nCALENDAR · 全球商业日历\n全球商业日历 · 节庆与布局窗口\n\n宗教节庆、国家节日、税季、开学、购物节与财政年节点。每个节点都有建议提前布局天数：晚于起始日再动手，通常只能吃残羹。\n\n33 个节点\n未来 90 天 8 个\nas_of 2026-10-23\n节点总数\n33\n覆盖 11 个区域\n未来 90 天\n8\n需要现在启动布局\n下一个节点\n双 11 购物节\n2026-11-11 · 购物节\n平均提前布局\n63 天\n按全部节点 lead_time_days 均值\nDENSITY\n未来节点密度 · 按类型堆叠\n横轴为月份 · 红色虚线为数据基准日 as_of\n全部类型"
+    },
+    {
+      "width": 1600,
+      "route": "#/about",
+      "overflow": false,
+      "canvases": 0,
+      "zero": 0,
+      "consoleErrors": [],
+      "text": "RADAR / 07\nABOUT · 关于\n机会雷达 · 只做每天扫描与商机入榜\n\n公开信号自动整理成商机线索，按日 / 周 / 月 / 年进入商机榜；每个候选都有评分、七问草稿与来源证据，点击即可查看。\n\nv1.4.0\n产品边界\n只保留核心页面：指挥台、商机榜、候选详情、精选详情、扫描室、方法论、数据源、商业日历、关于。\n商机榜是唯一榜单：自动候选全部入榜，精选机会以「精选」标签混排，日/周/月/年四个窗口。\n商机线索来自公开信号自动生成，不构成投资建议；能否赚钱取决于个人线下执行。\n数据状态\n版本\n1.4.0\n数据版本\n1.4.0\n数据基准日\n2026-10-23\n自动候选\n63\n精选机会"
+    },
+    {
+      "width": 1024,
+      "route": "#/",
+      "overflow": false,
+      "canvases": 0,
+      "zero": 0,
+      "consoleErrors": [],
+      "text": "RADAR / 01\nCOMMAND · 指挥台\n全球商机雷达 · 每天扫描，商机入榜\n\n只做一件事：每天扫描公开信号，评估商机，把可做的线索放进商机榜。自动候选与精选机会统一展示，按评分排序。\n\n数据基准 2026-10-23 · 距今 0 天\n今日新候选 22\n进入商机榜\n今日新候选\n22\n日榜入榜\n候选总数\n63\n全部自动发现\n自动源\n100\n本轮成功 100/101\n覆盖区域\n11\n全球区域\n今日 TOP 候选\n来自公开信号自动发现，按评分排序，点击看详情\n查看全部 →\n自动发现\n合规\n市场变化\n评分\n74.5\nB\n欧盟理事会包装法规立场\nEU Council agrees negot"
+    },
+    {
+      "width": 1024,
+      "route": "#/rankings",
+      "overflow": false,
+      "canvases": 0,
+      "zero": 0,
+      "consoleErrors": [],
+      "text": "RADAR / 02\nRANKINGS · 排行榜 / 商机榜\n商机榜 · 每天扫描，按窗口入榜\n\n唯一榜单：自动发现候选全部入榜，精选机会以「精选」标签混排。日 / 周 / 月 / 年四个窗口直接可看，按评分排序。\n\n自动候选 63\n精选 80\n数据基准 2026-10-23\n日榜\n周榜\n月榜\n年榜\n全部 · 99\n精选 · 49\n当前 99 条\n全部行业\n宠物经济\n银发与健康\n情绪疗愈与心理\nAI 与效率工具\n跨境电商与供应链\n内容与 IP 出海\n教育与知识服务\n本地生活与服务\n绿色能源与可持续\n合规与专业服务\n文化与宗教\n支付与金融科技\n产业与制造\n全部区域\n北美\n欧洲\n中东与北非\n东南"
+    },
+    {
+      "width": 1024,
+      "route": "#/candidates/cand-5c555f56997d",
+      "overflow": false,
+      "canvases": 3,
+      "zero": 0,
+      "consoleErrors": [],
+      "text": "自动发现\n主行业: 金融支付\n事件: 政策/监管窗口\n马来西亚、泰国央行加入 MAS 跨境支付倡议\n原文: Malaysia, Thailand central banks join MAS cross-border payment initiative - The Business Times\n\n马来西亚、泰国、MAS（新加坡金管局）对应的政策/监管窗口不是新闻噪声：规则落地前的窗口期；金融支付的切入点是牌照/清算合规、本地银行通道与资金归集效率（关键卡点）。\n\n支付与金融科技\n跨境电商与供应链\n地理 / 市场差\n基础设施差\n东南亚\n北美\n综合评分\n66.2\nB\n置信度 95 · 2026年"
+    },
+    {
+      "width": 1024,
+      "route": "#/opportunities/opp-pet-memorial-glass-001",
+      "overflow": true,
+      "canvases": 0,
+      "zero": 0,
+      "consoleErrors": [],
+      "text": "RADAR / 02\nCURATED · 精选商机\n宠物离世纪念玻璃：把骨灰毛发封进玻璃的定制生意\n\n欧美宠物殡葬情绪消费升级，客单 120–400 美元，手工定制+独立站+跨境代发可小成本验证\n\n精选\n78.1 · A\n← 商机榜\n评分与等级\n78.1\nA\nsignal\n8.4\ngap\n7.6\nfeasibility\n8.4\neconomics\n8.2\ntiming\n7.6\ncompetition\n6.4\nrisk\n7.4\nfit\n8.2\nevidence\n7.8\nleverage\n6.6\nROI 估算\n启动资金: ¥3,000–8,000\n回本周期: 5 个月\n月收入估算: ¥0.8–3 "
+    },
+    {
+      "width": 1024,
+      "route": "#/scanner",
+      "overflow": false,
+      "canvases": 2,
+      "zero": 0,
+      "consoleErrors": [],
+      "text": "RADAR / 04\nSCANNER · 扫描室\n扫描室 · 信号采集与源健康\n\n把「人性需求 × 信号类型」变成可执行的扫描流程：热力矩阵看需求密度，桑基图看信息差流向，12 个剧本可直接照做，数据源健康度决定信号质量。\n\n168 个数据源\n12 大类\n12 个剧本\n模拟扫描\n纯前端演示 · 无网络请求\nSTANDBY\n开始模拟扫描\nPIPELINE / 扫描步骤\n1\n读取数据源矩阵\n加载 12 大类平台与健康度状态\n2\n拉取需求信号\n按人性需求 × 信号类型匹配候选\n3\n扣除噪声与重复\n过滤营销稿、单一来源与过期窗口\n4\n重算评分与动量\n按 10 维权重与 rank_score 公式评分\n"
+    },
+    {
+      "width": 1024,
+      "route": "#/method",
+      "overflow": false,
+      "canvases": 0,
+      "zero": 0,
+      "consoleErrors": [],
+      "text": "RADAR / 04\nMETHOD · 方法论\n商机评估方法：10 维判断 + 说明书结构\n\n商机不是“看起来新”，而是需求、信息差、可行性、经济性、时机、竞争、风险、匹配、证据、杠杆同时成立。候选详情按这份标准逐项写清楚。\n\n10 维评分 · 可解释判断\n10 维怎么判断\n维度\t数据来源\t判断标准\t常见误判\n信号强度\t公开讨论量、来源数量、证据等级\t多来源独立出现、有具体数字/实体/时间\t把营销稿/单一搬运当成趋势\n信息差\t区域/监管/价格/平台规则差异\t同一需求在两地存在可获得性/价格/合规差\t把普通新鲜感当结构性机会\n可行性\t启动资金、技能、供应链、交付链路\t个人/小团队 0–90 天能"
+    },
+    {
+      "width": 1024,
+      "route": "#/sources",
+      "overflow": false,
+      "canvases": 2,
+      "zero": 0,
+      "consoleErrors": [],
+      "text": "RADAR / 06\nSOURCES · 数据源矩阵\n数据源矩阵 · 12 大类平台\n\n所有信息源按「需求 / 趋势 / 电商 / 社媒 / 政策 / 资本 / 学术 / 供应链 / 文化 / 人才 / 数据 / 平台生态」12 大类整理；标注访问方式、频率、成本、合规色与价值分，是扫描室的上游。\n\n168 个平台\n自动 100 / 人工 68\n覆盖 11/11 区域\n12 大类\n平台总数\n168\n个\n绿 · 可稳定采集\n134\n个\n黄 · 灰区限速\n26\n个\n红 · 仅人工浏览\n8\n个\n全部合规色\n绿\n黄\n红\n全部分类\n需求与抱怨\n趋势与搜索\n电商与交易\n社媒与内容\n政策与监管\n资本与融资\n"
+    },
+    {
+      "width": 1024,
+      "route": "#/calendar",
+      "overflow": false,
+      "canvases": 1,
+      "zero": 0,
+      "consoleErrors": [],
+      "text": "RADAR / 07\nCALENDAR · 全球商业日历\n全球商业日历 · 节庆与布局窗口\n\n宗教节庆、国家节日、税季、开学、购物节与财政年节点。每个节点都有建议提前布局天数：晚于起始日再动手，通常只能吃残羹。\n\n33 个节点\n未来 90 天 8 个\nas_of 2026-10-23\n节点总数\n33\n覆盖 11 个区域\n未来 90 天\n8\n需要现在启动布局\n下一个节点\n双 11 购物节\n2026-11-11 · 购物节\n平均提前布局\n63 天\n按全部节点 lead_time_days 均值\nDENSITY\n未来节点密度 · 按类型堆叠\n横轴为月份 · 红色虚线为数据基准日 as_of\n全部类型"
+    },
+    {
+      "width": 1024,
+      "route": "#/about",
+      "overflow": false,
+      "canvases": 0,
+      "zero": 0,
+      "consoleErrors": [],
+      "text": "RADAR / 07\nABOUT · 关于\n机会雷达 · 只做每天扫描与商机入榜\n\n公开信号自动整理成商机线索，按日 / 周 / 月 / 年进入商机榜；每个候选都有评分、七问草稿与来源证据，点击即可查看。\n\nv1.4.0\n产品边界\n只保留核心页面：指挥台、商机榜、候选详情、精选详情、扫描室、方法论、数据源、商业日历、关于。\n商机榜是唯一榜单：自动候选全部入榜，精选机会以「精选」标签混排，日/周/月/年四个窗口。\n商机线索来自公开信号自动生成，不构成投资建议；能否赚钱取决于个人线下执行。\n数据状态\n版本\n1.4.0\n数据版本\n1.4.0\n数据基准日\n2026-10-23\n自动候选\n63\n精选机会"
+    }
+  ],
+  "removed": [
+    {
+      "route": "#/discover",
+      "bad": false,
+      "snippet": "页面不存在 RADAR / 404 · route not found 返回指挥台"
+    },
+    {
+      "route": "#/control",
+      "bad": false,
+      "snippet": "页面不存在 RADAR / 404 · route not found 返回指挥台"
+    },
+    {
+      "route": "#/lab",
+      "bad": false,
+      "snippet": "页面不存在 RADAR / 404 · route not found 返回指挥台"
+    },
+    {
+      "route": "#/calibration",
+      "bad": false,
+      "snippet": "页面不存在 RADAR / 404 · route not found 返回指挥台"
+    },
+    {
+      "route": "#/profile",
+      "bad": false,
+      "snippet": "页面不存在 RADAR / 404 · route not found 返回指挥台"
+    },
+    {
+      "route": "#/alerts",
+      "bad": false,
+      "snippet": "页面不存在 RADAR / 404 · route not found 返回指挥台"
+    },
+    {
+      "route": "#/yearbook",
+      "bad": false,
+      "snippet": "页面不存在 RADAR / 404 · route not found 返回指挥台"
+    },
+    {
+      "route": "#/data",
+      "bad": false,
+      "snippet": "页面不存在 RADAR / 404 · route not found 返回指挥台"
+    }
+  ]
+}
