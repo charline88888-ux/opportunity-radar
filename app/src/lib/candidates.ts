@@ -61,6 +61,7 @@ export interface Candidate {
   translation?: CandidateTranslation
   one_liner: string
   industry_ids: string[]
+  primary_industry?: string
   gap_type_ids: string[]
   region_ids: string[]
   target_countries: string[]
@@ -80,6 +81,16 @@ export interface Candidate {
   gap_inference?: string
   gap_inferred?: boolean
   region_inferred?: boolean
+  business_canvas?: Record<string, unknown>
+  judgment?: Record<string, unknown>
+  competition?: Record<string, unknown>
+  cross_market?: Record<string, unknown>
+  timing?: Record<string, unknown>
+  conditions?: Record<string, unknown>
+  barriers?: Record<string, unknown>
+  profit_model?: Record<string, unknown>
+  execution_plan?: Record<string, unknown>
+  eval_sources?: unknown
   raw?: Record<string, unknown>
 }
 
@@ -158,6 +169,7 @@ function normalizeCandidate(raw: unknown, index = 0): Candidate | null {
     } : undefined,
     one_liner: str(raw.one_liner, str(raw.summary)),
     industry_ids: strs(raw.industry_ids),
+    primary_industry: str(raw.primary_industry),
     gap_type_ids: strs(raw.gap_type_ids),
     region_ids: strs(raw.region_ids),
     target_countries: strs(raw.target_countries),
@@ -177,6 +189,16 @@ function normalizeCandidate(raw: unknown, index = 0): Candidate | null {
     gap_inference: str(raw.gap_inference) || (isObj(raw.gap_inference) ? JSON.stringify(raw.gap_inference) : ''),
     gap_inferred: raw.gap_inferred === true,
     region_inferred: raw.region_inferred === true,
+    business_canvas: isObj(raw.business_canvas) ? raw.business_canvas : undefined,
+    judgment: isObj(raw.judgment) ? raw.judgment : undefined,
+    competition: isObj(raw.competition) ? raw.competition : undefined,
+    cross_market: isObj(raw.cross_market) ? raw.cross_market : undefined,
+    timing: isObj(raw.timing) ? raw.timing : undefined,
+    conditions: isObj(raw.conditions) ? raw.conditions : undefined,
+    barriers: isObj(raw.barriers) ? raw.barriers : undefined,
+    profit_model: isObj(raw.profit_model) ? raw.profit_model : undefined,
+    execution_plan: isObj(raw.execution_plan) ? raw.execution_plan : undefined,
+    eval_sources: raw.sources ?? raw.eval_sources,
     raw,
   }
 }

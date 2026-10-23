@@ -2,7 +2,17 @@
 
 格式：`data_version` + 日期 + 变更内容 + 影响面。契约变更（字段/枚举/公式）必须同步更新 `docs/12-数据契约与字段字典.md` 并通知 Lead、前端、红队。
 
+## data-v1.2.0 · 2026-10-23 · MINOR（商机评估深化：商业画布/判断依据/执行方案）
+
+- 新增 `scanner/business.py`：按 **14 行业知识包**（宠物/银发/情绪/AI/跨境/内容/教育/本地/绿色/合规/文化/游戏/金融支付/制造）+ **12 信息差** + **11 区域规则**，为每条候选生成商机评估说明书，全部离线确定性、无人工输入。
+- 每条候选新增 10 组字段：`business_canvas`（客户细分/价值主张/渠道/客户关系/收入来源/核心资源/关键活动/重要伙伴/成本结构 9 块）、`judgment`（10 维 score+rationale+data_used、why_opportunity、not_opportunity_if）、`competition`（直接/间接/替代/差异化/护城河/定位）、`cross_market`（目标市场/套利类型/可迁移原因/本地化/定价权）、`timing`（why_now/催化剂/窗口阶段/窗口月数/紧迫性/风险）、`conditions`（资金区间/技能/资质/供应链/伙伴/团队/启动时间）、`barriers`（监管/技术/资金/品牌/渠道/区域）、`profit_model`（收入模型/定价/毛利/成本/单位经济/回本/规模化）、`execution_plan`（0–30 天/30–90 天/里程碑/首笔收入/指标）、`sources`（来源/链接/等级）。
+- 内容引用信号标题实体与数字（如 `Malaysia/Thailand/MAS`、`30 million`）；实测 200 条候选 **200 个不同画布**，同行业不同信号内容有差异；候选 JSON 全量 grep `验证/实验/复核/门禁` = **0**。质量迭代：实体清洗（去来源尾缀/题首动词/泛化词，保留品牌/国家/机构/数字，无数字不写占位语）；主行业按标题关键词优先判定（支付→fintech、短剧→content、跨境→crossborder、宠物→pet…）；事件类型（policy/funding/launch/partnership/demand/cost/market）驱动 why/not_opportunity_if/窗口/条件/执行方案；区域按标题国家/城市优先匹配（MAS→东南亚）。二次质量迭代：`industry_ids` 以 primary_industry 为首并仅保留强相关第二行业（MAS=fintech+crossborder；PineDrama=content；Z 世代非洲=crossborder），顶层新增 `primary_industry`；why_opportunity 改为「实体（事件）意味着事件逻辑；在区域，行业专属缺口；可用商业模式切入，窗口约 X 个月」；执行方案第 3 步改为具体动作（合规材料/通道测试/本地客服），不再塞事件说明；profit_model 增加 `revenue_streams` 数组（保留 `revenue_model`）。
+- 数据版本 **1.2.0**（全部 meta）；候选 200、四窗口 day99/week200/month200/year200 不变；报告/榜单/统计已重生成；cold-cache determinism（删翻译缓存冷跑 candidates 与冻结一致）；`--all` 幂等。
+- validate **20/20**；unittest **97/97**（新增画布/判断/实体引用/同行业差异/确定性测试）。
+- 指纹（SHA256 前 16）：candidates `36624C7995E2C676`（全值 `36624C7995E2C6769456F191034AF722A7B6C55DC7BFD9A131C4DB858140F27F`）、candidate-rankings `755BC10BB80FD2FB`（`755BC10BB80FD2FB64243419AD696027B40AF28606AB05C2253EEF4A0087423D`）、stats `2B11F3B81F52A6B5`、rankings `B5ED9A22569464BC`、report-day `37D33C34CD1D89E1`；代码 business.py `C9E51A0FF53887E4`（全值 `C9E51A0FF53887E4D36ACE11EDE80EA5DB9B87F1043FEF9089187313029D70B7`）、candidates.py `37A8F5F64895218C`（全值 `37A8F5F64895218C82D09AD4F861C374E318F4694B12677EF08385F1C8E50AE6`）、translate.py `2350C346277FD68C`（未变）。
+
 ## data-v1.0.1 · 2026-10-23 · PATCH（候选文案清洗）
+
 
 - 候选 `seven_questions` 彻底移除验证/实验/复核/门禁措辞：`渠道` → 小成本测试；原 `验证` 键改为 **`跟踪`**（答案「14 天内观察到询价/预约/加购等可量化信号再投入（自动草稿）。」）；成本问句 → 「最小启动成本与最大风险分别是什么？」。
 - `one_liner` 结尾统一为「（自动发现线索，系统已初筛）」；`system_validation.notes` 改为「系统自动评估商机信号…不代表收入承诺。」；候选 JSON 全量 grep `验证/实验/复核/门禁` = **0**。

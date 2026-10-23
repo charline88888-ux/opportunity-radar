@@ -1837,6 +1837,128 @@ class TestCandidatesV090(unittest.TestCase):
         self.assertEqual(mocked.call_count, 1)
 
 
+class TestBusinessV120(unittest.TestCase):
+    """v1.2.0：候选商业评估说明书（画布/判断/竞争/跨市场/时效/条件/门槛/利润/执行方案/来源）。"""
+
+    AS_OF = date(2026, 10, 23)
+
+    @staticmethod
+    def _signal(idx: int, title: str, industry: str = "pet") -> dict:
+        signal = TestCandidatesV090._signal(idx, title=title, url=f"https://example.com/business/{idx}")
+        signal["industry_ids"] = [industry]
+        signal["industry_hints"] = [industry]
+        signal["gap_type_ids"] = ["geo"]
+        signal["gap_hints"] = ["geo"]
+        signal["region_ids"] = ["north-america"]
+        signal["region_hints"] = ["north-america"]
+        signal["quote"] = "公开信号摘要：跨境宠物纪念品需求增长，价格差明显。"
+        return signal
+
+    def test_business_evaluation_fields_and_entity_citation(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            signals = [
+                self._signal(1, "Pet memorial startup raises 30 million in US"),
+                self._signal(2, "Pet food brand expands 40% in Canada"),
+            ]
+            outbox = TestCandidatesV090._write_outbox(root, signals)
+            payload, _ = candidates.build_candidates(as_of=self.AS_OF, outbox_path=outbox, limit=10)
+            self.assertEqual(payload["meta"]["total"], 2)
+            dumps = []
+            for candidate in payload["candidates"]:
+                for field in (
+                    "business_canvas", "judgment", "competition", "cross_market", "timing",
+                    "conditions", "barriers", "profit_model", "execution_plan", "sources",
+                ):
+                    self.assertIn(field, candidate)
+                self.assertEqual(len(candidate["business_canvas"]), 9)
+                self.assertTrue(all(candidate["business_canvas"].values()))
+                self.assertEqual(len(candidate["judgment"]["dimensions"]), 10)
+                for dim in candidate["judgment"]["dimensions"]:
+                    self.assertIn("score", dim)
+                    self.assertTrue(dim["rationale"])
+                    self.assertTrue(dim["data_used"])
+                self.assertTrue(candidate["judgment"]["why_opportunity"])
+                self.assertGreaterEqual(len(candidate["judgment"]["not_opportunity_if"]), 3)
+                for field in ("direct", "indirect", "substitutes", "differentiation", "moat", "positioning"):
+                    self.assertIn(field, candidate["competition"])
+                self.assertTrue(candidate["cross_market"]["target_markets"])
+                self.assertIn(candidate["timing"]["window_stage"], {"open", "closing", "closed"})
+                self.assertTrue(candidate["conditions"]["skills"])
+                self.assertTrue(candidate["barriers"]["regulatory"])
+                self.assertTrue(candidate["profit_model"]["revenue_model"])
+                self.assertEqual(len(candidate["execution_plan"]["phase_0_30_days"]), 3)
+                self.assertGreaterEqual(len(candidate["execution_plan"]["milestones"]), 2)
+                self.assertTrue(candidate["sources"])
+                text = json.dumps(candidate, ensure_ascii=False)
+                self.assertTrue(("30" in text) or ("40" in text))
+                self.assertNotRegex(text, r"验证|实验|复核|门禁")
+                dumps.append(json.dumps(candidate["business_canvas"] | candidate["judgment"], ensure_ascii=False))
+            self.assertNotEqual(dumps[0], dumps[1])  # 同行业不同信号内容有差异
+
+    def test_primary_industry_event_and_specific_why(self):
+        cases = [
+            ("Malaysia, Thailand central banks join MAS cross-border payment initiative - The Business Times", "fintech"),
+            ("ByteDance PineDrama targets overseas growth with short dramas", "content"),
+            ("How Gen Z Consumers Are Changing Business in Africa", "crossborder"),
+        ]
+        for idx, (title, expected_industry) in enumerate(cases, start=1):
+            with tempfile.TemporaryDirectory() as tmp:
+                root = Path(tmp)
+                signal = TestCandidatesV090._signal(idx, title=title, url=f"https://example.com/industry/{idx}")
+                outbox = TestCandidatesV090._write_outbox(root, [signal])
+                payload, _ = candidates.build_candidates(as_of=self.AS_OF, outbox_path=outbox, limit=5)
+                candidate = payload["candidates"][0]
+                judgment = candidate["judgment"]
+                self.assertEqual(candidate["primary_industry"], expected_industry)
+                self.assertEqual(candidate["industry_ids"][0], expected_industry)
+                self.assertNotIn("ai", candidate["industry_ids"]) if expected_industry != "ai" else None
+                self.assertNotIn("pet", candidate["industry_ids"]) if expected_industry != "pet" else None
+                if expected_industry == "fintech":
+                    self.assertEqual(candidate["industry_ids"], ["fintech", "crossborder"])
+                self.assertIn("意味着", judgment["why_opportunity"])
+                self.assertIn("窗口约", judgment["why_opportunity"])
+                self.assertEqual(judgment["primary_industry"], expected_industry)
+                self.assertIn(judgment["event_type"], {"policy", "funding", "launch", "partnership", "demand", "cost", "market"})
+                self.assertEqual(len(candidate["profit_model"]["revenue_streams"]), 3)
+                self.assertNotIn("准备规则落地前", json.dumps(candidate["execution_plan"], ensure_ascii=False))
+                self.assertIn("准备合规/资质材料", json.dumps(candidate["execution_plan"], ensure_ascii=False)) if expected_industry == "fintech" else None
+                text = json.dumps(candidate, ensure_ascii=False)
+                business_text = json.dumps(
+                    {
+                        key: candidate[key]
+                        for key in (
+                            "business_canvas", "judgment", "competition", "cross_market",
+                            "timing", "conditions", "barriers", "profit_model", "execution_plan",
+                        )
+                    },
+                    ensure_ascii=False,
+                )
+                self.assertNotIn("未给出具体数字", business_text)
+                self.assertNotIn("The Business Times", business_text)
+                self.assertNotIn("How Gen", business_text)
+                self.assertNotIn("Consumers Are", business_text)
+                self.assertNotRegex(text, r"验证|实验|复核|门禁")
+                if expected_industry == "fintech":
+                    self.assertIn("金融支付", business_text)
+                    self.assertIn("MAS", business_text)
+                    self.assertEqual(judgment["event_type"], "policy")
+                    self.assertIn("窗口约 6–12 个月", text)
+                    self.assertIn("新加坡", json.dumps(candidate["cross_market"], ensure_ascii=False))
+                    self.assertTrue(any("牌照" in item for item in judgment["not_opportunity_if"]))
+                if expected_industry == "content":
+                    self.assertNotIn("行业：AI", text)
+                    self.assertIn("内容", text)
+
+    def test_business_evaluation_deterministic(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            outbox = TestCandidatesV090._write_outbox(root, [self._signal(1, "Pet memorial startup raises 30 million in US")])
+            first, _ = candidates.build_candidates(as_of=self.AS_OF, outbox_path=outbox, limit=5)
+            second, _ = candidates.build_candidates(as_of=self.AS_OF, outbox_path=outbox, limit=5)
+            self.assertEqual(first, second)
+
+
 class TestTranslateV093(unittest.TestCase):
     """v0.9.3：系统级翻译（glossary/缓存/source-zh/无 key 回退/mock/LLM 兼容）。"""
 

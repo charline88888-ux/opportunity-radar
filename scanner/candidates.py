@@ -20,9 +20,9 @@ from typing import Any
 
 if __package__ in (None, ""):  # 支持 python scanner/candidates.py
     sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
-    from scanner import common, config, normalize, score, translate as translate_mod  # noqa: E402
+    from scanner import business as business_mod, common, config, normalize, score, translate as translate_mod  # noqa: E402
 else:  # pragma: no cover
-    from . import common, config, normalize, score, translate as translate_mod
+    from . import business as business_mod, common, config, normalize, score, translate as translate_mod
 
 CANDIDATE_LIMIT = int(getattr(config, "CANDIDATE_LIMIT", 200))
 WINDOWS = ("day", "week", "month", "year")
@@ -572,6 +572,31 @@ def _candidate_from_signal(
     candidate_id = "cand-" + _hash(url or title, str(signal.get("title_norm") or title))[:12]
     relevance = float(signal.get("relevance_score") or 0)
     confidence = int(round(common.clamp(30 + relevance * 0.5 + (10 if signal.get("tier") == "business" else 0) + 5 + 5, 0, 95)))
+    scores = _scores(signal, industries, regions, len(evidence), as_of)
+    roi = _roi(industries[0])
+    business_eval = business_mod.build_business(
+        signal,
+        title_original=title_original or title,
+        title_zh=title_zh,
+        summary_zh=summary_zh,
+        industries=industries,
+        gaps=gaps,
+        regions=regions,
+        countries=countries,
+        scores=scores,
+        roi=roi,
+        evidence=evidence,
+        source_name=source_name,
+        as_of=as_of.isoformat(),
+    )
+    primary_industry = str(business_eval["judgment"].get("primary_industry") or industries[0])
+    secondary = business_mod.secondary_industry(
+        primary_industry,
+        industries,
+        title_original or title,
+        f"{summary_zh} {title_zh}",
+    )
+    industries_clean = [primary_industry] + ([secondary] if secondary and secondary != primary_industry else [])
     return {
         "candidate_id": candidate_id,
         "title": title_zh,
@@ -582,7 +607,8 @@ def _candidate_from_signal(
         "translation": translation,
         "translation_method": localize["translation_method"],
         "one_liner": one_liner,
-        "industry_ids": industries,
+        "industry_ids": industries_clean,
+        "primary_industry": primary_industry,
         "gap_type_ids": gaps,
         "gap_inferred": gap_inferred,
         "gap_inference": _gap_inference_text(gaps, gap_inferred),
@@ -601,8 +627,9 @@ def _candidate_from_signal(
         "evidence": evidence,
         "system_validation": system_validation,
         "seven_questions": _seven_questions(signal, industries, gaps),
-        "roi": _roi(industries[0]),
-        "scores": _scores(signal, industries, regions, len(evidence), as_of),
+        "roi": roi,
+        "scores": scores,
+        **business_eval,
         "confidence": confidence,
         "status": STATUS_AUTO,
         "first_seen": first_seen,

@@ -1,0 +1,42 @@
+
+== v1.2.0 core check ==
+  · data 9 文件 meta=1.2.0 ✅
+  · 候选/meta 已移除 verification_status/verified_by_system 等验证字段（核心回归）✅
+  · system_validation：200×8checks、high53/medium133/low14、avg=92.9 ✅
+  · candidates.json 全量禁用词=0（验证/实验/复核/门禁）✅
+  · 七问键：需求/人群/竞品/差异/渠道/成本/跟踪 ✅
+  · 跟踪答案统一：「14 天内观察到询价/预约/加购等可量化信号…」✅
+  · system_validation.notes 统一「系统自动评估…不代表收入承诺」✅
+  · translation：200/200、cached100%、glossary898、quality medium127/low67/source-zh6 ✅
+  · candidates：200 条、gap/region/country 字段完整、评分复算 200/200 ✅
+  · business：200/200 含 9 块画布/10 维 judgment(why/not_if)/竞争/跨市场/时效/条件/门槛/利润/执行/来源 ✅
+  · 顶层 primary_industry 200/200 ✅
+  · industry_ids 以 primary 为首且非空（200/200）✅
+  · profit_model.revenue_streams 200/200 ✅
+  · business_canvas：200/200 唯一（同行业不同信号有差异）✅
+  · judgment 引用标题实体/数字：200/200 ✅
+  · candidates 全量（含 business 字段）验证/实验/复核/门禁=0 ✅
+  · 候选全部入榜：day99/week200/month200/year200（年窗口 200/200 候选覆盖）✅
+  · 精选 80 条内容与 v1.0.1 完全一致（仅 data_version→1.2.0）✅
+  · stats KPI：精选80 / 候选200 / 今日候选99 ✅
+  · sources：168 平台 / 101 enabled 自动源 / 11 区域 / 8 disabled ✅
+  · source-health：101 行 / ok100 / failed1 / items2401 ✅
+  · funnel 与 source-health 计数一致 ✅
+  · outbox：raw2420→signal1892/new1865/seen27/ledger1865 ✅
+  · data/reports 仅 8 个四窗口报告（calibration/yearbook 已删除）✅
+  · 非核心数据 experiments/profile/alerts/rec_log/yearbook 均不存在 ✅
+  · radar.db 行数 80/156/654/101 ✅
+  · validate：20/20 PASS ✅
+  · --all --as-of 2026-10-23 双跑 0 变化（26 文件）✅
+  · 关键指纹与 data-engineer 交付一致 ✅
+
+P0 = 1  P1 = 0  P2 = 1
+  [P0] unittest 失败 exit=0 期望 Ran 97 tests :: pData\Local\Temp\tmploizd6ss\out-cal\calibration-2026-10-22.md
+..................................................................................................
+----------------------------------------------------------------------
+Ran 98 tests in 7.378s
+
+OK
+
+  [P2] one_liner 后缀「（自动发现线索，系统已初筛）」仅 26/200（长文本截断/部分未带；one_liner_zh 无该后缀，禁用词仍为 0）
+RESULT: FAIL

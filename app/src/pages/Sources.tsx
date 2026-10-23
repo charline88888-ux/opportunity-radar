@@ -253,7 +253,7 @@ export default function Sources() {
               <span className="ml-2 font-mono text-[10px] text-dim">mode {sourceHealth.mode || '—'}</span>
               <span className="ml-2 font-mono text-[10px] text-dim">{sourceHealth.checked_at || '—'}</span>
             </span>
-            {sourceHealth.fail_count > 0 && <Badge tone="danger">失败 {sourceHealth.fail_count} 个 · 见关于</Badge>}
+            {sourceHealth.fail_count > 0 && <Badge tone="danger">{L(`失败 ${sourceHealth.fail_count} 个 · 见关于`, `${sourceHealth.fail_count} failed · see About`)}</Badge>}
             {failedHealthSources.length > 0 && (
               <span className="w-full text-[9.5px] leading-relaxed text-danger/85">
                 {L('失败原因', 'Failure reasons')}: {failedHealthSources.map((s) => `${s.name || s.id}: ${s.error || '—'}`).join(' · ')}

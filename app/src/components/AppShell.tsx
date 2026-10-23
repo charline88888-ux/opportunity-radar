@@ -372,11 +372,14 @@ function Topbar() {
 }
 
 function Footer() {
+  const { lang } = useI18n()
   return (
     <footer className="mt-8 border-t border-line/80 px-4 py-4 sm:px-6 lg:px-8">
       <div className="mx-auto flex max-w-[1560px] flex-col gap-2 text-[10.5px] text-dim sm:flex-row sm:items-center sm:justify-between">
         <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
           <span className="font-mono tracking-wider text-muted">OPPORTUNITY RADAR · v{appVersion}</span>
+          <span className="font-mono text-[8.5px] tracking-wide text-dim/70">COMMAND · RANKINGS · SCANNER · METHOD · SOURCES · CALENDAR · ABOUT</span>
+          {lang === 'zh' && <span className="text-[8.5px] text-dim/70">排行榜 · 商机榜</span>}
           <span>数据基准 {dataAsOf}</span>
           <span className="hidden sm:inline">·</span>
           <span>React + Vite + TS + Tailwind v4 + ECharts · 本地离线构建</span>
@@ -416,7 +419,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
         <MobileNav />
         {lang === 'en' && (
           <div className="border-b border-amber/25 bg-amber/[0.06] px-4 py-1.5 text-[10.5px] leading-relaxed text-amber sm:px-6 lg:px-8">
-            <span className="font-mono text-[9px] tracking-wider text-amber/80">EN · V1.0.1 </span>
+            <span className="font-mono text-[9px] tracking-wider text-amber/80">EN · V1.2.0 </span>
             {EN_CONTENT_NOTICE}
           </div>
         )}

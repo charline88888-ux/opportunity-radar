@@ -1,7 +1,9 @@
-# data/ 数据底座使用说明（data-v1.0.1）
+# data/ 数据底座使用说明（data-v1.2.0）
 
-> 唯一接口标准：`docs/12-数据契约与字段字典.md`（data-v1.0.1）。本目录所有 JSON 必须通过 `python scanner/validate.py`（V01–V20，退出码 0）。
+> 唯一接口标准：`docs/12-数据契约与字段字典.md`（data-v1.2.0）。本目录所有 JSON 必须通过 `python scanner/validate.py`（V01–V20，退出码 0）。
 > 数据基准日 `as_of = 2026-10-22`（Asia/Shanghai），当前周 `2026-W43`（10-19～10-25），当前月 `2026-10`，当前年 `2026`；支持 `--as-of YYYY-MM-DD` 覆盖做真实每日运行。
+> **v1.2.0 MINOR（商机评估深化）**：每条候选新增 `business_canvas`（9 块）/`judgment`（10 维 score+rationale+data_used、why_opportunity、not_opportunity_if）/`competition`/`cross_market`/`timing`/`conditions`/`barriers`/`profit_model`/`execution_plan`/`sources`；按 14 行业知识包 + 12 信息差 + 11 区域规则生成，引用信号标题实体/数字，同行业不同信号有差异；全部自动确定生成，无验证/实验/复核/门禁字样。
+>
 > **v1.0.1 PATCH（候选文案清洗）**：候选 seven_questions 去掉验证/实验/复核/门禁字样（`验证` 键→`跟踪`；成本问句→最小启动成本；one_liner/system_validation.notes 同步清洗）；重生成 candidates/candidate-rankings；数据 1.0.1。
 >
 > **v1.0.0 MAJOR（核心回归）**：只保留“每日扫描 → 系统评估商机 → 自动候选/精选入榜”；删除校准/年鉴/实验/画像/预警/数据包/控制台等非核心功能与产物，候选去掉 verification_status/实体验证字段，`data/reports` 仅保留四窗口报告；翻译（title_zh/one_liner_zh/summary_zh）保留；同时修复翻译质量冷缓存 determinism（quality 只由文本/语言/残留比例决定，清缓存冷跑两次字节一致）。

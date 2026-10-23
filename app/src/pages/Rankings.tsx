@@ -32,6 +32,12 @@ const WINDOWS: Array<{ key: WindowKey; zh: string; en: string }> = [
   { key: 'year', zh: '年榜', en: 'Year' },
 ]
 
+const RETIRED_TERMS = /验证|实验|复核|门禁/
+
+function visibleOneLiner(value: string): string {
+  return RETIRED_TERMS.test(value) ? '' : value
+}
+
 export default function Rankings() {
   const { lang } = useI18n()
   const L = (zh: string, en: string) => (lang === 'en' ? en : zh)
@@ -50,7 +56,7 @@ export default function Rankings() {
     id: c.candidate_id,
     title: c.title_zh || c.title,
     original: c.title_original || c.source.raw_title,
-    oneLiner: c.one_liner_zh || c.one_liner,
+    oneLiner: visibleOneLiner(c.one_liner_zh || c.one_liner),
     score: c.scores.total,
     grade: c.scores.grade,
     industry: c.industry_ids,
@@ -70,7 +76,7 @@ export default function Rankings() {
         kind: 'curated' as const,
         id: o.id,
         title: o.title,
-        oneLiner: o.one_liner,
+        oneLiner: visibleOneLiner(o.one_liner),
         score: o.scores.total || item.total,
         grade: o.scores.grade || gradeOf(o.scores.total || item.total),
         industry: [o.industry_id],
@@ -114,7 +120,7 @@ export default function Rankings() {
     <div>
       <PageHeader
         index="02"
-        kicker={L('RANKINGS · 商机榜', 'RANKINGS · OPPORTUNITIES')}
+        kicker={L('RANKINGS · 排行榜 / 商机榜', 'RANKINGS · OPPORTUNITIES')}
         title={L('商机榜 · 每天扫描，按窗口入榜', 'Opportunity board · scanned daily, ranked by window')}
         description={L('唯一榜单：自动发现候选全部入榜，精选机会以「精选」标签混排。日 / 周 / 月 / 年四个窗口直接可看，按评分排序。', 'The single board: all auto-discovered candidates are listed, with curated opportunities mixed in via a “Curated” tag. Four windows—day/week/month/year—ranked by score.')}
         actions={
