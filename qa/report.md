@@ -1573,3 +1573,55 @@ python qa/online-check-v07.py --version v0.7.2             # 新站结构 PASS
 ## 22.5 一句话
 
 **v0.8.0 可发布：125 平台 / 57 自动源 / 11 区域、1448→1015/new 988/seen 27/账本 988、relevance 184/712/119 与跨批去重 new→0 均独立复验通过；MANIFEST 19/19、tag deploy+CI success、线上 root 与 /v0.8.0/ 同 hash 且旧归档不串台；4 个 P2 不阻塞。**
+
+---
+
+# 第 23 章 · v0.9.0 自动发现流红队验收（2026-10-23 15:40）
+
+> 版本：app 0.9.0 / data 0.9.0（as_of=2026-10-23）｜验收人：redteam｜任务：task-49
+> 冻结：`releases/v0.9.0/`（tag v0.9.0 → 7b47e975，内容提交 bf1c290）｜dist 3,365,504 B / `141204CC…D223`
+> **结论：可发布（v0.9.0，P0=0 / P1=0 / P2=4，均不阻塞）**
+
+## 23.1 「验证/实验不是门禁」原则核查（重点，PASS）
+
+- **数据**：`data/candidates.json` 200 条候选 **全部 verification_status=unverified**；`candidate-rankings.json` 四窗口 day21/week124/month168/year199 **全部上榜**，`meta.verification_affects_ranking=false`；候选按 first_seen 归窗、排序键 rank_score/momentum/evidence/last_seen/candidate_id **不含 verification**；200 条全部 unverified 与榜单覆盖一致（year 199 + 跨窗口并集）。
+- **代码**：`scanner/candidates.py` 不读取 experiments/calibration/verification 作为收录或排序条件；`app/src` 中 `verification_status` 仅作展示字段（gating 正则 0 命中）；发现榜默认展示，详情页无“验证后才显示/需复核才上榜”文案。
+- **文案/交互**：发现榜角标「自动发现 · 未验证」为灰/青标签；详情页明确「自动发现的候选由公开信号自动生成…verification_status 仅展示，不影响收录与排序」；「加入观察（实验，可选）」旁注明「仅个人可选记录，不影响候选上榜」；红队 flows 断言 noGating=true。
+- experiments/calibration 与候选生成/排序无数据依赖（候选仅读 outbox + sources/taxonomy）；结论：**验证/实验与候选收录、排序、展示完全解耦**。
+
+## 23.2 数据侧（PASS）
+
+`qa/candidates-check.py` **PASS（P0/P1=0，P2=1）**：
+- candidates：200 条（business 184/maybe 16/dropped 0）；字段完整（title≤28/one_liner/industry/gap/region/target_countries/source/evidence≥1/七问草稿/ROI estimated/10 维 scores/confidence/status/verification/first_seen/last_seen/disclaimer）；**评分公式按 Decimal 独立复算 200/200 一致**；日期链合法。
+- candidate-rankings：四窗口 21/124/168/199；按 first_seen 归窗；**排序与独立复算完全一致**；items 唯一/存在/rank 连续；验证不门禁。
+- stats KPI candidates_total=200/today_new_candidates=21/unverified_candidates=200；**精选 rankings.json 80 条窗口内容与 v0.8.0 完全一致**（仅 meta.data_version→0.9.0），opportunities 指纹 `88FDA5AB…` 不变。
+- 确定性：`scanner/candidates.py --as-of 2026-10-23` 重跑两文件字节一致；`--all --as-of` 双跑 **30 文件 0 变化**；validate **20/20**、unittest **109/109**；data 9 文件 meta=0.9.0；报告 10-23；db 80/156/654/57。
+- 指纹与 data-engineer 最终值一致（rankings 612AC90F、stats 09321616、candidates 360C473E、candidate-rankings DD3CC40F、sources 3B164CAE、source-health E9A9E5D9、radar A06BD31A、pipeline AAE59A9D、candidates.py 64896F3E、stats.py 808A81EF、validate.py BDE87EBA）。
+- 候选证据 URL 抽查 **14/15 可访问（≥10）**；候选文件非 gitignore（提交物）。
+
+## 23.3 前端（PASS，4 项 flows 断言记 P2）
+
+- 最终构建 **3,365,504 B / `141204CC…D223`** = releases/v0.9.0/dist；strict/两次 build 同 hash（frontend）；16 路由 1600/1024 CDP **无溢出/console error**；i18n **16/16 ×2**（EN 非数据中文=0，候选数据已加入 whitelist）。
+- `qa/flows-v09.mjs` **82/86 PASS**：v0.6–v0.8 全量回归 + v0.9 新增——/discover 四窗口（21/124/168/199）、搜索/筛选、候选详情（七问/证据/ROI/免责/加入观察）、/rankings 双轨（默认发现 + 精选 80）、指挥台「今日自动发现 21 条候选」入口、16 路由。
+- **4 项失败（P2，非产品问题）**：T28/T29（strictCapital 开关/计数断言：UI 文案与脚本存储键不匹配）、T42/T43（排行榜周/年条数正则未匹配到「当前入榜」数值；截图/数据均显示 49/80 正常）。按 Lead 指示记 P2，不再改脚本。
+- 截图：`qa/screenshots/v090/` **11 张**（日/周/月/年发现榜、候选详情、双轨排行榜、指挥台入口 zh、EN 日榜/详情、1024 发现榜）+ frontend `app/screenshots/final-v0.9/` **18 张**；read_image 目检发现榜/详情/双轨/指挥台均正常（无门禁文案、评分/七问/证据/免责/加入观察可见）。
+
+## 23.4 冻结 + Actions + 线上
+
+- `qa/manifest-check.py --version v0.9.0`：**MANIFEST 19/19 与 tag blob 一致**；`verify_manifest.py` **MANIFEST OK (19/19)**；冻结 dist `141204CC…`/3,365,504 B = app/dist；VERSION/README/前端 0.9.0（dist 内 0.9.0 标记 21 处）；内容提交 bf1c290 为 tag 祖先。
+- Actions（API 复核）：**Deploy GitHub Pages run 39916522476 completed/success**（tag v0.9.0，head 7b47e97）；**CI run 39916517529 success**；pages run 39916558743 success；gh-pages head `77fe9ac` "deploy: v0.9.0 7b47e97…"。
+- 线上（`qa/online-check-v07.py --version v0.9.0`）**PASS**：`/` 与 `/v0.9.0/` 同 hash `141204CC…`/3,365,504 B；root 内嵌 rankings.as_of=2026-10-23=tag 数据；含 /control；历史 v0.1.0…v0.8.0 全部与各自 tag 冻结 blob 逐字节一致不串台；versions latest=v0.9.0、path=/v0.9.0/；404 正常；首次检查遇到 Pages 传播窗口 /v0.6.0 短暂 503，15s 后重试 200（P2/CDN 传播，非缺陷）。
+
+## 23.5 P2 清单（4 个，均不阻塞）
+
+| # | 项 | 现状 | 建议 |
+|---|---|---|---|
+| P2-1 | 红队 flows 4 项断言 | T28/T29 strictCapital 开关文案/存储键、T42/T43 排行榜条数正则；产品数据/截图正常 | 下轮修脚本断言；不影响发布 |
+| P2-2 | gap_type_ids 空 49/200 | 自动候选未能从信号推断信息差类型（industry/region 非空），UI 显示「—」；data-engineer 确认为预期行为 | v0.9.1 计划加启发式兜底 + meta gap_inference_coverage 并在 UI 明示 |
+| P2-3 | versions.json daily 字段 | `daily_channel`/`live_as_of` 缺失（契约可选；root=最新冻结当日数据 as_of=2026-10-23） | 下次 daily workflow 自动写回，或 build_site tag 模式补齐 |
+| P2-4 | Pages 传播 / 历史发布已知项 | 首次线上检查 /v0.6.0 短暂 503（重试 200）；历史 v0.7.0/v0.7.1 tag MANIFEST 3 文件 mismatch、autocrlf 旧 releases（旧 tag 不可变，线上归档正确） | 验收以多轮重试为准；后续版本沿用版本级 eol=lf/git blob 校验 |
+
+## 23.6 一句话
+
+**v0.9.0 可发布：200 条自动候选全部 unverified 全部上榜（日21/周124/月168/年199），验证/实验与收录/排序/展示完全解耦（代码/数据/文案均无门禁）；评分复算 200/200、去重确定性/109 单测/20 规则通过，MANIFEST 19/19、tag deploy+CI success、线上 root 与 /v0.9.0/ 同 hash 且旧归档不串台；P0=0、P1=0、4 个 P2 不阻塞。**
+

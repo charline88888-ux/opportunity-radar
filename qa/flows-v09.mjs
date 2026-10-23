@@ -46,6 +46,8 @@ if (downloadDir) {
 const setStorage = async (key, value) => ev(`(() => { localStorage.setItem(${JSON.stringify(key)}, ${JSON.stringify(JSON.stringify(value))}); return true })()`)
 const removeStorage = async (key) => ev(`(() => { localStorage.removeItem(${JSON.stringify(key)}); return true })()`)
 const bodyText = async () => ev(`(() => document.body.innerText || '')()`)
+const clickCurated = async () => { await ev(`(() => { const b = [...document.querySelectorAll('button')].find((e) => /精选榜（人工/.test(e.innerText || '')); if (b) { b.click(); return true } return false })()`); await sleep(900) }
+const clickRecommend = async () => { await ev(`(() => { const b = [...document.querySelectorAll('button')].find((e) => /为你推荐/.test(e.innerText || '')); if (b) { b.click(); return true } return false })()`); await sleep(900) }
 
 // ============ 1) /profile 推荐（side-hustle 画像） ============
 const P = { capitalBand: 'b1-5w', weeklyHours: 10, fullTime: false, skills: { tech: 1, content: 2, supply: 0, ops: 2 }, english: 2, risk: 3, hasLicensePartner: false, updated_at: '2026-10-22T00:00:00+08:00' }
@@ -56,6 +58,7 @@ const profileText = await bodyText()
 check('T01', '画像已保存 + 能力向量展示', profileText.includes('画像已保存') && /\b5\.0\b/.test(profileText) && /\b4\.0\b/.test(profileText) && /\b3\.3\b/.test(profileText) && /\b6\.7\b/.test(profileText), profileText.slice(0, 200))
 // 推荐榜
 await nav('#/rankings?mode=recommend')
+await clickCurated(); await clickRecommend()
 await waitFor(`document.body.innerText.includes('REC_SCORE')`, 9000)
 const cardsRaw = await ev(`(() => {
   const links = [...document.querySelectorAll('main a[href*="#/opportunities/"]')]
@@ -106,8 +109,8 @@ await ev(`(() => { const b = [...document.querySelectorAll('button')].find((e) =
 await sleep(1000)
 const hardText = await bodyText()
 check('T09', '切换「显示硬约束」后出现硬约束徽标', hardText.includes('硬约束 ·'), hardText.includes('硬约束 ·') ? 'ok' : 'no hard badge found')
-await nav('#/rankings')
-await reload()
+await nav('#/rankings'); await reload()
+await clickCurated(); await sleep(900)
 const overallText = await bodyText()
 const titlesWithReplay = await ev(`(() => [...document.querySelectorAll('[title]')].map((e) => e.getAttribute('title')).filter((t) => /回放|replay|快照|snapshot/i.test(t || '')))()`)
 const appRankings = JSON.parse(fs.readFileSync(path.join(root, 'app/src/data/rankings.json'), 'utf8'))
@@ -424,6 +427,7 @@ check('T45', '年鉴新指标：月度等级分布/信息差热度/窗口衰减/
 
 // 打开一个机会详情（大数据量下详情页正常）
 await nav('#/rankings'); await sleep(1000)
+await clickCurated(); await sleep(900)
 const firstHref = await ev(`(() => { const a = document.querySelector('main a[href*="#/opportunities/"]'); return a ? a.getAttribute('href') : null })()`)
 if (firstHref) {
   await nav(firstHref)
@@ -629,6 +633,7 @@ if (serveBase && serveToken) {
 }
 // 5) 日榜空态文案
 await nav('#/rankings?w=day'); await reload(); await sleep(900)
+await clickCurated(); await sleep(900)
 const dayEmpty = await bodyText()
 check('T70', '日榜空态：今天暂无新机会（正常现象）+ 历史机会仍在周/月/年榜', /今天暂无新机会（正常现象）/.test(dayEmpty) && /周\/月\/年榜|周榜|月榜/.test(dayEmpty), (dayEmpty.match(/.{0,30}今天暂无新机会.{0,100}/) || [''])[0])
 // 6) About v0.7.3 + 收件箱/0 机会说明
@@ -682,7 +687,9 @@ const v09Day = ((candRankData.windows || {}).day || {}).count
 const v09Week = ((candRankData.windows || {}).week || {}).count
 const v09Month = ((candRankData.windows || {}).month || {}).count
 const v09Year = ((candRankData.windows || {}).year || {}).count
-const firstTitle = String(firstCand.title || '').slice(0, 8)
+const dayFirstId = ((((candRankData.windows || {}).day || {}).items || [])[0] || {}).candidate_id
+const dayFirst = (candData.candidates || []).find((x) => x.candidate_id === dayFirstId) || firstCand
+const firstTitle = String(dayFirst.title || '').slice(0, 8)
 // 1) /discover 默认发现榜
 await nav('#/discover'); await reload(); await sleep(1000)
 const discText = await bodyText()
@@ -704,7 +711,7 @@ const queryToken = String(firstCand.source && firstCand.source.id ? '' : '') || 
 const searchOk = await ev(`(() => { const el = [...document.querySelectorAll('input')].find(e => /搜索候选|Search candidates/.test(e.placeholder || '')); if (!el) return false; el.focus(); el.value = ${JSON.stringify(queryToken)}; el.dispatchEvent(new Event('input', { bubbles: true })); return true })()`)
 await sleep(900)
 const filteredText = await bodyText()
-check('T79', '发现榜搜索生效（标题关键词过滤后仍显示候选/空态）', searchOk && filteredText.length > 500 && (filteredText.includes(String(candDayCount)) || /条候选|candidates|暂无/.test(filteredText)), JSON.stringify({ queryToken, searchOk }).slice(0, 200))
+check('T79', '发现榜搜索生效（标题关键词过滤后仍显示候选/空态）', searchOk && filteredText.length > 500 && (filteredText.includes(String(v09Day)) || /条候选|candidates|暂无/.test(filteredText)), JSON.stringify({ queryToken, searchOk }).slice(0, 200))
 const clearSearch = await ev(`(() => { const el = [...document.querySelectorAll('input')].find(e => /搜索候选|Search candidates/.test(e.placeholder || '')); if (!el) return false; el.focus(); el.value = ''; el.dispatchEvent(new Event('input', { bubbles: true })); return true })()`)
 await sleep(600)
 // 4) 候选详情 modal
@@ -743,3 +750,4 @@ check('T84', '16 路由：/discover 可直接访问且渲染发现榜', /自动�
 console.log(JSON.stringify({ results, summary: { pass: results.filter((r) => r.pass).length, fail: results.filter((r) => !r.pass).length, total: results.length } }, null, 2))
 ws.close()
 process.exit(0)
+
