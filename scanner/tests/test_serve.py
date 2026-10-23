@@ -50,6 +50,40 @@ def make_root(tmp: Path, *, with_build: bool = True) -> Path:
         )
         (tmp / "releases" / "v0.6.1" / "dist").mkdir(parents=True)
         (tmp / "releases" / "v0.6.1" / "dist" / "index.html").write_text("<!doctype html><title>frozen</title>", encoding="utf-8")
+        # v0.7.3：采集 outbox 摘要测试数据
+        outbox = tmp / "scanner" / "outbox"
+        outbox.mkdir(parents=True, exist_ok=True)
+        signals = [
+            {
+                "signal_id": f"sig-test-{idx:03d}",
+                "source_id": ["hnrss", "arxiv-rss", "lobsters"][idx % 3],
+                "title": f"采集到的测试信号 {idx}",
+                "url": f"https://example.com/signal/{idx}",
+                "published_date": "2026-10-23",
+                "lang": "en",
+                "industry_hints": ["ai"],
+                "region_hints": ["north-america"],
+            }
+            for idx in range(3)
+        ]
+        (outbox / "signals-2026-10-23.json").write_text(
+            json.dumps(
+                {
+                    "meta": {
+                        "data_version": "0.7.0",
+                        "as_of": "2026-10-23",
+                        "generated_at": "2026-10-23T12:45:00+08:00",
+                        "source_count": 8,
+                        "raw_count": 183,
+                        "signal_count": 175,
+                    },
+                    "signals": signals,
+                },
+                ensure_ascii=False,
+            ),
+            encoding="utf-8",
+        )
+        (outbox / "REVIEW.md").write_text("# 采集复核清单\n", encoding="utf-8")
     return tmp
 
 
@@ -153,7 +187,46 @@ class TestServeApi(ServeTestBase):
         self.assertFalse(payload["alert"]["exists"])
         self.assertIsInstance(payload["jobs"], list)
         self.assertIsInstance(payload["logs"], list)
+        # v0.7.3：采集摘要
+        outbox = payload["outbox"]
+        self.assertIsNotNone(outbox)
+        self.assertEqual(outbox["file"], "signals-2026-10-23.json")
+        self.assertEqual(outbox["as_of"], "2026-10-23")
+        self.assertEqual(outbox["raw_count"], 183)
+        self.assertEqual(outbox["signal_count"], 175)
+        self.assertEqual(len(outbox["top"]), 3)
+        self.assertTrue(outbox["review_md"]["exists"])
+        self.assertEqual(set(outbox["by_source"]), {"hnrss", "arxiv-rss", "lobsters"})
         self.assertNotIn(str(self.root), json.dumps(payload))  # 不返回绝对路径
+
+    def test_outbox_endpoint(self):
+        self.assertEqual(self.call("GET", "/api/outbox", token=False)[0], 401)
+        status, data = self.call("GET", "/api/outbox?limit=2")
+        self.assertEqual(status, 200)
+        payload = json.loads(data)
+        self.assertTrue(payload["ok"])
+        self.assertEqual(payload["outbox"]["raw_count"], 183)
+        self.assertEqual(len(payload["signals"]), 2)
+        self.assertIn("title", payload["signals"][0])
+        self.assertIn("source_id", payload["signals"][0])
+        # limit 越界/非法处理
+        status, data = self.call("GET", "/api/outbox?limit=999")
+        self.assertEqual(status, 200)
+        self.assertLessEqual(len(json.loads(data)["signals"]), 100)
+        status, _ = self.call("GET", "/api/outbox?limit=abc")
+        self.assertEqual(status, 400)
+
+    def test_outbox_empty_when_no_files(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = make_root(Path(tmp), with_build=False)
+            app = serve.ConsoleApp(root, "tok")
+            self.assertIsNone(app.outbox_summary())
+            self.assertEqual(app.outbox_signals(), [])
+
+    def test_fetch_command_uses_data_as_of(self):
+        command = serve.fetch_command(self.root)
+        self.assertEqual(command[-2:], ["--as-of", "2026-10-22"])
+        self.assertIn("--fetch", command)
 
     def test_origin_check_forbidden(self):
         status, data = self.call("POST", "/api/run", origin="http://evil.example", body={"task": "build"})

@@ -124,8 +124,23 @@ class Job:
 Executor = Callable[[str, Callable[[str], None]], int]
 
 
+def data_as_of(root: Path) -> str:
+    """读取当前数据基准日（rankings.meta.as_of），失败回退 DEFAULT_AS_OF。"""
+    rankings = _load_json(root / "data" / "rankings.json") or {}
+    raw = str((rankings.get("meta") or {}).get("as_of") or "").strip()
+    try:
+        return datetime.strptime(raw, "%Y-%m-%d").date().isoformat()
+    except ValueError:
+        return str(getattr(config, "DEFAULT_AS_OF", "1970-01-01"))
+
+
+def fetch_command(root: Path) -> list[str]:
+    """v0.7.3：采集命令带 --as-of（与当前数据基准日一致），避免 signals-<旧日期>.json。"""
+    return [sys.executable, str(root / "scanner" / "pipeline.py"), "--fetch", "--as-of", data_as_of(root)]
+
+
 def default_executor(root: Path, task: str, emit: Callable[[str], None]) -> int:
-    """执行任务：update=daily-run.ps1；fetch=pipeline --fetch；build=pnpm build + 复制 current。"""
+    """执行任务：update=daily-run.ps1；fetch=pipeline --fetch --as-of；build=pnpm build + 复制 current。"""
     if task == "update":
         return _stream_command(
             [
@@ -140,11 +155,7 @@ def default_executor(root: Path, task: str, emit: Callable[[str], None]) -> int:
             emit=emit,
         )
     if task == "fetch":
-        return _stream_command(
-            [sys.executable, str(root / "scanner" / "pipeline.py"), "--fetch"],
-            cwd=root,
-            emit=emit,
-        )
+        return _stream_command(fetch_command(root), cwd=root, emit=emit)
     if task == "build":
         code = _stream_command(_pnpm_command() + ["build"], cwd=root / "app", emit=emit)
         if code != 0:
@@ -301,6 +312,7 @@ class ConsoleApp:
             "server": {"version": self.version, "started_at": self.started_at, "port": self.port},
             "data": data,
             "schedule": schedule,
+            "outbox": self.outbox_summary(),
             "alert": alert,
             "jobs": self.jobs.recent(5),
             "logs": self.list_logs(10),
@@ -428,6 +440,94 @@ class ConsoleApp:
 
         latest = max(versions, key=sort_key)
         return latest.name, latest / "dist" / "index.html"
+
+    # -------------------------------------------------- 采集 outbox（v0.7.3）
+    def outbox_dir(self) -> Path:
+        return self.root / "scanner" / "outbox"
+
+    def latest_outbox_path(self) -> Path | None:
+        directory = self.outbox_dir()
+        if not directory.is_dir():
+            return None
+        files = [item for item in directory.glob("signals-*.json") if item.is_file()]
+        if not files:
+            return None
+        return max(files, key=lambda item: (item.stat().st_mtime, item.name))
+
+    def _latest_outbox_payload(self) -> tuple[Path, dict[str, Any]] | None:
+        path = self.latest_outbox_path()
+        if path is None:
+            return None
+        payload = _load_json(path)
+        if payload is None:
+            return None
+        return path, payload
+
+    def outbox_summary(self) -> dict[str, Any] | None:
+        """最新采集 signals-*.json 摘要；无文件返回 None（只读 scanner/outbox，不返回绝对路径）。"""
+        loaded = self._latest_outbox_payload()
+        if loaded is None:
+            return None
+        path, payload = loaded
+        meta = payload.get("meta") or {}
+        signals = payload.get("signals") or []
+        by_source: dict[str, int] = {}
+        for signal in signals:
+            source_id = str((signal or {}).get("source_id") or "unknown")
+            by_source[source_id] = by_source.get(source_id, 0) + 1
+        top = [
+            {
+                "title": str((signal or {}).get("title") or "")[:120],
+                "source_id": (signal or {}).get("source_id"),
+                "url": str((signal or {}).get("url") or "")[:300],
+            }
+            for signal in signals[:5]
+        ]
+        review_path = self.outbox_dir() / "REVIEW.md"
+        stat = path.stat()
+        return {
+            "file": path.name,
+            "as_of": meta.get("as_of"),
+            "generated_at": meta.get("generated_at"),
+            "source_count": meta.get("source_count"),
+            "raw_count": meta.get("raw_count"),
+            "signal_count": meta.get("signal_count", len(signals)),
+            "by_source": dict(sorted(by_source.items())),
+            "top": top,
+            "review_md": {
+                "exists": review_path.exists(),
+                "modified_at": _mtime_iso(review_path) if review_path.exists() else None,
+            },
+            "file_size": stat.st_size,
+            "file_modified_at": _mtime_iso(path),
+            "note": "采集结果仅进入 outbox，需人工复核后才写入机会库；不会自动更新 data/opportunities.json",
+        }
+
+    def outbox_signals(self, limit: int = 20) -> list[dict[str, Any]]:
+        """最新采集信号的安全字段列表（最多 limit 条，默认 20，上限 100）。"""
+        loaded = self._latest_outbox_payload()
+        if loaded is None:
+            return []
+        _, payload = loaded
+        signals = payload.get("signals") or []
+        limit = max(1, min(100, int(limit)))
+        rows = []
+        for signal in signals[:limit]:
+            if not isinstance(signal, dict):
+                continue
+            rows.append(
+                {
+                    "signal_id": signal.get("signal_id"),
+                    "source_id": signal.get("source_id"),
+                    "title": str(signal.get("title") or "")[:200],
+                    "url": str(signal.get("url") or "")[:500],
+                    "published_date": signal.get("published_date"),
+                    "lang": signal.get("lang"),
+                    "industry_hints": signal.get("industry_hints") or [],
+                    "region_hints": signal.get("region_hints") or [],
+                }
+            )
+        return rows
 
     def resolve_static(self, raw_path: str) -> tuple[Path | None, int, str]:
         """返回 (文件, HTTP 状态, 提示)。403=越界，404=不存在，503=无构建。"""
@@ -617,6 +717,21 @@ class ConsoleHandler(BaseHTTPRequestHandler):
                     self._send_json({"ok": True, "job": job.summary()})
             elif path == "/api/logs":
                 self._send_json({"ok": True, "logs": self.app.list_logs(10)})
+            elif path == "/api/outbox":
+                raw_limit = (query.get("limit") or ["20"])[0]
+                try:
+                    limit = int(raw_limit)
+                except (TypeError, ValueError):
+                    self._send_json({"ok": False, "error": "limit 必须是整数"}, 400)
+                    return
+                limit = max(1, min(100, limit))
+                self._send_json(
+                    {
+                        "ok": True,
+                        "outbox": self.app.outbox_summary(),
+                        "signals": self.app.outbox_signals(limit),
+                    }
+                )
             elif path == "/api/log":
                 name = (query.get("name") or [""])[0]
                 text, status, error = self.app.read_log(name)

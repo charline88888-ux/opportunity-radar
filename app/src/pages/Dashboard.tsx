@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
 import type { EChartsOption } from 'echarts'
 import {
@@ -53,6 +53,8 @@ import { useProfile, profileSummaryRows, CAPABILITY_LABELS, type CapabilityVecto
 import { recommendTop } from '@/lib/recommend'
 import { recordRecEvent } from '@/lib/rec_log'
 import { freshness } from '@/lib/freshness'
+import { fetchStatus, readControlToken } from '@/lib/control'
+import { useI18n } from '@/lib/i18n'
 import { useAlerts } from '@/lib/alerts'
 import { cn, fmtCny, fmtInt, fmtPct, fmtScore, gradeColor } from '@/lib/utils'
 
@@ -127,11 +129,28 @@ function topRankingItems(windowKey: 'day' | 'week' | 'month' | 'year', n: number
 }
 
 export default function Dashboard() {
+  const { lang } = useI18n()
+  const L = (zh: string, en: string) => (lang === 'en' ? en : zh)
   const kpi = stats.kpi
   const { items: experiments } = useExperiments()
   const { profile, capability } = useProfile()
   const alertCenter = useAlerts()
   const fresh = freshness()
+  const [pendingReview, setPendingReview] = useState<number | null>(null)
+  useEffect(() => {
+    let alive = true
+    try {
+      const token = readControlToken()
+      if (!token) return
+      void fetchStatus().then((s) => {
+        if (!alive) return
+        setPendingReview(s.outbox?.signal_count ?? s.outbox?.raw_count ?? null)
+      }).catch(() => {})
+    } catch {
+      /* static page */
+    }
+    return () => { alive = false }
+  }, [])
   const countryCoverage = useMemo(() => new Set(opportunities.flatMap((o) => o.target_countries)).size, [])
   const recTop = useMemo(() => recommendTop(profile, 3), [profile])
   useEffect(() => {
@@ -447,6 +466,32 @@ export default function Dashboard() {
         <Link to="/about" className="ml-auto text-[10.5px] text-muted hover:text-signal">数据说明 →</Link>
       </Panel>
 
+      {Number(kpi.new_today) === 0 && (
+        <Panel className="mt-2.5 border-cyan/25 bg-cyan/[0.04] px-3 py-2">
+          <div className="flex flex-wrap items-center gap-2">
+            <Sparkles className="h-4 w-4 shrink-0 text-cyan" />
+            <div className="min-w-0 flex-1">
+              <div className="text-[11.5px] font-semibold text-ink">{L('今天没有新机会入库（正常现象）', 'No new opportunities entered today (normal)')}</div>
+              <div className="mt-0.5 text-[10px] leading-relaxed text-muted">
+                {L(`机会库共 ${fmtInt(kpi.total_opps)} 条可继续查看；今天没有新机会入库不等于数据丢失。`, `${fmtInt(kpi.total_opps)} opportunities remain available; zero new entries today does not mean data is missing.`)}
+                {pendingReview != null
+                  ? L(` 采集到的新信号在控制台「采集收件箱」等待人工复核（${pendingReview} 条）。`, ` Fetched signals are waiting for human review in the Control fetch inbox (${pendingReview}).`)
+                  : L(' 采集到的新信号不会自动入库，需到本地控制台「采集收件箱」人工复核。', ' Fetched signals are never auto-ingested; review them in the local Control fetch inbox.')}
+              </div>
+            </div>
+            {pendingReview != null ? (
+              <Link to="/control" className="inline-flex h-6 shrink-0 items-center gap-1 rounded border border-cyan/40 bg-cyan/10 px-2 text-[10.5px] text-cyan hover:bg-cyan/20">
+                {L(`查看待复核 ${pendingReview} 条`, `Review ${pendingReview} pending`)} <ArrowUpRight className="h-3 w-3" />
+              </Link>
+            ) : (
+              <Link to="/control" className="inline-flex h-6 shrink-0 items-center gap-1 rounded border border-line bg-panel-2 px-2 text-[10.5px] text-muted hover:text-ink">
+                {L('打开控制台', 'Open control')} <ArrowUpRight className="h-3 w-3" />
+              </Link>
+            )}
+          </div>
+        </Panel>
+      )}
+
       {activeExperiments.length > 0 && (
         <Panel className={cn('mt-2.5 flex flex-wrap items-center gap-2 px-3 py-2', activeExperiments.length > ACTIVE_CAPACITY ? 'border-amber/35 bg-amber/[0.05]' : 'border-cyan/25 bg-cyan/[0.04]')}>
           <FlaskConical className={cn('h-4 w-4', activeExperiments.length > ACTIVE_CAPACITY ? 'text-amber' : 'text-cyan')} />
@@ -561,7 +606,7 @@ export default function Dashboard() {
                 delta={item.delta}
               />
             ))}
-            {!top5.length && <div className="p-6 text-center text-[12px] text-dim">暂无今日榜单数据（等待 data-engineer 产出 rankings.json）</div>}
+            {!top5.length && <div className="p-6 text-center text-[11.5px] leading-relaxed text-dim">{L('今天暂无新机会（正常现象）。历史机会仍在周/月/年榜与机会库中；如刚采集，原始信号需到控制台「采集收件箱」人工复核，不会自动入库。', 'No new opportunities today (normal). Historical opportunities remain in the week/month/year rankings and library; fetched signals need human review in the Control fetch inbox and are never auto-ingested.')}</div>}
           </div>
         </SectionCard>
 

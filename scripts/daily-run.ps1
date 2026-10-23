@@ -1,4 +1,4 @@
-﻿# daily-run.ps1 — 每日自动运行：推进 as_of → 更新数据 → 校验 → 构建 → 生成 current/index.html
+# daily-run.ps1 — 每日自动运行：推进 as_of → 更新数据 → 校验 → 构建 → 生成 current/index.html
 # 用法：
 #   powershell -ExecutionPolicy Bypass -File scripts/daily-run.ps1
 #   powershell -ExecutionPolicy Bypass -File scripts/daily-run.ps1 -Fetch          # 同时真实采集（outbox 待人工复核）
@@ -107,7 +107,7 @@ try {
     # 2) 真实采集（可选；产物进 outbox，人工复核后才入库，失败不阻断当日更新）
     if ($Fetch) {
         Write-Log 'step 2/4: pipeline --fetch（可选，采集失败不阻断）'
-        $fetchCode = Invoke-Native $Python @('scanner\pipeline.py', '--fetch')
+        $fetchCode = Invoke-Native $Python @('scanner\pipeline.py', '--fetch', '--as-of', $AsOf)
         if ($fetchCode -ne 0) { Write-Log "WARN: --fetch 退出码 $fetchCode（继续，检查 source-health/outbox）" }
     } else { Write-Log 'step 2/4: skip --fetch（可用 -Fetch 开启）' }
 

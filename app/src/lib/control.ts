@@ -13,6 +13,18 @@ export interface ControlJob {
   log_tail?: string[]
 }
 
+export interface ControlOutbox {
+  file?: string
+  as_of?: string
+  generated_at?: string
+  source_count?: number
+  raw_count?: number
+  signal_count?: number
+  by_source?: Record<string, number> | Array<{ source_id?: string; source?: string; count?: number; name?: string }>
+  top?: Array<{ title?: string; source_id?: string; url?: string }>
+  review_md?: { exists?: boolean; modified_at?: string }
+}
+
 export interface ControlStatus {
   ok: boolean
   server?: { version?: string; started_at?: string; port?: number }
@@ -28,11 +40,13 @@ export interface ControlStatus {
     task_name?: string
     enabled?: boolean
     status?: string
+    status_raw?: string
     next_run?: string | null
     last_run?: string | null
     last_result?: string | null
   }
   alert?: { exists?: boolean; content?: string }
+  outbox?: ControlOutbox | null
   jobs?: ControlJob[]
   logs?: Array<{ name: string; size?: number; mtime?: string }>
 }

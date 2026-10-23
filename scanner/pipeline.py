@@ -309,13 +309,20 @@ def main(argv: list[str] | None = None) -> int:
     except ValueError as exc:
         log(str(exc))
         return 2
+    # v0.7.3：仅 --fetch（不带其他流水线动作）且未显式 --as-of 时，沿用旧行为用 taxonomy.meta.as_of，
+    # 保证 `--fetch --as-of YYYY-MM-DD` 可写 signals-<date>.json，而默认命令行为不变。
+    fetch_only = args.fetch and not any(
+        [args.all, args.collect, args.normalize, args.dedupe, args.score, args.rank, args.stats, args.report, args.validate]
+    )
+    if fetch_only and not args.as_of:
+        as_of = common.parse_as_of(taxonomy)
     log(f"数据版本 {config.DATA_VERSION} / 基准日 {as_of.isoformat()}")
 
     # 仅数据库重建 / 仅真实采集 / 仅报告：互不阻塞
     if args.db_rebuild and not any([args.all, args.collect, args.normalize, args.score, args.rank, args.stats, args.fetch, args.report, args.validate]):
         stage_db()
         return 0
-    if args.fetch and not any([args.all, args.collect, args.rank, args.stats, args.report, args.validate]):
+    if fetch_only:
         stage_fetch(as_of, args.fetch_limit, cache_enabled=not args.no_cache)
         return 0
     if args.report and not any([args.all, args.collect, args.rank, args.stats, args.validate]):

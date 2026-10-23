@@ -90,9 +90,19 @@ const ROADMAP = [
 
 const HISTORY = [
   {
+    version: 'v0.7.3',
+    date: '2026-10-23',
+    tag: '当前版本',
+    items: [
+      '控制台新增「采集收件箱」：最近采集文件/时间、原始信号数、按来源分布、Top5 标题（可开原始 URL）、REVIEW.md 状态；说明原始信号不自动入库',
+      '指挥台 new_today=0 显示「今天没有新机会入库（正常）」解释，机会库 N 条可看；控制台可用时显示待复核信号数并链接 /control',
+      '日榜空态改为「今天暂无新机会（正常现象）」，并区分无数据/未启动；版本升 0.7.3',
+    ],
+  },
+  {
     version: 'v0.7.2',
     date: '2026-10-22',
-    tag: '当前版本',
+    tag: '上一版本',
     items: [
       '新增 /control 本地控制台：网页一键更新数据、立即采集、构建工作副本、启用/停用每日自动任务',
       '控制台从 serve.py 注入/URL token 获取凭证，3s 轮询服务状态与任务日志；未启动时显示启动引导（启动机会雷达.bat / python scanner/serve.py --open），并说明线上静态页无法执行本地命令',
@@ -224,7 +234,12 @@ const EN_DOCS: Array<[string, string, string]> = [
 ]
 
 const EN_HISTORY = [
-  { version: 'v0.7.2', date: '2026-10-23', tag: 'Current', items: [
+  { version: 'v0.7.3', date: '2026-10-23', tag: 'Current', items: [
+    'Control “Fetch inbox”: latest fetch file/time, raw signals, by-source distribution, Top 5 titles (external URL), REVIEW.md status; raw signals never auto-ingested',
+    'Dashboard new_today=0 explanation: no new opportunities today (normal), N opportunities remain; pending-review count + /control link when the local console is available',
+    'Day ranking empty state: “No new opportunities today (normal)”, distinguishing no-data/offline; version 0.7.3',
+  ]},
+  { version: 'v0.7.2', date: '2026-10-23', tag: 'Previous', items: [
     '/control local console: one-click update, fetch, working-copy build, enable/disable daily task from the browser',
     'Console token via serve.py injection/URL, 3s status/job-log polling; offline guidance (Start Opportunity Radar.bat / python scanner/serve.py --open) and the architectural limit of static online pages',
     'Local recent-log list and preview (scanner/logs/ only, path traversal blocked); version 0.7.2',
@@ -344,7 +359,7 @@ function AboutEn() {
             </div>
           </div>
           <div className="mt-2 rounded border border-amber/25 bg-amber/[0.04] px-2.5 py-2 text-[10.5px] leading-relaxed text-amber">
-            Bilingual note: all static UI strings switch between Chinese and English. Opportunity content (titles, one-liners, evidence, seven Q&A) intentionally remains Chinese in v0.7.0 and is marked in the UI. Switching language does not reload the page or reset routes, filters, or profile state.
+            Bilingual note: all static UI strings switch between Chinese and English. Opportunity content (titles, one-liners, evidence, seven Q&A) intentionally remains Chinese in v0.7.3 and is marked in the UI. Switching language does not reload the page or reset routes, filters, or profile state.
           </div>
           <div className="mt-3 rounded border border-line/70 bg-black/20 px-2.5 py-2 font-mono text-[10px] leading-relaxed text-dim">
             <div>sync: node app/scripts/sync-data.mjs --strict</div>

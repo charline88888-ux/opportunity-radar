@@ -437,7 +437,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
         <MobileNav />
         {lang === 'en' && (
           <div className="border-b border-amber/25 bg-amber/[0.06] px-4 py-1.5 text-[10.5px] leading-relaxed text-amber sm:px-6 lg:px-8">
-            <span className="font-mono text-[9px] tracking-wider text-amber/80">EN · V0.7.2 </span>
+            <span className="font-mono text-[9px] tracking-wider text-amber/80">EN · V0.7.3 </span>
             {EN_CONTENT_NOTICE}
           </div>
         )}

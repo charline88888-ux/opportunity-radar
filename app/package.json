@@ -1,7 +1,7 @@
 {
   "name": "opportunity-radar",
   "private": true,
-  "version": "0.7.2",
+  "version": "0.7.3",
   "type": "module",
   "description": "机会雷达 Opportunity Radar · 全球商机扫描器（本地优先，离线可视化）",
   "scripts": {

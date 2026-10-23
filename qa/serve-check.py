@@ -188,7 +188,7 @@ def main() -> int:
             notes.append(f"数据基线 as_of={base_as_of} / 窗口 {counts} 与独立复算一致 ✅")
     except ValueError:
         P0.append(f"rankings.meta.as_of 非法：{base_as_of!r}")
-    required_fp = {"scanner/serve.py": "bdd55a2801581d97", "scanner/tests/test_serve.py": "ad0ee16b471c2852", "data/opportunities.json": "88fda5ab84b7f826"}
+    required_fp = {"scanner/serve.py": "e1e332e021efc38e", "scanner/pipeline.py": "69230c28b4404b66", "scanner/tests/test_scanner.py": "a31516ece86dcf6e", "scanner/tests/test_serve.py": "c0d8669a98c95072", "data/opportunities.json": "88fda5ab84b7f826"}
     for rel, expect in required_fp.items():
         pp = ROOT / rel
         got = sha(pp)[:16] if pp.exists() else "MISSING"
@@ -321,7 +321,7 @@ def main() -> int:
             notes.append("非 index 静态文件不注入 token ✅")
         # status schema
         st, status, _ = http("GET", f"{base}/api/status", token=TOKEN)
-        need = ["ok", "server", "data", "schedule", "alert", "jobs", "logs"]
+        need = ["ok", "server", "data", "schedule", "alert", "jobs", "logs", "outbox"]
         if st != 200 or not isinstance(status, dict) or any(k not in status for k in need):
             P0.append(f"status schema 缺字段：{status if not isinstance(status, dict) else list(status)}")
         else:
@@ -335,6 +335,61 @@ def main() -> int:
                 P2.append(f"静态优先级 current 未生效：current_build={static_src}")
             else:
                 notes.append("status schema/数据摘要/静态优先级（current/index.html）✅")
+        # ---------- outbox API ----------
+        ob_status = status.get("outbox") if isinstance(status, dict) else None
+        if not isinstance(ob_status, dict):
+            P1.append(f"status.outbox 非对象：{type(ob_status).__name__}")
+        else:
+            for k in ("file", "as_of", "generated_at", "source_count", "raw_count", "signal_count", "by_source", "top", "review_md", "file_size", "file_modified_at"):
+                if k not in ob_status:
+                    P1.append(f"status.outbox 缺字段 {k}")
+            notes.append(f"status.outbox：file={ob_status.get('file')} as_of={ob_status.get('as_of')} signal={ob_status.get('signal_count')} raw={ob_status.get('raw_count')} 源={ob_status.get('source_count')}")
+        st_no, _, _ = http("GET", f"{base}/api/outbox")
+        if st_no != 401:
+            P0.append(f"/api/outbox 无 token 未 401：{st_no}")
+        st_ob, ob, _ = http("GET", f"{base}/api/outbox", token=TOKEN)
+        if st_ob != 200 or not isinstance(ob, dict) or ob.get("ok") is not True:
+            P1.append(f"/api/outbox 失败：{st_ob} {str(ob)[:180]}")
+        else:
+            body_json = json.dumps(ob, ensure_ascii=False)
+            if re.search(r"[A-Za-z]:\\(?:[^\"]+\\)*[^\"]+", body_json):
+                P1.append("/api/outbox 泄漏绝对路径（Windows 盘符路径）")
+            summary = ob.get("outbox") or ob.get("summary") or ob
+            for k in ("file", "as_of", "generated_at", "signal_count", "raw_count", "source_count", "by_source", "top", "review_md", "file_size", "file_modified_at"):
+                if k not in summary:
+                    P1.append(f"/api/outbox 摘要缺字段 {k}")
+            top = summary.get("top") or []
+            if len(top) > 5:
+                P1.append(f"/api/outbox top={len(top)} > 5")
+            if any(not str(t.get("url", "")).startswith("http") for t in top if isinstance(t, dict)):
+                P2.append("/api/outbox top 存在非 http URL")
+            notes.append(f"/api/outbox：file={summary.get('file')} as_of={summary.get('as_of')} raw={summary.get('raw_count')} signal={summary.get('signal_count')} top={len(top)} review_md={bool((summary.get('review_md') or {}).get('exists'))}")
+        st_lim, lim, _ = http("GET", f"{base}/api/outbox?limit=3", token=TOKEN)
+        if st_lim != 200 or not isinstance(lim, dict):
+            P1.append(f"/api/outbox?limit=3 异常：{st_lim} {str(lim)[:160]}")
+        else:
+            sigs = lim.get("signals") or []
+            top = (lim.get("outbox") or {}).get("top") or []
+            if len(sigs) > 3:
+                P1.append(f"/api/outbox?limit=3 signals={len(sigs)} > 3")
+            elif len(top) > 5:
+                P1.append(f"/api/outbox top={len(top)} > 5")
+            else:
+                notes.append(f"/api/outbox?limit=3：signals={len(sigs)}（≤3）、top={len(top)}（≤5）✅")
+            # 信号安全字段抽查（不含绝对路径）
+            if sigs:
+                need_sig = {"signal_id", "source_id", "url", "title", "published_date", "lang"}
+                miss = [k for k in need_sig if k not in sigs[0]]
+                if miss:
+                    P1.append(f"/api/outbox signals 缺字段 {miss}")
+                elif any("\\" in str(s.get("url", "")) and ":" in str(s.get("url", "")) for s in sigs):
+                    P2.append("/api/outbox signals url 疑似本地路径")
+        for bad_limit in ("0", "101", "abc", "-1"):
+            st_b, _, _ = http("GET", f"{base}/api/outbox?limit={bad_limit}", token=TOKEN)
+            if st_b not in (400, 200):
+                P1.append(f"/api/outbox?limit={bad_limit} 意外状态 {st_b}")
+        notes.append("/api/outbox limit 边界（0/101/abc/-1）已测（400 或回退默认）")
+
         # ---------- run/job ----------
         build_start = time.time()
         st1, run1, _ = http("POST", f"{base}/api/run", token=TOKEN, payload={"task": "build"})
@@ -480,8 +535,8 @@ def main() -> int:
 
     # ---------- 单元测试 / validate / 幂等 ----------
     for label, cmd, expect in (
-        ("serve unittest", [sys.executable, "-m", "unittest", "scanner.tests.test_serve"], "Ran 25 tests"),
-        ("full unittest", [sys.executable, "-m", "unittest", "discover", "-s", "scanner/tests"], "Ran 89 tests"),
+        ("serve unittest", [sys.executable, "-m", "unittest", "scanner.tests.test_serve"], "Ran 28 tests"),
+        ("full unittest", [sys.executable, "-m", "unittest", "discover", "-s", "scanner/tests"], "Ran 94 tests"),
         ("validate", [sys.executable, "scanner/validate.py"], "20/20"),
     ):
         r = subprocess.run(cmd, cwd=ROOT, capture_output=True, text=True, encoding="utf-8", errors="replace", timeout=180)

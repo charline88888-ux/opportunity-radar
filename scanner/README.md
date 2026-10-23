@@ -21,6 +21,7 @@ python scanner/validate.py
 # 真实在线采集（唯一联网命令；写 outbox + data/source-health.json v2）
 python scanner/pipeline.py --fetch
 python scanner/pipeline.py --fetch --no-cache --fetch-limit 10
+python scanner/pipeline.py --fetch --as-of 2026-10-23   # v0.7.3：按该日写 signals-2026-10-23.json（默认仍用 taxonomy as_of）
 
 # 四窗口报告（自包含 HTML + Markdown，确定性生成）
 python scanner/report.py --all
@@ -47,7 +48,7 @@ python scanner/yearbook.py --year 2026 --experiments scanner/fixtures/experiment
 python scanner/serve.py                      # http://127.0.0.1:8787，token 写 .radar-console-token
 python scanner/serve.py --port 8788 --open   # 自定义端口并自动打开 #/control?token=...
 
-# 单元测试（标准库 unittest，89 条）
+# 单元测试（标准库 unittest，94 条）
 python -m unittest discover -s scanner/tests -v
 ```
 
@@ -111,8 +112,8 @@ data/opportunities.json  ── score.py/materialize.py 重算 → 回写派生�
 | `validate.py` | V01–V20；**v0.6.0 配额收紧**：V02（≥80 条/14 行业各≥2/11 区域/≥50 国家/中国角度≥25）、V08（完整配额只在基准日强制，其他 as_of 仅结构校验，v0.6.1）；V19 快照、V20 source-health v2 | §9 |
 | `serve.py` | **v0.7.0 本地控制台后端**：仅 127.0.0.1、token 认证、静态服务（current→app/dist→releases）+ token 注入 index、`/api/health|status|run|job|logs|log|schedule`、单任务 409、路径穿越防护、`scanner/logs/console.log` | §1.8 |
 | `adapters/` | `rss` / `reddit` / `google_trends` / `ecommerce_reviews` 离线适配器 | §1/§6 |
-| `tests/test_scanner.py` | 64 条单测：公式/舍入/边界/窗口/榜单/tie-breaker/物化/validate/归一/去重/history delta/回退/回放链与幂等/source-health/报告/SQLite/feed 解析/红源筛选/enrich/calibrate/yearbook/as-of | docs/04 §10.4 |
-| `tests/test_serve.py` | 25 条单测：health（含 Origin）/401/403/status schema/静态与 SPA 回退/token 注入/无构建 503/run 409/job/logs 与路径穿越/schedule 校验与 disable 幂等/schtasks CSV 中英文解析/enable 后状态同步/locale 解码/token 不落日志 | §1.8 |
+| `tests/test_scanner.py` | 66 条单测：公式/舍入/边界/窗口/榜单/tie-breaker/物化/validate/归一/去重/history delta/回退/回放链与幂等/source-health/报告/SQLite/feed 解析/红源筛选/enrich/calibrate/yearbook/as-of/fetch --as-of | docs/04 §10.4 |
+| `tests/test_serve.py` | 28 条单测：health（含 Origin）/401/403/status（含 outbox 摘要）/静态与 SPA 回退/token 注入/无构建 503/run 409/job/logs 与路径穿越/schedule 校验与 disable 幂等/schtasks CSV 中英文解析/enable 后状态同步/locale 解码/fetch 命令 as-of/outbox 端点/token 不落日志 | §1.8 |
 
 ## 4. 历史快照、回放与真实 delta（v0.3.0）
 
@@ -177,12 +178,13 @@ data/opportunities.json  ── score.py/materialize.py 重算 → 回写派生�
   - 只允许 loopback 绑定；拒绝非 127.0.0.1/localhost 的 Origin（403）；不打印 token。
 - 静态服务：`/` 与非 `/api/*` 路径依次取 `current/index.html` → `app/dist/index.html` → 最新 `releases/*/dist/index.html`；无构建返回 503 + 引导文案。返回 `index.html` 时**在 `</head>` 前注入 `<script>window.__RADAR_CONSOLE_TOKEN__="…"</script>`**（仅内存响应、不写日志），因此自启动后直接访问 `http://127.0.0.1:8787/` 也能用控制台；前端优先读该变量，其次 URL token。
 - API（除 `/api/health` 外都要 header `X-Radar-Token`；`/api/health` 免 token，但**同样校验 Origin**）：
-  - `GET /api/health` → `{ok,version,port}`；`GET /api/status` → 数据基准日/机会数/四窗口/build/冻结版/定时任务/告警/最近任务/日志列表；
-  - `POST /api/run {task:update|fetch|build}` → 后台线程执行（update=`scripts/daily-run.ps1`、fetch=`pipeline.py --fetch`、build=`pnpm build`+复制 `current/index.html`）；忙时 **409**，返回 `{ok,job_id}`；
+  - `GET /api/health` → `{ok,version,port}`；`GET /api/status` → 数据基准日/机会数/四窗口/build/冻结版/定时任务/**采集 outbox 摘要**/告警/最近任务/日志列表；
+  - `GET /api/outbox?limit=N`（v0.7.3）→ `{ok,outbox,<采集摘要>,signals:[最近 N 条安全字段]}`，供控制台显示「最近采集 X 条原始信号（待复核）」；
+  - `POST /api/run {task:update|fetch|build}` → 后台线程执行（update=`scripts/daily-run.ps1`、fetch=`pipeline.py --fetch --as-of <当前数据基准日>`、build=`pnpm build`+复制 `current/index.html`）；忙时 **409**，返回 `{ok,job_id}`；
   - `GET /api/job?id=` → `{state,started_at,finished_at,exit_code,log_tail≤200}`；`GET /api/logs`、`GET /api/log?name=`（限 `scanner/logs/`，防穿越，tail ≤200KB）；
   - `POST /api/schedule {action:enable|disable, fetch?}` → 调 `scripts/install-daily-task.ps1 [-Fetch|-Uninstall]`，**动作后 sleep 重查 `schtasks /Query /V /FO CSV /NH` 并携带最新状态**（`enabled/status:"ready"|"disabled"|"not_installed"/next_run/last_result`；中英文系统通用）；**disable 幂等**（任务未安装/找不到时按已停用成功返回 `already:true`，不返回 500）；子进程输出按本地编码（mbcs/GBK，UTF-8 优先）解码，中文不乱码。
 - 安全：路径白名单/防目录遍历、不返回绝对路径、token 不落日志；每次 API 调用写 `scanner/logs/console.log`。
-- 测试：`python -m unittest scanner.tests.test_serve -v`（25 条：401/403/health（含 Origin）/status/静态回退/token 注入/无构建 503/run 409/job/日志穿越/schedule 校验与幂等/schtasks CSV 中英文/enable 后状态同步/locale 解码/不落 token）。
+- 测试：`python -m unittest scanner.tests.test_serve -v`（28 条：401/403/health（含 Origin）/status（含 outbox 摘要）/静态回退/token 注入/无构建 503/run 409/job/日志穿越/schedule 校验与幂等/schtasks CSV 中英文/enable 后状态同步/locale 解码/fetch 命令 as-of/outbox 端点/不落 token）。
 
 ## 10. 已知限制
 

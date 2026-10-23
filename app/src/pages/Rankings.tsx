@@ -50,6 +50,7 @@ import {
 import { downloadPeriodReport } from '@/lib/exports'
 import { capitalCap, CAPABILITY_LABELS, profileSummaryRows, useProfile, type CapabilityVector } from '@/lib/profile'
 import { recordRecEvent } from '@/lib/rec_log'
+import { useI18n } from '@/lib/i18n'
 import {
   recommendOpportunities,
   type RecommendationRow,
@@ -272,6 +273,8 @@ function RecommendationCard({ row, onDismiss }: { row: RecommendationRow; onDism
 }
 
 export default function Rankings() {
+  const { lang } = useI18n()
+  const L = (zh: string, en: string) => (lang === 'en' ? en : zh)
   const [params, setParams] = useSearchParams()
   const initialWindow = (['day', 'week', 'month', 'year'].includes(params.get('w') || '') ? params.get('w') : 'week') as WindowKey
   const [win, setWin] = useState<WindowKey>(initialWindow)
@@ -683,12 +686,23 @@ export default function Rankings() {
 
       {!filtered.length && (
         <EmptyState
-          title="当前筛选条件下暂无上榜机会"
-          hint={
-            activeIndustry
-              ? `${activeIndustry.name} 板块在当前窗口（${windowData?.label}）没有机会进入榜单；可切换窗口或选择「全部行业」。`
-              : '该窗口的 rankings.json 尚未产出数据，待数据工程完成配额后自动显示。'
-          }
+          title={L(win === 'day' ? '今天暂无新机会（正常现象）' : '当前筛选条件下暂无上榜机会', win === 'day' ? 'No new opportunities today (normal)' : 'No ranked opportunities under the current filters')}
+          hint={L(
+            win === 'day'
+              ? (windowData
+                ? '日榜为空是正常结果：历史机会仍在周/月/年榜与机会库中可查看；采集到的新信号不会自动入库，请到控制台「采集收件箱」人工复核。'
+                : '日榜数据尚未生成（可能尚未运行本地数据构建/控制台）；可查看周/月/年榜，或启动本地控制台后执行更新。')
+              : (activeIndustry
+                ? `${activeIndustry.name} 板块在当前窗口（${windowData?.label}）没有机会进入榜单；可切换窗口或选择「全部行业」。`
+                : '该窗口的 rankings.json 尚未产出数据，待数据工程完成配额后自动显示。'),
+            win === 'day'
+              ? (windowData
+                ? 'An empty day ranking is normal: historical opportunities remain in week/month/year rankings and the library. Fetched signals are never auto-ingested; review them in the Control fetch inbox.'
+                : 'The day ranking has not been generated yet (local build/control may not have run). Check week/month/year rankings or run an update from the local control console.')
+              : (activeIndustry
+                ? `${activeIndustry.name} has no opportunities in this window (${windowData?.label}); switch window or choose “All industries”.`
+                : 'This window has no rankings.json data yet; it will appear after the data build meets its quota.'),
+          )}
         />
       )}
 

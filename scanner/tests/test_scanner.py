@@ -1236,6 +1236,49 @@ class TestAsOf(unittest.TestCase):
         with self.assertRaises(ValueError):
             pipeline.resolve_as_of("2026-13-01")
 
+    # ------------------------------------------------ v0.7.3：fetch --as-of
+    def _fake_fetch_result(self) -> dict:
+        return {
+            "health": [],
+            "outbox_path": str(config.OUTBOX_DIR / "signals-test.json"),
+            "source_health_path": str(config.SOURCE_HEALTH_PATH),
+            "ok_count": 0,
+            "failed_count": 0,
+            "signal_count": 0,
+            "raw_count": 0,
+        }
+
+    def test_fetch_as_of_passes_date_to_run_fetch(self):
+        captured: dict = {}
+
+        def fake_run(as_of: str, *, limit: int, cache_enabled: bool) -> dict:
+            captured["as_of"] = as_of
+            captured["limit"] = limit
+            return self._fake_fetch_result()
+
+        with mock.patch.object(fetch, "run_fetch", side_effect=fake_run), mock.patch.object(
+            pipeline.fetch_mod, "ensure_outbox_ignore"
+        ):
+            code = pipeline.main(["--fetch", "--as-of", "2026-10-23"])
+        self.assertEqual(code, 0)
+        self.assertEqual(captured["as_of"], "2026-10-23")
+
+    def test_fetch_default_uses_taxonomy_as_of(self):
+        taxonomy = common.load_json(config.TAXONOMY_PATH)
+        expected = common.parse_as_of(taxonomy).isoformat()
+        captured: dict = {}
+
+        def fake_run(as_of: str, *, limit: int, cache_enabled: bool) -> dict:
+            captured["as_of"] = as_of
+            return self._fake_fetch_result()
+
+        with mock.patch.object(fetch, "run_fetch", side_effect=fake_run), mock.patch.object(
+            pipeline.fetch_mod, "ensure_outbox_ignore"
+        ):
+            code = pipeline.main(["--fetch"])
+        self.assertEqual(code, 0)
+        self.assertEqual(captured["as_of"], expected)
+
     def test_rank_windows_shift_with_as_of(self):
         """窗口归属随 as_of 变化；不硬编码仓内数据日期（每日运行会推进 as_of）。"""
         opps = common.load_json(config.OPPORTUNITIES_PATH)

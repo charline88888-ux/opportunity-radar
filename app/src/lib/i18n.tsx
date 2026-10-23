@@ -11,7 +11,7 @@ export const DOC_TITLE = {
 } as const
 
 export const EN_CONTENT_NOTICE =
-  'Opportunity content (titles, one-liners, evidence, Q&A) is Chinese-only in v0.7.0.'
+  'Opportunity content (titles, one-liners, evidence, Q&A) is Chinese-only in v0.7.3.'
 
 let currentLang: Lang = loadLang()
 
@@ -104,6 +104,20 @@ function patternTranslate(raw: string): string | null {
       .replace(/，或手动 python scanner\/pipeline.py --all --as-of YYYY-MM-DD 更新数据与构建。/, ', or manually run python scanner/pipeline.py --all --as-of YYYY-MM-DD to rebuild.')
   }
   if ((m = text.match(/^(\d+) 天验证动作清单$/))) return `${m[1]}-day validation checklist`
+  if (text === '暂无榜首数据') return 'No leaderboard data yet'
+  if ((m = text.match(/^(\d+) 个 · 见 About\/预警中心$/))) return `${m[1]} · see About / Alerts`
+  if (text.includes('About/预警中心')) return text.replace(/About\/预警中心/g, 'About/Alerts')
+  if (text.startsWith('返回内容不是可解析的 feed')) return text.replace(/^返回内容不是可解析的 feed/, 'Unparsable feed').replace(/有效条目 /, 'valid items: ').replace(/ 条/, '')
+  if ((m = text.match(/^当前榜单 delta 较上一快照（(.+)）。$/))) return `Current ranking delta vs previous snapshot (${m[1]}).`
+  if ((m = text.match(/^· 历史快照 (\d+) 份$/))) return `· ${m[1]} history snapshots`
+  if (text.startsWith('检查于 ')) {
+    return text
+      .replace(/^检查于 /, 'Checked at ')
+      .replace(/返回内容不是可解析的 feed/, 'Unparsable feed')
+      .replace(/有效条目 /, 'valid items: ')
+      .replace(/ 条）/, ')')
+      .replace(/。可到数据源矩阵查看合规与替代方案。/, '. See Sources for compliance and alternatives.')
+  }
   if (text === '勾选即本地保存（localStorage），不联网、不上传。') return 'Checked items save in localStorage; no network, no upload.'
   if (text === '区域 × 类别覆盖热力') return 'Region × category coverage heatmap'
   if (text === '按全部节点 lead_time_days 均值') return 'Average lead_time_days across all nodes'

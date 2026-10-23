@@ -138,6 +138,18 @@ export default function Control() {
   const busy = isJobRunning(activeJob) || !!starting
   const asOfAge = controlAgeDays(status?.data?.as_of)
   const schedule = status?.schedule
+  const outbox = status?.outbox || null
+  const outboxSources = useMemo(() => {
+    const raw = outbox?.by_source
+    if (!raw) return [] as Array<{ name: string; count: number }>
+    if (Array.isArray(raw)) {
+      return raw
+        .map((x) => ({ name: x.name || x.source_id || x.source || 'unknown', count: Number(x.count) || 0 }))
+        .filter((x) => x.count > 0)
+        .sort((a, b) => b.count - a.count)
+    }
+    return Object.entries(raw).map(([name, count]) => ({ name, count: Number(count) || 0 })).sort((a, b) => b.count - a.count)
+  }, [outbox])
 
   const startTask = async (task: Task) => {
     setStarting(task)
@@ -344,6 +356,65 @@ export default function Control() {
               <span>{L('无告警文件', 'No alert file')}</span>
             )}
           </div>
+        </SectionCard>
+
+        <SectionCard className="xl:col-span-12" eyebrow="INBOX" title={L('采集收件箱', 'Fetch inbox')} subtitle={L('原始采集信号不会自动变成机会，需人工复核后才能入库。', 'Raw fetched signals never become opportunities automatically; human review is required before ingestion.')} right={<ClipboardList className="h-4 w-4 text-dim" />}>
+          {outbox ? (
+            <div className="grid grid-cols-1 gap-3 md:grid-cols-12">
+              <div className="md:col-span-5">
+                <div className="grid grid-cols-2 gap-2">
+                  {[
+                    { label: L('最近文件', 'Latest file'), value: outbox.file || '—' },
+                    { label: L('采集基准日', 'as_of'), value: outbox.as_of || '—' },
+                    { label: L('原始信号', 'Raw signals'), value: outbox.raw_count ?? outbox.signal_count ?? '—' },
+                    { label: L('信号数', 'Signals'), value: outbox.signal_count ?? '—' },
+                    { label: L('来源数', 'Sources'), value: outbox.source_count ?? outboxSources.length },
+                    { label: L('生成时间', 'Generated'), value: formatControlTime(outbox.generated_at) },
+                  ].map((x) => (
+                    <div key={x.label} className="rounded border border-line/70 px-2 py-1.5">
+                      <div className="mono-label">{x.label}</div>
+                      <div className="truncate font-mono text-[10.5px] text-muted">{String(x.value)}</div>
+                    </div>
+                  ))}
+                </div>
+                <div className="mt-2 text-[9.5px] leading-relaxed text-dim">
+                  {L('原始信号只写入 scanner/outbox 等待人工复核；仅 REVIEW.md 中确认过的候选才应进入 data/opportunities.json。', 'Raw signals only go to scanner/outbox for review; only candidates confirmed in REVIEW.md should enter data/opportunities.json.')}
+                </div>
+                <div className="mt-1 text-[9.5px] text-dim">
+                  REVIEW.md：{outbox.review_md?.exists ? L(`存在 · ${formatControlTime(outbox.review_md.modified_at)}`, `present · ${formatControlTime(outbox.review_md.modified_at)}`) : L('未找到', 'not found')}
+                </div>
+              </div>
+              <div className="md:col-span-3">
+                <div className="mono-label mb-1">{L('按来源分布', 'By source')}</div>
+                <div className="max-h-[160px] space-y-1 overflow-auto">
+                  {outboxSources.length ? outboxSources.slice(0, 10).map((s) => (
+                    <div key={s.name} className="flex items-center justify-between gap-2 text-[10px]">
+                      <span className="truncate text-muted">{s.name}</span>
+                      <span className="num text-dim">{s.count}</span>
+                    </div>
+                  )) : <div className="text-[10px] text-dim">—</div>}
+                </div>
+              </div>
+              <div className="md:col-span-4">
+                <div className="mono-label mb-1">{L('Top 5 标题', 'Top 5 titles')}</div>
+                <div className="space-y-1">
+                  {(outbox.top || []).slice(0, 5).map((item, i) => (
+                    <div key={`${item.title || 'item'}-${i}`} className="rounded border border-line/60 px-2 py-1 text-[10px]">
+                      {item.url ? (
+                        <a href={item.url} target="_blank" rel="noreferrer" className="block truncate text-muted hover:text-signal" title={item.title}>{item.title || item.url}</a>
+                      ) : <span className="block truncate text-muted">{item.title || '—'}</span>}
+                      {item.source_id && <span className="font-mono text-[8.5px] text-dim">{item.source_id}</span>}
+                    </div>
+                  ))}
+                  {!(outbox.top || []).length && <div className="text-[10px] text-dim">{L('无标题预览', 'No title preview')}</div>}
+                </div>
+              </div>
+            </div>
+          ) : (
+            <div className="rounded border border-dashed border-line/70 px-3 py-4 text-center text-[10.5px] text-dim">
+              {L('还没有采集记录。点击「立即采集」后，原始信号会进入 scanner/outbox 并显示在这里；不会自动入库。', 'No fetch records yet. Click “Fetch now”; raw signals will land in scanner/outbox and appear here—never auto-ingested.')}
+            </div>
+          )}
         </SectionCard>
 
         <SectionCard className="xl:col-span-7" eyebrow="LOGS" title={L('本地日志', 'Local logs')} subtitle={L('scanner/logs/ 下最近 10 个文件；预览最多 200KB。', 'Latest 10 files under scanner/logs/; preview capped at 200KB.')} right={<FileText className="h-4 w-4 text-dim" />}>

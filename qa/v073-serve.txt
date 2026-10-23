@@ -1,0 +1,41 @@
+
+== serve-check ==
+  · 数据基线 as_of=2026-10-23 / 窗口 {'day': 0, 'week': 49, 'month': 57, 'year': 80} 与独立复算一致 ✅
+  · 指纹 data/rankings.json=197583c4fb943d59（每日数据会变化，仅记录）
+  · 指纹 data/stats.json=07bd0e51b51c62e2（每日数据会变化，仅记录）
+  · 指纹 data/source-health.json=f30343ed47fada86（每日数据会变化，仅记录）
+  · 指纹 data/sources.json=0a37f7acb6baa03f（每日数据会变化，仅记录）
+  · 指纹 data/radar.db=c5560cb8fac3c7b9（每日数据会变化，仅记录）
+  · 监听地址仅 127.0.0.1:8791 ✅（['127.0.0.1:8791']）
+  · LAN IP 172.29.0.1:8791 不可连接（仅 loopback）✅
+  · --host 0.0.0.0 拒绝启动 exit 2 ✅
+  · 随机 token 生成并写入文件（长度 43，URL-safe）✅
+  · status：缺/错 token 401、正确 token 200 ✅
+  · Origin：非 loopback 403、loopback 200 ✅
+  · /api/health Origin：非 loopback 403、loopback 200（免 token 但校验 Origin）✅
+  · 路径穿越 7 种变体均拒绝且不泄漏：[('/../data/opportunities.json', 403), ('/%2e%2e/data/opportunities.json', 403), ('/..%2fdata%2fopportunities.json', 403), ('/..\\data\\opportunities.json', 403), ('/%2e%2e%5cdata%5copportunities.json', 403), ('/api/log?name=..%2Fdata%2Fopportunities.json', 400), ('/api/log?name=..%5cdata%5copportunities.json', 400)]
+  · index.html 200 + 注入 window.__RADAR_CONSOLE_TOKEN__（响应内）✅
+  · SPA 深链回退 index 且注入 token ✅
+  · 非 index 静态文件不注入 token ✅
+  · status schema/数据摘要/静态优先级（current/index.html）✅
+  · status.outbox：file=signals-2026-10-22.json as_of=2026-10-22 signal=183 raw=185 源=8
+  · /api/outbox：file=signals-2026-10-22.json as_of=2026-10-22 raw=185 signal=183 top=5 review_md=True
+  · /api/outbox?limit=3：signals=3（≤3）、top=5（≤5）✅
+  · /api/outbox limit 边界（0/101/abc/-1）已测（400 或回退默认）
+  · run build 202 + 并发 409 ✅
+  · run build 完成：state=ok exit=0 log_tail=37 行，耗时 12.7s
+  · console.log 可读、tail≤200KB、不含 token ✅
+  · schedule disable（任务不存在）幂等：200 + not_installed ✅
+  · schedule enable 实测：任务创建 + 响应 enabled=true/status=ready/next_run=24/10/2026 上午7:00:00 + 中文 output 可读 ✅
+  · schedule disable 清理任务（测试后恢复无任务状态）✅
+  · console.log 记录 API 调用且全 logs 不含 token ✅
+  · serve 启动/运行输出不打印 token ✅
+  · 无构建：503 + 引导文案 ✅
+  · serve unittest：Ran 28 tests PASS ✅
+  · full unittest：Ran 94 tests PASS ✅
+  · validate：20/20 PASS ✅
+  · --all --as-of 2026-10-23 幂等：28 个 data 文件 SHA256 一致 ✅
+  · 幂等测试后 data 恢复基线 SHA256 一致 ✅
+
+P0 = 0  P1 = 0  P2 = 0
+RESULT: PASS
