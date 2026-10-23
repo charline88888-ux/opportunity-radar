@@ -2,7 +2,16 @@
 
 格式：`data_version` + 日期 + 变更内容 + 影响面。契约变更（字段/枚举/公式）必须同步更新 `docs/12-数据契约与字段字典.md` 并通知 Lead、前端、红队。
 
+## data-v1.0.1 · 2026-10-23 · PATCH（候选文案清洗）
+
+- 候选 `seven_questions` 彻底移除验证/实验/复核/门禁措辞：`渠道` → 小成本测试；原 `验证` 键改为 **`跟踪`**（答案「14 天内观察到询价/预约/加购等可量化信号再投入（自动草稿）。」）；成本问句 → 「最小启动成本与最大风险分别是什么？」。
+- `one_liner` 结尾统一为「（自动发现线索，系统已初筛）」；`system_validation.notes` 改为「系统自动评估商机信号…不代表收入承诺。」；候选 JSON 全量 grep `验证/实验/复核/门禁` = **0**。
+- 重生成 candidates/candidate-rankings（评分/窗口/排序不变：day99/week200/month200/year200）；data/candidates meta 升 **1.0.1**。
+- 校验：validate **20/20**；unittest **95/95**（当前 tests 仅 test_scanner.py，控制台测试已随控制台移除）；cold-cache determinism：删翻译缓存冷跑两次 candidates 与冻结文件字节一致。
+- 指纹：candidates `1C36890601EDC96A`（全值 `1C36890601EDC96A227B7E1D12FF180FA190A139CA84A8D5D5E10FB88C88C478`）、candidate-rankings `55EDA0E369FAED1D`（`55EDA0E369FAED1D79D0B2794511DC71CE4081E993D431FBB52798F15C78B186`）、stats `3D5040A0A56D6680`、rankings `8C2A9476599EAADF`、candidates.py `31E44FB0C8D81484`；translate.py `2350C346277FD68C` 未变。
+
 ## data-v1.0.0 · 2026-10-23 · MAJOR 核心回归（只留扫描→候选→四窗口榜）
+
 
 > 产品边界回归：**每日扫描 → 系统评估商机 → 自动候选/精选入榜**。删除验证/实验/校准/年度/画像/预警/数据包/控制台等非核心功能与产物；系统只负责发现与评估，不验证个人商业结果。
 

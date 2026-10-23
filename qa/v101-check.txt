@@ -1,0 +1,28 @@
+
+== v1.0.1 core check ==
+  · data 9 文件 meta=1.0.1 ✅
+  · 候选/meta 已移除 verification_status/verified_by_system 等验证字段（核心回归）✅
+  · system_validation：200×8checks、high53/medium133/low14、avg=92.9 ✅
+  · candidates.json 全量禁用词=0（验证/实验/复核/门禁）✅
+  · 七问键：需求/人群/竞品/差异/渠道/成本/跟踪 ✅
+  · 跟踪答案统一：「14 天内观察到询价/预约/加购等可量化信号…」✅
+  · system_validation.notes 统一「系统自动评估…不代表收入承诺」✅
+  · translation：200/200、cached100%、glossary898、quality medium127/low67/source-zh6 ✅
+  · candidates：200 条、gap/region/country 字段完整、评分复算 200/200 ✅
+  · 候选全部入榜：day99/week200/month200/year200（年窗口 200/200 候选覆盖）✅
+  · 精选 80 条内容与 v0.9.2 完全一致（仅 data_version→1.0.1）✅
+  · stats KPI：精选80 / 候选200 / 今日候选99 ✅
+  · sources：168 平台 / 101 enabled 自动源 / 11 区域 / 8 disabled ✅
+  · source-health：101/101/0、items 2420 ✅
+  · outbox：raw2420→signal1892/new1865/seen27/ledger1865 ✅
+  · data/reports 仅 8 个四窗口报告（calibration/yearbook 已删除）✅
+  · 非核心数据 experiments/profile/alerts/rec_log/yearbook 均不存在 ✅
+  · radar.db 行数 80/156/654/101 ✅
+  · validate：20/20 PASS ✅
+  · unittest：Ran 95 tests PASS ✅
+  · --all --as-of 2026-10-23 双跑 0 变化（26 文件）✅
+  · 关键指纹与 data-engineer 交付一致 ✅
+
+P0 = 0  P1 = 0  P2 = 1
+  [P2] one_liner 后缀「（自动发现线索，系统已初筛）」仅 26/200（长文本截断/部分未带；one_liner_zh 无该后缀，禁用词仍为 0）
+RESULT: PASS

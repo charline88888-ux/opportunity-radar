@@ -1,7 +1,9 @@
-# data/ 数据底座使用说明（data-v1.0.0）
+# data/ 数据底座使用说明（data-v1.0.1）
 
-> 唯一接口标准：`docs/12-数据契约与字段字典.md`（data-v1.0.0）。本目录所有 JSON 必须通过 `python scanner/validate.py`（V01–V20，退出码 0）。
+> 唯一接口标准：`docs/12-数据契约与字段字典.md`（data-v1.0.1）。本目录所有 JSON 必须通过 `python scanner/validate.py`（V01–V20，退出码 0）。
 > 数据基准日 `as_of = 2026-10-22`（Asia/Shanghai），当前周 `2026-W43`（10-19～10-25），当前月 `2026-10`，当前年 `2026`；支持 `--as-of YYYY-MM-DD` 覆盖做真实每日运行。
+> **v1.0.1 PATCH（候选文案清洗）**：候选 seven_questions 去掉验证/实验/复核/门禁字样（`验证` 键→`跟踪`；成本问句→最小启动成本；one_liner/system_validation.notes 同步清洗）；重生成 candidates/candidate-rankings；数据 1.0.1。
+>
 > **v1.0.0 MAJOR（核心回归）**：只保留“每日扫描 → 系统评估商机 → 自动候选/精选入榜”；删除校准/年鉴/实验/画像/预警/数据包/控制台等非核心功能与产物，候选去掉 verification_status/实体验证字段，`data/reports` 仅保留四窗口报告；翻译（title_zh/one_liner_zh/summary_zh）保留；同时修复翻译质量冷缓存 determinism（quality 只由文本/语言/残留比例决定，清缓存冷跑两次字节一致）。
 >
 > **v0.9.3 MINOR（系统级翻译子系统）**：新增 `scanner/translate.py`（provider=glossary 离线词典 **898 条** / llm OpenAI 兼容需 key、失败回退 / mock / source-zh；SQLite 缓存 `scanner/build/translation-cache.sqlite`）；候选逐条自动翻译 `title_zh/one_liner_zh/summary_zh/title_original/translation{provider,quality,cached,source_lang,target_lang}`；meta `translation_summary` 实测 provider glossary 194 / source-zh 6、**cached 200、中文覆盖 1.0、quality medium 120 / low 74 / source-zh 6**；翻译质量不参与收录/排序。

@@ -1,6 +1,6 @@
-# scanner/ —— 机会雷达扫描流水线（Python 3.11，纯标准库，data-v1.0.0）
+# scanner/ —— 机会雷达扫描流水线（Python 3.11，纯标准库，data-v1.0.1）
 
-> 唯一数据标准：`docs/12-数据契约与字段字典.md`（data-v1.0.0）。扫描器是 `data/rankings.json`、`data/stats.json`、`data/history/*.json`、`data/source-health.json` 与 `scanner/outbox/` 的**唯一生成者**；按契约 4.5/5.x 重算派生字段、按 §9 做 V01–V20 校验；`scanner/serve.py` 提供本地控制台（v0.7.0）。
+> 唯一数据标准：`docs/12-数据契约与字段字典.md`（data-v1.0.1）。扫描器是 `data/rankings.json`、`data/stats.json`、`data/history/*.json`、`data/source-health.json` 与 `scanner/outbox/` 的**唯一生成者**；按契约 4.5/5.x 重算派生字段、按 §9 做 V01–V20 校验；`scanner/serve.py` 提供本地控制台（v0.7.0）。
 
 ## 1. 快速开始
 

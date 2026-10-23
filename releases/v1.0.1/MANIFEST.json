@@ -1,8 +1,8 @@
 {
   "app_version": "1.0.1",
   "data_version": "1.0.1",
-  "released_at": "2026-10-23T19:01:38+08:00",
-  "git_commit": "bef4ad7",
+  "released_at": "2026-10-23T19:06:43+08:00",
+  "git_commit": "",
   "git_tag": "v1.0.1",
   "build": {
     "node": "v24.15.0",
@@ -23,18 +23,18 @@
   "files": [
     {
       "path": "CHANGELOG.md",
-      "bytes": 85,
-      "sha256": "9ae5ee7273278d5dfe4e86de1302f005afefcdc1c6ec226da89f824077ed6ba8"
+      "bytes": 516,
+      "sha256": "8f3ca9a688c8ae506c3ada03d09db1dd5a119df5cdb93209b43b7644ca0a97e9"
     },
     {
       "path": "DEV.md",
-      "bytes": 289,
-      "sha256": "0771d25d6b6877e0b91bcf0c9a75dfe944d481d3271d08de4c7e2c1d65abb57b"
+      "bytes": 1177,
+      "sha256": "e587ba772ac05c42e69c83336d1197daa23f31fcb9373ca76dc2bd001fa5ae9b"
     },
     {
       "path": "OPS.md",
-      "bytes": 205,
-      "sha256": "8876a65681491b0ec82013399a577d7a772c2c0e2fb444eb872096d949ffd6aa"
+      "bytes": 587,
+      "sha256": "f6697a73b35c7497580fa08303a53bc184573e2009b4f2bfcea207ad482fd42f"
     },
     {
       "path": "README.md",
@@ -43,8 +43,8 @@
     },
     {
       "path": "dist/index.html",
-      "bytes": 3473514,
-      "sha256": "4033c18d917d0724d831c492de26c7160844503ba5d3f49dc8c47ebac0ca4442"
+      "bytes": 3473467,
+      "sha256": "15aa3753e14823fbfb8ef381f8b083e3dca2ce52f3d7b74eb92b2e5e08e38b53"
     },
     {
       "path": "dist/VERSION-README.md",
