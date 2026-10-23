@@ -24,7 +24,10 @@ def load_json(path: Path) -> Any:
 def dump_json(path: Path, payload: Any) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     text = json.dumps(payload, ensure_ascii=False, indent=2)
-    path.write_text(text + "\n", encoding="utf-8")
+    # v1.2.0：统一 LF，保证 Git/CI/冷跑字节一致（Windows 默认 CRLF 会破坏 determinism）
+    if not text.endswith("\n"):
+        text += "\n"
+    path.write_bytes(text.encode("utf-8"))
 
 
 def short_hash(*parts: str, length: int = 12) -> str:
