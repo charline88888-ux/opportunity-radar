@@ -1,10 +1,11 @@
-"""扫描流水线命令行入口（Python 3.11，纯标准库）— data-v0.6.1。
+"""扫描流水线命令行入口（Python 3.11，纯标准库）— data-v0.9.0。
 
 用法：
-    python scanner/pipeline.py --all            # 离线：采集→归一→去重→评分→排榜(+历史快照)→统计→SQLite→校验
+    python scanner/pipeline.py --all            # 离线：采集→归一→去重→评分→候选→排榜(+历史快照)→统计→SQLite→校验
     python scanner/pipeline.py --all --as-of 2026-10-23   # 真实每日运行：所有日期派生按该日（窗口/快照/meta）
     python scanner/pipeline.py --db-rebuild     # 仅从 data/*.json 重建 data/radar.db
     python scanner/pipeline.py --fetch          # 真实在线采集（唯一联网命令；写 outbox + source-health）
+    python scanner/pipeline.py --candidates     # 从 outbox 自动生成候选 + 四窗口发现榜（v0.9.0）
     python scanner/pipeline.py --report         # 生成四窗口 HTML/MD 报告
     python scanner/pipeline.py --report --period day --period year
     python scanner/pipeline.py --collect        # 仅运行离线 fixtures 适配器
@@ -22,11 +23,13 @@ from typing import Any
 if __package__ in (None, ""):  # 支持 python scanner/pipeline.py 直接运行
     sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
     from scanner import common, config, db, history, materialize, normalize, rank, report, score, stats, validate  # noqa: E402
+    from scanner import candidates  # noqa: E402
     from scanner import dedupe as dedupe_mod  # noqa: E402
     from scanner import fetch as fetch_mod  # noqa: E402
     from scanner.adapters import load_all  # noqa: E402
 else:  # pragma: no cover
     from . import common, config, db, history, materialize, normalize, rank, report, score, stats, validate
+    from . import candidates
     from . import dedupe as dedupe_mod
     from . import fetch as fetch_mod
     from .adapters import load_all
@@ -170,14 +173,33 @@ def stage_rank(opportunities: list[dict[str, Any]], as_of: date) -> dict[str, An
 
 
 def stage_stats(opportunities: list[dict[str, Any]], taxonomy: dict[str, Any], as_of: date) -> dict[str, Any]:
-    payload = stats.build_stats(opportunities, taxonomy, as_of)
+    candidate_payload = common.load_json(config.CANDIDATES_PATH) or {}
+    candidate_rows = candidate_payload.get("candidates") if isinstance(candidate_payload, dict) else []
+    payload = stats.build_stats(opportunities, taxonomy, as_of, candidates=candidate_rows or [])
     common.dump_json(config.STATS_PATH, payload)
     kpi = payload["kpi"]
     log(
         f"统计已生成：{kpi['total_opps']} 条机会 / A 级以上 {kpi['grade_a_plus']} 条 / "
-        f"平均分 {kpi['avg_total']} / 开放窗口价值 {payload['open_window_value_cny']} 元 → data/stats.json"
+        f"平均分 {kpi['avg_total']} / 开放窗口价值 {payload['open_window_value_cny']} 元 / "
+        f"候选 {kpi.get('candidates_total', 0)} 条（今日新增 {kpi.get('today_new_candidates', 0)}）→ data/stats.json"
     )
     return payload
+
+
+def stage_candidates(as_of: date) -> dict[str, Any]:
+    """v0.9.0：从 outbox business 信号自动生成候选 + 四窗口发现榜（不写 opportunities.json）。"""
+    result = candidates.generate(as_of=as_of)
+    counts = result["counts"]
+    log(
+        f"自动候选已生成：{result['total']} 条（business {result['business_signals']} / "
+        f"maybe {result['maybe_signals']}，去重 {result['dropped_duplicates']}）→ data/candidates.json"
+    )
+    log(
+        "候选发现榜："
+        + " / ".join(f"{window}={counts[window]}" for window in ("day", "week", "month", "year"))
+        + " → data/candidate-rankings.json（verification_status 不参与收录/排序）"
+    )
+    return result
 
 
 def stage_db() -> dict[str, Any]:
@@ -275,6 +297,7 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--score", action="store_true", help="按公式重算评分并检查一致性")
     parser.add_argument("--rank", action="store_true", help="重算日/周/月/年榜单并写历史快照")
     parser.add_argument("--stats", action="store_true", help="重算聚合统计")
+    parser.add_argument("--candidates", action="store_true", help="从 outbox 自动生成候选商机 + 四窗口发现榜（v0.9.0）")
     parser.add_argument("--db-rebuild", action="store_true", help="从 JSON 重建 data/radar.db")
     parser.add_argument("--fetch", action="store_true", help="真实在线采集（唯一联网命令，写出 outbox + source-health）")
     parser.add_argument("--fetch-limit", type=int, default=config.FETCH_DEFAULT_LIMIT, help="真实采集最多尝试的源数")
@@ -305,7 +328,7 @@ def main(argv: list[str] | None = None) -> int:
 
     flags = [
         args.all, args.collect, args.normalize, args.dedupe, args.score, args.rank, args.stats,
-        args.db_rebuild, args.fetch, args.report, args.validate,
+        args.db_rebuild, args.fetch, args.report, args.validate, args.candidates,
         args.replay_as_of is not None, args.as_of is not None,
     ]
     if not any(flags):
@@ -321,20 +344,20 @@ def main(argv: list[str] | None = None) -> int:
     # v0.7.3：仅 --fetch（不带其他流水线动作）且未显式 --as-of 时，沿用旧行为用 taxonomy.meta.as_of，
     # 保证 `--fetch --as-of YYYY-MM-DD` 可写 signals-<date>.json，而默认命令行为不变。
     fetch_only = args.fetch and not any(
-        [args.all, args.collect, args.normalize, args.dedupe, args.score, args.rank, args.stats, args.report, args.validate]
+        [args.all, args.collect, args.normalize, args.dedupe, args.score, args.rank, args.stats, args.report, args.validate, args.candidates]
     )
     if fetch_only and not args.as_of:
         as_of = common.parse_as_of(taxonomy)
     log(f"数据版本 {config.DATA_VERSION} / 基准日 {as_of.isoformat()}")
 
     # 仅数据库重建 / 仅真实采集 / 仅报告：互不阻塞
-    if args.db_rebuild and not any([args.all, args.collect, args.normalize, args.score, args.rank, args.stats, args.fetch, args.report, args.validate]):
+    if args.db_rebuild and not any([args.all, args.collect, args.normalize, args.score, args.rank, args.stats, args.fetch, args.report, args.validate, args.candidates]):
         stage_db()
         return 0
     if fetch_only:
         stage_fetch(as_of, args.fetch_limit, cache_enabled=not args.no_cache)
         return 0
-    if args.report and not any([args.all, args.collect, args.rank, args.stats, args.validate]):
+    if args.report and not any([args.all, args.collect, args.rank, args.stats, args.validate, args.candidates]):
         periods = args.period or ["day", "week", "month", "year"]
         stage_report(periods, as_of)
         return 0
@@ -361,6 +384,8 @@ def main(argv: list[str] | None = None) -> int:
     else:
         opportunities = _load_opportunities()
 
+    if args.candidates or full:
+        stage_candidates(as_of)
     if args.rank or full:
         stage_rank(opportunities, as_of)
     if args.stats or full:

@@ -90,9 +90,19 @@ const ROADMAP = [
 
 const HISTORY = [
   {
-    version: 'v0.8.0',
+    version: 'v0.9.0',
     date: '2026-10-23',
     tag: '当前版本',
+    items: [
+      '新增 /discover 自动发现榜：日/周/月/年四窗口、评分/等级/行业/信息差/区域/来源/首次发现/置信度与「自动发现·未验证」角标；候选详情含七问草稿、证据、ROI 估算与免责声明',
+      '排行榜双轨：发现榜（自动，默认）与精选榜（人工 80 条）；验证/实验仅为可选个人动作，不作为上榜或展示门禁，不参与候选排序',
+      '指挥台新增「今日自动发现 N 条候选」入口；候选可直接查看，无需人工复核后上榜；版本升 0.9.0',
+    ],
+  },
+  {
+    version: 'v0.8.0',
+    date: '2026-10-23',
+    tag: '上一版本',
     items: [
       '控制台新增「扫描边界与漏斗」：逐源尝试/成功/失败、原始→去重→本轮新增→生意相关漏斗、已见账本、抓取规则与未覆盖平台',
       '采集收件箱升级：新增/相关/全部 Tab，展示 relevance/行业/信息差/区域/is_new；默认相关+新增，空态区分未采集/无新增/无相关',
@@ -244,7 +254,12 @@ const EN_DOCS: Array<[string, string, string]> = [
 ]
 
 const EN_HISTORY = [
-  { version: 'v0.8.0', date: '2026-10-23', tag: 'Current', items: [
+  { version: 'v0.9.0', date: '2026-10-23', tag: 'Current', items: [
+    '/discover auto-discovery board: day/week/month/year windows, score/grade/industry/gap/region/source/first-seen/confidence and “auto-discovered · unverified” badge; candidate detail with seven-question draft, evidence, ROI estimate and disclaimer',
+    'Dual ranking tracks: discovery (auto, default) and curated manual (80); validation/experiments are optional personal actions, never listing/display gates, and never affect candidate ranking',
+    'Dashboard “N auto-discovered candidates today” entry; candidates are visible without manual review; version 0.9.0',
+  ]},
+  { version: 'v0.8.0', date: '2026-10-23', tag: 'Previous', items: [
     'Control “Scan boundary & funnel”: per-source attempts/OK/failure, raw→deduped→new→relevant funnel, seen ledger, fetch rules, unsupported platforms',
     'Fetch inbox upgrade: New / Relevant / All tabs with relevance, industry, gap, region and is_new tags; relevant+new default; distinct empty states',
     '/sources marks access and auto-fetch status with auto N / manual M; dashboard summary shows auto sources / regions / new this round; version 0.8.0',
@@ -374,7 +389,7 @@ function AboutEn() {
             </div>
           </div>
           <div className="mt-2 rounded border border-amber/25 bg-amber/[0.04] px-2.5 py-2 text-[10.5px] leading-relaxed text-amber">
-            Bilingual note: all static UI strings switch between Chinese and English. Opportunity content (titles, one-liners, evidence, seven Q&A) intentionally remains Chinese in v0.8.0 and is marked in the UI. Switching language does not reload the page or reset routes, filters, or profile state.
+            Bilingual note: all static UI strings switch between Chinese and English. Opportunity content (titles, one-liners, evidence, seven Q&A) intentionally remains Chinese in v0.9.0 and is marked in the UI. Switching language does not reload the page or reset routes, filters, or profile state.
           </div>
           <div className="mt-3 rounded border border-line/70 bg-black/20 px-2.5 py-2 font-mono text-[10px] leading-relaxed text-dim">
             <div>sync: node app/scripts/sync-data.mjs --strict</div>

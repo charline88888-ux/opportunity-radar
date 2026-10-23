@@ -1225,4 +1225,6 @@ export const UI_EN: Record<string, string> = {
   '控制台': 'Control',
   '一键更新 · 采集 · 定时任务': 'One-click update · fetch · schedule',
   '实时': 'Realtime',
+  '自动发现': 'Discover',
+  '信号自动候选 · 发现榜': 'Auto candidates · discovery board',
 }

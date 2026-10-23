@@ -8,6 +8,7 @@ import { TooltipProvider } from '@/components/ui'
 import Dashboard from '@/pages/Dashboard'
 import Control from '@/pages/Control'
 import Rankings from '@/pages/Rankings'
+import Discover from '@/pages/Discover'
 import OpportunityDetail from '@/pages/OpportunityDetail'
 import Scanner from '@/pages/Scanner'
 import Method from '@/pages/Method'
@@ -59,6 +60,7 @@ function AppRoutes() {
           <Route path="/" element={<Dashboard />} />
           <Route path="/control" element={<Control />} />
           <Route path="/rankings" element={<Rankings />} />
+          <Route path="/discover" element={<Discover />} />
           <Route path="/opportunities/:id" element={<OpportunityDetail />} />
           <Route path="/scanner" element={<Scanner />} />
           <Route path="/method" element={<Method />} />

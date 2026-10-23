@@ -83,7 +83,12 @@ def _trend_14d(opportunities: list[dict], as_of: date) -> list[dict]:
     return rows
 
 
-def build_stats(opportunities: list[dict], taxonomy: dict, as_of: date) -> dict[str, Any]:
+def build_stats(
+    opportunities: list[dict],
+    taxonomy: dict,
+    as_of: date,
+    candidates: list[dict] | None = None,
+) -> dict[str, Any]:
     industries = _group_counts(opportunities, taxonomy, "industry_id", "industries", multi=False)
     gap_types = _group_counts(opportunities, taxonomy, "gap_type_ids", "gap_types", multi=True)
     regions = _group_counts(opportunities, taxonomy, "region_ids", "regions", multi=True)
@@ -103,6 +108,7 @@ def build_stats(opportunities: list[dict], taxonomy: dict, as_of: date) -> dict[
             open_value += float(monthly.get("max", 0) or 0)
 
     as_of_iso = as_of.isoformat()
+    candidate_rows = list(candidates or [])
     kpi = {
         "total_opps": len(opportunities),
         "new_today": sum(1 for opp in opportunities if opp.get("last_activity") == as_of_iso),
@@ -113,6 +119,10 @@ def build_stats(opportunities: list[dict], taxonomy: dict, as_of: date) -> dict[
         "avg_total": round1(sum(totals) / len(totals)) if totals else 0.0,
         "verified_count": sum(1 for opp in opportunities if opp.get("verified") is True),
         "evidence_total": sum(len(opp.get("signal", {}).get("evidence", [])) for opp in opportunities),
+        # v0.9.0 自动发现轨（与精选人工库并行；验证状态不影响计数/排序）
+        "candidates_total": len(candidate_rows),
+        "today_new_candidates": sum(1 for candidate in candidate_rows if candidate.get("first_seen") == as_of_iso),
+        "unverified_candidates": sum(1 for candidate in candidate_rows if candidate.get("verification_status") == "unverified"),
     }
 
     return {

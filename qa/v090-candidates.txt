@@ -1,0 +1,18 @@
+
+== candidates-check ==
+  · candidates：200 条字段完整、全部 unverified、评分公式独立复算一致、日期链合法 ✅
+  · candidate-rankings：四窗口 {'day': 21, 'week': 124, 'month': 168, 'year': 199}、按 first_seen 归窗、排序与独立复算一致、验证不门禁 ✅
+  · stats KPI：candidates_total=200 / today_new_candidates=21 / unverified_candidates=200 ✅
+  · 精选 rankings.json 80 条窗口内容与 v0.8.0 完全一致（仅 meta.data_version→0.9.0）✅
+  · scanner/candidates.py --as-of 重跑字节一致（确定性）✅
+  · --all --as-of 2026-10-23 双跑 0 文件变化（30 文件 SHA256 一致）✅
+  · validate：20/20 PASS ✅
+  · unittest：Ran 109 tests PASS ✅
+  · data 全部 meta=0.9.0（9 文件）✅
+  · radar.db 行数 80/156/654/57 ✅
+  · 关键指纹与 data-engineer 交付一致 ✅
+  · 候选文件未被 gitignore（提交物）✅
+
+P0 = 0  P1 = 0  P2 = 1
+  [P2] gap_type_ids 为空 49/200（自动候选未能推断信息差类型，UI 可显示—；建议下轮增强或标注）
+RESULT: PASS

@@ -9,6 +9,7 @@ fs.mkdirSync(outDir, { recursive: true })
 const pages = [
   ['dashboard', '#/'],
   ['rankings', '#/rankings'],
+  ['discover', '#/discover'],
   ['profile', '#/profile'],
   ['alerts', '#/alerts'],
   ['calibration', '#/calibration'],

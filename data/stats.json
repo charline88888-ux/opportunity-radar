@@ -1,6 +1,6 @@
 {
   "meta": {
-    "data_version": "0.8.0",
+    "data_version": "0.9.0",
     "as_of": "2026-10-23",
     "generator": "scanner/pipeline.py"
   },
@@ -13,7 +13,10 @@
     "regions_covered": 11,
     "avg_total": 70.8,
     "verified_count": 32,
-    "evidence_total": 156
+    "evidence_total": 156,
+    "candidates_total": 200,
+    "today_new_candidates": 21,
+    "unverified_candidates": 200
   },
   "by_grade": {
     "S": 0,

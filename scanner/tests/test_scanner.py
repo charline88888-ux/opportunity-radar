@@ -22,6 +22,7 @@ if __package__ in (None, ""):
 
 from scanner import (  # noqa: E402
     calibrate,
+    candidates,
     common,
     config,
     db,
@@ -37,6 +38,7 @@ from scanner import (  # noqa: E402
     relevance,
     report,
     score,
+    stats,
     validate,
     yearbook,
 )
@@ -1492,6 +1494,210 @@ class TestRelevance(unittest.TestCase):
         self.assertEqual(summary["relevant_count"], summary["tiers"]["business"])
         self.assertLessEqual(len(summary["top_relevant"]), 8)
         self.assertTrue(all("relevance_score" in signal for signal in signals))
+
+
+class TestCandidatesV090(unittest.TestCase):
+    """v0.9.0：outbox business 信号 → 自动候选 + 四窗口发现榜；验证状态不参与收录/排序。"""
+
+    AS_OF = date(2026, 10, 23)
+
+    @staticmethod
+    def _signal(
+        idx: int,
+        *,
+        tier: str = "business",
+        relevance: float = 80.0,
+        published: str = "2026-10-23",
+        title: str | None = None,
+        url: str | None = None,
+    ) -> dict:
+        title = title or f"测试商机信号 {idx}：跨境宠物纪念品需求上升"
+        url = url or f"https://example.com/signal/{idx}"
+        return {
+            "signal_id": f"sig-{idx}",
+            "source_id": "hnrss",
+            "tier": tier,
+            "relevance_score": relevance,
+            "title": title,
+            "title_norm": title.lower(),
+            "quote": "公开信号摘要：用户抱怨找不到本地化纪念品，存在价格差。",
+            "url": url,
+            "canonical_url": url,
+            "published_date": published,
+            "industry_ids": ["crossborder"],
+            "gap_type_ids": ["regulation"],
+            "region_ids": ["north-america"],
+            "industry_hints": ["crossborder"],
+            "gap_hints": ["regulation"],
+            "region_hints": ["north-america"],
+        }
+
+    @staticmethod
+    def _write_outbox(root: Path, signals: list[dict], as_of: str = "2026-10-23") -> Path:
+        path = root / "outbox" / f"signals-{as_of}.json"
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text(
+            json.dumps(
+                {
+                    "meta": {
+                        "as_of": as_of,
+                        "raw_count": len(signals),
+                        "signal_count": len(signals),
+                        "new_count": len(signals),
+                        "seen_count": 0,
+                        "tiers": {
+                            "business": sum(1 for signal in signals if signal["tier"] == "business"),
+                            "maybe": sum(1 for signal in signals if signal["tier"] == "maybe"),
+                            "off-topic": sum(1 for signal in signals if signal["tier"] == "off-topic"),
+                        },
+                    },
+                    "signals": signals,
+                },
+                ensure_ascii=False,
+            ),
+            encoding="utf-8",
+        )
+        return path
+
+    def test_business_priority_with_maybe_fill_and_fields(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            outbox = self._write_outbox(
+                root,
+                [
+                    self._signal(1, tier="maybe", relevance=65.0),
+                    self._signal(2, tier="business", relevance=90.0),
+                    self._signal(3, tier="off-topic", relevance=30.0),
+                    self._signal(4, tier="business", relevance=75.0),
+                ],
+            )
+            payload, _ = candidates.build_candidates(as_of=self.AS_OF, outbox_path=outbox, limit=200)
+            self.assertEqual(payload["meta"]["total"], 3)  # off-topic 不收录
+            self.assertEqual(payload["meta"]["business_signals"], 2)
+            rows = payload["candidates"]
+            self.assertEqual(rows[0]["source_tier"], "business")
+            self.assertEqual(rows[1]["source_tier"], "business")
+            self.assertEqual(rows[2]["source_tier"], "maybe")  # business 不足时补 maybe
+            first = rows[0]
+            for key in (
+                "candidate_id", "title", "one_liner", "industry_ids", "gap_type_ids", "region_ids",
+                "target_countries", "source", "evidence", "seven_questions", "roi", "scores",
+                "confidence", "status", "verification_status", "first_seen", "last_seen", "disclaimer",
+            ):
+                self.assertIn(key, first)
+            self.assertLessEqual(len(first["title"]), 28)
+            self.assertEqual(len(first["seven_questions"]), 7)
+            self.assertEqual(first["status"], "auto-discovered")
+            self.assertEqual(first["verification_status"], "unverified")
+            self.assertGreaterEqual(len(first["evidence"]), 1)
+            self.assertEqual(len(first["scores"]["dimensions"]), len(config.DIMENSION_ORDER))
+            self.assertIn("estimated", first["roi"])
+            self.assertIn("draft", first["seven_questions"]["需求"])
+
+    def test_empty_outbox_and_rankings_zero(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            outbox = self._write_outbox(root, [])
+            payload, _ = candidates.build_candidates(as_of=self.AS_OF, outbox_path=outbox)
+            self.assertEqual(payload["meta"]["total"], 0)
+            rankings = candidates.build_candidate_rankings(payload, self.AS_OF)
+            self.assertEqual(rankings["meta"]["counts"], {"day": 0, "week": 0, "month": 0, "year": 0})
+            self.assertFalse(rankings["meta"]["verification_affects_ranking"])
+
+    def test_limit_dedupe_and_determinism(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            signals = [self._signal(idx) for idx in range(1, 6)]
+            # 同 URL 不同标题 + 同标题不同 URL 各 1 条，都应去重
+            signals.append(self._signal(99, title="重复 URL 的另一标题", url="https://example.com/signal/3"))
+            signals.append(self._signal(77, title="测试商机信号 1：跨境宠物纪念品需求上升", url="https://other.example.com/1"))
+            outbox = self._write_outbox(root, signals)
+            full, _ = candidates.build_candidates(as_of=self.AS_OF, outbox_path=outbox, limit=200)
+            limited, _ = candidates.build_candidates(as_of=self.AS_OF, outbox_path=outbox, limit=3)
+            repeat, _ = candidates.build_candidates(as_of=self.AS_OF, outbox_path=outbox, limit=200)
+            self.assertEqual(full, repeat)  # 同输入同输出（确定性）
+            self.assertEqual(full["meta"]["total"], 5)
+            self.assertGreaterEqual(full["meta"]["dropped_duplicates"], 2)
+            self.assertEqual(limited["meta"]["total"], 3)
+
+    def test_windows_follow_first_seen(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            outbox = self._write_outbox(
+                root,
+                [
+                    self._signal(1, published="2026-10-23"),  # day
+                    self._signal(2, published="2026-10-21"),  # 同 ISO 周
+                    self._signal(3, published="2026-10-01"),  # 同月
+                    self._signal(4, published="2025-05-05"),  # 仅年
+                ],
+            )
+            payload, _ = candidates.build_candidates(as_of=self.AS_OF, outbox_path=outbox)
+            rankings = candidates.build_candidate_rankings(payload, self.AS_OF)
+            self.assertEqual(rankings["meta"]["counts"], {"day": 1, "week": 2, "month": 3, "year": 3})
+            for window in candidates.WINDOWS:
+                items = rankings["windows"][window]["items"]
+                self.assertEqual([item["rank"] for item in items], list(range(1, len(items) + 1)))
+                scores = [float(item["rank_score"]) for item in items]
+                self.assertEqual(scores, sorted(scores, reverse=True))
+
+    def test_generate_writes_files_idempotently(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            outbox = self._write_outbox(root, [self._signal(1), self._signal(2)])
+            candidates_path = root / "data" / "candidates.json"
+            rankings_path = root / "data" / "candidate-rankings.json"
+            with mock.patch.object(config, "CANDIDATES_PATH", candidates_path), mock.patch.object(
+                config, "CANDIDATE_RANKINGS_PATH", rankings_path
+            ):
+                summary = candidates.generate(as_of=self.AS_OF, outbox_path=outbox, limit=10)
+                first_bytes = candidates_path.read_bytes(), rankings_path.read_bytes()
+                candidates.generate(as_of=self.AS_OF, outbox_path=outbox, limit=10)
+                second_bytes = candidates_path.read_bytes(), rankings_path.read_bytes()
+            self.assertEqual(summary["total"], 2)
+            self.assertEqual(first_bytes, second_bytes)
+            self.assertTrue(candidates_path.exists() and rankings_path.exists())
+            payload = json.loads(candidates_path.read_text(encoding="utf-8"))
+            self.assertEqual(payload["meta"]["data_version"], config.DATA_VERSION)
+
+    def test_verification_does_not_affect_inclusion_or_ranking(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            outbox = self._write_outbox(root, [self._signal(1), self._signal(2, relevance=50.0)])
+            payload, _ = candidates.build_candidates(as_of=self.AS_OF, outbox_path=outbox)
+            rankings = candidates.build_candidate_rankings(payload, self.AS_OF)
+            self.assertEqual(payload["meta"]["total"], 2)  # 全部 unverified 仍全部上榜
+            self.assertTrue(all(candidate["verification_status"] == "unverified" for candidate in payload["candidates"]))
+            ids = {item["candidate_id"] for window in rankings["windows"].values() for item in window["items"]}
+            self.assertEqual(ids, {candidate["candidate_id"] for candidate in payload["candidates"]})
+            self.assertFalse(rankings["meta"]["verification_affects_ranking"])
+
+    def test_stats_kpi_candidates_counts(self):
+        opportunities = common.load_json(config.OPPORTUNITIES_PATH)
+        taxonomy = common.load_json(config.TAXONOMY_PATH)
+        candidate_rows = [
+            {"candidate_id": "cand-a", "first_seen": "2026-10-23", "verification_status": "unverified"},
+            {"candidate_id": "cand-b", "first_seen": "2026-10-20", "verification_status": "unverified"},
+        ]
+        payload = stats.build_stats(opportunities, taxonomy, self.AS_OF, candidates=candidate_rows)
+        self.assertEqual(payload["kpi"]["candidates_total"], 2)
+        self.assertEqual(payload["kpi"]["today_new_candidates"], 1)
+        self.assertEqual(payload["kpi"]["unverified_candidates"], 2)
+
+    def test_pipeline_candidates_flag_generates(self):
+        fake = {
+            "total": 1,
+            "counts": {"day": 1, "week": 1, "month": 1, "year": 1},
+            "business_signals": 1,
+            "maybe_signals": 0,
+            "dropped_duplicates": 0,
+            "paths": [],
+            "outbox_file": None,
+        }
+        with mock.patch.object(candidates, "generate", return_value=fake) as mocked:
+            code = pipeline.main(["--candidates", "--as-of", "2026-10-23"])
+        self.assertEqual(code, 0)
+        self.assertEqual(mocked.call_count, 1)
 
 
 class TestFetchLedgerIntegration(unittest.TestCase):

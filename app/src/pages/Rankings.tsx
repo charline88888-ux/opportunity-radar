@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
+import Discover from '@/pages/Discover'
 import {
   AlertTriangle,
   ArrowDownWideNarrow,
@@ -272,7 +273,7 @@ function RecommendationCard({ row, onDismiss }: { row: RecommendationRow; onDism
   )
 }
 
-export default function Rankings() {
+function CuratedRankings() {
   const { lang } = useI18n()
   const L = (zh: string, en: string) => (lang === 'en' ? en : zh)
   const [params, setParams] = useSearchParams()
@@ -767,6 +768,35 @@ export default function Rankings() {
           </div>
         </SectionCard>
       </div>
+    </div>
+  )
+}
+
+export default function Rankings() {
+  const { lang } = useI18n()
+  const L = (zh: string, en: string) => (lang === 'en' ? en : zh)
+  const [track, setTrack] = useState<'discover' | 'curated'>('discover')
+  return (
+    <div>
+      <div className="mb-2 flex flex-wrap items-center gap-1.5">
+        <span className="mono-label mr-1">{L('榜单轨道', 'Ranking track')}</span>
+        <button
+          type="button"
+          onClick={() => setTrack('discover')}
+          className={cn('rounded border px-2.5 py-1 text-[11px]', track === 'discover' ? 'border-cyan/50 bg-cyan/10 text-cyan' : 'border-line text-muted hover:border-line-strong')}
+        >
+          {L('发现榜（自动）', 'Discovery (auto)')}
+        </button>
+        <button
+          type="button"
+          onClick={() => setTrack('curated')}
+          className={cn('rounded border px-2.5 py-1 text-[11px]', track === 'curated' ? 'border-signal/50 bg-signal/10 text-signal' : 'border-line text-muted hover:border-line-strong')}
+        >
+          {L('精选榜（人工 · 80 条）', 'Curated (manual · 80)')}
+        </button>
+        <span className="ml-auto text-[9.5px] text-dim">{L('发现榜默认展示；验证与实验不是上榜门禁。', 'Discovery is the default; validation and experiments are never listing gates.')}</span>
+      </div>
+      {track === 'discover' ? <Discover /> : <CuratedRankings />}
     </div>
   )
 }

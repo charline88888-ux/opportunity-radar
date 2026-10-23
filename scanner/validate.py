@@ -106,6 +106,7 @@ def _load_all() -> dict[str, Any]:
         "sources": safe(config.SOURCES_PATH),
         "playbooks": safe(config.PLAYBOOKS_PATH),
         "calendar": safe(config.CALENDAR_PATH),
+        "candidates": safe(config.CANDIDATES_PATH),
     }
 
 
@@ -584,14 +585,16 @@ def _v14(ctx: dict[str, Any]) -> str:
     data = ctx["stats"]
     _require(data is not None, "data/stats.json 缺失，请先运行 python scanner/pipeline.py --all")
     opportunities = _opps(ctx)
-    expected = stats.build_stats(opportunities, _taxonomy(ctx), _as_of(ctx))
+    candidate_payload = ctx.get("candidates") or {}
+    candidates = candidate_payload.get("candidates") if isinstance(candidate_payload, dict) else None
+    expected = stats.build_stats(opportunities, _taxonomy(ctx), _as_of(ctx), candidates=candidates or [])
     errors: list[str] = []
     for key in ("kpi", "by_grade", "by_industry", "by_gap_type", "by_region", "by_need",
                 "score_histogram", "trend_14d", "open_window_value_cny"):
         if data.get(key) != expected.get(key):
             errors.append(key)
     _require(not errors, f"stats.json 聚合与实际不一致：{errors}")
-    return f"KPI 与实际聚合一致（{len(opportunities)} 条机会）"
+    return f"KPI 与实际聚合一致（{len(opportunities)} 条机会 / {len(candidates or [])} 条候选）"
 
 
 # ---------------------------------------------------------------- V15

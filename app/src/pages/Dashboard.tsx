@@ -55,6 +55,7 @@ import { recommendTop } from '@/lib/recommend'
 import { recordRecEvent } from '@/lib/rec_log'
 import { freshness } from '@/lib/freshness'
 import { fetchStatus, readControlToken } from '@/lib/control'
+import { candidateTodayCount, candidates } from '@/lib/candidates'
 import { useI18n } from '@/lib/i18n'
 import { useAlerts } from '@/lib/alerts'
 import { cn, fmtCny, fmtInt, fmtPct, fmtScore, gradeColor } from '@/lib/utils'
@@ -139,6 +140,7 @@ export default function Dashboard() {
   const fresh = freshness()
   const [pendingReview, setPendingReview] = useState<number | null>(null)
   const [outboxNew, setOutboxNew] = useState<number | null>(null)
+  const candidateToday = candidateTodayCount(dataAsOf)
   const autoSourceCount = useMemo(() => allSources.filter((s) => s.enabled !== false && ['rss', 'json', 'api'].includes(s.access)).length, [])
   useEffect(() => {
     let alive = true
@@ -367,6 +369,9 @@ export default function Dashboard() {
             <Badge tone={fresh.level === 'fresh' ? 'signal' : fresh.level === 'warning' ? 'amber' : 'danger'}>
               数据基准 {fresh.asOf} · 距今 {fresh.days} 天
             </Badge>
+            <Link to="/discover" className="inline-flex h-7 items-center gap-1 rounded border border-cyan/40 bg-cyan/10 px-2.5 text-[11.5px] text-cyan hover:bg-cyan/20">
+              <Sparkles className="h-3 w-3" /> {L(`今日自动发现 ${candidateToday} 条候选`, `${candidateToday} auto-discovered today`)}
+            </Link>
             <Link
               to="/lab"
               className={cn(
@@ -488,8 +493,14 @@ export default function Dashboard() {
                 {pendingReview != null
                   ? L(` 采集到的新信号在控制台「采集收件箱」等待人工复核（${pendingReview} 条）。`, ` Fetched signals are waiting for human review in the Control fetch inbox (${pendingReview}).`)
                   : L(' 采集到的新信号不会自动入库，需到本地控制台「采集收件箱」人工复核。', ' Fetched signals are never auto-ingested; review them in the local Control fetch inbox.')}
+                {candidateToday > 0 && L(` 另外，今天已有 ${candidateToday} 条自动发现候选可直接查看（不要求验证/实验）。`, ` Also, ${candidateToday} auto-discovered candidates are available today without validation/experiment gating.`)}
               </div>
             </div>
+            {candidateToday > 0 && (
+              <Link to="/discover" className="inline-flex h-6 shrink-0 items-center gap-1 rounded border border-cyan/40 bg-cyan/10 px-2 text-[10.5px] text-cyan hover:bg-cyan/20">
+                {L(`查看自动发现 ${candidateToday} 条`, `View ${candidateToday} discovered`)} <ArrowUpRight className="h-3 w-3" />
+              </Link>
+            )}
             {pendingReview != null ? (
               <Link to="/control" className="inline-flex h-6 shrink-0 items-center gap-1 rounded border border-cyan/40 bg-cyan/10 px-2 text-[10.5px] text-cyan hover:bg-cyan/20">
                 {L(`查看待复核 ${pendingReview} 条`, `Review ${pendingReview} pending`)} <ArrowUpRight className="h-3 w-3" />

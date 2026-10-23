@@ -4,7 +4,7 @@ const [port, base, width, height, downloadDir] = process.argv.slice(2)
 if (!port || !base) { console.error('usage: node qa/frontend-qa-v03.mjs <port> <baseUrl> <w> <h> [downloadDir]'); process.exit(2) }
 const vw = Number(width || 1600), vh = Number(height || 1000)
 const routes = [
-  '#/', '#/rankings', '#/opportunities/opp-pet-memorial-glass-001', '#/scanner', '#/method',
+  '#/', '#/rankings', '#/discover', '#/opportunities/opp-pet-memorial-glass-001', '#/scanner', '#/method',
   '#/sources', '#/calendar', '#/lab', '#/profile', '#/alerts', '#/calibration', '#/yearbook', '#/data', '#/control', '#/about',
 ]
 

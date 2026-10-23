@@ -209,6 +209,22 @@ if (rawSourceHealth) {
 }
 fs.writeFileSync(path.join(outDir, 'source-health.json'), JSON.stringify(sourceHealth, null, 2) + '\n')
 
+/* ---- v0.9.0 可选：自动发现候选与发现榜（缺失时保留开发占位，不阻塞 strict） ---- */
+for (const candidateFile of ['candidates.json', 'candidate-rankings.json']) {
+  const realCandidatePath = path.join(realDir, candidateFile)
+  const candidateObj = fs.existsSync(realCandidatePath) ? readJsonSafe(realCandidatePath) : null
+  if (candidateObj) {
+    fs.writeFileSync(path.join(outDir, candidateFile), JSON.stringify(candidateObj, null, 2) + '\n')
+    const count = candidateFile === 'candidates.json'
+      ? pickList(candidateObj, ['candidates']).length
+      : Object.values(candidateObj?.windows || {}).reduce((sum, w) => sum + (Array.isArray(w?.items) ? w.items.length : 0), 0)
+    report.push(`  ✓ real  ${candidateFile}（候选/榜单 ${count}）`)
+  } else {
+    report.push(`  ~ 可选  ${candidateFile} 未提供（保留开发占位）`)
+  }
+}
+
+
 /* ============================ 2. 契约自检 ============================ */
 
 const checks = []

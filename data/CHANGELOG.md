@@ -2,6 +2,31 @@
 
 格式：`data_version` + 日期 + 变更内容 + 影响面。契约变更（字段/枚举/公式）必须同步更新 `docs/12-数据契约与字段字典.md` 并通知 Lead、前端、红队。
 
+## data-v0.9.0 · 2026-10-23 · MINOR 增量（自动发现流：信号 → 候选商机 → 发现榜，去掉验证门禁）
+
+> 产品原则（冻结）：**验证/实验不是信息获取与上榜的门禁。** 自动发现候选无需人工复核、无需商业验证、无需实验盈利即可进入发现榜；验证/实验只是个人可选功能，**不参与候选收录/排序/评级**。
+
+### A) 自动候选生成（`scanner/candidates.py`，新增）
+- 读最新 `scanner/outbox/signals-*.json`：`tier=business` 优先（184 条），不足时按 relevance 补 `maybe` 高分；上限 **200**；同 URL/同标题去重；确定性（同输入同字节）；**不写 `data/opportunities.json`**。
+- 每条候选字段：`candidate_id`（稳定 hash）、`title(≤28 字)`、`one_liner`、`industry_ids/gap_type_ids/region_ids/target_countries`、`source{id,name,url,published_at,summary}`、`evidence`（≥1 链接，无需人工核验）、`seven_questions`（七问自动草稿，标注 draft）、`roi`（行业默认区间，`estimated=true`）、`scores`（10 维启发式 + 公式 total/rank_score/grade）、`confidence(0-100)`、`status="auto-discovered"`、`verification_status="unverified"`、`first_seen/last_seen`、`disclaimer`。
+- 实测生成 **200 条**：business 184 + maybe 16（去重 0）；样例：`cand-fcec83287419`（PPWR 包装法规·合规/银发·欧洲/北美，total 74.2 / B / confidence 95）、`cand-d437276be348`（CPSC 电子申报新规·合规/宠物·北美，66.7 / B）；全部 200 条均为 `unverified` 但仍全部上榜。
+
+### B) 发现榜（`data/candidate-rankings.json`，新增；与精选榜双轨）
+- 四窗口按 **first_seen** 归属，排序同 rank 规则（rank_score/momentum/evidence/last_seen/candidate_id）：**day 21 / week 124 / month 168 / year 199**（total 200）。
+- meta 明确 `verification_affects_ranking=false`；**不改** `data/rankings.json`（精选人工库 80 条）与 `data/opportunities.json`（指纹未变）。
+- `stats.json` 增加 `kpi.candidates_total=200`、`today_new_candidates=21`、`unverified_candidates=200`；V14 校验含候选计数。
+- pipeline：新增 `--candidates` 步骤，`--all` 自动包含（在 stats 前生成）；`python scanner/candidates.py --as-of 2026-10-23` 可单独重生成。
+
+### C) 版本与复核
+- 全部 data meta 升 **0.9.0**（含 4 份 history 快照）；rankings as_of 2026-10-23（day0/week49/month57/year80，内容口径不变）；四窗口报告/校准/年鉴按 0.9.0 重生成；`radar.db` 重建（80/156/654/57）。
+- `validate.py` **20/20 PASS**（V14 扩展候选计数一致性）；unittest **109/109 OK**（新增候选生成/窗口/去重/确定性/上限/验证不门禁/pipeline 步骤等 8 条）；`--all --as-of 2026-10-23` 连跑两次幂等（全部 data JSON + db + reports SHA256 一致）。
+- 指纹（SHA256 前 16）：opportunities `88FDA5AB84B7F826`（未变）、rankings `612AC90F132CCBD4`、stats `09321616A713F987`、candidates `360C473EB4E5111E`、candidate-rankings `DD3CC40F8815E205`、sources `3B164CAE70990742`、source-health `E9A9E5D943F88321`、radar.db `A06BD31A8FD7C64A`、yearbook `9849B0FD00CC2952`、calibration `E895743BAB7CD154`、report-day-10-23 `087F443F17E830F3`；代码 candidates.py `64896F3E9280822B`、stats.py `808A81EF92D19557`、pipeline.py `5B11A431E0CE9863`、config.py `A97DDDB44D4E9F8A`。
+
+### 已知不足
+- 候选标题/七问/ROI 为自动草稿（启发式），需人工判断细节；`confidence` 仅用于排序参考，不是成功率。
+- `candidate_id` 依赖信号 URL/标题，源标题变化会生成新候选（已有 ledger 防重复采集，但候选层未做人工合并）。
+- 阈值/上限（business 优先、补 maybe、200 条）按当前 outbox 规模设定，后续可配置。
+
 ## data-v0.8.0 · 2026-10-23 · MINOR 增量（全球源扩充 + 跨批去重 + 相关性初筛）
 
 > 机会库内容不变（仍 80 条人工库）；本次只增强采集/线索层与版本号，validate V01–V20 通过。
