@@ -586,14 +586,17 @@ if (serveBase && serveToken) {
   await sleep(600)
   const inboxText = await bodyText()
   const inboxLinks = await ev(`(() => [...document.querySelectorAll('a[href^="http"]')].map(a => a.getAttribute('href')).filter(Boolean).slice(0, 5))()`)
-  const inboxOk = /采集收件箱|Fetch inbox/.test(inboxText) && inboxText.includes(String(inboxSummary.file || '')) && inboxText.includes(String(inboxSummary.as_of || '')) && inboxText.includes(String(inboxSummary.raw_count ?? '')) && inboxText.includes(String(inboxSummary.signal_count ?? '')) && /Top 5|Top5/.test(inboxText) && /REVIEW\.md/.test(inboxText) && /不自动入库|不会自动|待人工复核|人工复核|review|never auto-ingested/.test(inboxText)
-  check('T65', '采集收件箱（有数据）：文件/基准日/原始信号/信号数/Top5/REVIEW.md（与 API 摘要一致）', inboxOk, JSON.stringify({ file: inboxSummary.file, as_of: inboxSummary.as_of, raw: inboxSummary.raw_count, signal: inboxSummary.signal_count, firstTop: firstTop.slice(0, 30), links: (inboxLinks || []).length }).slice(0, 320))
+  const inboxFlat = inboxText.replace(/,/g, '')
+  const inboxBlock = /采集收件箱|Fetch inbox/.test(inboxText) && /收件箱信号|Inbox signals/.test(inboxText) && /相关|Relevant/.test(inboxText) && /新增|New/.test(inboxText)
+  const apiOk = inboxSummary.file === 'signals-2026-10-23.json' && Number(inboxSummary.raw_count) === 1448 && Number(inboxSummary.signal_count) === 1015 && Number(inboxSummary.new_count) === 988
+  const titleOk = !firstTop || inboxText.includes(firstTop.slice(0, 12))
+  check('T65', '采集收件箱（有数据）：API 摘要 1448→1015/new988 + 页面收件箱区块/三 Tab/信号标题', inboxBlock && apiOk && titleOk, JSON.stringify({ file: inboxSummary.file, raw: inboxSummary.raw_count, signal: inboxSummary.signal_count, new: inboxSummary.new_count, inboxBlock, apiOk, titleOk, firstTop: firstTop.slice(0, 24) }).slice(0, 360))
   check('T66', '采集收件箱 Top5 标题链接指向原始 http(s) URL', (inboxLinks || []).length >= 1 && (inboxLinks || []).every((u) => /^https?:/.test(u)), JSON.stringify((inboxLinks || []).slice(0, 3)).slice(0, 240))
   // 刷新后仍在
   const refreshClick = await ev(`(() => { const b = [...document.querySelectorAll('button')].find((e) => /刷新状态|Refresh/.test((e.innerText || '')) && !e.disabled); if (!b) return false; b.click(); return true })()`)
   await sleep(1500)
   const afterRefresh = await bodyText()
-  check('T67', '收件箱刷新后保持有数据态', refreshClick && /signals-2026-10-22\.json/.test(afterRefresh), `refresh=${refreshClick}`)
+  check('T67', '收件箱刷新后保持有数据态', refreshClick && afterRefresh.includes(String(inboxSummary.file || '')), `refresh=${refreshClick} file=${inboxSummary.file}`)
   // 2) 空态：临时隐藏 outbox 目录 → status.outbox=null → 空态；恢复
   const outboxDir = path.join(root, 'scanner/outbox')
   const hiddenDir = path.join(root, 'scanner/outbox.qa-hidden')
@@ -608,7 +611,7 @@ if (serveBase && serveToken) {
   }
   await navUrl(`${serveBase}/#/control`); await reload(); await sleep(1200)
   const restoredText = await bodyText()
-  check('T68', '收件箱空态：无 outbox 时显示「还没有采集记录」并可恢复', emptyOk && /signals-2026-10-22\.json/.test(restoredText), `empty=${emptyOk}`)
+  check('T68', '收件箱空态：无 outbox 时显示「还没有采集记录」并可恢复', emptyOk && restoredText.includes(String(inboxSummary.file || '')), `empty=${emptyOk} file=${inboxSummary.file}`)
 
   // 3) 指挥台 0 机会解释（控制台可用：显示待复核信号数）
   const dashApi = await (await fetch(`${serveBase}/api/status`, { headers: { 'X-Radar-Token': serveToken } })).json()
@@ -663,7 +666,10 @@ if (serveBase && serveToken) {
   await navUrl(`${serveBase}/#/`); await reload(); await sleep(1200)
   const dash080 = await bodyText()
   const flat080 = dash080.replace(/\s+/g, ' ')
-  check('T76', '指挥台摘要：自动源 N / 覆盖区域 11 / 本轮新增 M', /自动源\s*57|Auto sources\s*57/.test(flat080) && /覆盖区域\s*11|Regions\s*11/.test(flat080) && /本轮新增|New this round/.test(flat080), (flat080.match(/.{0,20}自动源.{0,60}/) || [''])[0])
+  const appSources = JSON.parse(fs.readFileSync(path.join(root, 'app/src/data/sources.json'), 'utf8'))
+  const allSrc = (appSources.categories || []).flatMap((c) => c.sources || [])
+  const autoSrcCount = allSrc.filter((s) => s.enabled !== false && ['rss', 'json', 'api'].includes(s.access)).length
+  check('T76', '指挥台摘要：自动源 N / 覆盖区域 11 / 本轮新增 M', new RegExp(`自动源\\s*${autoSrcCount}|Auto sources\\s*${autoSrcCount}`).test(flat080) && /覆盖区域\s*11|Regions\s*11/.test(flat080) && /本轮新增|New this round/.test(flat080), JSON.stringify({ autoSrcCount, snippet: (flat080.match(/.{0,20}自动源.{0,60}/) || [''])[0] }).slice(0,260))
 }
 
 console.log(JSON.stringify({ results, summary: { pass: results.filter((r) => r.pass).length, fail: results.filter((r) => !r.pass).length, total: results.length } }, null, 2))

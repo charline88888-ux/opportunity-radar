@@ -1527,3 +1527,49 @@ python qa/online-check-v07.py --version v0.7.2             # 新站结构 PASS
 ## 21.5 一句话
 
 **v0.7.3 可发布：后端 outbox API / fetch-as-of / 测试与 validate 全绿，冻结 MANIFEST 19/19、tag deploy/CI success、线上 root 与 /v0.7.3/ 同 hash 且旧归档不串台；收件箱与 0 机会解释由 frontend 截图联调验证，红队 flows 收件箱交互断言 2 项为 P2。**
+
+---
+
+# 第 22 章 · v0.8.0 采集增强红队验收（2026-10-23 14:40）
+
+> 版本：app 0.8.0 / data 0.8.0（as_of=2026-10-23）｜验收人：redteam｜任务：task-46
+> 冻结：`releases/v0.8.0/`（tag v0.8.0 → eaca37ec，内容提交 39effb6）｜dist 2,543,139 B / `55D94EAD…A982`
+> **结论：可发布（v0.8.0，P0=0 / P1=0 / P2=4，均不阻塞）**
+
+## 22.1 数据与采集（独立复验 PASS）
+
+- `qa/source-ledger-check.py` **PASS（P0/P1/P2=0）**：
+  - 源注册表：**125 平台 / 57 enabled 自动源**（access rss/json、合规绿黄）/ **11 区域** / 9 disabled（原因在 `notes`+`check_result`）；`fetch.select_sources(60)` 返回 57 且全部合规 enabled。
+  - source-health：**57 行 / ok 57 / failed 0 / items 合计 1448 / mode=cache**（首跑命中 6h 缓存，正常）。
+  - 当前 outbox `signals-2026-10-23.json`：raw **1448** → signal **1015**；**new_count=988 / seen_count=27 / ledger_total=988**；relevance **business 184 / maybe 712 / off-topic 119**（sum 1015），relevant_count=184=business；1015 条均含 relevance_score(0-100)/industry_ids/gap_type_ids/region_ids/tier/reasons（reasons 0 缺失）；top_relevant=8（实现上限）。
+  - 账本 `scanner/build/signal-ledger.sqlite`：signals **988 行、fingerprint 唯一**，canonical_url/title_hash/content_hash/first_seen/last_seen/seen_count 齐全；ledger_total=988。
+  - **同日再跑 fetch（cache）→ new_count=0、seen=1015、ledger_total 不降**（跨批去重独立复验）；测试后 outbox/source-health 恢复原字节。
+  - **源覆盖抽查**：18 个 v0.8 新源 URL 实测 **18/18 可访问且为 RSS/JSON**（Google News 多地区 15 + lobsters 等；qa/v080-source-reach.json）。
+  - validate **20/20**、unittest **101/101**、`--all --as-of 2026-10-23` 双跑幂等（28 文件 SHA256 一致）；radar.db **80/156/654/57**；四窗口报告 8 文件 `report-*-2026-10-23`（旧 10-22 无）；calibration-2026-10-22 为样例实验日期（已按 0.8.0 重生成，data-engineer 确认合理）。
+  - 最终指纹与 data-engineer 冻结值一致：opportunities `88FDA5AB`、rankings `04DD9871`、stats `B79BDB3B`、sources `2E1AC5D2`、source-health `7658AF54`、radar.db `C281BFC4`、yearbook `FA50DADB`、report-year `96C5FFE1`、calibration `C60846FF`、ledger.py `62CBF684`、relevance.py `A80C200F`、fetch.py `CA8A9B2F`。
+- serve/outbox API：`qa/serve-check.py` **PASS**——status.outbox/`/api/outbox` v0.8 字段（raw1448/signal1015/source57/relevant_count/tiers/top_relevant；funnel 由前端按字段计算）、401/limit 1–100/安全字段/无绝对路径；serve 28/28、全量 101/101、validate 20/20、幂等 28 文件。
+
+## 22.2 前端（PASS）
+
+- 最终构建 **2,543,139 B / `55D94EAD…A982`** = releases/v0.8.0/dist；strict/两构建同 hash（frontend）；15 路由 1600/1024 CDP 无溢出/console error；i18n 运行时 **16/16 ×2**（EN 非数据中文=0）。
+- `qa/flows-v08.mjs` **78/78 PASS**：v0.7.3 全量回归 + v0.8 新增——扫描边界与漏斗卡（57/57/0、1448→1015→988→184、已见 27、抓取规则/未覆盖平台）、收件箱三 Tab（相关/新增/全部）+ relevance 标签、/sources 自动/人工（自动 71 / 人工 54，本轮实际 57 源）、指挥台 summary（自动源 71/区域 11/本轮新增 988）、0 机会解释/日榜空态。
+- 截图：`qa/screenshots/v080/`（23，本地 15 路由+长页+1024）、`v080-frozen/`（23，file:// 冒烟 jsErrors=0）、`v080-control/`（4，connected/offline zh/en）、frontend `app/screenshots/final-v0.8/` **32 张**（含边界/收件箱/新增 Tab/空态/指挥台 0 解释 zh/en）；read_image 目检收件箱/漏斗/自动源/0 解释正常。
+
+## 22.3 冻结 + Actions + 线上
+
+- `qa/manifest-check.py --version v0.8.0`：**MANIFEST 19/19 与 tag blob 一致**；`verify_manifest.py --release releases/v0.8.0` → **MANIFEST OK (19/19)**；冻结 dist `55D94EAD…`/2,543,139 B = app/dist；VERSION-README 含 v0.8.0（dist 内 0.8.0 标记 130 处）；内容提交 39effb6 为 tag 祖先。
+- Actions（API）：**Deploy GitHub Pages run 39910893690 completed/success**（tag v0.8.0，head eaca37e）；**CI run 39910889671 success**；pages run 39910925760 success；gh-pages head `1f9ee3a` "deploy: v0.8.0 eaca37e…"。
+- 线上（`qa/online-check-v07.py --version v0.8.0`）**PASS**：`/` 与 `/v0.8.0/` 同 hash `55D94EAD…`/2,543,139 B；root 内嵌 rankings.as_of=2026-10-23=tag 数据；含 /control；**历史 v0.1.0…v0.7.3 全部与各自 tag 冻结 blob 逐字节一致不串台**；versions latest=v0.8.0、path=/v0.8.0/；404 正常；daily_channel/live_as_of 缺失（可选字段 P2）。
+
+## 22.4 P2 清单（4 个，均不阻塞）
+
+| # | 项 | 现状 | 建议 |
+|---|---|---|---|
+| P2-1 | versions.json daily 字段 | current tag deploy 组装：latest/path 正确，但 `daily_channel`/`live_as_of` 缺失（契约可选；root=最新冻结 当日数据 as_of=2026-10-23） | 下次 daily workflow 自动写回，或 build_site tag 模式补齐 |
+| P2-2 | 全量首跑未由红队独立执行 | 首跑 3–4 分钟、data-engineer 已完成 57/57；红队以 source-health 57/57 + **18/18 新源 URL 实测** + 同日重跑 new=0 交叉验证 | 下版可用临时目录独立跑一次完整首跑 |
+| P2-3 | calibration 报告日期 | `calibration-2026-10-22` 为实验样例导出日期（非 data as_of；已按 0.8.0 重生成并标 sample） | 保持；文档/README 说明即可 |
+| P2-4 | 历史发布已知项（沿用 v0.7.x） | v0.7.0/v0.7.1 tag 内 3 文件 MANIFEST mismatch（旧 tag 不可变，线上归档正确）；Windows autocrlf 使旧 releases 工作区 CRLF | 后续版本沿用版本级 eol=lf/git blob 校验 |
+
+## 22.5 一句话
+
+**v0.8.0 可发布：125 平台 / 57 自动源 / 11 区域、1448→1015/new 988/seen 27/账本 988、relevance 184/712/119 与跨批去重 new→0 均独立复验通过；MANIFEST 19/19、tag deploy+CI success、线上 root 与 /v0.8.0/ 同 hash 且旧归档不串台；4 个 P2 不阻塞。**

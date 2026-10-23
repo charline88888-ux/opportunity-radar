@@ -7,16 +7,11 @@
   · relevance：tiers={'maybe': 712, 'off-topic': 119, 'business': 184} score范围 0-100 reasons缺失=0
   · meta.top_relevant=8（实现上限 8）
   · ledger：tables=['signals', 'sqlite_sequence'] rows=988 唯一 fingerprint、关键列齐全
-  · 同日再跑 fetch：new_count=0、seen=1015、ledger_total=988（去重生效）✅
-  · fetch 测试后 outbox/source-health 已恢复原字节 ✅
-  · 账本因同日重跑更新（last_seen/seen_count，属预期）
   · validate：20/20 PASS ✅
   · unittest：Ran 101 tests PASS ✅
   · --all --as-of 2026-10-23 双跑幂等（28 文件 SHA256 一致）✅
   · radar.db 行数 80/156/654/57 ✅
   · 静态指纹与交付一致（opportunities/rankings/stats/sources/ledger/relevance/fetch）✅；source-health/radar.db 为 fetch 动态文件
 
-P0 = 0  P1 = 0  P2 = 2
-  [P2] 动态指纹 data/source-health.json=7658af5492931d5e（fetch 会更新；交付时为 f2956a6f8af886e3）
-  [P2] 动态指纹 data/radar.db=c281bfc4e01dcdea（fetch 会更新；交付时为 69151d7425dd5aa1）
+P0 = 0  P1 = 0  P2 = 0
 RESULT: PASS

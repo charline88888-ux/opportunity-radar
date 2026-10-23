@@ -1,0 +1,26 @@
+
+== online-check-v07 ==
+  · versions.json latest=v0.8.0 path=/v0.8.0/ daily_channel=None live_as_of= ✅
+  · root 内嵌 rankings.as_of=2026-10-23 = tag 冻结数据 as_of=2026-10-23 ✅（当日数据构建）
+  · root 含 /control 控制台入口 ✅
+  · root = 2543139 B / 55d94ead3c513573
+  · /v0.8.0/ = tag 冻结 dist 55d94ead3c513573… / 2543139 B ✅
+  · /v0.1.0/ = 冻结 f24b0755f9bf05f7… ✅
+  · /v0.2.0/ = 冻结 de48ef7aa93fe473… ✅
+  · /v0.3.0/ = 冻结 18dce4b854aa68a9… ✅
+  · /v0.3.1/ = 冻结 7c2e13d5ffb67259… ✅
+  · /v0.4.0/ = 冻结 45e5a1d36bfea865… ✅
+  · /v0.5.0/ = 冻结 ad958d1cfc7ca22b… ✅
+  · /v0.5.1/ = 冻结 dcff2c55dc06a5e6… ✅
+  · /v0.6.0/ = 冻结 36a6883de1bc79c8… ✅
+  · /v0.6.1/ = 冻结 77f302997b86198d… ✅
+  · /v0.7.0/ = 冻结 64b59a71f679c6aa… ✅
+  · /v0.7.1/ = 冻结 4bacbfdff499e648… ✅
+  · /v0.7.2/ = 冻结 99e229053a7ad52d… ✅
+  · /v0.7.3/ = 冻结 c917a9348c84b0e7… ✅
+  · 不存在路径 HTTP 404 ✅
+
+P0 = 0  P1 = 0  P2 = 2
+  [P2] versions.json daily_channel/live_as_of 缺失或非每日通道（daily_channel=None, live_as_of=''；契约中为可选字段，当前由 tag deploy 生成 → root=最新冻结构建）
+  [P2] root 与最新冻结 dist 完全相同（当日数据构建与冻结一致，可接受但需确认 live_as_of）
+RESULT: PASS

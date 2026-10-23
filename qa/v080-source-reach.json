@@ -1,0 +1,205 @@
+{
+  "tested": 18,
+  "accessible": 18,
+  "results": [
+    {
+      "id": "lobsters",
+      "url": "https://lobste.rs/rss",
+      "access": "rss",
+      "regions": [
+        "north-america",
+        "europe"
+      ],
+      "status": 200,
+      "bytes": 16741,
+      "rss_or_json": true
+    },
+    {
+      "id": "gn-us-smb",
+      "url": "https://news.google.com/rss/search?q=small+business&hl=en-US&gl=US&ceid=US:en",
+      "access": "rss",
+      "regions": [
+        "north-america"
+      ],
+      "status": 200,
+      "bytes": 133901,
+      "rss_or_json": true
+    },
+    {
+      "id": "gn-ca-business",
+      "url": "https://news.google.com/rss/search?q=small+business&hl=en-CA&gl=CA&ceid=CA:en",
+      "access": "rss",
+      "regions": [
+        "north-america"
+      ],
+      "status": 200,
+      "bytes": 133193,
+      "rss_or_json": true
+    },
+    {
+      "id": "gn-gb-business",
+      "url": "https://news.google.com/rss/search?q=small+business&hl=en-GB&gl=GB&ceid=GB:en",
+      "access": "rss",
+      "regions": [
+        "europe"
+      ],
+      "status": 200,
+      "bytes": 129923,
+      "rss_or_json": true
+    },
+    {
+      "id": "gn-fr-business",
+      "url": "https://news.google.com/rss/search?q=entrepreneur&hl=en&gl=FR&ceid=FR:en",
+      "access": "rss",
+      "regions": [
+        "europe"
+      ],
+      "status": 200,
+      "bytes": 144378,
+      "rss_or_json": true
+    },
+    {
+      "id": "gn-pl-business",
+      "url": "https://news.google.com/rss/search?q=business&hl=en&gl=PL&ceid=PL:en",
+      "access": "rss",
+      "regions": [
+        "europe"
+      ],
+      "status": 200,
+      "bytes": 139025,
+      "rss_or_json": true
+    },
+    {
+      "id": "gn-jp-business",
+      "url": "https://news.google.com/rss/search?q=business&hl=en&gl=JP&ceid=JP:en",
+      "access": "rss",
+      "regions": [
+        "east-asia"
+      ],
+      "status": 200,
+      "bytes": 139025,
+      "rss_or_json": true
+    },
+    {
+      "id": "gn-kr-business",
+      "url": "https://news.google.com/rss/search?q=business&hl=en&gl=KR&ceid=KR:en",
+      "access": "rss",
+      "regions": [
+        "east-asia"
+      ],
+      "status": 200,
+      "bytes": 139025,
+      "rss_or_json": true
+    },
+    {
+      "id": "gn-vn-business",
+      "url": "https://news.google.com/rss/search?q=business&hl=en&gl=VN&ceid=VN:en",
+      "access": "rss",
+      "regions": [
+        "sea"
+      ],
+      "status": 200,
+      "bytes": 139025,
+      "rss_or_json": true
+    },
+    {
+      "id": "gn-th-business",
+      "url": "https://news.google.com/rss/search?q=business&hl=en&gl=TH&ceid=TH:en",
+      "access": "rss",
+      "regions": [
+        "sea"
+      ],
+      "status": 200,
+      "bytes": 139025,
+      "rss_or_json": true
+    },
+    {
+      "id": "gn-sg-business",
+      "url": "https://news.google.com/rss/search?q=business&hl=en&gl=SG&ceid=SG:en",
+      "access": "rss",
+      "regions": [
+        "sea"
+      ],
+      "status": 200,
+      "bytes": 130022,
+      "rss_or_json": true
+    },
+    {
+      "id": "gn-ae-business",
+      "url": "https://news.google.com/rss/search?q=business&hl=en&gl=AE&ceid=AE:en",
+      "access": "rss",
+      "regions": [
+        "mena"
+      ],
+      "status": 200,
+      "bytes": 139025,
+      "rss_or_json": true
+    },
+    {
+      "id": "gn-sa-business",
+      "url": "https://news.google.com/rss/search?q=business&hl=en&gl=SA&ceid=SA:en",
+      "access": "rss",
+      "regions": [
+        "mena"
+      ],
+      "status": 200,
+      "bytes": 139025,
+      "rss_or_json": true
+    },
+    {
+      "id": "gn-eg-business",
+      "url": "https://news.google.com/rss/search?q=business&hl=en&gl=EG&ceid=EG:en",
+      "access": "rss",
+      "regions": [
+        "mena"
+      ],
+      "status": 200,
+      "bytes": 139025,
+      "rss_or_json": true
+    },
+    {
+      "id": "gn-ke-business",
+      "url": "https://news.google.com/rss/search?q=business&hl=en&gl=KE&ceid=KE:en",
+      "access": "rss",
+      "regions": [
+        "africa"
+      ],
+      "status": 200,
+      "bytes": 130940,
+      "rss_or_json": true
+    },
+    {
+      "id": "gn-za-business",
+      "url": "https://news.google.com/rss/search?q=business&hl=en&gl=ZA&ceid=ZA:en",
+      "access": "rss",
+      "regions": [
+        "africa"
+      ],
+      "status": 200,
+      "bytes": 131089,
+      "rss_or_json": true
+    },
+    {
+      "id": "gn-mx-business",
+      "url": "https://news.google.com/rss/search?q=business&hl=en&gl=MX&ceid=MX:en",
+      "access": "rss",
+      "regions": [
+        "latam"
+      ],
+      "status": 200,
+      "bytes": 139025,
+      "rss_or_json": true
+    },
+    {
+      "id": "gn-ar-business",
+      "url": "https://news.google.com/rss/search?q=negocios&hl=es&gl=AR&ceid=AR:es",
+      "access": "rss",
+      "regions": [
+        "latam"
+      ],
+      "status": 200,
+      "bytes": 179420,
+      "rss_or_json": true
+    }
+  ]
+}

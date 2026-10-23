@@ -160,8 +160,8 @@ def main() -> int:
     data_version = meta.get("data_version")
     base_as_of = str(meta.get("as_of") or "")
     counts = {w: len(v.get("items") or []) for w, v in (rankings.get("windows") or {}).items()}
-    if data_version != "0.7.0":
-        P0.append(f"data_version={data_version!r} ≠ 0.7.0")
+    if data_version != "0.8.0":
+        P0.append(f"data_version={data_version!r} ≠ 0.8.0")
     # 独立按窗口规则复算（day=last_activity==as_of；week=ISO 周；month；year）
     import datetime as _dt
     try:
@@ -188,7 +188,7 @@ def main() -> int:
             notes.append(f"数据基线 as_of={base_as_of} / 窗口 {counts} 与独立复算一致 ✅")
     except ValueError:
         P0.append(f"rankings.meta.as_of 非法：{base_as_of!r}")
-    required_fp = {"scanner/serve.py": "e1e332e021efc38e", "scanner/pipeline.py": "69230c28b4404b66", "scanner/tests/test_scanner.py": "a31516ece86dcf6e", "scanner/tests/test_serve.py": "c0d8669a98c95072", "data/opportunities.json": "88fda5ab84b7f826"}
+    required_fp = {"scanner/serve.py": "af2761ab316a6645", "scanner/pipeline.py": "4adca727200d56e6", "scanner/tests/test_scanner.py": "e2d783a4bb345bbe", "scanner/tests/test_serve.py": "4d3c33f3997eac97", "data/opportunities.json": "88fda5ab84b7f826"}
     for rel, expect in required_fp.items():
         pp = ROOT / rel
         got = sha(pp)[:16] if pp.exists() else "MISSING"
@@ -326,7 +326,7 @@ def main() -> int:
             P0.append(f"status schema 缺字段：{status if not isinstance(status, dict) else list(status)}")
         else:
             d = status.get("data") or {}
-            if d.get("data_version") != "0.7.0" or d.get("as_of") != base_as_of or d.get("opportunities") != len(opps):
+            if d.get("data_version") != "0.8.0" or d.get("as_of") != base_as_of or d.get("opportunities") != len(opps):
                 P1.append(f"status data 摘要异常：{d}（期望 as_of={base_as_of}, opps={len(opps)}）")
             if (d.get("counts") or {}) != counts:
                 P2.append(f"status data.counts={d.get('counts')} ≠ 独立复算 {counts}")
@@ -340,7 +340,7 @@ def main() -> int:
         if not isinstance(ob_status, dict):
             P1.append(f"status.outbox 非对象：{type(ob_status).__name__}")
         else:
-            for k in ("file", "as_of", "generated_at", "source_count", "raw_count", "signal_count", "by_source", "top", "review_md", "file_size", "file_modified_at"):
+            for k in ("file", "as_of", "generated_at", "source_count", "raw_count", "signal_count", "by_source", "top", "review_md", "file_size", "file_modified_at", "relevant_count", "tiers", "top_relevant"):
                 if k not in ob_status:
                     P1.append(f"status.outbox 缺字段 {k}")
             notes.append(f"status.outbox：file={ob_status.get('file')} as_of={ob_status.get('as_of')} signal={ob_status.get('signal_count')} raw={ob_status.get('raw_count')} 源={ob_status.get('source_count')}")
@@ -355,7 +355,7 @@ def main() -> int:
             if re.search(r"[A-Za-z]:\\(?:[^\"]+\\)*[^\"]+", body_json):
                 P1.append("/api/outbox 泄漏绝对路径（Windows 盘符路径）")
             summary = ob.get("outbox") or ob.get("summary") or ob
-            for k in ("file", "as_of", "generated_at", "signal_count", "raw_count", "source_count", "by_source", "top", "review_md", "file_size", "file_modified_at"):
+            for k in ("file", "as_of", "generated_at", "signal_count", "raw_count", "source_count", "by_source", "top", "review_md", "file_size", "file_modified_at", "relevant_count", "tiers", "top_relevant"):
                 if k not in summary:
                     P1.append(f"/api/outbox 摘要缺字段 {k}")
             top = summary.get("top") or []
@@ -378,7 +378,7 @@ def main() -> int:
                 notes.append(f"/api/outbox?limit=3：signals={len(sigs)}（≤3）、top={len(top)}（≤5）✅")
             # 信号安全字段抽查（不含绝对路径）
             if sigs:
-                need_sig = {"signal_id", "source_id", "url", "title", "published_date", "lang"}
+                need_sig = {"signal_id", "source_id", "url", "title", "published_date", "lang", "relevance_score", "tier", "is_new"}
                 miss = [k for k in need_sig if k not in sigs[0]]
                 if miss:
                     P1.append(f"/api/outbox signals 缺字段 {miss}")
@@ -536,7 +536,7 @@ def main() -> int:
     # ---------- 单元测试 / validate / 幂等 ----------
     for label, cmd, expect in (
         ("serve unittest", [sys.executable, "-m", "unittest", "scanner.tests.test_serve"], "Ran 28 tests"),
-        ("full unittest", [sys.executable, "-m", "unittest", "discover", "-s", "scanner/tests"], "Ran 94 tests"),
+        ("full unittest", [sys.executable, "-m", "unittest", "discover", "-s", "scanner/tests"], "Ran 101 tests"),
         ("validate", [sys.executable, "scanner/validate.py"], "20/20"),
     ):
         r = subprocess.run(cmd, cwd=ROOT, capture_output=True, text=True, encoding="utf-8", errors="replace", timeout=180)
