@@ -37,6 +37,7 @@ import {
   type ControlStatus,
 } from '@/lib/control'
 import { allSources, sourceHealth } from '@/lib/data'
+import { translationSummary } from '@/lib/candidates'
 import { cn } from '@/lib/utils'
 
 type L = (zh: string, en: string) => string
@@ -444,6 +445,7 @@ export default function Control() {
                 {failedHealthSources.length > 0 && (
                   <div className="text-danger/80">{L('失败源', 'Failed sources')}: {failedHealthSources.map((s) => `${s.name || s.id}${s.error ? ` (${s.error})` : ''}`).join(' · ')}</div>
                 )}
+                <div>{L(`翻译引擎：${translationSummary.provider === 'llm' ? 'LLM' : translationSummary.provider === 'source-zh' ? '中文源' : '离线词典'} · 已翻译 ${translationSummary.total} 条 · 缓存命中 ${translationSummary.cached} 条`, `Translation: ${translationSummary.provider === 'llm' ? 'LLM' : translationSummary.provider === 'source-zh' ? 'Chinese source' : 'offline glossary'} · ${translationSummary.total} translated · ${translationSummary.cached} cache hits`)}</div>
                 <div className="text-dim">{L('抓取规则：仅公开 RSS/JSON/API，每源限流与缓存、仅标题摘要，不抓评论/付费墙/登录内容；失败源保留 error 不静默。', 'Rules: public RSS/JSON/API only, per-source rate limits/cache, title/summary only; no comments/paywalls/logins; failed sources keep their error.')}</div>
               </div>
             </div>

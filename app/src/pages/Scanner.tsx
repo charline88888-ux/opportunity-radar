@@ -118,7 +118,7 @@ function ScanConsole() {
       <div className="flex flex-wrap items-center justify-between gap-3 border-b border-line/70 px-3.5 py-2.5">
         <div className="flex items-center gap-2">
           <Terminal className="h-4 w-4 text-cyan" />
-          <span className="text-[13px] font-semibold">模拟扫描控制台</span>
+          <span className="text-[13px] font-semibold">模拟扫描</span>
           <Badge tone="amber">纯前端演示 · 无网络请求</Badge>
         </div>
         <div className="flex items-center gap-2">
@@ -454,7 +454,7 @@ export default function Scanner() {
       <PageHeader
         index="04"
         kicker="SCANNER · 扫描室"
-        title="扫描室 · 信号采集与验证"
+        title="扫描室 · 信号采集与源健康"
         description="把「人性需求 × 信号类型」变成可执行的扫描流程：热力矩阵看需求密度，桑基图看信息差流向，12 个剧本可直接照做，数据源健康度决定信号质量。"
         actions={
           <div className="flex flex-wrap items-center gap-2">

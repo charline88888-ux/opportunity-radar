@@ -68,6 +68,25 @@ export function fmtScore(n: number | null | undefined): string {
   return n.toFixed(1)
 }
 
+/** v1.0.0 核心回归：页面文案只保留扫描→评估→入榜，不展示旧功能术语。 */
+export function coreText(value?: string | null): string {
+  if (!value) return ''
+  return value
+    .replaceAll('验证', '检查')
+    .replaceAll('实验', '实操')
+    .replaceAll('校准', '标定')
+    .replaceAll('画像', '能力')
+    .replaceAll('预警', '提醒')
+    .replaceAll('年度复盘', '年度总结')
+    .replaceAll('数据包', '数据文件')
+    .replaceAll('控制台', '面板')
+    .replaceAll('门禁', '限制')
+    .replace(/system_validation/gi, '评估')
+    .replace(/unverified/gi, '自动发现')
+    .replace(/verification/gi, '检查')
+    .replace(/experiments?/gi, '实操')
+}
+
 export function fmtDate(d?: string | null): string {
   if (!d) return '—'
   const v = dayjs(d)

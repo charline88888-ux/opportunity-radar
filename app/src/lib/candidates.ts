@@ -41,13 +41,24 @@ export interface SystemValidation {
   notes?: string
 }
 
+export interface CandidateTranslation {
+  provider?: string
+  quality?: string
+  cached?: boolean
+  source_lang?: string
+  target_lang?: string
+  template?: boolean
+}
+
 export interface Candidate {
   candidate_id: string
   title: string
   title_zh?: string
   title_original?: string
   one_liner_zh?: string
+  summary_zh?: string
   translation_method?: string
+  translation?: CandidateTranslation
   one_liner: string
   industry_ids: string[]
   gap_type_ids: string[]
@@ -135,7 +146,16 @@ function normalizeCandidate(raw: unknown, index = 0): Candidate | null {
     title_zh: str(raw.title_zh),
     title_original: str(raw.title_original),
     one_liner_zh: str(raw.one_liner_zh),
+    summary_zh: str(raw.summary_zh),
     translation_method: str(raw.translation_method),
+    translation: isObj(raw.translation) ? {
+      provider: str(raw.translation.provider),
+      quality: str(raw.translation.quality),
+      cached: raw.translation.cached === true,
+      source_lang: str(raw.translation.source_lang),
+      target_lang: str(raw.translation.target_lang),
+      template: raw.translation.template === true,
+    } : undefined,
     one_liner: str(raw.one_liner, str(raw.summary)),
     industry_ids: strs(raw.industry_ids),
     gap_type_ids: strs(raw.gap_type_ids),
@@ -178,6 +198,22 @@ export const gapInferenceCoverage = (() => {
   const total = metaCoverage ? num(metaCoverage.total, candidates.length) : candidates.length
   const missing = metaCoverage ? num(metaCoverage.missing, total - inferred) : total - inferred
   return { inferred, total, missing, ratio: total ? inferred / total : 0 }
+})()
+
+/** v0.9.3 系统翻译摘要（无 meta 时回退 glossary 推断）。 */
+export const translationSummary = (() => {
+  const raw = isObj(candidatesMeta.translation_summary) ? candidatesMeta.translation_summary : null
+  return {
+    provider: str(raw?.provider, 'glossary'),
+    total: num(raw?.total, candidates.length),
+    cached: num(raw?.cached, 0),
+    qualityHigh: num(raw?.quality_high, 0),
+    qualityMedium: num(raw?.quality_medium, 0),
+    qualityLow: num(raw?.quality_low, 0),
+    sourceZh: num(raw?.source_zh, 0),
+    glossary: num(raw?.glossary, candidates.length),
+    llm: num(raw?.llm, 0),
+  }
 })()
 
 export function candidateWindowItems(key: WindowKey): Array<{ candidate: Candidate; rank: number; item: Obj }> {

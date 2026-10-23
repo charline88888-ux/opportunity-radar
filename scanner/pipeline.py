@@ -24,12 +24,14 @@ if __package__ in (None, ""):  # 支持 python scanner/pipeline.py 直接运行
     sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
     from scanner import common, config, db, history, materialize, normalize, rank, report, score, stats, validate  # noqa: E402
     from scanner import candidates  # noqa: E402
+    from scanner import translate as translate_mod  # noqa: E402
     from scanner import dedupe as dedupe_mod  # noqa: E402
     from scanner import fetch as fetch_mod  # noqa: E402
     from scanner.adapters import load_all  # noqa: E402
 else:  # pragma: no cover
     from . import common, config, db, history, materialize, normalize, rank, report, score, stats, validate
     from . import candidates
+    from . import translate as translate_mod
     from . import dedupe as dedupe_mod
     from . import fetch as fetch_mod
     from .adapters import load_all
@@ -186,14 +188,32 @@ def stage_stats(opportunities: list[dict[str, Any]], taxonomy: dict[str, Any], a
     return payload
 
 
-def stage_candidates(as_of: date, limit: int | None = None) -> dict[str, Any]:
-    """v0.9.0/v0.9.1：从 outbox business 信号自动生成候选 + 四窗口发现榜（不写 opportunities.json）。"""
-    result = candidates.generate(as_of=as_of, limit=limit)
+def stage_candidates(
+    as_of: date,
+    limit: int | None = None,
+    translate_provider: str | None = None,
+    translate_cache: bool = True,
+) -> dict[str, Any]:
+    """v0.9.0-0.9.3：从 outbox business 信号自动生成候选 + 四窗口发现榜（自动翻译、不写 opportunities.json）。"""
+    result = candidates.generate(
+        as_of=as_of,
+        limit=limit,
+        translate_provider=translate_provider,
+        translate_cache=translate_cache,
+    )
     counts = result["counts"]
     log(
         f"自动候选已生成：{result['total']} 条（business {result['business_signals']} / "
         f"maybe {result['maybe_signals']}，去重 {result['dropped_duplicates']}）→ data/candidates.json"
     )
+    translation = result.get("translation_summary") or {}
+    if translation:
+        log(
+            f"系统翻译：provider {translation.get('provider')} / cached {translation.get('cached')} / "
+            f"quality high {translation.get('quality_high', 0)} medium {translation.get('quality_medium', 0)} "
+            f"low {translation.get('quality_low', 0)} source-zh {translation.get('quality_source_zh', 0)} "
+            f"（中文覆盖 {translation.get('coverage')}，词典 {translation.get('glossary_entries')} 条）"
+        )
     gap_cov = result.get("gap_inference_coverage") or {}
     region_cov = result.get("region_coverage") or {}
     log(
@@ -306,6 +326,8 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--stats", action="store_true", help="重算聚合统计")
     parser.add_argument("--candidates", action="store_true", help="从 outbox 自动生成候选商机 + 四窗口发现榜（v0.9.0）")
     parser.add_argument("--candidates-limit", type=int, default=config.CANDIDATE_LIMIT, help=f"候选上限（默认 {config.CANDIDATE_LIMIT}，v0.9.1 可配置）")
+    parser.add_argument("--translate-provider", choices=sorted(translate_mod.PROVIDERS), default=None, help="候选翻译引擎（v0.9.3，默认 auto）")
+    parser.add_argument("--no-translate-cache", action="store_true", help="禁用翻译缓存（v0.9.3）")
     parser.add_argument("--db-rebuild", action="store_true", help="从 JSON 重建 data/radar.db")
     parser.add_argument("--fetch", action="store_true", help="真实在线采集（唯一联网命令，写出 outbox + source-health）")
     parser.add_argument("--fetch-limit", type=int, default=config.FETCH_DEFAULT_LIMIT, help="真实采集最多尝试的源数")
@@ -393,7 +415,12 @@ def main(argv: list[str] | None = None) -> int:
         opportunities = _load_opportunities()
 
     if args.candidates or full:
-        stage_candidates(as_of, args.candidates_limit)
+        stage_candidates(
+            as_of,
+            args.candidates_limit,
+            translate_provider=args.translate_provider,
+            translate_cache=not args.no_translate_cache,
+        )
     if args.rank or full:
         stage_rank(opportunities, as_of)
     if args.stats or full:

@@ -6,20 +6,13 @@ import AppShell from '@/components/AppShell'
 import ErrorBoundary from '@/components/ErrorBoundary'
 import { TooltipProvider } from '@/components/ui'
 import Dashboard from '@/pages/Dashboard'
-import Control from '@/pages/Control'
 import Rankings from '@/pages/Rankings'
-import Discover from '@/pages/Discover'
+import CandidateDetail from '@/pages/CandidateDetail'
 import OpportunityDetail from '@/pages/OpportunityDetail'
 import Scanner from '@/pages/Scanner'
 import Method from '@/pages/Method'
 import Sources from '@/pages/Sources'
 import CalendarPage from '@/pages/Calendar'
-import Lab from '@/pages/Lab'
-import Profile from '@/pages/Profile'
-import Alerts from '@/pages/Alerts'
-import Calibration from '@/pages/Calibration'
-import Yearbook from '@/pages/Yearbook'
-import DataPage from '@/pages/Data'
 import About from '@/pages/About'
 import { I18nProvider, useI18n } from '@/lib/i18n'
 
@@ -58,20 +51,13 @@ function AppRoutes() {
       <ErrorBoundary>
         <Routes location={location}>
           <Route path="/" element={<Dashboard />} />
-          <Route path="/control" element={<Control />} />
           <Route path="/rankings" element={<Rankings />} />
-          <Route path="/discover" element={<Discover />} />
+          <Route path="/candidates/:id" element={<CandidateDetail />} />
           <Route path="/opportunities/:id" element={<OpportunityDetail />} />
           <Route path="/scanner" element={<Scanner />} />
           <Route path="/method" element={<Method />} />
           <Route path="/sources" element={<Sources />} />
           <Route path="/calendar" element={<CalendarPage />} />
-          <Route path="/lab" element={<Lab />} />
-          <Route path="/profile" element={<Profile />} />
-          <Route path="/alerts" element={<Alerts />} />
-          <Route path="/calibration" element={<Calibration />} />
-          <Route path="/yearbook" element={<Yearbook />} />
-          <Route path="/data" element={<DataPage />} />
           <Route path="/about" element={<About />} />
           <Route path="*" element={<NotFound />} />
         </Routes>

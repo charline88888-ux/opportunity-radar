@@ -23,28 +23,18 @@ import {
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { appVersion, dataAsOf, dataMeta, isMockData, opportunities, stats } from '@/lib/data'
-import { useExperiments } from '@/lib/experiments'
-import { useAlerts } from '@/lib/alerts'
 import { EN_CONTENT_NOTICE, useI18n } from '@/lib/i18n'
 import { freshness, freshnessCommand } from '@/lib/freshness'
 import { Badge, InfoTip } from './ui'
 
 const NAV = [
-  { to: '/', id: '01', label: '指挥台', en: 'COMMAND', icon: LayoutDashboard, desc: 'KPI · 今日榜 · 全景信号' },
-  { to: '/control', id: '02', label: '控制台', en: 'CONTROL', icon: Terminal, desc: '一键更新 · 采集 · 定时任务' },
-  { to: '/rankings', id: '03', label: '排行榜', en: 'RANKINGS', icon: ListOrdered, desc: '综合榜 / 为你推荐' },
-  { to: '/discover', id: '04', label: '自动发现', en: 'DISCOVER', icon: Compass, desc: '信号自动候选 · 发现榜' },
-  { to: '/scanner', id: '05', label: '扫描室', en: 'SCANNER', icon: Radar, desc: '热力矩阵 · 剧本 · 数据源健康' },
-  { to: '/method', id: '06', label: '方法论', en: 'METHOD', icon: BookOpenCheck, desc: '评分模型 · 七问 · 文化维度' },
-  { to: '/sources', id: '07', label: '数据源矩阵', en: 'SOURCES', icon: Database, desc: '12 大类平台 · 合规等级' },
-  { to: '/calendar', id: '08', label: '全球商业日历', en: 'CALENDAR', icon: CalendarDays, desc: '节庆 / 税季 / 开学节点' },
-  { to: '/lab', id: '09', label: '实验台', en: 'LAB', icon: FlaskConical, desc: '7 天验证 · 记录与复盘' },
-  { to: '/profile', id: '10', label: '个人画像', en: 'PROFILE', icon: UserRound, desc: '7 维能力 · 推荐基础' },
-  { to: '/alerts', id: '11', label: '预警中心', en: 'ALERTS', icon: Bell, desc: '窗口 / 实验 / 源 / 匹配' },
-  { to: '/calibration', id: '12', label: '回测校准', en: 'CALIBRATION', icon: Target, desc: '预测等级 vs 实验结果' },
-  { to: '/yearbook', id: '13', label: '年度复盘', en: 'YEARBOOK', icon: CalendarRange, desc: '年榜 · 时间线 · 年度导出' },
-  { to: '/data', id: '14', label: '个人数据', en: 'DATA', icon: HardDrive, desc: '数据包导出 / 导入迁移' },
-  { to: '/about', id: '15', label: '关于', en: 'ABOUT', icon: Info, desc: '版本 · 文档 · 免责声明' },
+  { to: '/', id: '01', label: '指挥台', en: 'COMMAND', icon: LayoutDashboard, desc: '核心 KPI · 今日候选' },
+  { to: '/rankings', id: '02', label: '商机榜', en: 'RANKINGS', icon: ListOrdered, desc: '四窗口 · 自动候选 + 精选' },
+  { to: '/scanner', id: '03', label: '扫描室', en: 'SCANNER', icon: Radar, desc: '每日扫描 · 源健康 · 漏斗' },
+  { to: '/method', id: '04', label: '方法论', en: 'METHOD', icon: BookOpenCheck, desc: '评分模型 · 七问 · 文化维度' },
+  { to: '/sources', id: '05', label: '数据源矩阵', en: 'SOURCES', icon: Database, desc: '12 大类平台 · 合规等级' },
+  { to: '/calendar', id: '06', label: '全球商业日历', en: 'CALENDAR', icon: CalendarDays, desc: '节庆 / 税季 / 开学节点' },
+  { to: '/about', id: '07', label: '关于', en: 'ABOUT', icon: Info, desc: '版本 · 免责声明' },
 ]
 
 function RadarMark() {
@@ -208,10 +198,8 @@ export function GlobalSearch() {
 
 function Sidebar() {
   const location = useLocation()
-  const { items: experiments } = useExperiments()
-  const activeExperiments = experiments.filter((x) => x.status === 'active').length
   const isActive = (to: string) =>
-    to === '/' ? location.pathname === '/' : location.pathname.startsWith(to) || (to === '/rankings' && location.pathname.startsWith('/opportunities'))
+    to === '/' ? location.pathname === '/' : location.pathname.startsWith(to) || (to === '/rankings' && (location.pathname.startsWith('/opportunities') || location.pathname.startsWith('/candidates')))
 
   return (
     <aside className="fixed inset-y-0 left-0 z-40 hidden w-[236px] flex-col border-r border-line bg-[#0c0f14] lg:flex">
@@ -248,17 +236,6 @@ function Sidebar() {
                   <span className="flex items-baseline justify-between gap-1">
                     <span className="text-[12.5px] leading-4">{item.label}</span>
                     <span className="flex items-center gap-1">
-                      {item.to === '/lab' && activeExperiments > 0 && (
-                        <span
-                          className={cn(
-                            'inline-flex h-3.5 min-w-3.5 items-center justify-center rounded-full px-1 font-mono text-[8.5px] leading-none',
-                            activeExperiments > 1 ? 'bg-amber/20 text-amber' : 'bg-cyan/15 text-cyan',
-                          )}
-                          title={`进行中实验 ${activeExperiments} / 1`}
-                        >
-                          {activeExperiments}
-                        </span>
-                      )}
                       <span className="font-mono text-[8.5px] tracking-[0.1em] text-dim opacity-70">{item.en}</span>
                     </span>
                   </span>
@@ -439,7 +416,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
         <MobileNav />
         {lang === 'en' && (
           <div className="border-b border-amber/25 bg-amber/[0.06] px-4 py-1.5 text-[10.5px] leading-relaxed text-amber sm:px-6 lg:px-8">
-            <span className="font-mono text-[9px] tracking-wider text-amber/80">EN · V0.9.2 </span>
+            <span className="font-mono text-[9px] tracking-wider text-amber/80">EN · V1.0.0 </span>
             {EN_CONTENT_NOTICE}
           </div>
         )}

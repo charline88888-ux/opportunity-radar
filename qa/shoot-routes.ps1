@@ -17,32 +17,23 @@ New-Item -ItemType Directory -Force $out | Out-Null
 $profile = Join-Path $root "qa\tmp\chrome-shoot"
 New-Item -ItemType Directory -Force $profile | Out-Null
 $opp = "opp-pet-memorial-glass-001"
+$cand = "cand-5c555f56997d"
 $routes = @(
   @{ n = "01-dashboard"; h = "#/"; w = $Width; ht = $Height },
   @{ n = "02-rankings"; h = "#/rankings"; w = $Width; ht = $Height },
-  @{ n = "03-detail"; h = "#/opportunities/$opp"; w = $Width; ht = $Height },
-  @{ n = "04-scanner"; h = "#/scanner"; w = $Width; ht = $Height },
-  @{ n = "05-method"; h = "#/method"; w = $Width; ht = $Height },
-  @{ n = "06-sources"; h = "#/sources"; w = $Width; ht = $Height },
-  @{ n = "07-calendar"; h = "#/calendar"; w = $Width; ht = $Height },
-  @{ n = "08-lab"; h = "#/lab"; w = $Width; ht = $Height },
-  @{ n = "09-profile"; h = "#/profile"; w = $Width; ht = $Height },
-  @{ n = "10-alerts"; h = "#/alerts"; w = $Width; ht = $Height },
-  @{ n = "11-calibration"; h = "#/calibration"; w = $Width; ht = $Height },
-  @{ n = "12-yearbook"; h = "#/yearbook"; w = $Width; ht = $Height },
-  @{ n = "13-data"; h = "#/data"; w = $Width; ht = $Height },
-  @{ n = "14-control"; h = "#/control"; w = $Width; ht = $Height },
-  @{ n = "15-discover"; h = "#/discover"; w = $Width; ht = $Height },
-  @{ n = "16-about"; h = "#/about"; w = $Width; ht = $Height },
-  @{ n = "17-tall-detail"; h = "#/opportunities/$opp"; w = $Width; ht = 3600 },
-  @{ n = "18-tall-about"; h = "#/about"; w = $Width; ht = 2800 },
-  @{ n = "19-1024-dashboard"; h = "#/"; w = 1024; ht = 1000 },
-  @{ n = "20-1024-rankings"; h = "#/rankings"; w = 1024; ht = 1000 },
-  @{ n = "21-1024-profile"; h = "#/profile"; w = 1024; ht = 1000 },
-  @{ n = "22-1024-yearbook"; h = "#/yearbook"; w = 1024; ht = 1000 },
-  @{ n = "23-1024-data"; h = "#/data"; w = 1024; ht = 1000 },
-  @{ n = "24-1024-control"; h = "#/control"; w = 1024; ht = 1000 },
-  @{ n = "25-1024-discover"; h = "#/discover"; w = 1024; ht = 1000 }
+  @{ n = "03-candidate-detail"; h = "#/candidates/$cand"; w = $Width; ht = $Height },
+  @{ n = "04-opportunity-detail"; h = "#/opportunities/$opp"; w = $Width; ht = $Height },
+  @{ n = "05-scanner"; h = "#/scanner"; w = $Width; ht = $Height },
+  @{ n = "06-method"; h = "#/method"; w = $Width; ht = $Height },
+  @{ n = "07-sources"; h = "#/sources"; w = $Width; ht = $Height },
+  @{ n = "08-calendar"; h = "#/calendar"; w = $Width; ht = $Height },
+  @{ n = "09-about"; h = "#/about"; w = $Width; ht = $Height },
+  @{ n = "10-tall-candidate"; h = "#/candidates/$cand"; w = $Width; ht = 3200 },
+  @{ n = "11-tall-about"; h = "#/about"; w = $Width; ht = 2600 },
+  @{ n = "12-1024-dashboard"; h = "#/"; w = 1024; ht = 1000 },
+  @{ n = "13-1024-rankings"; h = "#/rankings"; w = 1024; ht = 1000 },
+  @{ n = "14-1024-candidate"; h = "#/candidates/$cand"; w = 1024; ht = 1000 },
+  @{ n = "15-1024-about"; h = "#/about"; w = 1024; ht = 1000 }
 )
 $errors = 0
 foreach ($r in $routes) {

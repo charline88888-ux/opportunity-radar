@@ -1,6 +1,6 @@
 {
   "meta": {
-    "data_version": "0.9.2",
+    "data_version": "1.0.0",
     "as_of": "2026-10-22",
     "generator": "scanner/pipeline.py",
     "window_rules": "day=last_activity==as_of; week=ISO week; month=YYYY-MM; year=YYYY",

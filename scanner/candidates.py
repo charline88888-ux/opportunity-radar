@@ -20,22 +20,19 @@ from typing import Any
 
 if __package__ in (None, ""):  # 支持 python scanner/candidates.py
     sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
-    from scanner import common, config, normalize, score  # noqa: E402
+    from scanner import common, config, normalize, score, translate as translate_mod  # noqa: E402
 else:  # pragma: no cover
-    from . import common, config, normalize, score
+    from . import common, config, normalize, score, translate as translate_mod
 
 CANDIDATE_LIMIT = int(getattr(config, "CANDIDATE_LIMIT", 200))
 WINDOWS = ("day", "week", "month", "year")
 STATUS_AUTO = "auto-discovered"
 VERIFICATION_NOT_STARTED = "not_started"
 SYSTEM_BOUNDARY = (
-    "“这是不是一个商机”由系统按需求/信息差/证据/时效/可执行性自动评估（无需人工/实验）；"
-    "“我能不能靠它赚钱”是个人线下实体验证，系统不验证、不承诺、也不作为展示门禁。"
+    "系统自动评估商机信号（需求/信息差/证据/时效/可执行性）；仅代表发现与评估，"
+    "不代表收入承诺，也不验证个人商业结果。"
 )
-DISCLAIMER = (
-    "自动发现的候选线索：由公开信号自动生成，系统已做商机初筛评估（system_validation），"
-    "但未经个人实体验证；verification_status 默认 not_started，不影响收录与排序。"
-)
+DISCLAIMER = "自动发现的候选线索：由公开信号自动生成，系统已做商机初筛评估（system_validation）；不代表收入承诺。"
 
 ZH_GLOSSARY = {
     "startup": "创业公司", "startups": "创业公司", "funding": "融资", "raised": "融资",
@@ -377,43 +374,70 @@ def _translate_terms(text: str) -> list[str]:
     return terms
 
 
+def _english_ratio(text: str) -> float:
+    if not text:
+        return 0.0
+    english = len(re.findall(r"[A-Za-z]{2,}", text))
+    chinese = len(re.findall(r"[\u4e00-\u9fff]", text))
+    total = english + chinese
+    return english / total if total else 0.0
+
+
+def _readable_zh_title(translated: str, label: str) -> str:
+    """从翻译结果提取中文片段，前置行业/信息差上下文，组成可读标题（≤28 字）。"""
+    parts = [
+        re.sub(r"[，。、；：]+$", "", part.strip())
+        for part in re.findall(r"[\u4e00-\u9fff][\u4e00-\u9fff·、，A-Za-z0-9]*", translated or "")
+    ]
+    parts = [part for part in parts if len(part) >= 2][:2]
+    extracted = "、".join(parts)
+    if not extracted:
+        return _truncate(f"{label}商机线索", 28)
+    return _truncate(f"{label}｜{extracted}", 28)
+
+
 def _localize(
     signal: dict[str, Any],
     title_original: str,
     summary: str,
+    one_liner: str,
     industries: list[str],
     gaps: list[str],
     regions: list[str],
-) -> dict[str, str]:
-    """候选中文化（离线）：中文源保留原文（source-zh）；英文源用词典+行业/信息差模板生成中文主标题。"""
+    *,
+    translate_provider: str | None = None,
+    translate_cache: bool = True,
+) -> dict[str, Any]:
+    """系统级翻译（v0.9.3 修订）：title_zh=真实翻译结果（≤40 字，不做标签拼接）。"""
     industry_zh = "、".join(INDUSTRY_NAMES.get(item, item) for item in industries[:2]) or "跨境"
     gap_zh = "、".join(GAP_NAMES.get(item, item) for item in gaps[:2]) or "信息差"
     region_zh = "、".join(REGION_NAMES.get(item, item) for item in regions[:2]) or "全球"
-    lang = str(signal.get("lang") or "").lower()
-    native = lang.startswith("zh") or (_has_cjk(title_original) and not title_original.isascii())
-    if native:
-        cleaned_native = _clean_title(signal) or title_original
-        title_zh = _truncate(cleaned_native, 28)
-        one_liner_zh = _truncate(_clean_summary(signal, cleaned_native), 60)
-        method = "source-zh"
+    title_input = re.sub(r"\s+[-|–—]\s+[^-|–—]{2,40}$", "", title_original or title).strip() or (title_original or title)
+    translated = translate_mod.translate_fields(
+        title_input,
+        summary,
+        one_liner,
+        context={"label": f"{industry_zh}·{gap_zh}", "region": region_zh},
+        provider=translate_provider or config.TRANSLATION_DEFAULT_PROVIDER,
+        use_cache=translate_cache,
+        stable_cached=True,
+    )
+    title_zh = translated.get("title_zh") or ""
+    if (not _has_cjk(title_zh)) or _english_ratio(title_zh) > 0.5:
+        # 仅当英文残留过多才回退中文模板（quality=low / template=true）
+        translated["title_zh"] = _truncate(f"{industry_zh}{gap_zh}商机线索", 40)
+        translated["translation"]["quality"] = "low"
+        translated["translation"]["template"] = True
+        translated["translation_method"] = "template"
     else:
-        terms = _translate_terms(f"{title_original} {summary}")
-        if terms:
-            core = "｜".join(terms[:2])
-            title_zh = _truncate(f"{core}｜{gap_zh}商机", 28)
-        else:
-            title_zh = _truncate(f"{industry_zh}·{gap_zh}商机线索", 28)
-        if not _has_cjk(title_zh):
-            title_zh = _truncate(f"{industry_zh}商机线索", 28)
-        detail = "，".join(terms[:4]) if terms else f"{region_zh}公开信号显示需求变化"
-        one_liner_zh = _truncate(f"{industry_zh}｜{gap_zh}：{detail}（系统初筛，个人可实测）", 60)
-        method = "template"
-    return {
-        "title_zh": title_zh,
-        "one_liner_zh": one_liner_zh,
-        "title_original": _truncate(title_original, 120),
-        "translation_method": method,
-    }
+        translated["translation"]["template"] = bool(translated["translation"].get("template"))
+        # v1.0.0 P1：quality 只由最终标题文本/provider 确定，避免冷/热缓存历史导致漂移
+        provider = str(translated["translation"].get("provider") or "glossary")
+        if provider != "source-zh":
+            translated["translation"]["quality"] = translate_mod.quality_for_translated(title_zh, provider)
+        translated["translation_method"] = provider
+    translated["title_original"] = _truncate(title_original, 120)
+    return translated
 
 
 def _system_validation(
@@ -477,7 +501,6 @@ def _system_validation(
     else:
         level = "low"
     return {
-        "verified_by_system": True,
         "level": level,
         "score": score,
         "level_thresholds": {"high": 95, "medium": 87},
@@ -488,7 +511,14 @@ def _system_validation(
     }
 
 
-def _candidate_from_signal(signal: dict[str, Any], sources: dict[str, dict[str, Any]], as_of: date) -> dict[str, Any]:
+def _candidate_from_signal(
+    signal: dict[str, Any],
+    sources: dict[str, dict[str, Any]],
+    as_of: date,
+    *,
+    translate_provider: str | None = None,
+    translate_cache: bool = True,
+) -> dict[str, Any]:
     industries = _industry_ids(signal)
     gaps, gap_inferred = _infer_gaps(signal, industries)
     source_id = str(signal.get("source_id") or "")
@@ -508,9 +538,26 @@ def _candidate_from_signal(signal: dict[str, Any], sources: dict[str, dict[str, 
     title_original = _strip_html(str(signal.get("title") or ""))
     title = _clean_title(signal)
     summary = _clean_summary(signal, title)
-    localize = _localize(signal, title_original or title, summary, industries, gaps, regions)
+    sectors = "、".join(INDUSTRY_NAMES.get(item, item) for item in industries[:2])
+    one_liner = _truncate(
+        f"{sectors}｜{summary}（自动发现线索，系统已初筛，未实体验证）",
+        120,
+    )
+    localize = _localize(
+        signal,
+        title_original or title,
+        summary,
+        one_liner,
+        industries,
+        gaps,
+        regions,
+        translate_provider=translate_provider,
+        translate_cache=translate_cache,
+    )
     title_zh = localize["title_zh"]
     one_liner_zh = localize["one_liner_zh"]
+    summary_zh = localize.get("summary_zh") or summary
+    translation = localize.get("translation") or {}
     evidence = [
         {
             "title": title_zh,
@@ -527,18 +574,15 @@ def _candidate_from_signal(signal: dict[str, Any], sources: dict[str, dict[str, 
     )
     candidate_id = "cand-" + _hash(url or title, str(signal.get("title_norm") or title))[:12]
     relevance = float(signal.get("relevance_score") or 0)
-    sectors = "、".join(INDUSTRY_NAMES.get(item, item) for item in industries[:2])
-    one_liner = _truncate(
-        f"{sectors}｜{summary}（自动发现线索，系统已初筛，未实体验证）",
-        120,
-    )
     confidence = int(round(common.clamp(30 + relevance * 0.5 + (10 if signal.get("tier") == "business" else 0) + 5 + 5, 0, 95)))
     return {
         "candidate_id": candidate_id,
         "title": title_zh,
         "title_zh": title_zh,
         "one_liner_zh": one_liner_zh,
+        "summary_zh": summary_zh,
         "title_original": localize["title_original"],
+        "translation": translation,
         "translation_method": localize["translation_method"],
         "one_liner": one_liner,
         "industry_ids": industries,
@@ -559,14 +603,11 @@ def _candidate_from_signal(signal: dict[str, Any], sources: dict[str, dict[str, 
         },
         "evidence": evidence,
         "system_validation": system_validation,
-        "verified_by_system": True,
         "seven_questions": _seven_questions(signal, industries, gaps),
         "roi": _roi(industries[0]),
         "scores": _scores(signal, industries, regions, len(evidence), as_of),
         "confidence": confidence,
         "status": STATUS_AUTO,
-        "verification_status": VERIFICATION_NOT_STARTED,
-        "verification_default": VERIFICATION_NOT_STARTED,
         "first_seen": first_seen,
         "last_seen": last_seen,
         "relevance_score": relevance,
@@ -597,6 +638,8 @@ def build_candidates(
     as_of: date | None = None,
     outbox_path: Path | None = None,
     limit: int | None = None,
+    translate_provider: str | None = None,
+    translate_cache: bool = True,
 ) -> tuple[dict[str, Any], Path | None]:
     """从 outbox 生成 candidates payload（不写文件）。返回 (payload, outbox 路径)。"""
     as_of = as_of or common.parse_as_of(common.load_json(config.TAXONOMY_PATH) or {})
@@ -628,7 +671,13 @@ def build_candidates(
     seen_titles: set[str] = set()
     dropped_duplicates = 0
     for signal in ordered:
-        candidate = _candidate_from_signal(signal, sources, as_of)
+        candidate = _candidate_from_signal(
+            signal,
+            sources,
+            as_of,
+            translate_provider=translate_provider,
+            translate_cache=translate_cache,
+        )
         dedupe_key_url = str(signal.get("canonical_url") or signal.get("url") or "")
         dedupe_key_title = str(signal.get("title_norm") or candidate["candidate_id"])
         if dedupe_key_url and dedupe_key_url in seen_urls:
@@ -655,12 +704,36 @@ def build_candidates(
         levels[validation.get("level", "low")] = levels.get(validation.get("level", "low"), 0) + 1
         validation_scores.append(int(validation.get("score") or 0))
     translation_methods: dict[str, int] = {}
+    translation_cached = 0
+    quality_counts = {"high": 0, "medium": 0, "low": 0, "source-zh": 0}
     zh_titles = 0
     for candidate in candidates:
-        method = str(candidate.get("translation_method") or "template")
+        translation = candidate.get("translation") or {}
+        method = str(translation.get("provider") or candidate.get("translation_method") or "glossary")
         translation_methods[method] = translation_methods.get(method, 0) + 1
+        quality = str(translation.get("quality") or "medium")
+        quality_counts[quality] = quality_counts.get(quality, 0) + 1
+        if translation.get("cached"):
+            translation_cached += 1
         if _has_cjk(str(candidate.get("title_zh") or "")):
             zh_titles += 1
+    translation_summary = {
+        "provider": translation_methods,
+        "total": len(candidates),
+        "cached": translation_cached,
+        "cache_hit_ratio": round(translation_cached / len(candidates), 3) if candidates else 0.0,
+        "quality_high": quality_counts.get("high", 0),
+        "quality_medium": quality_counts.get("medium", 0),
+        "quality_low": quality_counts.get("low", 0),
+        "quality_source_zh": quality_counts.get("source-zh", 0),
+        "source_zh": translation_methods.get("source-zh", 0),
+        "glossary": translation_methods.get("glossary", 0),
+        "llm": translation_methods.get("llm", 0),
+        "mock": translation_methods.get("mock", 0),
+        "coverage": round(zh_titles / len(candidates), 3) if candidates else 0.0,
+        "glossary_entries": len(translate_mod.GLOSSARY),
+        "disclaimer": translate_mod.DISCLAIMER,
+    }
     health = common.load_json(config.SOURCE_HEALTH_PATH) or {}
     health_meta = health.get("meta") if isinstance(health, dict) else None
     health_meta = health_meta if isinstance(health_meta, dict) else {}
@@ -691,10 +764,6 @@ def build_candidates(
             "generated_at": f"{as_of.isoformat()}T00:00:00+08:00",
             "generator": "scanner/candidates.py",
             "status": "auto-discovered",
-            "verification_status": VERIFICATION_NOT_STARTED,
-            "verification_status_default": VERIFICATION_NOT_STARTED,
-            "verification_affects_ranking": False,
-            "verified_by_system": True,
             "system_boundary": SYSTEM_BOUNDARY,
             "limit": limit,
             "total": len(candidates),
@@ -706,9 +775,9 @@ def build_candidates(
                 "medium": levels.get("medium", 0),
                 "low": levels.get("low", 0),
                 "avg_score": round(sum(validation_scores) / len(validation_scores), 1) if validation_scores else 0.0,
-                "verified_by_system": len(candidates),
                 "note": SYSTEM_BOUNDARY,
             },
+            "translation_summary": translation_summary,
             "translation_coverage": {
                 "total": len(candidates),
                 "zh_titles": zh_titles,
@@ -796,7 +865,6 @@ def build_candidate_rankings(candidates_payload: dict[str, Any], as_of: date) ->
                     "industry_ids": candidate.get("industry_ids"),
                     "region_ids": candidate.get("region_ids"),
                     "first_seen": candidate.get("first_seen"),
-                    "verification_status": candidate.get("verification_status"),
                 }
                 for index, candidate in enumerate(items, start=1)
             ],
@@ -812,15 +880,27 @@ def build_candidate_rankings(candidates_payload: dict[str, Any], as_of: date) ->
             "total": len(candidates),
             "counts": counts,
             "verification_affects_ranking": False,
-            "note": "候选发现榜与精选人工榜（rankings.json，80 条）并行；verification_status 不参与收录/排序。",
+            "note": "候选发现榜与精选人工榜（rankings.json，80 条）并行；系统评估仅用于发现与排序参考。",
         },
         "windows": windows,
     }
 
 
-def generate(as_of: date | None = None, outbox_path: Path | None = None, limit: int | None = None) -> dict[str, Any]:
+def generate(
+    as_of: date | None = None,
+    outbox_path: Path | None = None,
+    limit: int | None = None,
+    translate_provider: str | None = None,
+    translate_cache: bool = True,
+) -> dict[str, Any]:
     """生成并写出 data/candidates.json + data/candidate-rankings.json；返回摘要。"""
-    payload, outbox_file = build_candidates(as_of=as_of, outbox_path=outbox_path, limit=limit)
+    payload, outbox_file = build_candidates(
+        as_of=as_of,
+        outbox_path=outbox_path,
+        limit=limit,
+        translate_provider=translate_provider,
+        translate_cache=translate_cache,
+    )
     as_of_date = date.fromisoformat(payload["meta"]["as_of"])
     rankings = build_candidate_rankings(payload, as_of_date)
     common.dump_json(config.CANDIDATES_PATH, payload)
@@ -830,6 +910,7 @@ def generate(as_of: date | None = None, outbox_path: Path | None = None, limit: 
         "business_signals": payload["meta"]["business_signals"],
         "maybe_signals": payload["meta"]["maybe_signals"],
         "dropped_duplicates": payload["meta"]["dropped_duplicates"],
+        "translation_summary": payload["meta"].get("translation_summary"),
         "gap_inference_coverage": payload["meta"].get("gap_inference_coverage"),
         "region_coverage": payload["meta"].get("region_coverage"),
         "counts": rankings["meta"]["counts"],
@@ -843,6 +924,8 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--outbox", type=str, default=None, help="指定 signals-*.json（默认最新）")
     parser.add_argument("--as-of", type=str, default=None, help="基准日 YYYY-MM-DD（默认 taxonomy as_of）")
     parser.add_argument("--limit", type=int, default=CANDIDATE_LIMIT, help=f"候选上限（默认 {CANDIDATE_LIMIT}，可配置）")
+    parser.add_argument("--translate-provider", choices=sorted(translate_mod.PROVIDERS), default=None, help="翻译引擎（默认 auto：有 LLM_API_KEY 用 llm，否则 glossary）")
+    parser.add_argument("--no-translate-cache", action="store_true", help="禁用翻译缓存")
     args = parser.parse_args(argv)
     try:
         as_of = date.fromisoformat(args.as_of) if args.as_of else None
@@ -850,7 +933,13 @@ def main(argv: list[str] | None = None) -> int:
         print(f"--as-of 非法日期：{args.as_of}")
         return 2
     outbox_path = Path(args.outbox) if args.outbox else None
-    result = generate(as_of=as_of, outbox_path=outbox_path, limit=args.limit)
+    result = generate(
+        as_of=as_of,
+        outbox_path=outbox_path,
+        limit=args.limit,
+        translate_provider=args.translate_provider,
+        translate_cache=not args.no_translate_cache,
+    )
     print(
         f"候选已生成：{result['total']} 条（business {result['business_signals']} / maybe {result['maybe_signals']}，"
         f"去重 {result['dropped_duplicates']}）→ " + " / ".join(Path(path).name for path in result["paths"])

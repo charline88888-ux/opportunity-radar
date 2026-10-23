@@ -77,8 +77,8 @@ const isDataText = (run) => {
   if (n.length < 2) return true
   return allowedNorm.some((a) => a.includes(n)) || allowedNorm.some((a) => n.includes(a) && a.length >= 4)
 }
-const EN_NAV = ['Command Deck', 'Rankings', 'Discover', 'Scanner', 'Method', 'Sources', 'Calendar', 'Lab', 'Profile', 'Alerts', 'Calibration', 'Yearbook', 'Data', 'Control', 'About']
-const routes = ['#/', '#/rankings', '#/discover', '#/opportunities/opp-pet-memorial-glass-001', '#/scanner', '#/method', '#/sources', '#/calendar', '#/lab', '#/profile', '#/alerts', '#/calibration', '#/yearbook', '#/data', '#/control', '#/about']
+const EN_NAV = ['COMMAND', 'RANKINGS', 'SCANNER', 'METHOD', 'SOURCES', 'CALENDAR', 'ABOUT']
+const routes = ['#/', '#/rankings', '#/candidates/cand-5c555f56997d', '#/opportunities/opp-pet-memorial-glass-001', '#/scanner', '#/method', '#/sources', '#/calendar', '#/about']
 
 async function probe(route, lang) {
   await nav(route)
@@ -111,17 +111,17 @@ const enPages = []
 for (const r of routes) enPages.push(await probe(r, 'en'))
 const enHome = enPages[0]
 check('I07', 'EN：html lang=en 且 document.title 翻译为英文', enHome.lang === 'en' && !/[\u4e00-\u9fff]/.test(enHome.title), `lang=${enHome.lang} title=${enHome.title}`)
-check('I08', 'EN：导航全部翻译（≥14/15 英文导航标签）', EN_NAV.filter((x) => enHome.text.includes(x)).length >= 14, `found=${EN_NAV.filter((x) => enHome.text.includes(x)).join(',')}`)
+check('I08', 'EN：导航全部翻译（≥6/7 英文导航标签）', EN_NAV.filter((x) => enHome.text.includes(x)).length >= 6, `found=${EN_NAV.filter((x) => enHome.text.includes(x)).join(',')}`)
 check('I09', 'EN：显示「内容仅中文」提示条', enHome.banner, enHome.banner ? 'banner=✓' : 'missing')
 const uiCJK = enPages.map((p) => ({ route: p.route, unexplained: p.unexplained }))
 const uiCJKCount = uiCJK.reduce((a, x) => a + x.unexplained.length, 0)
 const uiCJKPages = uiCJK.filter((x) => x.unexplained.length > 0)
 check('I10', 'EN：无「非数据」中文 UI 文案（按数据白名单过滤）', uiCJKCount === 0, `unexplained=${uiCJKCount} pages=${JSON.stringify(uiCJKPages.map((x) => ({ route: x.route, samples: x.unexplained.slice(0, 4) }))).slice(0, 420)}`)
 const zhDataPages = enPages.filter((p) => p.bodyCJK > 0).length
-check('I11', 'EN：数据内容保持中文（有中文数据页面）', zhDataPages >= 3, `pages_with_CJK=${zhDataPages}/12`)
+check('I11', 'EN：数据内容保持中文（有中文数据页面）', zhDataPages >= 3, `pages_with_CJK=${zhDataPages}/9`)
 
 // 2c) 切换不刷新、路由保持、持久化
-await nav('#/rankings?mode=recommend')
+await nav('#/rankings')
 const beforeNav = await ev(`performance.getEntriesByType('navigation').length`)
 const beforeHash = await ev(`location.hash`)
 const clickInfo = await ev(`(() => {
@@ -139,9 +139,9 @@ check('I13', 'EN 切换：localStorage 持久化且刷新后保持', persisted.s
 await ev(`(() => { const b = [...document.querySelectorAll('button')].find((e) => (e.innerText || '').trim() === '中文'); if (b) b.click(); return !!b })()`)
 await sleep(1200)
 const backZh = await ev(`(() => ({ lang: document.documentElement.lang, hasZh: (document.body.innerText || '').includes('排行榜') }))()`)
-check('I14', '切回中文即时生效', String(backZh.lang).startsWith('zh') && backZh.hasZh, JSON.stringify(backZh))
+check('I14', '切回中文即时生效', String(backZh.lang).startsWith('zh') && (backZh.hasZh || /商机榜/.test((backZh.text || ''))), JSON.stringify(backZh))
 const enOverflow = enPages.filter((p) => p.horizontalOverflow)
-check('I16', 'EN 12 路由无横向溢出', enOverflow.length === 0, `overflow=${enOverflow.map((p) => p.route).join(',') || 'none'}`)
+check('I16', 'EN 9 路由无横向溢出', enOverflow.length === 0, `overflow=${enOverflow.map((p) => p.route).join(',') || 'none'}`)
 check('I15', 'EN 全路由无 console error', consoleErrors.length === 0, consoleErrors.slice(0, 3).join('; ') || '0')
 
 const summary = { pass: results.filter((r) => r.pass).length, fail: results.filter((r) => !r.pass).length, total: results.length, enUnexplainedCJK: uiCJKCount }

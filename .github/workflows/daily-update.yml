@@ -40,9 +40,13 @@ jobs:
       - name: Compute as_of (Asia/Shanghai)
         run: echo "AS_OF=$(TZ=Asia/Shanghai date +%F)" >> "$GITHUB_ENV"
 
-      - name: Refresh data for today
+      - name: Daily scan (fetch 160 sources, best effort)
         run: |
           echo "as_of=$AS_OF"
+          python scanner/pipeline.py --fetch --as-of "$AS_OF" --fetch-limit 160 || echo "fetch failed; continue with existing outbox"
+
+      - name: Evaluate & rank for today
+        run: |
           python scanner/pipeline.py --all --as-of "$AS_OF"
           python scanner/validate.py
 
@@ -50,11 +54,11 @@ jobs:
         run: |
           git config user.name "opportunity-radar-bot"
           git config user.email "bot@users.noreply.github.com"
-          git add data/rankings.json data/stats.json data/history data/source-health.json
+          git add data/candidates.json data/candidate-rankings.json data/rankings.json data/stats.json data/history data/source-health.json data/reports
           if git diff --cached --quiet; then
             echo "no data changes today"
           else
-            git commit -m "data: daily refresh ${AS_OF}"
+            git commit -m "data: daily scan/rank ${AS_OF}"
             git push
           fi
 

@@ -1,7 +1,11 @@
-# data/ 数据底座使用说明（data-v0.9.2）
+# data/ 数据底座使用说明（data-v1.0.0）
 
-> 唯一接口标准：`docs/12-数据契约与字段字典.md`（data-v0.9.2）。本目录所有 JSON 必须通过 `python scanner/validate.py`（V01–V20，退出码 0）。
+> 唯一接口标准：`docs/12-数据契约与字段字典.md`（data-v1.0.0）。本目录所有 JSON 必须通过 `python scanner/validate.py`（V01–V20，退出码 0）。
 > 数据基准日 `as_of = 2026-10-22`（Asia/Shanghai），当前周 `2026-W43`（10-19～10-25），当前月 `2026-10`，当前年 `2026`；支持 `--as-of YYYY-MM-DD` 覆盖做真实每日运行。
+> **v1.0.0 MAJOR（核心回归）**：只保留“每日扫描 → 系统评估商机 → 自动候选/精选入榜”；删除校准/年鉴/实验/画像/预警/数据包/控制台等非核心功能与产物，候选去掉 verification_status/实体验证字段，`data/reports` 仅保留四窗口报告；翻译（title_zh/one_liner_zh/summary_zh）保留；同时修复翻译质量冷缓存 determinism（quality 只由文本/语言/残留比例决定，清缓存冷跑两次字节一致）。
+>
+> **v0.9.3 MINOR（系统级翻译子系统）**：新增 `scanner/translate.py`（provider=glossary 离线词典 **898 条** / llm OpenAI 兼容需 key、失败回退 / mock / source-zh；SQLite 缓存 `scanner/build/translation-cache.sqlite`）；候选逐条自动翻译 `title_zh/one_liner_zh/summary_zh/title_original/translation{provider,quality,cached,source_lang,target_lang}`；meta `translation_summary` 实测 provider glossary 194 / source-zh 6、**cached 200、中文覆盖 1.0、quality medium 120 / low 74 / source-zh 6**；翻译质量不参与收录/排序。
+>
 > **v0.9.2 MINOR（商机系统评估 + 中文候选 + 漏斗修复）**：候选新增 `system_validation{level/score/checks≥5}`+`verified_by_system=true`（系统评估「是不是商机」，无需人工/实验）；`verification_status` 语义改为个人实体验证，默认 `not_started`、不参与排序；候选新增 `title_zh/one_liner_zh/title_original/translation_method`（实测中文覆盖 **200/200**）；漏斗以 source-health 真值：**101 尝试 / 101 ok / 0 failed**（raw 2420 → 1892 → new 1865 → business 344 → 候选 200）；rest-of-world XML 容错恢复、Arab News→Middle East Monitor、补 8 源到 **168 平台 / 101 enabled**。
 >
 > **v0.9.1 MINOR（源 160 / 91 + 候选质量）**：`sources.json` 并 researcher 25 个实测 RSS + restofworld 修复 + Google News TR/3 query + App Store 6 国 → **160 平台 / 91 enabled 自动源 / 11/11 区域**（10 个禁用含原因）；真实 `--fetch --no-cache`：92 源尝试、**91 成功**、2177 原始 → 1653 信号、**new 1627**（账本重置干净首跑）；候选质量：标题/摘要清洗、gap 启发式覆盖 **200/200（fallback 28，空率 0%）**、region **11/11**、country 28、同 URL 保留最新、上限可配。
@@ -21,7 +25,7 @@
 - 同输入重复运行字节级确定性；测试不同 as_of 后请用 `--all` 恢复基准日状态（勿保留非基准日快照进仓库）。
 
 
-## 1. 文件清单与规模（data-v0.9.2）
+## 1. 文件清单与规模（data-v0.9.3）
 
 | 文件 | 作用 | 规模 | 生产者 | 消费者 |
 |---|---|---|---|---|
@@ -186,9 +190,18 @@ python scanner/calibrate.py --experiments scanner/fixtures/experiments-sample.js
 python scanner/yearbook.py --year 2026                                 # 年度年鉴（无实验摘要版本）
 python scanner/yearbook.py --year 2026 --experiments scanner/fixtures/experiments-sample.json --sample  # 年鉴（含样例实验摘要）
 python scanner/db.py --rebuild                                         # SQLite 重建
-python -m unittest discover -s scanner/tests                           # 117 条单测（含 serve.py 28 条）
+python scanner/translate.py --text "Pet memorial startup raises funding" --provider glossary  # v0.9.3 系统翻译
+python scanner/candidates.py --as-of 2026-10-23 --translate-provider glossary                 # 自动翻译候选
+python -m unittest discover -s scanner/tests                           # 123 条单测
 ```
 
-## 17. 免责
+## 17. v0.9.3 系统级翻译子系统
+
+- `scanner/translate.py`：provider `glossary`（默认离线，**898 条**短语/实体词典）/ `llm`（OpenAI 兼容，读 `LLM_API_KEY`/`LLM_BASE_URL`/`LLM_MODEL`，失败回退 glossary、`fallback=true`）/ `mock`（测试不联网）/ `source-zh`（中文原文直通）；SQLite 缓存 `scanner/build/translation-cache.sqlite`（key=sha256(provider+target+lang+text)，命中 `cached=true`）；质量 high/medium/low/source-zh 仅展示。
+- 候选字段：`title_zh(≤40，真实翻译句子)/one_liner_zh(≤60)/summary_zh(≤160)/title_original/translation{provider,quality,cached,source_lang,target_lang,fallback,disclaimer}`；`translation_method` 保留为 provider 别名。
+- 自动翻译：`candidates.py` 每次生成逐条翻译（`--translate-provider`/`--no-translate-cache` 可切换），meta `translation_summary{provider,total,cached,quality_*,source_zh,glossary,llm,coverage,glossary_entries}`；实测 200 条 cached 100%、中文覆盖 100%、provider glossary 194/source-zh 6、quality medium 120/low 74/source-zh 6。
+- 质量边界：glossary 为离线词典翻译可能不完美；llm 需 key 且质量更高；两者均不保证语义完全准确；**翻译质量不参与商机收录/排序**，前端默认中文、可切原文并显示「系统翻译」。
+
+## 18. 免责
 
 机会卡片是研究假设与公开信息整理，**不构成投资建议、法律意见或收入承诺**。涉及跨境、金融、医疗、法律、宗教、内容版权时请自行做合规核查。`calendar.json` 中宗教节日日期为预计值，以当地观月/官方公告为准。

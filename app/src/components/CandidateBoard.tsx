@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { ArrowUpRight, BadgeCheck, BookmarkPlus, Compass, ExternalLink, Filter, Search, ShieldAlert, Sparkles, X } from 'lucide-react'
 import { Badge, Button, EmptyState, Panel } from '@/components/ui'
 import { dataAsOf, gapName, industryName, regionName, taxonomy } from '@/lib/data'
-import { candidateWindowItems, candidates, candidatesAvailable, candidatesMeta, gapInferenceCoverage, type Candidate } from '@/lib/candidates'
+import { candidateWindowItems, candidates, candidatesAvailable, candidatesMeta, gapInferenceCoverage, translationSummary, type Candidate } from '@/lib/candidates'
 import { useI18n } from '@/lib/i18n'
 import { cn, fmtCnyRange, fmtDateCn, fmtScore } from '@/lib/utils'
 import type { WindowKey } from '@/types'
@@ -52,16 +52,38 @@ function autoDraftEntries(candidate: Candidate): Array<{ key: string; value: str
   return Object.entries(candidate.seven_questions).map(([key, value]) => ({ key, value }))
 }
 
-function displayTitle(c: Candidate): string {
-  return c.title_zh || c.title
+function displayTitle(c: Candidate, original = false): string {
+  return original ? (c.title_original || c.source.raw_title || c.title) : (c.title_zh || c.title)
 }
 
 function displayOriginal(c: Candidate): string {
   return c.title_original || c.source.raw_title || (c.title_zh && c.title_zh !== c.title ? c.title : '')
 }
 
-function displayOneLiner(c: Candidate): string {
-  return c.one_liner_zh || c.one_liner
+function displayOneLiner(c: Candidate, original = false): string {
+  return original ? c.one_liner : (c.one_liner_zh || c.one_liner)
+}
+
+function translationProvider(c: Candidate): string {
+  if (c.translation?.template) return 'template'
+  return c.translation?.provider || (c.translation_method === 'source-zh' ? 'source-zh' : c.title_zh ? 'glossary' : 'template')
+}
+
+function translationProviderLabel(c: Candidate, L: L): string {
+  const p = translationProvider(c)
+  if (p === 'llm') return L('LLM 在线翻译', 'LLM online')
+  if (p === 'source-zh') return L('中文源', 'Chinese source')
+  if (p === 'mock') return L('Mock 翻译', 'Mock')
+  if (p === 'template') return L('模板翻译', 'Template translation')
+  return L('离线词典', 'Offline glossary')
+}
+
+function translationQuality(c: Candidate): { zh: string; en: string; tone: 'signal' | 'amber' | 'muted' | 'cyan' } {
+  const q = c.translation?.quality || (translationProvider(c) === 'source-zh' ? 'source-zh' : c.title_zh ? 'medium' : 'low')
+  if (q === 'high') return { zh: '高质量', en: 'high', tone: 'signal' }
+  if (q === 'source-zh') return { zh: '中文源', en: 'source-zh', tone: 'cyan' }
+  if (q === 'medium') return { zh: '中等质量', en: 'medium', tone: 'amber' }
+  return { zh: '模板/低质量', en: 'low', tone: 'muted' }
 }
 
 function systemLevel(c: Candidate): 'high' | 'medium' | 'low' {
@@ -119,6 +141,7 @@ export function CandidateBoard({ className }: { className?: string }) {
   const [region, setRegion] = useState('all')
   const [gap, setGap] = useState('all')
   const [onlyGaps, setOnlyGaps] = useState(false)
+  const [viewOriginal, setViewOriginal] = useState(false)
   const [selected, setSelected] = useState<Candidate | null>(null)
   const [watched, setWatched] = useState<string[]>(readWatchlist)
 
@@ -175,6 +198,13 @@ export function CandidateBoard({ className }: { className?: string }) {
         <Badge tone="signal" title={L('系统已评估商机成立度（需求 / 信息差 / 证据 / 时效 / 可执行），无需人工验证；实体验证仅为个人可选。', 'The system assessed business viability (demand, gap, evidence, timing, feasibility); no human validation is required. Physical validation is optional and personal.')}>
           <BadgeCheck className="h-3 w-3" /> {L('系统评估 · 无需人工验证', 'System-assessed · no manual validation needed')}
         </Badge>
+        <Badge tone="cyan" title={L('系统翻译状态来自数据 meta.translation_summary', 'Translation status from data meta.translation_summary')}>
+          {L('系统翻译', 'System translation')} · {translationSummary.provider === 'llm' ? 'LLM' : translationSummary.provider === 'source-zh' ? L('中文源', 'Chinese source') : L('离线词典', 'Offline glossary')}
+        </Badge>
+        <span className="ml-auto flex items-center gap-1 rounded border border-line p-0.5">
+          <button type="button" onClick={() => setViewOriginal(false)} className={cn('rounded px-1.5 py-0.5 text-[9.5px]', !viewOriginal ? 'bg-signal/15 text-signal' : 'text-dim')}>{L('中文', 'Chinese')}</button>
+          <button type="button" onClick={() => setViewOriginal(true)} className={cn('rounded px-1.5 py-0.5 text-[9.5px]', viewOriginal ? 'bg-cyan/15 text-cyan' : 'text-dim')}>{L('原文', 'Original')}</button>
+        </span>
         <span className="rounded border border-line px-1.5 py-0.5 font-mono text-[9px] text-dim">
           {L(`信息差推断 ${gapInferenceCoverage.inferred}/${gapInferenceCoverage.total}`, `Gap inferred ${gapInferenceCoverage.inferred}/${gapInferenceCoverage.total}`)}
         </span>
@@ -221,9 +251,14 @@ export function CandidateBoard({ className }: { className?: string }) {
                 <Badge tone="signal" title={L('系统已评估商机成立度（需求 / 信息差 / 证据 / 时效 / 可执行），无需人工验证。', 'The system assessed business viability (demand, gap, evidence, timing, feasibility); no human validation is required.')}>{systemLevelLabel(systemLevel(c), L, c.system_validation?.score ?? c.scores.total)}</Badge>
                 <span className="ml-auto rounded border border-line px-1.5 py-0.5 font-mono text-[9px] text-dim">conf {c.confidence}</span>
               </div>
-              <div className="mt-1.5 line-clamp-2 text-[13px] font-semibold text-ink">{displayTitle(c)}</div>
-              {displayOriginal(c) && displayOriginal(c) !== displayTitle(c) && <div className="mt-0.5 truncate text-[9px] text-dim">{displayOriginal(c)}</div>}
-              <div className="mt-1 line-clamp-2 text-[10.5px] leading-relaxed text-muted">{displayOneLiner(c)}</div>
+              <div className="mt-1.5 line-clamp-2 text-[13px] font-semibold text-ink">{displayTitle(c, viewOriginal)}</div>
+              {displayOriginal(c) && displayOriginal(c) !== displayTitle(c, viewOriginal) && <div className="mt-0.5 truncate text-[9px] text-dim">{viewOriginal ? (c.title_zh || '') : displayOriginal(c)}</div>}
+              <div className="mt-1 line-clamp-2 text-[10.5px] leading-relaxed text-muted">{displayOneLiner(c, viewOriginal)}</div>
+              <div className="mt-1 flex flex-wrap items-center gap-1">
+                <Badge tone={translationQuality(c).tone} title={L(`provider: ${translationProvider(c)} · quality: ${c.translation?.quality || 'fallback'} · cached: ${c.translation?.cached ? 'yes' : 'no'}`, `provider: ${translationProvider(c)} · quality: ${c.translation?.quality || 'fallback'} · cached: ${c.translation?.cached ? 'yes' : 'no'}`)}>
+                  {L('系统翻译', 'System translation')} · {translationProviderLabel(c, L)} · {L(translationQuality(c).zh, translationQuality(c).en)}
+                </Badge>
+              </div>
               <div className="mt-2 flex flex-wrap gap-1">
                 {c.industry_ids.slice(0, 1).map((id) => <span key={id} className="rounded border border-line/60 px-1 py-0.5 text-[8.5px] text-dim">{industryName(id)}</span>)}
                 {c.gap_type_ids.slice(0, 1).map((id) => <span key={id} className="rounded border border-line/60 px-1 py-0.5 text-[8.5px] text-dim">{gapName(id)}{c.gap_inferred ? L(' · 推断', ' · inferred') : ''}</span>)}
@@ -255,9 +290,18 @@ export function CandidateBoard({ className }: { className?: string }) {
                   <span className="font-mono text-[9.5px] text-dim">{selected.candidate_id}</span>
                   <span className="rounded border border-line px-1.5 py-0.5 font-mono text-[9px] text-dim">conf {selected.confidence}</span>
                 </div>
-                <h2 className="mt-2 text-[18px] font-semibold text-ink">{displayTitle(selected)}</h2>
-                {displayOriginal(selected) && displayOriginal(selected) !== displayTitle(selected) && <div className="mt-0.5 text-[10px] text-dim">{L('原文标题', 'Original title')}: {displayOriginal(selected)}</div>}
-                <p className="mt-1 text-[11px] leading-relaxed text-muted">{displayOneLiner(selected)}</p>
+                <h2 className="mt-2 text-[18px] font-semibold text-ink">{displayTitle(selected, viewOriginal)}</h2>
+                {displayOriginal(selected) && displayOriginal(selected) !== displayTitle(selected, viewOriginal) && <div className="mt-0.5 text-[10px] text-dim">{L('原文标题', 'Original title')}: {displayOriginal(selected)}</div>}
+                <p className="mt-1 text-[11px] leading-relaxed text-muted">{displayOneLiner(selected, viewOriginal)}</p>
+                <div className="mt-2 rounded border border-cyan/20 bg-cyan/[0.03] px-2 py-1.5 text-[9.5px] leading-relaxed text-dim">
+                  <div className="flex flex-wrap items-center gap-1.5">
+                    <Badge tone={translationQuality(selected).tone}>{L('系统翻译', 'System translation')} · {translationProviderLabel(selected, L)}</Badge>
+                    <span className="font-mono">quality {selected.translation?.quality || 'fallback'} · cached {selected.translation?.cached ? 'yes' : 'no'} · {selected.translation?.source_lang || 'en'} → {selected.translation?.target_lang || 'zh'}</span>
+                    <button type="button" onClick={() => setViewOriginal((v) => !v)} className="ml-auto rounded border border-line px-1.5 py-0.5 text-[9px] text-muted hover:text-ink">{viewOriginal ? L('看中文', 'Chinese') : L('看原文', 'Original')}</button>
+                  </div>
+                  {selected.summary_zh && <div className="mt-1">{L('中文摘要', 'Chinese summary')}: {selected.summary_zh}</div>}
+                  {viewOriginal && selected.title_zh && <div>{L('中文标题', 'Chinese title')}: {selected.title_zh}</div>}
+                </div>
               </div>
               <button type="button" onClick={() => setSelected(null)} className="rounded border border-line p-1 text-dim hover:text-ink" aria-label={L('关闭详情', 'Close details')}><X className="h-4 w-4" /></button>
             </div>

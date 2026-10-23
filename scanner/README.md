@@ -1,6 +1,6 @@
-# scanner/ —— 机会雷达扫描流水线（Python 3.11，纯标准库，data-v0.9.2）
+# scanner/ —— 机会雷达扫描流水线（Python 3.11，纯标准库，data-v1.0.0）
 
-> 唯一数据标准：`docs/12-数据契约与字段字典.md`（data-v0.9.2）。扫描器是 `data/rankings.json`、`data/stats.json`、`data/history/*.json`、`data/source-health.json` 与 `scanner/outbox/` 的**唯一生成者**；按契约 4.5/5.x 重算派生字段、按 §9 做 V01–V20 校验；`scanner/serve.py` 提供本地控制台（v0.7.0）。
+> 唯一数据标准：`docs/12-数据契约与字段字典.md`（data-v1.0.0）。扫描器是 `data/rankings.json`、`data/stats.json`、`data/history/*.json`、`data/source-health.json` 与 `scanner/outbox/` 的**唯一生成者**；按契约 4.5/5.x 重算派生字段、按 §9 做 V01–V20 校验；`scanner/serve.py` 提供本地控制台（v0.7.0）。
 
 ## 1. 快速开始
 
@@ -52,7 +52,7 @@ python scanner/serve.py --port 8788 --open   # 自定义端口并自动打开 #/
 python scanner/candidates.py --as-of 2026-10-23
 python scanner/pipeline.py --candidates --as-of 2026-10-23
 
-# 单元测试（标准库 unittest，117 条）
+# 单元测试（标准库 unittest，123 条；v1.0.0 核心回归已移除验证/实验断言）
 python -m unittest discover -s scanner/tests -v
 ```
 
@@ -107,6 +107,7 @@ data/opportunities.json  ── score.py/materialize.py 重算 → 回写派生�
 | `materialize.py` | 机会对象物化：`evidence_count`、日期链、momentum clip、评分回写；缺维度抛错 | §4.1/§4.5 |
 | `rank.py` | 窗口、排序链、真实 delta（day 用上一日快照；week/month/year 同 key；两期都有才计算，新增 null/new；无历史回退 adjacent-window） | §5.1 |
 | `stats.py` | KPI（v0.9.0 含候选计数）、分组分布、评分直方图、14 天趋势、开放窗口价值 | §5.2 / §1.13 |
+| `translate.py` | v0.9.3 系统级翻译：glossary(898 条)/llm/mock/source-zh + SQLite 缓存 + 质量标记；候选自动翻译三字段 | §1.16 |
 | `candidates.py` | v0.9.2 自动候选：outbox business 信号 → 候选卡（标题/摘要清洗、gap 兜底、`system_validation` 8 项系统评估、中文 `title_zh/one_liner_zh`、七问草稿/ROI/10 维评分、`verification_status=not_started` 实体验证默认、同 URL 保留最新；上限可配）+ 四窗口发现榜；不写 opportunities.json | §1.13-§1.15 |
 | `db.py` | `data/radar.db`（opportunities/evidence/rankings_history/source_health），原子重建 | §1.1 |
 | `fetch.py` | 真实采集：RSS/Atom/JSON feed（v0.9.2 XML 容错）、enabled/priority 源选择、限速/缓存/UA/重试、账本去重、相关性初筛、outbox、source-health v2 | §1.2/§6/§1.12 |
@@ -119,7 +120,7 @@ data/opportunities.json  ── score.py/materialize.py 重算 → 回写派生�
 | `validate.py` | V01–V20；**v0.8.0 V10** 校验源注册表字段（enabled/priority/kind/lang/limits）且 enabled 自动源 ≥20；**v0.6.0 配额收紧**：V02（≥80 条/14 行业各≥2/11 区域/≥50 国家/中国角度≥25）、V08（完整配额只在基准日强制，其他 as_of 仅结构校验，v0.6.1）；V19 快照、V20 source-health v2 | §9 |
 | `serve.py` | **v0.7.0 本地控制台后端**：仅 127.0.0.1、token 认证、静态服务（current→app/dist→releases）+ token 注入 index、`/api/health|status|run|job|logs|log|schedule`、单任务 409、路径穿越防护、`scanner/logs/console.log` | §1.8 |
 | `adapters/` | `rss` / `reddit` / `google_trends` / `ecommerce_reviews` 离线适配器 | §1/§6 |
-| `tests/test_scanner.py` | 89 条单测：公式/舍入/边界/窗口/榜单/tie-breaker/物化/validate/归一/去重/history delta/回退/回放链与幂等/source-health/报告/SQLite/feed 解析/红源筛选/enrich/calibrate/yearbook/as-of/fetch --as-of/ledger/relevance/fetch-ledger 集成/候选生成与发现榜 | docs/04 §10.4 |
+| `tests/test_scanner.py` | 95 条单测：公式/舍入/边界/窗口/榜单/tie-breaker/物化/validate/归一/去重/history delta/回退/回放链与幂等/source-health/报告/SQLite/feed 解析/红源筛选/enrich/calibrate/yearbook/as-of/fetch --as-of/ledger/relevance/fetch-ledger 集成/候选生成与发现榜 | docs/04 §10.4 |
 | `tests/test_serve.py` | 28 条单测：health（含 Origin）/401/403/status（含 outbox 摘要）/静态与 SPA 回退/token 注入/无构建 503/run 409/job/logs 与路径穿越/schedule 校验与 disable 幂等/schtasks CSV 中英文解析/enable 后状态同步/locale 解码/fetch 命令 as-of/outbox 端点/token 不落日志 | §1.8 |
 
 ## 4. 历史快照、回放与真实 delta（v0.3.0）
@@ -222,7 +223,14 @@ data/opportunities.json  ── score.py/materialize.py 重算 → 回写派生�
 - **源修复**：XML 容错恢复 rest-of-world；Arab News 403→Middle East Monitor；补 8 源（168 平台/101 enabled/11 区域），干净首跑 101/101 成功、2420 原始→1892 信号→new 1865。
 - data 版本 **0.9.2**（全部 meta）；validate 20/20、unittest 117/117、`--all` 幂等。
 
-## 14. 已知限制
+## 14. v0.9.3 系统级翻译子系统
+
+- `translate.py`：provider glossary（默认离线 898 条词典）/ llm（OpenAI 兼容，需 `LLM_API_KEY`，失败回退 glossary）/ mock / source-zh；缓存 `scanner/build/translation-cache.sqlite`；`translate()` 返回 `{text,provider,quality,cached,source_lang,target_lang,fallback}`。
+- candidates 自动逐条翻译：`title_zh(≤40 真实翻译)/one_liner_zh/summary_zh/title_original/translation{...}`；meta `translation_summary`；实测 200 条 cached 100%、覆盖 1.0、provider glossary 194/source-zh 6、quality medium 120/low 74/source-zh 6。
+- CLI：`python scanner/translate.py --text ... --provider glossary`、`--stats`、`--clear-cache`；`pipeline.py --translate-provider llm --no-translate-cache` 可切换；无 key 时默认 glossary（**不联网**）。
+- 质量：glossary 词典翻译可能不完美；翻译质量不参与商机收录/排序。
+
+## 15. 已知限制
 
 1. 回放快照是「按当日窗口规则重排现有机会」的演示口径，非真实历史存档；UI 需用 `reconstructed=true` 明示。
 2. `--all` 不联网；`--fetch` 当前只覆盖 RSS/JSON feed，公开 API 未接线。

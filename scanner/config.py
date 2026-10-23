@@ -29,7 +29,7 @@ CANDIDATES_PATH = DATA_DIR / "candidates.json"
 CANDIDATE_RANKINGS_PATH = DATA_DIR / "candidate-rankings.json"
 DB_PATH = DATA_DIR / "radar.db"
 
-DATA_VERSION = "0.9.2"
+DATA_VERSION = "1.0.0"
 DEFAULT_AS_OF = "2026-10-22"
 CURRENT_WEEK = "2026-W43"
 CANDIDATE_LIMIT = 200  # v0.9.1：候选上限可配置（CLI --candidates-limit / candidates.py --limit）
@@ -56,6 +56,10 @@ SOURCE_HEALTH_STATUSES = {200, 301, 302, 304, 403, 404, 429, 500, 503}
 
 # v0.8.0：持久信号账本 + 相关性初筛
 LEDGER_PATH = BUILD_DIR / "signal-ledger.sqlite"
+# v0.9.3：系统级翻译缓存/默认目标语言
+TRANSLATION_CACHE_PATH = BUILD_DIR / "translation-cache.sqlite"
+TRANSLATION_TARGET_LANG = "zh"
+TRANSLATION_DEFAULT_PROVIDER = "auto"
 RELEVANCE_TIERS = {"business", "maybe", "off-topic"}
 RELEVANCE_BUSINESS_MIN = 70
 RELEVANCE_MAYBE_MIN = 40

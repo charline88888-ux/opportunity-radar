@@ -2,6 +2,50 @@
 
 格式：`data_version` + 日期 + 变更内容 + 影响面。契约变更（字段/枚举/公式）必须同步更新 `docs/12-数据契约与字段字典.md` 并通知 Lead、前端、红队。
 
+## data-v1.0.0 · 2026-10-23 · MAJOR 核心回归（只留扫描→候选→四窗口榜）
+
+> 产品边界回归：**每日扫描 → 系统评估商机 → 自动候选/精选入榜**。删除验证/实验/校准/年度/画像/预警/数据包/控制台等非核心功能与产物；系统只负责发现与评估，不验证个人商业结果。
+
+### 保留
+- `opportunities.json`（80 条精选：七问/证据/评分）、`candidates.json`（200 条自动候选：title_zh/one_liner_zh/summary_zh/评分/等级/行业/信息差/区域/来源/七问草稿/证据/ROI/免责）、`candidate-rankings.json`（四窗口 day99/week200/month200/year200）、`rankings.json`（四窗口精选）、`sources/source-health`（168 平台/101 enabled）、`taxonomy/playbooks/calendar/stats/history`、四窗口报告 `report-*-2026-10-23`（day/week/month/year × html/md）。
+
+### 删除/停用
+- `data/reports/calibration-*`、`data/reports/yearbook-*` 已删除；报告只保留四窗口 8 文件。
+- 候选与 meta 去掉 `verification_status`、`verification_default`、`verification_affects_ranking`、`verified_by_system` 等实体验证字段；保留纯系统评估 `system_validation`（level/score/checks/notes，仅评估商机信号，不代表收入承诺）。
+- stats 去掉验证计数（保留 candidates_total/today_new_candidates）；非核心功能（calibration/yearbook/experiments/profile/alerts/data-package/console）不再生成或停用。
+
+### P1 修复（翻译冷缓存 determinism）
+- `translation.quality` 改为只由最终翻译文本/provider 计算（`translate.quality_for_translated`），缓存命中时重算，不受 warm-cache 历史影响；缓存 key 加入 glossary/cache 版本。
+- 验证：清空 `scanner/build/translation-cache.sqlite*` 后冷跑两次 `candidates.py` 字节一致，且与冻结文件一致（cold1==committed、cold2==cold1、`--all`==cold）；`--all` 双跑 0 变化。
+
+### 版本/复核
+- data 全部 meta **1.0.0**；validate **20/20**；unittest **123/123**；报告/候选/统计/榜单已重生成；db 80/156/654/101。
+- 指纹（SHA256 前 16）：opportunities `88FDA5AB84B7F826`（未变）、rankings `4CF2818567471AB8`、stats `9280D34B27CFECEE`、candidates `7FA17E2719DE342E`、candidate-rankings `666E1C66D04B06CE`、sources `3DC888F74A98E536`、source-health `8239A155E8215994`、radar.db `9CE2AD8540BEACD1`、report-day-10-23 `0B1E887AB73956D0`；代码 translate.py `2350C346277FD68C`、candidates.py `36F3556796FDE918`。
+
+## data-v0.9.3 · 2026-10-23 · MINOR 增量（系统级翻译子系统）
+
+
+> 翻译是**系统功能**：每次候选生成自动翻译，带 SQLite 缓存、可切换 provider、失败回退；翻译质量不参与商机收录/排序。
+
+### A) `scanner/translate.py`（新增）
+- provider：`glossary`（默认离线，**898 条**高频短语/实体词典 + 功能词 + 城市/品牌/行业）、`llm`（OpenAI 兼容，需 `LLM_API_KEY`，可选 `LLM_BASE_URL`/`LLM_MODEL`，失败回退 glossary 并标 `fallback=true`）、`mock`（测试用、不联网）、`source-zh`（原文含中文直通）。
+- 缓存：`scanner/build/translation-cache.sqlite`（gitignore），key=sha256(provider+target+source_lang+text)，命中 `cached=true`；`translate()` 返回 `{text,provider,quality,cached,source_lang,target_lang,fallback}`；质量 high/medium/low/source-zh。
+- CLI：`python scanner/translate.py --text ... --provider glossary|llm|mock`、`--stats`、`--clear-cache`、`--no-cache`。
+
+### B) 候选自动翻译（`candidates.py`）
+- 每条候选自动生成 `title_zh(≤40，真实翻译句子，不做行业标签拼接)/one_liner_zh(≤60)/summary_zh(≤160)/title_original/translation{provider,quality,cached,source_lang,target_lang,fallback,disclaimer}`（`translation_method` 保留为 provider 别名）；`--translate-provider`/`--no-translate-cache` 可切换；无 `LLM_API_KEY` 时默认 glossary、**不联网**。
+- meta `translation_summary`：实测 200 条 **provider glossary 194 / source-zh 6**、**cached 200（100%）**、**中文覆盖 1.0**、quality medium 107 / low 87 / source-zh 6（按英文残留 token 比例+长度判定；仅残留 >50% 才回退中文模板 quality=low/template=true）、glossary_entries 898；翻译不参与排序，保留 `title_original` 供前端切原文。
+- 抽检 10 条标题示例：`马来西亚、泰国央行加入 MAS 跨境支付倡议`、`如何 Z 世代消费者是改变商业在非洲`、`字节跳动’s PineDrama targets overseas 增长与 e…`、`Lianlian 全球合作 PayPal 到 Power 跨境 Payouts…`、`欧盟 Council agrees negotiating stance 为中…` 等。
+
+### C) 版本/复核
+- data 全部 meta 升 **0.9.3**（含 history/outbox）；candidate-rankings 四窗口 day 99/week 200/month 200/year 200；stats 候选 200/今日新增 99；报告/年鉴/校准 0.9.3；db 80/156/654/101。
+- validate **20/20**；unittest **123/123**（新增翻译 glossary/缓存/source-zh/无 key 回退/mock/LLM mock server 等 6 条）；`--all --as-of 2026-10-23` 双跑幂等（data JSON+db+reports 0 变化）。
+- 指纹（SHA256 前 16）：opportunities `88FDA5AB84B7F826`（未变）、rankings `836198F64B04EC7E`、stats `482DEFFA9B32E4B6`、candidates `EDF645EC7EA065C5`、candidate-rankings `E93AD02ADB011265`、sources `6C44A7205E094616`、source-health `6610891B734027D8`、radar.db `655B8DA58A019464`、report-day-10-23 `F09089F3719797FB`、yearbook `EDF3454B0C8FD5DA`、calibration `3DDBD5C27A5E85C7`；代码 translate.py `40E52B557530C807`、candidates.py `7965625ED832CD07`、config.py `7506A64C61F95AFE`、pipeline.py `98B56D04CA8030DC`。
+
+### 已知不足
+- glossary 为词典式翻译（quality medium 120 / low 74），个别标题仍偏模板/带英文残词；LLM 需 key 才能高质量。
+- 候选标题额外做「行业·信息差 + 中文片段」拼接以保证可读性与 ≤28 字，可能丢失部分原文细节；`title_original` 始终保留原文。
+
 ## data-v0.9.2 · 2026-10-23 · MINOR 增量（商机系统评估 + 中文候选 + 漏斗修复 + 源 168/101）
 
 > 边界原则（用户明确）：**“是不是商机”由系统评估（需求/信息差/证据/时效/可执行性），无需人工；“能不能赚钱”是个人线下实体验证（可选），系统不验证、不承诺、不作为门禁。**

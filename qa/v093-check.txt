@@ -1,0 +1,30 @@
+
+== v0.9.3 check ==
+  · sources：168 平台 / 101 enabled 自动源（Counter({'rss': 95, 'json': 6})）/ 11 区域 / 8 disabled（原因齐全）
+  · select_sources(160)：101 源全部合规 ✅
+  · source-health：101 行 / ok 101 / failed 0 / items 2420 / mode=online-fetch
+  · outbox=signals-2026-10-23.json raw=2420→signal=1892 new=1865 seen=27 ledger=1865
+  · ledger：1865 行、fingerprint 唯一 ✅
+  · candidates 新字段：gap_inference 200/200、source.cleaned=title、source.raw_title 齐全 ✅
+  · 翻译：200/200 候选含 translation{provider,quality,cached,source_lang,target_lang,fallback,disclaimer}、cached=true、title_zh/one_liner_zh/summary_zh/title_original 齐全 ✅
+  · translate.py --stats：glossary_entries=898、cache entries=861、llm_available=false ✅
+  · translate.py --text：glossary → AI 需求为宠物纪念玻璃；二次 cached=true ✅
+  · 无 LLM_API_KEY：provider=llm 自动回退 glossary（fallback=False / provider=glossary），未联网 ✅
+  · translation-cache.sqlite：861 条目（gitignore 本地缓存）
+  · system_validation：200/200 verified_by_system、8 checks、high53/medium133/low14、avg=92.9、level 阈值一致 ✅
+  · 中文化：200/200 title_zh≤40、one_liner_zh≤60、title_original/translation_method 齐全（glossary194/source-zh6）✅
+  · funnel 真值：attempted101/ok101/failed0、raw2420→deduped1892→new1865→relevant344→candidates200，与 health/outbox 一致 ✅
+  · candidates：200 条（business_signals 344）、gap 200/200、region 11/11、country 28、评分复算 200/200、URL 唯一、verification=not_started
+  · candidate-rankings：{'day': 99, 'week': 200, 'month': 200, 'year': 200}、按 first_seen 归窗、排序独立复算一致、验证不门禁 ✅
+  · 精选 80 条内容与 v0.9.0 完全一致（仅 data_version→0.9.1）✅
+  · data 全部 meta=0.9.3（9 文件）✅
+  · candidates.py --as-of --limit 200 重跑字节一致（确定性）✅
+  · --all --as-of 2026-10-23 双跑 0 文件变化（30 文件）✅
+  · validate：20/20 PASS ✅
+  · unittest：Ran 123 tests PASS ✅
+  · radar.db 行数 80/156/654/101 ✅
+  · 关键指纹与 data-engineer 交付一致 ✅
+  · 候选文件非 gitignore（提交物）✅
+
+P0 = 0  P1 = 0  P2 = 0
+RESULT: PASS

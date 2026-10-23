@@ -253,7 +253,7 @@ export default function Sources() {
               <span className="ml-2 font-mono text-[10px] text-dim">mode {sourceHealth.mode || '—'}</span>
               <span className="ml-2 font-mono text-[10px] text-dim">{sourceHealth.checked_at || '—'}</span>
             </span>
-            {sourceHealth.fail_count > 0 && <Badge tone="danger">失败 {sourceHealth.fail_count} 个 · 见 About/预警中心</Badge>}
+            {sourceHealth.fail_count > 0 && <Badge tone="danger">失败 {sourceHealth.fail_count} 个 · 见关于</Badge>}
             {failedHealthSources.length > 0 && (
               <span className="w-full text-[9.5px] leading-relaxed text-danger/85">
                 {L('失败原因', 'Failure reasons')}: {failedHealthSources.map((s) => `${s.name || s.id}: ${s.error || '—'}`).join(' · ')}
@@ -262,7 +262,7 @@ export default function Sources() {
             {unmatchedHealthCount > 0 && <Badge tone="amber">{unmatchedHealthCount} 源未匹配矩阵</Badge>}
             <span className="ml-auto flex items-center gap-2 text-[10px]">
               <span className="text-dim">v2 字段：mode / latency / cached / error / checked_at；id 变化时按 url/name 兼容</span>
-              <Link to="/alerts" className="text-muted hover:text-signal">查看预警 →</Link>
+              <Link to="/about" className="text-muted hover:text-signal">查看关于 →</Link>
             </span>
           </>
         ) : (

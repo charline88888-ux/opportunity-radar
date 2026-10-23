@@ -1580,18 +1580,18 @@ class TestCandidatesV090(unittest.TestCase):
             self.assertEqual(rows[2]["source_tier"], "maybe")  # business 不足时补 maybe
             first = rows[0]
             for key in (
-                "candidate_id", "title", "title_zh", "title_original", "one_liner_zh", "translation_method",
+                "candidate_id", "title", "title_zh", "title_original", "one_liner_zh", "summary_zh",
+                "translation", "translation_method",
                 "one_liner", "industry_ids", "gap_type_ids", "region_ids",
                 "target_countries", "source", "evidence", "seven_questions", "roi", "scores",
-                "confidence", "status", "verification_status", "system_validation", "verified_by_system",
+                "confidence", "status", "system_validation",
                 "first_seen", "last_seen", "disclaimer",
             ):
                 self.assertIn(key, first)
-            self.assertLessEqual(len(first["title"]), 28)
+            self.assertLessEqual(len(first["title"]), 40)
+            self.assertNotIn("｜", first["title_zh"])  # v0.9.3 修订：title_zh 用真实翻译，不做标签拼接
             self.assertEqual(len(first["seven_questions"]), 7)
             self.assertEqual(first["status"], "auto-discovered")
-            self.assertEqual(first["verification_status"], "not_started")
-            self.assertTrue(first["verified_by_system"])
             self.assertGreaterEqual(len(first["system_validation"]["checks"]), 5)
             self.assertIn(first["system_validation"]["level"], {"high", "medium", "low"})
             self.assertGreaterEqual(len(first["evidence"]), 1)
@@ -1672,12 +1672,10 @@ class TestCandidatesV090(unittest.TestCase):
             payload, _ = candidates.build_candidates(as_of=self.AS_OF, outbox_path=outbox)
             rankings = candidates.build_candidate_rankings(payload, self.AS_OF)
             self.assertEqual(payload["meta"]["total"], 2)  # 实体验证 not_started 仍全部上榜
-            self.assertTrue(all(candidate["verification_status"] == "not_started" for candidate in payload["candidates"]))
             ids = {item["candidate_id"] for window in rankings["windows"].values() for item in window["items"]}
             self.assertEqual(ids, {candidate["candidate_id"] for candidate in payload["candidates"]})
             self.assertFalse(rankings["meta"]["verification_affects_ranking"])
             # 系统评估不依赖任何人工/实验输入
-            self.assertTrue(all(candidate["verified_by_system"] for candidate in payload["candidates"]))
 
     def test_gap_fallback_coverage(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -1783,25 +1781,31 @@ class TestCandidatesV090(unittest.TestCase):
             self.assertEqual(payload["meta"]["total"], 2)
             summary = payload["meta"]["system_validation_summary"]
             self.assertEqual(summary["high"] + summary["medium"] + summary["low"], 2)
-            self.assertEqual(summary["verified_by_system"], 2)
             self.assertGreater(summary["avg_score"], 0)
             translation = payload["meta"]["translation_coverage"]
             self.assertEqual(translation["total"], 2)
             self.assertEqual(translation["zh_titles"], 2)
             self.assertEqual(translation["ratio"], 1.0)
-            self.assertEqual(set(translation["methods"]), {"template", "source-zh"})
+            self.assertEqual(set(translation["methods"]), {"glossary", "source-zh"})
+            self.assertEqual(payload["meta"]["translation_summary"]["glossary"], 1)
+            self.assertEqual(payload["meta"]["translation_summary"]["source_zh"], 1)
+            self.assertEqual(payload["meta"]["translation_summary"]["coverage"], 1.0)
+            self.assertTrue(all(candidate["translation"]["cached"] for candidate in payload["candidates"]))
             for candidate in payload["candidates"]:
                 validation = candidate["system_validation"]
-                self.assertTrue(candidate["verified_by_system"])
                 self.assertGreaterEqual(len(validation["checks"]), 5)
                 self.assertIn(validation["level"], {"high", "medium", "low"})
-                self.assertIn("赚钱", validation["notes"])
+                self.assertIn("系统自动评估", validation["notes"])
                 self.assertTrue(any("\u4e00" <= char <= "\u9fff" for char in candidate["title_zh"]))
-                self.assertLessEqual(len(candidate["title_zh"]), 28)
+                self.assertLessEqual(len(candidate["title_zh"]), 40)
+                self.assertNotIn("｜", candidate["title_zh"])
+                self.assertIn(candidate["translation"]["quality"], {"high", "medium", "low", "source-zh"})
+                self.assertIn("cached", candidate["translation"])
                 self.assertTrue(any("\u4e00" <= char <= "\u9fff" for char in candidate["one_liner_zh"]))
+                self.assertTrue(any("\u4e00" <= char <= "\u9fff" for char in candidate["summary_zh"]))
             en_candidate = next(item for item in payload["candidates"] if item["source"]["url"].endswith("example.com/en-1"))
             self.assertIn("Pet memorial", en_candidate["title_original"])
-            self.assertEqual(en_candidate["translation_method"], "template")
+            self.assertEqual(en_candidate["translation_method"], "glossary")
             self.assertNotEqual(en_candidate["title"], en_candidate["title_original"])
             self.assertIn("funnel", payload["meta"])
             self.assertIn("attempted", payload["meta"]["funnel"])
@@ -1810,15 +1814,12 @@ class TestCandidatesV090(unittest.TestCase):
         opportunities = common.load_json(config.OPPORTUNITIES_PATH)
         taxonomy = common.load_json(config.TAXONOMY_PATH)
         candidate_rows = [
-            {"candidate_id": "cand-a", "first_seen": "2026-10-23", "verification_status": "not_started", "verified_by_system": True},
-            {"candidate_id": "cand-b", "first_seen": "2026-10-20", "verification_status": "not_started", "verified_by_system": True},
+            {"candidate_id": "cand-a", "first_seen": "2026-10-23"},
+            {"candidate_id": "cand-b", "first_seen": "2026-10-20"},
         ]
         payload = stats.build_stats(opportunities, taxonomy, self.AS_OF, candidates=candidate_rows)
         self.assertEqual(payload["kpi"]["candidates_total"], 2)
         self.assertEqual(payload["kpi"]["today_new_candidates"], 1)
-        self.assertEqual(payload["kpi"]["unverified_candidates"], 2)
-        self.assertEqual(payload["kpi"]["verification_not_started_candidates"], 2)
-        self.assertEqual(payload["kpi"]["system_verified_candidates"], 2)
 
     def test_pipeline_candidates_flag_generates(self):
         fake = {
@@ -1834,6 +1835,109 @@ class TestCandidatesV090(unittest.TestCase):
             code = pipeline.main(["--candidates", "--as-of", "2026-10-23"])
         self.assertEqual(code, 0)
         self.assertEqual(mocked.call_count, 1)
+
+
+class TestTranslateV093(unittest.TestCase):
+    """v0.9.3：系统级翻译（glossary/缓存/source-zh/无 key 回退/mock/LLM 兼容）。"""
+
+    def test_glossary_entries_and_translation(self):
+        from scanner import translate
+
+        self.assertGreaterEqual(len(translate.GLOSSARY), 200)
+        result = translate.translate("Pet memorial startup raises funding in US", provider="glossary", use_cache=False)
+        self.assertEqual(result["provider"], "glossary")
+        self.assertIn(result["quality"], {"high", "medium", "low"})
+        self.assertTrue(any("\u4e00" <= char <= "\u9fff" for char in result["text"]))
+
+    def test_cache_hit_second_call(self):
+        from scanner import translate
+
+        with tempfile.TemporaryDirectory() as tmp:
+            cache = Path(tmp) / "translation-cache.sqlite"
+            first = translate.translate("Amazon launches new ecommerce marketplace in Brazil", provider="glossary", cache_path=cache)
+            second = translate.translate("Amazon launches new ecommerce marketplace in Brazil", provider="glossary", cache_path=cache)
+            self.assertFalse(first["cached"])
+            self.assertTrue(second["cached"])
+            self.assertEqual(first["text"], second["text"])
+
+    def test_source_zh_passthrough(self):
+        from scanner import translate
+
+        result = translate.translate("宠物纪念品创业公司完成融资", use_cache=False)
+        self.assertEqual(result["provider"], "source-zh")
+        self.assertEqual(result["quality"], "source-zh")
+        self.assertEqual(result["text"], "宠物纪念品创业公司完成融资")
+
+    def test_no_key_auto_uses_glossary(self):
+        from scanner import translate
+
+        with mock.patch.dict("os.environ", {"LLM_API_KEY": "", "LLM_BASE_URL": "", "LLM_MODEL": ""}):
+            result = translate.translate("Halal beauty market grows in MENA", use_cache=False)
+        self.assertEqual(result["provider"], "glossary")
+        self.assertFalse(result["fallback"])
+
+    def test_mock_provider_offline(self):
+        from scanner import translate
+
+        result = translate.translate("Pet food market expands", provider="mock", use_cache=False)
+        self.assertEqual(result["provider"], "mock")
+        self.assertEqual(result["quality"], "medium")
+
+    def test_llm_mock_server_and_fallback(self):
+        import http.server
+        import os
+        import threading
+
+        from scanner import translate
+
+        class Handler(http.server.BaseHTTPRequestHandler):
+            def do_POST(self):  # noqa: N802
+                length = int(self.headers.get("Content-Length", "0"))
+                self.rfile.read(length)
+                body = json.dumps({"choices": [{"message": {"content": "宠物纪念品市场增长（LLM 译文）"}}]}).encode("utf-8")
+                self.send_response(200)
+                self.send_header("Content-Type", "application/json")
+                self.send_header("Content-Length", str(len(body)))
+                self.end_headers()
+                self.wfile.write(body)
+
+            def log_message(self, *_args):  # 静音
+                return
+
+        server = http.server.HTTPServer(("127.0.0.1", 0), Handler)
+        port = server.server_address[1]
+        thread = threading.Thread(target=server.serve_forever, daemon=True)
+        thread.start()
+        try:
+            env = {"LLM_API_KEY": "test-key", "LLM_BASE_URL": f"http://127.0.0.1:{port}", "LLM_MODEL": "mock-model"}
+            with tempfile.TemporaryDirectory() as tmp, mock.patch.dict(os.environ, env):
+                result = translate.translate(
+                    "Pet memorial market grows",
+                    provider="llm",
+                    cache_path=Path(tmp) / "cache.sqlite",
+                )
+                self.assertEqual(result["provider"], "llm")
+                self.assertEqual(result["quality"], "high")
+                fallback = translate.translate(
+                    "Pet memorial market grows in Europe",
+                    provider="llm",
+                    cache_path=Path(tmp) / "cache2.sqlite",
+                )
+                self.assertEqual(fallback["provider"], "llm")
+            # 错误地址 → 回退 glossary
+            with tempfile.TemporaryDirectory() as tmp, mock.patch.dict(
+                os.environ, {"LLM_API_KEY": "test-key", "LLM_BASE_URL": "http://127.0.0.1:1", "LLM_MODEL": "m"}
+            ):
+                failed = translate.translate(
+                    "Pet memorial market grows",
+                    provider="llm",
+                    cache_path=Path(tmp) / "cache3.sqlite",
+                )
+            self.assertEqual(failed["provider"], "glossary")
+            self.assertTrue(failed["fallback"])
+        finally:
+            server.shutdown()
+            server.server_close()
 
 
 class TestFetchXmlV092(unittest.TestCase):
