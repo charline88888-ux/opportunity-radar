@@ -1,16 +1,16 @@
 {
   "app_version": "1.0.1",
   "data_version": "1.0.1",
-  "released_at": "2026-10-23T19:12:01+08:00",
-  "git_commit": "37946a5",
+  "released_at": "2026-10-23T19:13:30+08:00",
+  "git_commit": "",
   "git_tag": "v1.0.1",
   "build": {
     "node": "v24.15.0",
     "pnpm": "11.2.2"
   },
   "validation": {
-    "pipeline": "pass",
-    "validate": "pass",
+    "pipeline": "skipped",
+    "validate": "skipped",
     "build": "pass"
   },
   "counts": {
