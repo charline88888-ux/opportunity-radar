@@ -6,6 +6,7 @@ import AppShell from '@/components/AppShell'
 import ErrorBoundary from '@/components/ErrorBoundary'
 import { TooltipProvider } from '@/components/ui'
 import Dashboard from '@/pages/Dashboard'
+import Control from '@/pages/Control'
 import Rankings from '@/pages/Rankings'
 import OpportunityDetail from '@/pages/OpportunityDetail'
 import Scanner from '@/pages/Scanner'
@@ -56,6 +57,7 @@ function AppRoutes() {
       <ErrorBoundary>
         <Routes location={location}>
           <Route path="/" element={<Dashboard />} />
+          <Route path="/control" element={<Control />} />
           <Route path="/rankings" element={<Rankings />} />
           <Route path="/opportunities/:id" element={<OpportunityDetail />} />
           <Route path="/scanner" element={<Scanner />} />

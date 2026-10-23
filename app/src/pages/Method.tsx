@@ -231,7 +231,7 @@ export default function Method() {
   return (
     <div>
       <PageHeader
-        index="04"
+        index="05"
         kicker="METHOD · 方法论"
         title="方法论 · 评分模型与商业驱动框架"
         description="10 维评分权重可拖动实时重排 Top10；七问框架、6 神经递质 × 12 需求矩阵、12 类信息差、Hofstede 文化维度与窗口衰减模型，共同构成扫描的判断标准。"

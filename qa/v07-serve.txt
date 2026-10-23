@@ -1,0 +1,31 @@
+
+== serve-check ==
+  · 数据 0.7.0 / 四窗口 17/49/57/80 / 指纹与交付一致 ✅
+  · 监听地址仅 127.0.0.1:8791 ✅（['127.0.0.1:8791']）
+  · LAN IP 172.29.0.1:8791 不可连接（仅 loopback）✅
+  · --host 0.0.0.0 拒绝启动 exit 2 ✅
+  · 随机 token 生成并写入文件（长度 43，URL-safe）✅
+  · status：缺/错 token 401、正确 token 200 ✅
+  · Origin：非 loopback 403、loopback 200 ✅
+  · /api/health Origin：非 loopback 403、loopback 200（免 token 但校验 Origin）✅
+  · 路径穿越 7 种变体均拒绝且不泄漏：[('/../data/opportunities.json', 403), ('/%2e%2e/data/opportunities.json', 403), ('/..%2fdata%2fopportunities.json', 403), ('/..\\data\\opportunities.json', 403), ('/%2e%2e%5cdata%5copportunities.json', 403), ('/api/log?name=..%2Fdata%2Fopportunities.json', 400), ('/api/log?name=..%5cdata%5copportunities.json', 400)]
+  · index.html 200 + 注入 window.__RADAR_CONSOLE_TOKEN__（响应内）✅
+  · SPA 深链回退 index 且注入 token ✅
+  · 非 index 静态文件不注入 token ✅
+  · status schema/数据摘要/静态优先级（current/index.html）✅
+  · run build 202 + 并发 409 ✅
+  · run build 完成：state=ok exit=0 log_tail=37 行，耗时 11.7s
+  · console.log 可读、tail≤200KB、不含 token ✅
+  · schedule disable（任务不存在）幂等：200 + not_installed ✅
+  · schedule disable/enable 实测（schtasks 任务创建）✅
+  · schedule disable 清理任务（测试后恢复无任务状态）✅
+  · console.log 记录 API 调用且全 logs 不含 token ✅
+  · serve 启动/运行输出不打印 token ✅
+  · 无构建：503 + 引导文案 ✅
+  · serve unittest：Ran 17 tests PASS ✅
+  · full unittest：Ran 81 tests PASS ✅
+  · validate：20/20 PASS ✅
+  · --all 幂等：27 个 data 文件 SHA256 一致 ✅
+
+P0 = 0  P1 = 0  P2 = 0
+RESULT: PASS

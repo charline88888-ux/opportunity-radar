@@ -17,6 +17,7 @@ import {
   ShieldCheck,
   Sparkles,
   Target,
+  Terminal,
   UserRound,
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
@@ -29,18 +30,19 @@ import { Badge, InfoTip } from './ui'
 
 const NAV = [
   { to: '/', id: '01', label: '指挥台', en: 'COMMAND', icon: LayoutDashboard, desc: 'KPI · 今日榜 · 全景信号' },
-  { to: '/rankings', id: '02', label: '排行榜', en: 'RANKINGS', icon: ListOrdered, desc: '综合榜 / 为你推荐' },
-  { to: '/scanner', id: '03', label: '扫描室', en: 'SCANNER', icon: Radar, desc: '热力矩阵 · 剧本 · 数据源健康' },
-  { to: '/method', id: '04', label: '方法论', en: 'METHOD', icon: BookOpenCheck, desc: '评分模型 · 七问 · 文化维度' },
-  { to: '/sources', id: '05', label: '数据源矩阵', en: 'SOURCES', icon: Database, desc: '12 大类平台 · 合规等级' },
-  { to: '/calendar', id: '06', label: '全球商业日历', en: 'CALENDAR', icon: CalendarDays, desc: '节庆 / 税季 / 开学节点' },
-  { to: '/lab', id: '07', label: '实验台', en: 'LAB', icon: FlaskConical, desc: '7 天验证 · 记录与复盘' },
-  { to: '/profile', id: '08', label: '个人画像', en: 'PROFILE', icon: UserRound, desc: '7 维能力 · 推荐基础' },
-  { to: '/alerts', id: '09', label: '预警中心', en: 'ALERTS', icon: Bell, desc: '窗口 / 实验 / 源 / 匹配' },
-  { to: '/calibration', id: '10', label: '回测校准', en: 'CALIBRATION', icon: Target, desc: '预测等级 vs 实验结果' },
-  { to: '/yearbook', id: '11', label: '年度复盘', en: 'YEARBOOK', icon: CalendarRange, desc: '年榜 · 时间线 · 年度导出' },
-  { to: '/data', id: '12', label: '个人数据', en: 'DATA', icon: HardDrive, desc: '数据包导出 / 导入迁移' },
-  { to: '/about', id: '13', label: '关于', en: 'ABOUT', icon: Info, desc: '版本 · 文档 · 免责声明' },
+  { to: '/control', id: '02', label: '控制台', en: 'CONTROL', icon: Terminal, desc: '一键更新 · 采集 · 定时任务' },
+  { to: '/rankings', id: '03', label: '排行榜', en: 'RANKINGS', icon: ListOrdered, desc: '综合榜 / 为你推荐' },
+  { to: '/scanner', id: '04', label: '扫描室', en: 'SCANNER', icon: Radar, desc: '热力矩阵 · 剧本 · 数据源健康' },
+  { to: '/method', id: '05', label: '方法论', en: 'METHOD', icon: BookOpenCheck, desc: '评分模型 · 七问 · 文化维度' },
+  { to: '/sources', id: '06', label: '数据源矩阵', en: 'SOURCES', icon: Database, desc: '12 大类平台 · 合规等级' },
+  { to: '/calendar', id: '07', label: '全球商业日历', en: 'CALENDAR', icon: CalendarDays, desc: '节庆 / 税季 / 开学节点' },
+  { to: '/lab', id: '08', label: '实验台', en: 'LAB', icon: FlaskConical, desc: '7 天验证 · 记录与复盘' },
+  { to: '/profile', id: '09', label: '个人画像', en: 'PROFILE', icon: UserRound, desc: '7 维能力 · 推荐基础' },
+  { to: '/alerts', id: '10', label: '预警中心', en: 'ALERTS', icon: Bell, desc: '窗口 / 实验 / 源 / 匹配' },
+  { to: '/calibration', id: '11', label: '回测校准', en: 'CALIBRATION', icon: Target, desc: '预测等级 vs 实验结果' },
+  { to: '/yearbook', id: '12', label: '年度复盘', en: 'YEARBOOK', icon: CalendarRange, desc: '年榜 · 时间线 · 年度导出' },
+  { to: '/data', id: '13', label: '个人数据', en: 'DATA', icon: HardDrive, desc: '数据包导出 / 导入迁移' },
+  { to: '/about', id: '14', label: '关于', en: 'ABOUT', icon: Info, desc: '版本 · 文档 · 免责声明' },
 ]
 
 function RadarMark() {
@@ -435,7 +437,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
         <MobileNav />
         {lang === 'en' && (
           <div className="border-b border-amber/25 bg-amber/[0.06] px-4 py-1.5 text-[10.5px] leading-relaxed text-amber sm:px-6 lg:px-8">
-            <span className="font-mono text-[9px] tracking-wider text-amber/80">EN · V0.6.1 </span>
+            <span className="font-mono text-[9px] tracking-wider text-amber/80">EN · V0.7.0 </span>
             {EN_CONTENT_NOTICE}
           </div>
         )}

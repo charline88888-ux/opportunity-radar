@@ -1,0 +1,93 @@
+name: Daily data refresh & deploy
+
+# 每天 06:30（Asia/Shanghai = UTC+8，即 UTC 22:30）自动：
+#   1) 按当天日期推进 as_of（pipeline --all --as-of <today>）
+#   2) validate 20/20
+#   3) 提交更新后的 data/rankings.json、data/stats.json、data/history/
+#   4) 构建前端并部署 gh-pages：根目录 = 当日最新数据，/vX.Y.Z/ = 冻结版本
+# 也可在 Actions 页面手动触发（workflow_dispatch）。
+
+on:
+  schedule:
+    - cron: '30 22 * * *'
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/daily-update.yml'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: pages-deploy
+  cancel-in-progress: false
+
+jobs:
+  daily-refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Compute as_of (Asia/Shanghai)
+        run: echo "AS_OF=$(TZ=Asia/Shanghai date +%F)" >> "$GITHUB_ENV"
+
+      - name: Refresh data for today
+        run: |
+          echo "as_of=$AS_OF"
+          python scanner/pipeline.py --all --as-of "$AS_OF"
+          python scanner/validate.py
+
+      - name: Commit refreshed data (if changed)
+        run: |
+          git config user.name "opportunity-radar-bot"
+          git config user.email "bot@users.noreply.github.com"
+          git add data/rankings.json data/stats.json data/history data/source-health.json
+          if git diff --cached --quiet; then
+            echo "no data changes today"
+          else
+            git commit -m "data: daily refresh ${AS_OF}"
+            git push
+          fi
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 11
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+          cache-dependency-path: app/pnpm-lock.yaml
+
+      - name: Build app (strict, real data)
+        working-directory: app
+        run: |
+          pnpm install --frozen-lockfile
+          pnpm build
+
+      - name: Assemble site (root = today's live data, archives = frozen versions)
+        run: |
+          python scripts/build_site.py --dist app/dist --out _site --as-of "$AS_OF"
+          cat _site/versions.json | head -20
+
+      - name: Deploy to gh-pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_branch: gh-pages
+          publish_dir: ./_site
+          force_orphan: true
+          commit_message: 'deploy: daily data ${AS_OF}'
+          user_name: 'opportunity-radar-bot'
+          user_email: 'bot@users.noreply.github.com'

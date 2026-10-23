@@ -58,6 +58,7 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--releases", default="releases")
     parser.add_argument("--out", default="_site")
     parser.add_argument("--version", default="", help="最新版本号（默认读 VERSION）")
+    parser.add_argument("--as-of", default="", help="可选：最新数据的 as_of（写入 versions.json.live_as_of）")
     args = parser.parse_args(argv)
 
     root = Path(__file__).resolve().parent.parent
@@ -89,7 +90,7 @@ def main(argv: list[str] | None = None) -> int:
         versions.append(
             {
                 "version": child.name,
-                "path": "/" if child.name == latest else f"/{child.name}/",
+                "path": f"/{child.name}/",  # v0.7.0：所有版本（含最新）都有独立归档
                 "released_at": released_at(child, idx),
             }
         )
@@ -118,15 +119,15 @@ def main(argv: list[str] | None = None) -> int:
     (out_dir / ".nojekyll").write_text("", encoding="ascii")
 
     for name, idx, _child in archives:
-        if name == latest:
-            continue
         target = out_dir / name
         target.mkdir(parents=True, exist_ok=True)
         shutil.copy2(idx, target / "index.html")
 
     versions.sort(key=lambda v: version_key(v["version"]))
-    # 最新版本放最后（与既有约定一致：path=/ 的条目可为任意位置，这里保持升序）
     payload = {"latest": latest, "versions": versions}
+    if args.as_of:
+        payload["live_as_of"] = args.as_of
+        payload["daily_channel"] = True
     (out_dir / "versions.json").write_text(
         json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
     )

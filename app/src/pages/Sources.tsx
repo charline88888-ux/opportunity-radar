@@ -142,7 +142,7 @@ export default function Sources() {
   return (
     <div>
       <PageHeader
-        index="05"
+        index="06"
         kicker="SOURCES · 数据源矩阵"
         title="数据源矩阵 · 12 大类平台"
         description="所有信息源按「需求 / 趋势 / 电商 / 社媒 / 政策 / 资本 / 学术 / 供应链 / 文化 / 人才 / 数据 / 平台生态」12 大类整理；标注访问方式、频率、成本、合规色与价值分，是扫描室的上游。"

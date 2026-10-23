@@ -1,7 +1,8 @@
-# data/ 数据底座使用说明（data-v0.6.1）
+# data/ 数据底座使用说明（data-v0.7.0）
 
-> 唯一接口标准：`docs/12-数据契约与字段字典.md`（data-v0.6.1 增量已冻结）。本目录所有 JSON 必须通过 `python scanner/validate.py`（V01–V20，退出码 0）。
+> 唯一接口标准：`docs/12-数据契约与字段字典.md`（data-v0.7.0）。本目录所有 JSON 必须通过 `python scanner/validate.py`（V01–V20，退出码 0）。
 > 数据基准日 `as_of = 2026-10-22`（Asia/Shanghai），当前周 `2026-W43`（10-19～10-25），当前月 `2026-10`，当前年 `2026`；支持 `--as-of YYYY-MM-DD` 覆盖做真实每日运行。
+> **v0.7.0 MINOR**：新增本地控制台后端 `scanner/serve.py`（网页一键更新/采集/构建/定时任务；仅 127.0.0.1 + token）；数据内容与 schema 不变，仅版本号升 0.7.0。
 > **v0.6.1 PATCH**：`pipeline.py --as-of`（窗口/快照/统计/报告/年鉴日期全部按该日）+ V08 配额只在基准日强制（其他 as_of 允许空榜）+ report/yearbook 日期跟随 rankings.meta.as_of；机会库/榜单口径不变。
 > **v0.6.0 基线**：机会库 46 → **80 条**（14 行业各 ≥2、11 区域全覆盖、12 信息差全覆盖、目标国家/地区 53、中国角度 42、`verified:true` 32）；榜单配额 day ≥10 / week ≥20 / month ≥30 / year ≥80。
 
@@ -14,7 +15,7 @@
 - 同输入重复运行字节级确定性；测试不同 as_of 后请用 `--all` 恢复基准日状态（勿保留非基准日快照进仓库）。
 
 
-## 1. 文件清单与规模（data-v0.6.1）
+## 1. 文件清单与规模（data-v0.7.0）
 
 | 文件 | 作用 | 规模 | 生产者 | 消费者 |
 |---|---|---|---|---|
@@ -147,7 +148,7 @@ python scanner/calibrate.py --experiments scanner/fixtures/experiments-sample.js
 python scanner/yearbook.py --year 2026                                 # 年度年鉴（无实验摘要版本）
 python scanner/yearbook.py --year 2026 --experiments scanner/fixtures/experiments-sample.json --sample  # 年鉴（含样例实验摘要）
 python scanner/db.py --rebuild                                         # SQLite 重建
-python -m unittest discover -s scanner/tests                           # 64 条单测
+python -m unittest discover -s scanner/tests                           # 81 条单测（含 serve.py 17 条）
 ```
 
 ## 13. 免责

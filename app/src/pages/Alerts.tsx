@@ -118,7 +118,7 @@ export default function Alerts() {
   return (
     <div>
       <PageHeader
-        index="09"
+        index="10"
         kicker="ALERTS · 预警中心"
         title="预警中心 · 该行动的信号"
         description="本地规则引擎：窗口关闭、实验超期、采集源失败、A 级以上证据未核验、画像高匹配但未行动。已读 / 忽略只保存在本机 localStorage，不上传、不联网。"

@@ -122,7 +122,7 @@ export default function Calibration() {
   return (
     <div>
       <PageHeader
-        index="10"
+        index="11"
         kicker="CALIBRATION · 回测校准"
         title="回测校准 · 预测等级 vs 真实结果"
         description="把 /lab 里带 outcome 的结案实验与机会预测（等级 / 总分）做 join，检查评分是否「说得准」。样本 <3 时只做方向性提示，不据此调整权重。"

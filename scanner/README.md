@@ -1,6 +1,6 @@
-# scanner/ —— 机会雷达扫描流水线（Python 3.11，纯标准库，data-v0.3.0）
+# scanner/ —— 机会雷达扫描流水线（Python 3.11，纯标准库，data-v0.7.0）
 
-> 唯一数据标准：`docs/12-数据契约与字段字典.md`（data-v0.3.0）。扫描器是 `data/rankings.json`、`data/stats.json`、`data/history/*.json`、`data/source-health.json` 与 `scanner/outbox/` 的**唯一生成者**；按契约 4.5/5.x 重算派生字段、按 §9 做 V01–V20 校验。
+> 唯一数据标准：`docs/12-数据契约与字段字典.md`（data-v0.7.0）。扫描器是 `data/rankings.json`、`data/stats.json`、`data/history/*.json`、`data/source-health.json` 与 `scanner/outbox/` 的**唯一生成者**；按契约 4.5/5.x 重算派生字段、按 §9 做 V01–V20 校验；`scanner/serve.py` 提供本地控制台（v0.7.0）。
 
 ## 1. 快速开始
 
@@ -43,7 +43,11 @@ python scanner/calibrate.py --experiments scanner/fixtures/experiments-sample.js
 python scanner/yearbook.py --year 2026
 python scanner/yearbook.py --year 2026 --experiments scanner/fixtures/experiments-sample.json --sample
 
-# 单元测试（标准库 unittest，64 条）
+# 本地控制台后端（v0.7.0）：网页一键更新/采集/构建/定时任务；仅 127.0.0.1
+python scanner/serve.py                      # http://127.0.0.1:8787，token 写 .radar-console-token
+python scanner/serve.py --port 8788 --open   # 自定义端口并自动打开 #/control?token=...
+
+# 单元测试（标准库 unittest，89 条）
 python -m unittest discover -s scanner/tests -v
 ```
 
@@ -104,9 +108,11 @@ data/opportunities.json  ── score.py/materialize.py 重算 → 回写派生�
 | `enrich.py` | AI 富化 outbox：`--provider offline/mock/online`（mock 本地模拟走同一请求/解析流程，不联网）；输出 `enriched-<date>.json` + `REVIEW.md`；token/成本估算、`--limit`、超时重试、缓存标注；`needs_human=true`、永不自动入库、key 不落盘、`--dry-run` | §1.3/§1.5 |
 | `calibrate.py` | 实验校准报告：Brier（docs/04 §12.9.5）、等级×成功率、花费/耗时、建议；输出 `data/reports/calibration-<date>.{html,md}` | §1.3 |
 | `yearbook.py` | 年度年鉴：Top20/月度时间线/月度等级分布/信息差热度/窗口衰减统计/分布/A 级清单/窗口收尾/评分分布/可选实验漏斗+摘要/规则化 3 条方向建议；输出 `data/reports/yearbook-<year>.{html,md}`，`generated_at` 确定性 | §1.4/§1.6 |
-| `validate.py` | V01–V20；**v0.6.0 配额收紧**：V02（≥80 条/14 行业各≥2/11 区域/≥50 国家/中国角度≥25）、V08（day≥10/week≥20/month≥30/year≥80）；V19 快照、V20 source-health v2 | §9 |
+| `validate.py` | V01–V20；**v0.6.0 配额收紧**：V02（≥80 条/14 行业各≥2/11 区域/≥50 国家/中国角度≥25）、V08（完整配额只在基准日强制，其他 as_of 仅结构校验，v0.6.1）；V19 快照、V20 source-health v2 | §9 |
+| `serve.py` | **v0.7.0 本地控制台后端**：仅 127.0.0.1、token 认证、静态服务（current→app/dist→releases）+ token 注入 index、`/api/health|status|run|job|logs|log|schedule`、单任务 409、路径穿越防护、`scanner/logs/console.log` | §1.8 |
 | `adapters/` | `rss` / `reddit` / `google_trends` / `ecommerce_reviews` 离线适配器 | §1/§6 |
-| `tests/test_scanner.py` | 58 条单测：公式/舍入/边界/窗口/榜单/tie-breaker/物化/validate/归一/去重/history delta/回退/回放链与幂等/source-health/报告/SQLite/feed 解析/红源筛选/enrich offline+mock+本地HTTP+失败回退+缓存/calibrate Brier+边界/yearbook 6 类（含 v0.6.0 指标与配额测试） | docs/04 §10.4 |
+| `tests/test_scanner.py` | 64 条单测：公式/舍入/边界/窗口/榜单/tie-breaker/物化/validate/归一/去重/history delta/回退/回放链与幂等/source-health/报告/SQLite/feed 解析/红源筛选/enrich/calibrate/yearbook/as-of | docs/04 §10.4 |
+| `tests/test_serve.py` | 25 条单测：health（含 Origin）/401/403/status schema/静态与 SPA 回退/token 注入/无构建 503/run 409/job/logs 与路径穿越/schedule 校验与 disable 幂等/schtasks CSV 中英文解析/enable 后状态同步/locale 解码/token 不落日志 | §1.8 |
 
 ## 4. 历史快照、回放与真实 delta（v0.3.0）
 
@@ -162,7 +168,23 @@ data/opportunities.json  ── score.py/materialize.py 重算 → 回写派生�
 - 内容：年榜 Top20（等级/行业/区域/窗口）、月度时间线（按 `activity_dates` 聚合，无活动月份显示 0，含行业/信息差 Top2 主题）、**v0.6.0 新增：月度等级分布（S/A/B/C/D）、信息差热度（每月 Top3）、窗口衰减统计（status/decay/months_left 分桶）、实验漏斗（总样本→已决→成功率）**、行业/区域/信息差/等级/窗口状态分布、A 级清单（≥75）、窗口收尾或 ≤3 个月机会、评分分布（CSS 条形）、可选实验摘要（复用 `calibrate.py` 的 `load_export/build_records/compute_brier/spend_hours`）、规则化「年度 3 个方向建议」（标注「规则生成，非投资建议」）、免责。
 - `generated_at` 固定为 `as_of + T00:00:00+08:00`，双跑字节一致（幂等）；无实验/有实验/空年份/非法实验 JSON/指标一致性均有单测覆盖。2026 年鉴关键统计：80 条机会 / Top20 20 / A 级 12 / 收尾 3 / Brier 0.2338（样例实验，sample 标注）；窗口衰减 open 63 / peak 14 / closing 3。
 
-## 9. 已知限制
+## 9. 本地控制台后端（v0.7.0，`serve.py`）
+
+> 用户要的「网页一键更新」：本地起一个只监听 127.0.0.1 的小服务，控制台页面通过 token 调本地任务。
+
+- 启动：`python scanner/serve.py`（默认 `127.0.0.1:8787`；`--port 8788`、`--open`、`--token-file` 可选）。
+  - 启动生成随机 token（`secrets.token_urlsafe`），**绑定成功后再写**仓库根 `.radar-console-token`（建议加入 `.gitignore`，本目录不保存 token）；`--open` 打开 `#/control?token=...`。
+  - 只允许 loopback 绑定；拒绝非 127.0.0.1/localhost 的 Origin（403）；不打印 token。
+- 静态服务：`/` 与非 `/api/*` 路径依次取 `current/index.html` → `app/dist/index.html` → 最新 `releases/*/dist/index.html`；无构建返回 503 + 引导文案。返回 `index.html` 时**在 `</head>` 前注入 `<script>window.__RADAR_CONSOLE_TOKEN__="…"</script>`**（仅内存响应、不写日志），因此自启动后直接访问 `http://127.0.0.1:8787/` 也能用控制台；前端优先读该变量，其次 URL token。
+- API（除 `/api/health` 外都要 header `X-Radar-Token`；`/api/health` 免 token，但**同样校验 Origin**）：
+  - `GET /api/health` → `{ok,version,port}`；`GET /api/status` → 数据基准日/机会数/四窗口/build/冻结版/定时任务/告警/最近任务/日志列表；
+  - `POST /api/run {task:update|fetch|build}` → 后台线程执行（update=`scripts/daily-run.ps1`、fetch=`pipeline.py --fetch`、build=`pnpm build`+复制 `current/index.html`）；忙时 **409**，返回 `{ok,job_id}`；
+  - `GET /api/job?id=` → `{state,started_at,finished_at,exit_code,log_tail≤200}`；`GET /api/logs`、`GET /api/log?name=`（限 `scanner/logs/`，防穿越，tail ≤200KB）；
+  - `POST /api/schedule {action:enable|disable, fetch?}` → 调 `scripts/install-daily-task.ps1 [-Fetch|-Uninstall]`，**动作后 sleep 重查 `schtasks /Query /V /FO CSV /NH` 并携带最新状态**（`enabled/status:"ready"|"disabled"|"not_installed"/next_run/last_result`；中英文系统通用）；**disable 幂等**（任务未安装/找不到时按已停用成功返回 `already:true`，不返回 500）；子进程输出按本地编码（mbcs/GBK，UTF-8 优先）解码，中文不乱码。
+- 安全：路径白名单/防目录遍历、不返回绝对路径、token 不落日志；每次 API 调用写 `scanner/logs/console.log`。
+- 测试：`python -m unittest scanner.tests.test_serve -v`（25 条：401/403/health（含 Origin）/status/静态回退/token 注入/无构建 503/run 409/job/日志穿越/schedule 校验与幂等/schtasks CSV 中英文/enable 后状态同步/locale 解码/不落 token）。
+
+## 10. 已知限制
 
 1. 回放快照是「按当日窗口规则重排现有机会」的演示口径，非真实历史存档；UI 需用 `reconstructed=true` 明示。
 2. `--all` 不联网；`--fetch` 当前只覆盖 RSS/JSON feed，公开 API 未接线。

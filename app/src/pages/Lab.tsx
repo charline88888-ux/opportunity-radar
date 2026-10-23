@@ -328,7 +328,7 @@ export default function Lab() {
   return (
     <div>
       <PageHeader
-        index="07"
+        index="08"
         kicker="LAB · 实验台"
         title="实验台 · 7 天验证与复盘"
         description={

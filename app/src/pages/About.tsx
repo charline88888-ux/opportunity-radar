@@ -90,9 +90,19 @@ const ROADMAP = [
 
 const HISTORY = [
   {
-    version: 'v0.6.1',
+    version: 'v0.7.0',
     date: '2026-10-22',
     tag: '当前版本',
+    items: [
+      '新增 /control 本地控制台：网页一键更新数据、立即采集、构建工作副本、启用/停用每日自动任务',
+      '控制台从 serve.py 注入/URL token 获取凭证，3s 轮询服务状态与任务日志；未启动时显示启动引导（启动机会雷达.bat / python scanner/serve.py --open），并说明线上静态页无法执行本地命令',
+      '本地最近日志列表与预览（仅 scanner/logs/，防路径穿越）；版本升 0.7.0',
+    ],
+  },
+  {
+    version: 'v0.6.1',
+    date: '2026-10-22',
+    tag: '上一版本',
     items: [
       '数据新鲜度：指挥台显示基准日与距今天数；3–7 天琥珀、>7 天红色全站提示，可关闭（本次会话）',
       '/alerts 新增「数据过期」规则：>7 天高、3–7 天中，id 含 as_of，数据更新后自动恢复；Dashboard 预警数包含',
@@ -214,7 +224,12 @@ const EN_DOCS: Array<[string, string, string]> = [
 ]
 
 const EN_HISTORY = [
-  { version: 'v0.6.1', date: '2026-10-22', tag: 'Current', items: [
+  { version: 'v0.7.0', date: '2026-10-22', tag: 'Current', items: [
+    '/control local console: one-click update, fetch, working-copy build, enable/disable daily task from the browser',
+    'Console token via serve.py injection/URL, 3s status/job-log polling; offline guidance (Start Opportunity Radar.bat / python scanner/serve.py --open) and the architectural limit of static online pages',
+    'Local recent-log list and preview (scanner/logs/ only, path traversal blocked); version 0.7.0',
+  ]},
+  { version: 'v0.6.1', date: '2026-10-22', tag: 'Previous', items: [
     'Data freshness: dashboard baseline date + age; 3–7 days amber, >7 days red site-wide warning (dismissible for this session)',
     'Alerts add a “Data stale” rule: >7 days critical, 3–7 days warning, id includes as_of; Dashboard alert count includes it',
     'About “Data updates”: daily-run.ps1, pipeline --all --as-of, --fetch→outbox manual review, release.ps1/CI',
@@ -264,7 +279,7 @@ function AboutEn() {
   return (
     <div>
       <PageHeader
-        index="13"
+        index="14"
         kicker="ABOUT"
         title="About Opportunity Radar"
         description="Local-first personal opportunity research: find global information gaps using human-need and cultural signals, delivered as day/week/month/year rankings with seven required business questions. v0.5.1 adds optional password-encrypted backups and corrected yearbook score labels."
@@ -329,7 +344,7 @@ function AboutEn() {
             </div>
           </div>
           <div className="mt-2 rounded border border-amber/25 bg-amber/[0.04] px-2.5 py-2 text-[10.5px] leading-relaxed text-amber">
-            Bilingual note: all static UI strings switch between Chinese and English. Opportunity content (titles, one-liners, evidence, seven Q&A) intentionally remains Chinese in v0.6.1 and is marked in the UI. Switching language does not reload the page or reset routes, filters, or profile state.
+            Bilingual note: all static UI strings switch between Chinese and English. Opportunity content (titles, one-liners, evidence, seven Q&A) intentionally remains Chinese in v0.7.0 and is marked in the UI. Switching language does not reload the page or reset routes, filters, or profile state.
           </div>
           <div className="mt-3 rounded border border-line/70 bg-black/20 px-2.5 py-2 font-mono text-[10px] leading-relaxed text-dim">
             <div>sync: node app/scripts/sync-data.mjs --strict</div>
@@ -339,7 +354,7 @@ function AboutEn() {
           </div>
           <div className="mt-2 rounded border border-line/70 bg-black/20 px-2.5 py-2 text-[10px] leading-relaxed text-dim">
             <div className="mono-label mb-1">Data updates</div>
-            Daily task <span className="font-mono">scripts/daily-run.ps1</span> (as_of → pipeline --all → validate → build → current/index.html); manual <span className="font-mono">python scanner/pipeline.py --all --as-of YYYY-MM-DD</span>; <span className="font-mono">--fetch</span> writes candidates to outbox for human review, never auto-imported; release via <span className="font-mono">scripts/release.ps1</span> / CI.
+            Daily task <span className="font-mono">scripts/daily-run.ps1</span> (as_of → pipeline --all → validate → build → current/index.html); manual <span className="font-mono">python scanner/pipeline.py --all --as-of YYYY-MM-DD</span>; <span className="font-mono">--fetch</span> writes candidates to outbox for human review, never auto-imported; browser console <span className="font-mono">/control</span> (requires local <span className="font-mono">serve.py</span>); release via <span className="font-mono">scripts/release.ps1</span> / CI.
           </div>
         </SectionCard>
         <div className="space-y-3 xl:col-span-5">
@@ -427,7 +442,7 @@ export default function About() {
   return (
     <div>
       <PageHeader
-        index="13"
+        index="14"
         kicker="ABOUT · 关于"
         title="关于机会雷达"
         description="本地优先的个人商机研究工具：用「人性需求信号 + 文化差异信号」发现全世界的赚钱信息差，按日 / 周 / 月 / 年榜单交付，并为每个机会强制回答商业驱动七问。v0.5.1 新增可选口令加密备份与年报复盘口径修正。"
@@ -501,7 +516,7 @@ export default function About() {
             </div>
           </div>
           <div className="mt-2 rounded border border-amber/25 bg-amber/[0.04] px-2.5 py-2 text-[10.5px] leading-relaxed text-amber">
-            双语说明 / Bilingual note：全部静态 UI 文案支持中英切换；机会内容（标题、一句话、证据、七问答案）保持中文，EN 模式下页面顶部有明确标注。v0.6.1 新增数据新鲜度提示、数据过期预警与更新方式说明；数据包只在本机处理。</div>
+            双语说明 / Bilingual note：全部静态 UI 文案支持中英切换；机会内容（标题、一句话、证据、七问答案）保持中文，EN 模式下页面顶部有明确标注。v0.7.0 新增 /control 本地控制台（一键更新/采集/构建/定时任务/日志）；线上静态页不执行本地命令。</div>
           <div className="mt-3 rounded border border-line/70 bg-black/20 px-2.5 py-2 font-mono text-[10px] leading-relaxed text-dim">
             <div>sync: node app/scripts/sync-data.mjs --strict</div>
             <div>build: cd app &amp;&amp; pnpm install &amp;&amp; pnpm build</div>
@@ -509,7 +524,7 @@ export default function About() {
           </div>
           <div className="mt-2 rounded border border-line/70 bg-black/20 px-2.5 py-2 text-[10px] leading-relaxed text-dim">
             <div className="mono-label mb-1">数据更新方式 / Data updates</div>
-            每日自动任务 <span className="font-mono">scripts/daily-run.ps1</span>（as_of → pipeline --all → validate → build → current/index.html）；手动 <span className="font-mono">python scanner/pipeline.py --all --as-of YYYY-MM-DD</span>；<span className="font-mono">--fetch</span> 采集结果进 outbox 人工复核、不自动入库；发布用 <span className="font-mono">scripts/release.ps1</span> / CI。
+            每日自动任务 <span className="font-mono">scripts/daily-run.ps1</span>（as_of → pipeline --all → validate → build → current/index.html）；手动 <span className="font-mono">python scanner/pipeline.py --all --as-of YYYY-MM-DD</span>；<span className="font-mono">--fetch</span> 采集结果进 outbox 人工复核、不自动入库；浏览器控制台 <span className="font-mono">/control</span>（需本机 <span className="font-mono">serve.py</span>）；发布用 <span className="font-mono">scripts/release.ps1</span> / CI。
           </div>
           <div className="mt-2 flex items-start gap-1.5 text-[10px] leading-relaxed text-dim">
             <Info className="mt-0.5 h-3 w-3 shrink-0 text-cyan" />

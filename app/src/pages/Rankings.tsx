@@ -375,7 +375,7 @@ export default function Rankings() {
     return (
       <div>
         <PageHeader
-          index="02"
+          index="03"
           kicker="RANKINGS · 为你推荐"
           title="为你推荐 · 按画像重排机会"
           description="在综合榜的基础上叠加个人能力向量：fit 由 7 维能力与机会需求推导，rec_score = 0.6×机会总分 + 0.4×fit×100，并用 MMR 做行业/区域/信息差多样性；硬约束机会默认不进入推荐。"
@@ -528,7 +528,7 @@ export default function Rankings() {
   return (
     <div>
       <PageHeader
-        index="02"
+        index="03"
         kicker="RANKINGS · 排行榜"
         title="机会排行榜 · 四窗口"
         description="以 rank_score 排序的权威榜单（唯一来源 data/rankings.json）。窗口归属、名次与排名变化均由扫描器计算，前端不重算；支持 14 行业板块、12 类信息差、总分/动量排序与卡片/表格双视图。"

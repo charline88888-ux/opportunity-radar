@@ -148,7 +148,7 @@ export default function ProfilePage() {
   return (
     <div>
       <PageHeader
-        index="08"
+        index="09"
         kicker="PROFILE · 个人画像"
         title="个人画像 · 能力向量与匹配基础"
         description="用 3 步建立你的 7 维能力向量（资金 / 时间 / 技术 / 内容 / 供应链 / 英语 / 风险），作为「为你推荐」、预警中心与行动匹配的输入。画像只保存在本机 localStorage，不上传。"

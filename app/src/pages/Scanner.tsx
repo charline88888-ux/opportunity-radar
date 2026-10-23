@@ -452,7 +452,7 @@ export default function Scanner() {
   return (
     <div>
       <PageHeader
-        index="03"
+        index="04"
         kicker="SCANNER · 扫描室"
         title="扫描室 · 信号采集与验证"
         description="把「人性需求 × 信号类型」变成可执行的扫描流程：热力矩阵看需求密度，桑基图看信息差流向，12 个剧本可直接照做，数据源健康度决定信号质量。"

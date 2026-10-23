@@ -31,14 +31,16 @@ $routes = @(
   @{ n = "11-calibration"; h = "#/calibration"; w = $Width; ht = $Height },
   @{ n = "12-yearbook"; h = "#/yearbook"; w = $Width; ht = $Height },
   @{ n = "13-data"; h = "#/data"; w = $Width; ht = $Height },
-  @{ n = "14-about"; h = "#/about"; w = $Width; ht = $Height },
-  @{ n = "15-tall-detail"; h = "#/opportunities/$opp"; w = $Width; ht = 3600 },
-  @{ n = "16-tall-about"; h = "#/about"; w = $Width; ht = 2800 },
-  @{ n = "17-1024-dashboard"; h = "#/"; w = 1024; ht = 1000 },
-  @{ n = "18-1024-rankings"; h = "#/rankings"; w = 1024; ht = 1000 },
-  @{ n = "19-1024-profile"; h = "#/profile"; w = 1024; ht = 1000 },
-  @{ n = "20-1024-yearbook"; h = "#/yearbook"; w = 1024; ht = 1000 },
-  @{ n = "21-1024-data"; h = "#/data"; w = 1024; ht = 1000 }
+  @{ n = "14-control"; h = "#/control"; w = $Width; ht = $Height },
+  @{ n = "15-about"; h = "#/about"; w = $Width; ht = $Height },
+  @{ n = "16-tall-detail"; h = "#/opportunities/$opp"; w = $Width; ht = 3600 },
+  @{ n = "17-tall-about"; h = "#/about"; w = $Width; ht = 2800 },
+  @{ n = "18-1024-dashboard"; h = "#/"; w = 1024; ht = 1000 },
+  @{ n = "19-1024-rankings"; h = "#/rankings"; w = 1024; ht = 1000 },
+  @{ n = "20-1024-profile"; h = "#/profile"; w = 1024; ht = 1000 },
+  @{ n = "21-1024-yearbook"; h = "#/yearbook"; w = 1024; ht = 1000 },
+  @{ n = "22-1024-data"; h = "#/data"; w = 1024; ht = 1000 },
+  @{ n = "23-1024-control"; h = "#/control"; w = 1024; ht = 1000 }
 )
 $errors = 0
 foreach ($r in $routes) {

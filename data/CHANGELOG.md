@@ -2,6 +2,22 @@
 
 格式：`data_version` + 日期 + 变更内容 + 影响面。契约变更（字段/枚举/公式）必须同步更新 `docs/12-数据契约与字段字典.md` 并通知 Lead、前端、红队。
 
+## data-v0.7.0 · 2026-10-23 · MINOR 增量（本地控制台后端 `scanner/serve.py`）
+
+> 数据内容不变（机会库 80 条/四窗口 day17/week49/month57/year80/validate 20/20），仅版本号升 0.7.0 以配合 v0.7.0 本地控制台。
+
+### 新增能力（`scanner/serve.py`，仅 scanner/ 代码；数据侧无 schema 变化）
+- 本地 HTTP 控制台后端：仅绑定 `127.0.0.1`，启动生成随机 token 写仓库根 `.radar-console-token`（建议 gitignore，不打印/不落日志）；`--open` 打开 `#/control?token=...`。
+- 静态服务：`current/index.html` → `app/dist/index.html` → 最新 `releases/*/dist/index.html`，无构建 503 引导；**index.html 注入 `window.__RADAR_CONSOLE_TOKEN__`**（内存响应，方便自启动后直接访问 `/`）。
+- API：`/api/health`（免 token）、`/api/status`、`/api/run {update|fetch|build}`（单任务 409）、`/api/job?id=`、`/api/logs`、`/api/log?name=`、`/api/schedule {enable|disable}`；header `X-Radar-Token` + Origin 校验；路径穿越防护；每次调用写 `scanner/logs/console.log`（不含 token）。
+- 单测新增 17 条（`scanner/tests/test_serve.py`），全套 **81/81 OK**；本次仅版本号变更：全部 data meta → 0.7.0，四窗口报告/校准/年鉴按 0.7.0 重生成，validate 20/20。
+
+### 红队复验 P2 修复（v0.7.0 内，2026-10-23）
+- **P2-1 `POST /api/schedule {action:"disable"}` 任务不存在时返回 500**：改为幂等——先查 `schedule_status()`，`not_installed` 直接返回 200 + `already:true`；卸载执行 exit≠0 且输出含 cannot find/找不到/不存在 等标记时同样按已停用成功返回；enable 失败仍如实报 500。真实服务复测：无任务时 disable → 200 `{ok:true, already:true, schedule.status:"not_installed"}`。
+- **P2-2 `/api/health` 未校验 Origin**：health 仍免 token，但统一走 `_origin_ok()`；非 loopback Origin → 403，loopback/无 Origin → 200（与其余 API 一致）。
+- 回归：serve 单测 17/17、全套 81/81、validate 20/20；新增 4 条单测覆盖上述两处。
+- 指纹（SHA256 前 16）：opportunities `88FDA5AB84B7F826`、rankings `A8EC7EF573091C36`、stats `33F4868622F7C8A6`、source-health `3C0527E6953AE7E3`、sources `0A37F7ACB6BAA03F`、radar.db `1FCE72C7A0B628FA`、yearbook html `271F176A4138513C`、calibration html `9DA388B3AF28FBD3`、serve.py `D721F672E0E37269`（P2 修复后）。
+
 ## data-v0.6.1 · 2026-10-22 · PATCH（`--as-of` 真实每日运行 + V08 配额规则调整）
 
 > 向后兼容：默认行为不变（仍以 `DEFAULT_AS_OF=2026-10-22` 为基准）；新增可选 `--as-of`；机会库/榜单字段不变，版本号升 0.6.1。

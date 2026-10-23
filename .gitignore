@@ -23,3 +23,5 @@ data/reports/*.tmp
 current/
 _site/
 qa/tmp/_site_test/
+.radar-console-token
+qa/tmp/_site_test2/

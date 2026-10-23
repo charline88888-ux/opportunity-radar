@@ -108,7 +108,7 @@ export default function CalendarPage() {
   return (
     <div>
       <PageHeader
-        index="06"
+        index="07"
         kicker="CALENDAR · 全球商业日历"
         title="全球商业日历 · 节庆与布局窗口"
         description="宗教节庆、国家节日、税季、开学、购物节与财政年节点。每个节点都有建议提前布局天数：晚于起始日再动手，通常只能吃残羹。"

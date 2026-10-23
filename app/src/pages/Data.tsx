@@ -159,7 +159,7 @@ export default function DataPage() {
   return (
     <div>
       <PageHeader
-        index="12"
+        index="13"
         kicker={L('DATA · 个人数据', 'DATA')}
         title={L('个人数据与备份 · 本地数据包', 'Personal data & backup · Local data bundle')}
         description={L('把画像、实验、预警已读/忽略、推荐记录与设置打包成一个 JSON，下载保存或导入迁移到其他设备。数据处理完全在本机浏览器，不上传、不联网。', 'Bundle profile, experiments, alert read/ignored state, recommendation log, and settings into one JSON for download or migration. Everything runs in this browser; nothing is uploaded.')}

@@ -199,7 +199,7 @@ export default function Yearbook() {
   const html = () => {
     const esc = (s: string) => s.replace(/[&<>]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' })[c] || c)
     return `<!doctype html><html lang="${lang === 'en' ? 'en' : 'zh-CN'}"><head><meta charset="utf-8"><title>${esc(L('年度复盘', 'Yearbook'))} ${year}</title><style>
-body{font-family:ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;background:#0d1117;color:#e6e9f0;margin:0;padding:40px;line-height:1.65}h1,h2{color:#3ddc97}table{border-collapse:collapse;width:100%;margin:12px 0}th,td{border:1px solid #2a3140;padding:6px 8px;text-align:left;font-size:12px}th{background:#151b24}small,.muted{color:#8b93a7}@media print{body{background:#fff;color:#111}h1,h2{color:#0b6b45}th{background:#eee}th,td{border-color:#bbb}}</style></head><body>
+body{font-family:ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;background:#0d1117;color:#e6e9f0;margin:0;padding:40px;line-height:1.65}h1,h2{color:#3ddc97}table{border-collapse:collapse;width:100%;margin:12px 0}th,td{border:1px solid #2a3140;padding:6px 8px;text-align:left;font-size:12px}th{background:#151b24}small,.muted{color:#8b93a7}@media print{body{background:#fff;color:#111}h1,h2{color:#0b6b45}th{background:#eee}th,td{border-color:#bbb}}</style><body>
 <h1>${esc(L('机会雷达 · 年度复盘', 'Opportunity Radar · Yearbook'))} ${year}</h1>
 <p class="muted">${esc(L('数据基准日', 'Data as-of'))}：${dataAsOf}</p>
 <h2>${esc(L('年榜 Top20', 'Yearly Top 20'))}</h2>
@@ -222,7 +222,7 @@ ${monthly.map((x) => `<tr><td>${year}-${x.month}</td><td>${x.count}</td><td>${es
   return (
     <div>
       <PageHeader
-        index="11"
+        index="12"
         kicker={L('YEARBOOK · 年度复盘', 'YEARBOOK')}
         title={L(`${year} 年度复盘 · 机会年鉴`, `${year} Yearbook · Opportunity review`)}
         description={L('把年榜、月度时间线、行业/区域/信息差分布、A 级清单与窗口关闭机会整理成一份可导出的年度复盘；数据来自打包机会库与年榜。', 'A yearly review of the Top 20, monthly timeline, industry/region/gap distributions, A-grade list, and closing windows. Data comes from the bundled opportunity library and yearly ranking.')}

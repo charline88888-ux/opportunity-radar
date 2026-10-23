@@ -290,7 +290,6 @@ function buildReportHtml(args: {
   .footer { margin-top: 24px; border-top: 1px solid #e6e9f0; padding-top: 10px; color: #6b7385; font-size: 10.5px; }
   @media print { body { padding: 0; background: #fff; } main { border: 0; border-radius: 0; padding: 0; } }
 </style>
-</head>
 <body>
 <main>
   <h1>${esc(title)}</h1>
