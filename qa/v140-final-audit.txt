@@ -1,6 +1,6 @@
-candidates_hash=31b94eeb15bbf445967c9b31e8d1f7cdd7c2953d9fd042066586cfe8fc06fe40
-title_zh_english=1
-primary_ai=2 no_ai_kw=0
-region_NA=35
-narrative_dup_candidates=63 segments={'market': 14, 'competition': 62, 'cross_market': 62, 'timing': 62}
-noise_like=1 samples=[('cand-0ccd35160410', '德国合规监管初创监管变化')]
+data=1.4.0 total=63 hash=31b94eeb15bbf445
+primary_region NA=5 region_ids_NA=35
+narrative_dup_candidates=25 segments={'market': 14}
+title_unique=63/63 generic=[]
+noise_flags=Counter({(): 63})
+forbidden={'验证': 0, '实验': 0, '复核': 0, '门禁': 0}

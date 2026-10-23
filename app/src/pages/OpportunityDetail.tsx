@@ -38,7 +38,7 @@ export default function OpportunityDetail() {
   const evidence = opp.signal?.evidence || []
 
   return (
-    <div>
+    <div className="mx-auto w-full min-w-0 max-w-[1280px] overflow-x-hidden">
       <PageHeader
         index="02"
         kicker={L('CURATED · 精选商机', 'CURATED · OPPORTUNITY')}
@@ -53,7 +53,7 @@ export default function OpportunityDetail() {
         }
       />
 
-      <div className="mb-3 grid grid-cols-1 gap-2.5 md:grid-cols-3">
+      <div className="mb-3 grid grid-cols-1 gap-2.5 md:grid-cols-3 min-w-0">
         <Panel className="p-3">
           <div className="mono-label">{L('评分与等级', 'Score & grade')}</div>
           <div className="mt-1 flex items-end gap-2">
@@ -89,22 +89,22 @@ export default function OpportunityDetail() {
 
       <Panel className="mb-3 p-3">
         <div className="mono-label mb-2">{L('七问自动草稿', 'Seven questions (auto draft)')}</div>
-        <div className="grid grid-cols-1 gap-2 md:grid-cols-2">
+        <div className="grid grid-cols-1 gap-2 md:grid-cols-2 min-w-0">
           {seven.map(([key, value]) => (
             <div key={key} className="rounded border border-line/60 px-2.5 py-2 text-[10.5px]">
               <div className="text-muted">{QUESTION_LABELS[key] ? L(QUESTION_LABELS[key].zh, QUESTION_LABELS[key].en) : key}</div>
-              <div className="mt-0.5 leading-relaxed text-dim">{Array.isArray(value) ? value.join(' / ') : String(value)}</div>
+              <div className="mt-0.5 min-w-0 break-words leading-relaxed text-dim">{Array.isArray(value) ? value.join(' / ') : String(value)}</div>
             </div>
           ))}
         </div>
       </Panel>
 
-      <div className="grid grid-cols-1 gap-2.5 md:grid-cols-2">
+      <div className="grid grid-cols-1 gap-2.5 md:grid-cols-2 min-w-0">
         <Panel className="p-3">
           <div className="mono-label mb-1">{L('来源证据', 'Source evidence')}</div>
           <div className="space-y-1">
             {evidence.map((e, i) => (
-              <a key={`${e.url}-${i}`} href={e.url} target="_blank" rel="noreferrer" className="block rounded border border-line/60 px-2 py-1.5 text-[10px] text-muted hover:text-signal">
+              <a key={`${e.url}-${i}`} href={e.url} target="_blank" rel="noreferrer" className="block min-w-0 rounded border border-line/60 px-2 py-1.5 text-[10px] text-muted hover:text-signal">
                 <div className="truncate">{e.title} <ExternalLink className="inline h-2.5 w-2.5" /></div>
                 <div className="truncate text-[9px] text-dim">{e.publisher} · {e.date}</div>
               </a>

@@ -14,3 +14,4 @@ scanner/build/** -text
 releases/v1.2.1/** text eol=lf
 releases/v1.3.0/** text eol=lf
 releases/v1.4.0/** text eol=lf
+releases/v1.4.1/** text eol=lf
