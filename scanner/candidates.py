@@ -301,6 +301,228 @@ def _roi(primary_industry: str) -> dict[str, Any]:
     return roi
 
 
+TITLE_BANNED = "…系统翻译暂缺待补"
+
+
+TITLE_BRANDS = {"MAS", "PayPal", "Lianlian", "LianLian", "EPR", "AI", "TikTok", "Amazon", "ByteDance", "PineDrama", "Grab", "Swiggy", "SEBI"}
+TITLE_EVENT_SHORT = {
+    "政策/监管窗口": "监管动向",
+    "融资": "融资动向",
+    "新品/上线": "新品上线",
+    "合作": "合作",
+    "需求变化": "需求变化",
+    "成本变化": "成本变化",
+    "市场变化": "市场变化",
+}
+
+
+def _is_clean_title(text: str) -> bool:
+    if not text or len(text) < 8 or len(text) > 32:
+        return False
+    if "…" in text or "系统翻译" in text or "暂缺" in text or "商机线索" in text or "基础设施差" in text or "机会" in text:
+        return False
+    chinese = len(re.findall(r"[\u4e00-\u9fff]", text))
+    if chinese < 4:
+        return False
+    latin_tokens = re.findall(r"[A-Za-z][A-Za-z0-9&.\-]*", text)
+    allowed = {"MAS", "PayPal", "Lianlian", "LianLian", "EPR", "AI", "TikTok", "Amazon", "ByteDance", "PineDrama", "Grab", "Swiggy", "SEBI", "Z"}
+    if any(token not in allowed for token in latin_tokens):
+        return False
+    return True
+
+
+def _title_topic(title: str) -> str:
+    text = title.lower()
+    mapping = [
+        (("cross-border payment", "payment", "payout", "remittance", "clearing", "支付", "清算"), "跨境支付"),
+        (("epr", "packaging", "packaging waste", "包装"), "包装法规"),
+        (("stablecoin", "stablecoins", "稳定币"), "稳定币"),
+        (("ipo", "listing", "上市", "debut"), "上市融资"),
+        (("funding", "raises", "raised", "融资", "seed", "series"), "融资"),
+        (("cyber", "网络安全"), "网络安全"),
+        (("airspace", "航空"), "航空监管"),
+        (("pet", "pet ", "宠物"), "宠物消费"),
+        (("silver", "aging", "elderly", "养老", "银发"), "适老服务"),
+        (("short drama", "drama", "webtoon", "短剧", "网文"), "内容出海"),
+        (("ai", "artificial intelligence", "人工智能", "模型", "agent"), "人工智能"),
+        (("ecommerce", "e-commerce", "marketplace", "电商", "零售"), "电商零售"),
+        (("energy", "solar", "battery", "光伏", "电池", "能源"), "新能源"),
+        (("compliance", "regulation", "epr", "合规", "监管"), "合规监管"),
+        (("education", "edtech", "教育", "培训"), "教育培训"),
+        (("game", "游戏", "电竞"), "游戏"),
+    ]
+    for keywords, label in mapping:
+        if any(keyword in text for keyword in keywords):
+            return label
+    return ""
+
+
+def _special_title(title_original: str) -> str:
+    text = (title_original or "").lower()
+    if "gen z" in text and ("africa" in text or "african" in text):
+        return "非洲Z世代消费者如何改变商业"
+    if "pinedrama" in text:
+        return "字节跳动PineDrama短剧出海"
+    if "lianlian" in text and "paypal" in text:
+        return "Lianlian与PayPal跨境支付合作"
+    if "tenstorrent" in text:
+        return "Tenstorrent AI芯片估值翻倍"
+    if re.search(r"\bepr\b", text) and ("packaging" in text or "council" in text):
+        return "欧盟理事会包装法规立场"
+    return ""
+
+
+TITLE_COMMON = {
+    "the", "a", "an", "and", "or", "of", "to", "in", "on", "for", "with", "from", "as", "at", "by",
+    "is", "are", "was", "were", "be", "been", "this", "that", "these", "those", "its", "it", "their",
+    "new", "how", "why", "what", "when", "where", "who", "will", "can", "may", "has", "have", "had",
+    "says", "said", "report", "news", "update", "today", "week", "year", "global", "world",
+}
+
+
+def _title_subject(title_original: str) -> str:
+    entities = business_mod.display_entities(title_original)
+    for entity in entities:
+        cleaned = re.sub(r"（[^）]*）", "", entity).strip(" -–—,:：")
+        if not cleaned or re.search(r"^[0-9]", cleaned):
+            continue
+        if re.search(r"[\u4e00-\u9fff]", cleaned) and 2 <= len(cleaned) <= 12:
+            return cleaned
+        if re.search(r"^[A-Z][A-Za-z0-9&.\-]{2,}$", cleaned) and cleaned.lower() not in TITLE_COMMON:
+            return cleaned
+    for token in re.findall(r"[A-Z][A-Za-z0-9&.\-]{2,}", title_original or ""):
+        if token.lower() not in TITLE_COMMON:
+            return token
+    run = re.findall(r"[\u4e00-\u9fff]{2,8}", title_original or "")
+    return run[0] if run else ""
+
+
+def _title_action(title_original: str) -> str:
+    text = (title_original or "").lower()
+    rules = [
+        (("valuation", "valuation doubles", "doubles its valuation", "估值"), "估值翻倍"),
+        (("raises", "raised", "funding", "seed", "series", "融资", "轮融资"), "完成融资"),
+        (("ipo", "listing", "debut", "上市"), "推进上市"),
+        (("partners", "partnership", "teams up", "team up", "joins", "collaboration", "合作"), "达成合作"),
+        (("launches", "launched", "launch", "unveils", "releases", "rollout", "上线", "发布"), "发布新品"),
+        (("regulation", "regulations", "rules", "act", "council", "epr", "compliance", "policy", "监管", "新规", "合规"), "监管新规"),
+        (("acquires", "acquisition", "merger", "并购"), "完成并购"),
+        (("demand", "growth", "surge", "spending", "需求", "增长"), "需求增长"),
+        (("cost", "price", "tariff", "inflation", "成本", "价格", "关税"), "成本变化"),
+        (("short drama", "drama", "webtoon", "短剧", "网文"), "短剧出海"),
+        (("pet food", "pet", "宠物"), "宠物消费"),
+        (("ai", "artificial intelligence", "人工智能", "模型"), "AI应用"),
+    ]
+    for keywords, label in rules:
+        if any(keyword in text for keyword in keywords):
+            return label
+    return ""
+
+
+def _synth_title(business_eval: dict[str, Any], signal: dict[str, Any], countries: list[str]) -> str:
+    primary = str(business_eval.get("primary_industry") or "crossborder")
+    region = str(business_eval.get("primary_region") or "north-america")
+    industry_zh = "人工智能" if primary == "ai" else business_mod.INDUSTRY_ZH.get(primary, "跨境")
+    event_zh = business_mod.EVENT_ZH.get(str((business_eval.get("judgment") or {}).get("event_type") or ""), "市场变化")
+    event_short = TITLE_EVENT_SHORT.get(event_zh, "动向")
+    region_rule = business_mod.REGION_RULES.get(region) or {}
+    market = (region_rule.get("markets") or ["全球"])[0]
+    country = countries[0] if countries else market
+    title_original = str(signal.get("title") or signal.get("title_norm") or "")
+    numbers = re.findall(r"[0-9]+(?:\.[0-9]+)?%?", title_original)
+    num = numbers[0] if numbers else ""
+    topic = _title_topic(title_original)
+    subject = _title_subject(title_original)
+    action = _title_action(title_original)
+    if topic == "人工智能":
+        topic = "AI"
+    variants = [
+        f"{subject}{topic}初创{action}" if subject and topic and action else "",
+        f"{subject}{topic}企业{action}" if subject and topic and action else "",
+        f"{country}{topic}初创{action}" if topic and action else "",
+        f"{subject}{topic}{action}" if subject and action else "",
+        f"{subject}{topic}新动向" if subject and topic else "",
+        f"{country}{topic}{action}" if topic and action else "",
+        f"{country}{industry_zh}{action}" if action else "",
+        f"{subject}{action}" if subject and action else "",
+        f"{country}{topic}变化" if topic else "",
+        f"{country}{industry_zh}变化",
+    ]
+    if subject and num:
+        variants.insert(1, f"{subject}{topic or action}{num}")
+    seen: set[str] = set()
+    for title in variants:
+        if not title or title in seen:
+            continue
+        seen.add(title)
+        title = title.strip(" -–—,:：")
+        title = title.replace("跨境跨境", "跨境").replace("人工智能人工智能", "人工智能").replace("人工智能AI应用", "人工智能应用")
+        if _is_clean_title(title):
+            return title
+    return ""
+
+
+def _make_unique_title(title: str, candidate: dict[str, Any], used: set[str]) -> str:
+    candidate_title = str(title or "").replace("市场观察", "市场变化").replace("市场动向", "市场变化")
+    if candidate_title and candidate_title not in used and _is_clean_title(candidate_title):
+        return candidate_title
+    entity = str(candidate.get("title_original") or "")
+    subject = _title_subject(entity)
+    action = _title_action(entity)
+    topic = _title_topic(entity)
+    region = str(candidate.get("primary_region") or "")
+    region_rule = business_mod.REGION_RULES.get(region) or {}
+    country = (region_rule.get("markets") or ["全球"])[0]
+    industry = str(candidate.get("primary_industry") or "crossborder")
+    industry_zh = "人工智能" if industry == "ai" else business_mod.INDUSTRY_ZH.get(industry, "跨境")
+    alternatives = [
+        f"{subject}{topic}初创{action}" if subject and topic and action else "",
+        f"{country}{topic}初创{action}" if topic and action else "",
+        f"{subject}{topic}{action}" if subject and action else "",
+        f"{country}{topic}{action}" if topic and action else "",
+        f"{country}{industry_zh}{action}" if action else "",
+        f"{country}{industry_zh}变化",
+    ]
+    for alt in alternatives:
+        alt = re.sub(r"[0-9]+$", "", alt).strip().replace("市场观察", "市场变化").replace("市场动向", "市场变化")
+        if alt and alt not in used and _is_clean_title(alt):
+            return alt
+    source = str(candidate.get("source", {}).get("name") or "公开信号")
+    base = re.sub(r"[0-9]+$", "", candidate_title).strip() or f"{country}{industry_zh}市场变化新动态"
+    numerals = "一二三四五六七八九十"
+    counter = len(used) % 10
+    for attempt in range(10):
+        suffix = f"·{source[:6]}{numerals[(counter + attempt) % 10]}"
+        alt = f"{base[: 32 - len(suffix)]}{suffix}"
+        if alt not in used and _is_clean_title(alt):
+            return alt
+    return f"{base[:24]}新动态{numerals[len(used) % 10]}"
+
+
+def _noise_flags(signal: dict[str, Any]) -> list[str]:
+    title = str(signal.get("title") or signal.get("title_norm") or "")
+    source_id = str(signal.get("source_id") or "").lower()
+    text = title.lower()
+    flags: list[str] = []
+    if "app-store" in source_id or "appstore" in source_id:
+        flags.append("app-store-listing")
+    slogans = (r"(download now|play now|shop now|buy now|free shipping|no\.?\s*1|top \d+|best .*app|"
+               r"购物|下载|福利|红包|优惠券|here.s why|you won.t believe|what you need to know|opinion|podcast)")
+    if re.search(slogans, text):
+        flags.append("promo-slogan")
+    low_signal = (r"(layoff|layoffs|裁员|award|awards|获奖|stock|stocks|shares|股价|ipo|上市|debut|"
+                  r"here.s why|what you need to know|you won.t believe|标题党|airspace|federal register)")
+    if re.search(low_signal, text):
+        flags.append("low-signal-news")
+    company_event = (r"(raises|raised|funding|seed round|series [a-z]|融资|种子轮|轮融资|launches|launched|"
+                     r"unveils|上线|发布|新品)")
+    if re.search(company_event, text):
+        flags.append("company-event")
+    if len(re.findall(r"[A-Za-z\u4e00-\u9fff]", title)) < 8:
+        flags.append("too-short")
+    return flags
+
+
 def _seven_questions(signal: dict[str, Any], industries: list[str], gaps: list[str]) -> dict[str, dict[str, str]]:
     industry_text = "、".join(INDUSTRY_NAMES.get(item, item) for item in industries[:2]) or "跨境"
     gap_text = "、".join(GAP_NAMES.get(item, item) for item in gaps[:2]) or "信息差"
@@ -564,6 +786,8 @@ def _candidate_from_signal(
             "date": published,
             "tier": "public-signal",
             "verified_by_human": False,
+            "link_status": "public-url" if str(url).startswith(("http://", "https://")) else "missing-url",
+            "fetch_status": "unfetched",
         }
     ]
     system_validation = _system_validation(
@@ -572,24 +796,7 @@ def _candidate_from_signal(
     candidate_id = "cand-" + _hash(url or title, str(signal.get("title_norm") or title))[:12]
     relevance = float(signal.get("relevance_score") or 0)
     confidence = int(round(common.clamp(30 + relevance * 0.5 + (10 if signal.get("tier") == "business" else 0) + 5 + 5, 0, 95)))
-    scores = _scores(signal, industries, regions, len(evidence), as_of)
-    roi = _roi(industries[0])
-    business_eval = business_mod.build_business(
-        signal,
-        title_original=title_original or title,
-        title_zh=title_zh,
-        summary_zh=summary_zh,
-        industries=industries,
-        gaps=gaps,
-        regions=regions,
-        countries=countries,
-        scores=scores,
-        roi=roi,
-        evidence=evidence,
-        source_name=source_name,
-        as_of=as_of.isoformat(),
-    )
-    primary_industry = str(business_eval["judgment"].get("primary_industry") or industries[0])
+    primary_industry = business_mod._primary_industry(title_original or title, f"{summary_zh} {title_zh}", industries)
     secondary = business_mod.secondary_industry(
         primary_industry,
         industries,
@@ -597,10 +804,38 @@ def _candidate_from_signal(
         f"{summary_zh} {title_zh}",
     )
     industries_clean = [primary_industry] + ([secondary] if secondary and secondary != primary_industry else [])
+    roi = _roi(primary_industry)
+    business_eval = business_mod.build_business(
+        signal,
+        title_original=title_original or title,
+        title_zh=title_zh,
+        summary_zh=summary_zh,
+        industries=industries_clean,
+        gaps=gaps,
+        regions=regions,
+        countries=countries,
+        scores=_scores(signal, industries_clean, regions, len(evidence), as_of),
+        roi=roi,
+        evidence=evidence,
+        source_name=source_name,
+        as_of=as_of.isoformat(),
+        source_regions=list(source_meta.get("regions") or []) if source_meta else [],
+    )
+    primary_region = str(business_eval.get("primary_region") or regions[0])
+    regions_clean = [primary_region] + [item for item in regions if item != primary_region][:1]
+    countries_clean = _target_countries(regions_clean)
+    title_final = _special_title(title_original or title) or (title_zh if _is_clean_title(title_zh) else _synth_title(business_eval, signal, countries_clean))
+    if not _is_clean_title(title_final) and not _special_title(title_original or title):
+        title_final = _synth_title(business_eval, signal, countries_clean)
+    title_final = re.sub(r"[0-9]+$", "", title_final).strip()
+    title_final = title_final.replace("市场动向", "市场观察")
+    evidence[0]["title"] = title_final
+    noise_flags = _noise_flags(signal)
+    scores = _scores(signal, industries_clean, regions_clean, len(evidence), as_of)
     return {
         "candidate_id": candidate_id,
-        "title": title_zh,
-        "title_zh": title_zh,
+        "title": title_final,
+        "title_zh": title_final,
         "one_liner_zh": one_liner_zh,
         "summary_zh": summary_zh,
         "title_original": localize["title_original"],
@@ -609,17 +844,18 @@ def _candidate_from_signal(
         "one_liner": one_liner,
         "industry_ids": industries_clean,
         "primary_industry": primary_industry,
+        "primary_region": primary_region,
         "gap_type_ids": gaps,
         "gap_inferred": gap_inferred,
         "gap_inference": _gap_inference_text(gaps, gap_inferred),
-        "region_ids": regions,
+        "region_ids": regions_clean,
         "region_inferred": region_inferred,
-        "target_countries": countries,
+        "target_countries": countries_clean,
         "source": {
             "id": source_id,
             "name": source_name,
             "url": url,
-            "cleaned": title_zh,
+            "cleaned": title_final,
             "raw_title": title_original,
             "published_at": published,
             "summary": summary,
@@ -628,6 +864,8 @@ def _candidate_from_signal(
         "system_validation": system_validation,
         "seven_questions": _seven_questions(signal, industries, gaps),
         "roi": roi,
+        "grade": scores["grade"],
+        "noise_flags": noise_flags,
         "scores": scores,
         **business_eval,
         "confidence": confidence,
@@ -656,6 +894,60 @@ def load_outbox(path: Path | None = None) -> tuple[Path | None, dict[str, Any]]:
     latest = max(files, key=lambda item: (item.stat().st_mtime, item.name))
     payload = common.load_json(latest) or {}
     return latest, payload
+
+
+def _event_key(signal: dict[str, Any], candidate: dict[str, Any]) -> tuple:
+    text = str(signal.get("title") or signal.get("title_norm") or "").lower()
+    if "lianlian" in text and "paypal" in text:
+        return ("brands", ("lianlian", "paypal"))
+    raw_brands = [brand.lower() for brand in business_mod.BRAND_ZH if re.search(r"(?<![a-z])" + re.escape(brand.lower()) + r"(?![a-z])", text)]
+    brands = sorted({("lianlian" if "lianlian" in brand else brand) for brand in raw_brands})
+    judgment = candidate.get("judgment") or {}
+    region = str(candidate.get("primary_region") or "")
+    event = str(judgment.get("event_type") or "")
+    if brands:
+        return ("brands", tuple(brands[:3]))
+    tokens = sorted({token for token in re.findall(r"[a-z0-9\u4e00-\u9fff]+", text) if len(token) > 2 or token.isdigit()})[:6]
+    return ("tokens", tuple(tokens), region, event)
+
+
+LOW_INFO_PATTERNS = (
+    r"daily news", r"weekly (roundup|digest|wrap)", r"roundup", r"market wrap", r"morning brief",
+    r"top \d+", r"best of", r"newsletter", r"podcast", r"opinion", r"editorial",
+    r"^[0-9]{1,2}[/-][0-9]{1,2}[/-][0-9]{2,4}$", r"^[0-9]+ takeaways",
+)
+TITLE_GENERIC_PATTERNS = (r"行业信号", r"市场观察", r"市场动向", r"市场变化", r"新动态", r"动态$", r"机会")
+
+
+def _is_low_info(title: str) -> bool:
+    text = str(title or "").strip()
+    if len(text) < 8:
+        return True
+    lowered = text.lower()
+    if any(re.search(pattern, lowered) for pattern in LOW_INFO_PATTERNS):
+        return True
+    has_subject = bool(re.search(r"[A-Z][A-Za-z]{2,}", text)) or bool(re.search(r"[\u4e00-\u9fff]{2,}", text))
+    has_event = bool(re.search(
+        r"raises|funding|launch|partner|acquir|regulat|policy|rules|epr|ban|demand|growth|surge|"
+        r"price|cost|tariff|ipo|listing|hiring|layoff|投资|融资|上线|发布|合作|并购|监管|新规|需求|增长|关税|降价",
+        lowered,
+    ))
+    has_number = bool(re.search(r"[0-9]", text))
+    return not (has_subject and (has_event or has_number))
+
+
+def _is_acceptable_title(title: str) -> bool:
+    if not title or title in {"", "行业信号"}:
+        return False
+    if len(title) < 8 or len(title) > 32:
+        return False
+    if re.search(r"[0-9]+$", title):
+        return False
+    if re.search("|".join(TITLE_GENERIC_PATTERNS), title):
+        return False
+    if not _is_clean_title(title):
+        return False
+    return True
 
 
 def build_candidates(
@@ -693,8 +985,16 @@ def build_candidates(
     candidates: list[dict[str, Any]] = []
     seen_urls: set[str] = set()
     seen_titles: set[str] = set()
+    seen_title_tokens: list[set[str]] = []
+    seen_event_keys: set[tuple] = set()
+    used_titles: set[str] = set()
     dropped_duplicates = 0
+    noise_filtered = 0
+    low_info_filtered = 0
     for signal in ordered:
+        if _is_low_info(signal.get("title")):
+            low_info_filtered += 1
+            continue
         candidate = _candidate_from_signal(
             signal,
             sources,
@@ -710,9 +1010,37 @@ def build_candidates(
         if dedupe_key_title in seen_titles:
             dropped_duplicates += 1
             continue
+        title_tokens = {item for item in re.findall(r"[a-z0-9\u4e00-\u9fff]+", str(signal.get("title_norm") or signal.get("title") or "").lower()) if len(item) > 1 or item.isdigit()}
+        if title_tokens and any(
+            len(title_tokens & other) / max(1, len(title_tokens | other)) >= 0.8 for other in seen_title_tokens
+        ):
+            dropped_duplicates += 1
+            continue
         if dedupe_key_url:
             seen_urls.add(dedupe_key_url)
         seen_titles.add(dedupe_key_title)
+        if title_tokens:
+            seen_title_tokens.append(title_tokens)
+        if any(flag in {"app-store-listing", "promo-slogan", "low-signal-news"} for flag in candidate.get("noise_flags", [])):
+            noise_filtered += 1
+            continue
+        event_key = _event_key(signal, candidate)
+        if event_key in seen_event_keys:
+            dropped_duplicates += 1
+            continue
+        seen_event_keys.add(event_key)
+        unique_title = _make_unique_title(str(candidate.get("title_zh") or ""), candidate, used_titles)
+        unique_title = re.sub(r"[0-9]+$", "", unique_title).strip()
+        if not unique_title or not _is_acceptable_title(unique_title):
+            low_info_filtered += 1
+            continue
+        candidate["title"] = unique_title
+        candidate["title_zh"] = unique_title
+        if candidate.get("evidence"):
+            candidate["evidence"][0]["title"] = unique_title
+        if candidate.get("source"):
+            candidate["source"]["cleaned"] = unique_title
+        used_titles.add(candidate["title_zh"])
         candidates.append(candidate)
         if len(candidates) >= limit:
             break
@@ -794,6 +1122,8 @@ def build_candidates(
             "business_signals": len(business),
             "maybe_signals": len(maybe),
             "dropped_duplicates": dropped_duplicates,
+        "noise_filtered": noise_filtered,
+        "low_info_filtered": low_info_filtered,
             "system_validation_summary": {
                 "high": levels.get("high", 0),
                 "medium": levels.get("medium", 0),

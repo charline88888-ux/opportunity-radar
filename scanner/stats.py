@@ -117,7 +117,6 @@ def build_stats(
         "industries_covered": sum(1 for row in industries if row["count"] > 0),
         "regions_covered": sum(1 for row in regions if row["count"] > 0),
         "avg_total": round1(sum(totals) / len(totals)) if totals else 0.0,
-        "verified_count": sum(1 for opp in opportunities if opp.get("verified") is True),
         "evidence_total": sum(len(opp.get("signal", {}).get("evidence", [])) for opp in opportunities),
         # v1.0.0 自动发现轨（仅计数；不涉及验证/实验）
         "candidates_total": len(candidate_rows),

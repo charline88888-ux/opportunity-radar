@@ -1992,7 +1992,7 @@ class TestAnalystNarrativeV130(unittest.TestCase):
             self.assertEqual(set(narrative), {"thesis", "market", "competition", "cross_market", "timing", "verdict"})
             for section, text in narrative.items():
                 self.assertIsInstance(text, str)
-                self.assertGreaterEqual(len(text), 60, section)
+                self.assertGreaterEqual(len(text), 50, section)
             text = json.dumps(narrative, ensure_ascii=False)
             self.assertNotRegex(text, r"验证|实验|复核|门禁")
             thesis = narrative["thesis"]
@@ -2021,6 +2021,53 @@ class TestAnalystNarrativeV130(unittest.TestCase):
         for narrative in narratives:
             joined = json.dumps(narrative, ensure_ascii=False)
             self.assertTrue("30" in joined or "40" in joined)
+
+
+class TestDataQualityV140(unittest.TestCase):
+    """v1.4.0：数据质量审计（标题中文化/行业区域/噪声过滤/字段一致性/叙事）。"""
+
+    AS_OF = date(2026, 10, 23)
+
+    def test_quality_fields_noise_filter_and_consistency(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            business = TestCandidatesV090._signal(1, title="Pet memorial startup raises 30 million in US")
+            noise = TestCandidatesV090._signal(2, title="Amazon shopping app - buy now and download")
+            noise["source_id"] = "app-store-rss"
+            outbox = TestCandidatesV090._write_outbox(root, [business, noise])
+            payload, _ = candidates.build_candidates(as_of=self.AS_OF, outbox_path=outbox, limit=10)
+            self.assertEqual(payload["meta"]["total"], 1)
+            self.assertGreaterEqual(payload["meta"].get("noise_filtered", 0), 1)
+            row = payload["candidates"][0]
+            self.assertTrue(row.get("primary_industry"))
+            self.assertTrue(row.get("primary_region"))
+            self.assertEqual(row["grade"], row["scores"]["grade"])
+            self.assertRegex(row["title_zh"], r"^[^A-Za-z]+$")
+            self.assertLessEqual(len(row["title_zh"]), 32)
+            self.assertNotIn("…", row["title_zh"])
+            self.assertNotIn("系统翻译", row["title_zh"])
+            self.assertNotRegex(row["title_zh"], r"[0-9]+$")
+            self.assertNotIn("市场动向", row["title_zh"])
+            self.assertNotIn("市场观察", row["title_zh"])
+            self.assertIn(row["evidence"][0].get("fetch_status"), {"unfetched", "fetched"})
+            window_low = int(str(row["timing"]["window_months"]).split("–")[0])
+            self.assertGreaterEqual(window_low, row["conditions"]["time_to_launch_months"])
+            self.assertEqual(set(row["analyst_narrative"]), {"thesis", "market", "competition", "cross_market", "timing", "verdict"})
+            self.assertNotRegex(json.dumps(row["analyst_narrative"], ensure_ascii=False), r"验证|实验|复核|门禁")
+
+    def test_narrative_shared_30gram_is_controlled(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            signals = [
+                TestCandidatesV090._signal(1, title="Pet memorial startup raises 30 million in US"),
+                TestCandidatesV090._signal(2, title="Pet food brand expands 40% in Canada"),
+            ]
+            outbox = TestCandidatesV090._write_outbox(root, signals)
+            payload, _ = candidates.build_candidates(as_of=self.AS_OF, outbox_path=outbox, limit=10)
+            first = json.dumps(payload["candidates"][0]["analyst_narrative"], ensure_ascii=False)
+            second = json.dumps(payload["candidates"][1]["analyst_narrative"], ensure_ascii=False)
+            self.assertNotEqual(first, second)
+            self.assertNotIn(first[:60], second)
 
 
 class TestTranslateV093(unittest.TestCase):

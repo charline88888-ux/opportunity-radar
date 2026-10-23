@@ -1,0 +1,525 @@
+{
+  "candidate-1440": {
+    "scrollHeight": 5976,
+    "viewport": 900,
+    "overflow": false,
+    "minFont": 8.5,
+    "fontHist": {
+      "9": 1,
+      "10": 22,
+      "11": 1,
+      "12": 18,
+      "13": 207,
+      "14": 114,
+      "15": 19,
+      "17": 1,
+      "20": 3,
+      "30": 1,
+      "34": 4,
+      "44": 1,
+      "9.5": 21,
+      "12.5": 7,
+      "8.5": 9,
+      "10.5": 9
+    },
+    "smallCount": 63,
+    "smallSamples": [
+      {
+        "fs": "9",
+        "text": "OPPORTUNITY RADAR"
+      },
+      {
+        "fs": "10",
+        "text": "全球商机扫描器 · 本地个人版"
+      },
+      {
+        "fs": "10",
+        "text": "NAVIGATION / 工作台"
+      },
+      {
+        "fs": "9.5",
+        "text": "01"
+      },
+      {
+        "fs": "8.5",
+        "text": "COMMAND"
+      },
+      {
+        "fs": "10",
+        "text": "核心 KPI · 今日候选"
+      },
+      {
+        "fs": "9.5",
+        "text": "02"
+      },
+      {
+        "fs": "8.5",
+        "text": "RANKINGS"
+      }
+    ],
+    "tokenCounts": {
+      "6–12 个月": 3,
+      "55%": 2,
+      "2-20 万": 0,
+      "¥2-20 万": 0,
+      "Malaysia": 1,
+      "牌照": 9,
+      "手续费": 6,
+      "清算": 3,
+      "资金归集": 3,
+      "垂直 AI SaaS": 0,
+      "供应链 + 本地化": 0,
+      "6 个月": 2,
+      "18 个月": 0
+    },
+    "sticky": [
+      {
+        "h": 53,
+        "sh": 52,
+        "top": "0px",
+        "text": "radar:// dashboard ⌘K AS_OF 2026-10-23 REAL DATA 中"
+      },
+      {
+        "h": 1439.921875,
+        "sh": 1440,
+        "top": "80px",
+        "text": "利润结构 毛利率 55% 回本周期 6 个月 手续费 + 汇率 以跨境卖家/自由职业者为首批客户，单"
+      }
+    ],
+    "stickyMax": 1440,
+    "anchorLinks": 16,
+    "backTop": false,
+    "textLen": 5235,
+    "shot": 231969
+  },
+  "rankings-1440": {
+    "scrollHeight": 29104,
+    "viewport": 900,
+    "overflow": false,
+    "minFont": 8.5,
+    "fontHist": {
+      "9": 2,
+      "10": 271,
+      "11": 6,
+      "12": 3170,
+      "13": 2788,
+      "19": 249,
+      "26": 249,
+      "9.5": 26,
+      "12.5": 7,
+      "8.5": 209,
+      "10.5": 9
+    },
+    "smallCount": 523,
+    "smallSamples": [
+      {
+        "fs": "9",
+        "text": "OPPORTUNITY RADAR"
+      },
+      {
+        "fs": "10",
+        "text": "全球商机扫描器 · 本地个人版"
+      },
+      {
+        "fs": "10",
+        "text": "NAVIGATION / 工作台"
+      },
+      {
+        "fs": "9.5",
+        "text": "01"
+      },
+      {
+        "fs": "8.5",
+        "text": "COMMAND"
+      },
+      {
+        "fs": "10",
+        "text": "核心 KPI · 今日候选"
+      },
+      {
+        "fs": "9.5",
+        "text": "02"
+      },
+      {
+        "fs": "8.5",
+        "text": "RANKINGS"
+      }
+    ],
+    "tokenCounts": {
+      "6–12 个月": 145,
+      "55%": 0,
+      "2-20 万": 0,
+      "¥2-20 万": 0,
+      "Malaysia": 2,
+      "牌照": 0,
+      "手续费": 0,
+      "清算": 0,
+      "资金归集": 0,
+      "垂直 AI SaaS": 0,
+      "供应链 + 本地化": 0,
+      "6 个月": 241,
+      "18 个月": 12
+    },
+    "sticky": [
+      {
+        "h": 53,
+        "sh": 52,
+        "top": "0px",
+        "text": "radar:// rankings ⌘K AS_OF 2026-10-23 REAL DATA 中文"
+      }
+    ],
+    "stickyMax": 52,
+    "anchorLinks": 265,
+    "backTop": true,
+    "textLen": 60199
+  },
+  "candidate-1600": {
+    "scrollHeight": 5611,
+    "viewport": 900,
+    "overflow": false,
+    "minFont": 8.5,
+    "fontHist": {
+      "9": 1,
+      "10": 22,
+      "11": 1,
+      "12": 18,
+      "13": 207,
+      "14": 114,
+      "15": 19,
+      "17": 1,
+      "20": 3,
+      "30": 1,
+      "34": 4,
+      "44": 1,
+      "9.5": 21,
+      "12.5": 7,
+      "8.5": 9,
+      "10.5": 9
+    },
+    "smallCount": 63,
+    "smallSamples": [
+      {
+        "fs": "9",
+        "text": "OPPORTUNITY RADAR"
+      },
+      {
+        "fs": "10",
+        "text": "全球商机扫描器 · 本地个人版"
+      },
+      {
+        "fs": "10",
+        "text": "NAVIGATION / 工作台"
+      },
+      {
+        "fs": "9.5",
+        "text": "01"
+      },
+      {
+        "fs": "8.5",
+        "text": "COMMAND"
+      },
+      {
+        "fs": "10",
+        "text": "核心 KPI · 今日候选"
+      },
+      {
+        "fs": "9.5",
+        "text": "02"
+      },
+      {
+        "fs": "8.5",
+        "text": "RANKINGS"
+      }
+    ],
+    "tokenCounts": {
+      "6–12 个月": 3,
+      "55%": 2,
+      "2-20 万": 0,
+      "¥2-20 万": 0,
+      "Malaysia": 1,
+      "牌照": 9,
+      "手续费": 6,
+      "清算": 3,
+      "资金归集": 3,
+      "垂直 AI SaaS": 0,
+      "供应链 + 本地化": 0,
+      "6 个月": 2,
+      "18 个月": 0
+    },
+    "sticky": [
+      {
+        "h": 53,
+        "sh": 52,
+        "top": "0px",
+        "text": "radar:// dashboard ⌘K AS_OF 2026-10-23 REAL DATA 中"
+      },
+      {
+        "h": 1439.921875,
+        "sh": 1440,
+        "top": "80px",
+        "text": "利润结构 毛利率 55% 回本周期 6 个月 手续费 + 汇率 以跨境卖家/自由职业者为首批客户，单"
+      }
+    ],
+    "stickyMax": 1440,
+    "anchorLinks": 16,
+    "backTop": false,
+    "textLen": 5235,
+    "shot": 246398
+  },
+  "rankings-1600": {
+    "scrollHeight": 28966,
+    "viewport": 900,
+    "overflow": false,
+    "minFont": 8.5,
+    "fontHist": {
+      "9": 2,
+      "10": 271,
+      "11": 6,
+      "12": 3170,
+      "13": 2788,
+      "19": 249,
+      "26": 249,
+      "9.5": 26,
+      "12.5": 7,
+      "8.5": 209,
+      "10.5": 9
+    },
+    "smallCount": 523,
+    "smallSamples": [
+      {
+        "fs": "9",
+        "text": "OPPORTUNITY RADAR"
+      },
+      {
+        "fs": "10",
+        "text": "全球商机扫描器 · 本地个人版"
+      },
+      {
+        "fs": "10",
+        "text": "NAVIGATION / 工作台"
+      },
+      {
+        "fs": "9.5",
+        "text": "01"
+      },
+      {
+        "fs": "8.5",
+        "text": "COMMAND"
+      },
+      {
+        "fs": "10",
+        "text": "核心 KPI · 今日候选"
+      },
+      {
+        "fs": "9.5",
+        "text": "02"
+      },
+      {
+        "fs": "8.5",
+        "text": "RANKINGS"
+      }
+    ],
+    "tokenCounts": {
+      "6–12 个月": 145,
+      "55%": 0,
+      "2-20 万": 0,
+      "¥2-20 万": 0,
+      "Malaysia": 2,
+      "牌照": 0,
+      "手续费": 0,
+      "清算": 0,
+      "资金归集": 0,
+      "垂直 AI SaaS": 0,
+      "供应链 + 本地化": 0,
+      "6 个月": 241,
+      "18 个月": 12
+    },
+    "sticky": [
+      {
+        "h": 53,
+        "sh": 52,
+        "top": "0px",
+        "text": "radar:// rankings ⌘K AS_OF 2026-10-23 REAL DATA 中文"
+      }
+    ],
+    "stickyMax": 52,
+    "anchorLinks": 265,
+    "backTop": true,
+    "textLen": 60199,
+    "shot": 304172
+  },
+  "candidate-1024": {
+    "scrollHeight": 7395,
+    "viewport": 900,
+    "overflow": false,
+    "minFont": 8.5,
+    "fontHist": {
+      "9": 1,
+      "10": 22,
+      "11": 1,
+      "12": 18,
+      "13": 207,
+      "14": 114,
+      "15": 19,
+      "17": 1,
+      "20": 3,
+      "30": 1,
+      "34": 4,
+      "44": 1,
+      "9.5": 21,
+      "12.5": 7,
+      "8.5": 9,
+      "10.5": 9
+    },
+    "smallCount": 63,
+    "smallSamples": [
+      {
+        "fs": "9",
+        "text": "OPPORTUNITY RADAR"
+      },
+      {
+        "fs": "10",
+        "text": "全球商机扫描器 · 本地个人版"
+      },
+      {
+        "fs": "10",
+        "text": "NAVIGATION / 工作台"
+      },
+      {
+        "fs": "9.5",
+        "text": "01"
+      },
+      {
+        "fs": "8.5",
+        "text": "COMMAND"
+      },
+      {
+        "fs": "10",
+        "text": "核心 KPI · 今日候选"
+      },
+      {
+        "fs": "9.5",
+        "text": "02"
+      },
+      {
+        "fs": "8.5",
+        "text": "RANKINGS"
+      }
+    ],
+    "tokenCounts": {
+      "6–12 个月": 3,
+      "55%": 2,
+      "2-20 万": 0,
+      "¥2-20 万": 0,
+      "Malaysia": 1,
+      "牌照": 9,
+      "手续费": 6,
+      "清算": 3,
+      "资金归集": 3,
+      "垂直 AI SaaS": 0,
+      "供应链 + 本地化": 0,
+      "6 个月": 2,
+      "18 个月": 0
+    },
+    "sticky": [
+      {
+        "h": 53,
+        "sh": 52,
+        "top": "0px",
+        "text": "radar:// dashboard ⌘K AS_OF 2026-10-23 REAL DATA 中"
+      },
+      {
+        "h": 1675.453125,
+        "sh": 1675,
+        "top": "80px",
+        "text": "利润结构 毛利率 55% 回本周期 6 个月 手续费 + 汇率 以跨境卖家/自由职业者为首批客户，单"
+      }
+    ],
+    "stickyMax": 1675,
+    "anchorLinks": 16,
+    "backTop": false,
+    "textLen": 5235,
+    "shot": 156802
+  },
+  "rankings-1024": {
+    "scrollHeight": 43551,
+    "viewport": 900,
+    "overflow": false,
+    "minFont": 8.5,
+    "fontHist": {
+      "9": 2,
+      "10": 271,
+      "11": 6,
+      "12": 3170,
+      "13": 2788,
+      "19": 249,
+      "26": 249,
+      "9.5": 26,
+      "12.5": 7,
+      "8.5": 209,
+      "10.5": 9
+    },
+    "smallCount": 523,
+    "smallSamples": [
+      {
+        "fs": "9",
+        "text": "OPPORTUNITY RADAR"
+      },
+      {
+        "fs": "10",
+        "text": "全球商机扫描器 · 本地个人版"
+      },
+      {
+        "fs": "10",
+        "text": "NAVIGATION / 工作台"
+      },
+      {
+        "fs": "9.5",
+        "text": "01"
+      },
+      {
+        "fs": "8.5",
+        "text": "COMMAND"
+      },
+      {
+        "fs": "10",
+        "text": "核心 KPI · 今日候选"
+      },
+      {
+        "fs": "9.5",
+        "text": "02"
+      },
+      {
+        "fs": "8.5",
+        "text": "RANKINGS"
+      }
+    ],
+    "tokenCounts": {
+      "6–12 个月": 145,
+      "55%": 0,
+      "2-20 万": 0,
+      "¥2-20 万": 0,
+      "Malaysia": 2,
+      "牌照": 0,
+      "手续费": 0,
+      "清算": 0,
+      "资金归集": 0,
+      "垂直 AI SaaS": 0,
+      "供应链 + 本地化": 0,
+      "6 个月": 241,
+      "18 个月": 12
+    },
+    "sticky": [
+      {
+        "h": 53,
+        "sh": 52,
+        "top": "0px",
+        "text": "radar:// rankings ⌘K AS_OF 2026-10-23 REAL DATA 中文"
+      }
+    ],
+    "stickyMax": 52,
+    "anchorLinks": 265,
+    "backTop": true,
+    "textLen": 60199
+  }
+}

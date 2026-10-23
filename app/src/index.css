@@ -130,7 +130,7 @@
 }
 .mono-label {
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: 12px;
   line-height: 1.4;
   letter-spacing: 0.16em;
   text-transform: uppercase;
@@ -256,4 +256,15 @@
   body {
     font-size: 13px;
   }
+}
+
+
+/* v1.4.0 可读性审计：全局小字号兜底（正文/辅助不低于 13px） */
+.text-\[8px\], .text-\[8\.5px\], .text-\[9px\], .text-\[9\.5px\], .text-\[10px\], .text-\[10\.5px\], .text-\[11px\], .text-\[11\.5px\], .text-\[12px\], .text-\[12\.5px\] {
+  font-size: 13px !important;
+  line-height: 1.5 !important;
+}
+.text-\[14px\] {
+  font-size: 15px !important;
+  line-height: 1.65 !important;
 }

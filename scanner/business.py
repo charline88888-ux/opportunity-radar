@@ -432,6 +432,8 @@ COUNTRY_ZH: dict[str, str] = {
     "Saudi": "沙特", "UAE": "阿联酋", "Egypt": "埃及", "Australia": "澳大利亚",
     "New Zealand": "新西兰", "Turkey": "土耳其", "Russia": "俄罗斯", "Kazakhstan": "哈萨克斯坦",
     "Pakistan": "巴基斯坦", "Bangladesh": "孟加拉国", "Philippines": "菲律宾",
+    "Berlin": "柏林", "Britain": "英国", "London": "伦敦", "New York": "纽约",
+    "Indonesia": "印尼", "Vietnam": "越南", "Thailand": "泰国", "Malaysia": "马来西亚",
 }
 INSTITUTION_ZH: dict[str, str] = {
     "MAS": "MAS（新加坡金管局）",
@@ -443,6 +445,20 @@ INSTITUTION_ZH: dict[str, str] = {
     "FDA": "美国食品药品监督管理局",
     "WTO": "世界贸易组织",
 }
+BRAND_REGION: dict[str, str] = {
+    "Swiggy": "south-asia", "Zomato": "south-asia", "Flipkart": "south-asia", "Jio": "south-asia",
+    "Grab": "sea", "Gojek": "sea", "Tokopedia": "sea", "Sea": "sea",
+    "Nubank": "latam", "MercadoLibre": "latam", "Rappi": "latam",
+}
+
+BRAND_ZH: dict[str, str] = {
+    "ByteDance": "字节跳动", "PineDrama": "松果短剧", "PayPal": "贝宝", "Lianlian": "连连",
+    "LianLian": "连连", "Amazon": "亚马逊", "TikTok": "抖音", "Grab": "Grab", "Swiggy": "Swiggy",
+    "MAS": "MAS（新加坡金管局）", "EU": "欧盟", "Google": "谷歌", "Meta": "Meta", "OpenAI": "OpenAI",
+    "Intuitivo": "Intuitivo", "Indurex": "Indurex", "TravClan": "TravClan", "Velvot": "Velvot",
+    "Sebi": "印度证监会", "SEBI": "印度证监会", "EU Council": "欧盟理事会",
+}
+
 EVENT_ZH: dict[str, str] = {
     "policy": "政策/监管窗口",
     "funding": "融资",
@@ -475,34 +491,34 @@ GENERIC_ENTITY_WORDS = {
 }
 
 REGION_KEYWORDS: dict[str, list[str]] = {
-    "north-america": ["united states", "u.s.", " usa", "america", "canada", "washington", "new york", "california"],
-    "europe": ["europe", "european union", "eu ", "united kingdom", "uk ", "britain", "germany", "france", "london", "berlin", "paris"],
-    "mena": ["saudi", "uae", "dubai", "abu dhabi", "qatar", "egypt", "middle east", "riyadh"],
-    "sea": ["malaysia", "thailand", "singapore", "indonesia", "vietnam", "philippines", "jakarta", "bangkok", "kuala lumpur"],
-    "east-asia": ["japan", "korea", "tokyo", "seoul", "taiwan", "hong kong"],
-    "south-asia": ["india", "pakistan", "bangladesh", "mumbai", "delhi"],
-    "latam": ["brazil", "mexico", "argentina", "chile", "colombia", "sao paulo", "mexico city"],
-    "africa": ["nigeria", "kenya", "south africa", "lagos", "nairobi", "johannesburg", "africa"],
-    "oceania": ["australia", "new zealand", "sydney", "melbourne", "auckland"],
-    "cis": ["russia", "kazakhstan", "uzbekistan", "moscow", "almaty"],
-    "china": ["china", "chinese", "beijing", "shanghai", "shenzhen", "36kr"],
+    "north-america": ["united states", "u.s.", "usa", "america", "canada", "washington", "wall street", "silicon valley", "new york", "california", "美国", "加拿大", "北美"],
+    "europe": ["europe", "european union", "eu", "united kingdom", "uk", "britain", "germany", "france", "london", "berlin", "paris", "brussels", "欧洲", "欧盟", "英国", "德国", "法国", "布鲁塞尔"],
+    "mena": ["saudi", "uae", "dubai", "abu dhabi", "qatar", "egypt", "middle east", "riyadh", "中东", "沙特", "阿联酋", "埃及"],
+    "sea": ["malaysia", "thailand", "singapore", "indonesia", "vietnam", "philippines", "jakarta", "bangkok", "kuala lumpur", "马来西亚", "泰国", "新加坡", "印尼", "印度尼西亚", "越南", "菲律宾", "东南亚"],
+    "east-asia": ["japan", "korea", "tokyo", "seoul", "taiwan", "hong kong", "日本", "韩国", "台湾", "香港"],
+    "south-asia": ["india", "indian", "sebi", "rupee", "rupees", "pakistan", "bangladesh", "mumbai", "delhi", "印度", "巴基斯坦", "孟加拉"],
+    "latam": ["brazil", "mexico", "argentina", "chile", "colombia", "sao paulo", "mexico city", "巴西", "墨西哥", "阿根廷", "智利"],
+    "africa": ["nigeria", "naira", "kenya", "shilling", "south africa", "rand", "lagos", "nairobi", "johannesburg", "africa", "尼日利亚", "肯尼亚", "南非", "非洲"],
+    "oceania": ["australia", "new zealand", "sydney", "melbourne", "auckland", "澳大利亚", "新西兰"],
+    "cis": ["russia", "kazakhstan", "uzbekistan", "moscow", "almaty", "俄罗斯", "哈萨克斯坦", "独联体"],
+    "china": ["china", "chinese", "beijing", "shanghai", "shenzhen", "36kr", "中国", "北京", "上海", "深圳"],
 }
 
 INDUSTRY_KEYWORDS: dict[str, list[str]] = {
-    "fintech": ["payment", "payments", "payout", "payouts", "remittance", "clearing", "bank", "banks", "wallet", "fintech", "stablecoin", "支付", "汇款", "清算", "结算", "银行", "钱包", "跨境收付"],
+    "fintech": ["payment", "payments", "payout", "payouts", "remittance", "clearing", "bank", "banks", "wallet", "fintech", "stablecoin", "lending", "credit", "loan", "loans", "working capital", "pay", "支付", "汇款", "清算", "结算", "银行", "钱包", "跨境收付", "信贷", "贷款", "融资服务"],
     "content": ["short drama", "short dramas", "drama", "dramas", "webtoon", "web novel", "webnovel", "streaming", "content", "ip", "creator", "creators", "studio", "短剧", "网文", "漫画", "内容", "版权", "PineDrama"],
     "pet": ["pet", "pets", "pet food", "dog", "cat", "veterinary", "pet care", "memorial", "keepsake", "宠物", "宠物食品", "宠物殡葬"],
     "silver": ["senior", "seniors", "aging", "ageing", "elderly", "nursing", "care home", "retirement", "养老", "银发", "老年", "适老"],
-    "compliance": ["compliance", "certification", "gpsr", "epr", "eudr", "ppwr", "cpsc", "fda", "ce marking", "合规", "认证", "监管要求"],
+    "compliance": ["compliance", "certification", "gpsr", "epr", "eudr", "ppwr", "cpsc", "fda", "ce marking", "sebi", "audit", "audits", "warning", "regulator", "监管", "合规", "认证", "审计"],
     "gaming": ["game", "games", "gaming", "esports", "ugc", "游戏", "电竞"],
     "education": ["education", "school", "tutoring", "course", "courses", "edtech", "教育", "补习", "培训"],
     "green": ["solar", "renewable", "recycling", "heat pump", "carbon", "battery", "energy", "光伏", "回收", "节能", "电池", "绿色"],
     "culture": ["halal", "ramadan", "eid", "quran", "religious", "清真", "斋月", "宗教", "文化"],
     "emotional": ["grief", "lonely", "loneliness", "anxiety", "therapy", "memorial", "情绪", "疗愈", "孤独", "哀伤"],
-    "local": ["delivery", "restaurant", "local service", "home service", "本地生活", "上门", "到店"],
+    "local": ["delivery", "restaurant", "swiggy", "zomato", "food delivery", "local service", "home service", "本地生活", "外卖", "到店"],
     "manufacturing": ["factory", "manufacturing", "supplier", "spare parts", "oem", "制造", "工厂", "零部件"],
-    "crossborder": ["cross-border", "cross border", "ecommerce", "e-commerce", "export", "import", "marketplace", "retail", "consumer", "seller", "跨境", "电商", "出海", "进口", "出口", "供应链"],
-    "ai": ["artificial intelligence", "ai", "llm", "agent", "model", "automation", "人工智能", "大模型"],
+    "crossborder": ["cross-border", "cross border", "ecommerce", "e-commerce", "export", "import", "marketplace", "retail", "consumer", "seller", "amazon", "shopping", "buyers", "跨境", "电商", "出海", "进口", "出口", "供应链", "购物"],
+    "ai": ["artificial intelligence", "ai", "llm", "agent", "ai agents", "model", "automation", "人工智能", "大模型"],
 }
 
 EVENT_RULES: dict[str, dict[str, Any]] = {
@@ -596,10 +612,19 @@ def _entities(title: str, limit: int = 4) -> list[str]:
         result.append(cleaned)
         if len(result) >= limit:
             break
+    if len(result) < limit:
+        for chunk in re.findall(r"[\u4e00-\u9fff]{2,}", clean):
+            if chunk in result:
+                continue
+            result.append(chunk[:12])
+            if len(result) >= limit:
+                break
     return result
 
 
 def _localize_entity(entity: str) -> str:
+    if entity in BRAND_ZH:
+        return BRAND_ZH[entity]
     if entity in INSTITUTION_ZH:
         return INSTITUTION_ZH[entity]
     if entity in COUNTRY_ZH:
@@ -610,34 +635,68 @@ def _localize_entity(entity: str) -> str:
     return result
 
 
+def display_entities(title: str) -> list[str]:
+    return [_localize_entity(entity) for entity in _entities(title)]
+
+
 def _numbers(title: str, limit: int = 3) -> list[str]:
     return re.findall(r"\d+(?:[.,]\d+)?%?", _strip_source_suffix(title))[:limit]
 
 
+def _keyword_hits(text: str, keyword: str) -> int:
+    keyword = keyword.strip().lower()
+    if not keyword:
+        return 0
+    if re.search(r"[a-z]", keyword):
+        return len(re.findall(r"(?<![a-z])" + re.escape(keyword) + r"(?![a-z])", text))
+    return text.count(keyword)
+
+
 def _primary_industry(title: str, summary: str, fallback: list[str]) -> str:
     text = f"{title} {summary}".lower()
-    scores: dict[str, int] = {}
+    # AI 关键词易误伤（ai 出现在 said/retail 等），权重降低；垂直行业关键词权重更高
+    weights = {"ai": 0.6}
+    scores: dict[str, float] = {}
     for industry_id, keywords in INDUSTRY_KEYWORDS.items():
-        score = sum(1 for keyword in keywords if keyword.lower() in text)
+        score = sum(_keyword_hits(text, keyword) for keyword in keywords) * weights.get(industry_id, 1.0)
         if score:
             scores[industry_id] = score
     if scores:
         return sorted(scores, key=lambda item: (-scores[item], item))[0]
-    for industry in fallback:
-        if industry in INDUSTRY_PACKS:
-            return industry
+    # 没有明确关键词时，不沿用 relevance 的默认行业（常见误挂 AI），按商业场景兜底
+    fallback_text = text
+    if any(keyword in fallback_text for keyword in ("regulat", "policy", "sebi", "audit", "compliance", "监管", "政策", "审计")):
+        return "compliance"
+    if any(keyword in fallback_text for keyword in ("amazon", "shopping", "ecommerce", "retail", "marketplace", "购物", "电商", "零售")):
+        return "crossborder"
+    if any(keyword in fallback_text for keyword in ("layoff", "裁员", "award", "stock", "shares", "ipo", "funding", "raises", "股价", "上市", "融资")):
+        return "crossborder"
     return "crossborder"
 
 
-def _primary_region(title: str, summary: str, fallback: list[str]) -> str:
+def _primary_region(title: str, summary: str, fallback: list[str], source_regions: list[str] | None = None) -> str:
+    raw_title = title or ""
+    for brand, region_id in BRAND_REGION.items():
+        if re.search(r"(?<![A-Za-z])" + re.escape(brand) + r"(?![A-Za-z])", raw_title) and region_id in REGION_RULES:
+            return region_id
     text = f"{title} {summary}".lower()
-    scores: dict[str, int] = {}
+    head = text[:60]
+    scores: dict[str, tuple[int, int]] = {}
     for region_id, keywords in REGION_KEYWORDS.items():
-        score = sum(1 for keyword in keywords if keyword in text)
+        score = 0
+        position = len(text) + 1
+        for keyword in keywords:
+            hits = _keyword_hits(text, keyword)
+            if hits:
+                score += hits + (3 if _keyword_hits(head, keyword) else 0)
+                position = min(position, text.find(keyword.lower()) if keyword.lower() in text else position)
         if score:
-            scores[region_id] = score
+            scores[region_id] = (score, position)
     if scores:
-        return sorted(scores, key=lambda item: (-scores[item], item))[0]
+        return sorted(scores, key=lambda item: (-scores[item][0], scores[item][1], item))[0]
+    for region in source_regions or []:
+        if region in REGION_RULES:
+            return region
     for region in fallback:
         if region in REGION_RULES:
             return region
@@ -739,57 +798,56 @@ def _analyst_narrative(
     profit_model: dict[str, Any],
     scores: dict[str, Any],
     as_of: str,
+    source_name: str = "",
+    title_hint: str = "",
+    seed: int = 0,
     event_zh: str = "",
     window_stage_zh: str = "",
 ) -> dict[str, str]:
-    """6 段连贯商业评估散文（不是字段复读；引用实体/数字/区域，确定性）。"""
-    number_phrase = f"标题给出的数字（{'、'.join(numbers)}）" if numbers else "标题中的主体与场景"
-    alt_markets = "、".join(region_rule["markets"][1:]) or "同一区域内的相邻人群与渠道"
-    market_evidence = f"{number_phrase}说明变化已有可观察量级；" if numbers else "从标题看，变化的主体与场景已经具体；"
-    arbitrage_detail = gap_rule["arbitrage"].split("：", 1)[-1]
-    thesis = (
-        f"这条信号的核心不是「{pack['name']}又多了一条新闻」，而是{entity_text}{f'（{number_phrase}）' if numbers else ''}"
-        f"在{region_markets}触发了{event_zh}：{event_rule['why']}。"
-        f"对{industry_zh}而言，真正稀缺的是{industry_gap}，因此机会本质是围绕这一缺口提供{pack['value']}。"
-    )
-    market = (
-        f"{region_markets}的需求侧主要由{pack['segments'][0]}与{pack['segments'][1]}构成，"
-        f"{entity_text}带来的变化会放大他们对{pack['revenue'][0]}与{pack['channels'][0]}的诉求。"
-        f"{market_evidence}如果本地供给仍以{pack['competition']['substitutes'][0]}为主，"
-        f"{gap_zh}就是最直接的缺口。"
-    )
-    competition = (
-        f"竞争格局上，直接对手是{pack['competition']['direct'][0]}，间接压力来自{pack['competition']['indirect'][0]}，"
-        f"而用户当前的替代方案通常是{pack['competition']['substitutes'][0]}。"
-        f"新进入者不必正面硬拼，更现实的打法是靠{pack['competition']['moat']}叠加{gap_zh}本地化，"
-        f"以{pack['competition']['positioning']}先拿下一批细分客户。"
-    )
-    cross_market = (
-        f"跨市场逻辑是{gap_zh}：{arbitrage_detail}。这套模式可从{region_rule['markets'][0]}"
-        f"{'迁移到' + alt_markets if len(region_rule['markets']) > 1 else '复制到同一区域内的相邻人群与渠道'}，"
-        f"但落地前必须处理{region_rule['localization']}、{region_rule['compliance']}以及{region_rule['language']}内容与客服；"
-        f"定价权判断：{gap_rule['pricing']}。"
-    )
-    timing_narrative = (
-        f"以{as_of}为基准，{entity_text}带来的{event_zh}正处于{timing['window_stage']}阶段，"
-        f"按事件类型预计窗口约 {timing['window_months']} 个月。催化剂包括{'、'.join(timing['catalysts'][:2])}；"
-        f"一旦出现「{event_rule['not_if']}」，窗口会提前收窄。"
-    )
-    first_action = execution_plan["phase_0_30_days"][0]
-    verdict = (
-        f"综合判断：这是{pack['name']}方向上一个值得优先投入的商机，理由来自{industry_gap}与{event_rule['why']}叠加形成的时间窗口。"
-        f"主要风险是{barriers['regulatory']}与{barriers['capital']}；建议 30 天内先{first_action.rstrip('。')}，"
-        f"再用首笔订单与客户反馈校准单位经济，目标 {profit_model['payback_months']} 个月左右跑通{profit_model['revenue_model']}；"
-        f"上述判断为系统分析，不构成收入承诺。"
-    )
-    return {
-        "thesis": thesis,
-        "market": market,
-        "competition": competition,
-        "cross_market": cross_market,
-        "timing": timing_narrative,
-        "verdict": verdict,
+    """6 段商业评估散文：短句 + 每条独有锚点，控制跨候选 30-gram 重复。"""
+    anchor = entity_text if entity_text != "该信号" else f"{region_markets}{industry_zh}"
+    num_note = f"（{'、'.join(numbers)}）" if numbers else ""
+    gap_phrase = f"{industry_gap}（关键卡点）"
+    why_short = str(event_rule["why"]).split("，")[0]
+    not_short = str(event_rule["not_if"]).split("，")[0]
+    arbitrage_short = str(gap_rule["arbitrage"]).split("：")[-1]
+    country = region_rule["markets"][0]
+    alt = "、".join(region_rule["markets"][1:]) or "同区域相邻渠道"
+    action = f"围绕{anchor}锁定首批 20–50 个客户并跑通最小可售版"
+    short_ref = "该信号"
+    variants = {
+        "thesis": [
+            f"{anchor}{num_note}在{region_markets}给出{event_zh}信号，{why_short}；{industry_zh}要补的是{gap_phrase}。",
+            f"把{anchor}{num_note}放到{region_markets}看，{event_zh}带来的变化是{why_short}，而{gap_phrase}决定了供给空位。",
+            f"{anchor}{num_note}对应的{event_zh}不是新闻噪声：{why_short}；{industry_zh}的切入点是{gap_phrase}。",
+        ],
+        "market": [
+            f"{country}的需求方是{pack['segments'][0]}，{short_ref}会放大其对{pack['revenue'][0]}的需求；供给若停留在{pack['competition']['substitutes'][0]}，{gap_phrase}就是缺口。",
+            f"{region_markets}的购买场景集中在{pack['segments'][0]}；{short_ref}{num_note}让{pack['revenue'][0]}更具体，{gap_phrase}是本地供给瓶颈。",
+            f"在{country}，{pack['segments'][0]}的痛点与{short_ref}重合：{pack['channels'][0]}上的{pack['revenue'][0]}不足，{gap_phrase}卡住交付。",
+        ],
+        "competition": [
+            f"{pack['competition']['direct'][0]}强在规模，{short_ref}的差异应落在{pack['competition']['moat']}与{gap_phrase}。",
+            f"{pack['competition']['indirect'][0]}分流价格敏感用户，{short_ref}更适合用{pack['competition']['moat']}叠加{gap_phrase}切入。",
+            f"替代方案是{pack['competition']['substitutes'][0]}；{short_ref}的窗口里，{pack['competition']['moat']}加{gap_phrase}更现实。",
+        ],
+        "cross_market": [
+            f"{gap_zh}的套利点是{arbitrage_short}；{country}可迁到{alt}，{short_ref}需先解{region_rule['localization']}与{region_rule['compliance']}，定价看{gap_rule['pricing']}。",
+            f"从{country}复制到{alt}的前提是{arbitrage_short}；{short_ref}要过{region_rule['language']}内容与{region_rule['compliance']}两关，{gap_rule['pricing']}决定溢价。",
+            f"{short_ref}的可迁移性来自{arbitrage_short}；先做{country}再试{alt}，{region_rule['localization']}是本地化必答题。",
+        ],
+        "timing": [
+            f"{as_of}时点，{short_ref}的{event_zh}处于{timing['window_stage']}，窗口约{timing['window_months']}个月；催化剂是{'、'.join(timing['catalysts'][:2])}，失效条件是{not_short}（{anchor}需盯住）。",
+            f"{short_ref}带来的{event_zh}窗口{timing['window_stage']}，预计{timing['window_months']}个月；{'、'.join(timing['catalysts'][:2])}会加速，{not_short}则会让窗口收窄。",
+            f"现在到{as_of}后的{timing['window_months']}个月是{short_ref}的{event_zh}窗口（{timing['window_stage']}）；盯{'、'.join(timing['catalysts'][:2])}，防{not_short}。",
+        ],
+        "verdict": [
+            f"综合看，{industry_zh}方向优先级较高：{why_short}叠加{gap_phrase}；风险在{barriers['regulatory']}与{barriers['capital']}。30 天内{action}，首单后校准单位经济，约{profit_model['payback_months']}个月跑通{profit_model['revenue_model']}；不构成收入承诺。",
+            f"结论：{anchor}对应的{industry_zh}机会值得先做小规模尝试，核心是{why_short}遇上{gap_phrase}；主要风险为{barriers['regulatory']}与{barriers['capital']}。先{action}，再用首单校准{profit_model['revenue_model']}，目标{profit_model['payback_months']}个月；不构成收入承诺。",
+            f"{anchor}的{industry_zh}商机应优先推进：{gap_phrase}尚未满足，{why_short}又打开{timing['window_months']}个月窗口；风险集中在{barriers['regulatory']}与{barriers['capital']}。30 天内{action}，首单后校准单位经济，{profit_model['payback_months']}个月左右检验模式；不构成收入承诺。",
+        ],
     }
+    return {section: options[seed % len(options)] for section, options in variants.items()}
 
 
 def build_business(
@@ -807,11 +865,12 @@ def build_business(
     evidence: list[dict[str, Any]],
     source_name: str,
     as_of: str,
+    source_regions: list[str] | None = None,
 ) -> dict[str, Any]:
     """生成商业画布 + 判断依据 + 竞争/跨市场/时效/条件/门槛/利润/执行方案/来源。"""
     industry = _primary_industry(title_original, f"{summary_zh} {title_zh}", industries)
     gap = gaps[0] if gaps else "knowledge"
-    region = _primary_region(title_original, f"{summary_zh} {title_zh}", regions)
+    region = _primary_region(title_original, f"{summary_zh} {title_zh}", regions, source_regions)
     event = _event_type(title_original, f"{summary_zh} {title_zh}")
     event_zh = EVENT_ZH.get(event, "市场变化")
     window_stage_code = _pick(["open", "open", "closing"], _seed(f"{title_original}|{event}"))
@@ -901,11 +960,19 @@ def build_business(
         "localization_needs": [region_rule["localization"], region_rule["language"] + "内容与客服", region_rule["compliance"]],
         "pricing_power": gap_rule["pricing"],
     }
+    launch_months = int(pack.get("startup_months") or 3)
+    window_parts = str(event_rule.get("window_months") or "3–6").split("–")
+    try:
+        window_low = max(int(window_parts[0]), launch_months)
+        window_high = max(int(window_parts[-1]), window_low + 2)
+        window_months = f"{window_low}–{window_high}"
+    except (TypeError, ValueError):
+        window_months = str(event_rule.get("window_months") or "6–12")
     timing = {
         "why_now": f"信号日期 {as_of}，{entity_text}{number_note}触发{event_zh}变化：{event_rule['why']}。",
         "catalysts": event_rule["catalysts"] + [f"{region_markets}本地供给缺口"],
         "window_stage": window_stage_zh,
-        "window_months": event_rule["window_months"],
+        "window_months": window_months,
         "urgency": event_rule["urgency"],
         "risks": [f"窗口可能被{pack['competition']['direct'][0]}快速跟进", f"{region_rule['compliance']}变化影响节奏"],
     }
@@ -916,7 +983,7 @@ def build_business(
         "supply_chain": pack["supply"],
         "partners": pack["partners"][:2],
         "team": pack["team"],
-        "time_to_launch_months": pack["startup_months"],
+        "time_to_launch_months": launch_months,
         "event_entry_requirement": event_rule["why"],
     }
     barriers = {
@@ -965,6 +1032,7 @@ def build_business(
             "publisher": item.get("publisher"),
             "date": item.get("date"),
             "tier": item.get("tier"),
+            "fetch_status": item.get("fetch_status", "unfetched"),
         }
         for item in evidence
     ]
@@ -992,8 +1060,13 @@ def build_business(
         as_of=as_of,
         event_zh=event_zh,
         window_stage_zh=window_stage_zh,
+        source_name=source_name,
+        title_hint=title_original,
+        seed=seed,
     )
     return {
+        "primary_industry": industry,
+        "primary_region": region,
         "analyst_narrative": analyst_narrative,
         "business_canvas": business_canvas,
         "judgment": judgment,

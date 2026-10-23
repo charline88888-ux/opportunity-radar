@@ -53,6 +53,7 @@ export default function Rankings() {
   const [industry, setIndustry] = useState('all')
   const [region, setRegion] = useState('all')
   const [gap, setGap] = useState('all')
+  const [visibleCount, setVisibleCount] = useState(30)
 
   const curatedById = useMemo(() => new Map(opportunities.map((o) => [o.id, o])), [])
 
@@ -187,7 +188,7 @@ export default function Rankings() {
         <Panel className="p-6 text-center"><EmptyState title={L('当前窗口暂无商机', 'No opportunities in this window')} hint={L('切换窗口、选「全部」或清空筛选即可；自动候选与精选均为每日更新。', 'Switch windows, choose “All”, or clear filters; both auto candidates and curated opportunities refresh daily.')} /></Panel>
       ) : (
         <div className="grid grid-cols-1 gap-2.5 md:grid-cols-2 xl:grid-cols-3">
-          {rows.map((r) => (
+          {rows.slice(0, visibleCount).map((r) => (
             <OpportunityCard
               key={r.key}
               model={{
@@ -211,6 +212,11 @@ export default function Rankings() {
           ))}
         </div>
       )}
+
+      <div className="mt-4 flex flex-wrap items-center gap-2">
+        {visibleCount < rows.length && <button type="button" onClick={() => setVisibleCount((n) => n + 30)} className="rounded border border-line px-4 py-2 text-[13px] text-muted hover:text-ink">{L(`加载更多（还有 ${rows.length - visibleCount} 条）`, `Load more (${rows.length - visibleCount} left)`)}</button>}
+        <button type="button" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} className="ml-auto rounded border border-line px-4 py-2 text-[13px] text-dim hover:text-ink">↑ {L('返回顶部', 'Back to top')}</button>
+      </div>
 
       <div className="mt-4 flex flex-wrap items-center justify-between gap-2 text-[9.5px] text-dim">
         <span>{L('商机榜为唯一榜单；自动候选与精选均按评分排序。', 'This is the only board; auto candidates and curated opportunities are ranked by score with no manual-review gate.')}</span>
