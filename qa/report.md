@@ -2001,3 +2001,23 @@ python qa/online-check-v07.py --version v0.7.2             # 新站结构 PASS
 - **冻结/Actions/线上**：MANIFEST **19/19**（tag blob）、verify OK；tag v1.5.2→5c339842，内容 40f1639；Deploy **39990298888 success**、CI **39990291577 success**、pages **39990370046 success**；线上 `/` 与 `/v1.5.2/` 同 hash EE54C98E…/5,055,560 B；versions latest=v1.5.2；历史 v0.1.0…v1.5.1 全部不串台；404 正常。
 - **P2（不变，2 个）**：①AOV/客单口径候选与精选来源不同（均理论测算、已标注）；②versions.json daily_channel/live_as_of 可选字段缺失。
 - **一句话**：**v1.5.2 可发布**——图表/排版/里程碑标签修复通过（里程碑无 name/target 外露、1024 method/scanner 标签完整、Sankey 右侧 Top8+其他行业正常），9 路由/i18n 16/16、MANIFEST19/19、tag deploy+CI success、线上同 hash 旧归档不串台；P0=0、P1=0、2 个 P2 不阻塞。
+
+---
+
+## 30 附录二 · v1.5.3 图表红线修复终验（2026-10-24 01:30，追认可发布）
+
+> 版本：app 1.5.3 / data 1.5.1（candidates 03B09EEF、opportunities 8C1AE958）｜dist **5,062,882 B / `39E56650…`**
+> 冻结：tag v1.5.3 → 9ac4a6b5（清单）、内容 2c90437｜MANIFEST 19/19
+> **结论：可发布（P0=0、P1=0、P2=2）。**
+
+- **图表修复复验（截图为最终 dist 抓取）**：
+  - fix1 资金拆项：bar 全部从 0 起（实色下限/浅色至上限），1024 下 9 类标签+右侧数值完整，轴线/图例正常。
+  - fix2 单位经济真瀑布：截图标签 `+100 / −60 / =40 / −19 / =21`，100−60=40、40−19=21，连接线与 y=0 基线正常。
+  - fix3 敏感性：盈亏平衡竖线 `95`、当前竖线 `200`，折线过盈亏平衡点，y=0 交点清晰。
+  - fix4 donut：内径 62/84%、中心「理论月收入 2.0 万」居中不遮挡，右侧重复图例已移除；收入明细 85%/10%/5%。
+  - fix5 方法论示例：与详情同口径（整数客单价、100/60/40/21），图表标签 ≥12px。
+- **数据/接口**：data 1.5.1 已独立 PASS（IB 9 项含 id/name 合计=total=roi=conditions；客单−成本=毛利、毛利−固定=净贡献、月收入/变动/固定/利润公式、payback target=roi、sensitivity 5 点勾稽；unittest **102/102**、validate **20/20**、cold determinism cold1==committed 03B09EEF、--all 幂等、禁用词 0；P2：客单±10% 按整数客单价取整为近似）。
+- **独立前端检查**：routes 9×1600/1024 **overflow=0、consoleErrors=0、removedBad=0**；i18n **16/16、enUnexplainedCJK=0**；21 张 final-v1.5.3 证据截图目检正常。
+- **冻结/Actions/线上**：MANIFEST **19/19**（tag blob）、verify OK；tag v1.5.3→9ac4a6b5，内容 2c90437；Deploy **39994967637 success**、CI **39994960502 success**、pages **39995037809 success**；线上 `/` 与 `/v1.5.3/` 同 hash 39E56650…/5,062,882 B；versions latest=v1.5.3；历史 v0.1.0…v1.5.2 全部不串台；404 正常。
+- **P2**：①versions.json daily_channel/live_as_of 可选字段缺失；②sensitivity「客单±10%」按整数客单价取整（如 25→22/28）为近似展示，建议字段字典注明。
+- **一句话**：**v1.5.3 可发布**——5 处图表红线修复全部通过（资金 0 基线/真瀑布勾稽/敏感性盈亏竖线/donut 中心/方法论同口径），数据 1.5.1 经济公式/102 单测/20 validate/cold/--all 通过，9 路由/i18n 16/16、MANIFEST19/19、tag deploy+CI success、线上同 hash 旧归档不串台；P0=0、P1=0、2 个 P2 不阻塞。

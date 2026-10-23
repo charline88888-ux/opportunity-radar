@@ -1,0 +1,106 @@
+{
+  "results": [
+    {
+      "id": "I01",
+      "name": "i18n 字典条目数 ≥300",
+      "pass": true,
+      "detail": "entries=1144"
+    },
+    {
+      "id": "I02",
+      "name": "字典 key 无重复",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "id": "I03",
+      "name": "字典 value 无空值",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "id": "I04",
+      "name": "字典 value 与中文 key 不雷同（允许专有名词少量）",
+      "pass": true,
+      "detail": "same=1"
+    },
+    {
+      "id": "I05",
+      "name": "zh 为默认语言（无 localStorage 时）",
+      "pass": true,
+      "detail": "lang=zh-CN"
+    },
+    {
+      "id": "I06",
+      "name": "zh 首页标题/语言属性正确",
+      "pass": true,
+      "detail": "机会雷达 · 全球商机扫描器"
+    },
+    {
+      "id": "I07",
+      "name": "EN：html lang=en 且 document.title 翻译为英文",
+      "pass": true,
+      "detail": "lang=en title=Opportunity Radar · Global Niche Intelligence"
+    },
+    {
+      "id": "I08",
+      "name": "EN：导航全部翻译（≥6/7 英文导航标签）",
+      "pass": true,
+      "detail": "found=COMMAND,RANKINGS,SCANNER,METHOD,SOURCES,CALENDAR,ABOUT"
+    },
+    {
+      "id": "I09",
+      "name": "EN：显示「内容仅中文」提示条",
+      "pass": true,
+      "detail": "banner=✓"
+    },
+    {
+      "id": "I10",
+      "name": "EN：无「非数据」中文 UI 文案（按数据白名单过滤）",
+      "pass": true,
+      "detail": "unexplained=0 pages=[]"
+    },
+    {
+      "id": "I11",
+      "name": "EN：数据内容保持中文（有中文数据页面）",
+      "pass": true,
+      "detail": "pages_with_CJK=9/9"
+    },
+    {
+      "id": "I12",
+      "name": "EN 切换：点击 EN 即时生效且不刷新（导航计数不变/路由保持）",
+      "pass": true,
+      "detail": "{\"beforeNav\":1,\"beforeHash\":\"#/rankings\",\"clickInfo\":{\"clicked\":true},\"afterSwitch\":{\"lang\":\"en\",\"hash\":\"#/rankings\",\"nav\":1,\"enNav\":false}}"
+    },
+    {
+      "id": "I13",
+      "name": "EN 切换：localStorage 持久化且刷新后保持",
+      "pass": true,
+      "detail": "{\"lang\":\"en\",\"saved\":\"en\"}"
+    },
+    {
+      "id": "I14",
+      "name": "切回中文即时生效",
+      "pass": true,
+      "detail": "{\"lang\":\"zh-CN\",\"hasZh\":true,\"text\":\"OPPORTUNITY RADAR\\n机会雷达\\n全球商机扫描器 · 本地个人版\\nNAVIGATION / 工作台\\n01\\n指挥台\\nCOMMAND\\n核心 KPI · 今日候选\\n02\\n商机榜\\nRANKINGS\\n四窗口 · 自动候选 + 精选\\n03\\n扫描室\\nSCANNER\\n每日扫描 · 源健康 · 漏斗\\n04\\n方法论\\nMETHOD\\n评分模型 · 七问 · 文化维度\\n05\\n数据源矩阵\\nSOURCES\\n12 大类平台 · 合规等级\\n06\\n全球商业日历\\nCALENDAR\\n节庆 / 税季 / 开学节点\\n07\\n关于\\nABOUT\\n版本 · 免责声明\\nDATA STATUS\\nREAL DATA\\nv1.5.3\\nas_of\\n2026-10-23\\nopportunities\\n80\\ndata_version\\n1.5.1\\n本地优先 · 无运行时联网\\n数据与页面均在本地；双击 dist/index.html 即可离线使用。\\nradar://\\nrankings\\n"
+    },
+    {
+      "id": "I16",
+      "name": "EN 9 路由无横向溢出",
+      "pass": true,
+      "detail": "overflow=none"
+    },
+    {
+      "id": "I15",
+      "name": "EN 全路由无 console error",
+      "pass": true,
+      "detail": "0"
+    }
+  ],
+  "summary": {
+    "pass": 16,
+    "fail": 0,
+    "total": 16,
+    "enUnexplainedCJK": 0
+  }
+}

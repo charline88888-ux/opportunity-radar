@@ -1,0 +1,9 @@
+
+== manifest-check v1.5.3（tag=v1.5.3）==
+  · tag=v1.5.3 type=tag commit=9ac4a6b54773
+  · MANIFEST 19/19 条 sha256/bytes 与 tag blob 一致 ✅
+  · 冻结 dist = 39e56650a158e2aa… / 5062882 B（与 MANIFEST 一致）✅
+  · 内容提交 2c90437 是 tag 祖先 ✅
+  · tag 提交：docs: record v1.5.3 manifest (content commit 2c90437)
+  · dist/VERSION-README.md 含 v1.5.3 ✅
+RESULT: PASS
