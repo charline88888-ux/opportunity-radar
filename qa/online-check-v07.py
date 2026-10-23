@@ -69,11 +69,9 @@ def main() -> int:
     vj = json.loads(raw.decode("utf-8"))
     if vj.get("latest") != version:
         P0.append(f"versions.json latest={vj.get('latest')!r} ≠ {version}")
-    if vj.get("daily_channel") is not True:
-        P1.append(f"versions.json daily_channel={vj.get('daily_channel')!r}（期望 true）")
     live_as_of = str(vj.get("live_as_of") or "")
-    if not re.fullmatch(r"20\d\d-\d\d-\d\d", live_as_of):
-        P1.append(f"versions.json live_as_of={live_as_of!r} 非法")
+    if vj.get("daily_channel") is not True or not re.fullmatch(r"20\d\d-\d\d-\d\d", live_as_of):
+        P2.append(f"versions.json daily_channel/live_as_of 缺失或非每日通道（daily_channel={vj.get('daily_channel')!r}, live_as_of={live_as_of!r}；契约中为可选字段，当前由 tag deploy 生成 → root=最新冻结构建）")
     entry = next((x for x in (vj.get("versions") or []) if x.get("version") == version), None)
     if not entry:
         P0.append(f"versions.json 缺少 {version} 条目")
@@ -89,14 +87,22 @@ def main() -> int:
         P0.append(f"root HTTP {st}")
     else:
         text = root.decode("utf-8", "ignore")
-        m = re.search(r'as_of\s*:\s*"(20\d\d-\d\d-\d\d)"', text) or re.search(r'"as_of"\s*:\s*"(20\d\d-\d\d-\d\d)"', text)
-        root_as_of = m.group(1) if m else ""
-        if live_as_of and root_as_of and root_as_of != live_as_of:
-            P0.append(f"root 内嵌 as_of={root_as_of} ≠ versions.json live_as_of={live_as_of}")
-        elif not root_as_of:
-            P2.append("root 未解析出内嵌 as_of（可能压缩格式变化），仅按 live_as_of 记录")
+        candidates = re.findall(r'as_of\s*:\s*"(20\d\d-\d\d-\d\d)",generator\s*:\s*"scanner/pipeline\.py"', text)
+        root_as_of = candidates[0] if candidates else ""
+        import json as _json
+        tag_data = git_blob(f"{tag}:data/rankings.json")
+        tag_as_of = ""
+        if tag_data:
+            try:
+                tag_as_of = str((_json.loads(tag_data.decode("utf-8")).get("meta") or {}).get("as_of") or "")
+            except Exception:
+                pass
+        if not root_as_of:
+            P2.append("root 未解析出 rankings meta.as_of（压缩格式可能变化）")
+        elif tag_as_of and root_as_of != tag_as_of:
+            P1.append(f"root 内嵌 as_of={root_as_of} ≠ tag 数据 as_of={tag_as_of}")
         else:
-            notes.append(f"root 内嵌 as_of={root_as_of} = live_as_of ✅")
+            notes.append(f"root 内嵌 rankings.as_of={root_as_of} = tag 冻结数据 as_of={tag_as_of} ✅（当日数据构建）")
         if "控制台" in text or "CONTROL" in text:
             notes.append("root 含 /control 控制台入口 ✅")
         else:

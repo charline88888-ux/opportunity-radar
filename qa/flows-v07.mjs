@@ -109,9 +109,11 @@ check('T09', '切换「显示硬约束」后出现硬约束徽标', hardText.inc
 await nav('#/rankings')
 await reload()
 const overallText = await bodyText()
-const titlesWithReplay = await ev(`(() => [...document.querySelectorAll('[title]')].map((e) => e.getAttribute('title')).filter((t) => /回放|replay/i.test(t || '')))()`)
-check('T10', '榜单显示「较上一份历史快照（2026-10-21）」口径', /较上一份历史快照|较上一快照/.test(overallText) && /2026-10-21/.test(overallText), (overallText.match(/.{0,20}快照.{0,40}/) || [''])[0])
-check('T11', '历史回放标记可见（text 或 tooltip title）', /历史回放|回放/.test(overallText) || (titlesWithReplay || []).length > 0, JSON.stringify(titlesWithReplay).slice(0, 260))
+const titlesWithReplay = await ev(`(() => [...document.querySelectorAll('[title]')].map((e) => e.getAttribute('title')).filter((t) => /回放|replay|快照|snapshot/i.test(t || '')))()`)
+const appRankings = JSON.parse(fs.readFileSync(path.join(root, 'app/src/data/rankings.json'), 'utf8'))
+const expectedHistoryAsOf = String((appRankings.meta && (appRankings.meta.history_as_of || appRankings.meta.as_of)) || '')
+check('T10', '榜单显示「较上一快照（history_as_of）」口径', /较上一份历史快照|较上一快照/.test(overallText) && overallText.includes(expectedHistoryAsOf), `${expectedHistoryAsOf} :: ${(overallText.match(/.{0,20}快照.{0,40}/) || [''])[0]}`)
+check('T11', '历史回放/快照标记可见（text 或 tooltip title）', /历史回放|回放|历史快照|快照/.test(overallText) || (titlesWithReplay || []).length > 0, JSON.stringify(titlesWithReplay).slice(0, 260))
 
 // ============ 2) /alerts 规则 + 已读/忽略 ============
 await nav('#/alerts')
@@ -448,7 +450,8 @@ const freshBody = async (hash = '#/') => { await nav(hash); await reload(); awai
 // 基准日：fresh，无全站警告条
 await clearFresh()
 const freshHome = await freshBody('#/')
-check('T47', '数据新鲜度（≤2 天）：指挥台显示基准日/距今天数，无全站警告条', /数据基准\s*2026-10-22\s*·\s*距今\s*\d+\s*天/.test(freshHome) && !/建议运行每日任务/.test(freshHome) && !/STALE|AGING/.test(freshHome), (freshHome.match(/.{0,20}数据基准.{0,40}/) || [''])[0])
+const freshMatch = freshHome.replace(/\s+/g, ' ').match(/数据基准\s*(20\d\d-\d\d-\d\d)\s*·\s*距今\s*(\d+)\s*天/)
+check('T47', '数据新鲜度（≤2 天）：指挥台显示基准日/距今天数，无全站警告条', !!freshMatch && Number(freshMatch[2]) <= 2 && !/建议运行每日任务/.test(freshHome) && !/STALE|AGING/.test(freshHome), freshMatch ? freshMatch[0] : (freshHome.match(/.{0,20}数据基准.{0,40}/) || [''])[0])
 
 // 3–7 天：琥珀警告条 + /alerts 数据过期 warning
 const warnDate = await setFreshOverride(4)
@@ -525,20 +528,31 @@ if (serveBase && serveToken) {
   }
   check('T60', '控制台一键「构建工作副本」：后台 job 完成且 exit 0（实时日志）', clickBuild.clicked && buildDone, JSON.stringify({ click: clickBuild, snippet: (buildText.match(/.{0,30}(成功|失败).{0,80}/) || [''])[0] }).slice(0, 300))
   // 每日任务启用 / 停用
-  const schedBefore = await ev(`(() => fetch('/api/schedule', { headers: { 'X-Radar-Token': sessionStorage.getItem('radar:control-token') || '' } }).then(r => r.json()))()`)
+  const apiStatus = async () => (await fetch(`${serveBase}/api/status`, { headers: { 'X-Radar-Token': serveToken } })).json()
+  const schedBefore = (await apiStatus()).schedule
   const clickEnable = await ev(`(() => { const b = [...document.querySelectorAll('button')].find((e) => /启用每日自动/.test((e.innerText || ''))); if (!b) return { clicked: false }; const disabled = !!b.disabled; b.click(); return { clicked: true, disabled } })()`)
   let enabledOk = false
   let enableText = ''
   for (let i = 0; i < 30; i++) { await sleep(800); enableText = await bodyText(); if (/已启用/.test(enableText) || /Enabled/.test(enableText)) { enabledOk = true; break } }
-  const schedAfterEnable = await ev(`(() => fetch('/api/schedule', { headers: { 'X-Radar-Token': sessionStorage.getItem('radar:control-token') || '' } }).then(r => r.json()))()`)
+  let schedAfterEnable = null
+  for (let i = 0; i < 24; i++) {
+    schedAfterEnable = (await apiStatus()).schedule || null
+    if (schedAfterEnable && schedAfterEnable.enabled === true) break
+    await sleep(500)
+  }
   const clickDisable = await ev(`(() => { const b = [...document.querySelectorAll('button')].find((e) => /停用每日自动/.test((e.innerText || ''))); if (!b) return { clicked: false }; const disabled = !!b.disabled; b.click(); return { clicked: true, disabled } })()`)
   let disabledOk = false
   let disableText = ''
   for (let i = 0; i < 30; i++) { await sleep(800); disableText = await bodyText(); if (/未启用/.test(disableText) || /未安装|not_installed/.test(disableText)) { disabledOk = true; break } }
-  const schedFinal = await ev(`(() => fetch('/api/schedule', { headers: { 'X-Radar-Token': sessionStorage.getItem('radar:control-token') || '' } }).then(r => r.json()))()`)
-  const enabledReal = !!(schedAfterEnable && schedAfterEnable.schedule && schedAfterEnable.schedule.enabled)
-  const finalOff = !!(schedFinal && schedFinal.schedule && (schedFinal.schedule.enabled === false || schedFinal.schedule.status === 'not_installed'))
-  check('T61', '控制台每日任务启用/停用（schedule API 实际状态）', clickEnable.clicked && !clickEnable.disabled && enabledOk && enabledReal && clickDisable.clicked && !clickDisable.disabled && disabledOk && finalOff, JSON.stringify({ schedBefore: schedBefore && schedBefore.schedule && schedBefore.schedule.status, clickEnable, enabledOk, schedAfterEnable: schedAfterEnable && schedAfterEnable.schedule, clickDisable, disabledOk, schedFinal: schedFinal && schedFinal.schedule, notice: (enableText.match(/.{0,40}(失败|error|错误).{0,80}/) || [''])[0] }).slice(0, 460))
+  let schedFinal = null
+  for (let i = 0; i < 24; i++) {
+    schedFinal = (await apiStatus()).schedule || null
+    if (schedFinal && (schedFinal.enabled === false || schedFinal.status === 'not_installed' || schedFinal.status === 'disabled')) break
+    await sleep(500)
+  }
+  const enabledReal = !!(schedAfterEnable && schedAfterEnable.enabled === true)
+  const finalOff = !!(schedFinal && (schedFinal.enabled === false || schedFinal.status === 'not_installed' || schedFinal.status === 'disabled'))
+  check('T61', '控制台每日任务启用/停用（schedule API 实际状态）', clickEnable.clicked && !clickEnable.disabled && enabledOk && enabledReal && clickDisable.clicked && !clickDisable.disabled && disabledOk && finalOff, JSON.stringify({ schedBefore: schedBefore && schedBefore.status, clickEnable, enabledOk, schedAfterEnable, clickDisable, disabledOk, schedFinal, notice: (enableText.match(/.{0,40}(失败|error|错误).{0,80}/) || [''])[0] }).slice(0, 460))
   // 日志预览
   const clickLog = await ev(`(() => { const b = [...document.querySelectorAll('button')].find((e) => /console\\.log|daily-.*\\.log/.test((e.innerText || ''))); if (!b) return { clicked: false }; b.click(); return { clicked: true, name: (b.innerText || '').trim().slice(0, 40) } })()`)
   await sleep(1500)

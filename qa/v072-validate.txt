@@ -1,0 +1,58 @@
+==============================================================================
+机会雷达 · 数据契约校验（docs/12 V01–V15）
+==============================================================================
+[PASS] V01  枚举引用完整性  |  11 组枚举与 80 条机会引用完整
+[PASS] V02  机会数量与行业/区域覆盖  |  80 条机会 / 14 行业各 ≥2 / 11 区域 / 53 国家地区 / 中国角度 42
+[PASS] V03  证据链与 evidence_count  |  80 条机会 / 156 条证据
+[PASS] V04  七问齐全且无占位符  |  80 条机会七问齐全
+[PASS] V05  10 维评分与公式一致  |  80 条机会评分与公式一致（权重合计 1.00）
+[PASS] V06  窗口字段合法  |  80 条窗口字段合法
+[PASS] V07  日期链自洽  |  80 条日期链自洽（as_of=2026-10-23）
+[PASS] V08  榜单配额与 rank 连续性  |  day=0 / week=49 / month=57 / year=80（非基准日 as_of=2026-10-23，仅校验结构、允许空榜）
+[PASS] V09  榜单与重算一致  |  榜单与重算结果完全一致（含 delta_basis）
+[PASS] V10  数据源矩阵完整  |  68 个数据源 / 12 大类
+[PASS] V11  扫描剧本完整  |  12 个剧本
+[PASS] V12  商业日历完整  |  33 个日历节点
+[PASS] V13  无禁用词  |  无 V13 禁用词
+[PASS] V14  stats.json 与实际聚合一致  |  KPI 与实际聚合一致（80 条机会）
+[PASS] V15  id / slug 唯一  |  80 条机会 id / slug 唯一
+[PASS] V16  必填字段完整性与窗口映射  |  80 条必填字段与窗口映射完整
+[PASS] V17  证据日期/tier/URL 合法  |  156 条证据日期/tier/URL 合法
+[PASS] V18  榜单 change/delta 语义  |  榜单 change/delta 语义一致（delta_basis=history）
+[PASS] V19  历史快照与 rankings 一致  |  4 份历史快照合法（回放 2 份：2026-10-20, 2026-10-21；最新 2026-10-23 与 rankings 一致）
+[PASS] V20  source-health 字段合法（可选）  |  8 个源健康度合法（ok=8，modes=['online-fetch']）
+------------------------------------------------------------------------------
+附加提示（32 条，不影响退出码）：
+  · opp-local-furusato-nozei-024: verified=true，请确认所有证据 URL 实际可访问
+  · opp-local-umrah-service-025: verified=true，请确认所有证据 URL 实际可访问
+  · opp-crossborder-kbeauty-029: verified=true，请确认所有证据 URL 实际可访问
+  · opp-crossborder-mercadolibre-030: verified=true，请确认所有证据 URL 实际可访问
+  · opp-manufacturing-shea-butter-031: verified=true，请确认所有证据 URL 实际可访问
+  · opp-manufacturing-ceramic-pet-memorial-supply-047: verified=true，请确认所有证据 URL 实际可访问
+  · opp-pet-kr-pet-insurance-claims-048: verified=true，请确认所有证据 URL 实际可访问
+  · opp-pet-jp-pet-insurance-settlement-049: verified=true，请确认所有证据 URL 实际可访问
+  · opp-pet-kr-pet-funeral-subscription-050: verified=true，请确认所有证据 URL 实际可访问
+  · opp-local-jp-inbound-experience-051: verified=true，请确认所有证据 URL 实际可访问
+  · opp-content-china-guzi-economy-053: verified=true，请确认所有证据 URL 实际可访问
+  · opp-silver-china-aging-retrofit-054: verified=true，请确认所有证据 URL 实际可访问
+  · opp-fintech-china-inbound-payment-guide-055: verified=true，请确认所有证据 URL 实际可访问
+  · opp-content-uae-eid-gifting-057: verified=true，请确认所有证据 URL 实际可访问
+  · opp-xb-vietnam-tiktok-shop-ops-058: verified=true，请确认所有证据 URL 实际可访问
+  · opp-fintech-brazil-pix-payment-060: verified=true，请确认所有证据 URL 实际可访问
+  · opp-fintech-mexico-cod-oxxo-ops-061: verified=true，请确认所有证据 URL 实际可访问
+  · opp-green-kenya-payg-solar-channel-062: verified=true，请确认所有证据 URL 实际可访问
+  · opp-xb-africa-jumia-ops-063: verified=true，请确认所有证据 URL 实际可访问
+  · opp-xb-india-wedding-supply-064: verified=true，请确认所有证据 URL 实际可访问
+  · opp-emotional-india-ayurveda-d2c-065: verified=true，请确认所有证据 URL 实际可访问
+  · opp-compliance-eu-ppwr-epr-packaging-067: verified=true，请确认所有证据 URL 实际可访问
+  · opp-xb-turkey-ecommerce-localization-069: verified=true，请确认所有证据 URL 实际可访问
+  · opp-ai-etsy-digital-templates-071: verified=true，请确认所有证据 URL 实际可访问
+  · opp-ai-shopify-app-niche-072: verified=true，请确认所有证据 URL 实际可访问
+  · opp-manufacturing-west-africa-shea-processing-073: verified=true，请确认所有证据 URL 实际可访问
+  · opp-green-africa-solar-accessories-074: verified=true，请确认所有证据 URL 实际可访问
+  · opp-content-japan-anime-pilgrimage-content-075: verified=true，请确认所有证据 URL 实际可访问
+  · opp-pet-kr-pet-food-subscription-077: verified=true，请确认所有证据 URL 实际可访问
+  · opp-silver-jp-senior-digital-care-078: verified=true，请确认所有证据 URL 实际可访问
+------------------------------------------------------------------------------
+结果：20/20 条规则通过，0 条失败
+==============================================================================

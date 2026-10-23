@@ -1,0 +1,4 @@
+v0.7.2 前端构建复现（红队重跑）
+before_sha256=99e229053a7ad52daf087d437b1975a836a9a95c9912309395cafc93f73ff7ba before_bytes=2463486
+after_sha256=99e229053a7ad52daf087d437b1975a836a9a95c9912309395cafc93f73ff7ba after_bytes=2463486
+reproducible=True; pnpm install --frozen-lockfile exit 0; pnpm build exit 0; strict PASS 11/11; app/dist == releases/v0.7.2/dist

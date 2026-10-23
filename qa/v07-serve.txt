@@ -1,5 +1,11 @@
 
 == serve-check ==
+  · 数据基线 as_of=2026-10-23 / 窗口 {'day': 0, 'week': 49, 'month': 57, 'year': 80} 与独立复算一致 ✅
+  · 指纹 data/rankings.json=197583c4fb943d59（每日数据会变化，仅记录）
+  · 指纹 data/stats.json=07bd0e51b51c62e2（每日数据会变化，仅记录）
+  · 指纹 data/source-health.json=3c0527e6953ae7e3（每日数据会变化，仅记录）
+  · 指纹 data/sources.json=0a37f7acb6baa03f（每日数据会变化，仅记录）
+  · 指纹 data/radar.db=687914b54615da07（每日数据会变化，仅记录）
   · 监听地址仅 127.0.0.1:8791 ✅（['127.0.0.1:8791']）
   · LAN IP 172.29.0.1:8791 不可连接（仅 loopback）✅
   · --host 0.0.0.0 拒绝启动 exit 2 ✅
@@ -22,21 +28,10 @@
   · serve 启动/运行输出不打印 token ✅
   · 无构建：503 + 引导文案 ✅
   · serve unittest：Ran 25 tests PASS ✅
+  · full unittest：Ran 89 tests PASS ✅
   · validate：20/20 PASS ✅
+  · --all --as-of 2026-10-23 幂等：28 个 data 文件 SHA256 一致 ✅
+  · 幂等测试后 data 恢复基线 SHA256 一致 ✅
 
-P0 = 3  P1 = 1  P2 = 4
-  [P0] 四窗口 {'day': 0, 'week': 49, 'month': 57, 'year': 80} ≠ 17/49/57/80
-  [P0] full unittest 失败：exit=1 期望 'Ran 89 tests' :: 0.7.0\u3000｜\u3000自包含 HTML，可离线打开/打印（Ctrl+P）。</p>\n  <p><b>免责声明</b>：年度年鉴为公开信息整理与规则化统计，不构成投资建议、法律意见或收入承诺。</p>\n</footer>\n</div></body></html>\n'
-
-----------------------------------------------------------------------
-Ran 89 tests in 3.352s
-
-FAILED (failures=2)
-
-  [P0] --all 幂等失败：exit=1/1 diff=['data\\radar.db', 'data\\rankings.json', 'data\\stats.json']
-  [P1] status data 摘要异常：{'as_of': '2026-10-23', 'data_version': '0.7.0', 'opportunities': 80, 'counts': {'day': 0, 'week': 49, 'month': 57, 'year': 80}, 'current_build': {'path': 'current/index.html', 'size': 2463486, 'mtime': '2026-10-23T12:02:13+08:00'}, 'frozen_latest': {'version': 'v0.7.1', 'size': 2466255, 'mtime': '2026-10-23T12:04:48+08:00'}}
-  [P2] 指纹 data/rankings.json=197583c4fb943d59 ≠ 交付 a8ec7ef573091c36
-  [P2] 指纹 data/stats.json=07bd0e51b51c62e2 ≠ 交付 33f4868622f7c8a6
-  [P2] health server.version='0.7.1'（根 VERSION 尚未升 0.7.0；发布前需 Lead 更新）
-  [P2] status data.counts={'day': 0, 'week': 49, 'month': 57, 'year': 80}
-RESULT: FAIL
+P0 = 0  P1 = 0  P2 = 0
+RESULT: PASS

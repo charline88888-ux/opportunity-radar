@@ -1,0 +1,11 @@
+.........................................................................................
+----------------------------------------------------------------------
+Ran 89 tests in 3.583s
+
+OK
+[enrich] provider=mock mode=mock-llm 候选=1 跳过=0 llm=1/0 cache=0 tokens=264/168 cost=$0.00014 dry_run=False
+[enrich] → C:\Users\Administrator\AppData\Local\Temp\tmp0yld7mii\out\enriched-2026-10-22.json / C:\Users\Administrator\AppData\Local\Temp\tmp0yld7mii\out\REVIEW.md
+[yearbook] 2026：机会 80 / Top20 20 / A 级 12 / 收尾 3 / Brier — → 75 行 HTML（26695 B）
+[yearbook] → C:\Users\Administrator\AppData\Local\Temp\tmpb1yvikv9\out-yb\yearbook-2026.html / C:\Users\Administrator\AppData\Local\Temp\tmpb1yvikv9\out-yb\yearbook-2026.md
+[calibrate] 样本=6 有效=5 Brier=0.2338 sufficient=True sample=True
+[calibrate] → C:\Users\Administrator\AppData\Local\Temp\tmpb1yvikv9\out-cal\calibration-2026-10-22.html / C:\Users\Administrator\AppData\Local\Temp\tmpb1yvikv9\out-cal\calibration-2026-10-22.md

@@ -1385,3 +1385,101 @@ pwsh -File qa/online-check.ps1 -Version v0.6.1   # 根/历史归档/versions/404
 ## 19.10 与历史版本关系
 
 - v0.1.0–v0.6.0 冻结产物与线上历史归档未修改（逐字节核对）；本章为 v0.6.1 PATCH 独立验收，不覆盖历史章节。
+
+---
+
+# 第 20 章 · v0.7.0 本地控制台 / 每日云更新 红队独立验收（2026-10-23）
+
+> 项目版本：v0.7.0（首个冻结）→ **v0.7.2（最终验收版本）**；应用/数据：app 0.7.2 / data 0.7.0
+> 最终冻结：`releases/v0.7.2/`（tag v0.7.2 → b5a1a29，内容提交 a6be099）｜dist 2,463,486 B / `99E22905…F7BA`
+> 数据基准日：2026-10-23（每日通道，day 0/week 49/month 57/year 80）｜验收人：redteam｜任务：task-39
+> **结论：可发布（v0.7.2，P0=0 / P1=0 / P2=4，均不阻塞）**
+
+## 20.1 结论与发行历史
+
+| 版本 | 结果 | 说明 |
+|---|---|---|
+| v0.7.0（cd2d49a，dist 64B59A71 / 2,465,525 B） | 站点内容正常，但 **tag deploy/CI 失败** | 2 条单测对每日 as_of 硬编码（空日榜报告断言证据链接、yearbook generated_at 硬编码 2026-10-22）→ Deploy run 39898394691 / CI 39898391308 failure；已报告 Lead/data-engineer |
+| v0.7.1（bfa5daa，dist 4BACBFDF / 2,465,534 B） | **发布工具链问题**：tag 内 MANIFEST 3 文件 mismatch（README.md、dist/VERSION-README.md、docs-snapshot/09）；dist 应用版本仍 0.7.0 | 已随 v0.7.2 修复闭环（旧 tag 不可变，线上旧归档本身逐字节正确） |
+| **v0.7.2（b5a1a29，dist 99E22905 / 2,463,486 B）** | **PASS**：MANIFEST 19/19（tag blob）、dist/README/版本 0.7.2、测试 as_of 动态（10-22/10-23 两种数据均 89/89）、CI+tag deploy success | 本版为最终发布目标 |
+
+- **P0 = 0**；**P1 = 0（v0.7.2 闭环：P1-2 MANIFEST / P1-3 应用版本）**；**P2 = 4**（见 20.8）。
+- 一句话：**可发布**——后端 serve.py（安全/API/schedule）、/control 控制台、每日云更新（workflow_dispatch+schedule）、新站结构（root=当日构建 + 全版本归档）、Actions、MANIFEST、文件/线上逐字节一致在 v0.7.2 全部通过；4 个 P2 不阻塞。
+
+## 20.2 后端 scanner/serve.py（独立复验，真实 HTTP/socket，非 monkeypatch）
+
+`qa/serve-check.py` **PASS（P0/P1/P2=0）**：
+- 安全：仅监听 `127.0.0.1`（netstat 本地地址；LAN IP 172.29.0.1 连接失败）；`--host 0.0.0.0` exit 2；随机 token 43 字符写文件、不打印；缺/错 token 401、正确 200；**Origin 非 loopback 403（含 /api/health）**；路径穿越 7 变体全部拒绝且不泄漏（/../、%2e%2e、`..\`、%2e%2e%5c、/api/log?name=../ → 403/400）。
+- 静态：build_root 优先 current/index.html；index.html 注入 `window.__RADAR_CONSOLE_TOKEN__`（仅内存响应、磁盘文件不变、非 index 不注入、SPA 深链回退）；无构建独立副本 503+引导。
+- API：health/status schema 完整；run build 202 + 并发 409 + 后台 job exit0（log_tail 37 行）；job 不存在 404；logs/log ≤200KB、防穿越；**schedule disable（未安装）幂等 200 + not_installed；enable 实测响应 `enabled=true/status=ready/next_run=24/10/2026 上午7:00:00`、系统任务创建、中文 output 可读；再 disable 清理成功**；console.log 记录调用且全 logs 不含 token；serve 输出不打印 token。
+- 回归：serve 单测 **25/25**；全量 **89/89 OK**；validate **20/20**；`--all --as-of 2026-10-23` 幂等（28 个 data 文件 SHA256 一致）并在测试后恢复基线 SHA256。
+- 数据：data 0.7.0、as_of 2026-10-23、窗口 0/49/57/80 与独立复算一致；opportunities 指纹 `88FDA5AB`；serve.py `BDD55A28`、test_serve.py `AD0EE16B`。
+
+## 20.3 /control 控制台前端（真实 serve.py 联调）
+
+`qa/flows-v07.mjs` **65/65 PASS**（v0.6.1 全量 58 + v0.7 新增 7）：
+- file:// 未启动态：显示「本地控制台未启动」+ 启动机会雷达.bat / `python scanner/serve.py --open` / 架构限制说明；无白屏。
+- 真实 serve.py（127.0.0.1:<port>）：服务已连接、状态卡（端口/数据基准日 2026-10-23·距今0天/机会80/工作副本/冻结版本 v0.7.2/每日任务）；token 注入生效；**URL hash token 加载后清理地址栏、sessionStorage 保存**；一键「构建工作副本」后台 job 完成 exit0 并刷新状态；**每日任务 UI 启用→ready/next_run→停用→not_installed（清理由测试完成）**；日志列表/预览；EN 文案 Local control / connected / Update data now。
+- 15 路由：`#/control` 为第 15 路由，file:// 与 http 均可渲染；v0.7.2 本地/冻结截图 23 张各、控制台态 4 张（connected/offline zh/en），read_image 目检通过。
+
+## 20.4 每日云端更新（daily-update.yml）
+
+- 静态检查：`.github/workflows/daily-update.yml` 存在，触发 `schedule: 30 22 * * *`（=北京时间 06:30）、`workflow_dispatch`、workflow 文件 push；permissions contents:write；步骤 = checkout→setup python→计算 Asia/Shanghai 日期→`pipeline --all --as-of`+validate→提交 data/rankings/stats/history/source-health→pnpm build→build_site→gh-pages 部署。
+- 实测：**Daily data refresh & deploy run 39898391140 completed/success**（head bfa5daa，含 10-23 数据提交与 gh-pages 部署）；线上根随后为当日数据构建（versions.json `daily_channel=true`/`live_as_of=2026-10-23`，根内嵌 rankings.as_of=2026-10-23）。
+- v0.7.2 tag 发布后由 **tag deploy workflow** 重新组装站点：root=`/v0.7.2/`=冻结 dist（当日数据 as_of=2026-10-23），versions 暂缺可选 daily 字段（见 P2-1），下一次 daily workflow 会再写回。
+
+## 20.5 新站结构 + 线上（v0.7.2）
+
+`qa/online-check-v07.py --version v0.7.2` **PASS（P0=0/P1=0/P2=2）**：
+- `/` = 2,463,486 B / `99E22905…F7BA`；`/v0.7.2/` 同 hash/同字节（= tag 冻结 dist）；根内嵌 rankings.as_of=2026-10-23 = tag 数据 as_of（当日数据构建）；根含 /control 入口。
+- 历史归档全部与各自 tag 冻结 blob 逐字节一致：v0.1.0…v0.6.1、v0.7.0（64B59A71）、v0.7.1（4BACBFDF）——不串台；不存在路径 404。
+- versions.json：latest=v0.7.2、path=/v0.7.2/；**daily_channel/live_as_of 当前缺失（可选字段，P2-1）**。
+- 线上截图（`qa/screenshots/v072-online/`）：根、/control、/v0.7.2/，jsErrors=0。
+
+## 20.6 冻结 + Actions（v0.7.2）
+
+- `qa/manifest-check.py --version v0.7.2`：**MANIFEST 19/19 sha256/bytes 与 tag blob 一致**；冻结 dist `99E22905…` / 2,463,486 B = MANIFEST 记录 = 本地构建 = 线上；内容提交 a6be099 是 tag 祖先；VERSION-README 含 v0.7.2。
+- `python scripts/verify_manifest.py --release releases/v0.7.2`：**MANIFEST OK (19/19) · source=HEAD**。
+- 构建可复现：重跑 `pnpm install --frozen-lockfile && pnpm build` → 仍 `99E22905…` / 2,463,486 B（strict 11/11）；app/dist = releases/v0.7.2/dist。
+- GitHub Actions（API）：**Deploy GitHub Pages run 39898977889 completed/success**（tag v0.7.2，head b5a1a29）；**CI run 39898973669 completed/success**；pages deploy run 39899009566 success；gh-pages head `f0ce19d` "deploy: v0.7.2 b5a1a29…"；deployment env=github-pages sha=f0ce19d。
+- 冻结 dist file:// 冒烟：`qa/screenshots/v072-frozen/` 23 张（15 路由+长页+1024）jsErrors=0；本地 23 张同。
+
+## 20.7 复现命令
+
+```powershell
+cd 'E:\全球商机扫描器'
+python qa/manifest-check.py --version v0.7.2
+python scripts/verify_manifest.py --release releases/v0.7.2
+python qa/serve-check.py                                    # 后端安全/API/schedule PASS
+python scanner/validate.py                                  # 20/20
+python -m unittest discover -s scanner/tests                # 89 OK
+# 控制台：启动 serve.py + Chrome CDP 后：
+# $env:RADAR_SERVE_BASE='http://127.0.0.1:8797'; $env:RADAR_SERVE_TOKEN='<token>'
+node qa/flows-v07.mjs <port> "file:///…/app/dist/index.html" qa/tmp/downloads-v07   # 65/65
+node qa/shoot-control.mjs <port> "file:///…/app/dist/index.html" http://127.0.0.1:8797 qa/screenshots/v072-control
+cd app; pnpm install --frozen-lockfile; pnpm build          # strict 11/11，99E22905…
+python qa/online-check-v07.py --version v0.7.2             # 新站结构 PASS
+```
+
+## 20.8 P2 清单（4 个，均不阻塞）
+
+| # | 项 | 现状 | 建议 |
+|---|---|---|---|
+| P2-1 | versions.json daily 字段 | 当前由 tag deploy 组装：latest/path 正确，但 `daily_channel`/`live_as_of` 缺失（契约中为可选字段）；root=最新冻结构建（当日数据 as_of=2026-10-23） | 下一次 daily-update workflow 会自动写回；或在 build_site 组装 tag 站点时也写入当日 `live_as_of` |
+| P2-2 | i18n EN 残差 4 条 | `qa/i18n-check` 15/16：EN 未翻译 UI `暂无榜首数据`（#/，日榜空态）、`当前榜单`、`较上一快照（`、`历史快照`（#/lab）；属新每日数据空态暴露的文案，非数据内容 | 补 4 条字典后即 16/16、EN 非数据中文=0 |
+| P2-3 | 历史 v0.7.1/v0.7.0 tag MANIFEST | 旧 tag 内 3 个文件（README/VERSION-README/docs-snapshot/09）与 MANIFEST 不一致（v0.7.2 起已 19/19；旧 tag 不可变，线上旧归档逐字节正确） | 历史 tag 不建议改；在发布说明注明 v0.7.2 起修复；本地校验用 `qa/manifest-check.py`（git blob） |
+| P2-4 | Windows autocrlf 与旧 releases 工作区 | core.autocrlf=true，v0.7.1 及更早 releases 文件检出为 CRLF（比 MANIFEST 多 721 B/行），本地字节校验会误报；v0.7.2 起 `.gitattributes` 已加 `releases/v0.7.2/** text eol=lf` | 后续版本沿用版本级 `text eol=lf`（或 `-text`），并统一用 git blob 校验脚本 |
+
+## 20.9 截图索引（v0.7.2）
+
+| 目录 | 内容 |
+|---|---|
+| `qa/screenshots/v072/01–23` | 本地 dist：15 路由 zh + 2 长页 + 6 个 1024（含 control） |
+| `qa/screenshots/v072-frozen/01–23` | 冻结 dist 同路由（file:// 冒烟） |
+| `qa/screenshots/v072-control/` | 控制台 connected zh/en、offline zh/en 4 张 |
+| `qa/screenshots/v072-online/` | 线上根、/control、/v0.7.2/ 3 张 |
+| `app/screenshots/final-v0.7/` | 前端自检 24 张（11 zh+11 en+control 态） |
+
+## 20.10 与历史版本关系
+
+- v0.1.0–v0.6.1 冻结/线上归档未修改；v0.7.0/v0.7.1 为 v0.7 发布过程中的中间 tag（v0.7.1 tag deploy 失败、v0.7.2 修复重发）；本记录以 v0.7.2 为最终发布目标。
