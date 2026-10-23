@@ -1,0 +1,9 @@
+
+== manifest-check v1.2.1（tag=v1.2.1）==
+  · tag=v1.2.1 type=tag commit=04f3ed1fdbb4
+  · MANIFEST 19/19 条 sha256/bytes 与 tag blob 一致 ✅
+  · 冻结 dist = 90550bb803bbf237… / 5330401 B（与 MANIFEST 一致）✅
+  · 内容提交 c6ceb25 是 tag 祖先 ✅
+  · tag 提交：docs: record v1.2.1 manifest (content commit c6ceb25)
+  · dist/VERSION-README.md 含 v1.2.1 ✅
+RESULT: PASS

@@ -1842,3 +1842,20 @@ python qa/online-check-v07.py --version v0.7.2             # 新站结构 PASS
 ## 27.5 一句话
 
 **v1.2.0 可发布：200/200 候选含 9 画布 + 10 维判断依据（primary_industry/event_type 正确、实体/数字引用、why 具体、200 画布唯一、禁用词 0）；cold determinism/validate20/98 单测/`--all` 幂等均通过，9 路由/flows17/17/routes/i18n16/16，MANIFEST19/19、tag deploy+CI success、线上 root 与 /v1.2.0/ 同 hash 且旧归档不串台；P0=0、P1=0、2 个 P2 不阻塞。**
+
+---
+
+## 27 附录 · v1.2.1 KPI 修复 + 前端呈现优化复验（2026-10-23 21:20，追认可发布）
+
+> 版本：app 1.2.1 / data 1.2.0（数据未变，candidates 3DB64170）；dist **5,330,401 B / `90550BB8…59A516`**
+> 冻结：tag v1.2.1 → 04f3ed1（清单提交；内容 c6ceb25）｜MANIFEST 19/19
+> **结论：可发布（P0=0、P1=0、P2=2）。**
+
+- **前端改动核验**：详情去折叠（Hero+4 KPI+10 维雷达/逐项 rationale+data_used+9 画布+竞争/跨市场+时机进度条+条件/利润+执行 0–90 timeline+来源）；榜单/首页统一 OpportunityCard；窗口 KPI 显示 timing.window_months「6–12 个月」，资金/回本/毛利补 roi→conditions/profit_model 回退。
+- **本地验收**：`qa/flows-v121.mjs` **17/17 PASS**（9 路由/唯一商机榜/候选 200+精选 80/详情九分区/方法论 10 维表/无验证门禁/KPI 回退）；`qa/routes-v100.mjs` 9 路由×1600/1024 **overflow=0、consoleErrors=0、removedBad=0**；i18n **16/16、enUnexplainedCJK=0**；截图 `qa/screenshots/v121-final` **15 张**（jsErrors=0）+ frontend final-v1.2.1 6，read_image 目检正常。
+- **数据回归（引用第 27 章）**：200/200 business_canvas 唯一、10 维 judgment、primary_industry/event_type、禁用词 0；validate 20/20、unittest 98/98、`--all` 幂等、cold determinism（3DB64170）均 PASS；数据未变。
+- **冻结/线上**：`manifest-check` **MANIFEST 19/19 与 tag blob 一致**；`verify_manifest.py` **OK 19/19**；dist 90550BB8…/5,330,401 B = app/dist；tag v1.2.1→04f3ed1，内容 c6ceb25；VERSION 1.2.1。
+- **Actions**：**Deploy run 39959330134 success**（tag v1.2.1）、**CI run 39959321279 success**、pages run 39959374003 success。
+- **线上**：`online-check --version v1.2.1` **PASS**——`/` 与 `/v1.2.1/` 同 hash 90550BB8…/5,330,401 B；versions latest=v1.2.1 path=/v1.2.1/；历史 v0.1.0…v1.2.0 全部与各自 tag 冻结 blob 逐字节一致不串台；404 正常。
+- **P2（不变，2 个）**：①one_liner 后缀仅 26/200（长摘要截断；禁用词 0）；②versions.json daily_channel/live_as_of 缺失（可选字段）。
+- **一句话**：**v1.2.1 可发布**——v1.2.0 的 KPI 回退/详情呈现修复通过，9 路由/flows17/17/routes/i18n16/16，MANIFEST19/19、tag deploy+CI success、线上 `/` 与 `/v1.2.1/` 同 hash 且旧归档不串台；P0=0、P1=0、2 个 P2 不阻塞。
