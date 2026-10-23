@@ -1883,7 +1883,7 @@ class TestBusinessV120(unittest.TestCase):
                 for field in ("direct", "indirect", "substitutes", "differentiation", "moat", "positioning"):
                     self.assertIn(field, candidate["competition"])
                 self.assertTrue(candidate["cross_market"]["target_markets"])
-                self.assertIn(candidate["timing"]["window_stage"], {"open", "closing", "closed"})
+                self.assertIn(candidate["timing"]["window_stage"], {"窗口打开", "窗口收窄", "窗口关闭"})
                 self.assertTrue(candidate["conditions"]["skills"])
                 self.assertTrue(candidate["barriers"]["regulatory"])
                 self.assertTrue(candidate["profit_model"]["revenue_model"])
@@ -1919,7 +1919,7 @@ class TestBusinessV120(unittest.TestCase):
                 self.assertIn("意味着", judgment["why_opportunity"])
                 self.assertIn("窗口约", judgment["why_opportunity"])
                 self.assertEqual(judgment["primary_industry"], expected_industry)
-                self.assertIn(judgment["event_type"], {"policy", "funding", "launch", "partnership", "demand", "cost", "market"})
+                self.assertIn(judgment["event_type"], {"政策/监管窗口", "融资", "新品/上线", "合作", "需求变化", "成本变化", "市场变化"})
                 self.assertEqual(len(candidate["profit_model"]["revenue_streams"]), 3)
                 self.assertNotIn("准备规则落地前", json.dumps(candidate["execution_plan"], ensure_ascii=False))
                 self.assertIn("准备合规/资质材料", json.dumps(candidate["execution_plan"], ensure_ascii=False)) if expected_industry == "fintech" else None
@@ -1935,14 +1935,15 @@ class TestBusinessV120(unittest.TestCase):
                     ensure_ascii=False,
                 )
                 self.assertNotIn("未给出具体数字", business_text)
+                self.assertNotRegex(business_text, r"Malaysia|Thailand|policy|closing|\bopen\b")
                 self.assertNotIn("The Business Times", business_text)
                 self.assertNotIn("How Gen", business_text)
                 self.assertNotIn("Consumers Are", business_text)
                 self.assertNotRegex(text, r"验证|实验|复核|门禁")
                 if expected_industry == "fintech":
                     self.assertIn("金融支付", business_text)
-                    self.assertIn("MAS", business_text)
-                    self.assertEqual(judgment["event_type"], "policy")
+                    self.assertIn("MAS（新加坡金管局）", business_text)
+                    self.assertEqual(judgment["event_type"], "政策/监管窗口")
                     self.assertIn("窗口约 6–12 个月", text)
                     self.assertIn("新加坡", json.dumps(candidate["cross_market"], ensure_ascii=False))
                     self.assertTrue(any("牌照" in item for item in judgment["not_opportunity_if"]))
@@ -1957,6 +1958,69 @@ class TestBusinessV120(unittest.TestCase):
             first, _ = candidates.build_candidates(as_of=self.AS_OF, outbox_path=outbox, limit=5)
             second, _ = candidates.build_candidates(as_of=self.AS_OF, outbox_path=outbox, limit=5)
             self.assertEqual(first, second)
+
+
+class TestAnalystNarrativeV130(unittest.TestCase):
+    """v1.3.0：6 段专业商业评估叙事（thesis/market/competition/cross_market/timing/verdict）。"""
+
+    AS_OF = date(2026, 10, 23)
+
+    def _build(self, titles: list[str]):
+        import tempfile
+
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            signals = []
+            for idx, title in enumerate(titles, start=1):
+                signal = TestCandidatesV090._signal(idx, title=title, url=f"https://example.com/narrative/{idx}")
+                signals.append(signal)
+            outbox = TestCandidatesV090._write_outbox(root, signals)
+            payload, _ = candidates.build_candidates(as_of=self.AS_OF, outbox_path=outbox, limit=10)
+            return payload
+
+    def test_narrative_sections_entities_and_no_banned_words(self):
+        payload = self._build(
+            [
+                "Malaysia, Thailand central banks join MAS cross-border payment initiative - The Business Times",
+                "ByteDance PineDrama targets overseas growth with short dramas",
+                "Pet memorial startup raises 30 million in US",
+            ]
+        )
+        self.assertEqual(payload["meta"]["total"], 3)
+        for candidate in payload["candidates"]:
+            narrative = candidate["analyst_narrative"]
+            self.assertEqual(set(narrative), {"thesis", "market", "competition", "cross_market", "timing", "verdict"})
+            for section, text in narrative.items():
+                self.assertIsInstance(text, str)
+                self.assertGreaterEqual(len(text), 60, section)
+            text = json.dumps(narrative, ensure_ascii=False)
+            self.assertNotRegex(text, r"验证|实验|复核|门禁")
+            thesis = narrative["thesis"]
+            self.assertNotEqual(thesis, candidate["judgment"]["why_opportunity"])
+            if "MAS" in candidate["title_original"]:
+                self.assertIn("MAS", text)
+                self.assertIn("金融支付", text)
+                self.assertIn("牌照", text + json.dumps(candidate["barriers"], ensure_ascii=False))
+            if "PineDrama" in candidate["title_original"]:
+                self.assertIn("PineDrama", text)
+                self.assertIn("内容", text)
+            if "Pet memorial" in candidate["title_original"]:
+                self.assertIn("Pet", text)
+                self.assertIn("30", text)
+
+    def test_narrative_same_industry_differs_and_deterministic(self):
+        titles = [
+            "Pet memorial startup raises 30 million in US",
+            "Pet food brand expands 40% in Canada",
+        ]
+        first = self._build(titles)
+        second = self._build(titles)
+        self.assertEqual(first, second)
+        narratives = [candidate["analyst_narrative"] for candidate in first["candidates"]]
+        self.assertNotEqual(json.dumps(narratives[0], ensure_ascii=False), json.dumps(narratives[1], ensure_ascii=False))
+        for narrative in narratives:
+            joined = json.dumps(narrative, ensure_ascii=False)
+            self.assertTrue("30" in joined or "40" in joined)
 
 
 class TestTranslateV093(unittest.TestCase):

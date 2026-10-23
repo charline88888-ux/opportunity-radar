@@ -421,6 +421,44 @@ REGION_RULES: dict[str, dict[str, Any]] = {
     "china": {"markets": ["中国大陆"], "localization": "中文 + 平台规则", "compliance": "国内资质/广告法", "logistics": "国内仓配", "payment": "微信/支付宝", "language": "中文", "moat": "供应链与流量运营"},
 }
 
+
+COUNTRY_ZH: dict[str, str] = {
+    "Malaysia": "马来西亚", "Thailand": "泰国", "Indonesia": "印尼", "Vietnam": "越南",
+    "Singapore": "新加坡", "Nigeria": "尼日利亚", "Kenya": "肯尼亚", "South Africa": "南非",
+    "America": "美国", "US": "美国", "USA": "美国", "United States": "美国", "Canada": "加拿大",
+    "China": "中国", "Africa": "非洲", "Europe": "欧洲", "EU": "欧盟", "European Union": "欧盟",
+    "United Kingdom": "英国", "UK": "英国", "Germany": "德国", "France": "法国", "Japan": "日本",
+    "Korea": "韩国", "India": "印度", "Brazil": "巴西", "Mexico": "墨西哥", "Saudi Arabia": "沙特",
+    "Saudi": "沙特", "UAE": "阿联酋", "Egypt": "埃及", "Australia": "澳大利亚",
+    "New Zealand": "新西兰", "Turkey": "土耳其", "Russia": "俄罗斯", "Kazakhstan": "哈萨克斯坦",
+    "Pakistan": "巴基斯坦", "Bangladesh": "孟加拉国", "Philippines": "菲律宾",
+}
+INSTITUTION_ZH: dict[str, str] = {
+    "MAS": "MAS（新加坡金管局）",
+    "EU Council": "欧盟理事会",
+    "European Commission": "欧盟委员会",
+    "Federal Reserve": "美联储",
+    "SEC": "美国证监会",
+    "CPSC": "美国消费品安全委员会",
+    "FDA": "美国食品药品监督管理局",
+    "WTO": "世界贸易组织",
+}
+EVENT_ZH: dict[str, str] = {
+    "policy": "政策/监管窗口",
+    "funding": "融资",
+    "launch": "新品/上线",
+    "partnership": "合作",
+    "demand": "需求变化",
+    "cost": "成本变化",
+    "market": "市场变化",
+}
+WINDOW_ZH: dict[str, str] = {"open": "窗口打开", "closing": "窗口收窄", "closed": "窗口关闭"}
+DIM_ZH: dict[str, str] = {
+    "signal": "信号强度", "gap": "信息差", "feasibility": "可行性", "economics": "经济性",
+    "timing": "时机", "competition": "竞争", "risk": "风险", "fit": "匹配度",
+    "evidence": "证据", "leverage": "杠杆",
+}
+
 STOP_WORDS = {
     "the", "a", "an", "and", "or", "for", "with", "from", "into", "over", "after",
     "new", "how", "why", "what", "when", "where", "who", "its", "their", "this", "that",
@@ -561,6 +599,17 @@ def _entities(title: str, limit: int = 4) -> list[str]:
     return result
 
 
+def _localize_entity(entity: str) -> str:
+    if entity in INSTITUTION_ZH:
+        return INSTITUTION_ZH[entity]
+    if entity in COUNTRY_ZH:
+        return COUNTRY_ZH[entity]
+    result = entity
+    for english, chinese in sorted({**COUNTRY_ZH, **INSTITUTION_ZH}.items(), key=lambda item: len(item[0]), reverse=True):
+        result = re.sub(r"(?<![A-Za-z])" + re.escape(english) + r"(?![A-Za-z])", chinese, result)
+    return result
+
+
 def _numbers(title: str, limit: int = 3) -> list[str]:
     return re.findall(r"\d+(?:[.,]\d+)?%?", _strip_source_suffix(title))[:limit]
 
@@ -666,6 +715,83 @@ GAP_ZH = {key: value["arbitrage"].split("：")[0] for key, value in GAP_RULES.it
 REGION_ZH = {key: value["markets"][0] for key, value in REGION_RULES.items()}
 
 
+
+def _analyst_narrative(
+    *,
+    entity_text: str,
+    numbers: list[str],
+    region_markets: str,
+    region_rule: dict[str, Any],
+    industry: str,
+    industry_zh: str,
+    event: str,
+    event_rule: dict[str, Any],
+    pack: dict[str, Any],
+    gap_zh: str,
+    gap_rule: dict[str, str],
+    industry_gap: str,
+    why_opportunity: str,
+    not_opportunity_if: list[str],
+    barriers: dict[str, str],
+    timing: dict[str, Any],
+    conditions: dict[str, Any],
+    execution_plan: dict[str, Any],
+    profit_model: dict[str, Any],
+    scores: dict[str, Any],
+    as_of: str,
+    event_zh: str = "",
+    window_stage_zh: str = "",
+) -> dict[str, str]:
+    """6 段连贯商业评估散文（不是字段复读；引用实体/数字/区域，确定性）。"""
+    number_phrase = f"标题给出的数字（{'、'.join(numbers)}）" if numbers else "标题中的主体与场景"
+    alt_markets = "、".join(region_rule["markets"][1:]) or "同一区域内的相邻人群与渠道"
+    market_evidence = f"{number_phrase}说明变化已有可观察量级；" if numbers else "从标题看，变化的主体与场景已经具体；"
+    arbitrage_detail = gap_rule["arbitrage"].split("：", 1)[-1]
+    thesis = (
+        f"这条信号的核心不是「{pack['name']}又多了一条新闻」，而是{entity_text}{f'（{number_phrase}）' if numbers else ''}"
+        f"在{region_markets}触发了{event_zh}：{event_rule['why']}。"
+        f"对{industry_zh}而言，真正稀缺的是{industry_gap}，因此机会本质是围绕这一缺口提供{pack['value']}。"
+    )
+    market = (
+        f"{region_markets}的需求侧主要由{pack['segments'][0]}与{pack['segments'][1]}构成，"
+        f"{entity_text}带来的变化会放大他们对{pack['revenue'][0]}与{pack['channels'][0]}的诉求。"
+        f"{market_evidence}如果本地供给仍以{pack['competition']['substitutes'][0]}为主，"
+        f"{gap_zh}就是最直接的缺口。"
+    )
+    competition = (
+        f"竞争格局上，直接对手是{pack['competition']['direct'][0]}，间接压力来自{pack['competition']['indirect'][0]}，"
+        f"而用户当前的替代方案通常是{pack['competition']['substitutes'][0]}。"
+        f"新进入者不必正面硬拼，更现实的打法是靠{pack['competition']['moat']}叠加{gap_zh}本地化，"
+        f"以{pack['competition']['positioning']}先拿下一批细分客户。"
+    )
+    cross_market = (
+        f"跨市场逻辑是{gap_zh}：{arbitrage_detail}。这套模式可从{region_rule['markets'][0]}"
+        f"{'迁移到' + alt_markets if len(region_rule['markets']) > 1 else '复制到同一区域内的相邻人群与渠道'}，"
+        f"但落地前必须处理{region_rule['localization']}、{region_rule['compliance']}以及{region_rule['language']}内容与客服；"
+        f"定价权判断：{gap_rule['pricing']}。"
+    )
+    timing_narrative = (
+        f"以{as_of}为基准，{entity_text}带来的{event_zh}正处于{timing['window_stage']}阶段，"
+        f"按事件类型预计窗口约 {timing['window_months']} 个月。催化剂包括{'、'.join(timing['catalysts'][:2])}；"
+        f"一旦出现「{event_rule['not_if']}」，窗口会提前收窄。"
+    )
+    first_action = execution_plan["phase_0_30_days"][0]
+    verdict = (
+        f"综合判断：这是{pack['name']}方向上一个值得优先投入的商机，理由来自{industry_gap}与{event_rule['why']}叠加形成的时间窗口。"
+        f"主要风险是{barriers['regulatory']}与{barriers['capital']}；建议 30 天内先{first_action.rstrip('。')}，"
+        f"再用首笔订单与客户反馈校准单位经济，目标 {profit_model['payback_months']} 个月左右跑通{profit_model['revenue_model']}；"
+        f"上述判断为系统分析，不构成收入承诺。"
+    )
+    return {
+        "thesis": thesis,
+        "market": market,
+        "competition": competition,
+        "cross_market": cross_market,
+        "timing": timing_narrative,
+        "verdict": verdict,
+    }
+
+
 def build_business(
     signal: dict[str, Any] | None,
     *,
@@ -687,11 +813,14 @@ def build_business(
     gap = gaps[0] if gaps else "knowledge"
     region = _primary_region(title_original, f"{summary_zh} {title_zh}", regions)
     event = _event_type(title_original, f"{summary_zh} {title_zh}")
+    event_zh = EVENT_ZH.get(event, "市场变化")
+    window_stage_code = _pick(["open", "open", "closing"], _seed(f"{title_original}|{event}"))
+    window_stage_zh = WINDOW_ZH.get(window_stage_code, "窗口打开")
     pack = INDUSTRY_PACKS.get(industry) or INDUSTRY_PACKS["crossborder"]
     gap_rule = GAP_RULES.get(gap) or GAP_RULES["knowledge"]
     region_rule = REGION_RULES.get(region) or REGION_RULES["north-america"]
     event_rule = EVENT_RULES.get(event) or EVENT_RULES["market"]
-    entities = _entities(title_original)
+    entities = [_localize_entity(entity) for entity in _entities(title_original)]
     numbers = _numbers(title_original)
     entity_text = "、".join(entities) if entities else "该信号"
     number_note = f"（标题数字：{'、'.join(numbers)}）" if numbers else ""
@@ -700,7 +829,7 @@ def build_business(
     gap_zh = GAP_ZH.get(gap, "信息差")
     region_markets = "、".join(region_rule["markets"])
     seed = _seed(f"{title_original}|{industry}|{event}|{gap}|{region}")
-    data_used = [f"标题实体：{entity_text}", f"行业：{industry_zh}", f"事件类型：{event}", f"信息差：{gap_zh}", f"区域：{region_markets}"]
+    data_used = [f"标题实体：{entity_text}", f"行业：{industry_zh}", f"事件类型：{event_zh}", f"信息差：{gap_zh}", f"区域：{region_markets}"]
     if numbers:
         data_used.insert(1, f"标题数字：{number_text}")
 
@@ -722,7 +851,7 @@ def build_business(
         "gap": f"{gap_zh}：{gap_rule['arbitrage']}；{region_markets}市场的{gap_rule['localization']}是切入点。",
         "feasibility": f"可先用{pack['skills'][0]}与{pack['supply']}小规模起步，首期投入控制在 {roi.get('capital_min', 0):,}–{roi.get('capital_max', 0):,} 元。",
         "economics": f"{pack['profit']['revenue_model']}，{pack['profit']['margin']}，预计 {pack['profit']['payback']} 个月回本。",
-        "timing": f"信号日期 {as_of}，按{event}类事件判断窗口约 {event_rule['window_months']} 个月；{event_rule['why']}。",
+        "timing": f"信号日期 {as_of}，按{event_zh}事件判断窗口约 {event_rule['window_months']} 个月；{event_rule['why']}。",
         "competition": f"直接竞品：{pack['competition']['direct'][0]}；我们的差异是{pack['competition']['moat']}。",
         "risk": f"主要风险在{pack['barriers']['regulatory']}与{pack['barriers']['capital']}，{region_rule['compliance']}需提前准备。",
         "fit": f"与{industry_zh}知识包和{region_markets}区域规则匹配，{pack['barriers']['channel']}是主要适配点。",
@@ -731,7 +860,7 @@ def build_business(
     }
     industry_gap = INDUSTRY_GAPS.get(industry, "本地化供给与渠道资源")
     why_opportunity = (
-        f"{entity_text}{number_note}（{event}）意味着{event_rule['why']}；"
+        f"{entity_text}{number_note}（{event_zh}）意味着{event_rule['why']}；"
         f"在{region_markets}，{industry_gap}是{industry_zh}的核心缺口；"
         f"可用{pack['profit']['revenue_model']}切入，窗口约 {event_rule['window_months']} 个月。"
     )
@@ -744,7 +873,7 @@ def build_business(
         "dimensions": [
             {
                 "id": dim_id,
-                "name": dim_id,
+                "name": DIM_ZH.get(dim_id, dim_id),
                 "score": dims.get(dim_id, 0),
                 "rationale": dim_rationale.get(dim_id, "按信号与行业规则综合判断。"),
                 "data_used": data_used,
@@ -753,7 +882,7 @@ def build_business(
         ],
         "why_opportunity": why_opportunity,
         "not_opportunity_if": not_opportunity_if,
-        "event_type": event,
+        "event_type": event_zh,
         "primary_industry": industry,
     }
 
@@ -768,14 +897,14 @@ def build_business(
     cross_market = {
         "target_markets": region_rule["markets"],
         "arbitrage_type": gap_zh,
-        "why_migratable": f"{gap_rule['migratable']}；{industry_zh}供给可按{gap_rule['localization']}复制，事件类型（{event}）决定进入节奏。",
+        "why_migratable": f"{gap_rule['migratable']}；{industry_zh}供给可按{gap_rule['localization']}复制，事件类型（{event_zh}）决定进入节奏。",
         "localization_needs": [region_rule["localization"], region_rule["language"] + "内容与客服", region_rule["compliance"]],
         "pricing_power": gap_rule["pricing"],
     }
     timing = {
-        "why_now": f"信号日期 {as_of}，{entity_text}{number_note}触发{event}类变化：{event_rule['why']}。",
+        "why_now": f"信号日期 {as_of}，{entity_text}{number_note}触发{event_zh}变化：{event_rule['why']}。",
         "catalysts": event_rule["catalysts"] + [f"{region_markets}本地供给缺口"],
-        "window_stage": _pick(["open", "open", "closing"], seed),
+        "window_stage": window_stage_zh,
         "window_months": event_rule["window_months"],
         "urgency": event_rule["urgency"],
         "risks": [f"窗口可能被{pack['competition']['direct'][0]}快速跟进", f"{region_rule['compliance']}变化影响节奏"],
@@ -839,7 +968,33 @@ def build_business(
         }
         for item in evidence
     ]
+    analyst_narrative = _analyst_narrative(
+        entity_text=entity_text,
+        numbers=numbers,
+        region_markets=region_markets,
+        region_rule=region_rule,
+        industry=industry,
+        industry_zh=industry_zh,
+        event=event,
+        event_rule=event_rule,
+        pack=pack,
+        gap_zh=gap_zh,
+        gap_rule=gap_rule,
+        industry_gap=industry_gap,
+        why_opportunity=why_opportunity,
+        not_opportunity_if=not_opportunity_if,
+        barriers=barriers,
+        timing=timing,
+        conditions=conditions,
+        execution_plan=execution_plan,
+        profit_model=profit_model,
+        scores=scores,
+        as_of=as_of,
+        event_zh=event_zh,
+        window_stage_zh=window_stage_zh,
+    )
     return {
+        "analyst_narrative": analyst_narrative,
         "business_canvas": business_canvas,
         "judgment": judgment,
         "competition": competition,

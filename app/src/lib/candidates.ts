@@ -90,6 +90,7 @@ export interface Candidate {
   barriers?: Record<string, unknown>
   profit_model?: Record<string, unknown>
   execution_plan?: Record<string, unknown>
+  analyst_narrative?: Record<string, unknown>
   eval_sources?: unknown
   raw?: Record<string, unknown>
 }
@@ -198,6 +199,7 @@ function normalizeCandidate(raw: unknown, index = 0): Candidate | null {
     barriers: isObj(raw.barriers) ? raw.barriers : undefined,
     profit_model: isObj(raw.profit_model) ? raw.profit_model : undefined,
     execution_plan: isObj(raw.execution_plan) ? raw.execution_plan : undefined,
+    analyst_narrative: isObj(raw.analyst_narrative) ? raw.analyst_narrative : undefined,
     eval_sources: raw.sources ?? raw.eval_sources,
     raw,
   }

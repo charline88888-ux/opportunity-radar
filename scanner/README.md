@@ -1,6 +1,6 @@
-# scanner/ —— 机会雷达扫描流水线（Python 3.11，纯标准库，data-v1.2.0）
+# scanner/ —— 机会雷达扫描流水线（Python 3.11，纯标准库，data-v1.3.0）
 
-> 唯一数据标准：`docs/12-数据契约与字段字典.md`（data-v1.2.0）。扫描器是 `data/rankings.json`、`data/stats.json`、`data/history/*.json`、`data/source-health.json` 与 `scanner/outbox/` 的**唯一生成者**；按契约 4.5/5.x 重算派生字段、按 §9 做 V01–V20 校验；`scanner/serve.py` 提供本地控制台（v0.7.0）。
+> 唯一数据标准：`docs/12-数据契约与字段字典.md`（data-v1.3.0）。扫描器是 `data/rankings.json`、`data/stats.json`、`data/history/*.json`、`data/source-health.json` 与 `scanner/outbox/` 的**唯一生成者**；按契约 4.5/5.x 重算派生字段、按 §9 做 V01–V20 校验；`scanner/serve.py` 提供本地控制台（v0.7.0）。
 
 ## 1. 快速开始
 
@@ -108,7 +108,7 @@ data/opportunities.json  ── score.py/materialize.py 重算 → 回写派生�
 | `rank.py` | 窗口、排序链、真实 delta（day 用上一日快照；week/month/year 同 key；两期都有才计算，新增 null/new；无历史回退 adjacent-window） | §5.1 |
 | `stats.py` | KPI（v0.9.0 含候选计数）、分组分布、评分直方图、14 天趋势、开放窗口价值 | §5.2 / §1.13 |
 | `translate.py` | v0.9.3 系统级翻译：glossary(898 条)/llm/mock/source-zh + SQLite 缓存 + 质量标记；候选自动翻译三字段 | §1.16 |
-| `business.py` | v1.2.0 商机评估说明书：14 行业知识包 + 12 信息差 + 11 区域规则 → 9 块画布/10 维判断/竞争/跨市场/时效/条件/门槛/利润/执行方案/来源；确定性、引用标题实体与数字 | §1.18 |
+| `business.py` | v1.3.0 商机评估说明书 + 6 段 analyst_narrative（thesis/market/competition/cross_market/timing/verdict）：14 行业知识包 + 12 信息差 + 11 区域规则 → 9 块画布/10 维判断/竞争/跨市场/时效/条件/门槛/利润/执行方案/来源；确定性、引用标题实体与数字 | §1.18/§1.19 |
 | `candidates.py` | v0.9.2 自动候选：outbox business 信号 → 候选卡（标题/摘要清洗、gap 兜底、`system_validation` 8 项系统评估、中文 `title_zh/one_liner_zh`、七问草稿/ROI/10 维评分、`verification_status=not_started` 实体验证默认、同 URL 保留最新；上限可配）+ 四窗口发现榜；不写 opportunities.json | §1.13-§1.15 |
 | `db.py` | `data/radar.db`（opportunities/evidence/rankings_history/source_health），原子重建 | §1.1 |
 | `fetch.py` | 真实采集：RSS/Atom/JSON feed（v0.9.2 XML 容错）、enabled/priority 源选择、限速/缓存/UA/重试、账本去重、相关性初筛、outbox、source-health v2 | §1.2/§6/§1.12 |

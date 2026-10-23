@@ -2,7 +2,15 @@
 
 格式：`data_version` + 日期 + 变更内容 + 影响面。契约变更（字段/枚举/公式）必须同步更新 `docs/12-数据契约与字段字典.md` 并通知 Lead、前端、红队。
 
+## data-v1.3.0 · 2026-10-23 · MINOR（6 段专业商业评估叙事 analyst_narrative）
+
+- 每条候选（200/200）新增 `analyst_narrative`：`thesis`（核心判断/机会本质）、`market`（需求/市场结构/缺口）、`competition`（竞争格局/差异化/护城河）、`cross_market`（套利/可迁移/本地化）、`timing`（窗口为何现在/催化剂/失效条件）、`verdict`（综合结论/风险/下一步动作）六段连贯散文，每段 2–3 句，引用信号实体/数字/行业/区域/事件；与 business_canvas/judgment 一致，非字段复读；禁用词 grep = 0。
+- 示例：MAS 支付 narrative 引用 Malaysia/Thailand/MAS 与印尼/越南/泰国/新加坡，写清「牌照/清算合规/本地银行通道缺口 → 手续费+汇率切入 → 6–12 个月窗口」；PineDrama 引用 ByteDance/PineDrama 与版权/译制/平台分发；宠物样本引用 TikTok Pro/Events 与美加宠物纪念需求/定制供应链。
+- 数据版本 **1.3.0**（全部 meta）；候选 200、四窗口 day99/week200/month200/year200 不变；报告/榜单/统计已重生成；cold-cache determinism（删翻译缓存冷跑 candidates 与冻结一致）；`--all` 幂等；validate 20/20；unittest 100/100（新增 6 段/实体引用/同行业差异/确定性测试）。
+- 指纹：candidates `67241AC004229367`（全值 `67241AC00422936705057B1B86CE5419053AE63ACD03291C2E73BFA26C1C04A2`）、candidate-rankings `79E717E24232293D`（`79E717E24232293D7BC9C33B930AEB47E2990DD19A7E61ABB3C5B659A76CE5BD`）、stats `F610EB59682E2417`、rankings `427847C77E3183C4`、report-day `792E4ADD0CD9DAC5`；代码 business.py `4875151755ADD4F2`（全值 `4875151755ADD4F23D06715348DE694C86F20B647A4024560952F49E829A3D13`）、candidates.py `37A8F5F64895218C`、translate.py `2350C346277FD68C`（未变）。
+
 ## data-v1.2.0 · 2026-10-23 · MINOR（商机评估深化：商业画布/判断依据/执行方案）
+
 
 - 新增 `scanner/business.py`：按 **14 行业知识包**（宠物/银发/情绪/AI/跨境/内容/教育/本地/绿色/合规/文化/游戏/金融支付/制造）+ **12 信息差** + **11 区域规则**，为每条候选生成商机评估说明书，全部离线确定性、无人工输入。
 - 每条候选新增 10 组字段：`business_canvas`（客户细分/价值主张/渠道/客户关系/收入来源/核心资源/关键活动/重要伙伴/成本结构 9 块）、`judgment`（10 维 score+rationale+data_used、why_opportunity、not_opportunity_if）、`competition`（直接/间接/替代/差异化/护城河/定位）、`cross_market`（目标市场/套利类型/可迁移原因/本地化/定价权）、`timing`（why_now/催化剂/窗口阶段/窗口月数/紧迫性/风险）、`conditions`（资金区间/技能/资质/供应链/伙伴/团队/启动时间）、`barriers`（监管/技术/资金/品牌/渠道/区域）、`profit_model`（收入模型/定价/毛利/成本/单位经济/回本/规模化）、`execution_plan`（0–30 天/30–90 天/里程碑/首笔收入/指标）、`sources`（来源/链接/等级）。
