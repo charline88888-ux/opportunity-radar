@@ -2,7 +2,7 @@
   "app_version": "1.5.3",
   "data_version": "1.5.1",
   "released_at": "2026-10-24T01:25:22+08:00",
-  "git_commit": "",
+  "git_commit": "2c90437",
   "git_tag": "v1.5.3",
   "build": {
     "node": "v24.15.0",
