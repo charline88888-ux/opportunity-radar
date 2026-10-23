@@ -1769,3 +1769,35 @@ python qa/online-check-v07.py --version v0.7.2             # 新站结构 PASS
 ## 26.5 一句话
 
 **v1.0.0 核心回归技术上通过（9 路由/唯一商机榜/候选 200 全入榜/精选 80/删除功能干净/冷缓存 determinism 已修复/冻结 MANIFEST 19/19/tag deploy+CI+daily success/线上同 hash），但发现 1 个 P1：200 条候选七问仍含“验证/实验”文案 400 处（可见于详情页），**不建议按当前冻结件直接交付，建议 v1.0.1 清洗文案后再发布**。**
+
+---
+
+## 26 附录 · v1.0.1 文案清洗 + 数据一致性复验（2026-10-23 19:20，追认可发布）
+
+> 版本：app 1.0.1 / data 1.0.1｜dist 3,473,467 B / `15AA3753…8B53`｜tag v1.0.1 → 22768163（内容 c642f15）
+> **复验结论：P0=0、P1=0、P2=3，v1.0.1 可发布**（上一版 v1.0.0 的 P1 文案与数据确定性问题均已修复）。
+
+### A.1 P1 修复验证
+
+- **候选文案清洗**：`data/candidates.json` 全量 grep **验证=0 / 实验=0 / 复核=0 / 门禁=0**（含 seven_questions/one_liner/system_validation.notes/meta）；七问键 = 需求/人群/竞品/差异/渠道/**成本/跟踪**；跟踪答案「14 天内观察到询价/预约/加购等可量化信号再投入（自动草稿）」；notes「系统自动评估…不代表收入承诺」；one_liner 未清洗残留 0。截图 `qa/screenshots/v101/03-candidate-detail.png` 目检无验证/实验字样。
+- **数据一致性 + cold determinism**：candidates.meta.funnel 改为直接读 source-health：attempted101 / ok100 / failed1（tech-eu HTTP 403，含 failed_sources）/ raw2420→deduped1892→new1865→relevant344→candidates200；source-health 101/ok100/failed1/items **2401**（tech-eu 0 条）；**删除 translation-cache 后 candidates.py 冷跑 cold1==committed（9BBCEF35…）、cold2==cold1、`--all` 后仍==committed**；`--all` 双跑幂等。
+- 候选 200、四窗口 day99/week200/month200/year200、精选 80 内容不变；validate **20/20**、unittest **95/95**（scanner/tests 仅 test_scanner.py）；data 9 文件 meta=1.0.1；reports 8 文件/无 yearbook/calibration；db 80/156/654/101；指纹：candidates 9BBCEF35、candidate-rankings 55EDA0E3、stats 3D5040A0、rankings 8C2A9476、source-health 10921D63、radar.db 7292BD1D、report-day AE1A0B9A、candidates.py 31E44FB0、translate.py 2350C346。
+
+### A.2 前端 / 冻结 / Actions / 线上
+
+- 前端最终 dist **3,473,467 B / 15AA3753…8B53** = releases/v1.0.1/dist；`qa/flows-v101.mjs` **16/16 PASS**（9 路由/唯一商机榜四窗口/候选200+精选80/详情无禁用词/无删除功能）；`qa/routes-v100.mjs` 9 路由×1600/1024 **overflow=0、consoleErrors=0、removedBad=0**；i18n **15/16**（唯一失败 I10：EN `/sources` 页残留 UI 中文「见关于」，P2）；截图 v101 15 + v101-frozen 15 + frontend final-v1.0 18，read_image 目检商机榜/候选详情/指挥台/关于正常。
+- 冻结：`manifest-check` **MANIFEST 19/19 与 tag blob 一致**；`verify_manifest.py` **OK (19/19)**；dist 15AA…/3,473,467 B；tag v1.0.1→22768163，内容 c642f15；VERSION/README/前端 1.0.1。
+- Actions：**Deploy run 39944694255 success**（tag v1.0.1）、**CI run 39944690038 success**、pages run 39944733739 success。
+- 线上：`online-check --version v1.0.1` **PASS**：`/` 与 `/v1.0.1/` 同 hash 15AA3753…/3,473,467 B；versions latest=v1.0.1 path=/v1.0.1/；历史 v0.1.0…v1.0.0 全部与各自 tag 冻结 blob 逐字节一致不串台；404 正常。
+
+### A.3 P2（3 个，不阻塞）
+
+| # | 项 | 现状 | 建议 |
+|---|---|---|---|
+| P2-1 | EN `/sources` 残留 UI 中文 | i18n I10：样本「见关于」1 处未翻译（数据白名单之外） | v1.0.2 补字典 |
+| P2-2 | one_liner 后缀仅 26/200 | 长摘要截断导致「（自动发现线索，系统已初筛）」未统一；禁用词仍 0 | 下轮统一（非核心） |
+| P2-3 | versions.json daily 字段 | daily_channel/live_as_of 缺失（可选字段；root=最新冻结当日数据） | 下次 daily workflow 或 build_site tag 模式补齐 |
+
+### A.4 一句话
+
+**v1.0.1 可发布：v1.0.0 的 P1（候选七问验证/实验文案 400 处）已清零，数据 funnel/health 一致性修复，冷缓存 determinism cold1==committed 通过；9 路由/唯一商机榜/候选200+精选80/flows16/16/routes/i18n 15/16/MANIFEST19/19/tag deploy+CI success/线上同 hash；P0=0、P1=0、3 个 P2 不阻塞。**

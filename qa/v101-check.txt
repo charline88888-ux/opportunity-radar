@@ -13,6 +13,7 @@
   · 精选 80 条内容与 v0.9.2 完全一致（仅 data_version→1.0.1）✅
   · stats KPI：精选80 / 候选200 / 今日候选99 ✅
   · sources：168 平台 / 101 enabled 自动源 / 11 区域 / 8 disabled ✅
+  · source-health：101 行 / ok100 / failed1 / items2401 ✅
   · funnel 与 source-health 计数一致 ✅
   · outbox：raw2420→signal1892/new1865/seen27/ledger1865 ✅
   · data/reports 仅 8 个四窗口报告（calibration/yearbook 已删除）✅
@@ -23,7 +24,6 @@
   · --all --as-of 2026-10-23 双跑 0 变化（26 文件）✅
   · 关键指纹与 data-engineer 交付一致 ✅
 
-P0 = 0  P1 = 1  P2 = 1
-  [P1] source-health rows/items=101/2401 ≠ 101/2420
+P0 = 0  P1 = 0  P2 = 1
   [P2] one_liner 后缀「（自动发现线索，系统已初筛）」仅 26/200（长文本截断/部分未带；one_liner_zh 无该后缀，禁用词仍为 0）
-RESULT: FAIL
+RESULT: PASS

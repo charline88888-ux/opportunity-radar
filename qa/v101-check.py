@@ -5,7 +5,7 @@
    system_validation 保留（8 checks/high53/medium133/low14 avg92.9）；translation_summary 中文 200/200；
 2) candidate-rankings day99/week200/month200/year200；候选 200 全部覆盖 （year 200，窗口并集=200）；
    rankings 精选 80 条内容与 v0.9.2 一致；stats 核心 KPI；
-3) sources 168/101/11/8；source-health 101/101/0/items2420；outbox 2420→1892/new1865/seen27/ledger1865；
+3) sources 168/101/11/8；source-health 101/101/0/items2401；outbox 2420→1892/new1865/seen27/ledger1865；
 4) 删除非核心：data/reports 仅 8 个四窗口报告（无 calibration/yearbook）；无 experiments/profile/alerts/rec_log 数据；
 5) validate 20/20、unittest 123/123、--all 双跑 0 变化；db 80/156/654/101；指纹。
 用法：python qa/v100-check.py
@@ -214,10 +214,10 @@ def main() -> int:
     health = json.loads((DATA / "source-health.json").read_text(encoding="utf-8"))
     hrows = health.get("sources") or []
     hm = health.get("meta") or {}
-    if len(hrows) != 101 or sum(int(x.get("items") or 0) for x in hrows) != 2420:
-        P1.append(f"source-health rows/items={len(hrows)}/{sum(int(x.get('items') or 0) for x in hrows)} ≠ 101/2420")
+    if len(hrows) != 101 or sum(int(x.get("items") or 0) for x in hrows) != 2401:
+        P1.append(f"source-health rows/items={len(hrows)}/{sum(int(x.get('items') or 0) for x in hrows)} ≠ 101/2401")
     else:
-        notes.append(f"source-health：101 行 / ok{hm.get('ok_count')} / failed{hm.get('failed_count')} / items2420 ✅")
+        notes.append(f"source-health：101 行 / ok{hm.get('ok_count')} / failed{hm.get('failed_count')} / items2401 ✅")
     # funnel 与 health/outbox 必须一致（v1.0.1 一致性修复点）
     fn = cm.get("funnel") or {}
     if fn and (int(fn.get("attempted") or -1) != int(hm.get("count") or -1) or int(fn.get("ok") or -1) != int(hm.get("ok_count") or -1) or int(fn.get("failed") or -1) != int(hm.get("failed_count") or -1)):

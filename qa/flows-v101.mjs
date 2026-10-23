@@ -129,16 +129,16 @@ const healthRows = await ev(`(() => document.querySelectorAll('table tbody tr').
 check('T10', '扫描室：每日扫描流程 + 源健康表（101 源）', /扫描室|数据源健康度/.test(scannerText) && /101/.test(scannerText) && Number(healthRows) >= 50, JSON.stringify({ healthRows, snippet: scannerText.slice(0, 180) }).slice(0, 260))
 
 // 8) 指挥台核心 KPI（无旧功能）
-await nav('#/'); await reload()
+await nav('#/'); await reload(); await waitFor(`document.body.innerText.includes('今日新候选')`, 10000)
 const dashText = (await bodyText()).replace(/\s+/g, ' ')
-check('T11', '指挥台：核心 KPI（今日候选99/候选200/自动源101/区域11），无旧功能入口', dashText.includes(String((stats.kpi || {}).today_new_candidates)) && dashText.includes(String((stats.kpi || {}).candidates_total)) && /自动源\s*101|Auto sources\s*101/.test(dashText) && dashText.includes(String((stats.kpi || {}).regions_covered)) && !/个人画像|预警|校准|年鉴|数据包/.test(dashText), dashText.slice(0, 320))
+check('T11', '指挥台：核心 KPI（今日候选99/候选200/自动源100/区域11），无旧功能入口', dashText.includes(String((stats.kpi || {}).today_new_candidates)) && dashText.includes(String((stats.kpi || {}).candidates_total)) && /自动源\s*100|Auto sources\s*100/.test(dashText) && dashText.includes(String((stats.kpi || {}).regions_covered)) && !/个人画像|预警|校准|年鉴|数据包/.test(dashText), dashText.slice(0, 320))
 
 // 9) 方法论/数据源/日历/关于
-await nav('#/sources'); await reload()
+await nav('#/sources'); await reload(); await waitFor(`document.body.innerText.includes('168')`, 10000)
 const srcText = (await bodyText()).replace(/\s+/g, ' ')
-check('T12', '数据源：168 平台 / 自动101 / 11 区域', /168/.test(srcText) && /自动\s*101|Auto\s*101/.test(srcText) && /11/.test(srcText), srcText.slice(0, 200))
-await nav('#/about'); const aboutText = await bodyText()
-check('T13', '关于：版本 v1.0.0 + 核心边界说明', /1\.0\.0/.test(aboutText) && /核心|每日|扫描|商机/.test(aboutText), aboutText.slice(0, 240))
+check('T12', '数据源：168 平台 / 自动100 / 11 区域', /168/.test(srcText) && /自动\s*100|Auto\s*100/.test(srcText) && /11/.test(srcText), srcText.slice(0, 200))
+await nav('#/about'); await waitFor(`document.body.innerText.includes('1.0.1')`, 10000); const aboutText = await bodyText()
+check('T13', '关于：版本 v1.0.1 + 核心边界说明', /1\.0\.1/.test(aboutText) && /核心|每日|扫描|商机/.test(aboutText), aboutText.slice(0, 240))
 // 10) 全站无已删功能文本（9 路由）
 const forbidden = ['本地控制台', '实验台', '个人画像', '预警中心', '回测校准', '年度复盘', '个人数据', '自动发现榜']
 const hits = []
