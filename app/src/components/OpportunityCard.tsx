@@ -131,7 +131,7 @@ export function OpportunityCard({
             <span className="truncate text-[11px] text-dim">{L('理论测算 · 非实盘', 'Theory · not live')}</span>
           </div>
           <div className="mt-1 transition-opacity">
-            <Chart option={chartTab === 'payback' ? cardPaybackOption(econ, lang) : cardCapitalOption(econ, lang)} height={62} notMerge />
+            <Chart option={chartTab === 'payback' ? cardPaybackOption(econ, lang) : cardCapitalOption(econ, lang)} height={72} notMerge />
           </div>
           <div className="pointer-events-none absolute right-1 top-7 hidden items-center gap-1 rounded border border-line/70 bg-panel-3/95 px-2 py-1 text-[11.5px] text-ink shadow-lg group-hover:flex">
             <span className="text-dim">{L('理论月净利', 'Net / mo')}</span>

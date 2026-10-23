@@ -29,7 +29,7 @@ const axisMoney = (lang: Lang) => ({
   type: 'value' as const,
   axisLabel: {
     color: C.dim,
-    fontSize: 10.5,
+    fontSize: 12,
     formatter: (v: number) => `¥${fmtCny(v)}`,
   },
   splitLine: { lineStyle: { color: 'rgba(35,41,54,.75)', type: 'dashed' as const } },
@@ -78,7 +78,7 @@ export function capitalBreakdownOption(model: EconomicsModel, lang: Lang): EChar
   })
   return {
     backgroundColor: 'transparent',
-    grid: { left: 4, right: 10, top: 8, bottom: 4, containLabel: true },
+    grid: { left: 98, right: 14, top: 10, bottom: 30, containLabel: false },
     tooltip: {
       ...tooltipBase(),
       trigger: 'item',
@@ -99,7 +99,7 @@ export function capitalBreakdownOption(model: EconomicsModel, lang: Lang): EChar
       data: categories,
       axisLine: { show: false },
       axisTick: { show: false },
-      axisLabel: { color: C.muted, fontSize: 11, width: 72, overflow: 'truncate' },
+      axisLabel: { color: C.muted, fontSize: 12, width: 90, overflow: 'break', lineHeight: 15 },
       inverse: true,
     },
     series: [
@@ -138,11 +138,11 @@ export function unitEconomicsOption(model: EconomicsModel, calc: EconCalc, lang:
   const fixedShare = calc.unitFixedCost
   const netUnit = calc.unitNetProfit
   const labels = [
-    L(lang, '客单价', 'Avg. order value'),
-    L(lang, '商品/服务成本', 'Cost of goods'),
-    L(lang, '单品毛利', 'Unit gross profit'),
-    L(lang, '固定成本分摊', 'Fixed cost / unit'),
-    L(lang, '单品净贡献', 'Unit net contribution'),
+    L(lang, '客单价', 'AOV'),
+    L(lang, '商品/服务\n成本', 'Cost of\ngoods'),
+    L(lang, '单品毛利', 'Unit\ngross'),
+    L(lang, '固定成本\n分摊', 'Fixed\ncost'),
+    L(lang, '单品净贡献', 'Unit net\ncontribution'),
   ]
   const ranges = [aov, unitCost, unitGross, fixedShare, netUnit]
   const helper: number[] = []
@@ -171,7 +171,7 @@ export function unitEconomicsOption(model: EconomicsModel, calc: EconCalc, lang:
   const colors = [C.cyan, C.danger, C.signal, C.amber, netUnit >= 0 ? C.signal : C.danger]
   return {
     backgroundColor: 'transparent',
-    grid: { left: 4, right: 12, top: 12, bottom: 4, containLabel: true },
+    grid: { left: 4, right: 12, top: 12, bottom: 34, containLabel: true },
     tooltip: {
       ...tooltipBase(),
       trigger: 'axis',
@@ -191,7 +191,7 @@ export function unitEconomicsOption(model: EconomicsModel, calc: EconCalc, lang:
       data: labels,
       axisLine: { lineStyle: { color: C.line } },
       axisTick: { show: false },
-      axisLabel: { color: C.muted, fontSize: 11, interval: 0, lineHeight: 16 },
+      axisLabel: { color: C.muted, fontSize: 12, interval: 0, lineHeight: 16 },
     },
     yAxis: axisMoney(lang),
     series: [
@@ -215,7 +215,7 @@ export function unitEconomicsOption(model: EconomicsModel, calc: EconCalc, lang:
           show: true,
           position: 'top',
           color: C.ink,
-          fontSize: 11,
+          fontSize: 12,
           formatter: (p: unknown) => {
             const idx = Number((p as { dataIndex?: number }).dataIndex ?? 0)
             const v = [aov, unitCost, unitGross, fixedShare, netUnit][idx]
@@ -259,7 +259,7 @@ export function paybackCurveOption(model: EconomicsModel, calc: EconCalc, useRam
       min: 1,
       max: 18,
       interval: 3,
-      axisLabel: { color: C.dim, fontSize: 10.5, formatter: (v: number) => `${v}${L(lang, '月', 'M')}` },
+      axisLabel: { color: C.dim, fontSize: 12, formatter: (v: number) => `${v}${L(lang, '月', 'M')}` },
       splitLine: { show: false },
       axisLine: { lineStyle: { color: C.line } },
       axisTick: { show: false },
@@ -291,7 +291,7 @@ export function paybackCurveOption(model: EconomicsModel, calc: EconCalc, useRam
           silent: true,
           symbol: 'none',
           lineStyle: { color: C.amber, type: 'dashed', width: 1 },
-          label: { position: 'insideStartTop', color: C.amber, fontSize: 10.5, formatter: L(lang, '回本线', 'Break-even') },
+          label: { position: 'insideStartTop', color: C.amber, fontSize: 12, formatter: L(lang, '回本线', 'Break-even') },
           data: [{ yAxis: 0 }],
         },
         markPoint: hit
@@ -299,7 +299,7 @@ export function paybackCurveOption(model: EconomicsModel, calc: EconCalc, useRam
               symbol: 'pin',
               symbolSize: 36,
               itemStyle: { color: C.amber },
-              label: { color: '#10131a', fontSize: 10, fontWeight: 700, formatter: `${Math.round(hit.month)}M` },
+              label: { color: '#10131a', fontSize: 12, fontWeight: 700, formatter: `${Math.round(hit.month)}M` },
               data: [{ name: 'payback', coord: [hit.month, Math.round(hit.cumulative)] }],
             }
           : undefined,
@@ -322,7 +322,7 @@ export function monthlyProfitOption(calc: EconCalc, lang: Lang): EChartsOption {
       right: 0,
       itemWidth: 9,
       itemHeight: 7,
-      textStyle: { color: C.muted, fontSize: 10.5 },
+      textStyle: { color: C.muted, fontSize: 12 },
       data: [L(lang, '月收入', 'Revenue'), L(lang, '月毛利', 'Gross profit'), L(lang, '月净利', 'Net profit')],
     },
     tooltip: {
@@ -334,7 +334,7 @@ export function monthlyProfitOption(calc: EconCalc, lang: Lang): EChartsOption {
     xAxis: {
       type: 'category',
       data: months,
-      axisLabel: { color: C.dim, fontSize: 10, interval: Math.max(0, Math.floor(months.length / 8) - 1) },
+      axisLabel: { color: C.dim, fontSize: 12, interval: Math.max(0, Math.floor(months.length / 8) - 1) },
       axisLine: { lineStyle: { color: C.line } },
       axisTick: { show: false },
     },
@@ -391,7 +391,7 @@ export function revenueStructureOption(model: EconomicsModel, lang: Lang): EChar
       top: 'center',
       itemWidth: 8,
       itemHeight: 8,
-      textStyle: { color: C.muted, fontSize: 11 },
+      textStyle: { color: C.muted, fontSize: 12 },
       formatter: (name: string) => (name.length > 14 ? `${name.slice(0, 14)}…` : name),
     },
     series: [
@@ -418,7 +418,7 @@ export function revenueStructureOption(model: EconomicsModel, lang: Lang): EChar
         style: {
           text: L(lang, '理论月收入', 'Monthly revenue'),
           fill: C.muted,
-          fontSize: 11,
+          fontSize: 12,
           align: 'center',
         },
       },
@@ -465,7 +465,7 @@ export function sensitivityOption(model: EconomicsModel, calc: EconCalc, lang: L
     },
     xAxis: {
       type: 'value',
-      axisLabel: { color: C.dim, fontSize: 10, formatter: (v: number) => `${fmtInt(v)}` },
+      axisLabel: { color: C.dim, fontSize: 12, formatter: (v: number) => `${fmtInt(v)}` },
       splitLine: { show: false },
       axisLine: { lineStyle: { color: C.line } },
       axisTick: { show: false },
@@ -484,7 +484,7 @@ export function sensitivityOption(model: EconomicsModel, calc: EconCalc, lang: L
           silent: true,
           symbol: 'none',
           lineStyle: { color: C.amber, type: 'dashed', width: 1 },
-          label: { color: C.amber, fontSize: 10, formatter: L(lang, '盈亏平衡', 'Break-even') },
+          label: { color: C.amber, fontSize: 12, formatter: L(lang, '盈亏平衡', 'Break-even') },
           data: [{ yAxis: 0 }],
         },
         markPoint: hit
@@ -492,7 +492,7 @@ export function sensitivityOption(model: EconomicsModel, calc: EconCalc, lang: L
               symbol: 'pin',
               symbolSize: 38,
               itemStyle: { color: C.signal },
-              label: { color: '#10131a', fontSize: 9.5, fontWeight: 700, formatter: L(lang, '基准', 'Base') },
+              label: { color: '#10131a', fontSize: 12, fontWeight: 700, formatter: L(lang, '基准', 'Base') },
               data: [{ name: 'base', coord: [hit.orders, Math.round(hit.profit)] }],
             }
           : undefined,
@@ -520,7 +520,7 @@ export function scoreRadarOption(dims: AssessmentDimension[], lang: Lang): EChar
       indicator: dims.map((d) => ({ name: lang === 'en' ? d.labelEn : d.labelZh, max: 10 })),
       radius: '64%',
       center: ['50%', '54%'],
-      axisName: { color: C.muted, fontSize: 11 },
+      axisName: { color: C.muted, fontSize: 12 },
       splitLine: { lineStyle: { color: C.line } },
       splitArea: { areaStyle: { color: ['rgba(61,220,151,0.02)', 'rgba(76,201,240,0.03)'] } },
       axisLine: { lineStyle: { color: C.line } },
@@ -553,7 +553,7 @@ export function cardPaybackOption(model: EconomicsModel, lang: Lang): EChartsOpt
   return {
     animation: false,
     backgroundColor: 'transparent',
-    grid: { left: 2, right: 8, top: 16, bottom: 4 },
+    grid: { left: 2, right: 10, top: 22, bottom: 4 },
     xAxis: { type: 'value', show: false, min: 1, max: 12 },
     yAxis: { type: 'value', show: false, min: -model.base.capital * 0.25, max: Math.max(1, model.base.capital * 0.55) },
     series: [
@@ -589,7 +589,7 @@ export function cardPaybackOption(model: EconomicsModel, lang: Lang): EChartsOpt
               symbol: 'circle',
               symbolSize: 9,
               itemStyle: { color: C.amber, borderColor: '#10131a', borderWidth: 2 },
-              label: { show: true, position: 'top', distance: 3, color: C.amber, fontSize: 10, fontWeight: 600, formatter: `${Math.round(hit.month)}M` },
+              label: { show: true, position: 'top', distance: 3, color: C.amber, fontSize: 12, fontWeight: 600, formatter: `${Math.round(hit.month)}M` },
               data: [{ name: 'payback', coord: [hit.month, 0] }],
             }
           : undefined,

@@ -110,7 +110,7 @@ export default function Yearbook() {
       grid: { left: 4, right: 8, top: 20, bottom: 2, containLabel: true },
       tooltip: { trigger: 'axis' },
       xAxis: { type: 'category', data: monthly.map((x) => x.month) },
-      yAxis: { type: 'value', name: L('新信号数', 'Signals'), minInterval: 1, nameTextStyle: { fontSize: 9, color: '#5a6273' } },
+      yAxis: { type: 'value', name: L('新信号数', 'Signals'), minInterval: 1, nameTextStyle: { fontSize: 12, color: '#5a6273' } },
       series: [
         { name: L('新信号', 'Signals'), type: 'bar', barMaxWidth: 26, itemStyle: { color: '#3ddc97', opacity: 0.85 }, data: monthly.map((x) => x.count) },
         { name: L('活动月份', 'Active months'), type: 'line', smooth: true, symbolSize: 5, lineStyle: { color: '#4cc9f0', width: 1.5 }, itemStyle: { color: '#4cc9f0' }, data: monthly.map((x) => (x.count > 0 ? x.count : null)) },
@@ -123,8 +123,8 @@ export default function Yearbook() {
     () => ({
       grid: { left: 4, right: 8, top: 16, bottom: 2, containLabel: true },
       tooltip: { trigger: 'axis' },
-      xAxis: { type: 'category', data: distributions.byIndustry.map((x) => x[0]), axisLabel: { fontSize: 8.5, rotate: 25 } },
-      yAxis: { type: 'value', minInterval: 1, name: L('机会数', 'Opportunities'), nameTextStyle: { fontSize: 9, color: '#5a6273' } },
+      xAxis: { type: 'category', data: distributions.byIndustry.map((x) => x[0]), axisLabel: { fontSize: 12, rotate: 25 } },
+      yAxis: { type: 'value', minInterval: 1, name: L('机会数', 'Opportunities'), nameTextStyle: { fontSize: 12, color: '#5a6273' } },
       series: [{ type: 'bar', barMaxWidth: 24, itemStyle: { color: '#4cc9f0', opacity: 0.85 }, data: distributions.byIndustry.map((x) => x[1]) }],
     }),
     [distributions, lang],
@@ -134,9 +134,9 @@ export default function Yearbook() {
     () => ({
       grid: { left: 4, right: 8, top: 22, bottom: 2, containLabel: true },
       tooltip: { trigger: 'axis' },
-      legend: { top: 0, textStyle: { color: '#8b93a7', fontSize: 9 }, itemWidth: 8, itemHeight: 8 },
+      legend: { top: 0, textStyle: { color: '#8b93a7', fontSize: 12 }, itemWidth: 8, itemHeight: 8 },
       xAxis: { type: 'category', data: monthly.map((x) => x.month) },
-      yAxis: { type: 'value', minInterval: 1, name: L('新信号', 'Signals'), nameTextStyle: { fontSize: 9, color: '#5a6273' } },
+      yAxis: { type: 'value', minInterval: 1, name: L('新信号', 'Signals'), nameTextStyle: { fontSize: 12, color: '#5a6273' } },
       series: ['S', 'A', 'B', 'C'].map((grade, i) => ({
         name: grade,
         type: 'bar',

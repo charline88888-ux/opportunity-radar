@@ -526,11 +526,11 @@ export function AssessmentDetail({ assessment }: { assessment: Assessment }) {
               <div className="mb-3 text-[15px] font-semibold text-ink">{L('执行方案', 'Execution plan')}</div>
               <div className="grid grid-cols-1 gap-3 lg:grid-cols-3">
                 {executionPhases.map((step, i) => (
-                  <div key={step.phase} className="rounded-lg border border-line/60 bg-panel-2/25 p-4">
-                    <div className="flex items-center gap-2">
-                      <span className="flex h-8 w-8 items-center justify-center rounded-full border border-signal/40 bg-signal/10 font-mono text-[12px] text-signal">{step.phase}</span>
-                      <span className="text-[14px] font-medium text-ink">{step.title}</span>
-                      <span className="ml-auto font-mono text-[11px] text-dim">{String(i + 1).padStart(2, '0')}</span>
+                  <div key={step.phase} className="min-w-0 rounded-lg border border-line/60 bg-panel-2/25 p-4">
+                    <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
+                      <span className="shrink-0 whitespace-nowrap rounded-full border border-signal/40 bg-signal/10 px-2.5 py-0.5 font-mono text-[12px] leading-5 text-signal">{step.phase}</span>
+                      <span className="min-w-0 flex-1 text-[14px] font-medium leading-5 text-ink">{step.title}</span>
+                      <span className="shrink-0 font-mono text-[12px] text-dim">{String(i + 1).padStart(2, '0')}</span>
                     </div>
                     <div className="mt-2 text-[13.5px] leading-[1.75] text-ink/85">
                       <ValueText value={step.value} />

@@ -137,13 +137,13 @@ export function EconCockpit({ model }: { model: EconomicsModel }) {
           </>
         }
       >
-        <div className="grid grid-cols-1 gap-4 lg:grid-cols-12">
+        <div className="grid grid-cols-1 gap-4 xl:grid-cols-12">
           <div className="lg:col-span-5">
-            <Chart option={capitalBreakdownOption(model, lang)} height={360} />
+            <Chart option={capitalBreakdownOption(model, lang)} height={380} />
             <div className="mt-1 text-[11.5px] text-dim">{L('横轴：投入金额（元）· 纵轴：9 类投入项 · 悬浮查看依据', 'X: amount (CNY) · Y: 9 items · hover for basis')}</div>
           </div>
           <div className="min-w-0 lg:col-span-7">
-            <div className="max-h-[360px] overflow-auto rounded border border-line/50">
+            <div className="max-h-[380px] overflow-auto rounded border border-line/50">
               <table className="w-full text-left">
                 <thead className="sticky top-0 z-[1] bg-panel-2 text-[12px] text-dim">
                   <tr>

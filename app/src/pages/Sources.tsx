@@ -114,16 +114,16 @@ export default function Sources() {
       })
     })
     return {
-      grid: { left: 8, right: 8, top: 10, bottom: 30, containLabel: true },
+      grid: { left: 8, right: 8, top: 10, bottom: 66, containLabel: true },
       tooltip: { formatter: (p: any) => `${regions[p.value[1]]?.name || ''} × ${categories[p.value[0]]?.name || ''}<br/>数据源数量：<b>${p.value[2]}</b>` },
-      xAxis: { type: 'category', data: categories.map((c) => c.name.slice(0, 4)), axisLabel: { fontSize: 8.5, interval: 0, rotate: 32 } },
-      yAxis: { type: 'category', data: regions.map((r) => r.name), axisLabel: { fontSize: 9 } },
+      xAxis: { type: 'category', data: categories.map((c) => c.name), axisLabel: { fontSize: 12, interval: 0, rotate: 38, lineHeight: 14 } },
+      yAxis: { type: 'category', data: regions.map((r) => r.name), axisLabel: { fontSize: 12 } },
       visualMap: { show: false, min: 0, max, inRange: { color: ['#131821', '#173c33', '#21795d', '#3ddc97'] } },
       series: [
         {
           type: 'heatmap',
           data: cells,
-          label: { show: true, fontSize: 8.5, color: '#c8cfdb', formatter: (p: any) => (p.value[2] ? p.value[2] : '') },
+          label: { show: true, fontSize: 12, color: '#c8cfdb', formatter: (p: any) => (p.value[2] ? p.value[2] : '') },
           itemStyle: { borderColor: '#0a0c10', borderWidth: 1 },
         },
       ],
@@ -133,13 +133,13 @@ export default function Sources() {
   const categoryChartOption = useMemo<EChartsOption>(() => {
     const data = sources.categories.map((c) => ({ name: c.name, count: c.sources.length, avg: c.sources.length ? c.sources.reduce((a, s) => a + s.value_score, 0) / c.sources.length : 0 }))
     return {
-      grid: { left: 4, right: 10, top: 26, bottom: 4, containLabel: true },
-      legend: { top: 0, right: 0, data: ['源数量', '平均价值分'], textStyle: { fontSize: 9 } },
+      grid: { left: 4, right: 10, top: 30, bottom: 62, containLabel: true },
+      legend: { top: 0, right: 0, data: ['源数量', '平均价值分'], textStyle: { fontSize: 12 } },
       tooltip: { trigger: 'axis' },
-      xAxis: { type: 'category', data: data.map((d) => d.name.slice(0, 4)), axisLabel: { fontSize: 8.5, interval: 0, rotate: 32 } },
+      xAxis: { type: 'category', data: data.map((d) => d.name), axisLabel: { fontSize: 12, interval: 0, rotate: 38, lineHeight: 14 } },
       yAxis: [
-        { type: 'value', name: '源', nameTextStyle: { fontSize: 8, color: '#5a6273' } },
-        { type: 'value', name: '分', min: 0, max: 10, nameTextStyle: { fontSize: 8, color: '#5a6273' }, splitLine: { show: false } },
+        { type: 'value', name: '源', nameTextStyle: { fontSize: 12, color: '#5a6273' } },
+        { type: 'value', name: '分', min: 0, max: 10, nameTextStyle: { fontSize: 12, color: '#5a6273' }, splitLine: { show: false } },
       ],
       series: [
         { name: '源数量', type: 'bar', data: data.map((d) => d.count), barMaxWidth: 14, itemStyle: { color: 'rgba(76,201,240,.55)', borderRadius: [2, 2, 0, 0] } },
@@ -231,7 +231,7 @@ export default function Sources() {
           subtitle="某区域在某大类下可用数据源数量；空白=该区域缺少该类型源"
           right={<Badge tone="muted">11 区域 × 12 类</Badge>}
         >
-          <Chart option={heatOption} height={300} />
+          <Chart option={heatOption} height={380} />
         </SectionCard>
         <SectionCard
           className="xl:col-span-5"
@@ -240,7 +240,7 @@ export default function Sources() {
           subtitle="柱 = 源数量 · 线 = 平均价值分"
           right={<Database className="h-4 w-4 text-dim" />}
         >
-          <Chart option={categoryChartOption} height={300} />
+          <Chart option={categoryChartOption} height={380} />
         </SectionCard>
       </div>
 

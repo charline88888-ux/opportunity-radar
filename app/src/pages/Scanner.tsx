@@ -186,7 +186,7 @@ function ScanConsole() {
                 <ScanLine className="h-4 w-4 animate-pulse" /> 正在扫描 {SIGNAL_STEPS_NAME[Math.min(step, SCAN_STEPS.length - 1)]}…
               </div>
               <ProgressBar value={step} max={SCAN_STEPS.length} tone="cyan" />
-              <div className="font-mono text-[9.5px] text-dim">{[...Array(Math.min(6, step + 2))].map(() => '█████').join(' ')}</div>
+              <div className="font-mono text-[12px] text-dim">{[...Array(Math.min(6, step + 2))].map(() => '█████').join(' ')}</div>
             </div>
           )}
           {state === 'done' && (
@@ -343,14 +343,14 @@ export default function Scanner() {
           }`
         },
       },
-      xAxis: { type: 'category', data: signals.map((s) => s.name), axisLabel: { fontSize: 10, interval: 0 } },
-      yAxis: { type: 'category', data: needs.map((n) => n.name), axisLabel: { fontSize: 9.5 } },
+      xAxis: { type: 'category', data: signals.map((s) => s.name), axisLabel: { fontSize: 12, interval: 0 } },
+      yAxis: { type: 'category', data: needs.map((n) => n.name), axisLabel: { fontSize: 12 } },
       visualMap: { show: false, min: 0, max, inRange: { color: ['#131821', '#173c33', '#21795d', '#3ddc97'] } },
       series: [
         {
           type: 'heatmap',
           data: cells,
-          label: { show: true, fontSize: 9, color: '#c8cfdb', formatter: (p: any) => (p.value[2] ? p.value[2] : '') },
+          label: { show: true, fontSize: 12, color: '#c8cfdb', formatter: (p: any) => (p.value[2] ? p.value[2] : '') },
           itemStyle: { borderColor: '#0a0c10', borderWidth: 1 },
           emphasis: { itemStyle: { borderColor: '#e6e9f0', borderWidth: 1 } },
         },
@@ -365,19 +365,33 @@ export default function Scanner() {
     const srcNode = (name: string) => `源·${name}`
     const gapNode = (name: string) => `差·${name}`
     const indNode = (name: string) => `行·${name}`
-    // ECharts sankey 要求节点名全局唯一：给三层加前缀，避免大类与行业重名（如「文化与宗教」）
+    const OTHER = '行·其他行业'
     const nodes: any[] = []
     const links: any[] = []
     const gapIndustryCount = new Map<string, number>()
+    const industryCount = new Map<string, number>()
     for (const o of opportunities) {
+      industryCount.set(o.industry_id, (industryCount.get(o.industry_id) || 0) + 1)
       for (const g of o.gap_type_ids) {
         const k = `${g}|${o.industry_id}`
         gapIndustryCount.set(k, (gapIndustryCount.get(k) || 0) + 1)
       }
     }
+    // 右侧行业标签最多 8 个，其余聚合为「其他行业」，避免 12 个标签堆叠/裁切
+    const TOP_N = 8
+    const topIndustries = [...industries]
+      .map((i) => ({ ...i, count: industryCount.get(i.id) || 0 }))
+      .sort((a, b) => b.count - a.count)
+      .slice(0, TOP_N)
+    const topIds = new Set(topIndustries.map((i) => i.id))
+    const otherCount = [...industryCount.entries()].filter(([id]) => !topIds.has(id)).reduce((a, [, c]) => a + c, 0)
+    const indTarget = (indId: string) => (topIds.has(indId) ? indNode(industries.find((i) => i.id === indId)?.name || indId) : OTHER)
+
     cats.forEach((c) => nodes.push({ name: srcNode(c.name), itemStyle: { color: '#4cc9f0' } }))
     gaps.forEach((g) => nodes.push({ name: gapNode(g.name), itemStyle: { color: '#ffb547' } }))
-    industries.forEach((i) => nodes.push({ name: indNode(i.name), itemStyle: { color: industryColor(i.id) } }))
+    topIndustries.forEach((i) => nodes.push({ name: indNode(i.name), itemStyle: { color: industryColor(i.id) } }))
+    if (otherCount > 0) nodes.push({ name: OTHER, itemStyle: { color: '#5a6273' } })
+
     cats.forEach((c) => {
       const affinity = SIGNAL_GAP_MAP[c.id] || []
       affinity.forEach((gapId, idx) => {
@@ -385,26 +399,29 @@ export default function Scanner() {
         if (gap) links.push({ source: srcNode(c.name), target: gapNode(gap.name), value: Math.max(1, c.sources.length * (2.2 - idx * 0.5)) })
       })
     })
-    const gapIndustryLinks = [...gapIndustryCount.entries()]
-      .map(([k, count]) => {
-        const [gapId, indId] = k.split('|')
-        return { gapId, indId, count }
-      })
-      .sort((a, b) => b.count - a.count)
-      .slice(0, 40)
-    for (const gl of gapIndustryLinks) {
-      const gap = gaps.find((g) => g.id === gl.gapId)
-      const ind = industries.find((i) => i.id === gl.indId)
-      if (gap && ind) links.push({ source: gapNode(gap.name), target: indNode(ind.name), value: gl.count })
+    // 同一 gap → 聚合行业 的流向合并，避免重复连线
+    const merged = new Map<string, { source: string; target: string; value: number }>()
+    for (const [k, count] of gapIndustryCount.entries()) {
+      const [gapId, indId] = k.split('|')
+      const gap = gaps.find((g) => g.id === gapId)
+      const ind = industries.find((i) => i.id === indId)
+      if (!gap || !ind) continue
+      const target = indTarget(indId)
+      const key = `${gapNode(gap.name)}|${target}`
+      const prev = merged.get(key)
+      if (prev) prev.value += count
+      else merged.set(key, { source: gapNode(gap.name), target, value: count })
     }
+    links.push(...merged.values())
     // 保证每个 gap 至少有一条下游，避免孤立节点
     gaps.forEach((g) => {
       if (!links.some((l) => l.source === gapNode(g.name))) {
-        const ind = industries.find((i) => opportunities.some((o) => o.industry_id === i.id)) || industries[0]
-        links.push({ source: gapNode(g.name), target: indNode(ind.name), value: 0.6 })
+        const target = topIndustries[0] ? indNode(topIndustries[0].name) : OTHER
+        links.push({ source: gapNode(g.name), target, value: 0.6 })
       }
     })
     const cleanName = (name: string) => String(name || '').replace(/^(源|差|行)·/, '')
+    const otherLabel = otherCount > 0 ? `其他行业（${otherCount}）` : ''
     return {
       tooltip: {
         trigger: 'item',
@@ -417,14 +434,19 @@ export default function Scanner() {
       series: [
         {
           type: 'sankey',
-          left: 4,
-          right: 122,
-          top: 12,
-          bottom: 8,
-          nodeWidth: 9,
-          nodeGap: 8,
+          left: 10,
+          right: 158,
+          top: 18,
+          bottom: 16,
+          nodeWidth: 10,
+          nodeGap: 14,
           emphasis: { focus: 'adjacency' },
-          label: { fontSize: 9.5, color: '#e6e9f0', formatter: (p: any) => cleanName(p.name) },
+          label: {
+            fontSize: 12,
+            lineHeight: 16,
+            color: '#e6e9f0',
+            formatter: (p: any) => (p.name === OTHER ? otherLabel : cleanName(p.name)),
+          },
           lineStyle: { color: 'gradient', opacity: 0.2, curveness: 0.5 },
           data: nodes,
           links,
@@ -475,8 +497,8 @@ export default function Scanner() {
           subtitle="按机会库中的需求 × 信息差映射推导（演示性质），数字 = 命中信号数"
           right={<Gauge className="h-4 w-4 text-dim" />}
         >
-          <Chart option={heatOption} height={352} />
-          <div className="mt-1 flex flex-wrap items-center justify-between gap-1 font-mono text-[9.5px] text-dim">
+          <Chart option={heatOption} height={380} />
+          <div className="mt-1 flex flex-wrap items-center justify-between gap-1 font-mono text-[12px] text-dim">
             <span>行 = 12 类底层需求 · 列 = 10 类信号</span>
             <span className="inline-flex items-center gap-1">
               低
@@ -531,8 +553,8 @@ export default function Scanner() {
           subtitle="信号源大类 → 信息差类型 → 行业板块的流向；流量宽度为源数量/机会数（前端由数据推导）"
           right={<Zap className="h-4 w-4 text-dim" />}
         >
-          <Chart option={sankeyOption} height={430} />
-          <div className="mt-1 flex flex-wrap items-center gap-3 font-mono text-[9.5px] text-dim">
+          <Chart option={sankeyOption} height={560} />
+          <div className="mt-1 flex flex-wrap items-center gap-3 font-mono text-[12px] text-dim">
             <span><span className="mr-1 inline-block h-2 w-2 rounded-sm bg-cyan" />信号源大类</span>
             <span><span className="mr-1 inline-block h-2 w-2 rounded-sm bg-amber" />信息差类型</span>
             <span><span className="mr-1 inline-block h-2 w-2 rounded-sm bg-signal" />行业板块</span>
@@ -641,7 +663,7 @@ export default function Scanner() {
               </tbody>
             </table>
           </div>
-          <div className="flex items-center justify-between border-t border-line/70 px-3 py-2 font-mono text-[9.5px] text-dim">
+          <div className="flex items-center justify-between border-t border-line/70 px-3 py-2 font-mono text-[12px] text-dim">
             <span>共 {filteredSources.length} / {allSources.length} 个源</span>
             <span>合规提醒：红色源仅人工浏览，禁止自动抓取；黄色源需限速并遵守平台 ToS。</span>
           </div>

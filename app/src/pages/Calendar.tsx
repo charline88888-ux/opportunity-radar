@@ -66,19 +66,19 @@ export default function CalendarPage() {
       data: allMonths.map((m) => filtered.filter((e) => e.type === t && dayjs(e.date).format('YYYY-MM') === m).length || 0),
     }))
     return {
-      grid: { left: 6, right: 8, top: 28, bottom: 2, containLabel: true },
-      legend: { top: 0, right: 0, textStyle: { fontSize: 9 } },
+      grid: { left: 6, right: 8, top: 42, bottom: 2, containLabel: true },
+      legend: { type: 'scroll', top: 0, left: 0, right: 0, itemWidth: 10, itemHeight: 8, itemGap: 12, textStyle: { fontSize: 12 } },
       tooltip: { trigger: 'axis', axisPointer: { type: 'shadow' } },
       xAxis: {
         type: 'category',
         data: allMonths,
         axisLabel: {
-          fontSize: 9,
+          fontSize: 12,
           interval: 1,
           formatter: (v: string) => `${v.slice(2, 4)}/${v.slice(5, 7)}`,
         },
       },
-      yAxis: { type: 'value', minInterval: 1, name: '节点数', nameTextStyle: { fontSize: 8.5, color: '#5a6273' } },
+      yAxis: { type: 'value', minInterval: 1, name: '节点数', nameTextStyle: { fontSize: 12, color: '#5a6273' } },
       series: [
         ...series,
         {
@@ -88,7 +88,7 @@ export default function CalendarPage() {
           markLine: {
             silent: true,
             symbol: 'none',
-            label: { fontSize: 8.5, color: '#8b93a7', formatter: `as_of ${dataAsOf.slice(5)}` },
+            label: { fontSize: 12, color: '#8b93a7', formatter: `as_of ${dataAsOf.slice(5)}` },
             lineStyle: { color: '#ff5d5d', type: 'dashed' },
             data: [{ xAxis: dayjs(dataAsOf).format('YYYY-MM') }],
           },
@@ -150,7 +150,7 @@ export default function CalendarPage() {
         subtitle="横轴为月份 · 红色虚线为数据基准日 as_of"
         right={<ChartDays />}
       >
-        <Chart option={chartOption} height={190} />
+        <Chart option={chartOption} height={280} />
       </SectionCard>
 
       <div className="my-3 flex flex-col gap-2 rounded-md border border-line bg-panel/60 p-2 lg:flex-row lg:items-center">

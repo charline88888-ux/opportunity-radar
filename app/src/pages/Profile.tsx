@@ -50,7 +50,7 @@ function ProfileRadar({ capability }: { capability: CapabilityVector }) {
         radius: '64%',
         splitNumber: 5,
         indicator: ABILITY_KEYS.map((k) => ({ name: CAPABILITY_LABELS[k], max: 10 })),
-        axisName: { fontSize: 10 },
+        axisName: { fontSize: 12 },
       },
       series: [
         {

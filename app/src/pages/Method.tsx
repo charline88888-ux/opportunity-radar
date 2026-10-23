@@ -158,14 +158,14 @@ export default function Method() {
                     {L('启动资金', 'Capital')} {fmtCnyRange(sample.economics.investment.total.min, sample.economics.investment.total.max)} · {L('毛利率', 'margin')} {fmtPct(sample.economics.base.marginPct * 100, 1)} · {L('回本目标', 'payback target')} {sample.economics.paybackTarget ?? '—'} {L('个月', 'mo')}
                   </span>
                 </div>
-                <div className="grid grid-cols-1 gap-3 lg:grid-cols-2">
+                <div className="grid grid-cols-1 gap-3 2xl:grid-cols-2">
                   <div>
                     <div className="mb-1 text-[12px] text-muted">{L('单位经济（示例）', 'Unit economics (example)')}</div>
-                    <Chart option={unitEconomicsOption(sample.economics, calc, lang)} height={230} />
+                    <Chart option={unitEconomicsOption(sample.economics, calc, lang)} height={270} />
                   </div>
                   <div>
                     <div className="mb-1 text-[12px] text-muted">{L('回本曲线（示例）', 'Payback curve (example)')}</div>
-                    <Chart option={paybackCurveOption(sample.economics, calc, false, lang)} height={230} />
+                    <Chart option={paybackCurveOption(sample.economics, calc, false, lang)} height={270} />
                   </div>
                 </div>
               </div>

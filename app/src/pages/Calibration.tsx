@@ -65,10 +65,10 @@ export default function Calibration() {
 
   const gradeOption = useMemo<EChartsOption>(() => ({
     grid: { left: 6, right: 8, top: 30, bottom: 4, containLabel: true },
-    legend: { top: 0, right: 0, textStyle: { fontSize: 9.5 } },
+    legend: { top: 0, right: 0, textStyle: { fontSize: 12 } },
     tooltip: { trigger: 'axis', axisPointer: { type: 'shadow' } },
     xAxis: { type: 'category', data: data.byGrade.map((x) => `${x.grade} 级`) },
-    yAxis: { type: 'value', name: '实验数', minInterval: 1, nameTextStyle: { fontSize: 8.5, color: '#5a6273' } },
+    yAxis: { type: 'value', name: '实验数', minInterval: 1, nameTextStyle: { fontSize: 12, color: '#5a6273' } },
     series: [
       { name: '正向', type: 'bar', stack: 'o', barMaxWidth: 34, itemStyle: { color: OUTCOME_COLORS.positive }, data: data.byGrade.map((x) => x.positive) },
       { name: '负向', type: 'bar', stack: 'o', itemStyle: { color: OUTCOME_COLORS.negative }, data: data.byGrade.map((x) => x.negative) },
@@ -78,7 +78,7 @@ export default function Calibration() {
 
   const scatterOption = useMemo<EChartsOption>(() => ({
     grid: { left: 6, right: 12, top: 30, bottom: 6, containLabel: true },
-    legend: { top: 0, right: 0, textStyle: { fontSize: 9.5 } },
+    legend: { top: 0, right: 0, textStyle: { fontSize: 12 } },
     tooltip: {
       trigger: 'item',
       formatter: (p: any) => {
@@ -87,8 +87,8 @@ export default function Calibration() {
         return `<b>${sample.experiment.title}</b><br/>预测总分：${sample.total}（${sample.grade} 级）<br/>花费：¥${sample.spend} · 耗时：${sample.hours}h<br/>结果：<b>${OUTCOME_LABELS[sample.outcome]}</b>`
       },
     },
-    xAxis: { type: 'value', name: '预测总分', min: 40, max: 100, nameTextStyle: { fontSize: 8.5, color: '#5a6273' } },
-    yAxis: { type: 'value', name: '实际花费 CNY', nameTextStyle: { fontSize: 8.5, color: '#5a6273' } },
+    xAxis: { type: 'value', name: '预测总分', min: 40, max: 100, nameTextStyle: { fontSize: 12, color: '#5a6273' } },
+    yAxis: { type: 'value', name: '实际花费 CNY', nameTextStyle: { fontSize: 12, color: '#5a6273' } },
     series: (['positive', 'negative', 'inconclusive'] as const).map((outcome) => ({
       name: OUTCOME_LABELS[outcome],
       type: 'scatter',
