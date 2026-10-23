@@ -45,7 +45,7 @@ export default function About() {
           ))}
         </div>
         <div className="mt-2 rounded border border-cyan/25 bg-cyan/[0.05] px-3 py-2 text-[13px] leading-[1.7] text-cyan/90">
-          {L('v1.5.1 PATCH：全站 ECharts 标签 ≥12px；修复资金拆项左侧标签裁切、执行方案节点标题重叠、方法论单位经济标签裁切、扫描室桑基图行业标签堆叠；1024/1440/1600 三宽度复核。', 'v1.5.1 PATCH: all ECharts labels ≥12px; fixed clipped capital labels, overlapping execution-phase header, clipped unit-economics labels on Method, and stacked Sankey industry labels; rechecked at 1024/1440/1600.')}
+          {L('v1.5.2 PATCH：里程碑字段映射为中文标签（里程碑/目标），不再外露 name/target 原始 key；全站图表标签 ≥12px，资金拆项/执行时间线/单位经济/桑基图可读性修复。', 'v1.5.2 PATCH: milestone fields mapped to readable labels (Milestone/Target) instead of raw name/target keys; all ECharts labels ≥12px; fixed capital, execution-timeline, unit-economics and Sankey readability.')}
         </div>
       </Panel>
 

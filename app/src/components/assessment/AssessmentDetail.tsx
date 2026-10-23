@@ -39,6 +39,22 @@ function findField(obj: Obj | undefined, keys: string[]): unknown {
 
 /* ------------------------------- 基础渲染 ------------------------------- */
 
+/** 数据对象里可能直接出现的原始 key → 可读标签（避免界面外露 name/target 等） */
+const RAW_KEY_LABELS: Record<string, { zh: string; en: string }> = {
+  name: { zh: '名称', en: 'Name' },
+  title: { zh: '标题', en: 'Title' },
+  target: { zh: '目标', en: 'Target' },
+  desc: { zh: '说明', en: 'Description' },
+  description: { zh: '说明', en: 'Description' },
+  note: { zh: '备注', en: 'Note' },
+  basis: { zh: '依据', en: 'Basis' },
+  value: { zh: '数值', en: 'Value' },
+  label: { zh: '标签', en: 'Label' },
+  milestone: { zh: '里程碑', en: 'Milestone' },
+  metric: { zh: '指标', en: 'Metric' },
+  unit: { zh: '单位', en: 'Unit' },
+}
+
 function ValueText({ value }: { value: unknown }) {
   const { lang } = useI18n()
   if (value == null || value === '') return <span className="text-dim">—</span>
@@ -57,12 +73,16 @@ function ValueText({ value }: { value: unknown }) {
   if (isObj(value)) {
     return (
       <div className="space-y-1.5">
-        {Object.entries(value).map(([k, v]) => (
-          <div key={k} className="flex gap-2">
-            <span className="shrink-0 text-dim">{k}</span>
-            <span className="min-w-0 flex-1">{typeof v === 'object' && v !== null ? <ValueText value={v} /> : localizedText(String(v), lang)}</span>
-          </div>
-        ))}
+        {Object.entries(value).map(([k, v]) => {
+          const mapped = RAW_KEY_LABELS[k]
+          const keyLabel = mapped ? (lang === 'en' ? mapped.en : mapped.zh) : localizedText(k, lang)
+          return (
+            <div key={k} className="flex gap-2">
+              <span className="shrink-0 text-dim">{keyLabel}</span>
+              <span className="min-w-0 flex-1">{typeof v === 'object' && v !== null ? <ValueText value={v} /> : localizedText(String(v), lang)}</span>
+            </div>
+          )
+        })}
       </div>
     )
   }
@@ -182,10 +202,22 @@ export function AssessmentDetail({ assessment }: { assessment: Assessment }) {
   const execution = a.execution
 
   const windowMonths = a.windowMonths || ''
+  // 里程碑数据为 [{name,target}]：映射成可读文案，避免把原始 key 直接渲染到界面
+  const rawMilestones = findField(execution, ['milestones', 'scale'])
+  const milestoneLines: string[] = Array.isArray(rawMilestones)
+    ? rawMilestones
+        .filter(isObj)
+        .map((m) => {
+          const name = String(m.name ?? m.title ?? m.milestone ?? '').trim()
+          const target = String(m.target ?? m.when ?? m.due ?? '').trim()
+          return [name ? `${L('里程碑', 'Milestone')}：${name}` : '', target ? `${L('目标', 'Target')}：${target}` : ''].filter(Boolean).join(' · ')
+        })
+        .filter(Boolean)
+    : []
   const executionPhases = [
     { phase: '0–30', title: L('启动与落地', 'Launch'), value: findField(execution, ['phase_0_30_days', 'days_0_30', 'd0_30']) },
     { phase: '30–90', title: L('增长与首笔收入', 'Growth & first revenue'), value: findField(execution, ['phase_30_90_days', 'days_30_90', 'd30_90']) },
-    { phase: '90+', title: L('里程碑与扩量', 'Milestones & scale'), value: findField(execution, ['milestones', 'scale', 'phase_90_plus_days']) },
+    { phase: '90+', title: L('里程碑与扩量', 'Milestones & scale'), value: milestoneLines.length ? milestoneLines : findField(execution, ['phase_90_plus_days']) },
   ].filter((x) => x.value != null && textOf(x.value).trim() !== '')
 
   const crossRows = [
