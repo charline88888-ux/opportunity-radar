@@ -197,6 +197,19 @@ export interface Opportunity {
   title: string
   one_liner: string
   industry_id: string
+  /** v1.5.0：精选机会与自动候选统一的深度评估字段（缺失时前端降级展示） */
+  business_canvas?: Record<string, unknown>
+  judgment?: Record<string, unknown>
+  analyst_narrative?: Record<string, unknown>
+  competition?: Record<string, unknown>
+  cross_market?: Record<string, unknown>
+  timing?: Record<string, unknown>
+  conditions?: Record<string, unknown>
+  barriers?: Record<string, unknown>
+  profit_model?: Record<string, unknown>
+  execution_plan?: Record<string, unknown>
+  investment_breakdown?: Record<string, unknown>
+  unit_economics?: Record<string, unknown>
   gap_type_ids: string[]
   region_ids: string[]
   origin_country: string

@@ -37,8 +37,8 @@
     background: #0a0c10;
     color: #e6e9f0;
     font-family: var(--font-sans);
-    font-size: 13px;
-    line-height: 1.6;
+    font-size: 14px;
+    line-height: 1.65;
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
   }
@@ -130,9 +130,9 @@
 }
 .mono-label {
   font-family: var(--font-mono);
-  font-size: 12px;
+  font-size: 11.5px;
   line-height: 1.4;
-  letter-spacing: 0.16em;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
   color: #8b93a7;
 }
@@ -259,12 +259,17 @@
 }
 
 
-/* v1.4.0 可读性审计：全局小字号兜底（正文/辅助不低于 13px） */
-.text-\[8px\], .text-\[8\.5px\], .text-\[9px\], .text-\[9\.5px\], .text-\[10px\], .text-\[10\.5px\], .text-\[11px\], .text-\[11\.5px\], .text-\[12px\], .text-\[12\.5px\] {
-  font-size: 13px !important;
+/* v1.5.0 字阶：
+ * 新页面（商机榜 / 统一评估详情 / 方法论）使用显式 12–32px 字阶与报告式排版；
+ * 旧页面保留 12px 最小兜底，避免出现 9–10px 小字，同时不再把 13–14px 全部强制放大。 */
+.text-\[8px\],
+.text-\[8\.5px\],
+.text-\[9px\],
+.text-\[9\.5px\],
+.text-\[10px\],
+.text-\[10\.5px\],
+.text-\[11px\],
+.text-\[11\.5px\] {
+  font-size: 12px !important;
   line-height: 1.5 !important;
-}
-.text-\[14px\] {
-  font-size: 15px !important;
-  line-height: 1.65 !important;
 }

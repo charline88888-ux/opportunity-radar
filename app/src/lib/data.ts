@@ -256,6 +256,18 @@ function normalizeOpportunity(raw: unknown, index: number): Opportunity {
     title: str(x.title, '未命名机会'),
     one_liner: str(x.one_liner, ''),
     industry_id: str(x.industry_id, taxonomy.industries[0]?.id || 'pet'),
+    business_canvas: isObj(x.business_canvas) ? x.business_canvas : undefined,
+    judgment: isObj(x.judgment) ? x.judgment : undefined,
+    analyst_narrative: isObj(x.analyst_narrative) ? x.analyst_narrative : undefined,
+    competition: isObj(x.competition) ? x.competition : undefined,
+    cross_market: isObj(x.cross_market) ? x.cross_market : undefined,
+    timing: isObj(x.timing) ? x.timing : undefined,
+    conditions: isObj(x.conditions) ? x.conditions : undefined,
+    barriers: isObj(x.barriers) ? x.barriers : undefined,
+    profit_model: isObj(x.profit_model) ? x.profit_model : undefined,
+    execution_plan: isObj(x.execution_plan) ? x.execution_plan : undefined,
+    investment_breakdown: isObj(x.investment_breakdown) ? x.investment_breakdown : undefined,
+    unit_economics: isObj(x.unit_economics) ? x.unit_economics : undefined,
     gap_type_ids: strArr(x.gap_type_ids),
     region_ids: strArr(x.region_ids),
     origin_country: str(x.origin_country, '—'),
@@ -729,7 +741,7 @@ export const dataMeta: DataMeta = {
 }
 
 export const isMockData = dataMeta.source !== 'real'
-export const appVersion = '1.4.1'
+export const appVersion = '1.5.0'
 export const dataAsOf = asOf
 export const repoUrl = 'https://github.com/charline88888-ux/opportunity-radar'
 export const onlineUrl = 'https://charline88888-ux.github.io/opportunity-radar/'

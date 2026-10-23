@@ -20,9 +20,9 @@ from typing import Any
 
 if __package__ in (None, ""):  # 支持 python scanner/candidates.py
     sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
-    from scanner import business as business_mod, common, config, normalize, score, translate as translate_mod  # noqa: E402
+    from scanner import business as business_mod, common, config, economy as economy_mod, normalize, score, translate as translate_mod  # noqa: E402
 else:  # pragma: no cover
-    from . import business as business_mod, common, config, normalize, score, translate as translate_mod
+    from . import business as business_mod, common, config, economy as economy_mod, normalize, score, translate as translate_mod
 
 CANDIDATE_LIMIT = int(getattr(config, "CANDIDATE_LIMIT", 200))
 WINDOWS = ("day", "week", "month", "year")
@@ -812,6 +812,7 @@ def _candidate_from_signal(
         as_of=as_of.isoformat(),
         source_regions=list(source_meta.get("regions") or []) if source_meta else [],
     )
+    economy = economy_mod.build_economics(roi=roi, industry=primary_industry, title=title_zh or title_original or "", reason=(business_eval.get("judgment") or {}).get("why_opportunity", ""))
     primary_region = str(business_eval.get("primary_region") or regions[0])
     regions_clean = [primary_region] + [item for item in regions if item != primary_region][:1]
     countries_clean = _target_countries(regions_clean)
@@ -855,10 +856,12 @@ def _candidate_from_signal(
         "system_validation": system_validation,
         "seven_questions": _seven_questions(signal, industries, gaps),
         "roi": roi,
+        "investment_breakdown": economy["investment_breakdown"],
+        "unit_economics": economy["unit_economics"],
         "grade": scores["grade"],
         "noise_flags": noise_flags,
         "scores": scores,
-        **business_eval,
+        **{**business_eval, "profit_model": {**(business_eval.get("profit_model") or {}), **economy["profit_model"]}},
         "confidence": confidence,
         "status": STATUS_AUTO,
         "first_seen": first_seen,

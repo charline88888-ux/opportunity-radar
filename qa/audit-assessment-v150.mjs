@@ -1,0 +1,22 @@
+// qa/audit-assessment-v150.mjs —— v1.5.0 统一详情/经济性/卡片 v2 独立审计
+import fs from 'node:fs'
+const [port, base, out] = process.argv.slice(2)
+async function target(){for(let i=0;i<60;i++){try{const l=await(await fetch(`http://127.0.0.1:${port}/json`)).json();const p=l.find(t=>t.type==='page');if(p)return p}catch{}await new Promise(r=>setTimeout(r,250))}throw new Error('no target')}
+const t=await target();const ws=new WebSocket(t.webSocketDebuggerUrl);let id=0;const pend=new Map();ws.addEventListener('message',e=>{const m=JSON.parse(e.data);if(m.id&&pend.has(m.id)){pend.get(m.id)(m);pend.delete(m.id)}});const send=(method,params={})=>new Promise(r=>{const i=++id;pend.set(i,r);ws.send(JSON.stringify({id:i,method,params}))});await new Promise((r,j)=>{ws.addEventListener('open',r);ws.addEventListener('error',j)});await send('Runtime.enable');await send('Page.enable')
+const sleep=ms=>new Promise(r=>setTimeout(r,ms))
+const nav=async(hash)=>{await send('Page.navigate',{url:`${base}${hash}`});await sleep(3000)}
+const ev=async(expr)=>(await send('Runtime.evaluate',{expression:expr,returnByValue:true,awaitPromise:true})).result?.result?.value
+const result={}
+await send('Emulation.setDeviceMetricsOverride',{width:1600,height:1000,deviceScaleFactor:1,mobile:false})
+await nav('#/opportunities/opp-pet-memorial-glass-001');await sleep(1200)
+result.curated=await ev(`(()=>{const b=document.body.innerText;const heads=[...document.querySelectorAll('h1,h2,h3')].map(e=>e.innerText.trim()).filter(Boolean);const canv=[...document.querySelectorAll('canvas')].map(c=>({w:c.width,h:c.height,ow:c.offsetWidth,oh:c.offsetHeight}));return{title:document.title,textLen:b.length,heads,hasTheory:/理论测算|非实盘/.test(b),theoryCount:(b.match(/理论测算|非实盘/g)||[]).length,sections:{investment:/投资明细|启动资金/.test(b),unit:/单位经济|单位成本|毛利/.test(b),payback:/回本|投�资回收/.test(b),revenue:/收入结构|收入来源/.test(b),sensitivity:/敏感性|单量/.test(b),canvas9:/商业画布/.test(b),judgment:/10 维|判断依据/.test(b),competition:/竞争/.test(b),cross:/跨市场/.test(b),execution:/执行方案|0–90|0-90/.test(b),sources:/信息来源|来源与依据/.test(b)},sliders:document.querySelectorAll('input[type=range]').length,canvases:canv.length,canvasZero:canv.filter(c=>!c.ow||!c.oh).length,overflow:document.documentElement.scrollWidth>innerWidth+2,scrollH:document.documentElement.scrollHeight}})()`)
+await nav('#/candidates/cand-5c555f56997d');await sleep(1200)
+result.candidate=await ev(`(()=>{const b=document.body.innerText;const heads=[...document.querySelectorAll('h1,h2,h3')].map(e=>e.innerText.trim()).filter(Boolean);const canv=[...document.querySelectorAll('canvas')].map(c=>({w:c.width,h:c.height,ow:c.offsetWidth,oh:c.offsetHeight}));return{textLen:b.length,heads,hasTheory:/理论测算|非实盘/.test(b),sections:{investment:/投资明细|启动资金/.test(b),unit:/单位经济|单位成本|毛利/.test(b),payback:/回本/.test(b),revenue:/收入结构|收入来源/.test(b),sensitivity:/敏感性|单量/.test(b),canvas9:/商业画布/.test(b),judgment:/10 维|判断依据/.test(b),competition:/竞争/.test(b),cross:/跨市场/.test(b),execution:/执行方案|0–90|0-90/.test(b),sources:/信息来源|来源与依据/.test(b)},sliders:document.querySelectorAll('input[type=range]').length,canvases:canv.length,canvasZero:canv.filter(c=>!c.ow||!c.oh).length,overflow:document.documentElement.scrollWidth>innerWidth+2,scrollH:document.documentElement.scrollHeight}})()`)
+result.sharedHead=result.curated.heads.filter(h=>result.candidate.heads.includes(h))
+await nav('#/rankings');await sleep(1200)
+result.rankings=await ev(`(()=>{const b=document.body.innerText;return{textLen:b.length,hasCurve:/回本曲线|回本点/.test(b),tabs:(b.match(/资金结构|资金档|回本档/g)||[]).length,filterChips:document.querySelectorAll('button').length,canvasCount:document.querySelectorAll('canvas').length,svgCount:document.querySelectorAll('svg').length,loadMore:/加载更多/.test(b),overflow:document.documentElement.scrollWidth>innerWidth+2}})()`)
+// 1024 curated overflow
+await send('Emulation.setDeviceMetricsOverride',{width:1024,height:900,deviceScaleFactor:1,mobile:false})
+await nav('#/opportunities/opp-pet-memorial-glass-001');await sleep(1000)
+result.curated1024=await ev(`(()=>({innerWidth,docScroll:document.documentElement.scrollWidth,docClient:document.documentElement.clientWidth,bodyScroll:document.body.scrollWidth,overflow:document.documentElement.scrollWidth>innerWidth+2,canvases:[...document.querySelectorAll('canvas')].map(c=>({ow:c.offsetWidth,oh:c.offsetHeight})).filter(c=>!c.ow||!c.oh).length}))()`)
+console.log(JSON.stringify(result,null,2));if(out)fs.writeFileSync(out,JSON.stringify(result,null,2));ws.close()

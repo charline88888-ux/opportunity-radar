@@ -1,87 +1,186 @@
+import { useMemo } from 'react'
+import { ArrowUpRight, ShieldAlert } from 'lucide-react'
 import { PageHeader } from '@/components/PageHeader'
 import { Badge, Panel } from '@/components/ui'
+import { Chart } from '@/components/charts/Chart'
+import { paybackCurveOption, unitEconomicsOption } from '@/components/charts/econ-options'
+import { buildCandidateAssessment } from '@/lib/assessment'
+import { candidates } from '@/lib/candidates'
+import { recompute } from '@/lib/economics'
 import { useI18n } from '@/lib/i18n'
+import { fmtCnyRange, fmtPct } from '@/lib/utils'
 
 const DIMENSIONS = [
   { zh: '信号强度', en: 'Signal strength', sourceZh: '公开讨论量、来源数量、证据等级', sourceEn: 'Public discussion volume, source count, evidence tier', ruleZh: '多来源独立出现、有具体数字/实体/时间', ruleEn: 'Independent sources with concrete numbers, entities and dates', missZh: '把营销稿/单一搬运当成趋势', missEn: 'Mistaking a press release or single repost for a trend' },
-  { zh: '信息差', en: 'Information gap', sourceZh: '区域/监管/价格/平台规则差异', sourceEn: 'Regional, regulatory, pricing or platform-rule differences', ruleZh: '同一需求在两地存在可获得性/价格/合规差', ruleEn: 'Same need has availability, price or compliance differences across markets', missZh: '把普通新鲜感当结构性机会', missEn: 'Treating novelty as a structural opportunity' },
-  { zh: '可行性', en: 'Feasibility', sourceZh: '启动资金、技能、供应链、交付链路', sourceEn: 'Capital, skills, supply chain, delivery path', ruleZh: '个人/小团队 0–90 天能跑通最小闭环', ruleEn: 'A person or small team can run the minimal loop in 0–90 days', missZh: '低估合规、售后与跨境物流', missEn: 'Underestimating compliance, after-sales and cross-border logistics' },
-  { zh: '经济性', en: 'Economics', sourceZh: '客单、毛利、获客成本、回本周期', sourceEn: 'Ticket size, margin, acquisition cost, payback', ruleZh: '毛利覆盖获客与交付成本，回本 ≤ 6 个月', ruleEn: 'Margin covers acquisition and delivery, payback ≤ 6 months', missZh: '只看收入不看退货/平台费', missEn: 'Looking at revenue without returns or platform fees' },
-  { zh: '时机', en: 'Timing', sourceZh: '首次出现时间、催化剂、同类供给数量', sourceEn: 'First-seen date, catalysts, number of competing suppliers', ruleZh: '需求刚出现/规则刚变化，供给尚未拥挤', ruleEn: 'Demand or rules just changed and supply is not crowded', missZh: '把已经拥挤的赛道当早期', missEn: 'Mistaking a crowded category for an early window' },
-  { zh: '竞争', en: 'Competition', sourceZh: '直接/间接竞品、替代方案、平台在售', sourceEn: 'Direct/indirect competitors, alternatives, live listings', ruleZh: '存在可切入的差异化空位，而非正面价格战', ruleEn: 'A defensible differentiation gap exists, not a head-on price war', missZh: '把“没人做”误判为没需求', missEn: 'Treating “nobody does it” as no demand' },
-  { zh: '风险', en: 'Risk', sourceZh: '监管、合规、现金流、交付与售后', sourceEn: 'Regulation, compliance, cash flow, delivery and after-sales', ruleZh: '主要风险可被合同/流程/保险/小步投入控制', ruleEn: 'Key risks can be controlled by contracts, process, insurance or staged spend', missZh: '忽略跨境税务、知识产权与退货', missEn: 'Ignoring cross-border tax, IP and returns' },
-  { zh: '匹配度', en: 'Fit', sourceZh: '个人技能、资源、语言、时间与偏好', sourceEn: 'Skills, resources, languages, time and preferences', ruleZh: '与执行者现有能力/资源形成组合优势', ruleEn: 'Combines with the operator’s existing skills/resources', missZh: '只看机会大小不看自己能不能做', missEn: 'Judging only market size, not personal execution' },
-  { zh: '证据', en: 'Evidence', sourceZh: '来源等级、证据数量、独立性', sourceEn: 'Source tier, evidence count, independence', ruleZh: '至少 2 个独立来源，含一手/平台在售证据', ruleEn: 'At least two independent sources, including first-party or live marketplace evidence', missZh: '把转载当独立来源', missEn: 'Counting reposts as independent sources' },
-  { zh: '杠杆', en: 'Leverage', sourceZh: '内容、供应链、渠道、数据能否复用', sourceEn: 'Reusable content, supply chain, channels or data', ruleZh: '一次投入可在多市场/多渠道复用', ruleEn: 'One investment can be reused across markets/channels', missZh: '把一次性定制当可规模化产品', missEn: 'Treating one-off custom work as scalable product' },
+  { zh: '信息差窗口', en: 'Information gap', sourceZh: '区域/监管/价格/平台规则差异', sourceEn: 'Regional, regulatory, pricing or platform-rule differences', ruleZh: '同一需求在两地存在可获得性/价格/合规差', ruleEn: 'Same need has availability, price or compliance differences across markets', missZh: '把普通新鲜感当结构性机会', missEn: 'Treating novelty as a structural opportunity' },
+  { zh: '个人可执行性', en: 'Feasibility', sourceZh: '启动资金、技能、供应链、交付链路', sourceEn: 'Capital, skills, supply chain, delivery path', ruleZh: '个人/小团队 0–90 天能跑通最小闭环', ruleEn: 'A person or small team can run the minimal loop in 0–90 days', missZh: '低估合规、售后与跨境物流', missEn: 'Underestimating compliance, after-sales and cross-border logistics' },
+  { zh: '回报空间', en: 'Economics', sourceZh: '客单价、单量、毛利、固定成本、回本', sourceEn: 'AOV, volume, margin, fixed cost, payback', ruleZh: '月毛利覆盖关键成本，理论回本 ≤ 12 个月', ruleEn: 'Monthly gross profit covers key costs; theoretical payback ≤ 12 months', missZh: '只看收入不看退货/平台费/固定成本', missEn: 'Looking at revenue without returns, platform fees or fixed cost' },
+  { zh: '时机窗口', en: 'Timing', sourceZh: '首次出现时间、催化剂、同类供给数量', sourceEn: 'First-seen date, catalysts, number of competing suppliers', ruleZh: '需求刚出现/规则刚变化，供给尚未拥挤', ruleEn: 'Demand or rules just changed and supply is not crowded', missZh: '把已经拥挤的赛道当早期', missEn: 'Mistaking a crowded category for an early window' },
+  { zh: '竞争与壁垒', en: 'Competition', sourceZh: '直接/间接竞品、替代方案、平台在售', sourceEn: 'Direct/indirect competitors, alternatives, live listings', ruleZh: '存在可切入的差异化空位，而非正面价格战', ruleEn: 'A defensible differentiation gap exists, not a head-on price war', missZh: '把“没人做”误判为没需求', missEn: 'Treating “nobody does it” as no demand' },
+  { zh: '风险可控性', en: 'Risk', sourceZh: '监管、合规、现金流、交付与售后', sourceEn: 'Regulation, compliance, cash flow, delivery and after-sales', ruleZh: '主要风险可被合同/流程/保险/小步投入控制', ruleEn: 'Key risks can be controlled by contracts, process, insurance or staged spend', missZh: '忽略跨境税务、知识产权与退货', missEn: 'Ignoring cross-border tax, IP and returns' },
+  { zh: '人群适配度', en: 'Fit', sourceZh: '个人技能、资源、语言、时间与偏好', sourceEn: 'Skills, resources, languages, time and preferences', ruleZh: '与执行者现有能力/资源形成组合优势', ruleEn: 'Combines with the operator’s existing skills/resources', missZh: '只看机会大小不看自己能不能做', missEn: 'Judging only market size, not personal execution' },
+  { zh: '证据可信度', en: 'Evidence', sourceZh: '来源等级、证据数量、独立性', sourceEn: 'Source tier, evidence count, independence', ruleZh: '至少 2 个独立来源，含一手/平台在售证据', ruleEn: 'At least two independent sources, including first-party or live marketplace evidence', missZh: '把转载当独立来源', missEn: 'Counting reposts as independent sources' },
+  { zh: '杠杆放大', en: 'Leverage', sourceZh: '内容、供应链、渠道、数据能否复用', sourceEn: 'Reusable content, supply chain, channels or data', ruleZh: '一次投入可在多市场/多渠道复用', ruleEn: 'One investment can be reused across markets/channels', missZh: '把一次性定制当可规模化产品', missEn: 'Treating one-off custom work as scalable product' },
 ]
 
-const SECTIONS = [
-  { zh: '商业画布', en: 'Business canvas', descZh: '9 格必须回答客户是谁、卖什么、怎么触达、靠什么资源交付、钱怎么进怎么出。', descEn: 'Nine blocks answer who the customer is, what is sold, how it is reached, what resources deliver it, and how money flows.' },
-  { zh: '竞争与差异', en: 'Competition & differentiation', descZh: '分别列直接/间接竞品与替代方案，再说明差异化、护城河与定位；避免只写“竞争激烈”。', descEn: 'List direct/indirect competitors and alternatives, then state differentiation, moat and positioning; avoid merely saying “competition is fierce”.' },
-  { zh: '跨市场机会', en: 'Cross-market opportunity', descZh: '说明可迁移市场、套利类型、迁移原因、本地化需求与定价权。', descEn: 'State target markets, arbitrage type, why it transfers, localization needs and pricing power.' },
-  { zh: '时机与窗口', en: 'Timing & window', descZh: '给出为什么是现在、催化剂、窗口阶段、预计月数、紧迫性与窗口风险。', descEn: 'Explain why now, catalysts, window stage, expected months, urgency and window risk.' },
-  { zh: '条件与门槛', en: 'Conditions & barriers', descZh: '启动资金、技能、资质、供应链、伙伴、团队、启动时间与进入门槛。', descEn: 'Startup capital, skills, licenses, supply chain, partners, team, launch time and entry barriers.' },
-  { zh: '利润模型', en: 'Profit model', descZh: '收入项与定价/毛利、成本项、单位经济、回本周期、规模化杠杆。', descEn: 'Revenue items with pricing/margin, cost items, unit economics, payback and scaling leverage.' },
-  { zh: '执行方案', en: 'Execution plan', descZh: '0–30 天、30–90 天、里程碑与首笔收入路径，写成可执行动作而不是口号。', descEn: 'Days 0–30, days 30–90, milestones and first-revenue path as executable actions, not slogans.' },
+const BRIEF_SECTIONS = [
+  { zh: '经济性驾驶舱', en: 'Economics cockpit', descZh: '启动资金 9 类拆项（min/max + 依据）、单位经济、收入结构、回本曲线、月收入利润、单量敏感性；滑杆可实时重算。', descEn: 'Nine capital items (min/max + basis), unit economics, revenue mix, payback curve, monthly revenue/profit and order sensitivity; sliders recompute live.' },
+  { zh: '核心判断', en: 'Core thesis', descZh: '结论先行：机会逻辑、市场缺口、失效边界与主要风险。', descEn: 'Conclusion first: logic, market gap, falsification boundary and key risks.' },
+  { zh: '10 维判断', en: '10 dimensions', descZh: '雷达看结构，逐维给出分数、判断理由与本条使用的数据。', descEn: 'Radar shows structure; each dimension lists score, rationale and data used.' },
+  { zh: '商业画布', en: 'Business canvas', descZh: '9 格：客户是谁、卖什么、怎么触达、靠什么交付、钱怎么进怎么出。', descEn: 'Nine blocks: who the customer is, what is sold, how it is reached, what delivers it and how money flows.' },
+  { zh: '竞争与跨市场', en: 'Competition & cross-market', descZh: '直接/间接竞品、替代方案、差异化、护城河，以及迁移市场与本地化成本。', descEn: 'Direct/indirect competitors, substitutes, differentiation, moat, plus target markets and localization cost.' },
+  { zh: '时机与执行', en: 'Timing & execution', descZh: '窗口阶段、催化剂、进入门槛、0–30/30–90/90+ 天执行动作与首笔收入路径。', descEn: 'Window stage, catalysts, entry barriers, 0–30/30–90/90+ day actions and first-revenue path.' },
+  { zh: '来源与证据', en: 'Sources & evidence', descZh: '每条结论可回溯公开来源；自动发现候选未做人工核验，使用前复核。', descEn: 'Every conclusion traces to a public source; auto candidates are not manually verified—verify before acting.' },
 ]
 
 export default function Method() {
   const { lang } = useI18n()
   const L = (zh: string, en: string) => (lang === 'en' ? en : zh)
+  const sample = useMemo(() => {
+    const candidate = candidates.find((c) => c.candidate_id === 'cand-5c555f56997d') || candidates[0]
+    return candidate ? buildCandidateAssessment(candidate) : null
+  }, [])
+  const calc = useMemo(() => {
+    if (!sample) return null
+    const model = sample.economics
+    return recompute(model, {
+      aov: model.base.aov,
+      orders: model.base.orders,
+      marginPct: model.base.marginPct,
+      fixedCost: model.base.fixedCost,
+    })
+  }, [sample])
 
   return (
     <div>
       <PageHeader
         index="04"
         kicker={L('METHOD · 方法论', 'METHOD')}
-        title={L('商机评估方法：10 维判断 + 说明书结构', 'Opportunity evaluation: 10 dimensions + brief structure')}
-        description={L('商机不是“看起来新”，而是需求、信息差、可行性、经济性、时机、竞争、风险、匹配、证据、杠杆同时成立。候选详情按这份标准逐项写清楚。', 'An opportunity is not merely something new. It requires demand, gap, feasibility, economics, timing, competition, risk, fit, evidence and leverage to hold together. Candidate details explain each item against this standard.')}
-        actions={<Badge tone="cyan">{L('10 维评分 · 可解释判断', '10 dimensions · explainable judgment')}</Badge>}
+        title={L('商机评估方法：10 维判断 + 图表化投资回报测算', 'Opportunity evaluation: 10 dimensions + chart-driven investment & return model')}
+        description={L('商机不是“看起来新”，而是需求、信息差、可行性、经济性、时机、竞争、风险、匹配、证据、杠杆同时成立。自动候选与精选机会使用同一套评估详情：结论先行、经济性图表化、口径可复算。', 'An opportunity is not merely something new: demand, gap, feasibility, economics, timing, competition, risk, fit, evidence and leverage must hold together. Auto candidates and curated opportunities share one assessment: conclusion first, charted economics and reproducible formulas.')}
+        actions={<Badge tone="cyan">{L('10 维评分 · 理论测算口径', '10 dimensions · theoretical model')}</Badge>}
       />
 
-      <Panel className="mb-3 p-3">
-        <div className="mono-label mb-2">{L('10 维怎么判断', 'How the 10 dimensions are judged')}</div>
+      <Panel className="mb-4 p-5">
+        <div className="mb-3 flex flex-wrap items-end justify-between gap-2">
+          <div>
+            <div className="mono-label">{L('01 · 10 维怎么判断', '01 · How the 10 dimensions are judged')}</div>
+            <h2 className="mt-1 text-[20px] font-semibold tracking-tight text-ink">{L('每个维度看什么数据、判断标准与常见误判', 'Data, criteria and common misjudgments per dimension')}</h2>
+          </div>
+          <div className="text-[12.5px] text-dim">{L('权重合计 100% · 总分 = Σ(维度分 × 权重) × 10', 'Weights sum to 100% · total = Σ(score × weight) × 10')}</div>
+        </div>
         <div className="overflow-x-auto">
-          <table className="w-full text-left text-[9.5px]">
-            <thead className="text-dim">
-              <tr className="border-b border-line/60">
-                <th className="py-1.5 pr-2 font-normal">{L('维度', 'Dimension')}</th>
-                <th className="py-1.5 pr-2 font-normal">{L('数据来源', 'Data source')}</th>
-                <th className="py-1.5 pr-2 font-normal">{L('判断标准', 'Criteria')}</th>
-                <th className="py-1.5 font-normal">{L('常见误判', 'Common misjudgment')}</th>
+          <table className="w-full text-left">
+            <thead>
+              <tr className="border-b border-line/60 text-[12px] text-dim">
+                <th className="py-2 pr-3 font-normal">{L('维度', 'Dimension')}</th>
+                <th className="py-2 pr-3 font-normal">{L('数据来源', 'Data source')}</th>
+                <th className="py-2 pr-3 font-normal">{L('判断标准', 'Criteria')}</th>
+                <th className="py-2 font-normal">{L('常见误判', 'Common misjudgment')}</th>
               </tr>
             </thead>
             <tbody>
               {DIMENSIONS.map((d) => (
                 <tr key={d.en} className="border-b border-line/30 align-top">
-                  <td className="py-1.5 pr-2 text-muted">{L(d.zh, d.en)}</td>
-                  <td className="py-1.5 pr-2 leading-relaxed text-dim">{L(d.sourceZh, d.sourceEn)}</td>
-                  <td className="py-1.5 pr-2 leading-relaxed text-dim">{L(d.ruleZh, d.ruleEn)}</td>
-                  <td className="py-1.5 leading-relaxed text-amber/80">{L(d.missZh, d.missEn)}</td>
+                  <td className="w-[110px] py-2.5 pr-3 text-[13.5px] text-ink">{L(d.zh, d.en)}</td>
+                  <td className="py-2.5 pr-3 text-[13px] leading-[1.65] text-muted">{L(d.sourceZh, d.sourceEn)}</td>
+                  <td className="py-2.5 pr-3 text-[13px] leading-[1.65] text-muted">{L(d.ruleZh, d.ruleEn)}</td>
+                  <td className="py-2.5 text-[13px] leading-[1.65] text-amber/85">{L(d.missZh, d.missEn)}</td>
                 </tr>
               ))}
             </tbody>
           </table>
         </div>
-        <div className="mt-2 text-[9px] text-dim">{L('评分等级：S ≥85 · A 75–84.9 · B 65–74.9 · C 55–64.9 · D <55；商机榜按总分降序。', 'Grades: S ≥85 · A 75–84.9 · B 65–74.9 · C 55–64.9 · D <55; the board sorts by total score.')}</div>
+        <div className="mt-2 text-[12px] text-dim">{L('等级：S ≥85 · A 75–84.9 · B 65–74.9 · C 55–64.9 · D <55；商机榜按总分降序。', 'Grades: S ≥85 · A 75–84.9 · B 65–74.9 · C 55–64.9 · D <55; the board sorts by total score.')}</div>
       </Panel>
 
-      <Panel className="mb-3 p-3">
-        <div className="mono-label mb-2">{L('商机评估说明书的结构', 'Structure of the evaluation brief')}</div>
-        <div className="grid grid-cols-1 gap-1.5 md:grid-cols-2 xl:grid-cols-3">
-          {SECTIONS.map((s) => (
-            <div key={s.en} className="rounded border border-line/60 px-2 py-1.5 text-[10px]">
-              <div className="text-ink">{L(s.zh, s.en)}</div>
-              <div className="mt-0.5 text-[9px] leading-relaxed text-dim">{L(s.descZh, s.descEn)}</div>
+      <Panel className="mb-4 p-5">
+        <div className="mono-label">{L('02 · 评估说明书结构', '02 · Structure of the assessment brief')}</div>
+        <h2 className="mt-1 text-[20px] font-semibold tracking-tight text-ink">{L('详情页 7 个板块，自动候选与精选机会一致', 'Seven blocks, identical for auto and curated')}</h2>
+        <div className="mt-3 grid grid-cols-1 gap-3 md:grid-cols-2 xl:grid-cols-3">
+          {BRIEF_SECTIONS.map((s, i) => (
+            <div key={s.en} className="rounded-lg border border-line/60 bg-panel-2/25 p-4">
+              <div className="flex items-center gap-2">
+                <span className="font-mono text-[12px] text-signal">{String(i + 1).padStart(2, '0')}</span>
+                <span className="text-[15px] font-semibold text-ink">{L(s.zh, s.en)}</span>
+              </div>
+              <p className="mt-1.5 text-[13px] leading-[1.7] text-muted">{L(s.descZh, s.descEn)}</p>
             </div>
           ))}
         </div>
       </Panel>
 
-      <Panel className="p-3">
-        <div className="mono-label mb-1">{L('边界', 'Boundary')}</div>
-        <div className="text-[9.5px] leading-relaxed text-dim">
-          {L('所有内容均为公开信息自动生成与评估，不构成投资建议；商机最终是否适合你，由你按自身资源与风险判断。', 'All content is auto-generated and evaluated from public information; it is not investment advice. Whether an opportunity suits you is your call based on your resources and risk.')}
+      <Panel className="mb-4 p-5">
+        <div className="flex flex-wrap items-end justify-between gap-2">
+          <div>
+            <div className="mono-label">{L('03 · 投资与回报怎么算', '03 · How investment & return are modelled')}</div>
+            <h2 className="mt-1 text-[20px] font-semibold tracking-tight text-ink">{L('真实字段为锚，公式可复算；理论测算，非实盘验证', 'Real fields as anchors, reproducible formulas; theoretical, not live-tested')}</h2>
+          </div>
+          <Badge tone="amber">{L('理论测算 · 非实盘验证', 'Theoretical · not live-tested')}</Badge>
+        </div>
+
+        <div className="mt-4 grid grid-cols-1 gap-4 xl:grid-cols-12">
+          <div className="xl:col-span-4">
+            <div className="rounded-lg border border-line/60 bg-panel-2/25 p-4 text-[13px] leading-[1.9] text-muted">
+              <div className="mb-1 text-[13.5px] font-medium text-ink">{L('核心公式', 'Core formulas')}</div>
+              <div>
+                {L('单品毛利', 'Unit gross profit')} = {L('客单价', 'AOV')} − {L('单位成本', 'unit cost')}
+              </div>
+              <div>
+                {L('月收入', 'Monthly revenue')} = {L('客单价', 'AOV')} × {L('月单量', 'monthly orders')}
+              </div>
+              <div>
+                {L('月净利', 'Monthly net profit')} = {L('月收入', 'revenue')} × {L('毛利率', 'margin')} − {L('月固定成本', 'fixed cost')}
+              </div>
+              <div>
+                {L('理论回本', 'Theoretical payback')} = {L('启动资金', 'startup capital')} ÷ {L('月净利', 'monthly net profit')}
+              </div>
+              <div>
+                {L('盈亏平衡单量', 'Break-even orders')} = {L('月固定成本', 'fixed cost')} ÷ ({L('客单价', 'AOV')} × {L('毛利率', 'margin')})
+              </div>
+            </div>
+            <div className="mt-3 rounded-lg border border-amber/25 bg-amber/[0.05] px-4 py-3 text-[12.5px] leading-[1.75] text-amber">
+              <ShieldAlert className="mr-1.5 inline h-4 w-4" />
+              {L('启动资金拆分为 9 类：注册/合规、首批库存/样品、平台/渠道、物流仓储、工具/软件、市场推广、人力、流动资金、预备金；金额为理论 min–max 与依据，合计与 ROI 启动资金一致。','Startup capital is split into nine items: registration/compliance, first inventory/samples, platform/channels, logistics, tools/software, marketing, labor, working capital and contingency; amounts are theoretical min–max with basis, totalling ROI startup capital.')}
+            </div>
+            <a href="#/rankings" className="mt-3 inline-flex items-center gap-1 text-[13px] text-signal hover:underline">
+              {L('去商机榜看真实卡片与详情', 'Open the board to see live cards and details')} <ArrowUpRight className="h-3.5 w-3.5" />
+            </a>
+          </div>
+          {sample && calc ? (
+            <div className="xl:col-span-8">
+              <div className="rounded-lg border border-line/60 bg-panel-2/20 p-3">
+                <div className="mb-1 flex flex-wrap items-center justify-between gap-2 text-[12.5px] text-dim">
+                  <span>
+                    {L('示例', 'Example')}：{sample.title}
+                  </span>
+                  <span>
+                    {L('启动资金', 'Capital')} {fmtCnyRange(sample.economics.investment.total.min, sample.economics.investment.total.max)} · {L('毛利率', 'margin')} {fmtPct(sample.economics.base.marginPct * 100, 1)} · {L('回本目标', 'payback target')} {sample.economics.paybackTarget ?? '—'} {L('个月', 'mo')}
+                  </span>
+                </div>
+                <div className="grid grid-cols-1 gap-3 lg:grid-cols-2">
+                  <div>
+                    <div className="mb-1 text-[12px] text-muted">{L('单位经济（示例）', 'Unit economics (example)')}</div>
+                    <Chart option={unitEconomicsOption(sample.economics, calc, lang)} height={230} />
+                  </div>
+                  <div>
+                    <div className="mb-1 text-[12px] text-muted">{L('回本曲线（示例）', 'Payback curve (example)')}</div>
+                    <Chart option={paybackCurveOption(sample.economics, calc, false, lang)} height={230} />
+                  </div>
+                </div>
+              </div>
+              <div className="mt-2 rounded-lg border border-line/60 bg-panel-2/25 px-4 py-3 text-[12px] leading-[1.7] text-dim">
+                {L('数据字段：roi / investment_breakdown / unit_economics / profit_model。字段之间冲突时以手工整理的 ROI 为锚做透明校准；任何估算都标为理论测算，并在详情页展示数据锚点与公式。', 'Data fields: roi / investment_breakdown / unit_economics / profit_model. When fields conflict, the hand-curated ROI is used as an anchor with transparent calibration; every estimate is labelled theoretical and shows anchors and formulas in the detail.')}
+              </div>
+            </div>
+          ) : null}
+        </div>
+      </Panel>
+
+      <Panel className="p-5">
+        <div className="mono-label mb-2">{L('边界', 'Boundary')}</div>
+        <div className="text-[13px] leading-[1.8] text-muted">
+          {L('所有内容均为公开信息自动生成与系统评估，不构成投资建议；经济数据为理论测算，非实盘验证；商机最终是否适合你，由你按自身资源、风险与真实市场成交判断。', 'All content is auto-generated and system-assessed from public information; it is not investment advice. Economic figures are theoretical, not live-tested. Whether an opportunity suits you is your call based on your resources, risk and real market transactions.')}
         </div>
       </Panel>
     </div>

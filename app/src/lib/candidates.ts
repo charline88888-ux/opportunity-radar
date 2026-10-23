@@ -90,6 +90,9 @@ export interface Candidate {
   barriers?: Record<string, unknown>
   profit_model?: Record<string, unknown>
   execution_plan?: Record<string, unknown>
+  /** v1.5.0 理论测算字段（真实字段优先，缺失时前端确定性派生） */
+  investment_breakdown?: Record<string, unknown>
+  unit_economics?: Record<string, unknown>
   analyst_narrative?: Record<string, unknown>
   eval_sources?: unknown
   raw?: Record<string, unknown>
@@ -200,6 +203,8 @@ function normalizeCandidate(raw: unknown, index = 0): Candidate | null {
     profit_model: isObj(raw.profit_model) ? raw.profit_model : undefined,
     execution_plan: isObj(raw.execution_plan) ? raw.execution_plan : undefined,
     analyst_narrative: isObj(raw.analyst_narrative) ? raw.analyst_narrative : undefined,
+    investment_breakdown: isObj(raw.investment_breakdown) ? raw.investment_breakdown : undefined,
+    unit_economics: isObj(raw.unit_economics) ? raw.unit_economics : undefined,
     eval_sources: raw.sources ?? raw.eval_sources,
     raw,
   }
