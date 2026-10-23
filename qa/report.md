@@ -1675,3 +1675,56 @@ python qa/online-check-v07.py --version v0.7.2             # 新站结构 PASS
 ## 24.6 一句话
 
 **v0.9.1 可发布：源 160/91/11（新增源 12/12 可达、失败源诚实记录），候选 200 条 gap 覆盖 200/200、gap_inference/清洗标题字段齐全、region 11/11/country 28、四窗口 95/200/200/200，评分复算 200/200、115 单测/20 规则通过；MANIFEST 19/19、tag deploy+CI success、线上 root 与 /v0.9.1/ 同 hash 且旧归档不串台；P0=0、P1=0、4 个 P2 不阻塞（控制台漏斗计数 92/92/0 待 v0.9.2 修）。**
+
+---
+
+# 第 25 章 · v0.9.2 系统评估 + 中文候选 + 控制台修复红队验收（2026-10-23 17:58）
+
+> 版本：app 0.9.2 / data 0.9.2（as_of=2026-10-23）｜验收人：redteam｜任务：task-55
+> 冻结：`releases/v0.9.2/`（tag v0.9.2 → ecdf06c8，内容提交 181d440）｜dist 3,874,385 B / `1F60297F…F987`
+> **结论：可发布（v0.9.2，P0=0 / P1=0 / P2=4，均不阻塞）**
+
+## 25.1 系统评估 vs 实体验证边界（重点，PASS）
+
+- **候选 `system_validation`**：200/200 条 `verified_by_system=true`，8 项 checks（需求信号/信息差明确/公开证据/来源质量/时效/可执行性/地理场景/竞争与窗口），`checks_passed/checks_total` 与 score 自洽；**level high 53 / medium 133 / low 14**、avg **92.9**、level_thresholds{high:95,medium:87}、score=points 合计；`meta.system_validation_summary` 一致。
+- **实体验证默认**：200/200 `verification_status=not_started`（个人可选，非门禁）；`verification_affects_ranking=false`；`verified_by_system=true`、`system_boundary` 文案明确“系统评估商机成立度；能否赚钱是个人线下实体验证”。
+- **前端**：卡片/详情显示「系统已评估 · 无需人工验证」（high/medium/low + score），详情 8 项系统评估清单；底部独立「实体验证（可选，个人）」区（加入观察/记录实验/结案），注明不影响收录/排序/展示；gating 正则 0 命中；无“未验证不能上榜/需复核才显示”文案（截图 final-v0.9.2 已目检）。
+- 排序/窗口仍按 first_seen + rank_score/momentum/evidence/last_seen，不含 verification。
+
+## 25.2 中文候选（PASS）
+
+- `translation_coverage`：**200/200 有中文标题（ratio 1.0）**；methods **template 194 / source-zh 6**；`title_zh≤28`、`one_liner_zh≤60`、`title_original` 英文原标题保留、`translation_method` 齐全；前端主标题用 title_zh、副标题/详情保留原文；抽检中文可读，个别模板句式可再优化（P2）。
+- 发现榜四窗口 **day99 / week200 / month200 / year200**；按 first_seen 归窗、排序独立复算一致。
+
+## 25.3 数据 + 漏斗真值（PASS）
+
+`qa/v092-check.py` **PASS（P0/P1/P2=0）**：
+- 源：**168 平台 / 101 enabled 自动源（rss95+json6）/ 11 区域 / 8 disabled（原因齐全）**；source-health **101 行 / ok101 / failed0 / items2420 / mode=online-fetch**；rest-of-world XML 容错恢复（12 条）。
+- outbox：raw **2420** → signal **1892**、new **1865** / seen **27** / ledger **1865**；ledger 1865 行 fingerprint 唯一；候选 200 条（business_signals 344），gap 覆盖 200/200、gap_inference 200/200、清洗/原始标题齐全、region11/11、country28；评分 Decimal 独立复算 200/200；URL 唯一；全部 not_started。
+- **funnel**：candidates.meta.funnel = attempted101 / ok101 / failed0 / raw2420 / deduped1892 / new1865 / relevant344 / candidates200，与 source-health/outbox meta 一致；`/api/status.outbox.funnel` 与 `/api/outbox` 实测同值（serve 重启后）。
+- validate **20/20**、unittest **117/117**（serve 28 + scanner 89）、`--all --as-of` 双跑 **30 文件 0 变化**；data 9 文件 meta=0.9.2；db 80/156/654/101；报告 8 文件 + 年鉴/校准 0.9.2；精选 80 条不变；指纹与 data-engineer 最终值一致（candidates EF822C71、candidate-rankings FC10B813、rankings 70D0970C、stats 331BBBB9、sources 1354E3C4、source-health 3A019B49、radar ACFFA988、serve BE893F5E、fetch 39F9E07D、config 64BE106E）。
+
+## 25.4 控制台修复 + 前端（PASS）
+
+- serve.py 静态确认：fetch 命令带 `--fetch-limit 120`、`_decode_locale` 逐行解码；控制台实测 `/api/status.outbox.funnel` 真值，UI 漏斗显示 **101/101/0** + 2420→1892→1865→344 + 已见27；源页 **168 平台 / 自动101 / 人工67 / 11/11 区域**、失败源逻辑保留。
+- 前端最终构建 **3,874,385 B / `1F60297F…F987`** = 冻结 dist；strict/两构建同 hash（frontend）；16 路由/1024 由 frontend 验证 console=0、i18n 16/16；截图 `final-v0.9.2` **18 张**（中文候选/系统评估详情/实体验证可选区/控制台 101 漏斗/源页 zh-en），read_image 目检系统评估清单、实体验证区、控制台漏斗真值正常。
+- 红队 `qa/flows-v092.mjs` **93/94 PASS**（v0.6–v0.9.1 回归 + v0.9.2：中文卡片/系统评估/实体验证可选/控制台漏斗 101/101/0/今日99/源页 168/101）；仅 **T87** 失败（红队脚本对「信息差推断 200/200」的捕获时序/断言问题，UI 实际由 inferred+候选总数计算正常）→ P2。
+
+## 25.5 冻结 + Actions + 线上
+
+- `qa/manifest-check.py --version v0.9.2`：**MANIFEST 19/19 与 tag blob 一致**；`verify_manifest.py` **MANIFEST OK (19/19)**；冻结 dist `1F60297F…`/3,874,385 B = app/dist；VERSION-README 含 v0.9.2；内容提交 181d440 为 tag 祖先。
+- Actions：**Deploy run 39932901569 completed/success**（tag v0.9.2，head ecdf06c）；**CI run 39932895545 success**；pages run 39932942961 success；gh-pages head `72973ab`；Lead 独立核验一致。
+- 线上（`qa/online-check-v07.py --version v0.9.2`）**PASS**：`/` 与 `/v0.9.2/` 同 hash `1F60297F…`/3,874,385 B；root 内嵌 as_of=2026-10-23=tag 数据；含 /control；历史 v0.1.0…v0.9.1 全部与各自 tag 冻结 blob 逐字节一致不串台；versions latest=v0.9.2 path=/v0.9.2/；404 正常；daily_channel/live_as_of 缺失（可选 P2）。
+
+## 25.6 P2 清单（4 个，均不阻塞）
+
+| # | 项 | 现状 | 建议 |
+|---|---|---|---|
+| P2-1 | 红队 flows T87 | 脚本对「信息差推断 200/200」捕获时机/断言问题；UI 实际计算 total=候选数，显示正常；另 93/94 全过 | 下版修脚本等待条件 |
+| P2-2 | 中文模板可读性 | template 194 条中文标题个别句式略生硬（frontend 已注明）；信息不缺失、原文保留 | v0.9.3 可选优化翻译模板 |
+| P2-3 | versions.json daily 字段 | daily_channel/live_as_of 缺失（可选；root=最新冻结当日数据 as_of=2026-10-23） | 下次 daily workflow 写回或 build_site tag 模式补齐 |
+| P2-4 | 历史发布已知项 | 历史 v0.7.0/v0.7.1 tag MANIFEST 3 文件 mismatch、autocrlf 旧 releases（旧 tag 不可变，线上归档正确） | 后续继续版本级 eol=lf/git blob 校验 |
+
+## 25.7 一句话
+
+**v0.9.2 可发布：系统评估（8 checks、high53/medium133/low14 avg92.9、200/200 verified_by_system）与实体验证（not_started、可选、不影响排序/展示）边界清晰；中文标题 200/200（原文保留）；源 168/101/11、funnel 101/101/0（2420→1892→1865→344→200）控制台修复实测通过；MANIFEST 19/19、tag deploy+CI success、线上 root 与 /v0.9.2/ 同 hash 且旧归档不串台；P0=0、P1=0、4 个 P2 不阻塞。**

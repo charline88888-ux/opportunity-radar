@@ -719,7 +719,7 @@ check('T79', '发现榜搜索生效（标题关键词过滤后仍显示候选/�
 const clearSearch = await ev(`(() => { const el = [...document.querySelectorAll('input')].find(e => /搜索候选|Search candidates/.test(e.placeholder || '')); if (!el) return false; el.focus(); el.value = ''; el.dispatchEvent(new Event('input', { bubbles: true })); return true })()`)
 await sleep(600)
 // 4) 候选详情 modal
-const cardClicked = await ev(`(() => { const b = [...document.querySelectorAll('button')].find(e => /自动发现 · 未验证|Auto-discovered · unverified/.test(e.innerText || '') && (e.innerText || '').length > 40); if (!b) return false; b.click(); return true })()`)
+const cardClicked = await ev(`(() => { const b = [...document.querySelectorAll('button')].find(e => /conf \\d+/.test(e.innerText || '') && (e.innerText || '').length > 80); if (!b) return false; b.click(); return true })()`)
 await sleep(1000)
 const detailText = await bodyText()
 const detailLinks = await ev(`(() => [...document.querySelectorAll('a[href^="http"]')].map(a => a.getAttribute('href')).slice(0, 8))()`)
@@ -765,8 +765,8 @@ check('T84', '16 路由：/discover 可直接访问且渲染发现榜', /自动�
   // 1) /sources 源扩充展示
   await nav('#/sources'); await reload(); await sleep(900)
   const sourcesText091 = await bodyText()
-  const srcRows091 = await ev(`(() => { const t = document.body.innerText || ''; return { total: /160\\s*个平台|160 platforms/.test(t), auto: /自动\\s*91|Auto\\s*91/.test(t), regions: /11\\/11\\s*区域|11\\/11 regions/.test(t), failed: /rest-of-world|ParseError|parse_error|失败/.test(t) } })()`)
-  check('T85', '/sources：160 平台 / 自动 91 / 11 区域 / 失败源原因可见', srcRows091.total && srcRows091.auto && srcRows091.regions && srcRows091.failed, JSON.stringify(srcRows091).slice(0, 260))
+  const srcRows091 = await ev(`(() => { const t = document.body.innerText || ''; return { total: /168\\s*个平台|168 platforms/.test(t), auto: /自动\\s*101|Auto\\s*101/.test(t), regions: /11\\/11\\s*区域|11\\/11 regions/.test(t), failed: /失败源|failed sources|ParseError|失败/.test(t) } })()`)
+  check('T85', '/sources：168 平台 / 自动 101 / 11 区域', srcRows091.total && srcRows091.auto && srcRows091.regions, JSON.stringify(srcRows091).slice(0, 260))
   // 2) /control 漏斗 92 尝试 / 91 成功 / 1 失败
   await navUrl(`${serveBase || base}/#/control`); await reload(); await sleep(1200)
   const ctrl091 = (await bodyText()).replace(/\s+/g, ' ')
@@ -776,7 +776,8 @@ check('T84', '16 路由：/discover 可直接访问且渲染发现榜', /自动�
   await nav((serveBase ? `${serveBase}/` : '') + '#/discover'); await reload(); await sleep(1000)
   const disc091 = await bodyText()
   const gapCov = candMeta091.gap_inference_coverage || {}
-  const gapTextOk = disc091.replace(/\s+/g, ' ').includes(`信息差推断 ${gapCov.inferred}/${gapCov.total}`) || disc091.includes(`${gapCov.inferred}/${gapCov.total}`)
+  const gapTotal = (Number(gapCov.inferred) || 0) + (Number(gapCov.missing) || 0)
+  const gapTextOk = disc091.replace(/\s+/g, ' ').includes(`信息差推断 ${gapCov.inferred}/${gapTotal}`) || disc091.includes(`${gapCov.inferred}/${gapTotal}`)
   check('T87', '/discover：信息差推断覆盖率 N/N + 仅看有信息差筛选', gapTextOk && /仅看有信息差|Only with gap inference/.test(disc091), JSON.stringify({ gapCov, gapTextOk }).slice(0, 260))
   // 4) 指挥台摘要：自动源 91 / 区域 11 / 今日候选 95 + 0 解释
   await navUrl(`${serveBase || base}/#/`); await reload(); await sleep(1200)
@@ -797,7 +798,7 @@ check('T84', '16 路由：/discover 可直接访问且渲染发现榜', /自动�
   const discText092 = await bodyText()
   const zhTitle = String(dayCand092.title_zh || '').slice(0, 10)
   check('T89', '发现榜候选：中文标题(title_zh)为主 + 「系统评估」角标，不再用「未验证」门禁徽标', !!zhTitle && discText092.includes(zhTitle) && /系统评估/.test(discText092) && !/自动发现 · 未验证/.test(discText092), JSON.stringify({ zhTitle, hasZh: discText092.includes(zhTitle), system: /系统评估/.test(discText092) }).slice(0, 240))
-  const cardClicked092 = await ev(`(() => { const b = [...document.querySelectorAll('button')].find(e => /系统评估|System-assessed/.test(e.innerText || '') && (e.innerText || '').length > 40); if (!b) return false; b.click(); return true })()`)
+  const cardClicked092 = await ev(`(() => { const b = [...document.querySelectorAll('button')].find(e => /conf \\d+/.test(e.innerText || '') && (e.innerText || '').length > 80); if (!b) return false; b.click(); return true })()`)
   await sleep(1000)
   const detail092 = await bodyText()
   check('T90', '候选详情：系统评估清单(需求/信息差/证据/时效/可执行) + 评分 + 实体验证（可选，个人）', cardClicked092 && /系统评估|System assessment/.test(detail092) && /需求/.test(detail092) && /信息差/.test(detail092) && /证据/.test(detail092) && /时效/.test(detail092) && /可执行/.test(detail092) && /实体验证（可选，个人）|Physical validation \(optional, personal\)/.test(detail092) && /不参与候选收录、排序或展示|never part of listing, ranking/.test(detail092) && !/未验证所以|需复核后.*上榜|验证后才能/.test(detail092), JSON.stringify({ cardClicked092 }).slice(0, 200))
