@@ -492,6 +492,12 @@ class ConsoleApp:
             "source_count": meta.get("source_count"),
             "raw_count": meta.get("raw_count"),
             "signal_count": meta.get("signal_count", len(signals)),
+            "new_count": meta.get("new_count"),
+            "seen_count": meta.get("seen_count"),
+            "ledger_total": meta.get("ledger_total"),
+            "relevant_count": meta.get("relevant_count"),
+            "tiers": meta.get("tiers"),
+            "top_relevant": meta.get("top_relevant"),
             "by_source": dict(sorted(by_source.items())),
             "top": top,
             "review_md": {
@@ -525,6 +531,17 @@ class ConsoleApp:
                     "lang": signal.get("lang"),
                     "industry_hints": signal.get("industry_hints") or [],
                     "region_hints": signal.get("region_hints") or [],
+                    # v0.8.0：跨批去重 + 相关性初筛
+                    "is_new": signal.get("is_new"),
+                    "first_seen": signal.get("first_seen"),
+                    "last_seen": signal.get("last_seen"),
+                    "seen_count": signal.get("seen_count"),
+                    "relevance_score": signal.get("relevance_score"),
+                    "tier": signal.get("tier"),
+                    "industry_ids": signal.get("industry_ids") or [],
+                    "gap_type_ids": signal.get("gap_type_ids") or [],
+                    "region_ids": signal.get("region_ids") or [],
+                    "reasons": (signal.get("reasons") or [])[:6],
                 }
             )
         return rows

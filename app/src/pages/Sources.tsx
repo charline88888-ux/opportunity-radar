@@ -16,6 +16,7 @@ import {
   FREQUENCY_LABEL,
 } from '@/lib/utils'
 import type { Compliance } from '@/types'
+import { useI18n } from '@/lib/i18n'
 
 const LEGEND = [
   { id: 'green', label: '绿 · 公开且明确允许', desc: '可稳定采集，遵守 robots 与频率限制' },
@@ -46,17 +47,22 @@ function SourceHealthCell({ source }: { source: { id: string; url?: string; name
 }
 
 export default function Sources() {
+  const { lang } = useI18n()
+  const L = (zh: string, en: string) => (lang === 'en' ? en : zh)
   const [query, setQuery] = useState('')
   const [compliance, setCompliance] = useState<'all' | Compliance>('all')
   const [category, setCategory] = useState<string>('all')
 
   const counts = useMemo(() => {
+    const auto = allSources.filter((s) => s.enabled !== false && ['rss', 'json', 'api'].includes(s.access)).length
     return {
       total: allSources.length,
       green: allSources.filter((s) => s.compliance === 'green').length,
       yellow: allSources.filter((s) => s.compliance === 'yellow').length,
       red: allSources.filter((s) => s.compliance === 'red').length,
       highValue: allSources.filter((s) => s.value_score >= 8.5).length,
+      auto,
+      manual: allSources.length - auto,
     }
   }, [])
 
@@ -149,7 +155,7 @@ export default function Sources() {
         actions={
           <div className="flex flex-wrap items-center gap-2">
             <Badge tone="signal"><Database className="h-3 w-3" /> {counts.total} 个平台</Badge>
-            <Badge tone="cyan"><ShieldCheck className="h-3 w-3" /> 高价值 {counts.highValue}</Badge>
+            <Badge tone="cyan"><ShieldCheck className="h-3 w-3" /> {L(`自动 ${counts.auto} / 人工 ${counts.manual}`, `Auto ${counts.auto} / Manual ${counts.manual}`)}</Badge>
             <Badge tone="neutral">{sources.categories.length} 大类</Badge>
           </div>
         }
@@ -262,6 +268,17 @@ export default function Sources() {
       </Panel>
 
       <Panel className="mb-3 flex flex-wrap items-center gap-x-5 gap-y-2 px-3 py-2">
+        <span className="mono-label">{L('扫描边界', 'Scan boundary')}</span>
+        <span className="text-[10.5px] text-muted">
+          {L(`自动采集 ${counts.auto} 个 · 需人工/API ${counts.manual} 个。`, `Auto-fetch ${counts.auto} · manual/API ${counts.manual}.`)}
+          {L(' 自动源仅为公开 RSS/JSON/API；其余平台不自动抓取，避免登录/付费墙/反爬风险。', ' Auto sources are public RSS/JSON/API only; the rest are never auto-fetched to avoid login/paywall/anti-bot risks.')}
+        </span>
+        <span className="ml-auto text-[10px] text-dim">
+          {L('扩展源：在 data/sources.json 增加 entry（access/enabled/regions/limits）后重新运行 pipeline.py --fetch。', 'Extend: add an entry to data/sources.json (access/enabled/regions/limits), then rerun pipeline.py --fetch.')}
+        </span>
+      </Panel>
+
+      <Panel className="mb-3 flex flex-wrap items-center gap-x-5 gap-y-2 px-3 py-2">
         <span className="mono-label">合规色图例</span>
         {LEGEND.map((l) => (
           <span key={l.id} className="inline-flex items-center gap-1.5 text-[10.5px]">
@@ -320,7 +337,11 @@ export default function Sources() {
                           <div className="font-mono text-[9px] text-dim">{s.id}</div>
                         </td>
                         <td className="text-[10px] text-muted">{s.regions.map(regionName).join(' / ') || '—'}</td>
-                        <td><Badge tone="neutral">{ACCESS_LABEL[s.access] || s.access}</Badge></td>
+                        <td><Badge tone="neutral">{ACCESS_LABEL[s.access] || s.access}</Badge>
+                          <Badge tone={s.enabled !== false && ['rss', 'json', 'api'].includes(s.access) ? 'signal' : 'muted'}>
+                            {s.enabled !== false && ['rss', 'json', 'api'].includes(s.access) ? L('自动', 'auto') : L('人工', 'manual')}
+                          </Badge>
+                        </td>
                         <td className="text-[10px] text-muted">{FREQUENCY_LABEL[s.frequency] || s.frequency}</td>
                         <td className="text-[10px] text-muted">{COST_LABEL[s.cost] || s.cost}</td>
                         <td>

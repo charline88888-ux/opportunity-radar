@@ -63,6 +63,17 @@ def make_root(tmp: Path, *, with_build: bool = True) -> Path:
                 "lang": "en",
                 "industry_hints": ["ai"],
                 "region_hints": ["north-america"],
+                # v0.8.0 去重 + 相关性
+                "is_new": idx != 2,
+                "first_seen": "2026-10-23",
+                "last_seen": "2026-10-23",
+                "seen_count": 1 if idx != 2 else 2,
+                "relevance_score": 85 - idx * 20,
+                "tier": ["business", "maybe", "off-topic"][idx],
+                "industry_ids": ["ai"],
+                "gap_type_ids": ["knowledge"],
+                "region_ids": ["north-america"],
+                "reasons": ["category:trend", "keyword:launch"],
             }
             for idx in range(3)
         ]
@@ -70,12 +81,20 @@ def make_root(tmp: Path, *, with_build: bool = True) -> Path:
             json.dumps(
                 {
                     "meta": {
-                        "data_version": "0.7.0",
+                        "data_version": "0.8.0",
                         "as_of": "2026-10-23",
                         "generated_at": "2026-10-23T12:45:00+08:00",
-                        "source_count": 8,
-                        "raw_count": 183,
-                        "signal_count": 175,
+                        "source_count": 57,
+                        "raw_count": 1448,
+                        "signal_count": 1015,
+                        "new_count": 0,
+                        "seen_count": 1015,
+                        "ledger_total": 1051,
+                        "relevant_count": 184,
+                        "tiers": {"business": 184, "maybe": 712, "off-topic": 119},
+                        "top_relevant": [
+                            {"signal_id": "sig-test-000", "title": "采集到的测试信号 0", "relevance_score": 85, "tier": "business", "source_id": "hnrss", "url": "https://example.com/signal/0"}
+                        ],
                     },
                     "signals": signals,
                 },
@@ -187,13 +206,19 @@ class TestServeApi(ServeTestBase):
         self.assertFalse(payload["alert"]["exists"])
         self.assertIsInstance(payload["jobs"], list)
         self.assertIsInstance(payload["logs"], list)
-        # v0.7.3：采集摘要
+        # v0.7.3：采集摘要；v0.8.0：去重/相关性字段
         outbox = payload["outbox"]
         self.assertIsNotNone(outbox)
         self.assertEqual(outbox["file"], "signals-2026-10-23.json")
         self.assertEqual(outbox["as_of"], "2026-10-23")
-        self.assertEqual(outbox["raw_count"], 183)
-        self.assertEqual(outbox["signal_count"], 175)
+        self.assertEqual(outbox["raw_count"], 1448)
+        self.assertEqual(outbox["signal_count"], 1015)
+        self.assertEqual(outbox["new_count"], 0)
+        self.assertEqual(outbox["seen_count"], 1015)
+        self.assertEqual(outbox["ledger_total"], 1051)
+        self.assertEqual(outbox["relevant_count"], 184)
+        self.assertEqual(outbox["tiers"], {"business": 184, "maybe": 712, "off-topic": 119})
+        self.assertEqual(outbox["top_relevant"][0]["tier"], "business")
         self.assertEqual(len(outbox["top"]), 3)
         self.assertTrue(outbox["review_md"]["exists"])
         self.assertEqual(set(outbox["by_source"]), {"hnrss", "arxiv-rss", "lobsters"})
@@ -205,10 +230,16 @@ class TestServeApi(ServeTestBase):
         self.assertEqual(status, 200)
         payload = json.loads(data)
         self.assertTrue(payload["ok"])
-        self.assertEqual(payload["outbox"]["raw_count"], 183)
+        self.assertEqual(payload["outbox"]["raw_count"], 1448)
+        self.assertEqual(payload["outbox"]["relevant_count"], 184)
         self.assertEqual(len(payload["signals"]), 2)
-        self.assertIn("title", payload["signals"][0])
-        self.assertIn("source_id", payload["signals"][0])
+        first = payload["signals"][0]
+        self.assertIn("title", first)
+        self.assertIn("source_id", first)
+        self.assertIn("is_new", first)
+        self.assertIn("relevance_score", first)
+        self.assertIn("tier", first)
+        self.assertIn("reasons", first)
         # limit 越界/非法处理
         status, data = self.call("GET", "/api/outbox?limit=999")
         self.assertEqual(status, 200)

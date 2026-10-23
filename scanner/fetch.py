@@ -25,9 +25,9 @@ from urllib.parse import urlparse
 
 if __package__ in (None, ""):  # 支持 python scanner/pipeline.py --fetch 场景下的导入
     sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
-    from scanner import common, config, dedupe as dedupe_mod, normalize  # noqa: E402
+    from scanner import common, config, dedupe as dedupe_mod, ledger as ledger_mod, normalize, relevance  # noqa: E402
 else:  # pragma: no cover
-    from . import common, config, dedupe as dedupe_mod, normalize
+    from . import common, config, dedupe as dedupe_mod, ledger as ledger_mod, normalize, relevance
 
 _TAG_RE = re.compile(r"<[^>]+>")
 _ATOM_NS = {"a": "http://www.w3.org/2005/Atom"}
@@ -63,10 +63,10 @@ def _parse_date(value: str | None) -> str | None:
         return None
 
 
-def parse_feed(text: str, source_id: str, source_category: str) -> list[dict[str, Any]]:
+def parse_feed(text: str, source_id: str, source_category: str, lang: str = "en") -> list[dict[str, Any]]:
     """解析 RSS 2.0 / Atom / Apple 风格 JSON feed，返回统一 raw 记录（供 normalize 使用）。"""
     if text.lstrip().startswith("{"):
-        return _parse_json_feed(text, source_id, source_category)
+        return _parse_json_feed(text, source_id, source_category, lang=lang)
     root = ET.fromstring(text)
     records: list[dict[str, Any]] = []
     now_iso = datetime.now().astimezone().isoformat(timespec="seconds")
@@ -92,7 +92,7 @@ def parse_feed(text: str, source_id: str, source_category: str) -> list[dict[str
                     "url": link,
                     "published": _parse_date(_find_text(node, "pubDate")),
                     "text": description,
-                    "lang": "en",
+                    "lang": lang,
                     "engagement": {"feed_items": len(channel.findall("item"))},
                     "payload": {"feed_kind": "rss"},
                 }
@@ -127,7 +127,7 @@ def parse_feed(text: str, source_id: str, source_category: str) -> list[dict[str
                 "url": link,
                 "published": _parse_date(published),
                 "text": summary,
-                "lang": "en",
+                "lang": lang,
                 "engagement": {"feed_items": len(entries)},
                 "payload": {"feed_kind": "atom"},
             }
@@ -135,7 +135,9 @@ def parse_feed(text: str, source_id: str, source_category: str) -> list[dict[str
     return records
 
 
-def _parse_json_feed(text: str, source_id: str, source_category: str) -> list[dict[str, Any]]:
+def _parse_json_feed(
+    text: str, source_id: str, source_category: str, lang: str = "en"
+) -> list[dict[str, Any]]:
     """兼容 Apple iTunes 的 JSON feed（feed.entry 列表，label/attributes 结构）。"""
     data = json.loads(text)
     feed = data.get("feed") if isinstance(data, dict) else None
@@ -178,7 +180,7 @@ def _parse_json_feed(text: str, source_id: str, source_category: str) -> list[di
                 "url": link,
                 "published": _parse_date(label(entry.get("updated")) or label(entry.get("releaseDate"))),
                 "text": label(entry.get("content")) or label(entry.get("summary")),
-                "lang": "en",
+                "lang": lang,
                 "engagement": {"feed_items": len(entries)},
                 "payload": {"feed_kind": "json"},
             }
@@ -271,10 +273,12 @@ def fetch_url(url: str, *, cache_enabled: bool = True) -> dict[str, Any]:
 
 
 def select_sources(sources: dict[str, Any], limit: int) -> list[dict[str, Any]]:
-    """筛选可自动采集的在线源（RSS/公开 API，绿/黄合规），按 value_score 降序取前 limit 个。"""
+    """筛选 enabled 的可自动采集源（RSS/JSON，绿/黄合规），按 priority/value_score 降序取前 limit 个。"""
     candidates: list[dict[str, Any]] = []
     for category in sources.get("categories") or []:
         for source in category.get("sources") or []:
+            if source.get("enabled") is False:
+                continue
             if source.get("access") not in config.FETCHABLE_ACCESS:
                 continue
             if source.get("compliance") not in config.FETCHABLE_COMPLIANCE:
@@ -285,7 +289,13 @@ def select_sources(sources: dict[str, Any], limit: int) -> list[dict[str, Any]]:
             entry = dict(source)
             entry["category"] = category.get("id")
             candidates.append(entry)
-    candidates.sort(key=lambda item: (-float(item.get("value_score") or 0), item.get("id", "")))
+    candidates.sort(
+        key=lambda item: (
+            -int(item.get("priority") or 0),
+            -float(item.get("value_score") or 0),
+            item.get("id", ""),
+        )
+    )
     return candidates[:limit]
 
 
@@ -316,7 +326,12 @@ def run_fetch(
         parse_error: str | None = None
         if result["ok"]:
             try:
-                items = parse_feed(result["text"], source["id"], source.get("category", ""))
+                items = parse_feed(
+                    result["text"],
+                    source["id"],
+                    source.get("category", ""),
+                    lang=str(source.get("lang") or "en"),
+                )
                 items = [item for item in items if item.get("title") and item.get("url")][
                     : config.FETCH_MAX_ITEMS_PER_SOURCE
                 ]
@@ -372,6 +387,14 @@ def run_fetch(
     normalized_signals = [row["signal"] for row in raw_records]
     deduped, dedupe_report = dedupe_mod.dedupe(normalized_signals)
 
+    # v0.8.0：跨批次持久去重（SQLite 账本）+ 相关性初筛
+    ledger = ledger_mod.SignalLedger()
+    try:
+        ledger_stats = ledger.classify(deduped, as_of)
+    finally:
+        ledger.close()
+    relevance_stats = relevance.analyze(deduped)
+
     generated_at = datetime.now().astimezone().isoformat(timespec="seconds")
     config.OUTBOX_DIR.mkdir(parents=True, exist_ok=True)
     outbox_path = config.OUTBOX_DIR / f"signals-{as_of}.json"
@@ -387,8 +410,18 @@ def run_fetch(
                 "source_count": len(selected),
                 "raw_count": len(normalized_signals),
                 "signal_count": len(deduped),
+                "new_count": ledger_stats["new_count"],
+                "seen_count": ledger_stats["seen_count"],
+                "ledger_total": ledger_stats["ledger_total"],
+                "relevant_count": relevance_stats["relevant_count"],
+                "tiers": relevance_stats["tiers"],
+                "top_relevant": relevance_stats["top_relevant"],
                 "dedupe_report": dedupe_report,
-                "note": "真实在线采集结果，仅供人工复核；不会自动写入 data/opportunities.json",
+                "ledger_path": "scanner/build/signal-ledger.sqlite",
+                "note": (
+                    "真实在线采集结果，仅供人工复核；不会自动写入 data/opportunities.json。"
+                    "is_new=true 为账本中未出现过的新信号；relevance 仅为线索排序（business/maybe/off-topic）。"
+                ),
             },
             "signals": [
                 dict(signal, review={"status": "pending", "note": "人工复核后再决定是否入库"})
@@ -429,6 +462,11 @@ def run_fetch(
         "failed_count": len(health_rows) - ok_count,
         "signal_count": len(deduped),
         "raw_count": len(normalized_signals),
+        "new_count": ledger_stats["new_count"],
+        "seen_count": ledger_stats["seen_count"],
+        "ledger_total": ledger_stats["ledger_total"],
+        "relevant_count": relevance_stats["relevant_count"],
+        "tiers": relevance_stats["tiers"],
     }
 
 

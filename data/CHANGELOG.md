@@ -2,6 +2,37 @@
 
 格式：`data_version` + 日期 + 变更内容 + 影响面。契约变更（字段/枚举/公式）必须同步更新 `docs/12-数据契约与字段字典.md` 并通知 Lead、前端、红队。
 
+## data-v0.8.0 · 2026-10-23 · MINOR 增量（全球源扩充 + 跨批去重 + 相关性初筛）
+
+> 机会库内容不变（仍 80 条人工库）；本次只增强采集/线索层与版本号，validate V01–V20 通过。
+
+### A) 源注册表扩充（`data/sources.json` 68 → 125 平台）
+- 新增 **57 个候选源**（Google News 多地区 query 33 个 + Google Trends 3 个 + 垂直/行业媒体 21 个），实测 **50 个可用**、7 个失败；随后又停用 2 个旧的失效源（itunes 空 feed / substack 非 feed），最终 **125 平台 / 57 个 enabled 自动源 / 9 个 enabled=false（记录原因）**。
+- 新字段：`access(rss|json|api|manual)`、`regions`、`lang`、`enabled`、`priority`、`limits{max_items,min_interval_sec}`、`kind(news-aggregator|trend-feed|vertical-media)`、`check_result`；覆盖 **11/11 区域**（北美/欧洲/东亚/东南亚/南亚/中东北非/非洲/拉美/大洋洲/独联体/中国大陆）。
+- `fetch.select_sources` 只抓 `enabled != false`、合规绿/黄、`access ∈ {rss,json}` 的源，按 priority/value_score 排序；`FETCH_DEFAULT_LIMIT` 8 → **60**；RSS/Atom/JSON 解析带 `lang` 透传。
+- 2026-10-23 真实首跑：**57/57 源成功**、1448 条原始 → 1015 条信号（批内去重后）、1448 items 写入 source-health（`mode=online-fetch`，0 失败）。
+
+### B) 持久信号账本（`scanner/build/signal-ledger.sqlite`，gitignore）
+- 新增 `scanner/ledger.py`：SQLite 表 `signals(fingerprint UNIQUE, canonical_url, title_hash, content_hash, first_seen, last_seen, seen_count, source_id)`；`classify()` 跨批去重并标注每条 `is_new/first_seen/last_seen/seen_count`，返回 `new_count/seen_count/ledger_total`。
+- outbox meta 新增 `new_count/seen_count/ledger_total/ledger_path`；实测同一天连跑三次：**新增 983 → 68 → 0**（已见 27 → 947 → 1015；账本累计 **1051**），同 feed 重跑不再重复出现新信号。
+- 账本为本地派生文件，不入 git、不入发布。
+
+### C) 相关性初筛（`scanner/relevance.py`）
+- 每条信号新增：`relevance_score(0-100)`、`industry_ids`、`gap_type_ids`、`region_ids`、`tier(business/maybe/off-topic)`、`reasons`（taxonomy hints + 商业词 + 来源类别权重 + 招聘/广告/纯论文等排除词）。
+- outbox meta 与 `/api/outbox` 新增 `relevant_count/tiers/top_relevant`（top 最多 8 条）；**仅线索排序，不自动入库**。
+- 实测 1015 条：**business 184 / maybe 712 / off-topic 119**（relevant_count=184）；top_relevant 含 PPWR 法规、非洲支付、Saudi autotech 融资等高相关条目。
+
+### D) 版本与复核
+- 全部 data meta 升 **0.8.0**（含 4 份 history 快照 10-20/21/22/23）；rankings as_of **2026-10-23**（day0/week49/month57/year80）；四窗口报告 8 文件、校准、年鉴按 0.8.0 重生成；`radar.db` 重建（80/156/654/57 行）。
+- `validate.py` **20/20 PASS**（V10 新增：125 平台 / 57 enabled 自动源 ≥20 / 字段合法性）；unittest **101/101 OK**（新增 ledger 3 + relevance 3 + fetch 跨批集成 1 + serve outbox 扩展）；`--all --as-of 2026-10-23` 连跑两次幂等（JSON + db SHA256 一致）。
+- 指纹（SHA256 前 16）：opportunities `88FDA5AB84B7F826`（未变）、rankings `04DD9871FAB15074`、stats `B79BDB3BFB7A16E7`、sources `2E1AC5D220E9DE71`、source-health `F2956A6F8AF886E3`、radar.db `69151D7425DD5AA1`、yearbook html `FA50DADBF091D30C`、calibration html `C60846FFE68987FF`、fetch.py `CA8A9B2F7A580C00`、ledger.py `62CBF68474B28FF6`、relevance.py `A80C200FE6E4CA93`。
+
+### 已知不足
+- 首跑联网 57 源约 3–4 分钟（同域限速 + 单源 timeout）；后续命中 6h 缓存会快很多。若只想快速验证，可 `--fetch-limit 20`。
+- Google News/Trends 为新闻聚合，信号偏宏观；已在 `kind` 标注，相关性初筛会降权纯新闻/论文。
+- researcher 的 `research/sources-expansion.md` 另列 38 个实测源（含 Supply Chain Dive/FreightWaves/36Kr 等），本轮已覆盖 57 个可用源，剩余可在下一 PATCH 合并。
+- 9 个 enabled=false 源（bing ×2、rest-of-world、techinasia 403、entrackr 404、nature-news 空、dw-news 空、itunes 空、substack 非 feed）保留原因，换 URL 后可重启。
+
 ## data-v0.7.0 · 2026-10-23 · MINOR 增量（本地控制台后端 `scanner/serve.py`）
 
 > 数据内容不变（机会库 80 条/四窗口 day17/week49/month57/year80/validate 20/20），仅版本号升 0.7.0 以配合 v0.7.0 本地控制台。

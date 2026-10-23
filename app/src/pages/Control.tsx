@@ -24,6 +24,7 @@ import {
   fetchJob,
   fetchLog,
   fetchLogs,
+  fetchOutbox,
   fetchStatus,
   formatControlTime,
   getStoredControlToken,
@@ -32,8 +33,10 @@ import {
   runTask,
   setSchedule,
   type ControlJob,
+  type ControlSignal,
   type ControlStatus,
 } from '@/lib/control'
+import { allSources } from '@/lib/data'
 import { cn } from '@/lib/utils'
 
 type L = (zh: string, en: string) => string
@@ -55,6 +58,8 @@ export default function Control() {
   const [loading, setLoading] = useState(false)
   const [withFetch, setWithFetch] = useState(false)
   const [starting, setStarting] = useState<Task | 'schedule' | null>(null)
+  const [outboxSignals, setOutboxSignals] = useState<ControlSignal[]>([])
+  const [inboxTab, setInboxTab] = useState<'relevant' | 'new' | 'all'>('relevant')
   const logRef = useRef<HTMLPreElement>(null)
 
   const loadStatus = async (quiet = false) => {
@@ -87,10 +92,21 @@ export default function Control() {
     }
   }
 
+  const loadOutbox = async () => {
+    try {
+      const r = await fetchOutbox(100)
+      if (r.outbox) setStatus((prev) => (prev ? { ...prev, outbox: r.outbox } : prev))
+      if (r.signals) setOutboxSignals(r.signals)
+    } catch {
+      /* old backend or no outbox endpoint; keep status.outbox/top */
+    }
+  }
+
   useEffect(() => {
     if (!token) return
     void loadStatus(false)
     void loadLogs()
+    void loadOutbox()
     const id = window.setInterval(() => {
       if (document.visibilityState === 'visible') void loadStatus(true)
     }, 3000)
@@ -114,6 +130,7 @@ export default function Control() {
         if (r.job.state !== 'running') {
           void loadStatus(true)
           void loadLogs()
+          void loadOutbox()
           setNotice(r.job.state === 'ok' ? L('任务完成', 'Task completed') : L('任务失败，请查看日志', 'Task failed; check the log'))
         }
       } catch (e) {
@@ -150,6 +167,30 @@ export default function Control() {
     }
     return Object.entries(raw).map(([name, count]) => ({ name, count: Number(count) || 0 })).sort((a, b) => b.count - a.count)
   }, [outbox])
+
+  const autoSourceCount = useMemo(
+    () => allSources.filter((s) => s.enabled !== false && ['rss', 'json', 'api'].includes(s.access)).length,
+    [],
+  )
+  const manualSourceCount = allSources.length - autoSourceCount
+  const funnel = outbox?.funnel
+  const sourceHealthRows: Array<{ id?: string; name?: string; items?: number; ok?: boolean; error?: string }> = outbox?.source_health?.sources?.length
+    ? outbox.source_health.sources
+    : outboxSources.map((s) => ({ name: s.name, items: s.count, ok: true }))
+  const attempted = outbox?.source_health?.attempted ?? outbox?.source_count ?? 0
+  const okSources = outbox?.source_health?.ok ?? outbox?.source_count ?? 0
+  const failedSources = outbox?.source_health?.failed ?? Math.max(0, attempted - okSources)
+  const inboxBase: ControlSignal[] = outboxSignals.length
+    ? outboxSignals
+    : (outbox?.top || []).map((x, i): ControlSignal => ({ signal_id: `top-${i}`, title: x.title, url: x.url, source_id: x.source_id, is_new: true, relevance_score: x.relevance_score }))
+  const isRelevantSignal = (s: ControlSignal) => (s.relevance_score ?? -1) >= 50 || s.tier === 'business' || s.tier === 'maybe'
+  const inboxRows = inboxBase
+    .filter((s) => {
+      if (inboxTab === 'new') return s.is_new !== false
+      if (inboxTab === 'relevant') return isRelevantSignal(s)
+      return true
+    })
+    .sort((a, b) => Number(b.is_new !== false) - Number(a.is_new !== false) || (b.relevance_score ?? 0) - (a.relevance_score ?? 0))
 
   const startTask = async (task: Task) => {
     setStarting(task)
@@ -214,7 +255,7 @@ export default function Control() {
         actions={
           <div className="flex flex-wrap items-center gap-2">
             {serviceBadge}
-            <Button size="sm" variant="outline" onClick={() => { void loadStatus(false); void loadLogs() }} disabled={!token || busy}>
+            <Button size="sm" variant="outline" onClick={() => { void loadStatus(false); void loadLogs(); void loadOutbox() }} disabled={!token || busy}>
               <RefreshCw className="h-3.5 w-3.5" /> {L('刷新状态', 'Refresh')}
             </Button>
           </div>
@@ -358,6 +399,52 @@ export default function Control() {
           </div>
         </SectionCard>
 
+        <SectionCard className="xl:col-span-12" eyebrow="SCAN BOUNDARY / FUNNEL" title={L('扫描边界与漏斗', 'Scan boundary & funnel')} subtitle={L('每源尝试/成功/失败、原始→去重→本轮新增→生意相关漏斗；未覆盖平台不会假装已采集。', 'Per-source attempts/success/failures and the raw → deduped → new → relevant funnel; unsupported platforms are never treated as fetched.')} right={<ShieldAlert className="h-4 w-4 text-dim" />}>
+          <div className="grid grid-cols-2 gap-2 md:grid-cols-4 xl:grid-cols-8">
+            {[
+              { label: L('源尝试', 'Attempted'), value: attempted },
+              { label: L('成功', 'OK'), value: okSources, color: '#3ddc97' },
+              { label: L('失败', 'Failed'), value: failedSources, color: failedSources ? '#ff5d5d' : undefined },
+              { label: L('原始信号', 'Raw'), value: funnel?.raw ?? outbox?.raw_count ?? 0 },
+              { label: L('去重后', 'Deduped'), value: funnel?.deduped ?? outbox?.signal_count ?? 0 },
+              { label: L('本轮新增', 'New'), value: funnel?.new ?? outbox?.new_count ?? 0, color: '#4cc9f0' },
+              { label: L('生意相关', 'Relevant'), value: funnel?.relevant ?? outbox?.relevant_count ?? 0, color: '#3ddc97' },
+              { label: L('已见（历史去重）', 'Seen (ledger)'), value: funnel?.seen ?? outbox?.seen_count ?? 0, color: '#ffb547' },
+            ].map((x) => (
+              <div key={x.label} className="rounded border border-line/70 px-2 py-1.5">
+                <div className="mono-label">{x.label}</div>
+                <div className="num text-[17px] font-semibold" style={{ color: x.color || '#cdd6e5' }}>{x.value}</div>
+              </div>
+            ))}
+          </div>
+          <div className="mt-2 rounded border border-line/60 bg-black/15 px-2 py-1.5 text-[10px] leading-relaxed text-muted">
+            {L('漏斗：原始信号 → 批内/历史去重 → 本轮新信号 → 生意相关初筛；只有人工复核通过的候选才会进入机会库。', 'Funnel: raw signals → batch/history dedupe → new this round → business-relevance triage; only human-approved candidates enter the opportunity library.')}
+          </div>
+          <div className="mt-2 grid grid-cols-1 gap-3 md:grid-cols-2">
+            <div>
+              <div className="mono-label mb-1">{L('逐源结果', 'Per-source result')}</div>
+              <div className="max-h-[150px] space-y-1 overflow-auto">
+                {sourceHealthRows.length ? sourceHealthRows.map((s, i) => (
+                  <div key={`${s.id || s.name || i}`} className="flex items-center gap-2 text-[10px]">
+                    <span className={cn('h-1.5 w-1.5 shrink-0 rounded-full', s.ok === false ? 'bg-danger' : 'bg-signal')} />
+                    <span className="min-w-0 flex-1 truncate text-muted">{s.name || s.id || 'source'}</span>
+                    <span className="num text-dim">{s.items ?? 0}</span>
+                    {s.error && <span className="max-w-[110px] truncate font-mono text-[8.5px] text-danger" title={s.error}>{s.error}</span>}
+                  </div>
+                )) : <div className="text-[10px] text-dim">{L('服务尚未返回逐源明细（旧版后端或暂无采集）', 'No per-source detail returned (old backend or no fetch yet)')}</div>}
+              </div>
+            </div>
+            <div>
+              <div className="mono-label mb-1">{L('覆盖边界 / 未覆盖平台', 'Coverage boundary / unsupported platforms')}</div>
+              <div className="space-y-1 text-[10px] leading-relaxed text-muted">
+                <div>{L(`目录共 ${allSources.length} 个平台：可自动采集 ${autoSourceCount} 个，需人工/API ${manualSourceCount} 个。`, `${allSources.length} platforms in the directory: ${autoSourceCount} auto-fetchable, ${manualSourceCount} manual/API.`)}</div>
+                <div>{L(`本轮采集覆盖 ${outbox?.source_count ?? 0} 个源；其余平台不在自动扫描范围内。`, `${outbox?.source_count ?? 0} sources covered this round; the rest are outside automatic scanning.`)}</div>
+                <div className="text-dim">{L('抓取规则：仅公开 RSS/JSON/API，每源限流与缓存、仅标题摘要，不抓评论/付费墙/登录内容；失败源保留 error 不静默。', 'Rules: public RSS/JSON/API only, per-source rate limits/cache, title/summary only; no comments/paywalls/logins; failed sources keep their error.')}</div>
+              </div>
+            </div>
+          </div>
+        </SectionCard>
+
         <SectionCard className="xl:col-span-12" eyebrow="INBOX" title={L('采集收件箱', 'Fetch inbox')} subtitle={L('原始采集信号不会自动变成机会，需人工复核后才能入库。', 'Raw fetched signals never become opportunities automatically; human review is required before ingestion.')} right={<ClipboardList className="h-4 w-4 text-dim" />}>
           {outbox ? (
             <div className="grid grid-cols-1 gap-3 md:grid-cols-12">
@@ -413,6 +500,58 @@ export default function Control() {
           ) : (
             <div className="rounded border border-dashed border-line/70 px-3 py-4 text-center text-[10.5px] text-dim">
               {L('还没有采集记录。点击「立即采集」后，原始信号会进入 scanner/outbox 并显示在这里；不会自动入库。', 'No fetch records yet. Click “Fetch now”; raw signals will land in scanner/outbox and appear here—never auto-ingested.')}
+            </div>
+          )}
+        </SectionCard>
+
+        <SectionCard className="xl:col-span-12" eyebrow="INBOX ITEMS" title={L('收件箱信号', 'Inbox signals')} subtitle={L('默认展示「相关+新增」；相关性初筛只是线索，仍需人工复核，不自动入库。', 'Defaults to relevant+new; relevance triage is only a hint and still requires human review, never auto-ingested.')} right={<ClipboardList className="h-4 w-4 text-dim" />}>
+          <div className="mb-2 flex flex-wrap items-center gap-1.5">
+            {([
+              ['relevant', L('相关（含新增）', 'Relevant + new')],
+              ['new', L('新增', 'New')],
+              ['all', L('全部', 'All')],
+            ] as const).map(([key, label]) => (
+              <button
+                key={key}
+                type="button"
+                onClick={() => setInboxTab(key)}
+                className={cn('rounded border px-2 py-1 text-[10.5px]', inboxTab === key ? 'border-signal/50 bg-signal/10 text-signal' : 'border-line text-muted hover:border-line-strong')}
+              >
+                {label}
+              </button>
+            ))}
+            <span className="ml-auto font-mono text-[9px] text-dim">{inboxRows.length} / {inboxBase.length}</span>
+          </div>
+          {inboxRows.length ? (
+            <div className="max-h-[320px] space-y-1 overflow-auto">
+              {inboxRows.slice(0, 100).map((s, i) => (
+                <div key={`${s.signal_id || s.url || i}`} className="rounded border border-line/60 px-2 py-1.5 text-[10px]">
+                  <div className="flex flex-wrap items-center gap-1.5">
+                    {s.is_new !== false && <Badge tone="signal">{L('新增', 'NEW')}</Badge>}
+                    {typeof s.relevance_score === 'number' && <Badge tone={(s.relevance_score >= 60 ? 'signal' : s.relevance_score >= 40 ? 'amber' : 'muted')}>rel {s.relevance_score}</Badge>}
+                    {s.tier && <span className="font-mono text-[8.5px] text-dim">{s.tier}</span>}
+                    {s.source_id && <span className="font-mono text-[8.5px] text-dim">{s.source_id}</span>}
+                    {s.url ? <a href={s.url} target="_blank" rel="noreferrer" className="min-w-0 flex-1 truncate text-muted hover:text-signal">{s.title || s.url}</a> : <span className="min-w-0 flex-1 truncate text-muted">{s.title || '—'}</span>}
+                  </div>
+                  {(((s.industry_ids?.length ?? 0) + (s.industry_hints?.length ?? 0) + (s.gap_type_ids?.length ?? 0) + (s.gap_hints?.length ?? 0) + (s.region_ids?.length ?? 0) + (s.region_hints?.length ?? 0)) > 0) && (
+                    <div className="mt-1 flex flex-wrap gap-1">
+                      {[...(s.industry_ids || s.industry_hints || []), ...(s.gap_type_ids || s.gap_hints || []), ...(s.region_ids || s.region_hints || [])].slice(0, 6).map((tag) => (
+                        <span key={tag} className="rounded border border-line/50 px-1 py-0.5 text-[8.5px] text-dim">{tag}</span>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div className="rounded border border-dashed border-line/70 px-3 py-4 text-center text-[10.5px] leading-relaxed text-dim">
+              {!outbox
+                ? L('还没有采集记录。点击「立即采集」后，原始信号会进入 scanner/outbox 并显示在这里。', 'No fetch records yet. Click “Fetch now”; raw signals will appear here from scanner/outbox.')
+                : inboxTab === 'new'
+                  ? L('本轮没有新信号（全部已在历史去重账本中见过）。', 'No new signals this round (all were already seen by the history dedupe ledger).')
+                  : inboxTab === 'relevant'
+                    ? L('本轮没有相关性达标的新信号；相关性初筛只用于排序，不代表没有采集能力。', 'No new signals passed relevance triage; triage only ranks signals and does not mean fetching is broken.')
+                    : L('采集文件存在，但没有可展示的信号条目。', 'A fetch file exists, but it contains no displayable signals.')}
             </div>
           )}
         </SectionCard>

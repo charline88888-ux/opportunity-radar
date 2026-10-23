@@ -40,6 +40,7 @@ import {
   rankings,
   rankingsDeltaBasis,
   rankingsHistoryAsOf,
+  allSources,
   historyBasisReplayLabel,
   rankingsHistoryReplayAsOf,
   regionName,
@@ -137,6 +138,8 @@ export default function Dashboard() {
   const alertCenter = useAlerts()
   const fresh = freshness()
   const [pendingReview, setPendingReview] = useState<number | null>(null)
+  const [outboxNew, setOutboxNew] = useState<number | null>(null)
+  const autoSourceCount = useMemo(() => allSources.filter((s) => s.enabled !== false && ['rss', 'json', 'api'].includes(s.access)).length, [])
   useEffect(() => {
     let alive = true
     try {
@@ -145,6 +148,7 @@ export default function Dashboard() {
       void fetchStatus().then((s) => {
         if (!alive) return
         setPendingReview(s.outbox?.signal_count ?? s.outbox?.raw_count ?? null)
+        setOutboxNew(s.outbox?.new_count ?? s.outbox?.signal_count ?? null)
       }).catch(() => {})
     } catch {
       /* static page */
@@ -462,6 +466,13 @@ export default function Dashboard() {
           ) : (
             <span className="text-dim">未提供（可选）</span>
           )}
+        </span>
+        <span className="flex items-center gap-1.5 text-[10.5px] text-dim">
+          {L('自动源', 'Auto sources')} <span className="num text-muted">{autoSourceCount}</span>
+          <span className="text-line">·</span>
+          {L('覆盖区域', 'Regions')} <span className="num text-muted">{kpi.regions_covered}</span>
+          <span className="text-line">·</span>
+          {L('本轮新增', 'New this round')} <span className="num text-muted">{outboxNew ?? kpi.new_today}</span>
         </span>
         <Link to="/about" className="ml-auto text-[10.5px] text-muted hover:text-signal">数据说明 →</Link>
       </Panel>

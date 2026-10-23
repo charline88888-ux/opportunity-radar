@@ -157,7 +157,7 @@ export const TREND_LABEL: Record<string, string> = { up: '上升', flat: '走平
 export const CHANGE_LABEL: Record<string, string> = { up: '上升', down: '下降', new: '新上榜', flat: '持平' }
 export const EFFORT_LABEL: Record<string, string> = { full: '全职', side: '兼职可做', solo: '单人可做' }
 export const ACCESS_LABEL: Record<string, string> = {
-  api: 'API', rss: 'RSS', html: '网页', manual: '人工', 'paid-api': '付费 API',
+  api: 'API', rss: 'RSS', json: 'JSON', html: '网页', manual: '人工', 'paid-api': '付费 API',
 }
 export const FREQUENCY_LABEL: Record<string, string> = {
   realtime: '实时', daily: '每日', weekly: '每周', monthly: '每月', quarterly: '每季', yearly: '每年', manual: '人工',

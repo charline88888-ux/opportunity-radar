@@ -29,10 +29,12 @@ from scanner import (  # noqa: E402
     enrich,
     fetch,
     history,
+    ledger,
     materialize,
     normalize,
     pipeline,
     rank,
+    relevance,
     report,
     score,
     validate,
@@ -1373,5 +1375,227 @@ class TestAsOf(unittest.TestCase):
             self.assertIn("生成于 2026-10-23", html_text)  # as_of 覆盖已渲染进页面
 
 
+class TestLedger(unittest.TestCase):
+    """v0.8.0：持久信号账本（跨批次去重）。"""
+
+    @staticmethod
+    def _signal(signal_id: str, title: str, url: str, quote: str = "quote text") -> dict:
+        return {
+            "signal_id": signal_id,
+            "source_id": "test-rss",
+            "title": title,
+            "title_norm": title.lower(),
+            "quote": quote,
+            "url": url,
+            "canonical_url": normalize.canonical_url(url),
+            "fingerprint": common.short_hash(url, title.lower()),
+        }
+
+    def test_new_then_seen_and_total(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / "ledger.sqlite"
+            signals = [self._signal("sig-1", "Pet memorial demand", "https://example.com/a"), self._signal("sig-2", "Halal beauty growth", "https://example.com/b")]
+            with ledger.SignalLedger(path) as store:
+                stats = store.classify(signals, "2026-10-23")
+                self.assertEqual(stats, {"new_count": 2, "seen_count": 0, "ledger_total": 2})
+                self.assertTrue(all(signal["is_new"] for signal in signals))
+            with ledger.SignalLedger(path) as store:
+                again = [self._signal("sig-1", "Pet memorial demand", "https://example.com/a")]
+                stats = store.classify(again, "2026-10-24")
+                self.assertEqual(stats["new_count"], 0)
+                self.assertEqual(stats["seen_count"], 1)
+                self.assertEqual(stats["ledger_total"], 2)
+                self.assertFalse(again[0]["is_new"])
+                self.assertEqual(again[0]["seen_count"], 2)
+                self.assertEqual(again[0]["last_seen"], "2026-10-24")
+
+    def test_canonical_url_dedup_and_content_hash(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / "ledger.sqlite"
+            url = "https://example.com/item?id=1&utm_source=rss"
+            first = self._signal("sig-1", "Same story title", url, "same content body")
+            with ledger.SignalLedger(path) as store:
+                self.assertEqual(store.classify([first], "2026-10-23")["new_count"], 1)
+            # 同 canonical（去 utm）不同标题 → 仍算已见
+            second = self._signal("sig-2", "Different title same url", "https://example.com/item?id=1", "other")
+            # 同标题+同内容、不同 URL → content hash 兜底
+            third = self._signal("sig-3", "Same story title", "https://other.example.com/story", "same content body")
+            with ledger.SignalLedger(path) as store:
+                stats = store.classify([second, third], "2026-10-23")
+                self.assertEqual(stats["new_count"], 0)
+                self.assertEqual(stats["seen_count"], 2)
+
+    def test_rerun_does_not_duplicate_total(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / "ledger.sqlite"
+            signal = self._signal("sig-1", "Story", "https://example.com/x")
+            for _ in range(3):
+                with ledger.SignalLedger(path) as store:
+                    store.classify([dict(signal)], "2026-10-23")
+            with ledger.SignalLedger(path) as store:
+                total = store.classify([], "2026-10-23")["ledger_total"]
+            self.assertEqual(total, 1)
+
+
+class TestRelevance(unittest.TestCase):
+    """v0.8.0：信号相关性初筛（business / maybe / off-topic）。"""
+
+    @staticmethod
+    def _signal(**overrides) -> dict:
+        signal = {
+            "signal_id": "sig-test",
+            "source_id": "gn-test",
+            "source_category": "policy",
+            "title": "EU product compliance regulation hits small ecommerce brands",
+            "quote": "New compliance rules force cross-border sellers to file product certification.",
+            "industry_hints": ["compliance", "crossborder"],
+            "gap_hints": ["regulation"],
+            "region_hints": ["europe"],
+        }
+        signal.update(overrides)
+        return signal
+
+    def test_business_signal_fields(self):
+        signal = self._signal()
+        result = relevance.assess(signal)
+        self.assertGreaterEqual(result["relevance_score"], config.RELEVANCE_BUSINESS_MIN)
+        self.assertEqual(result["tier"], "business")
+        self.assertIn("compliance", result["industry_ids"])
+        self.assertIn("regulation", result["gap_type_ids"])
+        self.assertEqual(result["region_ids"], ["europe"])
+        self.assertTrue(any(reason.startswith("keyword:") for reason in result["reasons"]))
+
+    def test_off_topic_exclusions(self):
+        hiring = relevance.assess(self._signal(title="We are hiring a growth marketer", quote="Job posting", industry_hints=[], gap_hints=[]))
+        self.assertEqual(hiring["tier"], "off-topic")
+        self.assertTrue(any(reason.startswith("excluded:") for reason in hiring["reasons"]))
+        paper = relevance.assess(
+            self._signal(
+                title="arXiv preprint: a study of LLM agent refusal",
+                quote="We present a research paper.",
+                source_category="academic",
+                industry_hints=[],
+                gap_hints=[],
+                region_hints=[],
+            )
+        )
+        self.assertEqual(paper["tier"], "off-topic")
+
+    def test_analyze_summary(self):
+        signals = [
+            self._signal(signal_id="sig-a"),
+            self._signal(signal_id="sig-b", title="We are hiring", quote="job posting", industry_hints=[], gap_hints=[]),
+            self._signal(signal_id="sig-c", source_category="marketplace", title="Retail launch", industry_hints=["pet"], gap_hints=[]),
+        ]
+        summary = relevance.analyze(signals)
+        self.assertEqual(sum(summary["tiers"].values()), 3)
+        self.assertEqual(summary["relevant_count"], summary["tiers"]["business"])
+        self.assertLessEqual(len(summary["top_relevant"]), 8)
+        self.assertTrue(all("relevance_score" in signal for signal in signals))
+
+
+class TestFetchLedgerIntegration(unittest.TestCase):
+    """v0.8.0：两次 fetch 跨批去重 + outbox is_new/relevance/meta（临时目录，不污染仓库）。"""
+
+    RSS = """<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0"><channel><title>Test</title>
+<item><title>Pet memorial demand grows as owners seek keepsakes</title>
+<link>https://example.com/pet-memorial-demand</link>
+<description>Pet owners search for memorial keepsakes; small business opportunity for custom glass.</description>
+<pubDate>Tue, 21 Oct 2026 10:00:00 GMT</pubDate></item>
+</channel></rss>"""
+
+    def test_two_fetches_dedupe_relevance_and_meta(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            sources = {
+                "meta": {"count": 2},
+                "categories": [
+                    {
+                        "id": "demand",
+                        "sources": [
+                            {
+                                "id": "test-rss",
+                                "name": "Test RSS",
+                                "url": "https://example.com/feed",
+                                "regions": ["north-america"],
+                                "signal_types": ["complaint"],
+                                "access": "rss",
+                                "frequency": "daily",
+                                "cost": "free",
+                                "compliance": "green",
+                                "value_score": 8.0,
+                                "enabled": True,
+                                "priority": 80,
+                                "kind": "vertical-media",
+                                "lang": "en",
+                                "limits": {"max_items": 30, "min_interval_sec": 1.0},
+                                "notes": "test",
+                            },
+                            {
+                                "id": "disabled-rss",
+                                "name": "Disabled RSS",
+                                "url": "https://example.com/disabled",
+                                "regions": ["europe"],
+                                "signal_types": ["trend"],
+                                "access": "rss",
+                                "frequency": "daily",
+                                "cost": "free",
+                                "compliance": "green",
+                                "value_score": 9.0,
+                                "enabled": False,
+                                "priority": 99,
+                                "kind": "news-aggregator",
+                                "lang": "en",
+                                "limits": {"max_items": 10, "min_interval_sec": 1.0},
+                                "notes": "disabled test",
+                            },
+                        ],
+                    }
+                ],
+            }
+            (root / "sources.json").write_text(json.dumps(sources, ensure_ascii=False), encoding="utf-8")
+            fake_fetch = {"ok": True, "status": 200, "latency_ms": 5, "text": self.RSS, "error": None, "cached": False}
+            patches = [
+                mock.patch.object(config, "SOURCES_PATH", root / "sources.json"),
+                mock.patch.object(config, "OUTBOX_DIR", root / "outbox"),
+                mock.patch.object(config, "SOURCE_HEALTH_PATH", root / "source-health.json"),
+                mock.patch.object(config, "LEDGER_PATH", root / "ledger.sqlite"),
+                mock.patch.object(config, "FETCH_CACHE_DIR", root / "cache"),
+                mock.patch.object(config, "FETCH_MIN_INTERVAL_SEC", 0.0),
+                mock.patch.object(fetch, "fetch_url", return_value=fake_fetch),
+            ]
+            for item in patches:
+                item.start()
+            try:
+                self.assertEqual(len(fetch.select_sources(sources, 10)), 1)  # enabled=false 被跳过
+                first = fetch.run_fetch("2026-10-23", limit=10, cache_enabled=False)
+                second = fetch.run_fetch("2026-10-23", limit=10, cache_enabled=False)
+            finally:
+                for item in reversed(patches):
+                    item.stop()
+            self.assertEqual(first["ok_count"], 1)
+            self.assertEqual(first["raw_count"], 1)
+            self.assertEqual(first["signal_count"], 1)
+            self.assertEqual(first["new_count"], 1)
+            self.assertEqual(second["new_count"], 0)
+            self.assertEqual(second["seen_count"], 1)
+            outbox = json.loads((root / "outbox" / "signals-2026-10-23.json").read_text(encoding="utf-8"))
+            meta = outbox["meta"]
+            self.assertEqual(meta["new_count"], 0)
+            self.assertEqual(meta["seen_count"], 1)
+            self.assertEqual(meta["ledger_total"], 1)
+            self.assertIn("relevant_count", meta)
+            self.assertIn("tiers", meta)
+            self.assertIn("top_relevant", meta)
+            signal = outbox["signals"][0]
+            self.assertFalse(signal["is_new"])
+            self.assertGreaterEqual(signal["seen_count"], 2)
+            self.assertIn("relevance_score", signal)
+            self.assertIn(signal["tier"], {"business", "maybe", "off-topic"})
+            self.assertTrue((root / "source-health.json").exists())
+
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)
+

@@ -27,7 +27,7 @@ CALENDAR_PATH = DATA_DIR / "calendar.json"
 SOURCE_HEALTH_PATH = DATA_DIR / "source-health.json"
 DB_PATH = DATA_DIR / "radar.db"
 
-DATA_VERSION = "0.7.0"
+DATA_VERSION = "0.8.0"
 DEFAULT_AS_OF = "2026-10-22"
 CURRENT_WEEK = "2026-W43"
 CURRENT_MONTH = "2026-10"
@@ -45,11 +45,17 @@ FETCH_TIMEOUT_SEC = 20
 FETCH_MAX_RETRIES = 2
 FETCH_MIN_INTERVAL_SEC = 1.0  # 同域限速（每域 ≤1 req/s）
 FETCH_CACHE_TTL_SEC = 6 * 3600
-FETCH_DEFAULT_LIMIT = 8
+FETCH_DEFAULT_LIMIT = 60  # v0.8.0：默认扫描全部 enabled 自动源（原 8）
 FETCH_MAX_ITEMS_PER_SOURCE = 30  # 单源单次最多保留的条数（评论流/长列表防爆）
-FETCHABLE_ACCESS = {"rss"}  # v0.2.0 只自动采集 RSS/JSON feed；公开 API 端点需单独接线
+FETCHABLE_ACCESS = {"rss", "json"}  # v0.8.0：RSS/Atom 与公开 JSON feed
 FETCHABLE_COMPLIANCE = {"green", "yellow"}
 SOURCE_HEALTH_STATUSES = {200, 301, 302, 304, 403, 404, 429, 500, 503}
+
+# v0.8.0：持久信号账本 + 相关性初筛
+LEDGER_PATH = BUILD_DIR / "signal-ledger.sqlite"
+RELEVANCE_TIERS = {"business", "maybe", "off-topic"}
+RELEVANCE_BUSINESS_MIN = 70
+RELEVANCE_MAYBE_MIN = 40
 
 # v0.5.1：AI 富化在线路径（OpenAI 兼容）
 LLM_MAX_RETRIES = 2              # 失败重试次数（超时/5xx/连接错误）

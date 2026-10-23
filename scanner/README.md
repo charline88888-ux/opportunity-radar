@@ -1,6 +1,6 @@
-# scanner/ —— 机会雷达扫描流水线（Python 3.11，纯标准库，data-v0.7.0）
+# scanner/ —— 机会雷达扫描流水线（Python 3.11，纯标准库，data-v0.8.0）
 
-> 唯一数据标准：`docs/12-数据契约与字段字典.md`（data-v0.7.0）。扫描器是 `data/rankings.json`、`data/stats.json`、`data/history/*.json`、`data/source-health.json` 与 `scanner/outbox/` 的**唯一生成者**；按契约 4.5/5.x 重算派生字段、按 §9 做 V01–V20 校验；`scanner/serve.py` 提供本地控制台（v0.7.0）。
+> 唯一数据标准：`docs/12-数据契约与字段字典.md`（data-v0.8.0）。扫描器是 `data/rankings.json`、`data/stats.json`、`data/history/*.json`、`data/source-health.json` 与 `scanner/outbox/` 的**唯一生成者**；按契约 4.5/5.x 重算派生字段、按 §9 做 V01–V20 校验；`scanner/serve.py` 提供本地控制台（v0.7.0）。
 
 ## 1. 快速开始
 
@@ -48,7 +48,7 @@ python scanner/yearbook.py --year 2026 --experiments scanner/fixtures/experiment
 python scanner/serve.py                      # http://127.0.0.1:8787，token 写 .radar-console-token
 python scanner/serve.py --port 8788 --open   # 自定义端口并自动打开 #/control?token=...
 
-# 单元测试（标准库 unittest，94 条）
+# 单元测试（标准库 unittest，101 条）
 python -m unittest discover -s scanner/tests -v
 ```
 
@@ -96,7 +96,7 @@ data/opportunities.json  ── score.py/materialize.py 重算 → 回写派生�
 | 文件 | 职责 | 契约依据 |
 |---|---|---|
 | `pipeline.py` | CLI：`--all` 离线全链路、`--replay-as-of/--replay-days` 历史回放、`--fetch`、`--report`、`--db-rebuild` | §5.2 / §1.2 |
-| `config.py` | 路径、数据版本（0.6.0）、as_of、窗口配额（v0.6.0：day≥10/week≥20/month≥30/year≥80）、采集参数、枚举、禁词 | §1/§3/§9 |
+| `config.py` | 路径、数据版本（0.8.0）、as_of、窗口配额、采集参数（v0.8.0：默认 60 源、账本/相关性常量）、枚举、禁词 | §1/§3/§9 |
 | `common.py` | JSON 读写、日期/ISO 周/窗口 key、`round1`（ROUND_HALF_UP）、文本工具 | §2 |
 | `history.py` | 快照写读、上一期查找、回放生成（`build_replay_snapshot`）、快照结构校验；v0.3 回放 `reconstructed=true`/`replay_as_of` | §1.2/§5.1 |
 | `score.py` | 10 维加权 `total`、`grade`、`rank_score`，Decimal 精确计算 | §4.5 |
@@ -104,15 +104,17 @@ data/opportunities.json  ── score.py/materialize.py 重算 → 回写派生�
 | `rank.py` | 窗口、排序链、真实 delta（day 用上一日快照；week/month/year 同 key；两期都有才计算，新增 null/new；无历史回退 adjacent-window） | §5.1 |
 | `stats.py` | KPI、分组分布、评分直方图、14 天趋势、开放窗口价值 | §5.2 |
 | `db.py` | `data/radar.db`（opportunities/evidence/rankings_history/source_health），原子重建 | §1.1 |
-| `fetch.py` | 真实采集：RSS/Atom/JSON feed、限速/缓存/UA/重试、outbox、source-health v2 | §1.2/§6 |
+| `fetch.py` | 真实采集：RSS/Atom/JSON feed、enabled/priority 源选择、限速/缓存/UA/重试、账本去重、相关性初筛、outbox、source-health v2 | §1.2/§6/§1.12 |
+| `ledger.py` | 持久信号账本（SQLite `scanner/build/signal-ledger.sqlite`）：canonical_url/title_hash/content_hash、first_seen/last_seen/seen_count；跨批去重 | §1.12 |
+| `relevance.py` | 信号相关性初筛：relevance_score 0-100、industry/gap/region ids、tier（business/maybe/off-topic）、reasons；仅线索、不自动入库 | §1.12 |
 | `report.py` | 四窗口报告（自包含 HTML + Markdown），`generated_at` 确定性 | §1.1 |
 | `enrich.py` | AI 富化 outbox：`--provider offline/mock/online`（mock 本地模拟走同一请求/解析流程，不联网）；输出 `enriched-<date>.json` + `REVIEW.md`；token/成本估算、`--limit`、超时重试、缓存标注；`needs_human=true`、永不自动入库、key 不落盘、`--dry-run` | §1.3/§1.5 |
 | `calibrate.py` | 实验校准报告：Brier（docs/04 §12.9.5）、等级×成功率、花费/耗时、建议；输出 `data/reports/calibration-<date>.{html,md}` | §1.3 |
 | `yearbook.py` | 年度年鉴：Top20/月度时间线/月度等级分布/信息差热度/窗口衰减统计/分布/A 级清单/窗口收尾/评分分布/可选实验漏斗+摘要/规则化 3 条方向建议；输出 `data/reports/yearbook-<year>.{html,md}`，`generated_at` 确定性 | §1.4/§1.6 |
-| `validate.py` | V01–V20；**v0.6.0 配额收紧**：V02（≥80 条/14 行业各≥2/11 区域/≥50 国家/中国角度≥25）、V08（完整配额只在基准日强制，其他 as_of 仅结构校验，v0.6.1）；V19 快照、V20 source-health v2 | §9 |
+| `validate.py` | V01–V20；**v0.8.0 V10** 校验源注册表字段（enabled/priority/kind/lang/limits）且 enabled 自动源 ≥20；**v0.6.0 配额收紧**：V02（≥80 条/14 行业各≥2/11 区域/≥50 国家/中国角度≥25）、V08（完整配额只在基准日强制，其他 as_of 仅结构校验，v0.6.1）；V19 快照、V20 source-health v2 | §9 |
 | `serve.py` | **v0.7.0 本地控制台后端**：仅 127.0.0.1、token 认证、静态服务（current→app/dist→releases）+ token 注入 index、`/api/health|status|run|job|logs|log|schedule`、单任务 409、路径穿越防护、`scanner/logs/console.log` | §1.8 |
 | `adapters/` | `rss` / `reddit` / `google_trends` / `ecommerce_reviews` 离线适配器 | §1/§6 |
-| `tests/test_scanner.py` | 66 条单测：公式/舍入/边界/窗口/榜单/tie-breaker/物化/validate/归一/去重/history delta/回退/回放链与幂等/source-health/报告/SQLite/feed 解析/红源筛选/enrich/calibrate/yearbook/as-of/fetch --as-of | docs/04 §10.4 |
+| `tests/test_scanner.py` | 73 条单测：公式/舍入/边界/窗口/榜单/tie-breaker/物化/validate/归一/去重/history delta/回退/回放链与幂等/source-health/报告/SQLite/feed 解析/红源筛选/enrich/calibrate/yearbook/as-of/fetch --as-of/ledger/relevance/fetch-ledger 集成 | docs/04 §10.4 |
 | `tests/test_serve.py` | 28 条单测：health（含 Origin）/401/403/status（含 outbox 摘要）/静态与 SPA 回退/token 注入/无构建 503/run 409/job/logs 与路径穿越/schedule 校验与 disable 幂等/schtasks CSV 中英文解析/enable 后状态同步/locale 解码/fetch 命令 as-of/outbox 端点/token 不落日志 | §1.8 |
 
 ## 4. 历史快照、回放与真实 delta（v0.3.0）
@@ -186,7 +188,14 @@ data/opportunities.json  ── score.py/materialize.py 重算 → 回写派生�
 - 安全：路径白名单/防目录遍历、不返回绝对路径、token 不落日志；每次 API 调用写 `scanner/logs/console.log`。
 - 测试：`python -m unittest scanner.tests.test_serve -v`（28 条：401/403/health（含 Origin）/status（含 outbox 摘要）/静态回退/token 注入/无构建 503/run 409/job/日志穿越/schedule 校验与幂等/schtasks CSV 中英文/enable 后状态同步/locale 解码/fetch 命令 as-of/outbox 端点/不落 token）。
 
-## 10. 已知限制
+## 10. v0.8.0 采集增强（源注册表 / 持久去重 / 相关性初筛）
+
+- **源注册表**：`data/sources.json` 增加 `access/regions/lang/enabled/priority/limits/kind`；`fetch.select_sources` 只取 `enabled != false`、合规绿/黄、`access ∈ {rss,json}`，按 priority/value_score 排序；默认 `--fetch-limit 60`。不可用源 `enabled=false` 并在 notes 记录实测原因。
+- **持久账本**：`scanner/build/signal-ledger.sqlite`（gitignore）表 `signals(fingerprint UNIQUE, canonical_url, title_hash, content_hash, first_seen, last_seen, seen_count, source_id)`；`ledger.SignalLedger.classify()` 标注 `is_new/first_seen/last_seen/seen_count` 并返回 `new_count/seen_count/ledger_total`。
+- **相关性初筛**：`relevance.assess()` 基于 taxonomy hints + 商业词 + 排除词（招聘/广告/纯论文）+ 来源类别权重，输出 `relevance_score/industry_ids/gap_type_ids/region_ids/tier/reasons`；`relevance.analyze()` 汇总 `relevant_count/tiers/top_relevant` 写入 outbox meta 与 `/api/outbox`。
+- 实测（2026-10-23）：首跑 57/57 源成功、1448 原始 → 1015 信号、new 983；二跑 new 68/seen 947；三跑 **new 0/seen 1015**（账本累计 1051）；tiers business 184 / maybe 712 / off-topic 119。仅线索排序，不改机会库。
+
+## 11. 已知限制
 
 1. 回放快照是「按当日窗口规则重排现有机会」的演示口径，非真实历史存档；UI 需用 `reconstructed=true` 明示。
 2. `--all` 不联网；`--fetch` 当前只覆盖 RSS/JSON feed，公开 API 未接线。

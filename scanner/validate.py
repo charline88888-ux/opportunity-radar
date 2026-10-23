@@ -463,11 +463,31 @@ def _v10(ctx: dict[str, Any]) -> str:
                 errors.append(f"{source_id}.regions 为空")
             if not isinstance(source.get("signal_types"), list) or not source.get("signal_types"):
                 errors.append(f"{source_id}.signal_types 为空")
+            # v0.8.0 可执行源注册表新增可选字段
+            if "enabled" in source and not isinstance(source["enabled"], bool):
+                errors.append(f"{source_id}.enabled 非 bool")
+            if "priority" in source and (not isinstance(source["priority"], int) or source["priority"] < 0):
+                errors.append(f"{source_id}.priority 非非负整数")
+            if "kind" in source and not isinstance(source["kind"], str):
+                errors.append(f"{source_id}.kind 非字符串")
+            if "lang" in source and not isinstance(source["lang"], str):
+                errors.append(f"{source_id}.lang 非字符串")
+            if "limits" in source and not isinstance(source["limits"], dict):
+                errors.append(f"{source_id}.limits 非对象")
+    auto_enabled = sum(
+        1
+        for category in categories
+        for source in category.get("sources") or []
+        if source.get("access") in config.FETCHABLE_ACCESS
+        and source.get("compliance") in config.FETCHABLE_COMPLIANCE
+        and source.get("enabled") is not False
+    )
     _require(total >= 60, f"数据源 {total} 个 < 60")
+    _require(auto_enabled >= 20, f"enabled 自动源 {auto_enabled} < 20（v0.8.0 要求 ≥20）")
     _require(len(ids) == len(set(ids)), "数据源 id 重复")
     _require(not errors, "；".join(errors[:12]) + (f" 等 {len(errors)} 处" if len(errors) > 12 else ""))
     _require(data.get("meta", {}).get("count") == total, f"sources.meta.count={data.get('meta', {}).get('count')} ≠ {total}")
-    return f"{total} 个数据源 / 12 大类"
+    return f"{total} 个数据源 / {auto_enabled} 个 enabled 自动源 / 12 大类"
 
 
 # ---------------------------------------------------------------- V11

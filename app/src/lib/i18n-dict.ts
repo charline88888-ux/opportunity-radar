@@ -1224,4 +1224,5 @@ export const UI_EN: Record<string, string> = {
   '距今 >7 天为高、3–7 天为中；数据更新后自动恢复。': '>7 days critical, 3–7 days warning; clears automatically after a data update.',
   '控制台': 'Control',
   '一键更新 · 采集 · 定时任务': 'One-click update · fetch · schedule',
+  '实时': 'Realtime',
 }

@@ -203,6 +203,15 @@ def stage_fetch(as_of: date, limit: int, cache_enabled: bool) -> dict[str, Any]:
         f"真实采集完成：{result['ok_count']}/{len(result['health'])} 个源成功，"
         f"{result['raw_count']} 条原始 → {result['signal_count']} 条信号"
     )
+    log(
+        f"跨批去重：新增 {result.get('new_count', 0)} 条 / 已见 {result.get('seen_count', 0)} 条 "
+        f"（账本累计 {result.get('ledger_total', 0)} 条）"
+    )
+    tiers = result.get("tiers") or {}
+    log(
+        f"相关性初筛：business {tiers.get('business', 0)} / maybe {tiers.get('maybe', 0)} / "
+        f"off-topic {tiers.get('off-topic', 0)}（relevant_count={result.get('relevant_count', 0)}）"
+    )
     log(f"outbox（人工复核，不入机会库）：{Path(result['outbox_path']).relative_to(config.ROOT)}")
     log(f"源健康度：{Path(result['source_health_path']).relative_to(config.ROOT)}")
     return result

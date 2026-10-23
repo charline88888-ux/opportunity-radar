@@ -530,12 +530,14 @@ function normalizeSources(raw: unknown): Sources {
       url: str(s.url),
       regions: strArr(s.regions),
       signal_types: strArr(s.signal_types),
-      access: (['api', 'rss', 'html', 'manual', 'paid-api'].includes(str(s.access)) ? str(s.access) : 'manual') as any,
+      access: (['api', 'rss', 'json', 'html', 'manual', 'paid-api'].includes(str(s.access)) ? str(s.access) : 'manual') as any,
       frequency: (['realtime', 'daily', 'weekly', 'monthly', 'quarterly', 'yearly', 'manual'].includes(str(s.frequency)) ? str(s.frequency) : 'weekly') as any,
       cost: (['free', 'freemium', 'paid'].includes(str(s.cost)) ? str(s.cost) : 'free') as any,
       compliance: (['green', 'yellow', 'red'].includes(str(s.compliance)) ? str(s.compliance) : 'yellow') as any,
       value_score: clamp(num(s.value_score, 5), 0, 10),
       notes: str(s.notes, ''),
+      enabled: s.enabled === false ? false : true,
+      limits: isObj(s.limits) ? s.limits : undefined,
     })),
   }))
   return {
@@ -727,7 +729,7 @@ export const dataMeta: DataMeta = {
 }
 
 export const isMockData = dataMeta.source !== 'real'
-export const appVersion = '0.7.3'
+export const appVersion = '0.8.0'
 export const dataAsOf = asOf
 export const repoUrl = 'https://github.com/charline88888-ux/opportunity-radar'
 export const onlineUrl = 'https://charline88888-ux.github.io/opportunity-radar/'

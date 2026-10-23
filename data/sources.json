@@ -1,10 +1,10 @@
 {
   "meta": {
-    "data_version": "0.7.0",
+    "data_version": "0.8.0",
     "as_of": "2026-10-22",
-    "count": 68,
-    "last_checked": "2026-10-22",
-    "note": "合规等级与可访问性依据 research/platform-matrix-validation.md（2026-10-22 核验）。红/黄源只允许人工浏览，不自动抓取、不绕过登录或验证码；v0.2.0 新增 4 个可被 `pipeline.py --fetch` 采集的公开 RSS 源（hnrss/techcrunch/producthunt/arxiv）。 v0.3.1 PATCH：修复 reddit（改 manual + 新增 lobsters 替代）/ itunes-reviews（GB storefront）/ shopify-changelog（官方 feed.xml）。"
+    "count": 125,
+    "last_checked": "2026-10-23",
+    "note": "合规等级与可访问性依据 research/platform-matrix-validation.md（2026-10-22 核验）。红/黄源只允许人工浏览，不自动抓取、不绕过登录或验证码；v0.2.0 新增 4 个可被 `pipeline.py --fetch` 采集的公开 RSS 源（hnrss/techcrunch/producthunt/arxiv）。 v0.3.1 PATCH：修复 reddit（改 manual + 新增 lobsters 替代）/ itunes-reviews（GB storefront）/ shopify-changelog（官方 feed.xml）。 v0.8.0：新增可执行源注册表（Google News 多地区 query / Google Trends / 垂直媒体），字段增加 kind/lang/enabled/priority/limits；enabled=false 为实测不可用或暂不启用；fetch 只抓 enabled=true 的自动源。"
   },
   "categories": [
     {
@@ -77,8 +77,9 @@
           "compliance": "green",
           "value_score": 8.8,
           "last_checked": "2026-10-22",
-          "check_result": "http_200",
-          "notes": "v0.3.1：US storefront 的 customerreviews feed 返回 200 但 feed 无 entry（空）；改用 GB storefront（实测 50 条评论）。JSON feed（feed.entry）解析由 scanner/fetch.py 支持"
+          "check_result": "empty_feed",
+          "notes": "v0.8.0：GB storefront 返回 200 但 0 条评论（Apple customerreviews 结构变化/空 feed），自动采集暂停（enabled=false），保留人工浏览",
+          "enabled": false
         },
         {
           "id": "producthunt",
@@ -146,6 +147,703 @@
           "last_checked": "2026-10-22",
           "check_result": "http_200",
           "notes": "v0.3.1 新增：reddit.com 在当前网络环境持续超时，改用 Lobsters 公开 RSS（实测 25 条）；技术圈讨论与新品信号"
+        },
+        {
+          "id": "gn-us-smb",
+          "name": "Google News · 美国中小企业",
+          "url": "https://news.google.com/rss/search?q=small+business&hl=en-US&gl=US&ceid=US:en",
+          "regions": [
+            "north-america"
+          ],
+          "signal_types": [
+            "complaint",
+            "wish",
+            "trend"
+          ],
+          "access": "rss",
+          "frequency": "daily",
+          "cost": "free",
+          "compliance": "green",
+          "value_score": 7.0,
+          "last_checked": "2026-10-23",
+          "check_result": "ok",
+          "kind": "news-aggregator",
+          "lang": "en",
+          "enabled": true,
+          "priority": 70,
+          "limits": {
+            "max_items": 30,
+            "min_interval_sec": 1.0
+          },
+          "notes": "v0.8.0 新增可执行源（news-aggregator）；实测 2026-10-23：HTTP 200、解析 100 条、2287ms；免 key/免登录"
+        },
+        {
+          "id": "gn-ca-business",
+          "name": "Google News · 加拿大商业",
+          "url": "https://news.google.com/rss/search?q=small+business&hl=en-CA&gl=CA&ceid=CA:en",
+          "regions": [
+            "north-america"
+          ],
+          "signal_types": [
+            "complaint",
+            "wish",
+            "trend"
+          ],
+          "access": "rss",
+          "frequency": "daily",
+          "cost": "free",
+          "compliance": "green",
+          "value_score": 7.0,
+          "last_checked": "2026-10-23",
+          "check_result": "ok",
+          "kind": "news-aggregator",
+          "lang": "en",
+          "enabled": true,
+          "priority": 70,
+          "limits": {
+            "max_items": 30,
+            "min_interval_sec": 1.0
+          },
+          "notes": "v0.8.0 新增可执行源（news-aggregator）；实测 2026-10-23：HTTP 200、解析 101 条、2195ms；免 key/免登录"
+        },
+        {
+          "id": "gn-gb-business",
+          "name": "Google News · 英国商业",
+          "url": "https://news.google.com/rss/search?q=small+business&hl=en-GB&gl=GB&ceid=GB:en",
+          "regions": [
+            "europe"
+          ],
+          "signal_types": [
+            "complaint",
+            "wish",
+            "trend"
+          ],
+          "access": "rss",
+          "frequency": "daily",
+          "cost": "free",
+          "compliance": "green",
+          "value_score": 7.0,
+          "last_checked": "2026-10-23",
+          "check_result": "ok",
+          "kind": "news-aggregator",
+          "lang": "en",
+          "enabled": true,
+          "priority": 70,
+          "limits": {
+            "max_items": 30,
+            "min_interval_sec": 1.0
+          },
+          "notes": "v0.8.0 新增可执行源（news-aggregator）；实测 2026-10-23：HTTP 200、解析 100 条、2138ms；免 key/免登录"
+        },
+        {
+          "id": "gn-fr-business",
+          "name": "Google News · 法国商业",
+          "url": "https://news.google.com/rss/search?q=entrepreneur&hl=en&gl=FR&ceid=FR:en",
+          "regions": [
+            "europe"
+          ],
+          "signal_types": [
+            "complaint",
+            "wish",
+            "trend"
+          ],
+          "access": "rss",
+          "frequency": "daily",
+          "cost": "free",
+          "compliance": "green",
+          "value_score": 7.0,
+          "last_checked": "2026-10-23",
+          "check_result": "ok",
+          "kind": "news-aggregator",
+          "lang": "en",
+          "enabled": true,
+          "priority": 70,
+          "limits": {
+            "max_items": 30,
+            "min_interval_sec": 1.0
+          },
+          "notes": "v0.8.0 新增可执行源（news-aggregator）；实测 2026-10-23：HTTP 200、解析 100 条、3747ms；免 key/免登录"
+        },
+        {
+          "id": "gn-pl-business",
+          "name": "Google News · 波兰商业",
+          "url": "https://news.google.com/rss/search?q=business&hl=en&gl=PL&ceid=PL:en",
+          "regions": [
+            "europe"
+          ],
+          "signal_types": [
+            "complaint",
+            "wish",
+            "trend"
+          ],
+          "access": "rss",
+          "frequency": "daily",
+          "cost": "free",
+          "compliance": "green",
+          "value_score": 7.0,
+          "last_checked": "2026-10-23",
+          "check_result": "ok",
+          "kind": "news-aggregator",
+          "lang": "en",
+          "enabled": true,
+          "priority": 70,
+          "limits": {
+            "max_items": 30,
+            "min_interval_sec": 1.0
+          },
+          "notes": "v0.8.0 新增可执行源（news-aggregator）；实测 2026-10-23：HTTP 200、解析 100 条、3687ms；免 key/免登录"
+        },
+        {
+          "id": "gn-jp-business",
+          "name": "Google News · 日本商业",
+          "url": "https://news.google.com/rss/search?q=business&hl=en&gl=JP&ceid=JP:en",
+          "regions": [
+            "east-asia"
+          ],
+          "signal_types": [
+            "complaint",
+            "wish",
+            "trend"
+          ],
+          "access": "rss",
+          "frequency": "daily",
+          "cost": "free",
+          "compliance": "green",
+          "value_score": 7.0,
+          "last_checked": "2026-10-23",
+          "check_result": "ok",
+          "kind": "news-aggregator",
+          "lang": "en",
+          "enabled": true,
+          "priority": 70,
+          "limits": {
+            "max_items": 30,
+            "min_interval_sec": 1.0
+          },
+          "notes": "v0.8.0 新增可执行源（news-aggregator）；实测 2026-10-23：HTTP 200、解析 100 条、3081ms；免 key/免登录"
+        },
+        {
+          "id": "gn-kr-business",
+          "name": "Google News · 韩国商业",
+          "url": "https://news.google.com/rss/search?q=business&hl=en&gl=KR&ceid=KR:en",
+          "regions": [
+            "east-asia"
+          ],
+          "signal_types": [
+            "complaint",
+            "wish",
+            "trend"
+          ],
+          "access": "rss",
+          "frequency": "daily",
+          "cost": "free",
+          "compliance": "green",
+          "value_score": 7.0,
+          "last_checked": "2026-10-23",
+          "check_result": "ok",
+          "kind": "news-aggregator",
+          "lang": "en",
+          "enabled": true,
+          "priority": 70,
+          "limits": {
+            "max_items": 30,
+            "min_interval_sec": 1.0
+          },
+          "notes": "v0.8.0 新增可执行源（news-aggregator）；实测 2026-10-23：HTTP 200、解析 100 条、5880ms；免 key/免登录"
+        },
+        {
+          "id": "gn-vn-business",
+          "name": "Google News · 越南商业",
+          "url": "https://news.google.com/rss/search?q=business&hl=en&gl=VN&ceid=VN:en",
+          "regions": [
+            "sea"
+          ],
+          "signal_types": [
+            "complaint",
+            "wish",
+            "trend"
+          ],
+          "access": "rss",
+          "frequency": "daily",
+          "cost": "free",
+          "compliance": "green",
+          "value_score": 7.0,
+          "last_checked": "2026-10-23",
+          "check_result": "ok",
+          "kind": "news-aggregator",
+          "lang": "en",
+          "enabled": true,
+          "priority": 70,
+          "limits": {
+            "max_items": 30,
+            "min_interval_sec": 1.0
+          },
+          "notes": "v0.8.0 新增可执行源（news-aggregator）；实测 2026-10-23：HTTP 200、解析 100 条、3280ms；免 key/免登录"
+        },
+        {
+          "id": "gn-th-business",
+          "name": "Google News · 泰国商业",
+          "url": "https://news.google.com/rss/search?q=business&hl=en&gl=TH&ceid=TH:en",
+          "regions": [
+            "sea"
+          ],
+          "signal_types": [
+            "complaint",
+            "wish",
+            "trend"
+          ],
+          "access": "rss",
+          "frequency": "daily",
+          "cost": "free",
+          "compliance": "green",
+          "value_score": 7.0,
+          "last_checked": "2026-10-23",
+          "check_result": "ok",
+          "kind": "news-aggregator",
+          "lang": "en",
+          "enabled": true,
+          "priority": 70,
+          "limits": {
+            "max_items": 30,
+            "min_interval_sec": 1.0
+          },
+          "notes": "v0.8.0 新增可执行源（news-aggregator）；实测 2026-10-23：HTTP 200、解析 100 条、3078ms；免 key/免登录"
+        },
+        {
+          "id": "gn-sg-business",
+          "name": "Google News · 新加坡商业",
+          "url": "https://news.google.com/rss/search?q=business&hl=en&gl=SG&ceid=SG:en",
+          "regions": [
+            "sea"
+          ],
+          "signal_types": [
+            "complaint",
+            "wish",
+            "trend"
+          ],
+          "access": "rss",
+          "frequency": "daily",
+          "cost": "free",
+          "compliance": "green",
+          "value_score": 7.0,
+          "last_checked": "2026-10-23",
+          "check_result": "ok",
+          "kind": "news-aggregator",
+          "lang": "en",
+          "enabled": true,
+          "priority": 70,
+          "limits": {
+            "max_items": 30,
+            "min_interval_sec": 1.0
+          },
+          "notes": "v0.8.0 新增可执行源（news-aggregator）；实测 2026-10-23：HTTP 200、解析 100 条、3595ms；免 key/免登录"
+        },
+        {
+          "id": "gn-ae-business",
+          "name": "Google News · 阿联酋商业",
+          "url": "https://news.google.com/rss/search?q=business&hl=en&gl=AE&ceid=AE:en",
+          "regions": [
+            "mena"
+          ],
+          "signal_types": [
+            "complaint",
+            "wish",
+            "trend"
+          ],
+          "access": "rss",
+          "frequency": "daily",
+          "cost": "free",
+          "compliance": "green",
+          "value_score": 7.0,
+          "last_checked": "2026-10-23",
+          "check_result": "ok",
+          "kind": "news-aggregator",
+          "lang": "en",
+          "enabled": true,
+          "priority": 70,
+          "limits": {
+            "max_items": 30,
+            "min_interval_sec": 1.0
+          },
+          "notes": "v0.8.0 新增可执行源（news-aggregator）；实测 2026-10-23：HTTP 200、解析 100 条、3109ms；免 key/免登录"
+        },
+        {
+          "id": "gn-sa-business",
+          "name": "Google News · 沙特商业",
+          "url": "https://news.google.com/rss/search?q=business&hl=en&gl=SA&ceid=SA:en",
+          "regions": [
+            "mena"
+          ],
+          "signal_types": [
+            "complaint",
+            "wish",
+            "trend"
+          ],
+          "access": "rss",
+          "frequency": "daily",
+          "cost": "free",
+          "compliance": "green",
+          "value_score": 7.0,
+          "last_checked": "2026-10-23",
+          "check_result": "ok",
+          "kind": "news-aggregator",
+          "lang": "en",
+          "enabled": true,
+          "priority": 70,
+          "limits": {
+            "max_items": 30,
+            "min_interval_sec": 1.0
+          },
+          "notes": "v0.8.0 新增可执行源（news-aggregator）；实测 2026-10-23：HTTP 200、解析 100 条、2916ms；免 key/免登录"
+        },
+        {
+          "id": "gn-eg-business",
+          "name": "Google News · 埃及商业",
+          "url": "https://news.google.com/rss/search?q=business&hl=en&gl=EG&ceid=EG:en",
+          "regions": [
+            "mena"
+          ],
+          "signal_types": [
+            "complaint",
+            "wish",
+            "trend"
+          ],
+          "access": "rss",
+          "frequency": "daily",
+          "cost": "free",
+          "compliance": "green",
+          "value_score": 7.0,
+          "last_checked": "2026-10-23",
+          "check_result": "ok",
+          "kind": "news-aggregator",
+          "lang": "en",
+          "enabled": true,
+          "priority": 70,
+          "limits": {
+            "max_items": 30,
+            "min_interval_sec": 1.0
+          },
+          "notes": "v0.8.0 新增可执行源（news-aggregator）；实测 2026-10-23：HTTP 200、解析 100 条、3162ms；免 key/免登录"
+        },
+        {
+          "id": "gn-ke-business",
+          "name": "Google News · 肯尼亚商业",
+          "url": "https://news.google.com/rss/search?q=business&hl=en&gl=KE&ceid=KE:en",
+          "regions": [
+            "africa"
+          ],
+          "signal_types": [
+            "complaint",
+            "wish",
+            "trend"
+          ],
+          "access": "rss",
+          "frequency": "daily",
+          "cost": "free",
+          "compliance": "green",
+          "value_score": 7.0,
+          "last_checked": "2026-10-23",
+          "check_result": "ok",
+          "kind": "news-aggregator",
+          "lang": "en",
+          "enabled": true,
+          "priority": 70,
+          "limits": {
+            "max_items": 30,
+            "min_interval_sec": 1.0
+          },
+          "notes": "v0.8.0 新增可执行源（news-aggregator）；实测 2026-10-23：HTTP 200、解析 100 条、3577ms；免 key/免登录"
+        },
+        {
+          "id": "gn-za-business",
+          "name": "Google News · 南非商业",
+          "url": "https://news.google.com/rss/search?q=business&hl=en&gl=ZA&ceid=ZA:en",
+          "regions": [
+            "africa"
+          ],
+          "signal_types": [
+            "complaint",
+            "wish",
+            "trend"
+          ],
+          "access": "rss",
+          "frequency": "daily",
+          "cost": "free",
+          "compliance": "green",
+          "value_score": 7.0,
+          "last_checked": "2026-10-23",
+          "check_result": "ok",
+          "kind": "news-aggregator",
+          "lang": "en",
+          "enabled": true,
+          "priority": 70,
+          "limits": {
+            "max_items": 30,
+            "min_interval_sec": 1.0
+          },
+          "notes": "v0.8.0 新增可执行源（news-aggregator）；实测 2026-10-23：HTTP 200、解析 100 条、3489ms；免 key/免登录"
+        },
+        {
+          "id": "gn-mx-business",
+          "name": "Google News · 墨西哥商业",
+          "url": "https://news.google.com/rss/search?q=business&hl=en&gl=MX&ceid=MX:en",
+          "regions": [
+            "latam"
+          ],
+          "signal_types": [
+            "complaint",
+            "wish",
+            "trend"
+          ],
+          "access": "rss",
+          "frequency": "daily",
+          "cost": "free",
+          "compliance": "green",
+          "value_score": 7.0,
+          "last_checked": "2026-10-23",
+          "check_result": "ok",
+          "kind": "news-aggregator",
+          "lang": "en",
+          "enabled": true,
+          "priority": 70,
+          "limits": {
+            "max_items": 30,
+            "min_interval_sec": 1.0
+          },
+          "notes": "v0.8.0 新增可执行源（news-aggregator）；实测 2026-10-23：HTTP 200、解析 100 条、2905ms；免 key/免登录"
+        },
+        {
+          "id": "gn-ar-business",
+          "name": "Google News · 阿根廷商业",
+          "url": "https://news.google.com/rss/search?q=negocios&hl=es&gl=AR&ceid=AR:es",
+          "regions": [
+            "latam"
+          ],
+          "signal_types": [
+            "complaint",
+            "wish",
+            "trend"
+          ],
+          "access": "rss",
+          "frequency": "daily",
+          "cost": "free",
+          "compliance": "green",
+          "value_score": 7.0,
+          "last_checked": "2026-10-23",
+          "check_result": "ok",
+          "kind": "news-aggregator",
+          "lang": "es",
+          "enabled": true,
+          "priority": 70,
+          "limits": {
+            "max_items": 30,
+            "min_interval_sec": 1.0
+          },
+          "notes": "v0.8.0 新增可执行源（news-aggregator）；实测 2026-10-23：HTTP 200、解析 100 条、3727ms；免 key/免登录"
+        },
+        {
+          "id": "gn-au-smb",
+          "name": "Google News · 澳洲中小企业",
+          "url": "https://news.google.com/rss/search?q=small+business&hl=en&gl=AU&ceid=AU:en",
+          "regions": [
+            "oceania"
+          ],
+          "signal_types": [
+            "complaint",
+            "wish",
+            "trend"
+          ],
+          "access": "rss",
+          "frequency": "daily",
+          "cost": "free",
+          "compliance": "green",
+          "value_score": 7.0,
+          "last_checked": "2026-10-23",
+          "check_result": "ok",
+          "kind": "news-aggregator",
+          "lang": "en",
+          "enabled": true,
+          "priority": 70,
+          "limits": {
+            "max_items": 30,
+            "min_interval_sec": 1.0
+          },
+          "notes": "v0.8.0 新增可执行源（news-aggregator）；实测 2026-10-23：HTTP 200、解析 100 条、3421ms；免 key/免登录"
+        },
+        {
+          "id": "gn-nz-business",
+          "name": "Google News · 新西兰商业",
+          "url": "https://news.google.com/rss/search?q=business&hl=en&gl=NZ&ceid=NZ:en",
+          "regions": [
+            "oceania"
+          ],
+          "signal_types": [
+            "complaint",
+            "wish",
+            "trend"
+          ],
+          "access": "rss",
+          "frequency": "daily",
+          "cost": "free",
+          "compliance": "green",
+          "value_score": 7.0,
+          "last_checked": "2026-10-23",
+          "check_result": "ok",
+          "kind": "news-aggregator",
+          "lang": "en",
+          "enabled": true,
+          "priority": 70,
+          "limits": {
+            "max_items": 30,
+            "min_interval_sec": 1.0
+          },
+          "notes": "v0.8.0 新增可执行源（news-aggregator）；实测 2026-10-23：HTTP 200、解析 101 条、3665ms；免 key/免登录"
+        },
+        {
+          "id": "gn-ru-business",
+          "name": "Google News · 俄罗斯商业",
+          "url": "https://news.google.com/rss/search?q=business&hl=en&gl=RU&ceid=RU:en",
+          "regions": [
+            "cis"
+          ],
+          "signal_types": [
+            "complaint",
+            "wish",
+            "trend"
+          ],
+          "access": "rss",
+          "frequency": "daily",
+          "cost": "free",
+          "compliance": "green",
+          "value_score": 7.0,
+          "last_checked": "2026-10-23",
+          "check_result": "ok",
+          "kind": "news-aggregator",
+          "lang": "en",
+          "enabled": true,
+          "priority": 70,
+          "limits": {
+            "max_items": 30,
+            "min_interval_sec": 1.0
+          },
+          "notes": "v0.8.0 新增可执行源（news-aggregator）；实测 2026-10-23：HTTP 200、解析 100 条、2973ms；免 key/免登录"
+        },
+        {
+          "id": "gn-kz-business",
+          "name": "Google News · 哈萨克斯坦商业",
+          "url": "https://news.google.com/rss/search?q=business&hl=en&gl=KZ&ceid=KZ:en",
+          "regions": [
+            "cis"
+          ],
+          "signal_types": [
+            "complaint",
+            "wish",
+            "trend"
+          ],
+          "access": "rss",
+          "frequency": "daily",
+          "cost": "free",
+          "compliance": "green",
+          "value_score": 7.0,
+          "last_checked": "2026-10-23",
+          "check_result": "ok",
+          "kind": "news-aggregator",
+          "lang": "en",
+          "enabled": true,
+          "priority": 70,
+          "limits": {
+            "max_items": 30,
+            "min_interval_sec": 1.0
+          },
+          "notes": "v0.8.0 新增可执行源（news-aggregator）；实测 2026-10-23：HTTP 200、解析 100 条、3050ms；免 key/免登录"
+        },
+        {
+          "id": "gn-cn-business",
+          "name": "Google News · 中国商业",
+          "url": "https://news.google.com/rss/search?q=business&hl=en&gl=CN&ceid=CN:en",
+          "regions": [
+            "china"
+          ],
+          "signal_types": [
+            "complaint",
+            "wish",
+            "trend"
+          ],
+          "access": "rss",
+          "frequency": "daily",
+          "cost": "free",
+          "compliance": "green",
+          "value_score": 7.0,
+          "last_checked": "2026-10-23",
+          "check_result": "ok",
+          "kind": "news-aggregator",
+          "lang": "en",
+          "enabled": true,
+          "priority": 70,
+          "limits": {
+            "max_items": 30,
+            "min_interval_sec": 1.0
+          },
+          "notes": "v0.8.0 新增可执行源（news-aggregator）；实测 2026-10-23：HTTP 200、解析 100 条、3000ms；免 key/免登录"
+        },
+        {
+          "id": "gn-industry-pet",
+          "name": "Google News · 宠物行业",
+          "url": "https://news.google.com/rss/search?q=pet+industry&hl=en-US&gl=US&ceid=US:en",
+          "regions": [
+            "north-america",
+            "europe"
+          ],
+          "signal_types": [
+            "complaint",
+            "wish",
+            "trend"
+          ],
+          "access": "rss",
+          "frequency": "daily",
+          "cost": "free",
+          "compliance": "green",
+          "value_score": 8.0,
+          "last_checked": "2026-10-23",
+          "check_result": "ok",
+          "kind": "news-aggregator",
+          "lang": "en",
+          "enabled": true,
+          "priority": 80,
+          "limits": {
+            "max_items": 30,
+            "min_interval_sec": 1.0
+          },
+          "notes": "v0.8.0 新增可执行源（news-aggregator）；实测 2026-10-23：HTTP 200、解析 100 条、2104ms；免 key/免登录"
+        },
+        {
+          "id": "bing-us-smb",
+          "name": "Bing News · 美国中小企业",
+          "url": "https://www.bing.com/news/search?q=small+business&format=RSS&setlang=en",
+          "regions": [
+            "north-america"
+          ],
+          "signal_types": [
+            "complaint",
+            "wish",
+            "trend"
+          ],
+          "access": "rss",
+          "frequency": "daily",
+          "cost": "free",
+          "compliance": "green",
+          "value_score": 6.0,
+          "last_checked": "2026-10-23",
+          "check_result": "fetch_failed",
+          "kind": "news-aggregator",
+          "lang": "en",
+          "enabled": false,
+          "priority": 60,
+          "limits": {
+            "max_items": 30,
+            "min_interval_sec": 1.0
+          },
+          "notes": "v0.8.0 实测不可用（parse: ParseError: syntax error: line 1, column 0），enabled=false；可换 URL 后重试"
         }
       ]
     },
@@ -244,6 +942,176 @@
           "last_checked": "2026-10-22",
           "check_result": "http_200",
           "notes": "销量飙升榜页面可读（✅200），但 Amazon ToS 禁止自动抓取；人工记录前 20 名与价格带"
+        },
+        {
+          "id": "gn-industry-silver",
+          "name": "Google News · 银发经济",
+          "url": "https://news.google.com/rss/search?q=aging+population+senior&hl=en-US&gl=US&ceid=US:en",
+          "regions": [
+            "north-america",
+            "europe",
+            "east-asia"
+          ],
+          "signal_types": [
+            "trend",
+            "new_product"
+          ],
+          "access": "rss",
+          "frequency": "daily",
+          "cost": "free",
+          "compliance": "green",
+          "value_score": 8.0,
+          "last_checked": "2026-10-23",
+          "check_result": "ok",
+          "kind": "news-aggregator",
+          "lang": "en",
+          "enabled": true,
+          "priority": 80,
+          "limits": {
+            "max_items": 30,
+            "min_interval_sec": 1.0
+          },
+          "notes": "v0.8.0 新增可执行源（news-aggregator）；实测 2026-10-23：HTTP 200、解析 100 条、2641ms；免 key/免登录"
+        },
+        {
+          "id": "gtrends-us",
+          "name": "Google Trends · 美国热搜",
+          "url": "https://trends.google.com/trending/rss?geo=US",
+          "regions": [
+            "north-america"
+          ],
+          "signal_types": [
+            "trend",
+            "new_product"
+          ],
+          "access": "rss",
+          "frequency": "realtime",
+          "cost": "free",
+          "compliance": "green",
+          "value_score": 7.0,
+          "last_checked": "2026-10-23",
+          "check_result": "ok",
+          "kind": "trend-feed",
+          "lang": "en",
+          "enabled": true,
+          "priority": 70,
+          "limits": {
+            "max_items": 30,
+            "min_interval_sec": 1.0
+          },
+          "notes": "v0.8.0 新增可执行源（trend-feed）；实测 2026-10-23：HTTP 200、解析 10 条、1481ms；免 key/免登录"
+        },
+        {
+          "id": "gtrends-gb",
+          "name": "Google Trends · 英国热搜",
+          "url": "https://trends.google.com/trending/rss?geo=GB",
+          "regions": [
+            "europe"
+          ],
+          "signal_types": [
+            "trend",
+            "new_product"
+          ],
+          "access": "rss",
+          "frequency": "realtime",
+          "cost": "free",
+          "compliance": "green",
+          "value_score": 7.0,
+          "last_checked": "2026-10-23",
+          "check_result": "ok",
+          "kind": "trend-feed",
+          "lang": "en",
+          "enabled": true,
+          "priority": 70,
+          "limits": {
+            "max_items": 30,
+            "min_interval_sec": 1.0
+          },
+          "notes": "v0.8.0 新增可执行源（trend-feed）；实测 2026-10-23：HTTP 200、解析 10 条、1837ms；免 key/免登录"
+        },
+        {
+          "id": "gtrends-jp",
+          "name": "Google Trends · 日本热搜",
+          "url": "https://trends.google.com/trending/rss?geo=JP",
+          "regions": [
+            "east-asia"
+          ],
+          "signal_types": [
+            "trend",
+            "new_product"
+          ],
+          "access": "rss",
+          "frequency": "realtime",
+          "cost": "free",
+          "compliance": "green",
+          "value_score": 7.0,
+          "last_checked": "2026-10-23",
+          "check_result": "ok",
+          "kind": "trend-feed",
+          "lang": "ja",
+          "enabled": true,
+          "priority": 70,
+          "limits": {
+            "max_items": 30,
+            "min_interval_sec": 1.0
+          },
+          "notes": "v0.8.0 新增可执行源（trend-feed）；实测 2026-10-23：HTTP 200、解析 10 条、1581ms；免 key/免登录"
+        },
+        {
+          "id": "verge",
+          "name": "The Verge",
+          "url": "https://www.theverge.com/rss/index.xml",
+          "regions": [
+            "north-america"
+          ],
+          "signal_types": [
+            "trend",
+            "new_product"
+          ],
+          "access": "rss",
+          "frequency": "daily",
+          "cost": "free",
+          "compliance": "green",
+          "value_score": 7.0,
+          "last_checked": "2026-10-23",
+          "check_result": "ok",
+          "kind": "vertical-media",
+          "lang": "en",
+          "enabled": true,
+          "priority": 70,
+          "limits": {
+            "max_items": 30,
+            "min_interval_sec": 1.0
+          },
+          "notes": "v0.8.0 新增可执行源（vertical-media）；实测 2026-10-23：HTTP 200、解析 10 条、3298ms；免 key/免登录"
+        },
+        {
+          "id": "arstechnica",
+          "name": "Ars Technica",
+          "url": "https://feeds.arstechnica.com/arstechnica/index",
+          "regions": [
+            "north-america"
+          ],
+          "signal_types": [
+            "trend",
+            "new_product"
+          ],
+          "access": "rss",
+          "frequency": "daily",
+          "cost": "free",
+          "compliance": "green",
+          "value_score": 7.0,
+          "last_checked": "2026-10-23",
+          "check_result": "ok",
+          "kind": "vertical-media",
+          "lang": "en",
+          "enabled": true,
+          "priority": 70,
+          "limits": {
+            "max_items": 30,
+            "min_interval_sec": 1.0
+          },
+          "notes": "v0.8.0 新增可执行源（vertical-media）；实测 2026-10-23：HTTP 200、解析 20 条、1498ms；免 key/免登录"
         }
       ]
     },
@@ -424,6 +1292,180 @@
           "last_checked": "2026-10-22",
           "check_result": "http_200",
           "notes": "首页可达（✅200），搜索需登录、开放平台仅卖家；用来验证中国供应链报价与起订量，不抓商品详情"
+        },
+        {
+          "id": "gn-us-ecommerce",
+          "name": "Google News · 美国电商",
+          "url": "https://news.google.com/rss/search?q=ecommerce&hl=en-US&gl=US&ceid=US:en",
+          "regions": [
+            "north-america"
+          ],
+          "signal_types": [
+            "price",
+            "comparison",
+            "trend"
+          ],
+          "access": "rss",
+          "frequency": "daily",
+          "cost": "free",
+          "compliance": "green",
+          "value_score": 7.0,
+          "last_checked": "2026-10-23",
+          "check_result": "ok",
+          "kind": "news-aggregator",
+          "lang": "en",
+          "enabled": true,
+          "priority": 70,
+          "limits": {
+            "max_items": 30,
+            "min_interval_sec": 1.0
+          },
+          "notes": "v0.8.0 新增可执行源（news-aggregator）；实测 2026-10-23：HTTP 200、解析 100 条、4292ms；免 key/免登录"
+        },
+        {
+          "id": "gn-de-ecommerce",
+          "name": "Google News · 德国电商",
+          "url": "https://news.google.com/rss/search?q=ecommerce&hl=en&gl=DE&ceid=DE:en",
+          "regions": [
+            "europe"
+          ],
+          "signal_types": [
+            "price",
+            "comparison",
+            "trend"
+          ],
+          "access": "rss",
+          "frequency": "daily",
+          "cost": "free",
+          "compliance": "green",
+          "value_score": 7.0,
+          "last_checked": "2026-10-23",
+          "check_result": "ok",
+          "kind": "news-aggregator",
+          "lang": "en",
+          "enabled": true,
+          "priority": 70,
+          "limits": {
+            "max_items": 30,
+            "min_interval_sec": 1.0
+          },
+          "notes": "v0.8.0 新增可执行源（news-aggregator）；实测 2026-10-23：HTTP 200、解析 100 条、3015ms；免 key/免登录"
+        },
+        {
+          "id": "gn-id-ecommerce",
+          "name": "Google News · 印尼电商",
+          "url": "https://news.google.com/rss/search?q=ecommerce&hl=en&gl=ID&ceid=ID:en",
+          "regions": [
+            "sea"
+          ],
+          "signal_types": [
+            "price",
+            "comparison",
+            "trend"
+          ],
+          "access": "rss",
+          "frequency": "daily",
+          "cost": "free",
+          "compliance": "green",
+          "value_score": 7.0,
+          "last_checked": "2026-10-23",
+          "check_result": "ok",
+          "kind": "news-aggregator",
+          "lang": "en",
+          "enabled": true,
+          "priority": 70,
+          "limits": {
+            "max_items": 30,
+            "min_interval_sec": 1.0
+          },
+          "notes": "v0.8.0 新增可执行源（news-aggregator）；实测 2026-10-23：HTTP 200、解析 100 条、3873ms；免 key/免登录"
+        },
+        {
+          "id": "gn-br-ecommerce",
+          "name": "Google News · 巴西电商",
+          "url": "https://news.google.com/rss/search?q=ecommerce&hl=en&gl=BR&ceid=BR:en",
+          "regions": [
+            "latam"
+          ],
+          "signal_types": [
+            "price",
+            "comparison",
+            "trend"
+          ],
+          "access": "rss",
+          "frequency": "daily",
+          "cost": "free",
+          "compliance": "green",
+          "value_score": 7.0,
+          "last_checked": "2026-10-23",
+          "check_result": "ok",
+          "kind": "news-aggregator",
+          "lang": "en",
+          "enabled": true,
+          "priority": 70,
+          "limits": {
+            "max_items": 30,
+            "min_interval_sec": 1.0
+          },
+          "notes": "v0.8.0 新增可执行源（news-aggregator）；实测 2026-10-23：HTTP 200、解析 100 条、2953ms；免 key/免登录"
+        },
+        {
+          "id": "retaildive",
+          "name": "Retail Dive",
+          "url": "https://www.retaildive.com/feeds/news/",
+          "regions": [
+            "north-america"
+          ],
+          "signal_types": [
+            "price",
+            "comparison",
+            "trend"
+          ],
+          "access": "rss",
+          "frequency": "daily",
+          "cost": "free",
+          "compliance": "green",
+          "value_score": 7.5,
+          "last_checked": "2026-10-23",
+          "check_result": "ok",
+          "kind": "vertical-media",
+          "lang": "en",
+          "enabled": true,
+          "priority": 75,
+          "limits": {
+            "max_items": 30,
+            "min_interval_sec": 1.0
+          },
+          "notes": "v0.8.0 新增可执行源（vertical-media）；实测 2026-10-23：HTTP 200、解析 10 条、1284ms；免 key/免登录"
+        },
+        {
+          "id": "modernretail",
+          "name": "Modern Retail",
+          "url": "https://www.modernretail.co/feed/",
+          "regions": [
+            "north-america"
+          ],
+          "signal_types": [
+            "price",
+            "comparison",
+            "trend"
+          ],
+          "access": "rss",
+          "frequency": "daily",
+          "cost": "free",
+          "compliance": "green",
+          "value_score": 7.5,
+          "last_checked": "2026-10-23",
+          "check_result": "ok",
+          "kind": "vertical-media",
+          "lang": "en",
+          "enabled": true,
+          "priority": 75,
+          "limits": {
+            "max_items": 30,
+            "min_interval_sec": 1.0
+          },
+          "notes": "v0.8.0 新增可执行源（vertical-media）；实测 2026-10-23：HTTP 200、解析 10 条、1434ms；免 key/免登录"
         }
       ]
     },
@@ -520,8 +1562,9 @@
           "compliance": "green",
           "value_score": 7.4,
           "last_checked": "2026-10-22",
-          "check_result": "doc_only",
-          "notes": "公开 RSS 可订阅；看付费订阅主题与『为什么有人付费』，判断信息产品选题"
+          "check_result": "parse_error",
+          "notes": "v0.8.0：https://substack.com/ 不是可解析 feed（ParseError），自动采集停用（enabled=false）；如需保留请换成具体 publication 的 RSS",
+          "enabled": false
         },
         {
           "id": "xiaohongshu",
@@ -759,6 +1802,35 @@
           "last_checked": "2026-10-22",
           "check_result": "doc_only",
           "notes": "公开 PDF 统计（访日消费动向调查）；免税、入境游与零售机会的一手数据"
+        },
+        {
+          "id": "gn-industry-compliance",
+          "name": "Google News · 产品合规监管",
+          "url": "https://news.google.com/rss/search?q=product+compliance+regulation&hl=en-GB&gl=GB&ceid=GB:en",
+          "regions": [
+            "europe",
+            "north-america"
+          ],
+          "signal_types": [
+            "regulation",
+            "policy_change"
+          ],
+          "access": "rss",
+          "frequency": "daily",
+          "cost": "free",
+          "compliance": "green",
+          "value_score": 8.2,
+          "last_checked": "2026-10-23",
+          "check_result": "ok",
+          "kind": "news-aggregator",
+          "lang": "en",
+          "enabled": true,
+          "priority": 82,
+          "limits": {
+            "max_items": 30,
+            "min_interval_sec": 1.0
+          },
+          "notes": "v0.8.0 新增可执行源（news-aggregator）；实测 2026-10-23：HTTP 200、解析 100 条、2214ms；免 key/免登录"
         }
       ]
     },
@@ -857,6 +1929,401 @@
           "last_checked": "2026-10-22",
           "check_result": "doc_only",
           "notes": "付费数据；免费部分可看融资事件标题，用来验证国内赛道热度"
+        },
+        {
+          "id": "gn-in-startup",
+          "name": "Google News · 印度创业",
+          "url": "https://news.google.com/rss/search?q=startup+funding&hl=en&gl=IN&ceid=IN:en",
+          "regions": [
+            "south-asia"
+          ],
+          "signal_types": [
+            "funding",
+            "new_product"
+          ],
+          "access": "rss",
+          "frequency": "daily",
+          "cost": "free",
+          "compliance": "green",
+          "value_score": 7.0,
+          "last_checked": "2026-10-23",
+          "check_result": "ok",
+          "kind": "news-aggregator",
+          "lang": "en",
+          "enabled": true,
+          "priority": 70,
+          "limits": {
+            "max_items": 30,
+            "min_interval_sec": 1.0
+          },
+          "notes": "v0.8.0 新增可执行源（news-aggregator）；实测 2026-10-23：HTTP 200、解析 102 条、3538ms；免 key/免登录"
+        },
+        {
+          "id": "gn-ng-startup",
+          "name": "Google News · 尼日利亚创业",
+          "url": "https://news.google.com/rss/search?q=startup+funding&hl=en&gl=NG&ceid=NG:en",
+          "regions": [
+            "africa"
+          ],
+          "signal_types": [
+            "funding",
+            "new_product"
+          ],
+          "access": "rss",
+          "frequency": "daily",
+          "cost": "free",
+          "compliance": "green",
+          "value_score": 7.0,
+          "last_checked": "2026-10-23",
+          "check_result": "ok",
+          "kind": "news-aggregator",
+          "lang": "en",
+          "enabled": true,
+          "priority": 70,
+          "limits": {
+            "max_items": 30,
+            "min_interval_sec": 1.0
+          },
+          "notes": "v0.8.0 新增可执行源（news-aggregator）；实测 2026-10-23：HTTP 200、解析 100 条、3670ms；免 key/免登录"
+        },
+        {
+          "id": "bing-eu-startup",
+          "name": "Bing News · 欧洲创业",
+          "url": "https://www.bing.com/news/search?q=startup+funding+europe&format=RSS&setlang=en",
+          "regions": [
+            "europe"
+          ],
+          "signal_types": [
+            "funding",
+            "new_product"
+          ],
+          "access": "rss",
+          "frequency": "daily",
+          "cost": "free",
+          "compliance": "green",
+          "value_score": 6.0,
+          "last_checked": "2026-10-23",
+          "check_result": "fetch_failed",
+          "kind": "news-aggregator",
+          "lang": "en",
+          "enabled": false,
+          "priority": 60,
+          "limits": {
+            "max_items": 30,
+            "min_interval_sec": 1.0
+          },
+          "notes": "v0.8.0 实测不可用（parse: ParseError: syntax error: line 1, column 0），enabled=false；可换 URL 后重试"
+        },
+        {
+          "id": "sifted",
+          "name": "Sifted",
+          "url": "https://sifted.eu/feed",
+          "regions": [
+            "europe"
+          ],
+          "signal_types": [
+            "funding",
+            "new_product"
+          ],
+          "access": "rss",
+          "frequency": "daily",
+          "cost": "free",
+          "compliance": "green",
+          "value_score": 7.8,
+          "last_checked": "2026-10-23",
+          "check_result": "ok",
+          "kind": "vertical-media",
+          "lang": "en",
+          "enabled": true,
+          "priority": 78,
+          "limits": {
+            "max_items": 30,
+            "min_interval_sec": 1.0
+          },
+          "notes": "v0.8.0 新增可执行源（vertical-media）；实测 2026-10-23：HTTP 200、解析 24 条、1300ms；免 key/免登录"
+        },
+        {
+          "id": "eu-startups",
+          "name": "EU-Startups",
+          "url": "https://www.eu-startups.com/feed/",
+          "regions": [
+            "europe"
+          ],
+          "signal_types": [
+            "funding",
+            "new_product"
+          ],
+          "access": "rss",
+          "frequency": "daily",
+          "cost": "free",
+          "compliance": "green",
+          "value_score": 7.6,
+          "last_checked": "2026-10-23",
+          "check_result": "ok",
+          "kind": "vertical-media",
+          "lang": "en",
+          "enabled": true,
+          "priority": 76,
+          "limits": {
+            "max_items": 30,
+            "min_interval_sec": 1.0
+          },
+          "notes": "v0.8.0 新增可执行源（vertical-media）；实测 2026-10-23：HTTP 200、解析 10 条、3536ms；免 key/免登录"
+        },
+        {
+          "id": "techinasia",
+          "name": "Tech in Asia",
+          "url": "https://www.techinasia.com/feed",
+          "regions": [
+            "sea",
+            "east-asia",
+            "south-asia"
+          ],
+          "signal_types": [
+            "funding",
+            "new_product"
+          ],
+          "access": "rss",
+          "frequency": "daily",
+          "cost": "free",
+          "compliance": "green",
+          "value_score": 7.8,
+          "last_checked": "2026-10-23",
+          "check_result": "fetch_failed",
+          "kind": "vertical-media",
+          "lang": "en",
+          "enabled": false,
+          "priority": 78,
+          "limits": {
+            "max_items": 30,
+            "min_interval_sec": 1.0
+          },
+          "notes": "v0.8.0 实测不可用（HTTP 403），enabled=false；可换 URL 后重试"
+        },
+        {
+          "id": "e27",
+          "name": "e27",
+          "url": "https://e27.co/feed/",
+          "regions": [
+            "sea"
+          ],
+          "signal_types": [
+            "funding",
+            "new_product"
+          ],
+          "access": "rss",
+          "frequency": "daily",
+          "cost": "free",
+          "compliance": "green",
+          "value_score": 7.4,
+          "last_checked": "2026-10-23",
+          "check_result": "ok",
+          "kind": "vertical-media",
+          "lang": "en",
+          "enabled": true,
+          "priority": 74,
+          "limits": {
+            "max_items": 30,
+            "min_interval_sec": 1.0
+          },
+          "notes": "v0.8.0 新增可执行源（vertical-media）；实测 2026-10-23：HTTP 200、解析 50 条、5115ms；免 key/免登录"
+        },
+        {
+          "id": "inc42",
+          "name": "Inc42",
+          "url": "https://inc42.com/feed/",
+          "regions": [
+            "south-asia"
+          ],
+          "signal_types": [
+            "funding",
+            "new_product"
+          ],
+          "access": "rss",
+          "frequency": "daily",
+          "cost": "free",
+          "compliance": "green",
+          "value_score": 7.6,
+          "last_checked": "2026-10-23",
+          "check_result": "ok",
+          "kind": "vertical-media",
+          "lang": "en",
+          "enabled": true,
+          "priority": 76,
+          "limits": {
+            "max_items": 30,
+            "min_interval_sec": 1.0
+          },
+          "notes": "v0.8.0 新增可执行源（vertical-media）；实测 2026-10-23：HTTP 200、解析 24 条、1916ms；免 key/免登录"
+        },
+        {
+          "id": "entrackr",
+          "name": "Entrackr",
+          "url": "https://entrackr.com/feed/",
+          "regions": [
+            "south-asia"
+          ],
+          "signal_types": [
+            "funding",
+            "new_product"
+          ],
+          "access": "rss",
+          "frequency": "daily",
+          "cost": "free",
+          "compliance": "green",
+          "value_score": 7.4,
+          "last_checked": "2026-10-23",
+          "check_result": "fetch_failed",
+          "kind": "vertical-media",
+          "lang": "en",
+          "enabled": false,
+          "priority": 74,
+          "limits": {
+            "max_items": 30,
+            "min_interval_sec": 1.0
+          },
+          "notes": "v0.8.0 实测不可用（HTTP 404），enabled=false；可换 URL 后重试"
+        },
+        {
+          "id": "techcabal",
+          "name": "TechCabal",
+          "url": "https://techcabal.com/feed/",
+          "regions": [
+            "africa"
+          ],
+          "signal_types": [
+            "funding",
+            "new_product"
+          ],
+          "access": "rss",
+          "frequency": "daily",
+          "cost": "free",
+          "compliance": "green",
+          "value_score": 7.6,
+          "last_checked": "2026-10-23",
+          "check_result": "ok",
+          "kind": "vertical-media",
+          "lang": "en",
+          "enabled": true,
+          "priority": 76,
+          "limits": {
+            "max_items": 30,
+            "min_interval_sec": 1.0
+          },
+          "notes": "v0.8.0 新增可执行源（vertical-media）；实测 2026-10-23：HTTP 200、解析 10 条、2202ms；免 key/免登录"
+        },
+        {
+          "id": "wamda",
+          "name": "Wamda",
+          "url": "https://www.wamda.com/feed",
+          "regions": [
+            "mena"
+          ],
+          "signal_types": [
+            "funding",
+            "new_product"
+          ],
+          "access": "rss",
+          "frequency": "daily",
+          "cost": "free",
+          "compliance": "green",
+          "value_score": 7.4,
+          "last_checked": "2026-10-23",
+          "check_result": "ok",
+          "kind": "vertical-media",
+          "lang": "en",
+          "enabled": true,
+          "priority": 74,
+          "limits": {
+            "max_items": 30,
+            "min_interval_sec": 1.0
+          },
+          "notes": "v0.8.0 新增可执行源（vertical-media）；实测 2026-10-23：HTTP 200、解析 20 条、2533ms；免 key/免登录"
+        },
+        {
+          "id": "latamlist",
+          "name": "LatamList",
+          "url": "https://latamlist.com/feed/",
+          "regions": [
+            "latam"
+          ],
+          "signal_types": [
+            "funding",
+            "new_product"
+          ],
+          "access": "rss",
+          "frequency": "daily",
+          "cost": "free",
+          "compliance": "green",
+          "value_score": 7.4,
+          "last_checked": "2026-10-23",
+          "check_result": "ok",
+          "kind": "vertical-media",
+          "lang": "en",
+          "enabled": true,
+          "priority": 74,
+          "limits": {
+            "max_items": 30,
+            "min_interval_sec": 1.0
+          },
+          "notes": "v0.8.0 新增可执行源（vertical-media）；实测 2026-10-23：HTTP 200、解析 10 条、1698ms；免 key/免登录"
+        },
+        {
+          "id": "startupdaily-au",
+          "name": "Startup Daily",
+          "url": "https://www.startupdaily.net/feed/",
+          "regions": [
+            "oceania"
+          ],
+          "signal_types": [
+            "funding",
+            "new_product"
+          ],
+          "access": "rss",
+          "frequency": "daily",
+          "cost": "free",
+          "compliance": "green",
+          "value_score": 7.2,
+          "last_checked": "2026-10-23",
+          "check_result": "ok",
+          "kind": "vertical-media",
+          "lang": "en",
+          "enabled": true,
+          "priority": 72,
+          "limits": {
+            "max_items": 30,
+            "min_interval_sec": 1.0
+          },
+          "notes": "v0.8.0 新增可执行源（vertical-media）；实测 2026-10-23：HTTP 200、解析 10 条、1484ms；免 key/免登录"
+        },
+        {
+          "id": "technode",
+          "name": "TechNode",
+          "url": "https://technode.com/feed/",
+          "regions": [
+            "china",
+            "east-asia"
+          ],
+          "signal_types": [
+            "funding",
+            "new_product"
+          ],
+          "access": "rss",
+          "frequency": "daily",
+          "cost": "free",
+          "compliance": "green",
+          "value_score": 7.8,
+          "last_checked": "2026-10-23",
+          "check_result": "ok",
+          "kind": "vertical-media",
+          "lang": "en",
+          "enabled": true,
+          "priority": 78,
+          "limits": {
+            "max_items": 30,
+            "min_interval_sec": 1.0
+          },
+          "notes": "v0.8.0 新增可执行源（vertical-media）；实测 2026-10-23：HTTP 200、解析 2000 条、2626ms；免 key/免登录"
         }
       ]
     },
@@ -976,6 +2443,35 @@
           "last_checked": "2026-10-22",
           "check_result": "doc_only",
           "notes": "arXiv 官方 RSS；论文标题/摘要级信号，适合判断技术拐点"
+        },
+        {
+          "id": "nature-news",
+          "name": "Nature News",
+          "url": "https://www.nature.com/nature.rss",
+          "regions": [
+            "north-america",
+            "europe"
+          ],
+          "signal_types": [
+            "paper",
+            "trend"
+          ],
+          "access": "rss",
+          "frequency": "weekly",
+          "cost": "free",
+          "compliance": "green",
+          "value_score": 5.5,
+          "last_checked": "2026-10-23",
+          "check_result": "fetch_failed",
+          "kind": "academic",
+          "lang": "en",
+          "enabled": false,
+          "priority": 55,
+          "limits": {
+            "max_items": 30,
+            "min_interval_sec": 1.0
+          },
+          "notes": "v0.8.0 实测不可用（HTTP 200），enabled=false；可换 URL 后重试"
         }
       ]
     },
@@ -1118,6 +2614,34 @@
           "last_checked": "2026-10-22",
           "check_result": "doc_only",
           "notes": "API 需 key，免费额度有限；汇率与宏观数据用于定价与市场筛选"
+        },
+        {
+          "id": "gn-industry-solar",
+          "name": "Google News · 离网太阳能",
+          "url": "https://news.google.com/rss/search?q=solar+energy+Africa&hl=en&gl=NG&ceid=NG:en",
+          "regions": [
+            "africa"
+          ],
+          "signal_types": [
+            "supply",
+            "price"
+          ],
+          "access": "rss",
+          "frequency": "daily",
+          "cost": "free",
+          "compliance": "green",
+          "value_score": 7.8,
+          "last_checked": "2026-10-23",
+          "check_result": "ok",
+          "kind": "news-aggregator",
+          "lang": "en",
+          "enabled": true,
+          "priority": 78,
+          "limits": {
+            "max_items": 30,
+            "min_interval_sec": 1.0
+          },
+          "notes": "v0.8.0 新增可执行源（news-aggregator）；实测 2026-10-23：HTTP 200、解析 63 条、3267ms；免 key/免登录"
         }
       ]
     },
@@ -1250,6 +2774,122 @@
           "last_checked": "2026-10-22",
           "check_result": "doc_only",
           "notes": "公开节日日期查询；斋月/开斋节/朝觐季备货与营销节奏的基础数据"
+        },
+        {
+          "id": "gn-industry-halal",
+          "name": "Google News · 清真市场",
+          "url": "https://news.google.com/rss/search?q=halal+market&hl=en&gl=AE&ceid=AE:en",
+          "regions": [
+            "mena",
+            "sea"
+          ],
+          "signal_types": [
+            "culture",
+            "ritual"
+          ],
+          "access": "rss",
+          "frequency": "daily",
+          "cost": "free",
+          "compliance": "green",
+          "value_score": 7.8,
+          "last_checked": "2026-10-23",
+          "check_result": "ok",
+          "kind": "news-aggregator",
+          "lang": "en",
+          "enabled": true,
+          "priority": 78,
+          "limits": {
+            "max_items": 30,
+            "min_interval_sec": 1.0
+          },
+          "notes": "v0.8.0 新增可执行源（news-aggregator）；实测 2026-10-23：HTTP 200、解析 100 条、3448ms；免 key/免登录"
+        },
+        {
+          "id": "rest-of-world",
+          "name": "Rest of World",
+          "url": "https://restofworld.org/feed/",
+          "regions": [
+            "south-asia",
+            "sea",
+            "latam",
+            "africa"
+          ],
+          "signal_types": [
+            "culture",
+            "ritual"
+          ],
+          "access": "rss",
+          "frequency": "daily",
+          "cost": "free",
+          "compliance": "green",
+          "value_score": 8.2,
+          "last_checked": "2026-10-23",
+          "check_result": "fetch_failed",
+          "kind": "vertical-media",
+          "lang": "en",
+          "enabled": false,
+          "priority": 82,
+          "limits": {
+            "max_items": 30,
+            "min_interval_sec": 1.0
+          },
+          "notes": "v0.8.0 实测不可用（parse: ParseError: not well-formed (invalid token): line 26, column 130），enabled=false；可换 URL 后重试"
+        },
+        {
+          "id": "aljazeera",
+          "name": "Al Jazeera",
+          "url": "https://www.aljazeera.com/xml/rss/all.xml",
+          "regions": [
+            "mena"
+          ],
+          "signal_types": [
+            "culture",
+            "ritual"
+          ],
+          "access": "rss",
+          "frequency": "daily",
+          "cost": "free",
+          "compliance": "green",
+          "value_score": 6.2,
+          "last_checked": "2026-10-23",
+          "check_result": "ok",
+          "kind": "news-aggregator",
+          "lang": "en",
+          "enabled": true,
+          "priority": 62,
+          "limits": {
+            "max_items": 30,
+            "min_interval_sec": 1.0
+          },
+          "notes": "v0.8.0 新增可执行源（news-aggregator）；实测 2026-10-23：HTTP 200、解析 25 条、1299ms；免 key/免登录"
+        },
+        {
+          "id": "dw-news",
+          "name": "DW News",
+          "url": "https://rss.dw.com/rdf/rss-en-all",
+          "regions": [
+            "europe"
+          ],
+          "signal_types": [
+            "culture",
+            "ritual"
+          ],
+          "access": "rss",
+          "frequency": "daily",
+          "cost": "free",
+          "compliance": "green",
+          "value_score": 6.2,
+          "last_checked": "2026-10-23",
+          "check_result": "fetch_failed",
+          "kind": "news-aggregator",
+          "lang": "en",
+          "enabled": false,
+          "priority": 62,
+          "limits": {
+            "max_items": 30,
+            "min_interval_sec": 1.0
+          },
+          "notes": "v0.8.0 实测不可用（HTTP 200），enabled=false；可换 URL 后重试"
         }
       ]
     },

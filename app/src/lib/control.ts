@@ -13,6 +13,26 @@ export interface ControlJob {
   log_tail?: string[]
 }
 
+export interface ControlSignal {
+  signal_id?: string
+  source_id?: string
+  source_name?: string
+  title?: string
+  url?: string
+  published_date?: string
+  lang?: string
+  is_new?: boolean
+  relevance_score?: number
+  tier?: 'business' | 'maybe' | 'off-topic' | string
+  industry_ids?: string[]
+  gap_type_ids?: string[]
+  region_ids?: string[]
+  industry_hints?: string[]
+  gap_hints?: string[]
+  region_hints?: string[]
+  reasons?: string[]
+}
+
 export interface ControlOutbox {
   file?: string
   as_of?: string
@@ -20,8 +40,21 @@ export interface ControlOutbox {
   source_count?: number
   raw_count?: number
   signal_count?: number
+  new_count?: number
+  seen_count?: number
+  ledger_total?: number
+  relevant_count?: number
   by_source?: Record<string, number> | Array<{ source_id?: string; source?: string; count?: number; name?: string }>
-  top?: Array<{ title?: string; source_id?: string; url?: string }>
+  top?: Array<{ title?: string; source_id?: string; url?: string; relevance_score?: number }>
+  tier_counts?: { business?: number; maybe?: number; 'off-topic'?: number }
+  funnel?: { raw?: number; deduped?: number; new?: number; relevant?: number; seen?: number }
+  source_health?: {
+    attempted?: number
+    ok?: number
+    failed?: number
+    sources?: Array<{ id?: string; name?: string; items?: number; ok?: boolean; error?: string }>
+  }
+  sources?: { auto?: number; manual?: number; total?: number }
   review_md?: { exists?: boolean; modified_at?: string }
 }
 
@@ -174,6 +207,10 @@ export function fetchJob(id: string) {
 
 export function fetchLogs() {
   return request<{ ok: boolean; logs: Array<{ name: string; size?: number; mtime?: string }> }>('/api/logs')
+}
+
+export function fetchOutbox(limit = 100) {
+  return request<{ ok: boolean; outbox?: ControlOutbox | null; signals?: ControlSignal[] }>(`/api/outbox?limit=${limit}`)
 }
 
 export function fetchLog(name: string) {

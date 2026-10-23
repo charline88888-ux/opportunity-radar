@@ -1,8 +1,8 @@
-# data/ 数据底座使用说明（data-v0.7.0）
+# data/ 数据底座使用说明（data-v0.8.0）
 
-> 唯一接口标准：`docs/12-数据契约与字段字典.md`（data-v0.7.0）。本目录所有 JSON 必须通过 `python scanner/validate.py`（V01–V20，退出码 0）。
+> 唯一接口标准：`docs/12-数据契约与字段字典.md`（data-v0.8.0）。本目录所有 JSON 必须通过 `python scanner/validate.py`（V01–V20，退出码 0）。
 > 数据基准日 `as_of = 2026-10-22`（Asia/Shanghai），当前周 `2026-W43`（10-19～10-25），当前月 `2026-10`，当前年 `2026`；支持 `--as-of YYYY-MM-DD` 覆盖做真实每日运行。
-> **v0.7.0 MINOR**：新增本地控制台后端 `scanner/serve.py`（网页一键更新/采集/构建/定时任务；仅 127.0.0.1 + token）；数据内容与 schema 不变，仅版本号升 0.7.0。
+> **v0.8.0 MINOR（采集增强）**：`sources.json` 升级为**可执行源注册表**（125 平台 / **57 个 enabled 自动源**，覆盖 11 区域）；新增**持久信号账本**（`scanner/build/signal-ledger.sqlite`，跨批去重，outbox 每条 `is_new`）与**相关性初筛**（`relevance_score/tier/reasons`）；机会库内容不变（仍 80 条人工库）。
 > **v0.6.1 PATCH**：`pipeline.py --as-of`（窗口/快照/统计/报告/年鉴日期全部按该日）+ V08 配额只在基准日强制（其他 as_of 允许空榜）+ report/yearbook 日期跟随 rankings.meta.as_of；机会库/榜单口径不变。
 > **v0.6.0 基线**：机会库 46 → **80 条**（14 行业各 ≥2、11 区域全覆盖、12 信息差全覆盖、目标国家/地区 53、中国角度 42、`verified:true` 32）；榜单配额 day ≥10 / week ≥20 / month ≥30 / year ≥80。
 
@@ -15,7 +15,7 @@
 - 同输入重复运行字节级确定性；测试不同 as_of 后请用 `--all` 恢复基准日状态（勿保留非基准日快照进仓库）。
 
 
-## 1. 文件清单与规模（data-v0.7.0）
+## 1. 文件清单与规模（data-v0.8.0）
 
 | 文件 | 作用 | 规模 | 生产者 | 消费者 |
 |---|---|---|---|---|
@@ -26,14 +26,14 @@
 | `history/rankings-2026-10-20.json` | **历史回放**（`reconstructed=true`、`replay_as_of=2026-10-20`） | day 13 / week 23 / month 31 / year 54 | `--replay-*` | 扫描器、前端 |
 | `history/rankings-2026-10-21.json` | **历史回放**（`reconstructed=true`、`replay_as_of=2026-10-21`，basis=history） | day 9 / week 32 / month 40 / year 63 | `--replay-*` | 扫描器、前端 |
 | `history/rankings-2026-10-22.json` | **真实每日快照**（`reconstructed=false`，与 rankings 一致） | day 17 / week 49 / month 57 / year 80 | `--all` | 扫描器、前端 |
-| `source-health.json` | 在线采集源健康度 **v2**（`mode`/`http_status`/`latency_ms`/`cached`/`items`/`error`/`checked_at`，`meta.mode`） | **8 个源（8 成功 / 0 失败；2026-10-22 v0.3.1 实测）** | `--fetch` | 前端、运营 |
-| `reports/report-<period>-2026-10-22.{html,md}` | 四窗口自包含 HTML + Markdown 报告（确定性生成，可打印/分发） | 4 窗口 × 2 格式 | `report.py --all` | 用户、归档 |
+| `source-health.json` | 在线采集源健康度 **v2**（`mode`/`http_status`/`latency_ms`/`cached`/`items`/`error`/`checked_at`，`meta.mode`） | **57 个源（57 成功 / 0 失败；2026-10-23 v0.8.0 实测，1448 items）** | `--fetch` | 前端、运营 |
+| `reports/report-<period>-2026-10-23.{html,md}` | 四窗口自包含 HTML + Markdown 报告（确定性生成，可打印/分发） | 4 窗口 × 2 格式 | `report.py --all` | 用户、归档 |
 | `reports/calibration-2026-10-22.{html,md}` | 实验校准报告（v0.4.0；Brier/等级×成功率/花费耗时/建议，样例数据标注 sample） | 1 份 HTML + 1 份 MD | `calibrate.py` | 用户、归档 |
 | `reports/yearbook-2026.{html,md}` | **年度年鉴**（v0.5.0；v0.6.0 增加月度等级分布/信息差热度/窗口衰减/实验漏斗） | 1 份 HTML + 1 份 MD | `yearbook.py` | 用户、归档 |
-| `sources.json` | 数据源矩阵 12 大类 | **68 个平台**（v0.3.1：reddit→manual、新增 lobsters、itunes GB、shopify 官方 feed.xml） | 数据工程 | 前端、`--fetch` |
+| `sources.json` | **可执行源注册表** 12 大类（v0.8.0：`enabled/priority/kind/limits/enabled` 字段） | **125 个平台 / 57 个 enabled 自动源**（Google News 多地区 query、Google Trends、垂直媒体；9 个实测不可用源标 enabled=false） | 数据工程 | 前端、`--fetch` |
 | `playbooks.json` | 扫描剧本 | **12 个** | 数据工程 | 前端、运营 |
 | `calendar.json` | 全球商业日历 2026-11～2028 | **33 个节点** | 数据工程 | 前端、方法论 |
-| `radar.db`（gitignore） | SQLite 派生库（opportunities/evidence/rankings_history/source_health） | 80 / 156 / 468 / 8 行 | 扫描器 `--all`（`--db-rebuild` 可重建） | 扫描器 |
+| `radar.db`（gitignore） | SQLite 派生库（opportunities/evidence/rankings_history/source_health） | 80 / 156 / 654 / 57 行 | 扫描器 `--all`（`--db-rebuild` 可重建） | 扫描器 |
 
 ## 2. 派生字段口径（扫描器统一计算，手工不要硬写）
 
@@ -78,7 +78,7 @@
 
 ## 6. 报告导出
 
-- `python scanner/report.py --all`（或 `--period day|week|month|year`）→ `data/reports/report-<period>-2026-10-22.{html,md}`。
+- `python scanner/report.py --all`（或 `--period day|week|month|year`）→ `data/reports/report-<period>-2026-10-23.{html,md}`。
 - HTML 自包含（内联 CSS、可 file:// 打开/打印），含七问摘要、证据链接、风险、免责声明；`generated_at` 为确定性逻辑时间（同日重跑字节一致）。
 
 ## 7. AI 富化与实验校准（v0.4.0 新工具，v0.5.1 扩展 provider）
@@ -132,13 +132,21 @@ V01–V18（V18 支持 history/adjacent 双口径）· **V19**（所有历史快
 **v0.6.0 配额收紧**：V02（机会 ≥80、14 行业各 ≥2、11 区域全覆盖、目标国家/地区 ≥50、中国角度 ≥25）· V08（day ≥10 / week ≥20 / month ≥30 / year ≥80）。
 当前结果：**20/20 PASS，退出码 0**。
 
-## 12. 复现命令
+## 12. v0.8.0 采集增强（源注册表 / 持久去重 / 相关性初筛）
+
+- **源注册表**：`data/sources.json` 增加 `access(rss|json|api|manual)`、`regions`、`lang`、`enabled`、`priority`、`limits`、`kind`；`--fetch` 只抓 `enabled=true` 且合规绿/黄、`access ∈ {rss,json}` 的源，按 priority/value_score 排序（默认 `--fetch-limit 60`）。
+  2026-10-23 实测：57/57 enabled 源成功、1448 条原始 → 1015 条（批内去重后）；不可用源（itunes 空 feed、substack 非 feed、bing/rest-of-world/techinasia/entrackr/nature/dw 等）标 `enabled=false` 并记录原因。
+- **持久信号账本**：`scanner/build/signal-ledger.sqlite`（gitignore）保存 `canonical_url/title_hash/content_hash/first_seen/last_seen/seen_count`；fetch 跨批去重，outbox 每条带 `is_new`；meta 增加 `new_count/seen_count/ledger_total`。实测同一天连跑三次：新增 983 → 68 → **0**（账本累计 1051），旧条目以 `is_new=false` 保留不刷屏。
+- **相关性初筛**：每条信号增加 `relevance_score(0-100)`、`industry_ids/gap_type_ids/region_ids`、`tier(business/maybe/off-topic)`、`reasons`（离线规则，含招聘/广告/纯论文排除词）；meta 与 `/api/outbox` 提供 `relevant_count/tiers/top_relevant`。实测 1015 条：**business 184 / maybe 712 / off-topic 119**；仅线索排序，**不自动入库**。
+- 复现：`python scanner/pipeline.py --fetch --as-of 2026-10-23 --fetch-limit 60`（首跑联网约 3–4 分钟；二次命中缓存更快），重跑验证 `new_count → 0`。
+
+## 13. 复现命令
 
 ```powershell
 python scanner/pipeline.py --replay-as-of 2026-10-22 --replay-days 2   # 生成 10-20/10-21 回放 + 重算当前榜单(history delta)
 python scanner/pipeline.py --all                                       # 离线全链路（幂等，20/20）
 python scanner/pipeline.py --all --as-of 2026-10-23                    # v0.6.1：真实每日运行（day 归零，week/month/year 保持）
-python scanner/pipeline.py --fetch --no-cache                          # 真实采集刷新 source-health v2（联网）
+python scanner/pipeline.py --fetch --no-cache --fetch-limit 60         # 真实采集（v0.8.0：57 个 enabled 源 + 账本去重 + 相关性）
 python scanner/report.py --all                                         # 4 窗口报告（确定性）
 python scanner/report.py --period day --as-of 2026-10-23               # 报告日期跟随 --as-of
 python scanner/enrich.py                                               # AI 富化 outbox（offline-template，永不自动入库）
@@ -148,9 +156,9 @@ python scanner/calibrate.py --experiments scanner/fixtures/experiments-sample.js
 python scanner/yearbook.py --year 2026                                 # 年度年鉴（无实验摘要版本）
 python scanner/yearbook.py --year 2026 --experiments scanner/fixtures/experiments-sample.json --sample  # 年鉴（含样例实验摘要）
 python scanner/db.py --rebuild                                         # SQLite 重建
-python -m unittest discover -s scanner/tests                           # 81 条单测（含 serve.py 17 条）
+python -m unittest discover -s scanner/tests                           # 101 条单测（含 serve.py 28 条）
 ```
 
-## 13. 免责
+## 14. 免责
 
 机会卡片是研究假设与公开信息整理，**不构成投资建议、法律意见或收入承诺**。涉及跨境、金融、医疗、法律、宗教、内容版权时请自行做合规核查。`calendar.json` 中宗教节日日期为预计值，以当地观月/官方公告为准。

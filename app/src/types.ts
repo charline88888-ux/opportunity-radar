@@ -5,7 +5,7 @@
  */
 
 export type Compliance = 'green' | 'yellow' | 'red'
-export type AccessMode = 'api' | 'rss' | 'html' | 'manual' | 'paid-api'
+export type AccessMode = 'api' | 'rss' | 'json' | 'html' | 'manual' | 'paid-api'
 export type Frequency = 'realtime' | 'daily' | 'weekly' | 'monthly' | 'quarterly' | 'yearly' | 'manual'
 export type Cost = 'free' | 'freemium' | 'paid'
 export type WindowStatus = 'open' | 'peak' | 'closing' | 'closed'
@@ -365,6 +365,9 @@ export interface Source {
   compliance: Compliance
   value_score: number
   notes: string
+  /** v0.8.0：是否启用自动采集 */
+  enabled?: boolean
+  limits?: Record<string, unknown>
 }
 
 export interface SourceCategory {
