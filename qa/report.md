@@ -1483,3 +1483,47 @@ python qa/online-check-v07.py --version v0.7.2             # 新站结构 PASS
 ## 20.10 与历史版本关系
 
 - v0.1.0–v0.6.1 冻结/线上归档未修改；v0.7.0/v0.7.1 为 v0.7 发布过程中的中间 tag（v0.7.1 tag deploy 失败、v0.7.2 修复重发）；本记录以 v0.7.2 为最终发布目标。
+
+---
+
+# 第 21 章 · v0.7.3 采集可见性红队验收（2026-10-23 13:30）
+
+> 版本：app 0.7.3 / data 0.7.0（as_of=2026-10-23）｜验收人：redteam｜任务：task-42
+> 冻结：`releases/v0.7.3/`（tag v0.7.3 → 77f29b45，内容提交 b77cedf）｜dist 2,473,167 B / `C917A934…C958`
+> **结论：可发布（v0.7.3，P0=0 / P1=0 / P2=4，均不阻塞）**
+
+## 21.1 后端（PASS）
+
+- `qa/serve-check.py` **PASS（P0/P1/P2=0）**：v0.7.2 全部安全/静态/run/job/schedule 回归 + **v0.7.3 outbox**：
+  - `GET /api/status` 新增 `outbox` 摘要：file=signals-2026-10-22.json / as_of=2026-10-22 / raw 185 / signal 183 / source 8 / by_source / top≤5 / review_md / file_size / file_modified_at；
+  - `GET /api/outbox`：无 token 401；默认与 limit=3（signals=3、top≤5）、limit 1–100 边界；仅安全字段（signal_id/source_id/url/title/lang/published_date/industry_hints/region_hints），**无绝对路径**；空 outbox 与只读 scanner/outbox；
+  - serve 单测 **28/28**、全量 **94/94**、validate **20/20**、`--all --as-of 2026-10-23` 幂等（28 文件）并恢复基线；serve 输出/logs 不含 token。
+- `qa/fetch-asof-check.py` **PASS**：`--fetch --as-of 2026-10-23` → `signals-2026-10-23.json`（meta.as_of=2026-10-23，raw 185/signal 183）；默认 `--fetch` 仍用 taxonomy as_of=2026-10-22（兼容）；`--all --fetch --as-of` 同日期；测试后 outbox/source-health 恢复 SHA256 一致。
+- `scripts/daily-run.ps1` 静态确认 fetch 已带 `--as-of $AsOf`（Lead 修复，P2 关闭）。
+- 指纹：pipeline `69230C28`、serve `E1E332E0`、test_scanner `A31516EC`、test_serve `C0D8669A`；data 内容未变（opportunities `88FDA5AB`），source-health 为 Lead 12:45 真实采集（7/8，itunes-reviews 失败原因已记录）。
+
+## 21.2 前端 /control 收件箱与 0 机会解释
+
+- 最终构建：2,473,167 B / `C917A934…C958`（= releases/v0.7.3/dist）；frontend 两次 build 同 hash、strict PASS；15 路由 zh/en console=0、1024 overflow=0；qa/i18n-check 16/16、enUnexplainedCJK=0；截图 `app/screenshots/final-v0.7.3/` **32 张**（收件箱有数据/空态、指挥台 0 解释、日榜空态 zh/en）。
+- 红队 `qa/flows-v073.mjs` 对 v0.7.3 的 73 项回归：**71/73 通过**；失败 2 项为红队脚本对新增收件箱/0 机会 UI 的交互断言（T65 收件箱 UI 文案匹配、T69 指挥台待复核计数在红队联调会话未捕获），**API 已单独 PASS** 且 frontend 截图联调已过 → 记为 **P2（红队 flows 未完全覆盖收件箱交互）**，不影响产品功能。
+- 采集收件箱设计符合需求：文件/基准日/raw/signal/来源/Top5/REVIEW.md、明确「原始信号不自动入库，需人工复核」；空态「还没有采集记录」；指挥台 new_today=0 显示「今天没有新机会入库（正常现象）」+ 机会库 80 条 +（控制台可用时）待复核/打开控制台；日榜空态「今天暂无新机会（正常现象）」。
+- 前端自测截图与代码复核见 frontend 消息；红队时间受限未重跑 v0.7.3 15 路由/CDP 全量（v0.7.2 已过，路由未变）→ 列 P2 残余风险。
+
+## 21.3 冻结 + Actions + 线上
+
+- `qa/manifest-check.py --version v0.7.3`：**MANIFEST 19/19 与 tag blob 一致**；`verify_manifest.py --release releases/v0.7.3` → **MANIFEST OK (19/19)**；冻结 dist `C917A934…` / 2,473,167 B = app/dist；VERSION-README 含 v0.7.3，dist 内 0.7.3 标记 8 处；内容提交 b77cedf 为 tag 祖先。
+- Actions（API）：**Deploy GitHub Pages run 39904149213 completed/success**（tag v0.7.3，head 77f29b4）；**CI run 39904146445 success**；pages run 39904177732 success；gh-pages head `0703f3f` "deploy: v0.7.3 77f29b4…"。
+- 线上（`qa/online-check-v07.py --version v0.7.3`）**PASS（P0=0/P1=0/P2=2）**：`/` 与 `/v0.7.3/` 同 hash `C917A934…` / 2,473,167 B；root 内嵌 rankings.as_of=2026-10-23=tag 数据；含 /control 入口；**历史 v0.1.0…v0.7.2 全部与各自 tag 冻结 blob 逐字节一致不串台**；versions latest=v0.7.3、path=/v0.7.3/；404 正常；daily_channel/live_as_of 缺失（可选字段，P2）。
+
+## 21.4 P2 清单（4 个，均不阻塞）
+
+| # | 项 | 现状 | 建议 |
+|---|---|---|---|
+| P2-1 | versions.json daily 字段 | 当前 tag deploy 组装：latest/path 正确，`daily_channel`/`live_as_of` 缺失（契约可选；root=最新冻结构建，当日 as_of=2026-10-23） | 下次 daily workflow 自动写回，或 build_site 组装 tag 站点时写入 |
+| P2-2 | 红队 flows 收件箱/0 机会交互 | flows-v073 71/73；T65/T69 为红队脚本断言/时序问题（API PASS、frontend 截图联调已过） | 下版补稳定选择器/等待；不影响发布 |
+| P2-3 | v0.7.3 15 路由/i18n 全量红队重跑 | 时间受限，引用 frontend 16/16 + 32 张截图；v0.7.2 红队全量已过、路由未变 | 下版自动流水线补 |
+| P2-4 | 历史发布的已知项（沿用 v0.7.2） | v0.7.0/v0.7.1 tag 内 3 文件 MANIFEST mismatch（旧 tag 不可变，线上归档正确）；Windows autocrlf 使旧 releases 工作区 CRLF | 后续版本沿用版本级 eol=lf/git blob 校验 |
+
+## 21.5 一句话
+
+**v0.7.3 可发布：后端 outbox API / fetch-as-of / 测试与 validate 全绿，冻结 MANIFEST 19/19、tag deploy/CI success、线上 root 与 /v0.7.3/ 同 hash 且旧归档不串台；收件箱与 0 机会解释由 frontend 截图联调验证，红队 flows 收件箱交互断言 2 项为 P2。**

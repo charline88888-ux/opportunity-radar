@@ -1,0 +1,85 @@
+{
+  "runs": [
+    {
+      "id": 39904177732,
+      "name": "pages build and deployment",
+      "event": "dynamic",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "0703f3f68aef572a4c77410e86b801728da88b7a",
+      "created_at": "2026-10-23T05:09:12Z",
+      "html_url": "https://github.com/charline88888-ux/opportunity-radar/actions/runs/39904177732"
+    },
+    {
+      "id": 39904149213,
+      "name": "Deploy GitHub Pages (on release tag)",
+      "event": "push",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "77f29b45c1f2b28de2f6ffd703bebb483eb5dabd",
+      "created_at": "2026-10-23T05:08:52Z",
+      "html_url": "https://github.com/charline88888-ux/opportunity-radar/actions/runs/39904149213"
+    },
+    {
+      "id": 39904146445,
+      "name": "CI",
+      "event": "push",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "77f29b45c1f2b28de2f6ffd703bebb483eb5dabd",
+      "created_at": "2026-10-23T05:08:50Z",
+      "html_url": "https://github.com/charline88888-ux/opportunity-radar/actions/runs/39904146445"
+    },
+    {
+      "id": 39901299561,
+      "name": "CI",
+      "event": "push",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "43fe61c8ed11c7e91388fd53821f04f47423a242",
+      "created_at": "2026-10-23T04:37:24Z",
+      "html_url": "https://github.com/charline88888-ux/opportunity-radar/actions/runs/39901299561"
+    },
+    {
+      "id": 39899009566,
+      "name": "pages build and deployment",
+      "event": "dynamic",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "f0ce19d9d84aba22a58f2f399da1861a063b4c31",
+      "created_at": "2026-10-23T04:11:41Z",
+      "html_url": "https://github.com/charline88888-ux/opportunity-radar/actions/runs/39899009566"
+    },
+    {
+      "id": 39898977889,
+      "name": "Deploy GitHub Pages (on release tag)",
+      "event": "push",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "b5a1a29415263fa991299d03a5f2b8c39361a961",
+      "created_at": "2026-10-23T04:11:21Z",
+      "html_url": "https://github.com/charline88888-ux/opportunity-radar/actions/runs/39898977889"
+    },
+    {
+      "id": 39898973669,
+      "name": "CI",
+      "event": "push",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "b5a1a29415263fa991299d03a5f2b8c39361a961",
+      "created_at": "2026-10-23T04:11:18Z",
+      "html_url": "https://github.com/charline88888-ux/opportunity-radar/actions/runs/39898973669"
+    },
+    {
+      "id": 39898438111,
+      "name": "pages build and deployment",
+      "event": "dynamic",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "5e65cbb6e3dc528b5fd27e0f533e25aa798d27d2",
+      "created_at": "2026-10-23T04:05:23Z",
+      "html_url": "https://github.com/charline88888-ux/opportunity-radar/actions/runs/39898438111"
+    }
+  ],
+  "fetched_at": "2026-10-23T13:29:20.0003333+08:00"
+}
