@@ -49,9 +49,15 @@
     },
     "funnel": {
       "attempted": 101,
-      "ok": 101,
-      "failed": 0,
-      "failed_sources": [],
+      "ok": 100,
+      "failed": 1,
+      "failed_sources": [
+        {
+          "id": "tech-eu",
+          "http_status": 403,
+          "error": "HTTP 403"
+        }
+      ],
       "raw": 2420,
       "deduped": 1892,
       "new": 1865,

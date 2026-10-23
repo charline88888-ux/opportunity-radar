@@ -214,10 +214,16 @@ def main() -> int:
     health = json.loads((DATA / "source-health.json").read_text(encoding="utf-8"))
     hrows = health.get("sources") or []
     hm = health.get("meta") or {}
-    if len(hrows) != 101 or hm.get("ok_count") != 101 or hm.get("failed_count") != 0 or sum(int(x.get("items") or 0) for x in hrows) != 2420:
-        P1.append(f"source-health {len(hrows)}/ok{hm.get('ok_count')}/failed{hm.get('failed_count')}/items{sum(int(x.get('items') or 0) for x in hrows)} ≠ 101/101/0/2420")
+    if len(hrows) != 101 or sum(int(x.get("items") or 0) for x in hrows) != 2420:
+        P1.append(f"source-health rows/items={len(hrows)}/{sum(int(x.get('items') or 0) for x in hrows)} ≠ 101/2420")
     else:
-        notes.append("source-health：101/101/0、items 2420 ✅")
+        notes.append(f"source-health：101 行 / ok{hm.get('ok_count')} / failed{hm.get('failed_count')} / items2420 ✅")
+    # funnel 与 health/outbox 必须一致（v1.0.1 一致性修复点）
+    fn = cm.get("funnel") or {}
+    if fn and (int(fn.get("attempted") or -1) != int(hm.get("count") or -1) or int(fn.get("ok") or -1) != int(hm.get("ok_count") or -1) or int(fn.get("failed") or -1) != int(hm.get("failed_count") or -1)):
+        P1.append(f"candidates.meta.funnel={fn} 与 source-health count/ok/failed={hm.get('count')}/{hm.get('ok_count')}/{hm.get('failed_count')} 不一致")
+    else:
+        notes.append("funnel 与 source-health 计数一致 ✅")
     ob_files = sorted((ROOT / "scanner/outbox").glob("signals-*.json"), key=lambda p: (p.stat().st_mtime, p.name))
     if ob_files:
         ob = json.loads(ob_files[-1].read_text(encoding="utf-8"))

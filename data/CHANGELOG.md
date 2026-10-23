@@ -8,7 +8,8 @@
 - `one_liner` 结尾统一为「（自动发现线索，系统已初筛）」；`system_validation.notes` 改为「系统自动评估商机信号…不代表收入承诺。」；候选 JSON 全量 grep `验证/实验/复核/门禁` = **0**。
 - 重生成 candidates/candidate-rankings（评分/窗口/排序不变：day99/week200/month200/year200）；data/candidates meta 升 **1.0.1**。
 - 校验：validate **20/20**；unittest **95/95**（当前 tests 仅 test_scanner.py，控制台测试已随控制台移除）；cold-cache determinism：删翻译缓存冷跑两次 candidates 与冻结文件字节一致。
-- 指纹：candidates `1C36890601EDC96A`（全值 `1C36890601EDC96A227B7E1D12FF180FA190A139CA84A8D5D5E10FB88C88C478`）、candidate-rankings `55EDA0E369FAED1D`（`55EDA0E369FAED1D79D0B2794511DC71CE4081E993D431FBB52798F15C78B186`）、stats `3D5040A0A56D6680`、rankings `8C2A9476599EAADF`、candidates.py `31E44FB0C8D81484`；translate.py `2350C346277FD68C` 未变。
+- 指纹：candidates `9BBCEF35F3DEB438`（全值 `9BBCEF35F3DEB438D40BFEC178123AA18F0F2E6C2A0443AF0C33D93F84E77034`）、candidate-rankings `55EDA0E369FAED1D`（`55EDA0E369FAED1D79D0B2794511DC71CE4081E993D431FBB52798F15C78B186`）、stats `3D5040A0A56D6680`、rankings `8C2A9476599EAADF`、sources `F46C8D8DA0D6C905`、source-health `10921D63AFFD43D2`、radar.db `7292BD1D772DE786`、report-day `AE1A0B9ABD9BFDE4`、candidates.py `31E44FB0C8D81484`；translate.py `2350C346277FD68C` 未变。
+- funnel 以当前 `data/source-health.json` 为准：**attempted 101 / ok 100 / failed 1（tech-eu HTTP 403）**；冷缓存 candidates 与冻结文件一致。
 
 ## data-v1.0.0 · 2026-10-23 · MAJOR 核心回归（只留扫描→候选→四窗口榜）
 
