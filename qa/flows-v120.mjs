@@ -1,10 +1,10 @@
-// qa/flows-v120.mjs —— v1.0.0 核心回归验收：9 路由 / 唯一商机榜（候选+精选混排）/ 候选详情 / 扫描链 / 无删除功能
-// 用法：node qa/flows-v120.mjs <debugPort> <baseUrl> [downloadDir]
+// qa/flows-v121.mjs —— v1.0.0 核心回归验收：9 路由 / 唯一商机榜（候选+精选混排）/ 候选详情 / 扫描链 / 无删除功能
+// 用法：node qa/flows-v121.mjs <debugPort> <baseUrl> [downloadDir]
 const fs = await import('node:fs')
 const path = await import('node:path')
 const root = path.resolve('.')
 const [port, base] = process.argv.slice(2)
-if (!port || !base) { console.error('usage: node qa/flows-v120.mjs <port> <baseUrl>'); process.exit(2) }
+if (!port || !base) { console.error('usage: node qa/flows-v121.mjs <port> <baseUrl>'); process.exit(2) }
 const cands = JSON.parse(fs.readFileSync(path.join(root, 'app/src/data/candidates.json'), 'utf8'))
 const candRank = JSON.parse(fs.readFileSync(path.join(root, 'app/src/data/candidate-rankings.json'), 'utf8'))
 const rankings = JSON.parse(fs.readFileSync(path.join(root, 'app/src/data/rankings.json'), 'utf8'))
@@ -138,7 +138,7 @@ await nav('#/sources'); await reload(); await waitFor(`document.body.innerText.i
 const srcText = (await bodyText()).replace(/\s+/g, ' ')
 check('T12', '数据源：168 平台 / 自动100 / 11 区域', /168/.test(srcText) && /自动\s*100|Auto\s*100/.test(srcText) && /11/.test(srcText), srcText.slice(0, 200))
 await nav('#/about'); await waitFor(`document.body.innerText.includes('1.0.1')`, 10000); const aboutText = await bodyText()
-check('T13', '关于：版本 v1.2.0 + 核心边界说明', /1\.2\.0/.test(aboutText) && /核心|每日|扫描|商机/.test(aboutText), aboutText.slice(0, 240))
+check('T13', '关于：版本 v1.2.1 + 核心边界说明', /1\.2\.0/.test(aboutText) && /核心|每日|扫描|商机/.test(aboutText), aboutText.slice(0, 240))
 // 10) 全站无已删功能文本（9 路由）
 const forbidden = ['本地控制台', '实验台', '个人画像', '预警中心', '回测校准', '年度复盘', '个人数据', '自动发现榜']
 const hits = []
@@ -151,13 +151,13 @@ for (const h of ['#/', '#/rankings', '#/scanner', '#/method', '#/sources', '#/ca
 check('T14', '9 路由无已删功能文案/入口', hits.length === 0, hits.join(' | '))
 check('T15', '运行时无 console error', consoleErrors.length === 0, consoleErrors.slice(0, 3).join('; ') || '0')
 
-// v1.2.0：候选详情不得出现验证/实验/复核/门禁文案
+// v1.2.1：候选详情不得出现验证/实验/复核/门禁文案
 await nav(`#/candidates/${cid}`); await reload(); await sleep(1200)
 const candText101 = await bodyText()
-check('T16', '候选详情无「验证/实验/复核/门禁」文案（v1.2.0 清洗）', !/验证|实验|复核|门禁/.test(candText101), (candText101.match(/.{0,20}(验证|实验|复核|门禁).{0,40}/) || [''])[0])
+check('T16', '候选详情无「验证/实验/复核/门禁」文案（v1.2.1 清洗）', !/验证|实验|复核|门禁/.test(candText101), (candText101.match(/.{0,20}(验证|实验|复核|门禁).{0,40}/) || [''])[0])
 
 
-// v1.2.0 方法论：10 维判断表 + 评估结构解释
+// v1.2.1 方法论：10 维判断表 + 评估结构解释
 await nav('#/method'); await reload(); await sleep(1200)
 const methodText = await bodyText()
 check('T17', '方法论：10 维怎么判断（数据来源/判断标准）+ 画布/竞争/跨市场/执行解释', /10 维怎么判断|How the 10 dimensions are judged/.test(methodText) && /数据来源|Data source/.test(methodText) && /判断标准|Criteria/.test(methodText) && /商业画布|Business canvas/.test(methodText) && /竞争与差异|Competition & differentiation/.test(methodText) && /跨市场机会|Cross-market opportunity/.test(methodText) && /执行方案|Execution plan/.test(methodText), methodText.slice(0, 260))

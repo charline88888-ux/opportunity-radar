@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom'
 import { ArrowUpRight, CalendarDays, Database, Radar, Sparkles } from 'lucide-react'
 import { PageHeader } from '@/components/PageHeader'
 import { Badge, Panel } from '@/components/ui'
+import { OpportunityCard, type OpportunityCardModel } from '@/components/OpportunityCard'
 import { candidateTodayCount, candidateWindowItems, candidates } from '@/lib/candidates'
 import { dataAsOf, dataMeta, gapName, industryName, opportunities, regionName, sourceHealth, stats } from '@/lib/data'
 import { freshness } from '@/lib/freshness'
@@ -68,17 +69,29 @@ export default function Dashboard() {
           {!top.length ? (
             <div className="py-8 text-center text-[11px] text-dim">{L('今天暂无新候选，商机榜历史窗口仍可查看。', 'No new candidates today; historical windows are still on the board.')}</div>
           ) : (
-            <div className="space-y-1">
-              {top.map(({ candidate: c, rank }, i) => (
-                <Link key={c.candidate_id} to={`/candidates/${c.candidate_id}`} className="flex items-center gap-2 rounded border border-line/50 px-2 py-1.5 text-left transition-colors hover:border-line-strong hover:bg-panel-2">
-                  <span className="num w-5 text-[11px] text-dim">{String(i + 1).padStart(2, '0')}</span>
-                  <div className="min-w-0 flex-1">
-                    <div className="truncate text-[11px] text-ink">{c.title_zh || c.title}</div>
-                    <div className="truncate text-[9px] text-dim">{c.industry_ids.map(industryName).join(' / ')} · {c.gap_type_ids.map(gapName).join(' / ')} · {c.region_ids.map(regionName).join(' / ')}</div>
-                  </div>
-                  <span className="num text-[12px] text-signal">{fmtScore(c.scores.total)}</span>
-                  <span className="font-mono text-[9px] text-dim">{c.scores.grade}</span>
-                </Link>
+            <div className="grid grid-cols-1 gap-2 md:grid-cols-2">
+              {top.slice(0, 6).map(({ candidate: c }) => (
+                <OpportunityCard
+                  key={c.candidate_id}
+                  compact
+                  model={{
+                    id: c.candidate_id,
+                    kind: 'candidate',
+                    title: c.title_zh || c.title,
+                    original: c.title_original || c.source.raw_title,
+                    why: (typeof c.judgment?.why_opportunity === 'string' ? c.judgment.why_opportunity : '') || c.one_liner_zh || c.one_liner,
+                    score: c.scores.total,
+                    grade: c.scores.grade,
+                    primaryIndustry: c.primary_industry,
+                    eventType: typeof c.judgment?.event_type === 'string' ? c.judgment.event_type : undefined,
+                    capital: c.roi.capital_cny,
+                    paybackMonths: c.roi.payback_months,
+                    windowMonths: typeof c.timing?.window_months === 'number' || typeof c.timing?.window_months === 'string' ? c.timing.window_months : undefined,
+                    gaps: c.gap_type_ids,
+                    regions: c.region_ids,
+                    source: c.source.name,
+                  } satisfies OpportunityCardModel}
+                />
               ))}
             </div>
           )}

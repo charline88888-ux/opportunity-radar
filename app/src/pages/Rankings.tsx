@@ -4,6 +4,7 @@ import { ArrowUpRight, Search, SlidersHorizontal } from 'lucide-react'
 import { PageHeader } from '@/components/PageHeader'
 import { Badge, EmptyState, Panel } from '@/components/ui'
 import { candidates, candidateWindowItems } from '@/lib/candidates'
+import { OpportunityCard, type OpportunityCardModel } from '@/components/OpportunityCard'
 import { dataAsOf, gapName, gradeOf, industryName, opportunities, rankings, regionName, taxonomy } from '@/lib/data'
 import { useI18n } from '@/lib/i18n'
 import { fmtScore } from '@/lib/utils'
@@ -23,6 +24,11 @@ type Row = {
   regions: string[]
   source: string
   firstSeen: string
+  primaryIndustry?: string
+  eventType?: string
+  capital?: { min?: number; max?: number }
+  paybackMonths?: number
+  windowMonths?: number | string
 }
 
 const WINDOWS: Array<{ key: WindowKey; zh: string; en: string }> = [
@@ -64,6 +70,11 @@ export default function Rankings() {
     regions: c.region_ids,
     source: c.source.name || L('自动采集', 'Auto fetched'),
     firstSeen: c.first_seen,
+    primaryIndustry: c.primary_industry,
+    eventType: typeof c.judgment?.event_type === 'string' ? c.judgment.event_type : undefined,
+    capital: c.roi.capital_cny,
+    paybackMonths: c.roi.payback_months,
+    windowMonths: typeof c.timing?.window_months === 'number' || typeof c.timing?.window_months === 'string' ? c.timing.window_months : undefined,
   })), [win, L])
 
   const curatedRows = useMemo<Row[]>(() => {
@@ -84,6 +95,10 @@ export default function Rankings() {
         regions: o.region_ids,
         source: o.origin_country || L('精选库', 'Curated'),
         firstSeen: o.first_seen,
+        primaryIndustry: o.industry_id,
+        capital: o.roi.capital_cny,
+        paybackMonths: o.roi.payback_months,
+        windowMonths: o.window?.months_left,
       }]
     })
   }, [win, curatedById, L])
@@ -172,38 +187,33 @@ export default function Rankings() {
         <Panel className="p-6 text-center"><EmptyState title={L('当前窗口暂无商机', 'No opportunities in this window')} hint={L('切换窗口、选「全部」或清空筛选即可；自动候选与精选均为每日更新。', 'Switch windows, choose “All”, or clear filters; both auto candidates and curated opportunities refresh daily.')} /></Panel>
       ) : (
         <div className="grid grid-cols-1 gap-2.5 md:grid-cols-2 xl:grid-cols-3">
-          {rows.map((r, i) => (
-            <Link key={r.key} to={r.kind === 'candidate' ? `/candidates/${r.id}` : `/opportunities/${r.id}`} className="panel panel-hover accent-top flex flex-col p-3 text-left" style={{ '--accent': r.kind === 'candidate' ? '#4cc9f0' : '#3ddc97' } as CSSProperties}>
-              <div className="flex items-center gap-2">
-                <span className="num text-[20px] font-semibold text-dim">{String(i + 1).padStart(2, '0')}</span>
-                <Badge tone={r.kind === 'candidate' ? 'cyan' : 'signal'}>{r.kind === 'candidate' ? L('自动发现', 'Auto') : L('精选', 'Curated')}</Badge>
-                <span className="ml-auto font-mono text-[9px] text-dim">{r.kind === 'candidate' ? L('自动候选', 'Auto candidate') : L('精选库', 'Curated')}</span>
-              </div>
-              <div className="mt-1.5 line-clamp-2 text-[13px] font-semibold text-ink">{r.title}</div>
-              {r.original && r.original !== r.title && <div className="mt-0.5 truncate text-[9px] text-dim">{r.original}</div>}
-              <div className="mt-1 line-clamp-2 text-[10.5px] leading-relaxed text-muted">{r.oneLiner}</div>
-              <div className="mt-2 flex flex-wrap gap-1">
-                {r.industry.slice(0, 1).map((id) => <span key={id} className="rounded border border-line/60 px-1 py-0.5 text-[8.5px] text-dim">{industryName(id)}</span>)}
-                {r.gaps.slice(0, 1).map((id) => <span key={id} className="rounded border border-line/60 px-1 py-0.5 text-[8.5px] text-dim">{gapName(id)}</span>)}
-                {r.regions.slice(0, 1).map((id) => <span key={id} className="rounded border border-line/60 px-1 py-0.5 text-[8.5px] text-dim">{regionName(id)}</span>)}
-              </div>
-              <div className="mt-2 flex items-end justify-between border-t border-line/50 pt-2">
-                <div>
-                  <div className="mono-label">{L('来源', 'Source')}</div>
-                  <div className="max-w-[160px] truncate text-[9.5px] text-muted">{r.source || '—'}</div>
-                </div>
-                <div className="text-right">
-                  <div className="num text-[16px] font-semibold text-signal">{fmtScore(r.score)}</div>
-                  <div className="font-mono text-[9px] text-dim">{r.grade} · {L('首次', 'first')} {r.firstSeen || dataAsOf}</div>
-                </div>
-              </div>
-            </Link>
+          {rows.map((r) => (
+            <OpportunityCard
+              key={r.key}
+              model={{
+                id: r.id,
+                kind: r.kind,
+                title: r.title,
+                original: r.original,
+                why: r.oneLiner,
+                score: r.score,
+                grade: r.grade,
+                primaryIndustry: r.primaryIndustry,
+                eventType: r.eventType,
+                capital: r.capital,
+                paybackMonths: r.paybackMonths,
+                windowMonths: r.windowMonths,
+                gaps: r.gaps,
+                regions: r.regions,
+                source: r.source,
+              } satisfies OpportunityCardModel}
+            />
           ))}
         </div>
       )}
 
       <div className="mt-4 flex flex-wrap items-center justify-between gap-2 text-[9.5px] text-dim">
-        <span>{L('商机榜为唯一榜单；自动候选与精选均按评分排序，不设人工复核门槛。', 'This is the only board; auto candidates and curated opportunities are ranked by score with no manual-review gate.')}</span>
+        <span>{L('商机榜为唯一榜单；自动候选与精选均按评分排序。', 'This is the only board; auto candidates and curated opportunities are ranked by score with no manual-review gate.')}</span>
         <span className="inline-flex items-center gap-1">{L('点击卡片查看详情', 'Open a card for details')} <ArrowUpRight className="h-3 w-3" /></span>
       </div>
     </div>

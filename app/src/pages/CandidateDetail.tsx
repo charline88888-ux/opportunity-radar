@@ -1,7 +1,9 @@
-import type { ReactNode } from 'react'
+import { useMemo, type ReactNode } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { ArrowUpRight, ChevronRight, ExternalLink, ShieldAlert } from 'lucide-react'
 import { PageHeader } from '@/components/PageHeader'
+import { Chart } from '@/components/charts/Chart'
+import type { EChartsOption } from 'echarts'
 import { Badge, Panel } from '@/components/ui'
 import { candidateById, type Candidate } from '@/lib/candidates'
 import { dataAsOf, gapName, industryName, regionName } from '@/lib/data'
@@ -109,20 +111,13 @@ function dimensionRows(c: Candidate): Array<{ key: string; score: number; ration
 
 function Section({ title, subtitle, children }: { title: string; subtitle?: string; children: ReactNode }) {
   return (
-    <details className="panel group mb-3 p-3">
-      <summary className="flex cursor-pointer list-none items-start gap-2">
-        <ChevronRight className="mt-0.5 h-3.5 w-3.5 shrink-0 text-dim transition-transform group-open:rotate-90" />
-        <span className="min-w-0 flex-1">
-          <span className="mono-label block">{title}</span>
-          {subtitle && <span className="mt-0.5 block text-[9.5px] leading-relaxed text-dim">{subtitle}</span>}
-        </span>
-        <span className="font-mono text-[8.5px] text-dim">EXPAND</span>
-      </summary>
-      <div className="mt-3">{children}</div>
-    </details>
+    <Panel className="mb-3 p-3">
+      <div className="mono-label">{title}</div>
+      {subtitle && <div className="mt-0.5 text-[9.5px] leading-relaxed text-dim">{subtitle}</div>}
+      <div className="mt-2">{children}</div>
+    </Panel>
   )
 }
-
 function FieldGrid({ rows }: { rows: Array<{ zh: string; en: string; value: ReactNode }> }) {
   const { lang } = useI18n()
   const L = (zh: string, en: string) => (lang === 'en' ? en : zh)
@@ -170,6 +165,29 @@ export default function CandidateDetail() {
   const execution = c.execution_plan || {}
   const evidence = c.evidence || []
   const sourceItems = Array.isArray(c.eval_sources) ? c.eval_sources : []
+  const windowRaw = findField(timing, ['window_months', 'window', 'months'])
+  const windowLabel = windowRaw == null || windowRaw === '' ? '' : String(windowRaw)
+  const windowNumeric = typeof windowRaw === 'number' ? windowRaw : Number(String(windowRaw ?? '').match(/\d+(?:\.\d+)?/)?.[0] ?? 0)
+  const capitalRaw = findField(conditions, ['capital_range_cny'])
+  const capitalFallback = Array.isArray(capitalRaw) ? fmtCnyRange(Number(capitalRaw[0] ?? 0), Number(capitalRaw[1] ?? capitalRaw[0] ?? 0)) : ''
+  const capitalLabel = c.roi.capital_cny ? fmtCnyRange(c.roi.capital_cny.min ?? 0, c.roi.capital_cny.max ?? 0) : capitalFallback || '—'
+  const paybackRaw = c.roi.payback_months ?? findField(profit, ['payback_months', 'payback'])
+  const paybackLabel = paybackRaw == null || paybackRaw === '' ? '—' : `${String(paybackRaw)}${String(paybackRaw).includes('月') ? '' : ' ' + L('个月', 'months')}`
+  const grossRaw = c.roi.gross_margin_pct ?? findField(profit, ['gross_margin'])
+  const grossLabel = grossRaw == null || grossRaw === '' ? '—' : `${String(grossRaw)}${String(grossRaw).includes('%') ? '' : '%'}`
+  const radarOption: EChartsOption = {
+    backgroundColor: 'transparent',
+    tooltip: {},
+    radar: {
+      indicator: DIMENSIONS.map((d) => ({ name: L(d.zh, d.en), max: 10 })),
+      radius: '66%',
+      axisName: { color: '#8b93a7', fontSize: 9 },
+      splitLine: { lineStyle: { color: '#252b38' } },
+      splitArea: { areaStyle: { color: ['rgba(61,220,151,0.015)', 'rgba(76,201,240,0.025)'] } },
+      axisLine: { lineStyle: { color: '#252b38' } },
+    },
+    series: [{ type: 'radar', data: [{ value: dims.map((d) => d.score), name: L('10 维评分', '10 dimensions'), areaStyle: { color: 'rgba(61,220,151,0.16)' }, lineStyle: { color: '#3ddc97', width: 1.5 }, itemStyle: { color: '#3ddc97' } }] }],
+  }
 
   const competitionRows = fieldRows(competition, [
     { keys: ['direct_competitors', 'direct'], zh: '直接竞品', en: 'Direct competitors' },
@@ -245,11 +263,12 @@ export default function CandidateDetail() {
         }
       />
 
-      <div className="mb-3 grid grid-cols-1 gap-2.5 md:grid-cols-4">
-        <Panel className="p-3"><div className="mono-label">{L('评分 / 等级', 'Score / grade')}</div><div className="mt-1 flex items-end gap-2"><span className="num text-[28px] font-semibold text-signal">{fmtScore(c.scores.total)}</span><Badge tone="signal">{c.scores.grade}</Badge></div><div className="font-mono text-[9px] text-dim">conf {c.confidence} · rank {fmtScore(c.scores.rank_score)}</div></Panel>
-        <Panel className="p-3"><div className="mono-label">{L('投入与回本', 'Capital & payback')}</div><div className="mt-1 text-[10.5px] text-muted">{c.roi.capital_cny ? fmtCnyRange(c.roi.capital_cny.min ?? 0, c.roi.capital_cny.max ?? 0) : '—'}</div><div className="text-[9.5px] text-dim">{L('回本', 'Payback')} {c.roi.payback_months ?? '—'} {L('个月', 'months')} · {L('月收入', 'Monthly')} {c.roi.monthly_revenue_cny ? fmtCnyRange(c.roi.monthly_revenue_cny.min ?? 0, c.roi.monthly_revenue_cny.max ?? 0) : '—'}</div></Panel>
-        <Panel className="p-3"><div className="mono-label">{L('行业 / 信息差', 'Industry / gap')}</div><div className="mt-1 text-[10.5px] text-muted">{c.industry_ids.map(industryName).join(' / ') || '—'}</div><div className="text-[9.5px] text-dim">{c.gap_type_ids.map(gapName).join(' / ') || '—'}</div></Panel>
-        <Panel className="p-3"><div className="mono-label">{L('区域 / 首次发现', 'Region / first seen')}</div><div className="mt-1 text-[10.5px] text-muted">{c.region_ids.map(regionName).join(' / ') || '—'}</div><div className="text-[9.5px] text-dim">{fmtDateCn(c.first_seen || dataAsOf)}</div></Panel>
+      <div className="mb-3 grid grid-cols-2 gap-2.5 md:grid-cols-5">
+        <Panel className="p-3"><div className="mono-label">{L('评分 / 等级', 'Score / grade')}</div><div className="mt-1 flex items-end gap-2"><span className="num text-[30px] font-semibold text-signal">{fmtScore(c.scores.total)}</span><Badge tone="signal">{c.scores.grade}</Badge></div><div className="font-mono text-[9px] text-dim">conf {c.confidence}</div></Panel>
+        <Panel className="p-3"><div className="mono-label">{L('启动资金', 'Startup capital')}</div><div className="mt-1 text-[14px] font-semibold text-ink">{capitalLabel}</div><div className="text-[9px] text-dim">CNY</div></Panel>
+        <Panel className="p-3"><div className="mono-label">{L('回本周期', 'Payback')}</div><div className="mt-1 text-[14px] font-semibold text-ink">{paybackLabel}</div></Panel>
+        <Panel className="p-3"><div className="mono-label">{L('毛利率', 'Gross margin')}</div><div className="mt-1 text-[14px] font-semibold text-ink">{grossLabel}</div></Panel>
+        <Panel className="p-3"><div className="mono-label">{L('窗口月数', 'Window')}</div><div className="mt-1 text-[14px] font-semibold text-ink">{windowLabel ? `${windowLabel}${windowLabel.includes('月') ? '' : ' ' + L('个月', 'months')}` : '—'}</div></Panel>
       </div>
 
       {original && original !== title && <div className="mb-2 text-[9.5px] text-dim">{L('原文', 'Original')}: {original}</div>}
@@ -270,30 +289,21 @@ export default function CandidateDetail() {
           <span className="text-signal">{L('商机判断：', 'Opportunity judgment: ')}</span>{why}
         </div>
         {notIf != null && <div className="mb-2 rounded border border-amber/25 bg-amber/[0.03] px-2.5 py-2 text-[9.5px] leading-relaxed text-amber">{L('什么情况下不是商机：', 'When it is not an opportunity: ')}{valueText(notIf)}</div>}
-        <div className="overflow-x-auto">
-          <table className="w-full text-left text-[9.5px]">
-            <thead className="text-dim">
-              <tr className="border-b border-line/60">
-                <th className="py-1.5 pr-2 font-normal">{L('维度', 'Dimension')}</th>
-                <th className="py-1.5 pr-2 font-normal">{L('分数', 'Score')}</th>
-                <th className="py-1.5 pr-2 font-normal">{L('判断理由', 'Rationale')}</th>
-                <th className="py-1.5 font-normal">{L('使用数据', 'Data used')}</th>
-              </tr>
-            </thead>
-            <tbody>
-              {dims.map((d) => {
-                const def = DIMENSIONS.find((x) => x.key === d.key)!
-                return (
-                  <tr key={d.key} className="border-b border-line/30 align-top">
-                    <td className="py-1.5 pr-2 text-muted">{L(def.zh, def.en)}</td>
-                    <td className="py-1.5 pr-2 font-mono text-signal">{fmtScore(d.score)}</td>
-                    <td className="py-1.5 pr-2 leading-relaxed text-dim">{d.rationale}</td>
-                    <td className="py-1.5 leading-relaxed text-dim">{d.dataUsed}</td>
-                  </tr>
-                )
-              })}
-            </tbody>
-          </table>
+        <div className="grid grid-cols-1 gap-3 lg:grid-cols-12">
+          <div className="lg:col-span-4"><Chart option={radarOption} height={300} /></div>
+          <div className="grid grid-cols-1 gap-1.5 md:grid-cols-2 lg:col-span-8">
+            {dims.map((d) => {
+              const def = DIMENSIONS.find((x) => x.key === d.key)!
+              return (
+                <div key={d.key} className="rounded border border-line/50 px-2 py-1.5 text-[9.5px]">
+                  <div className="flex items-center justify-between gap-2"><span className="text-muted">{L(def.zh, def.en)}</span><span className="font-mono text-signal">{fmtScore(d.score)}</span></div>
+                  <div className="mt-1 h-1 w-full overflow-hidden rounded bg-line/60"><div className="h-full rounded bg-signal" style={{ width: `${Math.max(0, Math.min(100, d.score * 10))}%` }} /></div>
+                  <div className="mt-1 leading-relaxed text-dim">{d.rationale}</div>
+                  <div className="mt-0.5 text-[8.5px] leading-relaxed text-dim/80">{L('数据：', 'Data: ')}{d.dataUsed}</div>
+                </div>
+              )
+            })}
+          </div>
         </div>
       </Section>
 
@@ -306,6 +316,16 @@ export default function CandidateDetail() {
       </Section>
 
       <Section title={L('时机与窗口', 'Timing & window')}>
+        <div className="mb-3 rounded border border-line/60 px-3 py-2">
+          <div className="flex flex-wrap items-center gap-2 text-[9.5px]">
+            <Badge tone="cyan">{L('阶段', 'Stage')}: {String(findField(timing, ['window_stage', 'stage']) || '—')}</Badge>
+            <Badge tone="amber">{L('紧迫性', 'Urgency')}: {String(findField(timing, ['urgency']) || '—')}</Badge>
+            <span className="font-mono text-dim">{windowLabel || '—'} {windowLabel.includes('月') ? '' : L('个月窗口', 'month window')}</span>
+          </div>
+          <div className="mt-2 h-1.5 w-full overflow-hidden rounded bg-line/60">
+            <div className="h-full rounded bg-gradient-to-r from-signal to-cyan" style={{ width: `${Math.max(8, Math.min(100, windowNumeric * 6))}%` }} />
+          </div>
+        </div>
         <FieldGrid rows={timingRows} />
       </Section>
 
@@ -318,7 +338,15 @@ export default function CandidateDetail() {
       </Section>
 
       <Section title={L('执行方案 · 0–90 天', 'Execution plan · 0–90 days')} subtitle={L('从启动到首笔收入的行动路径。', 'A path from launch to first revenue.')}>
-        <FieldGrid rows={executionRows} />
+        <div className="mb-2 grid grid-cols-1 gap-2 md:grid-cols-3">
+          {executionRows.slice(0, 3).map((row, i) => (
+            <div key={row.zh} className="rounded border border-line/60 px-2.5 py-2 text-[10px]">
+              <div className="font-mono text-[9px] text-signal">0{i + 1} · {L(row.zh, row.en)}</div>
+              <div className="mt-1 leading-relaxed text-dim">{row.value}</div>
+            </div>
+          ))}
+        </div>
+        <FieldGrid rows={executionRows.slice(2)} />
       </Section>
 
       <Section title={L('信息来源与依据', 'Sources & evidence')}>
