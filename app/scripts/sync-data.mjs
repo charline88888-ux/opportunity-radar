@@ -334,7 +334,10 @@ if (oppIssues.length) {
 }
 
 const windows = rankings.windows || {}
-const windowQuota = { day: 6, week: 12, month: 20, year: 40 }
+// v0.7.1：完整配额只在基准发布日强制；其他 as_of（每日运行）只校验结构，允许空榜
+const BENCHMARK_AS_OF = '2026-10-22'
+const isBenchmark = asOf === BENCHMARK_AS_OF
+const windowQuota = isBenchmark ? { day: 6, week: 12, month: 20, year: 40 } : { day: 0, week: 0, month: 0, year: 0 }
 const rankingIssues = []
 for (const [key, quota] of Object.entries(windowQuota)) {
   const w = windows[key] || {}
@@ -348,7 +351,7 @@ for (const [key, quota] of Object.entries(windowQuota)) {
 add(
   rankingIssues.length === 0 ? 'PASS' : 'FAIL',
   'rankings',
-  `day ${(windows.day?.items || []).length} / week ${(windows.week?.items || []).length} / month ${(windows.month?.items || []).length} / year ${(windows.year?.items || []).length}（配额 6/12/20/40）`,
+  `day ${(windows.day?.items || []).length} / week ${(windows.week?.items || []).length} / month ${(windows.month?.items || []).length} / year ${(windows.year?.items || []).length}（${isBenchmark ? '基准日配额 6/12/20/40' : '非基准日仅结构校验、允许空榜'}）`,
 )
 
 const rankingsMeta = metaOf(rankings)

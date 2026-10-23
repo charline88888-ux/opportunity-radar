@@ -5,7 +5,7 @@ name: Daily data refresh & deploy
 #   2) validate 20/20
 #   3) 提交更新后的 data/rankings.json、data/stats.json、data/history/
 #   4) 构建前端并部署 gh-pages：根目录 = 当日最新数据，/vX.Y.Z/ = 冻结版本
-# 也可在 Actions 页面手动触发（workflow_dispatch）。
+# 也可在 Actions 页面手动触发（workflow_dispatch）；修改本文件会触发一次立即刷新（便于验证）。
 
 on:
   schedule:
