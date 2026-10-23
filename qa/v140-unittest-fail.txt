@@ -1,0 +1,39 @@
+[pipeline] 数据版本 1.4.0 / 基准日 2026-10-23
+[pipeline] 真实采集完成：0/0 个源成功，0 条原始 → 0 条信号
+[pipeline] 跨批去重：新增 0 条 / 已见 0 条 （账本累计 0 条）
+[pipeline] 相关性初筛：business 0 / maybe 0 / off-topic 0（relevant_count=0）
+.........................F............................................................................
+[pipeline] outbox（人工复核，不入机会库）：scanner\outbox\signals-test.json
+[pipeline] 源健康度：data\source-health.json
+[pipeline] 数据版本 1.4.0 / 基准日 2026-10-22
+[pipeline] 真实采集完成：0/0 个源成功，0 条原始 → 0 条信号
+[pipeline] 跨批去重：新增 0 条 / 已见 0 条 （账本累计 0 条）
+[pipeline] 相关性初筛：business 0 / maybe 0 / off-topic 0（relevant_count=0）
+[pipeline] outbox（人工复核，不入机会库）：scanner\outbox\signals-test.json
+[pipeline] 源健康度：data\source-health.json
+[pipeline] 数据版本 1.4.0 / 基准日 2026-10-23
+[pipeline] 自动候选已生成：7 条（business 7 / maybe 0，去重 0）→ data/candidates.json
+[pipeline] 候选质量：gap 推断覆盖 7/7 (missing 0, ratio 1.0)；region 覆盖 11/11
+[pipeline] 候选发现榜：day=7 / week=7 / month=7 / year=7 → data/candidate-rankings.json（verification_status 不参与收录/排序）
+[pipeline] 数据版本 1.4.0 / 基准日 2026-10-23
+[pipeline] 自动候选已生成：1 条（business 1 / maybe 0，去重 0）→ data/candidates.json
+[pipeline] 候选质量：gap 推断覆盖 0/1 (missing 0, ratio 0)；region 覆盖 0/0
+[pipeline] 候选发现榜：day=1 / week=1 / month=1 / year=1 → data/candidate-rankings.json（verification_status 不参与收录/排序）
+[enrich] provider=mock mode=mock-llm 候选=1 跳过=0 llm=1/0 cache=0 tokens=264/168 cost=$0.00014 dry_run=False
+[enrich] → C:\Users\Administrator\AppData\Local\Temp\tmpcdupgxg3\out\enriched-2026-10-22.json / C:\Users\Administrator\AppData\Local\Temp\tmpcdupgxg3\out\REVIEW.md
+======================================================================
+FAIL: test_region_fallback_and_coverage_meta (test_scanner.TestCandidatesV090.test_region_fallback_and_coverage_meta)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\全球商机扫描器\scanner\tests\test_scanner.py", line 1739, in test_region_fallback_and_coverage_meta
+    self.assertEqual(coverage["total"], 11)
+AssertionError: 12 != 11
+
+----------------------------------------------------------------------
+Ran 102 tests in 7.629s
+
+FAILED (failures=1)
+[yearbook] 2026：机会 80 / Top20 20 / A 级 12 / 收尾 3 / Brier — → 75 行 HTML（26695 B）
+[yearbook] → C:\Users\Administrator\AppData\Local\Temp\tmpka33314q\out-yb\yearbook-2026.html / C:\Users\Administrator\AppData\Local\Temp\tmpka33314q\out-yb\yearbook-2026.md
+[calibrate] 样本=6 有效=5 Brier=0.2338 sufficient=True sample=True
+[calibrate] → C:\Users\Administrator\AppData\Local\Temp\tmpka33314q\out-cal\calibration-2026-10-22.html / C:\Users\Administrator\AppData\Local\Temp\tmpka33314q\out-cal\calibration-2026-10-22.md

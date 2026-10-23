@@ -418,6 +418,7 @@ REGION_RULES: dict[str, dict[str, Any]] = {
     "africa": {"markets": ["尼日利亚", "肯尼亚", "南非"], "localization": "英语/本地语 + 支付习惯", "compliance": "本地进口/认证", "logistics": "本地仓/最后一公里", "payment": "移动钱包/COD", "language": "英语", "moat": "本地网络与履约"},
     "oceania": {"markets": ["澳大利亚", "新西兰"], "localization": "英语 + 合规", "compliance": "ACCC/进口审查", "logistics": "海外仓/快递", "payment": "卡/PayPal", "language": "英语", "moat": "服务体验与合规"},
     "cis": {"markets": ["俄罗斯", "哈萨克斯坦"], "localization": "俄语 + 支付", "compliance": "EAC/进口", "logistics": "中欧班列/本地仓", "payment": "本地卡/钱包", "language": "俄语", "moat": "本地渠道与支付"},
+    "global": {"markets": ["全球"], "localization": "多语言与本地合规", "compliance": "当地合规要求", "logistics": "跨境物流", "payment": "本地支付", "language": "本地语言", "moat": "本地化网络"},
     "china": {"markets": ["中国大陆"], "localization": "中文 + 平台规则", "compliance": "国内资质/广告法", "logistics": "国内仓配", "payment": "微信/支付宝", "language": "中文", "moat": "供应链与流量运营"},
 }
 
@@ -695,12 +696,9 @@ def _primary_region(title: str, summary: str, fallback: list[str], source_region
     if scores:
         return sorted(scores, key=lambda item: (-scores[item][0], scores[item][1], item))[0]
     for region in source_regions or []:
-        if region in REGION_RULES:
+        if region in REGION_RULES and region != "north-america":
             return region
-    for region in fallback:
-        if region in REGION_RULES:
-            return region
-    return "north-america"
+    return "global"
 
 
 def secondary_industry(primary: str, fallback: list[str], title: str, summary: str) -> str | None:
@@ -847,7 +845,7 @@ def _analyst_narrative(
             f"{anchor}的{industry_zh}商机应优先推进：{gap_phrase}尚未满足，{why_short}又打开{timing['window_months']}个月窗口；风险集中在{barriers['regulatory']}与{barriers['capital']}。30 天内{action}，首单后校准单位经济，{profit_model['payback_months']}个月左右检验模式；不构成收入承诺。",
         ],
     }
-    return {section: options[seed % len(options)] for section, options in variants.items()}
+    return {section: options[seed % len(options)] for section, options in variants.items() if section in {"thesis", "market", "verdict"}}
 
 
 def build_business(

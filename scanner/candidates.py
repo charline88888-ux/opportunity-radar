@@ -83,6 +83,7 @@ GAP_NAMES = {
     "infrastructure": "基础设施差",
 }
 REGION_NAMES = {
+    "global": "全球",
     "north-america": "北美",
     "europe": "欧洲",
     "mena": "中东北非",
@@ -342,7 +343,7 @@ def _title_topic(title: str) -> str:
         (("cyber", "网络安全"), "网络安全"),
         (("airspace", "航空"), "航空监管"),
         (("pet", "pet ", "宠物"), "宠物消费"),
-        (("silver", "aging", "elderly", "养老", "银发"), "适老服务"),
+        (("silver", "aging", "elderly", "养老", "银发", "适老"), "适老服务"),
         (("short drama", "drama", "webtoon", "短剧", "网文"), "内容出海"),
         (("ai", "artificial intelligence", "人工智能", "模型", "agent"), "人工智能"),
         (("ecommerce", "e-commerce", "marketplace", "电商", "零售"), "电商零售"),
@@ -400,18 +401,14 @@ def _title_subject(title_original: str) -> str:
 def _title_action(title_original: str) -> str:
     text = (title_original or "").lower()
     rules = [
-        (("valuation", "valuation doubles", "doubles its valuation", "估值"), "估值翻倍"),
-        (("raises", "raised", "funding", "seed", "series", "融资", "轮融资"), "完成融资"),
-        (("ipo", "listing", "debut", "上市"), "推进上市"),
-        (("partners", "partnership", "teams up", "team up", "joins", "collaboration", "合作"), "达成合作"),
-        (("launches", "launched", "launch", "unveils", "releases", "rollout", "上线", "发布"), "发布新品"),
-        (("regulation", "regulations", "rules", "act", "council", "epr", "compliance", "policy", "监管", "新规", "合规"), "监管新规"),
-        (("acquires", "acquisition", "merger", "并购"), "完成并购"),
-        (("demand", "growth", "surge", "spending", "需求", "增长"), "需求增长"),
+        (("regulation", "regulations", "rules", "act", "epr", "compliance", "policy", "certification", "ban", "监管", "新规", "合规", "认证", "禁令"), "监管变化"),
+        (("shortage", "supply gap", "underserved", "unmet", "需求", "缺口", "供给不足"), "需求缺口"),
         (("cost", "price", "tariff", "inflation", "成本", "价格", "关税"), "成本变化"),
-        (("short drama", "drama", "webtoon", "短剧", "网文"), "短剧出海"),
-        (("pet food", "pet", "宠物"), "宠物消费"),
-        (("ai", "artificial intelligence", "人工智能", "模型"), "AI应用"),
+        (("platform rule", "platform policy", "平台规则"), "平台规则变化"),
+        (("arbitrage", "import", "export", "cross-border", "cross border", "跨境", "套利"), "跨境套利"),
+        (("halal", "ramadan", "cultural", "文化", "清真", "节庆"), "文化差异"),
+        (("pet food", "pet", "宠物"), "宠物消费变化"),
+        (("ai", "artificial intelligence", "人工智能", "模型"), "AI应用变化"),
     ]
     for keywords, label in rules:
         if any(keyword in text for keyword in keywords):
@@ -436,17 +433,11 @@ def _synth_title(business_eval: dict[str, Any], signal: dict[str, Any], countrie
     action = _title_action(title_original)
     if topic == "人工智能":
         topic = "AI"
+    action = _opportunity_action(title_original) or action
     variants = [
-        f"{subject}{topic}初创{action}" if subject and topic and action else "",
-        f"{subject}{topic}企业{action}" if subject and topic and action else "",
-        f"{country}{topic}初创{action}" if topic and action else "",
         f"{subject}{topic}{action}" if subject and action else "",
-        f"{subject}{topic}新动向" if subject and topic else "",
-        f"{country}{topic}{action}" if topic and action else "",
-        f"{country}{industry_zh}{action}" if action else "",
         f"{subject}{action}" if subject and action else "",
-        f"{country}{topic}变化" if topic else "",
-        f"{country}{industry_zh}变化",
+        f"{subject}{topic}" if subject and topic else "",
     ]
     if subject and num:
         variants.insert(1, f"{subject}{topic or action}{num}")
@@ -916,7 +907,7 @@ LOW_INFO_PATTERNS = (
     r"top \d+", r"best of", r"newsletter", r"podcast", r"opinion", r"editorial",
     r"^[0-9]{1,2}[/-][0-9]{1,2}[/-][0-9]{2,4}$", r"^[0-9]+ takeaways",
 )
-TITLE_GENERIC_PATTERNS = (r"行业信号", r"市场观察", r"市场动向", r"市场变化", r"新动态", r"动态$", r"机会")
+TITLE_GENERIC_PATTERNS = (r"行业信号", r"市场观察", r"市场动向", r"市场变化", r"新动态", r"动态$", r"机会", r"完成融资", r"发布新品", r"上线", r"融资", r"获投")
 
 
 def _is_low_info(title: str) -> bool:
@@ -948,6 +939,43 @@ def _is_acceptable_title(title: str) -> bool:
     if not _is_clean_title(title):
         return False
     return True
+
+
+OPPORTUNITY_PATTERNS = (
+    r"regulat|rules?\b|policy|polic|ban\b|mandate|certif|compliance|epr|eudr|gpsr|cpsc|fda|"
+    r"shortage|supply gap|underserved|unmet demand|demand (rise|surge|grow)|cost (rise|surge)|tariff|"
+    r"platform (rule|policy)|arbitrage|import|export|cross-border|cross border|halal|ramadan|cultural|"
+    r"监管|新规|政策|合规|认证|禁令|需求|缺口|供给不足|成本|价格|关税|平台规则|套利|跨境|文化|清真|节庆",
+)
+NOISE_EVENT_PATTERNS = (
+    r"raises?\b|raised|funding|seed round|series [a-z]|valuation|ipo|listing|debut|shares?\b|stock|"
+    r"earnings|revenue|layoff|layoffs|award|awards|wins?\b|launch|launched|launches|unveils|releases|"
+    r"roundup|daily news|weekly|podcast|opinion|top \d+|best of|app store|download|"
+    r"融资|获投|轮融资|估值|上市|股价|财报|裁员|获奖|上线|发布|新品|综述|榜单|下载",
+)
+
+
+def _is_opportunity_signal(title: str) -> bool:
+    text = str(title or "").lower()
+    if re.search("|".join(NOISE_EVENT_PATTERNS), text):
+        return False
+    return bool(re.search("|".join(OPPORTUNITY_PATTERNS), text))
+
+
+def _opportunity_action(title: str) -> str:
+    text = str(title or "").lower()
+    rules = [
+        (("regulat", "rules", "policy", "ban", "certification", "compliance", "epr", "eudr", "gpsr", "cpsc", "fda", "监管", "新规", "合规", "认证", "禁令"), "监管变化"),
+        (("shortage", "supply gap", "underserved", "unmet", "需求", "缺口", "供给不足"), "需求缺口"),
+        (("cost", "price", "tariff", "inflation", "成本", "价格", "关税"), "成本变化"),
+        (("platform rule", "platform policy", "平台规则"), "平台规则变化"),
+        (("arbitrage", "import", "export", "cross-border", "cross border", "跨境", "套利"), "跨境套利"),
+        (("halal", "ramadan", "cultural", "文化", "清真", "节庆"), "文化差异机会"),
+    ]
+    for keywords, label in rules:
+        if any(keyword in text for keyword in keywords):
+            return label
+    return ""
 
 
 def build_candidates(
@@ -991,7 +1019,11 @@ def build_candidates(
     dropped_duplicates = 0
     noise_filtered = 0
     low_info_filtered = 0
+    quality_filtered = 0
     for signal in ordered:
+        if not _is_opportunity_signal(signal.get("title")):
+            quality_filtered += 1
+            continue
         if _is_low_info(signal.get("title")):
             low_info_filtered += 1
             continue
@@ -1124,6 +1156,7 @@ def build_candidates(
             "dropped_duplicates": dropped_duplicates,
         "noise_filtered": noise_filtered,
         "low_info_filtered": low_info_filtered,
+        "quality_filtered": quality_filtered,
             "system_validation_summary": {
                 "high": levels.get("high", 0),
                 "medium": levels.get("medium", 0),

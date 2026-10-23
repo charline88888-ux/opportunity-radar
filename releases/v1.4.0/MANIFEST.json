@@ -1,8 +1,8 @@
 {
   "app_version": "1.4.0",
   "data_version": "1.4.0",
-  "released_at": "2026-10-23T22:46:44+08:00",
-  "git_commit": "d1f240d",
+  "released_at": "2026-10-23T22:53:27+08:00",
+  "git_commit": "",
   "git_tag": "v1.4.0",
   "build": {
     "node": "v24.15.0",
@@ -43,8 +43,8 @@
     },
     {
       "path": "dist/index.html",
-      "bytes": 5732131,
-      "sha256": "3b542871ba236d9ed02757ab94cf61c33ad00c6847f453402e0a3b8682565dc3"
+      "bytes": 3326990,
+      "sha256": "e91f23c29169905d5cc479d6f5d09b65419267f72532bdea9f02088544970255"
     },
     {
       "path": "dist/VERSION-README.md",

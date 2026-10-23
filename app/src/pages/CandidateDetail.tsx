@@ -53,6 +53,15 @@ function renderValue(value: unknown): ReactNode {
   return String(value)
 }
 
+function plainValue(value: unknown): string {
+  if (value === undefined || value === null) return ''
+  if (typeof value === 'string') return value
+  if (typeof value === 'number' || typeof value === 'boolean') return String(value)
+  if (Array.isArray(value)) return value.map(plainValue).filter(Boolean).join('；')
+  if (isObj(value)) return Object.entries(value).map(([k, v]) => `${k}: ${plainValue(v)}`).join('；')
+  return String(value)
+}
+
 function fallbackCanvas(c: Candidate): Dict {
   const industry = c.industry_ids.map(industryName).join(' / ') || '全球细分市场'
   const gap = c.gap_type_ids.map(gapName).join(' / ') || '信息差'
@@ -152,11 +161,11 @@ export default function CandidateDetail() {
   const narrativeText = (key: string, fallback: string) => stripWindow(localizeNarrativeText(asStr(narrative[key]) || fallback, lang))
   const competitionRows: Array<[string, unknown]> = [[L('直接竞品', 'Direct'), competition.direct ?? competition.direct_competitors], [L('间接竞品', 'Indirect'), competition.indirect ?? competition.indirect_competitors], [L('替代方案', 'Substitutes'), competition.substitutes ?? competition.alternatives], [L('差异化', 'Differentiation'), competition.differentiation], [L('护城河', 'Moat'), competition.moat], [L('定位', 'Positioning'), competition.positioning]]
   const thesis = narrativeText('thesis', why)
-  const market = narrativeText('market', renderValue(findField(canvas, ['customer_segments'])) as string || why)
+  const market = narrativeText('market', plainValue(findField(canvas, ['customer_segments'])) || why)
   const competitionNarr = narrativeText('competition', asStr(findField(competition, ['differentiation'])) || asStr(findField(competition, ['moat'])))
   const crossNarr = narrativeText('cross_market', asStr(findField(crossMarket, ['why_migratable'])) || asStr(findField(crossMarket, ['arbitrage_type'])))
   const timingNarr = narrativeText('timing', asStr(findField(timing, ['why_now'])))
-  const verdict = narrativeText('verdict', `${asStr(findField(execution, ['first_revenue_path']))}${notIf ? ` · ${L('边界：', 'Boundary: ')}${String(renderValue(notIf))}` : ''}`)
+  const verdict = narrativeText('verdict', `${asStr(findField(execution, ['first_revenue_path']))}${notIf ? ` · ${L('边界：', 'Boundary: ')}${plainValue(notIf)}` : ''}`)
 
   const gaugeOption: EChartsOption = {
     series: [{
