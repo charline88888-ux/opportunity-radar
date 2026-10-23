@@ -1,0 +1,23 @@
+
+== v0.9.1 check ==
+  · sources：160 平台 / 91 enabled 自动源（Counter({'rss': 85, 'json': 6})）/ 11 区域 / 10 disabled（原因齐全）
+  · select_sources(120)：91 源全部合规 ✅
+  · source-health：92 行 / ok 91 / failed 1 / items 2177 / mode=online-fetch
+  · outbox=signals-2026-10-23.json raw=2177→signal=1653 new=1627 seen=26 ledger=1627
+  · ledger：1627 行、fingerprint 唯一 ✅
+  · candidates 新字段：gap_inference 200/200、source.cleaned=title、source.raw_title 齐全 ✅
+  · candidates：200 条（business_signals 320）、gap 200/200（fallback 28）、region 11/11、country 28、评分复算 200/200、URL 唯一、全部 unverified
+  · candidate-rankings：{'day': 95, 'week': 200, 'month': 200, 'year': 200}、按 first_seen 归窗、排序独立复算一致、验证不门禁 ✅
+  · 精选 80 条内容与 v0.9.0 完全一致（仅 data_version→0.9.1）✅
+  · data 全部 meta=0.9.1（9 文件）✅
+  · candidates.py --as-of --limit 200 重跑字节一致（确定性）✅
+  · --all --as-of 2026-10-23 双跑 0 文件变化（30 文件）✅
+  · validate：20/20 PASS ✅
+  · unittest：Ran 115 tests PASS ✅
+  · radar.db 行数 80/156/654/92 ✅
+  · 关键指纹与 data-engineer 交付一致 ✅
+  · 候选文件非 gitignore（提交物）✅
+
+P0 = 0  P1 = 0  P2 = 1
+  [P2] source-health 含 disabled 源 rest-of-world（运行后置 disabled；92 行 vs enabled 91，建议下次健康表按当前 registry 过滤/注明）
+RESULT: PASS

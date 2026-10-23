@@ -141,7 +141,7 @@ export default function Dashboard() {
   const [pendingReview, setPendingReview] = useState<number | null>(null)
   const [outboxNew, setOutboxNew] = useState<number | null>(null)
   const candidateToday = candidateTodayCount(dataAsOf)
-  const autoSourceCount = useMemo(() => allSources.filter((s) => s.enabled !== false && ['rss', 'json', 'api'].includes(s.access)).length, [])
+  const autoSourceCount = useMemo(() => sourceHealth.ok_count || allSources.filter((s) => s.enabled === true && ['rss', 'json', 'api'].includes(s.access)).length, [])
   useEffect(() => {
     let alive = true
     try {

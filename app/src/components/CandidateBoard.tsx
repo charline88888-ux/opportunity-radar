@@ -2,7 +2,7 @@ import { useMemo, useState } from 'react'
 import { ArrowUpRight, BadgeCheck, BookmarkPlus, Compass, ExternalLink, Filter, Search, ShieldAlert, Sparkles, X } from 'lucide-react'
 import { Badge, Button, EmptyState, Panel } from '@/components/ui'
 import { dataAsOf, gapName, industryName, regionName, taxonomy } from '@/lib/data'
-import { candidateWindowItems, candidates, candidatesAvailable, candidatesMeta, type Candidate } from '@/lib/candidates'
+import { candidateWindowItems, candidates, candidatesAvailable, candidatesMeta, gapInferenceCoverage, type Candidate } from '@/lib/candidates'
 import { useI18n } from '@/lib/i18n'
 import { cn, fmtCnyRange, fmtDateCn, fmtScore } from '@/lib/utils'
 import type { WindowKey } from '@/types'
@@ -59,6 +59,7 @@ export function CandidateBoard({ className }: { className?: string }) {
   const [industry, setIndustry] = useState('all')
   const [region, setRegion] = useState('all')
   const [gap, setGap] = useState('all')
+  const [onlyGaps, setOnlyGaps] = useState(false)
   const [selected, setSelected] = useState<Candidate | null>(null)
   const [watched, setWatched] = useState<string[]>(readWatchlist)
 
@@ -69,10 +70,11 @@ export function CandidateBoard({ className }: { className?: string }) {
       if (industry !== 'all' && !c.industry_ids.includes(industry)) return false
       if (region !== 'all' && !c.region_ids.includes(region)) return false
       if (gap !== 'all' && !c.gap_type_ids.includes(gap)) return false
+      if (onlyGaps && !c.gap_type_ids.length) return false
       if (q && !`${c.title} ${c.one_liner} ${c.target_countries.join(' ')} ${c.source.name || ''}`.toLowerCase().includes(q)) return false
       return true
     })
-  }, [windowRows, industry, region, gap, query])
+  }, [windowRows, industry, region, gap, onlyGaps, query])
 
   const toggleWatch = (id: string) => {
     const next = watched.includes(id) ? watched.filter((x) => x !== id) : [...watched, id]
@@ -112,6 +114,9 @@ export function CandidateBoard({ className }: { className?: string }) {
           </button>
         ))}
         <Badge tone="cyan"><Sparkles className="h-3 w-3" /> {L('自动发现 · 未验证', 'Auto-discovered · unverified')}</Badge>
+        <span className="rounded border border-line px-1.5 py-0.5 font-mono text-[9px] text-dim">
+          {L(`信息差推断 ${gapInferenceCoverage.inferred}/${gapInferenceCoverage.total}`, `Gap inferred ${gapInferenceCoverage.inferred}/${gapInferenceCoverage.total}`)}
+        </span>
         <span className="font-mono text-[9.5px] text-dim">{windowRows.length} {L('条候选', 'candidates')} · {candidatesMeta.data_version ? `v${candidatesMeta.data_version}` : ''}</span>
       </div>
 
@@ -132,6 +137,10 @@ export function CandidateBoard({ className }: { className?: string }) {
           <option value="all">{L('全部信息差', 'All gaps')}</option>
           {sourceOptions.gaps.map((x) => <option key={x.id} value={x.id}>{gapName(x.id)}</option>)}
         </select>
+        <label className="flex h-7 cursor-pointer items-center gap-1.5 rounded border border-line px-2 text-[10px] text-muted">
+          <input type="checkbox" checked={onlyGaps} onChange={(e) => setOnlyGaps(e.target.checked)} className="accent-signal" />
+          {L('仅看有信息差', 'Only with gap inference')}
+        </label>
         <span className="ml-auto inline-flex items-center gap-1 text-[9.5px] text-dim"><Filter className="h-3 w-3" /> {rows.length} / {windowRows.length}</span>
       </div>
 
@@ -155,7 +164,8 @@ export function CandidateBoard({ className }: { className?: string }) {
               <div className="mt-1 line-clamp-2 text-[10.5px] leading-relaxed text-muted">{c.one_liner}</div>
               <div className="mt-2 flex flex-wrap gap-1">
                 {c.industry_ids.slice(0, 1).map((id) => <span key={id} className="rounded border border-line/60 px-1 py-0.5 text-[8.5px] text-dim">{industryName(id)}</span>)}
-                {c.gap_type_ids.slice(0, 1).map((id) => <span key={id} className="rounded border border-line/60 px-1 py-0.5 text-[8.5px] text-dim">{gapName(id)}</span>)}
+                {c.gap_type_ids.slice(0, 1).map((id) => <span key={id} className="rounded border border-line/60 px-1 py-0.5 text-[8.5px] text-dim">{gapName(id)}{c.gap_inferred ? L(' · 推断', ' · inferred') : ''}</span>)}
+                {!c.gap_type_ids.length && <span className="rounded border border-line/60 border-dashed px-1 py-0.5 text-[8.5px] text-dim">{L('—（无信息差推断）', '— (no gap inference)')}</span>}
                 {c.region_ids.slice(0, 1).map((id) => <span key={id} className="rounded border border-line/60 px-1 py-0.5 text-[8.5px] text-dim">{regionName(id)}</span>)}
               </div>
               <div className="mt-2 flex items-end justify-between border-t border-line/50 pt-2">
@@ -238,10 +248,17 @@ export function CandidateBoard({ className }: { className?: string }) {
                 <div className="mono-label mb-1">{L('发现信息', 'Discovery metadata')}</div>
                 <div className="space-y-0.5 text-[10px] text-muted">
                   <div>{L('行业', 'Industries')}: {selected.industry_ids.map(industryName).join(' / ') || '—'}</div>
-                  <div>{L('信息差', 'Gaps')}: {selected.gap_type_ids.map(gapName).join(' / ') || '—'}</div>
-                  <div>{L('区域', 'Regions')}: {selected.region_ids.map(regionName).join(' / ') || '—'}</div>
+                  <div>{L('信息差', 'Gaps')}: {selected.gap_type_ids.map(gapName).join(' / ') || L('—（无信息差推断）', '— (no gap inference)')}{selected.gap_inferred ? L('（推断）', ' (inferred)') : ''}</div>
+                  <div>{L('区域', 'Regions')}: {selected.region_ids.map(regionName).join(' / ') || '—'}{selected.region_inferred ? L('（推断）', ' (inferred)') : ''}</div>
                   <div>{L('首次发现', 'First seen')}: {selected.first_seen || '—'} · {fmtDateCn(selected.first_seen || dataAsOf)}</div>
                 </div>
+                {(selected.gap_inference || selected.source.cleaned || selected.source.raw_title) && (
+                  <div className="mt-1.5 space-y-0.5 rounded border border-line/50 px-2 py-1.5 text-[9.5px] leading-relaxed text-dim">
+                    {selected.gap_inference && <div>{L('信息差推断说明', 'Gap inference')}: {selected.gap_inference}</div>}
+                    {selected.source.cleaned && <div>{L('清洗后标题', 'Cleaned title')}: {selected.source.cleaned}</div>}
+                    {selected.source.raw_title && selected.source.raw_title !== selected.source.cleaned && <div>{L('原始标题', 'Original title')}: {selected.source.raw_title}</div>}
+                  </div>
+                )}
               </div>
             </div>
             <div className="mt-3 rounded border border-amber/25 bg-amber/[0.04] px-2 py-1.5 text-[9.5px] leading-relaxed text-amber">

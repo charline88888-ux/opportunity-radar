@@ -14,6 +14,7 @@ from __future__ import annotations
 
 import argparse
 import hashlib
+import html
 import json
 import re
 import sys
@@ -23,11 +24,11 @@ from typing import Any
 
 if __package__ in (None, ""):  # 支持 python scanner/candidates.py
     sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
-    from scanner import common, config, score  # noqa: E402
+    from scanner import common, config, normalize, score  # noqa: E402
 else:  # pragma: no cover
-    from . import common, config, score
+    from . import common, config, normalize, score
 
-CANDIDATE_LIMIT = 200
+CANDIDATE_LIMIT = int(getattr(config, "CANDIDATE_LIMIT", 200))
 WINDOWS = ("day", "week", "month", "year")
 STATUS_AUTO = "auto-discovered"
 VERIFICATION_UNVERIFIED = "unverified"
@@ -153,13 +154,91 @@ def _truncate(text: str, limit: int) -> str:
     return text[: max(1, limit - 1)].rstrip() + "…"
 
 
+def _strip_html(text: str) -> str:
+    text = html.unescape(re.sub(r"<[^>]+>", " ", text or ""))
+    text = text.replace("\u00a0", " ").replace("\u200b", "")
+    return re.sub(r"\s+", " ", text).strip()
+
+
 def _clean_title(signal: dict[str, Any]) -> str:
-    title = str(signal.get("title") or signal.get("quote") or "").strip()
-    # Google News 标题常带 " - 来源"；去掉尾缀再截断
+    title = _strip_html(str(signal.get("title") or signal.get("quote") or ""))
+    # Google News/聚合标题常带 " - 来源" 尾缀；去掉再截断
     title = re.sub(r"\s+[-|–—]\s+[^-|–—]{2,40}$", "", title).strip()
+    title = title.strip("“”\"'「」【】[]() ")
     if not title:
-        title = str(signal.get("quote") or "自动发现商机线索")
+        title = _strip_html(str(signal.get("quote") or "")) or "自动发现商机线索"
     return _truncate(title, 28)
+
+
+def _clean_summary(signal: dict[str, Any], title: str, limit: int = 160) -> str:
+    text = _strip_html(str(signal.get("quote") or signal.get("text") or signal.get("title") or ""))
+    text = re.sub(r"(阅读全文|Read more|Continue reading|查看原文|点击查看).*$", "", text, flags=re.IGNORECASE).strip()
+    if not text:
+        text = title
+    return _truncate(text, limit)
+
+
+# v0.9.1：gap 启发式兜底（信号无信息差关键词时，按行业/来源类别/关键词推断）
+GAP_FALLBACK_BY_INDUSTRY = {
+    "compliance": "regulation", "crossborder": "geo", "fintech": "infrastructure",
+    "manufacturing": "price", "local": "channel", "content": "language",
+    "education": "knowledge", "culture": "culture", "pet": "demographic",
+    "silver": "demographic", "emotional": "emotion", "green": "infrastructure",
+    "ai": "knowledge", "gaming": "platform",
+}
+GAP_FALLBACK_BY_CATEGORY = {
+    "policy": "regulation", "marketplace": "price", "capital": "knowledge",
+    "trend": "time", "demand": "channel", "supply": "price", "platform": "platform",
+    "academic": "knowledge", "culture": "culture", "social": "emotion",
+    "talent": "knowledge", "data": "knowledge",
+}
+GAP_KEYWORD_MAP = {
+    "regulation": ["regulation", "compliance", "rule", "act", "policy", "监管", "合规", "法规", "认证"],
+    "language": ["translation", "localization", "language", "翻译", "本地化", "语言"],
+    "price": ["price", "cost", "cheap", "expensive", "价格", "成本", "便宜"],
+    "geo": ["import", "export", "cross-border", "overseas", "跨境", "出海", "进口", "出口"],
+    "platform": ["platform", "algorithm", "marketplace", "平台", "算法", "佣金"],
+    "time": ["trend", "trending", "early", "趋势", "刚起来"],
+    "demographic": ["aging", "senior", "elderly", "pet", "银发", "宠物", "人口", "老龄化"],
+    "culture": ["halal", "ramadan", "culture", "宗教", "清真", "文化", "斋月"],
+    "channel": ["traffic", "seo", "marketing", "渠道", "流量", "获客"],
+    "knowledge": ["research", "patent", "paper", "研究", "专利", "论文"],
+    "emotion": ["grief", "lonely", "anxiety", "情绪", "孤独", "焦虑"],
+    "infrastructure": ["logistics", "payment", "supply chain", "物流", "支付", "供应链"],
+}
+
+
+def _infer_gaps(signal: dict[str, Any], industries: list[str]) -> tuple[list[str], bool]:
+    explicit = [item for item in signal.get("gap_type_ids") or [] if item in GAP_NAMES]
+    if explicit:
+        return explicit, False
+    text = f"{signal.get('title') or ''} {signal.get('quote') or ''}".lower()
+    inferred: list[str] = []
+    for industry in industries[:2]:
+        gap = GAP_FALLBACK_BY_INDUSTRY.get(industry)
+        if gap and gap not in inferred:
+            inferred.append(gap)
+    category = str(signal.get("source_category") or "")
+    gap = GAP_FALLBACK_BY_CATEGORY.get(category)
+    if gap and gap not in inferred:
+        inferred.append(gap)
+    for gap_id, keywords in GAP_KEYWORD_MAP.items():
+        if gap_id in inferred:
+            continue
+        if any(keyword in text for keyword in keywords):
+            inferred.append(gap_id)
+            if len(inferred) >= 2:
+                break
+    if not inferred:
+        inferred = ["knowledge"]
+    return inferred[:2], True
+
+
+def _gap_inference_text(gaps: list[str], inferred: bool) -> str:
+    labels = "、".join(GAP_NAMES.get(item, item) for item in gaps) or "未知"
+    if inferred:
+        return f"信号原文未给出明确信息差，按行业/来源/关键词自动推断为「{labels}」（推断，非原文）"
+    return f"来自信号原文的显式信息差：「{labels}」"
 
 
 def _load_sources() -> dict[str, dict[str, Any]]:
@@ -171,11 +250,16 @@ def _load_sources() -> dict[str, dict[str, Any]]:
     return mapping
 
 
-def _region_ids(signal: dict[str, Any], source: dict[str, Any] | None) -> list[str]:
+def _region_ids(signal: dict[str, Any], source: dict[str, Any] | None) -> tuple[list[str], bool]:
     regions = [item for item in signal.get("region_ids") or [] if item in REGION_NAMES]
     if not regions and source:
         regions = [item for item in source.get("regions") or [] if item in REGION_NAMES]
-    return regions
+    if not regions:
+        text = f"{signal.get('title') or ''} {signal.get('quote') or ''} {signal.get('source_category') or ''}"
+        regions = [item for item in normalize._infer(text, normalize.REGION_KEYWORDS) if item in REGION_NAMES]
+    if not regions:
+        return ["north-america", "europe"], True
+    return regions, False
 
 
 def _industry_ids(signal: dict[str, Any]) -> list[str]:
@@ -257,11 +341,13 @@ def _scores(signal: dict[str, Any], industries: list[str], regions: list[str], e
 
 def _candidate_from_signal(signal: dict[str, Any], sources: dict[str, dict[str, Any]], as_of: date) -> dict[str, Any]:
     industries = _industry_ids(signal)
-    gaps = [item for item in signal.get("gap_type_ids") or [] if item in GAP_NAMES]
+    gaps, gap_inferred = _infer_gaps(signal, industries)
     source_id = str(signal.get("source_id") or "")
     source_meta = sources.get(source_id) or {}
-    regions = _region_ids(signal, source_meta)
+    regions, region_inferred = _region_ids(signal, source_meta)
     countries = _target_countries(regions)
+    if not countries:
+        countries = ["美国", "德国"]
     source_name = str(source_meta.get("name") or source_id or "公开来源")
     published = str(signal.get("published_date") or as_of.isoformat())
     try:
@@ -271,6 +357,7 @@ def _candidate_from_signal(signal: dict[str, Any], sources: dict[str, dict[str, 
     last_seen = first_seen
     url = str(signal.get("url") or "")
     title = _clean_title(signal)
+    summary = _clean_summary(signal, title)
     evidence = [
         {
             "title": title,
@@ -286,7 +373,7 @@ def _candidate_from_signal(signal: dict[str, Any], sources: dict[str, dict[str, 
     relevance = float(signal.get("relevance_score") or 0)
     sectors = "、".join(INDUSTRY_NAMES.get(item, item) for item in industries[:2])
     one_liner = _truncate(
-        f"{sectors}｜{_truncate(str(signal.get('quote') or title), 60)}（自动发现线索，未人工复核）",
+        f"{sectors}｜{summary}（自动发现线索，未人工复核）",
         120,
     )
     confidence = int(round(common.clamp(30 + relevance * 0.5 + (10 if signal.get("tier") == "business" else 0) + 5 + 5, 0, 95)))
@@ -296,14 +383,19 @@ def _candidate_from_signal(signal: dict[str, Any], sources: dict[str, dict[str, 
         "one_liner": one_liner,
         "industry_ids": industries,
         "gap_type_ids": gaps,
+        "gap_inferred": gap_inferred,
+        "gap_inference": _gap_inference_text(gaps, gap_inferred),
         "region_ids": regions,
+        "region_inferred": region_inferred,
         "target_countries": countries,
         "source": {
             "id": source_id,
             "name": source_name,
             "url": url,
+            "cleaned": title,
+            "raw_title": _strip_html(str(signal.get("title") or "")),
             "published_at": published,
-            "summary": _truncate(str(signal.get("quote") or signal.get("title") or ""), 160),
+            "summary": summary,
         },
         "evidence": evidence,
         "seven_questions": _seven_questions(signal, industries, gaps),
@@ -341,22 +433,31 @@ def load_outbox(path: Path | None = None) -> tuple[Path | None, dict[str, Any]]:
 def build_candidates(
     as_of: date | None = None,
     outbox_path: Path | None = None,
-    limit: int = CANDIDATE_LIMIT,
+    limit: int | None = None,
 ) -> tuple[dict[str, Any], Path | None]:
     """从 outbox 生成 candidates payload（不写文件）。返回 (payload, outbox 路径)。"""
     as_of = as_of or common.parse_as_of(common.load_json(config.TAXONOMY_PATH) or {})
-    limit = max(1, int(limit))
+    limit = max(1, int(limit if limit is not None else CANDIDATE_LIMIT))
     outbox_file, outbox = load_outbox(outbox_path)
     signals = [signal for signal in (outbox.get("signals") or []) if isinstance(signal, dict)]
     sources = _load_sources()
     business = sorted(
         [signal for signal in signals if signal.get("tier") == "business"],
-        key=lambda signal: (-float(signal.get("relevance_score") or 0), str(signal.get("published_date") or ""), str(signal.get("signal_id") or "")),
-        reverse=False,
+        key=lambda signal: (
+            str(signal.get("published_date") or ""),
+            float(signal.get("relevance_score") or 0),
+            str(signal.get("signal_id") or ""),
+        ),
+        reverse=True,
     )
     maybe = sorted(
         [signal for signal in signals if signal.get("tier") == "maybe"],
-        key=lambda signal: (-float(signal.get("relevance_score") or 0), str(signal.get("published_date") or ""), str(signal.get("signal_id") or "")),
+        key=lambda signal: (
+            str(signal.get("published_date") or ""),
+            float(signal.get("relevance_score") or 0),
+            str(signal.get("signal_id") or ""),
+        ),
+        reverse=True,
     )
     ordered = business + maybe
     candidates: list[dict[str, Any]] = []
@@ -380,6 +481,10 @@ def build_candidates(
         if len(candidates) >= limit:
             break
     source_meta = (outbox.get("meta") or {}) if isinstance(outbox.get("meta"), dict) else {}
+    gap_missing = sum(1 for candidate in candidates if not candidate.get("gap_type_ids"))
+    gap_inferred_count = sum(1 for candidate in candidates if candidate.get("gap_inferred"))
+    covered_regions = sorted({region for candidate in candidates for region in candidate.get("region_ids") or []})
+    covered_countries = sorted({country for candidate in candidates for country in candidate.get("target_countries") or []})
     payload = {
         "meta": {
             "data_version": config.DATA_VERSION,
@@ -393,6 +498,21 @@ def build_candidates(
             "business_signals": len(business),
             "maybe_signals": len(maybe),
             "dropped_duplicates": dropped_duplicates,
+            "gap_inference_coverage": {
+                "inferred": len(candidates) - gap_missing,
+                "missing": gap_missing,
+                "ratio": round((len(candidates) - gap_missing) / len(candidates), 3) if candidates else 0.0,
+                "fallback_used": gap_inferred_count,
+                "target_max_missing_ratio": 0.15,
+            },
+            "region_coverage": {
+                "covered": len(covered_regions),
+                "total": len(REGION_NAMES),
+                "missing": sorted(set(REGION_NAMES) - set(covered_regions)),
+                "ratio": round(len(covered_regions) / len(REGION_NAMES), 3),
+                "inferred": sum(1 for candidate in candidates if candidate.get("region_inferred")),
+            },
+            "country_coverage": {"countries": len(covered_countries), "sample": covered_countries[:12]},
             "source_outbox": {
                 "file": outbox_file.name if outbox_file is not None else None,
                 "as_of": source_meta.get("as_of"),
@@ -479,7 +599,7 @@ def build_candidate_rankings(candidates_payload: dict[str, Any], as_of: date) ->
     }
 
 
-def generate(as_of: date | None = None, outbox_path: Path | None = None, limit: int = CANDIDATE_LIMIT) -> dict[str, Any]:
+def generate(as_of: date | None = None, outbox_path: Path | None = None, limit: int | None = None) -> dict[str, Any]:
     """生成并写出 data/candidates.json + data/candidate-rankings.json；返回摘要。"""
     payload, outbox_file = build_candidates(as_of=as_of, outbox_path=outbox_path, limit=limit)
     as_of_date = date.fromisoformat(payload["meta"]["as_of"])
@@ -491,6 +611,8 @@ def generate(as_of: date | None = None, outbox_path: Path | None = None, limit: 
         "business_signals": payload["meta"]["business_signals"],
         "maybe_signals": payload["meta"]["maybe_signals"],
         "dropped_duplicates": payload["meta"]["dropped_duplicates"],
+        "gap_inference_coverage": payload["meta"].get("gap_inference_coverage"),
+        "region_coverage": payload["meta"].get("region_coverage"),
         "counts": rankings["meta"]["counts"],
         "paths": [str(config.CANDIDATES_PATH), str(config.CANDIDATE_RANKINGS_PATH)],
         "outbox_file": outbox_file,
@@ -501,7 +623,7 @@ def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description="从 outbox 自动生成候选商机与发现榜（v0.9.0）")
     parser.add_argument("--outbox", type=str, default=None, help="指定 signals-*.json（默认最新）")
     parser.add_argument("--as-of", type=str, default=None, help="基准日 YYYY-MM-DD（默认 taxonomy as_of）")
-    parser.add_argument("--limit", type=int, default=CANDIDATE_LIMIT, help=f"候选上限（默认 {CANDIDATE_LIMIT}）")
+    parser.add_argument("--limit", type=int, default=CANDIDATE_LIMIT, help=f"候选上限（默认 {CANDIDATE_LIMIT}，可配置）")
     args = parser.parse_args(argv)
     try:
         as_of = date.fromisoformat(args.as_of) if args.as_of else None

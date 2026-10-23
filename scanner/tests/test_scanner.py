@@ -1672,6 +1672,99 @@ class TestCandidatesV090(unittest.TestCase):
             self.assertEqual(ids, {candidate["candidate_id"] for candidate in payload["candidates"]})
             self.assertFalse(rankings["meta"]["verification_affects_ranking"])
 
+    def test_gap_fallback_coverage(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            signals = []
+            for idx in range(1, 5):
+                signal = self._signal(idx, title=f"跨境宠物纪念品需求 {idx}")
+                signal["gap_type_ids"] = []
+                signal["gap_hints"] = []
+                signal["source_category"] = ["demand", "policy", "marketplace", "trend"][idx - 1]
+                signals.append(signal)
+            outbox = self._write_outbox(root, signals)
+            payload, _ = candidates.build_candidates(as_of=self.AS_OF, outbox_path=outbox)
+            self.assertEqual(payload["meta"]["total"], 4)
+            self.assertTrue(all(candidate["gap_type_ids"] for candidate in payload["candidates"]))
+            coverage = payload["meta"]["gap_inference_coverage"]
+            self.assertEqual(coverage["missing"], 0)
+            self.assertEqual(coverage["ratio"], 1.0)
+            self.assertGreaterEqual(coverage["fallback_used"], 4)
+
+    def test_same_url_keeps_latest(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            old = self._signal(1, published="2026-10-20", relevance=95.0, url="https://example.com/same-url")
+            new = self._signal(2, published="2026-10-23", relevance=60.0, url="https://example.com/same-url")
+            outbox = self._write_outbox(root, [old, new])
+            payload, _ = candidates.build_candidates(as_of=self.AS_OF, outbox_path=outbox)
+            self.assertEqual(payload["meta"]["total"], 1)
+            self.assertEqual(payload["candidates"][0]["first_seen"], "2026-10-23")  # 保留最新
+            self.assertGreaterEqual(payload["meta"]["dropped_duplicates"], 1)
+
+    def test_title_summary_cleanup(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            signal = self._signal(1, title="<b>宠物</b> &amp; 商机 - 某来源", url="https://example.com/clean-1")
+            signal["quote"] = "<p>用户抱怨<strong>找不到</strong>本地化纪念品</p> Read more"
+            outbox = self._write_outbox(root, [signal])
+            payload, _ = candidates.build_candidates(as_of=self.AS_OF, outbox_path=outbox)
+            candidate = payload["candidates"][0]
+            self.assertNotIn("<", candidate["title"])
+            self.assertNotIn("&amp;", candidate["title"])
+            self.assertNotIn(" - 某来源", candidate["title"])
+            self.assertLessEqual(len(candidate["title"]), 28)
+            self.assertNotIn("<", candidate["source"]["summary"])
+            self.assertNotIn("Read more", candidate["source"]["summary"])
+
+    def test_region_fallback_and_coverage_meta(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            signal = self._signal(1, title="senior care startup expands across europe")
+            signal["region_ids"] = []
+            signal["region_hints"] = []
+            signal["source_id"] = "unknown-source"
+            outbox = self._write_outbox(root, [signal])
+            payload, _ = candidates.build_candidates(as_of=self.AS_OF, outbox_path=outbox)
+            candidate = payload["candidates"][0]
+            self.assertTrue(candidate["region_ids"])
+            self.assertTrue(candidate["target_countries"])
+            coverage = payload["meta"]["region_coverage"]
+            self.assertGreater(coverage["covered"], 0)
+            self.assertEqual(coverage["total"], 11)
+            self.assertIn("country_coverage", payload["meta"])
+
+    def test_gap_inference_text_and_source_cleaned_fields(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            signal = self._signal(1, title="<b>宠物</b> 纪念品商机 - 某来源", url="https://example.com/infer-1")
+            signal["gap_type_ids"] = []
+            outbox = self._write_outbox(root, [signal])
+            payload, _ = candidates.build_candidates(as_of=self.AS_OF, outbox_path=outbox)
+            candidate = payload["candidates"][0]
+            self.assertIsInstance(candidate["gap_inference"], str)
+            self.assertIn("推断", candidate["gap_inference"])
+            self.assertIn("宠物", candidate["source"]["raw_title"])
+            self.assertEqual(candidate["source"]["cleaned"], candidate["title"])
+            self.assertNotIn("<", candidate["source"]["cleaned"])
+
+    def test_candidates_limit_configurable_in_pipeline(self):
+        fake = {
+            "total": 7,
+            "counts": {"day": 7, "week": 7, "month": 7, "year": 7},
+            "business_signals": 7,
+            "maybe_signals": 0,
+            "dropped_duplicates": 0,
+            "gap_inference_coverage": {"inferred": 7, "missing": 0, "ratio": 1.0, "fallback_used": 7},
+            "region_coverage": {"covered": 11, "total": 11, "missing": [], "ratio": 1.0, "inferred": 0},
+            "paths": [],
+            "outbox_file": None,
+        }
+        with mock.patch.object(candidates, "generate", return_value=fake) as mocked:
+            code = pipeline.main(["--candidates", "--candidates-limit", "7", "--as-of", "2026-10-23"])
+        self.assertEqual(code, 0)
+        self.assertEqual(mocked.call_args.kwargs.get("limit"), 7)
+
     def test_stats_kpi_candidates_counts(self):
         opportunities = common.load_json(config.OPPORTUNITIES_PATH)
         taxonomy = common.load_json(config.TAXONOMY_PATH)

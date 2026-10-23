@@ -1,10 +1,10 @@
 {
   "meta": {
-    "data_version": "0.9.0",
+    "data_version": "0.9.1",
     "as_of": "2026-10-22",
-    "count": 125,
+    "count": 160,
     "last_checked": "2026-10-23",
-    "note": "合规等级与可访问性依据 research/platform-matrix-validation.md（2026-10-22 核验）。红/黄源只允许人工浏览，不自动抓取、不绕过登录或验证码；v0.2.0 新增 4 个可被 `pipeline.py --fetch` 采集的公开 RSS 源（hnrss/techcrunch/producthunt/arxiv）。 v0.3.1 PATCH：修复 reddit（改 manual + 新增 lobsters 替代）/ itunes-reviews（GB storefront）/ shopify-changelog（官方 feed.xml）。 v0.8.0：新增可执行源注册表（Google News 多地区 query / Google Trends / 垂直媒体），字段增加 kind/lang/enabled/priority/limits；enabled=false 为实测不可用或暂不启用；fetch 只抓 enabled=true 的自动源。"
+    "note": "合规等级与可访问性依据 research/platform-matrix-validation.md（2026-10-22 核验）。红/黄源只允许人工浏览，不自动抓取、不绕过登录或验证码；v0.2.0 新增 4 个可被 `pipeline.py --fetch` 采集的公开 RSS 源（hnrss/techcrunch/producthunt/arxiv）。 v0.3.1 PATCH：修复 reddit（改 manual + 新增 lobsters 替代）/ itunes-reviews（GB storefront）/ shopify-changelog（官方 feed.xml）。 v0.8.0：新增可执行源注册表（Google News 多地区 query / Google Trends / 垂直媒体），字段增加 kind/lang/enabled/priority/limits；enabled=false 为实测不可用或暂不启用；fetch 只抓 enabled=true 的自动源。 v0.9.1：并入 researcher 25 个实测 RSS + restofworld 修复 + Google News TR/3 query + App Store 6 国；失败源 enabled=false 并记录原因。 v0.9.1 最终：rest-of-world URL 已修复但 XML 解析失败，保持 enabled=false。"
   },
   "categories": [
     {
@@ -844,6 +844,204 @@
             "min_interval_sec": 1.0
           },
           "notes": "v0.8.0 实测不可用（parse: ParseError: syntax error: line 1, column 0），enabled=false；可换 URL 后重试"
+        },
+        {
+          "id": "skift",
+          "name": "Skift",
+          "url": "https://skift.com/feed/",
+          "regions": [
+            "north-america"
+          ],
+          "signal_types": [
+            "complaint",
+            "wish",
+            "trend"
+          ],
+          "access": "rss",
+          "frequency": "daily",
+          "cost": "free",
+          "compliance": "green",
+          "value_score": 7.8,
+          "last_checked": "2026-10-23",
+          "kind": "vertical-media",
+          "lang": "en",
+          "priority": 78,
+          "limits": {
+            "max_items": 25,
+            "min_interval_sec": 1.0
+          },
+          "enabled": true,
+          "check_result": "http_200_items_10",
+          "notes": "v0.9.1 并入 researcher sources-expansion.md 实测源；免 key/免登录，只取标题/摘要/链接，限速 1 req/s；实测 HTTP 200、解析 10 条",
+          "ok": true,
+          "status": 200,
+          "items": 10,
+          "error": null
+        },
+        {
+          "id": "petfoodindustry",
+          "name": "Petfood Industry",
+          "url": "https://www.petfoodindustry.com/rss",
+          "regions": [
+            "north-america"
+          ],
+          "signal_types": [
+            "complaint",
+            "wish",
+            "trend"
+          ],
+          "access": "rss",
+          "frequency": "daily",
+          "cost": "free",
+          "compliance": "green",
+          "value_score": 8.0,
+          "last_checked": "2026-10-23",
+          "kind": "vertical-media",
+          "lang": "en",
+          "priority": 80,
+          "limits": {
+            "max_items": 20,
+            "min_interval_sec": 1.0
+          },
+          "enabled": true,
+          "check_result": "http_200_items_10",
+          "notes": "v0.9.1 并入 researcher sources-expansion.md 实测源；免 key/免登录，只取标题/摘要/链接，限速 1 req/s；实测 HTTP 200、解析 10 条",
+          "ok": true,
+          "status": 200,
+          "items": 10,
+          "error": null
+        },
+        {
+          "id": "sspai",
+          "name": "SSPAI（少数派）",
+          "url": "https://sspai.com/feed",
+          "regions": [
+            "china"
+          ],
+          "signal_types": [
+            "complaint",
+            "wish",
+            "trend"
+          ],
+          "access": "rss",
+          "frequency": "daily",
+          "cost": "free",
+          "compliance": "green",
+          "value_score": 7.2,
+          "last_checked": "2026-10-23",
+          "kind": "vertical-media",
+          "lang": "zh",
+          "priority": 72,
+          "limits": {
+            "max_items": 25,
+            "min_interval_sec": 1.0
+          },
+          "enabled": true,
+          "check_result": "http_200_items_10",
+          "notes": "v0.9.1 并入 researcher sources-expansion.md 实测源；免 key/免登录，只取标题/摘要/链接，限速 1 req/s；实测 HTTP 200、解析 10 条",
+          "ok": true,
+          "status": 200,
+          "items": 10,
+          "error": null
+        },
+        {
+          "id": "smartcompany-au",
+          "name": "SmartCompany AU",
+          "url": "https://www.smartcompany.com.au/feed/",
+          "regions": [
+            "oceania"
+          ],
+          "signal_types": [
+            "complaint",
+            "wish",
+            "trend"
+          ],
+          "access": "rss",
+          "frequency": "daily",
+          "cost": "free",
+          "compliance": "green",
+          "value_score": 7.2,
+          "last_checked": "2026-10-23",
+          "kind": "vertical-media",
+          "lang": "en",
+          "priority": 72,
+          "limits": {
+            "max_items": 25,
+            "min_interval_sec": 1.0
+          },
+          "enabled": true,
+          "check_result": "http_200_items_10",
+          "notes": "v0.9.1 并入 researcher sources-expansion.md 实测源；免 key/免登录，只取标题/摘要/链接，限速 1 req/s；实测 HTTP 200、解析 10 条",
+          "ok": true,
+          "status": 200,
+          "items": 10,
+          "error": null
+        },
+        {
+          "id": "gn-tr-business",
+          "name": "Google News · 土耳其商业",
+          "url": "https://news.google.com/rss/search?q=business&hl=en&gl=TR&ceid=TR:en",
+          "regions": [
+            "europe"
+          ],
+          "signal_types": [
+            "complaint",
+            "wish",
+            "trend"
+          ],
+          "access": "rss",
+          "frequency": "daily",
+          "cost": "free",
+          "compliance": "yellow",
+          "value_score": 7.0,
+          "last_checked": "2026-10-23",
+          "kind": "news-aggregator",
+          "lang": "en",
+          "priority": 70,
+          "limits": {
+            "max_items": 30,
+            "min_interval_sec": 1.0
+          },
+          "enabled": true,
+          "check_result": "http_200_items_100",
+          "notes": "v0.9.1 Google News RSS 地区/query 源（聚合器黄级；仅个人研究，限速/缓存；标题+来源去重）；实测 HTTP 200、解析 100 条",
+          "ok": true,
+          "status": 200,
+          "items": 100,
+          "error": null
+        },
+        {
+          "id": "gn-query-cn-pet",
+          "name": "Google News · 宠物消费（中文）",
+          "url": "https://news.google.com/rss/search?q=%E5%AE%A0%E7%89%A9+%E6%B6%88%E8%B4%B9+when%3A7d&hl=zh-CN&gl=CN&ceid=CN:zh-Hans",
+          "regions": [
+            "china"
+          ],
+          "signal_types": [
+            "complaint",
+            "wish",
+            "trend"
+          ],
+          "access": "rss",
+          "frequency": "daily",
+          "cost": "free",
+          "compliance": "yellow",
+          "value_score": 7.6,
+          "last_checked": "2026-10-23",
+          "kind": "news-aggregator",
+          "lang": "zh",
+          "priority": 76,
+          "limits": {
+            "max_items": 30,
+            "min_interval_sec": 1.0
+          },
+          "enabled": true,
+          "check_result": "http_200_items_27",
+          "notes": "v0.9.1 Google News RSS 地区/query 源（聚合器黄级；仅个人研究，限速/缓存；标题+来源去重）；实测 HTTP 200、解析 27 条",
+          "ok": true,
+          "status": 200,
+          "items": 27,
+          "error": null
         }
       ]
     },
@@ -1112,6 +1310,326 @@
             "min_interval_sec": 1.0
           },
           "notes": "v0.8.0 新增可执行源（vertical-media）；实测 2026-10-23：HTTP 200、解析 20 条、1498ms；免 key/免登录"
+        },
+        {
+          "id": "euronews-business",
+          "name": "Euronews Business",
+          "url": "https://www.euronews.com/rss?level=theme&name=business",
+          "regions": [
+            "europe"
+          ],
+          "signal_types": [
+            "trend",
+            "new_product"
+          ],
+          "access": "rss",
+          "frequency": "daily",
+          "cost": "free",
+          "compliance": "green",
+          "value_score": 7.6,
+          "last_checked": "2026-10-23",
+          "kind": "vertical-media",
+          "lang": "en",
+          "priority": 76,
+          "limits": {
+            "max_items": 30,
+            "min_interval_sec": 1.0
+          },
+          "enabled": true,
+          "check_result": "http_200_items_50",
+          "notes": "v0.9.1 并入 researcher sources-expansion.md 实测源；免 key/免登录，只取标题/摘要/链接，限速 1 req/s；实测 HTTP 200、解析 50 条",
+          "ok": true,
+          "status": 200,
+          "items": 50,
+          "error": null
+        },
+        {
+          "id": "japantimes",
+          "name": "The Japan Times",
+          "url": "https://www.japantimes.co.jp/feed/",
+          "regions": [
+            "east-asia"
+          ],
+          "signal_types": [
+            "trend",
+            "new_product"
+          ],
+          "access": "rss",
+          "frequency": "daily",
+          "cost": "free",
+          "compliance": "green",
+          "value_score": 7.6,
+          "last_checked": "2026-10-23",
+          "kind": "vertical-media",
+          "lang": "en",
+          "priority": 76,
+          "limits": {
+            "max_items": 25,
+            "min_interval_sec": 1.0
+          },
+          "enabled": true,
+          "check_result": "http_200_items_30",
+          "notes": "v0.9.1 并入 researcher sources-expansion.md 实测源；免 key/免登录，只取标题/摘要/链接，限速 1 req/s；实测 HTTP 200、解析 30 条",
+          "ok": true,
+          "status": 200,
+          "items": 30,
+          "error": null
+        },
+        {
+          "id": "ifanr",
+          "name": "iFanr（爱范儿）",
+          "url": "https://www.ifanr.com/feed",
+          "regions": [
+            "china"
+          ],
+          "signal_types": [
+            "trend",
+            "new_product"
+          ],
+          "access": "rss",
+          "frequency": "daily",
+          "cost": "free",
+          "compliance": "green",
+          "value_score": 7.4,
+          "last_checked": "2026-10-23",
+          "kind": "vertical-media",
+          "lang": "zh",
+          "priority": 74,
+          "limits": {
+            "max_items": 25,
+            "min_interval_sec": 1.0
+          },
+          "enabled": true,
+          "check_result": "http_200_items_20",
+          "notes": "v0.9.1 并入 researcher sources-expansion.md 实测源；免 key/免登录，只取标题/摘要/链接，限速 1 req/s；实测 HTTP 200、解析 20 条",
+          "ok": true,
+          "status": 200,
+          "items": 20,
+          "error": null
+        },
+        {
+          "id": "cna-asia",
+          "name": "CNA Asia",
+          "url": "https://www.channelnewsasia.com/api/v1/rss-outbound-feed?_format=xml",
+          "regions": [
+            "north-america"
+          ],
+          "signal_types": [
+            "trend",
+            "new_product"
+          ],
+          "access": "rss",
+          "frequency": "daily",
+          "cost": "free",
+          "compliance": "green",
+          "value_score": 7.8,
+          "last_checked": "2026-10-23",
+          "kind": "vertical-media",
+          "lang": "en",
+          "priority": 78,
+          "limits": {
+            "max_items": 30,
+            "min_interval_sec": 1.0
+          },
+          "enabled": true,
+          "check_result": "http_200_items_20",
+          "notes": "v0.9.1 并入 researcher sources-expansion.md 实测源；免 key/免登录，只取标题/摘要/链接，限速 1 req/s；实测 HTTP 200、解析 20 条",
+          "ok": true,
+          "status": 200,
+          "items": 20,
+          "error": null
+        },
+        {
+          "id": "bangkokpost",
+          "name": "Bangkok Post",
+          "url": "https://www.bangkokpost.com/rss/data/topstories.xml",
+          "regions": [
+            "north-america"
+          ],
+          "signal_types": [
+            "trend",
+            "new_product"
+          ],
+          "access": "rss",
+          "frequency": "daily",
+          "cost": "free",
+          "compliance": "green",
+          "value_score": 7.2,
+          "last_checked": "2026-10-23",
+          "kind": "vertical-media",
+          "lang": "en",
+          "priority": 72,
+          "limits": {
+            "max_items": 25,
+            "min_interval_sec": 1.0
+          },
+          "enabled": true,
+          "check_result": "http_200_items_10",
+          "notes": "v0.9.1 并入 researcher sources-expansion.md 实测源；免 key/免登录，只取标题/摘要/链接，限速 1 req/s；实测 HTTP 200、解析 10 条",
+          "ok": true,
+          "status": 200,
+          "items": 10,
+          "error": null
+        },
+        {
+          "id": "et-tech",
+          "name": "ET Tech（Economic Times）",
+          "url": "https://economictimes.indiatimes.com/tech/rssfeeds/13357270.cms",
+          "regions": [
+            "south-asia"
+          ],
+          "signal_types": [
+            "trend",
+            "new_product"
+          ],
+          "access": "rss",
+          "frequency": "daily",
+          "cost": "free",
+          "compliance": "green",
+          "value_score": 7.8,
+          "last_checked": "2026-10-23",
+          "kind": "vertical-media",
+          "lang": "en",
+          "priority": 78,
+          "limits": {
+            "max_items": 30,
+            "min_interval_sec": 1.0
+          },
+          "enabled": true,
+          "check_result": "http_200_items_50",
+          "notes": "v0.9.1 并入 researcher sources-expansion.md 实测源；免 key/免登录，只取标题/摘要/链接，限速 1 req/s；实测 HTTP 200、解析 50 条",
+          "ok": true,
+          "status": 200,
+          "items": 50,
+          "error": null
+        },
+        {
+          "id": "arabnews",
+          "name": "Arab News",
+          "url": "https://www.arabnews.com/rss.xml",
+          "regions": [
+            "mena"
+          ],
+          "signal_types": [
+            "trend",
+            "new_product"
+          ],
+          "access": "rss",
+          "frequency": "daily",
+          "cost": "free",
+          "compliance": "green",
+          "value_score": 7.6,
+          "last_checked": "2026-10-23",
+          "kind": "vertical-media",
+          "lang": "en",
+          "priority": 76,
+          "limits": {
+            "max_items": 30,
+            "min_interval_sec": 1.0
+          },
+          "enabled": false,
+          "check_result": "fetch_failed",
+          "notes": "v0.9.1 实测不可用（HTTP 403），enabled=false；可换 URL 后重启",
+          "ok": false,
+          "status": 403,
+          "items": 0,
+          "error": "HTTP 403"
+        },
+        {
+          "id": "nairametrics",
+          "name": "Nairametrics",
+          "url": "https://nairametrics.com/feed/",
+          "regions": [
+            "africa"
+          ],
+          "signal_types": [
+            "trend",
+            "new_product"
+          ],
+          "access": "rss",
+          "frequency": "daily",
+          "cost": "free",
+          "compliance": "green",
+          "value_score": 7.6,
+          "last_checked": "2026-10-23",
+          "kind": "vertical-media",
+          "lang": "en",
+          "priority": 76,
+          "limits": {
+            "max_items": 25,
+            "min_interval_sec": 1.0
+          },
+          "enabled": true,
+          "check_result": "http_200_items_20",
+          "notes": "v0.9.1 并入 researcher sources-expansion.md 实测源；免 key/免登录，只取标题/摘要/链接，限速 1 req/s；实测 HTTP 200、解析 20 条",
+          "ok": true,
+          "status": 200,
+          "items": 20,
+          "error": null
+        },
+        {
+          "id": "businessday-ng",
+          "name": "BusinessDay NG",
+          "url": "https://businessday.ng/feed/",
+          "regions": [
+            "africa"
+          ],
+          "signal_types": [
+            "trend",
+            "new_product"
+          ],
+          "access": "rss",
+          "frequency": "daily",
+          "cost": "free",
+          "compliance": "green",
+          "value_score": 7.2,
+          "last_checked": "2026-10-23",
+          "kind": "vertical-media",
+          "lang": "en",
+          "priority": 72,
+          "limits": {
+            "max_items": 25,
+            "min_interval_sec": 1.0
+          },
+          "enabled": true,
+          "check_result": "http_200_items_5",
+          "notes": "v0.9.1 并入 researcher sources-expansion.md 实测源；免 key/免登录，只取标题/摘要/链接，限速 1 req/s；实测 HTTP 200、解析 5 条",
+          "ok": true,
+          "status": 200,
+          "items": 5,
+          "error": null
+        },
+        {
+          "id": "braziljournal",
+          "name": "Brazil Journal",
+          "url": "https://braziljournal.com/feed",
+          "regions": [
+            "latam"
+          ],
+          "signal_types": [
+            "trend",
+            "new_product"
+          ],
+          "access": "rss",
+          "frequency": "daily",
+          "cost": "free",
+          "compliance": "green",
+          "value_score": 7.6,
+          "last_checked": "2026-10-23",
+          "kind": "vertical-media",
+          "lang": "pt",
+          "priority": 76,
+          "limits": {
+            "max_items": 25,
+            "min_interval_sec": 1.0
+          },
+          "enabled": true,
+          "check_result": "http_200_items_15",
+          "notes": "v0.9.1 并入 researcher sources-expansion.md 实测源；免 key/免登录，只取标题/摘要/链接，限速 1 req/s；实测 HTTP 200、解析 15 条",
+          "ok": true,
+          "status": 200,
+          "items": 15,
+          "error": null
         }
       ]
     },
@@ -1466,6 +1984,39 @@
             "min_interval_sec": 1.0
           },
           "notes": "v0.8.0 新增可执行源（vertical-media）；实测 2026-10-23：HTTP 200、解析 10 条、1434ms；免 key/免登录"
+        },
+        {
+          "id": "retaildetail",
+          "name": "RetailDetail EU",
+          "url": "https://www.retaildetail.eu/rss/",
+          "regions": [
+            "europe"
+          ],
+          "signal_types": [
+            "price",
+            "comparison",
+            "trend"
+          ],
+          "access": "rss",
+          "frequency": "daily",
+          "cost": "free",
+          "compliance": "green",
+          "value_score": 7.8,
+          "last_checked": "2026-10-23",
+          "kind": "vertical-media",
+          "lang": "en",
+          "priority": 78,
+          "limits": {
+            "max_items": 25,
+            "min_interval_sec": 1.0
+          },
+          "enabled": true,
+          "check_result": "http_200_items_30",
+          "notes": "v0.9.1 并入 researcher sources-expansion.md 实测源；免 key/免登录，只取标题/摘要/链接，限速 1 req/s；实测 HTTP 200、解析 30 条",
+          "ok": true,
+          "status": 200,
+          "items": 30,
+          "error": null
         }
       ]
     },
@@ -1831,6 +2382,102 @@
             "min_interval_sec": 1.0
           },
           "notes": "v0.8.0 新增可执行源（news-aggregator）；实测 2026-10-23：HTTP 200、解析 100 条、2214ms；免 key/免登录"
+        },
+        {
+          "id": "federalregister",
+          "name": "US Federal Register（RULE）",
+          "url": "https://www.federalregister.gov/api/v1/documents.rss?conditions%5Btype%5D=RULE",
+          "regions": [
+            "north-america"
+          ],
+          "signal_types": [
+            "regulation",
+            "policy_change"
+          ],
+          "access": "rss",
+          "frequency": "daily",
+          "cost": "free",
+          "compliance": "green",
+          "value_score": 8.2,
+          "last_checked": "2026-10-23",
+          "kind": "vertical-media",
+          "lang": "en",
+          "priority": 82,
+          "limits": {
+            "max_items": 30,
+            "min_interval_sec": 1.0
+          },
+          "enabled": true,
+          "check_result": "http_200_items_200",
+          "notes": "v0.9.1 并入 researcher sources-expansion.md 实测源；免 key/免登录，只取标题/摘要/链接，限速 1 req/s；实测 HTTP 200、解析 200 条",
+          "ok": true,
+          "status": 200,
+          "items": 200,
+          "error": null
+        },
+        {
+          "id": "wto-news",
+          "name": "WTO Latest News",
+          "url": "https://www.wto.org/library/rss/latest_news_e.xml",
+          "regions": [
+            "europe"
+          ],
+          "signal_types": [
+            "regulation",
+            "policy_change"
+          ],
+          "access": "rss",
+          "frequency": "weekly",
+          "cost": "free",
+          "compliance": "green",
+          "value_score": 8.0,
+          "last_checked": "2026-10-23",
+          "kind": "vertical-media",
+          "lang": "en",
+          "priority": 80,
+          "limits": {
+            "max_items": 25,
+            "min_interval_sec": 1.0
+          },
+          "enabled": true,
+          "check_result": "http_200_items_10",
+          "notes": "v0.9.1 并入 researcher sources-expansion.md 实测源；免 key/免登录，只取标题/摘要/链接，限速 1 req/s；实测 HTTP 200、解析 10 条",
+          "ok": true,
+          "status": 200,
+          "items": 10,
+          "error": null
+        },
+        {
+          "id": "eu-commission-press",
+          "name": "European Commission Press",
+          "url": "https://ec.europa.eu/commission/presscorner/api/rss?language=en",
+          "regions": [
+            "europe"
+          ],
+          "signal_types": [
+            "regulation",
+            "policy_change"
+          ],
+          "access": "rss",
+          "frequency": "daily",
+          "cost": "free",
+          "compliance": "green",
+          "value_score": 8.2,
+          "last_checked": "2026-10-23",
+          "kind": "vertical-media",
+          "lang": "en",
+          "priority": 82,
+          "limits": {
+            "max_items": 25,
+            "min_interval_sec": 1.0
+          },
+          "enabled": true,
+          "check_result": "http_200_items_10",
+          "notes": "v0.9.1 并入 researcher sources-expansion.md 实测源；免 key/免登录，只取标题/摘要/链接，限速 1 req/s；实测 HTTP 200、解析 10 条",
+          "ok": true,
+          "status": 200,
+          "items": 10,
+          "error": null
         }
       ]
     },
@@ -2324,6 +2971,198 @@
             "min_interval_sec": 1.0
           },
           "notes": "v0.8.0 新增可执行源（vertical-media）；实测 2026-10-23：HTTP 200、解析 2000 条、2626ms；免 key/免登录"
+        },
+        {
+          "id": "tech-eu",
+          "name": "Tech.eu",
+          "url": "https://tech.eu/feed/",
+          "regions": [
+            "europe"
+          ],
+          "signal_types": [
+            "funding",
+            "new_product"
+          ],
+          "access": "rss",
+          "frequency": "daily",
+          "cost": "free",
+          "compliance": "green",
+          "value_score": 8.0,
+          "last_checked": "2026-10-23",
+          "kind": "vertical-media",
+          "lang": "en",
+          "priority": 80,
+          "limits": {
+            "max_items": 25,
+            "min_interval_sec": 1.0
+          },
+          "enabled": true,
+          "check_result": "http_200_items_20",
+          "notes": "v0.9.1 并入 researcher sources-expansion.md 实测源；免 key/免登录，只取标题/摘要/链接，限速 1 req/s；实测 HTTP 200、解析 20 条",
+          "ok": true,
+          "status": 200,
+          "items": 20,
+          "error": null
+        },
+        {
+          "id": "36kr-feed",
+          "name": "36Kr",
+          "url": "https://www.36kr.com/feed",
+          "regions": [
+            "china"
+          ],
+          "signal_types": [
+            "funding",
+            "new_product"
+          ],
+          "access": "rss",
+          "frequency": "daily",
+          "cost": "free",
+          "compliance": "green",
+          "value_score": 8.0,
+          "last_checked": "2026-10-23",
+          "kind": "vertical-media",
+          "lang": "zh",
+          "priority": 80,
+          "limits": {
+            "max_items": 30,
+            "min_interval_sec": 1.0
+          },
+          "enabled": true,
+          "check_result": "http_200_items_30",
+          "notes": "v0.9.1 并入 researcher sources-expansion.md 实测源；免 key/免登录，只取标题/摘要/链接，限速 1 req/s；实测 HTTP 200、解析 30 条",
+          "ok": true,
+          "status": 200,
+          "items": 30,
+          "error": null
+        },
+        {
+          "id": "yourstory",
+          "name": "YourStory",
+          "url": "https://yourstory.com/feed",
+          "regions": [
+            "south-asia"
+          ],
+          "signal_types": [
+            "funding",
+            "new_product"
+          ],
+          "access": "rss",
+          "frequency": "daily",
+          "cost": "free",
+          "compliance": "green",
+          "value_score": 7.6,
+          "last_checked": "2026-10-23",
+          "kind": "vertical-media",
+          "lang": "en",
+          "priority": 76,
+          "limits": {
+            "max_items": 25,
+            "min_interval_sec": 1.0
+          },
+          "enabled": true,
+          "check_result": "http_200_items_20",
+          "notes": "v0.9.1 并入 researcher sources-expansion.md 实测源；免 key/免登录，只取标题/摘要/链接，限速 1 req/s；实测 HTTP 200、解析 20 条",
+          "ok": true,
+          "status": 200,
+          "items": 20,
+          "error": null
+        },
+        {
+          "id": "startupi",
+          "name": "Startupi",
+          "url": "https://startupi.com.br/feed/",
+          "regions": [
+            "latam"
+          ],
+          "signal_types": [
+            "funding",
+            "new_product"
+          ],
+          "access": "rss",
+          "frequency": "daily",
+          "cost": "free",
+          "compliance": "green",
+          "value_score": 7.4,
+          "last_checked": "2026-10-23",
+          "kind": "vertical-media",
+          "lang": "pt",
+          "priority": 74,
+          "limits": {
+            "max_items": 25,
+            "min_interval_sec": 1.0
+          },
+          "enabled": true,
+          "check_result": "http_200_items_10",
+          "notes": "v0.9.1 并入 researcher sources-expansion.md 实测源；免 key/免登录，只取标题/摘要/链接，限速 1 req/s；实测 HTTP 200、解析 10 条",
+          "ok": true,
+          "status": 200,
+          "items": 10,
+          "error": null
+        },
+        {
+          "id": "vc-ru",
+          "name": "vc.ru",
+          "url": "https://vc.ru/rss",
+          "regions": [
+            "cis"
+          ],
+          "signal_types": [
+            "funding",
+            "new_product"
+          ],
+          "access": "rss",
+          "frequency": "daily",
+          "cost": "free",
+          "compliance": "green",
+          "value_score": 7.4,
+          "last_checked": "2026-10-23",
+          "kind": "vertical-media",
+          "lang": "ru",
+          "priority": 74,
+          "limits": {
+            "max_items": 25,
+            "min_interval_sec": 1.0
+          },
+          "enabled": true,
+          "check_result": "http_200_items_12",
+          "notes": "v0.9.1 并入 researcher sources-expansion.md 实测源；免 key/免登录，只取标题/摘要/链接，限速 1 req/s；实测 HTTP 200、解析 12 条",
+          "ok": true,
+          "status": 200,
+          "items": 12,
+          "error": null
+        },
+        {
+          "id": "gn-query-retail-funding",
+          "name": "Google News · 零售创业融资",
+          "url": "https://news.google.com/rss/search?q=retail+startup+funding+when%3A7d&hl=en-US&gl=US&ceid=US:en",
+          "regions": [
+            "north-america"
+          ],
+          "signal_types": [
+            "funding",
+            "new_product"
+          ],
+          "access": "rss",
+          "frequency": "daily",
+          "cost": "free",
+          "compliance": "yellow",
+          "value_score": 7.2,
+          "last_checked": "2026-10-23",
+          "kind": "news-aggregator",
+          "lang": "en",
+          "priority": 72,
+          "limits": {
+            "max_items": 30,
+            "min_interval_sec": 1.0
+          },
+          "enabled": true,
+          "check_result": "http_200_items_63",
+          "notes": "v0.9.1 Google News RSS 地区/query 源（聚合器黄级；仅个人研究，限速/缓存；标题+来源去重）；实测 HTTP 200、解析 63 条",
+          "ok": true,
+          "status": 200,
+          "items": 63,
+          "error": null
         }
       ]
     },
@@ -2642,6 +3481,70 @@
             "min_interval_sec": 1.0
           },
           "notes": "v0.8.0 新增可执行源（news-aggregator）；实测 2026-10-23：HTTP 200、解析 63 条、3267ms；免 key/免登录"
+        },
+        {
+          "id": "supplychaindive",
+          "name": "Supply Chain Dive",
+          "url": "https://www.supplychaindive.com/feeds/news/",
+          "regions": [
+            "north-america"
+          ],
+          "signal_types": [
+            "supply",
+            "price"
+          ],
+          "access": "rss",
+          "frequency": "daily",
+          "cost": "free",
+          "compliance": "green",
+          "value_score": 8.2,
+          "last_checked": "2026-10-23",
+          "kind": "vertical-media",
+          "lang": "en",
+          "priority": 82,
+          "limits": {
+            "max_items": 25,
+            "min_interval_sec": 1.0
+          },
+          "enabled": true,
+          "check_result": "http_200_items_10",
+          "notes": "v0.9.1 并入 researcher sources-expansion.md 实测源；免 key/免登录，只取标题/摘要/链接，限速 1 req/s；实测 HTTP 200、解析 10 条",
+          "ok": true,
+          "status": 200,
+          "items": 10,
+          "error": null
+        },
+        {
+          "id": "freightwaves",
+          "name": "FreightWaves",
+          "url": "https://www.freightwaves.com/feed",
+          "regions": [
+            "north-america"
+          ],
+          "signal_types": [
+            "supply",
+            "price"
+          ],
+          "access": "rss",
+          "frequency": "daily",
+          "cost": "free",
+          "compliance": "green",
+          "value_score": 8.0,
+          "last_checked": "2026-10-23",
+          "kind": "vertical-media",
+          "lang": "en",
+          "priority": 80,
+          "limits": {
+            "max_items": 30,
+            "min_interval_sec": 1.0
+          },
+          "enabled": true,
+          "check_result": "http_200_items_50",
+          "notes": "v0.9.1 并入 researcher sources-expansion.md 实测源；免 key/免登录，只取标题/摘要/链接，限速 1 req/s；实测 HTTP 200、解析 50 条",
+          "ok": true,
+          "status": 200,
+          "items": 50,
+          "error": null
         }
       ]
     },
@@ -2807,7 +3710,7 @@
         {
           "id": "rest-of-world",
           "name": "Rest of World",
-          "url": "https://restofworld.org/feed/",
+          "url": "https://restofworld.org/feed/latest/",
           "regions": [
             "south-asia",
             "sea",
@@ -2824,7 +3727,7 @@
           "compliance": "green",
           "value_score": 8.2,
           "last_checked": "2026-10-23",
-          "check_result": "fetch_failed",
+          "check_result": "parse_error",
           "kind": "vertical-media",
           "lang": "en",
           "enabled": false,
@@ -2833,7 +3736,7 @@
             "max_items": 30,
             "min_interval_sec": 1.0
           },
-          "notes": "v0.8.0 实测不可用（parse: ParseError: not well-formed (invalid token): line 26, column 130），enabled=false；可换 URL 后重试"
+          "notes": "v0.9.1 已修复 URL 为 https://restofworld.org/feed/latest/（HTTP 200/12 条，researcher 实测），但本机解析报 XML invalid token（feed 内含未转义字符），enabled=false；建议下轮加 XML 容错后重启"
         },
         {
           "id": "aljazeera",
@@ -2890,6 +3793,37 @@
             "min_interval_sec": 1.0
           },
           "notes": "v0.8.0 实测不可用（HTTP 200），enabled=false；可换 URL 后重试"
+        },
+        {
+          "id": "gn-query-sa-halal",
+          "name": "Google News · 清真商业（阿语）",
+          "url": "https://news.google.com/rss/search?q=%D8%AD%D9%84%D8%A7%D9%84+%D8%A3%D8%B9%D9%85%D8%A7%D9%84+when%3A7d&hl=ar&gl=SA&ceid=SA:ar",
+          "regions": [
+            "mena"
+          ],
+          "signal_types": [
+            "trend"
+          ],
+          "access": "rss",
+          "frequency": "daily",
+          "cost": "free",
+          "compliance": "yellow",
+          "value_score": 7.4,
+          "last_checked": "2026-10-23",
+          "kind": "news-aggregator",
+          "lang": "ar",
+          "priority": 74,
+          "limits": {
+            "max_items": 30,
+            "min_interval_sec": 1.0
+          },
+          "enabled": true,
+          "check_result": "http_200_items_32",
+          "notes": "v0.9.1 Google News RSS 地区/query 源（聚合器黄级；仅个人研究，限速/缓存；标题+来源去重）；实测 HTTP 200、解析 32 条",
+          "ok": true,
+          "status": 200,
+          "items": 32,
+          "error": null
         }
       ]
     },
@@ -3260,6 +4194,204 @@
           "last_checked": "2026-10-22",
           "check_result": "doc_only",
           "notes": "公开 JSON RSS；各国区榜单对比是『时间差/地区差』的现成信号"
+        },
+        {
+          "id": "app-store-rss-jp",
+          "name": "App Store Top Free · JP",
+          "url": "https://itunes.apple.com/jp/rss/topfreeapplications/limit=50/json",
+          "regions": [
+            "east-asia"
+          ],
+          "signal_types": [
+            "trend",
+            "new_product"
+          ],
+          "access": "json",
+          "frequency": "daily",
+          "cost": "free",
+          "compliance": "green",
+          "value_score": 7.0,
+          "last_checked": "2026-10-23",
+          "kind": "app-store-ranking",
+          "lang": "ja",
+          "priority": 65,
+          "limits": {
+            "max_items": 50,
+            "min_interval_sec": 1.0,
+            "cache_hours": 12
+          },
+          "enabled": true,
+          "check_result": "http_200_items_50",
+          "notes": "v0.9.1 App Store Top Free JSON 多国模板（researcher 实测 50 条/国）；只取榜单标题，缓存 12h；实测 HTTP 200、解析 50 条",
+          "ok": true,
+          "status": 200,
+          "items": 50,
+          "error": null
+        },
+        {
+          "id": "app-store-rss-br",
+          "name": "App Store Top Free · BR",
+          "url": "https://itunes.apple.com/br/rss/topfreeapplications/limit=50/json",
+          "regions": [
+            "latam"
+          ],
+          "signal_types": [
+            "trend",
+            "new_product"
+          ],
+          "access": "json",
+          "frequency": "daily",
+          "cost": "free",
+          "compliance": "green",
+          "value_score": 7.0,
+          "last_checked": "2026-10-23",
+          "kind": "app-store-ranking",
+          "lang": "pt",
+          "priority": 65,
+          "limits": {
+            "max_items": 50,
+            "min_interval_sec": 1.0,
+            "cache_hours": 12
+          },
+          "enabled": true,
+          "check_result": "http_200_items_50",
+          "notes": "v0.9.1 App Store Top Free JSON 多国模板（researcher 实测 50 条/国）；只取榜单标题，缓存 12h；实测 HTTP 200、解析 50 条",
+          "ok": true,
+          "status": 200,
+          "items": 50,
+          "error": null
+        },
+        {
+          "id": "app-store-rss-in",
+          "name": "App Store Top Free · IN",
+          "url": "https://itunes.apple.com/in/rss/topfreeapplications/limit=50/json",
+          "regions": [
+            "south-asia"
+          ],
+          "signal_types": [
+            "trend",
+            "new_product"
+          ],
+          "access": "json",
+          "frequency": "daily",
+          "cost": "free",
+          "compliance": "green",
+          "value_score": 7.0,
+          "last_checked": "2026-10-23",
+          "kind": "app-store-ranking",
+          "lang": "en",
+          "priority": 65,
+          "limits": {
+            "max_items": 50,
+            "min_interval_sec": 1.0,
+            "cache_hours": 12
+          },
+          "enabled": true,
+          "check_result": "http_200_items_50",
+          "notes": "v0.9.1 App Store Top Free JSON 多国模板（researcher 实测 50 条/国）；只取榜单标题，缓存 12h；实测 HTTP 200、解析 50 条",
+          "ok": true,
+          "status": 200,
+          "items": 50,
+          "error": null
+        },
+        {
+          "id": "app-store-rss-ng",
+          "name": "App Store Top Free · NG",
+          "url": "https://itunes.apple.com/ng/rss/topfreeapplications/limit=50/json",
+          "regions": [
+            "africa"
+          ],
+          "signal_types": [
+            "trend",
+            "new_product"
+          ],
+          "access": "json",
+          "frequency": "daily",
+          "cost": "free",
+          "compliance": "green",
+          "value_score": 7.0,
+          "last_checked": "2026-10-23",
+          "kind": "app-store-ranking",
+          "lang": "en",
+          "priority": 65,
+          "limits": {
+            "max_items": 50,
+            "min_interval_sec": 1.0,
+            "cache_hours": 12
+          },
+          "enabled": true,
+          "check_result": "http_200_items_50",
+          "notes": "v0.9.1 App Store Top Free JSON 多国模板（researcher 实测 50 条/国）；只取榜单标题，缓存 12h；实测 HTTP 200、解析 50 条",
+          "ok": true,
+          "status": 200,
+          "items": 50,
+          "error": null
+        },
+        {
+          "id": "app-store-rss-ae",
+          "name": "App Store Top Free · AE",
+          "url": "https://itunes.apple.com/ae/rss/topfreeapplications/limit=50/json",
+          "regions": [
+            "mena"
+          ],
+          "signal_types": [
+            "trend",
+            "new_product"
+          ],
+          "access": "json",
+          "frequency": "daily",
+          "cost": "free",
+          "compliance": "green",
+          "value_score": 7.0,
+          "last_checked": "2026-10-23",
+          "kind": "app-store-ranking",
+          "lang": "en",
+          "priority": 65,
+          "limits": {
+            "max_items": 50,
+            "min_interval_sec": 1.0,
+            "cache_hours": 12
+          },
+          "enabled": true,
+          "check_result": "http_200_items_50",
+          "notes": "v0.9.1 App Store Top Free JSON 多国模板（researcher 实测 50 条/国）；只取榜单标题，缓存 12h；实测 HTTP 200、解析 50 条",
+          "ok": true,
+          "status": 200,
+          "items": 50,
+          "error": null
+        },
+        {
+          "id": "app-store-rss-au",
+          "name": "App Store Top Free · AU",
+          "url": "https://itunes.apple.com/au/rss/topfreeapplications/limit=50/json",
+          "regions": [
+            "oceania"
+          ],
+          "signal_types": [
+            "trend",
+            "new_product"
+          ],
+          "access": "json",
+          "frequency": "daily",
+          "cost": "free",
+          "compliance": "green",
+          "value_score": 7.0,
+          "last_checked": "2026-10-23",
+          "kind": "app-store-ranking",
+          "lang": "en",
+          "priority": 65,
+          "limits": {
+            "max_items": 50,
+            "min_interval_sec": 1.0,
+            "cache_hours": 12
+          },
+          "enabled": true,
+          "check_result": "http_200_items_50",
+          "notes": "v0.9.1 App Store Top Free JSON 多国模板（researcher 实测 50 条/国）；只取榜单标题，缓存 12h；实测 HTTP 200、解析 50 条",
+          "ok": true,
+          "status": 200,
+          "items": 50,
+          "error": null
         }
       ]
     }

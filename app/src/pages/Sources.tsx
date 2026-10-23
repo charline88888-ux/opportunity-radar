@@ -54,7 +54,8 @@ export default function Sources() {
   const [category, setCategory] = useState<string>('all')
 
   const counts = useMemo(() => {
-    const auto = allSources.filter((s) => s.enabled !== false && ['rss', 'json', 'api'].includes(s.access)).length
+    const auto = sourceHealth.ok_count || allSources.filter((s) => s.enabled === true && ['rss', 'json', 'api'].includes(s.access)).length
+    const regions = new Set(allSources.flatMap((s) => s.regions)).size
     return {
       total: allSources.length,
       green: allSources.filter((s) => s.compliance === 'green').length,
@@ -63,8 +64,10 @@ export default function Sources() {
       highValue: allSources.filter((s) => s.value_score >= 8.5).length,
       auto,
       manual: allSources.length - auto,
+      regions,
     }
   }, [])
+  const failedHealthSources = useMemo(() => sourceHealth.sources.filter((s) => !s.ok).slice(0, 6), [])
 
   const unmatchedHealthCount = useMemo(() => {
     if (!sourceHealth.available) return 0
@@ -156,6 +159,7 @@ export default function Sources() {
           <div className="flex flex-wrap items-center gap-2">
             <Badge tone="signal"><Database className="h-3 w-3" /> {counts.total} 个平台</Badge>
             <Badge tone="cyan"><ShieldCheck className="h-3 w-3" /> {L(`自动 ${counts.auto} / 人工 ${counts.manual}`, `Auto ${counts.auto} / Manual ${counts.manual}`)}</Badge>
+            <Badge tone="neutral">{L(`覆盖 ${counts.regions}/11 区域`, `${counts.regions}/11 regions`)}</Badge>
             <Badge tone="neutral">{sources.categories.length} 大类</Badge>
           </div>
         }
@@ -250,6 +254,11 @@ export default function Sources() {
               <span className="ml-2 font-mono text-[10px] text-dim">{sourceHealth.checked_at || '—'}</span>
             </span>
             {sourceHealth.fail_count > 0 && <Badge tone="danger">失败 {sourceHealth.fail_count} 个 · 见 About/预警中心</Badge>}
+            {failedHealthSources.length > 0 && (
+              <span className="w-full text-[9.5px] leading-relaxed text-danger/85">
+                {L('失败原因', 'Failure reasons')}: {failedHealthSources.map((s) => `${s.name || s.id}: ${s.error || '—'}`).join(' · ')}
+              </span>
+            )}
             {unmatchedHealthCount > 0 && <Badge tone="amber">{unmatchedHealthCount} 源未匹配矩阵</Badge>}
             <span className="ml-auto flex items-center gap-2 text-[10px]">
               <span className="text-dim">v2 字段：mode / latency / cached / error / checked_at；id 变化时按 url/name 兼容</span>
@@ -338,8 +347,8 @@ export default function Sources() {
                         </td>
                         <td className="text-[10px] text-muted">{s.regions.map(regionName).join(' / ') || '—'}</td>
                         <td><Badge tone="neutral">{ACCESS_LABEL[s.access] || s.access}</Badge>
-                          <Badge tone={s.enabled !== false && ['rss', 'json', 'api'].includes(s.access) ? 'signal' : 'muted'}>
-                            {s.enabled !== false && ['rss', 'json', 'api'].includes(s.access) ? L('自动', 'auto') : L('人工', 'manual')}
+                          <Badge tone={s.enabled === true && ['rss', 'json', 'api'].includes(s.access) ? 'signal' : 'muted'}>
+                            {s.enabled === true && ['rss', 'json', 'api'].includes(s.access) ? L('自动', 'auto') : L('人工', 'manual')}
                           </Badge>
                         </td>
                         <td className="text-[10px] text-muted">{FREQUENCY_LABEL[s.frequency] || s.frequency}</td>

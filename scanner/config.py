@@ -29,9 +29,10 @@ CANDIDATES_PATH = DATA_DIR / "candidates.json"
 CANDIDATE_RANKINGS_PATH = DATA_DIR / "candidate-rankings.json"
 DB_PATH = DATA_DIR / "radar.db"
 
-DATA_VERSION = "0.9.0"
+DATA_VERSION = "0.9.1"
 DEFAULT_AS_OF = "2026-10-22"
 CURRENT_WEEK = "2026-W43"
+CANDIDATE_LIMIT = 200  # v0.9.1：候选上限可配置（CLI --candidates-limit / candidates.py --limit）
 CURRENT_MONTH = "2026-10"
 CURRENT_YEAR = "2026"
 
@@ -119,7 +120,7 @@ DECAY_LEVELS = {"slow", "medium", "fast"}
 EFFORT_LEVELS = {"full", "side", "solo"}
 TREND_DIRECTIONS = {"up", "flat", "down"}
 EVIDENCE_TIERS = {"primary", "secondary", "marketing"}
-ACCESS_MODES = {"api", "rss", "html", "manual", "paid-api"}
+ACCESS_MODES = {"api", "rss", "json", "html", "manual", "paid-api"}  # v0.9.1：新增 json（Apple/JSON feed）
 FREQUENCIES = {"realtime", "daily", "weekly", "monthly", "quarterly", "yearly", "manual"}
 COSTS = {"free", "freemium", "paid"}
 COMPLIANCE_LEVELS = {"green", "yellow", "red"}

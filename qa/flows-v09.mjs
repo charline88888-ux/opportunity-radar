@@ -266,7 +266,7 @@ check('T27b', '单桶样本<3 提示（O5）', bucketHint, (calBrierText.match(/
 // --- T28 严格资金过滤两态（默认关；开启后按档位上限过滤） ---
 const strictProfile = { capitalBand: 'b1-5w', weeklyHours: 10, fullTime: false, skills: { tech: 1, content: 2, supply: 0, ops: 2 }, english: 2, risk: 3, hasLicensePartner: false, strictCapital: false, updated_at: '2026-10-22T00:00:00+08:00' }
 await setStorage('radar:profile:v1', strictProfile)
-await nav('#/rankings?mode=recommend'); await reload(); await waitFor(`document.body.innerText.includes('REC_SCORE')`, 9000)
+await nav('#/rankings?mode=recommend'); await reload(); await clickCurated(); await clickRecommend(); await waitFor(`document.body.innerText.includes('REC_SCORE')`, 9000)
 const offText = await bodyText()
 const offFiltered = (offText.replace(/\s+/g, ' ').match(/(?:硬约束过滤|严格资金过滤)[^\d]{0,6}(\d+)/) || [])[1]
 // 独立计算：分数差规则（非严格）与严格档位上限规则
@@ -400,11 +400,13 @@ check('T41', '年鉴标签不再使用易误读的「年榜最高分」单一标
 
 // ============ 8) v0.6.0 增量：80+ 机会库/新配额/年鉴新指标 ============
 await nav('#/rankings'); await sleep(1200)
+await clickCurated(); await sleep(900)
 const rankText = await bodyText()
 const candWeekCount = (rankText.match(/当前入榜\s*(\d+)/) || [])[1]
 check('T42', '排行榜：周榜条数 ≥20（新配额）', Number(candWeekCount) >= 20, `week=${candWeekCount}`)
 // 深链切年榜看 80+（避免点击 tab 的定位歧义）
 await nav('#/rankings?w=year'); await reload(); await sleep(800)
+await clickCurated(); await sleep(900)
 const yearText = await bodyText()
 const candYearCount = (yearText.match(/当前入榜\s*(\d+)/) || [])[1]
 const yearTabOk = /年榜/.test(yearText)

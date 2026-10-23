@@ -90,9 +90,19 @@ const ROADMAP = [
 
 const HISTORY = [
   {
-    version: 'v0.9.0',
+    version: 'v0.9.1',
     date: '2026-10-23',
     tag: '当前版本',
+    items: [
+      '源扩充可见：/sources 与 /control 显示 160+ 平台 / 85+ 自动源 / 11 区域；新增源按区域/类型展示，失败源保留 error 原因',
+      '候选质量增强：发现榜显示信息差推断覆盖率，gap 为空显示「—（无信息差推断）」；详情增加 gap 推断说明与清洗后标题；支持「仅看有信息差」筛选',
+      '指挥台摘要按 85+ 自动源/11 区域/今日候选更新；版本升 0.9.1',
+    ],
+  },
+  {
+    version: 'v0.9.0',
+    date: '2026-10-23',
+    tag: '上一版本',
     items: [
       '新增 /discover 自动发现榜：日/周/月/年四窗口、评分/等级/行业/信息差/区域/来源/首次发现/置信度与「自动发现·未验证」角标；候选详情含七问草稿、证据、ROI 估算与免责声明',
       '排行榜双轨：发现榜（自动，默认）与精选榜（人工 80 条）；验证/实验仅为可选个人动作，不作为上榜或展示门禁，不参与候选排序',
@@ -254,7 +264,12 @@ const EN_DOCS: Array<[string, string, string]> = [
 ]
 
 const EN_HISTORY = [
-  { version: 'v0.9.0', date: '2026-10-23', tag: 'Current', items: [
+  { version: 'v0.9.1', date: '2026-10-23', tag: 'Current', items: [
+    'Source expansion visible: /sources and /control show 160+ platforms / 85+ auto sources / 11 regions; new sources grouped by region/type, failed sources keep error reasons',
+    'Candidate quality: discovery board shows gap-inference coverage; empty gaps show “— (no gap inference)”; detail adds gap inference note and cleaned title; optional “only with gap inference” filter',
+    'Dashboard summary uses 85+ auto sources / 11 regions / today candidates; version 0.9.1',
+  ]},
+  { version: 'v0.9.0', date: '2026-10-23', tag: 'Previous', items: [
     '/discover auto-discovery board: day/week/month/year windows, score/grade/industry/gap/region/source/first-seen/confidence and “auto-discovered · unverified” badge; candidate detail with seven-question draft, evidence, ROI estimate and disclaimer',
     'Dual ranking tracks: discovery (auto, default) and curated manual (80); validation/experiments are optional personal actions, never listing/display gates, and never affect candidate ranking',
     'Dashboard “N auto-discovered candidates today” entry; candidates are visible without manual review; version 0.9.0',
@@ -389,7 +404,7 @@ function AboutEn() {
             </div>
           </div>
           <div className="mt-2 rounded border border-amber/25 bg-amber/[0.04] px-2.5 py-2 text-[10.5px] leading-relaxed text-amber">
-            Bilingual note: all static UI strings switch between Chinese and English. Opportunity content (titles, one-liners, evidence, seven Q&A) intentionally remains Chinese in v0.9.0 and is marked in the UI. Switching language does not reload the page or reset routes, filters, or profile state.
+            Bilingual note: all static UI strings switch between Chinese and English. Opportunity content (titles, one-liners, evidence, seven Q&A) intentionally remains Chinese in v0.9.1 and is marked in the UI. Switching language does not reload the page or reset routes, filters, or profile state.
           </div>
           <div className="mt-3 rounded border border-line/70 bg-black/20 px-2.5 py-2 font-mono text-[10px] leading-relaxed text-dim">
             <div>sync: node app/scripts/sync-data.mjs --strict</div>

@@ -8,6 +8,8 @@ export interface CandidateSource {
   url?: string
   published_at?: string
   summary?: string
+  cleaned?: string
+  raw_title?: string
 }
 
 export interface CandidateEvidence {
@@ -44,6 +46,9 @@ export interface Candidate {
   first_seen: string
   last_seen: string
   disclaimer: string
+  gap_inference?: string
+  gap_inferred?: boolean
+  region_inferred?: boolean
   raw?: Record<string, unknown>
 }
 
@@ -103,7 +108,7 @@ function normalizeCandidate(raw: unknown, index = 0): Candidate | null {
     gap_type_ids: strs(raw.gap_type_ids),
     region_ids: strs(raw.region_ids),
     target_countries: strs(raw.target_countries),
-    source: { id: str(sourceRaw.id), name: str(sourceRaw.name), url: str(sourceRaw.url), published_at: str(sourceRaw.published_at), summary: str(sourceRaw.summary) },
+    source: { id: str(sourceRaw.id), name: str(sourceRaw.name), url: str(sourceRaw.url), published_at: str(sourceRaw.published_at), summary: str(sourceRaw.summary), cleaned: str(sourceRaw.cleaned), raw_title: str(sourceRaw.raw_title) },
     evidence,
     seven_questions: seven,
     roi: normalizeRoi(raw.roi),
@@ -114,6 +119,9 @@ function normalizeCandidate(raw: unknown, index = 0): Candidate | null {
     first_seen: str(raw.first_seen),
     last_seen: str(raw.last_seen, str(raw.first_seen)),
     disclaimer: str(raw.disclaimer, '自动发现候选，未经验证，仅作研究线索，不构成投资建议。'),
+    gap_inference: str(raw.gap_inference) || (isObj(raw.gap_inference) ? JSON.stringify(raw.gap_inference) : ''),
+    gap_inferred: raw.gap_inferred === true,
+    region_inferred: raw.region_inferred === true,
     raw,
   }
 }
@@ -127,6 +135,15 @@ export const candidateById = new Map(candidates.map((c) => [c.candidate_id, c]))
 const rawRankings = candidateRankingsJson as unknown as Obj
 export const candidateRankingsMeta = isObj(rawRankings.meta) ? rawRankings.meta : {}
 export const candidateRankings = isObj(rawRankings.windows) ? (rawRankings.windows as Record<string, Obj>) : {}
+
+/** v0.9.1：gap 推断覆盖率；优先读 meta.gap_inference_coverage，缺失时按候选计算。 */
+export const gapInferenceCoverage = (() => {
+  const metaCoverage = isObj(candidatesMeta.gap_inference_coverage) ? candidatesMeta.gap_inference_coverage : null
+  const inferred = metaCoverage ? num(metaCoverage.inferred, candidates.filter((c) => c.gap_type_ids.length > 0).length) : candidates.filter((c) => c.gap_type_ids.length > 0).length
+  const total = metaCoverage ? num(metaCoverage.total, candidates.length) : candidates.length
+  const missing = metaCoverage ? num(metaCoverage.missing, total - inferred) : total - inferred
+  return { inferred, total, missing, ratio: total ? inferred / total : 0 }
+})()
 
 export function candidateWindowItems(key: WindowKey): Array<{ candidate: Candidate; rank: number; item: Obj }> {
   const window = candidateRankings[key]

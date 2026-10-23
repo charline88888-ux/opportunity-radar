@@ -2,6 +2,35 @@
 
 格式：`data_version` + 日期 + 变更内容 + 影响面。契约变更（字段/枚举/公式）必须同步更新 `docs/12-数据契约与字段字典.md` 并通知 Lead、前端、红队。
 
+## data-v0.9.1 · 2026-10-23 · MINOR 增量（源 160/91 + 候选质量：清洗/gap 兜底/新鲜度）
+
+> 双轨与验证原则不变：自动候选直接上榜，`verification_status` 仅展示、不参与收录/排序；机会库仍 80 条人工库。
+
+### A) 源扩充（`data/sources.json`：125 → **160 平台 / 91 enabled 自动源 / 11/11 区域**）
+- 并入 researcher `sources-expansion.md` 的 **25 个实测 RSS**：Supply Chain Dive、FreightWaves、Skift、Petfood Industry、Tech.eu、RetailDetail EU、Euronews Business、36Kr、Japan Times、iFanr、SSPAI、CNA Asia、Bangkok Post、YourStory、ET Tech、Nairametrics、BusinessDay NG、Brazil Journal、Startup i、SmartCompany AU、vc.ru、Federal Register、WTO News、EU Commission Press（Arab News 403 → enabled=false）。
+- `rest-of-world` URL 已修复为 `https://restofworld.org/feed/latest/`（researcher 实测 200/12），但本机 XML 解析报 invalid token（feed 含未转义字符）→ enabled=false 并记录；后续可加 XML 容错后重启。
+- Google News 新增 **TR 地区** + 3 条实测 query（`retail startup funding` US / `宠物 消费` CN / `حلال أعمال` SA）；App Store Top Free JSON 新增 **jp/br/in/ng/ae/au 6 国**（`access="json"`，`config.ACCESS_MODES` 增加 json）。
+- 干净首跑（重置 ledger/outbox 后，`--fetch --no-cache --fetch-limit 120`）：**92 源尝试 / 91 成功**、2177 原始 → 1653 信号、**new 1627 / seen 26**（账本 1627）；source-health 92 行、items 2177、mode=online-fetch；仅 rest-of-world 失败。
+
+### B) 候选质量（`scanner/candidates.py`）
+- **标题/摘要清洗**：去 HTML 标签/实体/多余空白/来源尾缀（" - 来源"）/引号，标题 ≤28 字、摘要 ≤160 字，剔除 Read more/阅读全文 等残句。
+- **gap 启发式兜底**：industry → gap、source_category → gap、关键词 → gap 三层映射（并保留信号显式 gap）；实测 **gap 覆盖 200/200（missing 0、ratio 1.0、fallback 28）**，meta 新增 `gap_inference_coverage{inferred,missing,ratio,fallback_used,target_max_missing_ratio}`；候选增加 `gap_inferred` 标记。
+- **新鲜度/去重**：business/maybe 均按 published_date 降序处理，同 canonical URL 只保留最新（first/last_seen 取最新），同标题去重；新增 `region_inferred`。
+- **区域/国家覆盖**：region 取信号 → 来源注册表 → 关键词推断（normalize.REGION_KEYWORDS）→ 默认；实测 **region 11/11（missing []）、country 28**；meta 新增 `region_coverage{covered,total,missing,ratio,inferred}`、`country_coverage`。
+- **上限可配置**：`config.CANDIDATE_LIMIT=200`；`pipeline.py --candidates-limit N`、`candidates.py --limit N`；实测 200 条（business 320 信号 → 取前 200）。
+
+### C) 统计/版本/复核
+- stats KPI：`candidates_total=200`、`today_new_candidates=95`、`unverified_candidates=200`；候选四窗口 **day 95 / week 200 / month 200 / year 200**（day 显著提升因新源今日条目多）。
+- 全部 data meta 升 **0.9.1**（含 4 份 history 快照、candidates/candidate-rankings、source-health/outbox）；rankings as_of 2026-10-23（day0/week49/month57/year80，精选 80 条内容口径不变）；报告/年鉴/校准按 0.9.1 重生成；radar.db 重建（80/156/654/92）。
+- validate **20/20**（V10 增加 access=json 校验）；unittest **114/114**（新增 gap 兜底/同 URL 最新/清洗/区域覆盖/limit 可配等 5 条）；`--all --as-of 2026-10-23` 双跑幂等（全部 data JSON + db + reports SHA256 0 变化）。
+- **前端展示字段补全（v0.9.1 追加，P2 修复）**：每条候选新增 `gap_inference`（中文说明：显式信息差 / 自动推断，前者来自信号原文、后者标注「推断」）与 `source.cleaned`（清洗后标题）、`source.raw_title`（原始标题），供 CandidateBoard 展示；仅候选文件变化，机会库/精选榜/统计口径不变。
+- 指纹（SHA256 前 16）：opportunities `88FDA5AB84B7F826`（未变）、rankings `9D1C171808EAF5D3`、stats `1409469C9BADD89F`、candidates `C3798E6D55B6AFDD`、candidate-rankings `C98B65E2A184C41F`、sources `C4E3421036FB4688`、source-health `B25ADF6DF9E0CC26`、radar.db `E275243A61C0FF11`、report-day-10-23 `C4CA5C93B7C97B49`、yearbook `A5BFC797D6D1E1EE`、calibration `5121E3E4E8C8838A`；代码 candidates.py `8C925BE3F21137C1`、config.py `5D0B537D95C648A8`、pipeline.py `B79B027E9689B02F`、fetch.py `CA8A9B2F7A580C00`（未改）、stats.py `808A81EF92D19557`、validate.py `BDE87EBA7D13E7BD`。
+
+### 已知不足
+- `rest-of-world` URL 修复后仍因 feed 内未转义字符解析失败（enabled=false）；Arab News 403（enabled=false）；其余 8 个历史 disabled 源保留原因。
+- gap 兜底会为无显式信息差的候选填入最接近的 gap（fallback 28），UI 可结合 `gap_inferred` 标注「推断」。
+- 候选首次只取前 200 条 business（当前 business 320），后续可通过 `--candidates-limit` 扩容或做去重聚类。
+
 ## data-v0.9.0 · 2026-10-23 · MINOR 增量（自动发现流：信号 → 候选商机 → 发现榜，去掉验证门禁）
 
 > 产品原则（冻结）：**验证/实验不是信息获取与上榜的门禁。** 自动发现候选无需人工复核、无需商业验证、无需实验盈利即可进入发现榜；验证/实验只是个人可选功能，**不参与候选收录/排序/评级**。

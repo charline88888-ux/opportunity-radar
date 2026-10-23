@@ -36,7 +36,7 @@ import {
   type ControlSignal,
   type ControlStatus,
 } from '@/lib/control'
-import { allSources } from '@/lib/data'
+import { allSources, sourceHealth } from '@/lib/data'
 import { cn } from '@/lib/utils'
 
 type L = (zh: string, en: string) => string
@@ -169,10 +169,12 @@ export default function Control() {
   }, [outbox])
 
   const autoSourceCount = useMemo(
-    () => allSources.filter((s) => s.enabled !== false && ['rss', 'json', 'api'].includes(s.access)).length,
+    () => sourceHealth.ok_count || allSources.filter((s) => s.enabled === true && ['rss', 'json', 'api'].includes(s.access)).length,
     [],
   )
   const manualSourceCount = allSources.length - autoSourceCount
+  const sourceRegionCount = new Set(allSources.flatMap((s) => s.regions)).size
+  const failedHealthSources = sourceHealth.sources.filter((s) => !s.ok).slice(0, 6)
   const funnel = outbox?.funnel
   const sourceHealthRows: Array<{ id?: string; name?: string; items?: number; ok?: boolean; error?: string }> = outbox?.source_health?.sources?.length
     ? outbox.source_health.sources
@@ -437,8 +439,11 @@ export default function Control() {
             <div>
               <div className="mono-label mb-1">{L('覆盖边界 / 未覆盖平台', 'Coverage boundary / unsupported platforms')}</div>
               <div className="space-y-1 text-[10px] leading-relaxed text-muted">
-                <div>{L(`目录共 ${allSources.length} 个平台：可自动采集 ${autoSourceCount} 个，需人工/API ${manualSourceCount} 个。`, `${allSources.length} platforms in the directory: ${autoSourceCount} auto-fetchable, ${manualSourceCount} manual/API.`)}</div>
+                <div>{L(`目录共 ${allSources.length} 个平台：可自动采集 ${autoSourceCount} 个，需人工/API ${manualSourceCount} 个，覆盖 ${sourceRegionCount}/11 区域。`, `${allSources.length} platforms in the directory: ${autoSourceCount} auto-fetchable, ${manualSourceCount} manual/API, covering ${sourceRegionCount}/11 regions.`)}</div>
                 <div>{L(`本轮采集覆盖 ${outbox?.source_count ?? 0} 个源；其余平台不在自动扫描范围内。`, `${outbox?.source_count ?? 0} sources covered this round; the rest are outside automatic scanning.`)}</div>
+                {failedHealthSources.length > 0 && (
+                  <div className="text-danger/80">{L('失败源', 'Failed sources')}: {failedHealthSources.map((s) => `${s.name || s.id}${s.error ? ` (${s.error})` : ''}`).join(' · ')}</div>
+                )}
                 <div className="text-dim">{L('抓取规则：仅公开 RSS/JSON/API，每源限流与缓存、仅标题摘要，不抓评论/付费墙/登录内容；失败源保留 error 不静默。', 'Rules: public RSS/JSON/API only, per-source rate limits/cache, title/summary only; no comments/paywalls/logins; failed sources keep their error.')}</div>
               </div>
             </div>
