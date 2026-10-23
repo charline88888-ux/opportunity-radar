@@ -451,14 +451,14 @@ function buildInvestment(
 
   if (rawItems.length) {
     const items: InvestmentItem[] = rawItems.map((it, index) => {
-      const key = str(it.key) || INVESTMENT_KEYS[index] || `item-${index}`
+      const key = str(it.key) || str(it.id) || INVESTMENT_KEYS[index] || `item-${index}`
       const label = INVESTMENT_LABELS[key]
       const min = Math.max(0, round((num(it.min) ?? 0) * fMin))
       const max = Math.max(min, round((num(it.max) ?? 0) * fMax))
       return {
         key,
-        labelZh: label?.zh || str(it.label) || key,
-        labelEn: label?.en || str(it.label) || key,
+        labelZh: label?.zh || str(it.label) || str(it.name) || key,
+        labelEn: label?.en || str(it.label) || str(it.name) || key,
         min,
         max,
         share: 0,
@@ -597,32 +597,32 @@ export function buildEconomics(input: EconomicsInput): EconomicsModel {
   const paybackTarget = pickPayback(roi, ue, pm)
   const timeToRevenue = pickTimeToRevenue(roi)
 
-  const aov = geo(aovPick.range)
-  let revenue = revenuePick.range ? geo(revenuePick.range) : 0
-  if (!revenue && revenuePick.range == null) {
-    const ordersData = rangeOf(ue.monthly_orders)
-    revenue = ordersData ? geo(ordersData) * aov : aov * 20
-    dataNotes.push('月收入区间缺失，按客单价 × 理论单量估算')
-  }
-  const marginPct = mid(marginPick.range)
+  // 数据 1.5.1：unit_economics 提供整数客单/成本/单位固定/净贡献，基准情景取 "min" 档，保证标注值可直接勾稽
+  const unitPriceR = rangeOf(ue.price_per_unit)
+  const unitCostR = rangeOf(ue.cost_per_unit)
+  const unitFixedR = rangeOf(ue.fixed_cost_per_unit)
+  const unitNetR = rangeOf(ue.net_contribution_per_unit)
+  const ordersR = rangeOf(ue.monthly_orders)
+  const monthlyProfitR = rangeOf(ue.monthly_profit)
+  const breakevenData = num(ue.breakeven_orders)
+  const paybackRangeData = (() => {
+    if (!isObj(ue.payback_months)) return null
+    const min = num(ue.payback_months.min)
+    const max = num(ue.payback_months.max)
+    return min != null && max != null ? { min: Math.min(min, max), max: Math.max(min, max) } : null
+  })()
+
+  const aov = unitPriceR ? unitPriceR.min : geo(aovPick.range)
+  const orders = ordersR && ordersR.max > 0 ? ordersR.min : revenuePick.range ? geo(revenuePick.range) / Math.max(1, aov) : 20
+  const revenue = revenuePick.range ? revenuePick.range.min : aov * orders
+  const marginPct = unitPriceR && unitCostR && aov > 0 ? clamp(1 - unitCostR.min / aov, 0.01, 0.95) : mid(marginPick.range)
+  const capitalBase = capital.min
   const grossProfit = revenue * marginPct
-  const capitalBase = geo(capital)
-  let fixedCost = 0
-  if (paybackTarget && paybackTarget > 0) {
-    fixedCost = grossProfit - capitalBase / paybackTarget
-    if (fixedCost < 0) {
-      fixedCost = 0
-      dataNotes.push('数据回本周期与毛利区间冲突，固定成本按 0 处理')
-    }
-  } else {
-    const ueFixed = rangeOf(ue.monthly_fixed_cost)
-    fixedCost = ueFixed ? geo(ueFixed) : Math.max(0, grossProfit * 0.45)
-    if (!ueFixed) dataNotes.push('固定成本缺失，按毛利 45% 估算')
-  }
-  const netProfit = grossProfit - fixedCost
+  const monthlyFixedCost = unitFixedR ? unitFixedR.min * orders : rangeOf(ue.monthly_fixed_cost) ? geo(rangeOf(ue.monthly_fixed_cost) as NumRange) : Math.max(0, grossProfit * 0.45)
+  const netProfit = unitNetR ? unitNetR.min * orders : monthlyProfitR ? monthlyProfitR.min : grossProfit - monthlyFixedCost
+  const fixedCost = Math.max(0, grossProfit - netProfit)
   const netMarginPct = revenue > 0 ? netProfit / revenue : 0
-  const orders = aov > 0 ? revenue / aov : 0
-  const unitCost = aov * (1 - marginPct)
+  const unitCost = unitCostR ? unitCostR.min : aov * (1 - marginPct)
   const unitGrossProfit = aov - unitCost
   const unitNetProfit = orders > 0 ? netProfit / orders : 0
   const paybackMonths = netProfit > 0 ? capitalBase / netProfit : 0
@@ -643,19 +643,17 @@ export function buildEconomics(input: EconomicsInput): EconomicsModel {
     paybackMonths,
   }
 
-  // 区间：真实字段上下界 + 固定成本基准（保守/乐观）
-  const revenueRange = revenuePick.range || { min: revenue * 0.7, max: revenue * 1.3 }
-  const aovRange = aovPick.range
-  const ordersRange = {
-    min: aovRange.max > 0 ? revenueRange.min / aovRange.max : orders * 0.7,
-    max: aovRange.min > 0 ? revenueRange.max / aovRange.min : orders * 1.3,
+  // 区间：优先数据区间；月净利/回本用数据提供的区间，避免用计算值重复外推
+  const revenueRange = revenuePick.range || { min: revenue, max: revenue }
+  const aovRange = unitPriceR || aovPick.range
+  const ordersRange = ordersR || {
+    min: aovRange.max > 0 ? Math.max(1, revenueRange.min / aovRange.max) : orders * 0.8,
+    max: aovRange.min > 0 ? Math.max(1, revenueRange.max / aovRange.min) : orders * 1.2,
   }
-  const netMin = revenueRange.min * marginPick.range.min - fixedCost
-  const netMax = revenueRange.max * marginPick.range.max - fixedCost
-  const netProfitRange = { min: round(netMin), max: round(netMax) }
-  const paybackRange = {
-    min: netMax > 0 ? capital.min / netMax : null,
-    max: netMin > 0 ? capital.max / netMin : null,
+  const netProfitRange = monthlyProfitR || { min: round(netProfit), max: round(netProfit) }
+  const paybackRange = paybackRangeData || {
+    min: netProfitRange.max > 0 ? capital.min / netProfitRange.max : null,
+    max: netProfitRange.min > 0 ? capital.max / netProfitRange.min : null,
   }
 
   const revenueStreams = buildRevenueStreams(pm, base)
@@ -805,6 +803,27 @@ export function recompute(model: EconomicsModel, params: EconParams): EconCalc {
 /* ------------------------------------------------------------------ */
 /* 展示辅助                                                            */
 /* ------------------------------------------------------------------ */
+
+/**
+ * 单位经济展示值：全部由同一基数取整后再做加减，保证「标注值 = 公式」严格勾稽。
+ * 例：客单价 84 − 单位成本 42 = 单品毛利 42；42 − 固定成本分摊 16 = 单品净贡献 26。
+ */
+export interface UnitEconomicsDisplay {
+  aov: number
+  cost: number
+  gross: number
+  fixed: number
+  net: number
+}
+
+export function unitEconomicsDisplay(calc: EconCalc): UnitEconomicsDisplay {
+  const aov = Math.round(calc.aov)
+  const cost = Math.round(calc.unitCost)
+  const gross = aov - cost
+  const fixed = Math.round(calc.unitFixedCost)
+  const net = gross - fixed
+  return { aov, cost, gross, fixed, net }
+}
 
 export function investmentLabel(item: InvestmentItem, lang: 'zh' | 'en'): string {
   return lang === 'en' ? item.labelEn : item.labelZh

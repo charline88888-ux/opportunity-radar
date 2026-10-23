@@ -15,7 +15,7 @@ import {
   unitEconomicsOption,
 } from '@/components/charts/econ-options'
 import type { EconomicsModel, EconParams } from '@/lib/economics'
-import { recompute } from '@/lib/economics'
+import { recompute, unitEconomicsDisplay } from '@/lib/economics'
 import { useI18n } from '@/lib/i18n'
 import { cn, fmtCny, fmtCnyFull, fmtCnyRange, fmtInt, fmtPct } from '@/lib/utils'
 
@@ -86,6 +86,7 @@ export function EconCockpit({ model }: { model: EconomicsModel }) {
   const [params, setParams] = useState<EconParams>(defaults)
   useEffect(() => setParams(defaults), [defaults])
   const calc = useMemo(() => recompute(model, params), [model, params])
+  const unitDisplay = useMemo(() => unitEconomicsDisplay(calc), [calc])
   const [rampView, setRampView] = useState(false)
 
   const aovMin = Math.max(1, Math.round(model.ranges.aov.min * 0.6))
@@ -138,11 +139,16 @@ export function EconCockpit({ model }: { model: EconomicsModel }) {
         }
       >
         <div className="grid grid-cols-1 gap-4 xl:grid-cols-12">
-          <div className="lg:col-span-5">
-            <Chart option={capitalBreakdownOption(model, lang)} height={380} />
-            <div className="mt-1 text-[11.5px] text-dim">{L('横轴：投入金额（元）· 纵轴：9 类投入项 · 悬浮查看依据', 'X: amount (CNY) · Y: 9 items · hover for basis')}</div>
+          <div className="xl:col-span-5">
+            <div className="mb-2 flex flex-wrap items-center gap-x-3 gap-y-1 text-[12px] text-dim">
+              <span className="inline-flex items-center gap-1"><span className="inline-block h-2.5 w-2.5 rounded-sm" style={{ background: '#4cc9f0' }} />{L('下限（实色）', 'Low (solid)')}</span>
+              <span className="inline-flex items-center gap-1"><span className="inline-block h-2.5 w-2.5 rounded-sm" style={{ background: 'rgba(76,201,240,.26)' }} />{L('区间至上限（浅色）', 'Range to high (light)')}</span>
+              <span>{L('横轴 x=0 为基线', 'x=0 baseline')}</span>
+            </div>
+            <Chart option={capitalBreakdownOption(model, lang)} height={356} />
+            <div className="mt-1 text-[11.5px] text-dim">{L('所有 bar 从 0 对齐；实色=下限，浅色=区间至上限 · 悬浮查看依据', 'All bars start at 0; solid = low bound, light = range to high · hover for basis')}</div>
           </div>
-          <div className="min-w-0 lg:col-span-7">
+          <div className="min-w-0 xl:col-span-7">
             <div className="max-h-[380px] overflow-auto rounded border border-line/50">
               <table className="w-full text-left">
                 <thead className="sticky top-0 z-[1] bg-panel-2 text-[12px] text-dim">
@@ -184,9 +190,18 @@ export function EconCockpit({ model }: { model: EconomicsModel }) {
           className="xl:col-span-7"
           title={L('单位经济 · 客单价 → 成本 → 毛利 → 净贡献', 'Unit economics · AOV → cost → margin → net')}
           sub={L('按当前假设拆到「每单」，把商业模式是否成立讲清楚。', 'Broken down per order under current assumptions.')}
-          right={<DataOriginBadge origin={model.sources.aov} lang={lang} />}
+          right={
+            <>
+              <DataOriginBadge origin={model.sources.aov} lang={lang} />
+              <Badge tone={unitDisplay.aov - unitDisplay.cost === unitDisplay.gross && unitDisplay.gross - unitDisplay.fixed === unitDisplay.net ? 'signal' : 'danger'}>
+                {unitDisplay.aov - unitDisplay.cost === unitDisplay.gross && unitDisplay.gross - unitDisplay.fixed === unitDisplay.net
+                  ? L('公式自检 ✓', 'Formula OK')
+                  : L('公式不一致', 'Formula mismatch')}
+              </Badge>
+            </>
+          }
         >
-          <Chart option={unitEconomicsOption(model, calc, lang)} height={270} />
+          <Chart option={unitEconomicsOption(model, calc, lang)} height={290} />
           <div className="mt-2 grid grid-cols-3 gap-2 text-center">
             <div className="rounded border border-line/50 bg-panel-2/30 px-2 py-1.5">
               <div className="text-[11.5px] text-dim">{L('客单价区间', 'AOV range')}</div>
@@ -194,12 +209,18 @@ export function EconCockpit({ model }: { model: EconomicsModel }) {
             </div>
             <div className="rounded border border-line/50 bg-panel-2/30 px-2 py-1.5">
               <div className="text-[11.5px] text-dim">{L('单位成本', 'Unit cost')}</div>
-              <div className="num text-[13px] text-ink">{fmtCny(calc.unitCost)}</div>
+              <div className="num text-[13px] text-ink">{fmtCny(unitDisplay.cost)}</div>
             </div>
             <div className="rounded border border-line/50 bg-panel-2/30 px-2 py-1.5">
               <div className="text-[11.5px] text-dim">{L('单品净贡献', 'Unit net')}</div>
-              <div className={cn('num text-[13px]', calc.unitNetProfit >= 0 ? 'text-signal' : 'text-danger')}>{fmtCny(calc.unitNetProfit)}</div>
+              <div className={cn('num text-[13px]', unitDisplay.net >= 0 ? 'text-signal' : 'text-danger')}>{fmtCny(unitDisplay.net)}</div>
             </div>
+          </div>
+          <div className="mt-2 rounded border border-line/50 bg-panel-2/25 px-3 py-2 text-[12.5px] leading-relaxed text-muted">
+            {L('勾稽：', 'Reconciles: ')}
+            <span className="num text-ink">{unitDisplay.aov}</span> − <span className="num text-ink">{unitDisplay.cost}</span> = <span className="num text-signal">{unitDisplay.gross}</span>
+            {'；'}
+            <span className="num text-signal">{unitDisplay.gross}</span> − <span className="num text-ink">{unitDisplay.fixed}</span> = <span className={cn('num', unitDisplay.net >= 0 ? 'text-signal' : 'text-danger')}>{unitDisplay.net}</span>
           </div>
           <div className="mt-2 text-[12px] leading-relaxed text-dim">
             {L('成本明细：', 'Cost items: ')}

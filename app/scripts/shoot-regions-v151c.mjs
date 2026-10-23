@@ -91,7 +91,7 @@ const REGIONS = [
   { key: 'fix1-capital', route: `#/candidates/${candidate}`, zh: '启动资金明细', en: 'Startup capital breakdown' },
   { key: 'fix2-execution', route: `#/candidates/${candidate}`, zh: '执行方案', en: 'Execution plan' },
   { key: 'fix3-unit-econ', route: '#/method', zh: '单位经济（示例）', en: 'Unit economics' },
-  { key: 'fix4-sankey', route: '#/scanner', zh: '信息差类型桑基图', en: 'Sankey' },
+  { key: 'fix4-sankey', route: '#/scanner', zh: '信息差类型桑基图', en: 'SANKEY' },
 ]
 
 await setViewport(config.width, 1200)

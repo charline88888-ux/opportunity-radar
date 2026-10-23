@@ -741,7 +741,7 @@ export const dataMeta: DataMeta = {
 }
 
 export const isMockData = dataMeta.source !== 'real'
-export const appVersion = '1.5.2'
+export const appVersion = '1.5.3'
 export const dataAsOf = asOf
 export const repoUrl = 'https://github.com/charline88888-ux/opportunity-radar'
 export const onlineUrl = 'https://charline88888-ux.github.io/opportunity-radar/'

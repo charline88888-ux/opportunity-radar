@@ -5,6 +5,7 @@
 import type { EChartsOption } from 'echarts'
 import type { AssessmentDimension } from '@/lib/assessment'
 import type { EconCalc, EconomicsModel } from '@/lib/economics'
+import { unitEconomicsDisplay } from '@/lib/economics'
 import { fmtCny, fmtCnyFull, fmtInt, fmtPct } from '@/lib/utils'
 import type { Lang } from '@/lib/i18n'
 
@@ -69,6 +70,15 @@ const SHORT_INVEST_LABEL: Record<string, { zh: string; en: string }> = {
   reserve: { zh: '预备金', en: 'Reserve' },
 }
 
+function hexToRgba(hex: string, alpha: number): string {
+  const h = hex.replace('#', '')
+  const full = h.length === 3 ? h.split('').map((c) => c + c).join('') : h
+  const r = parseInt(full.slice(0, 2), 16)
+  const g = parseInt(full.slice(2, 4), 16)
+  const b = parseInt(full.slice(4, 6), 16)
+  return `rgba(${r}, ${g}, ${b}, ${alpha})`
+}
+
 export function capitalBreakdownOption(model: EconomicsModel, lang: Lang): EChartsOption {
   const items = [...model.investment.items].sort((a, b) => b.max - a.max)
   const categories = items.map((x) => {
@@ -78,7 +88,7 @@ export function capitalBreakdownOption(model: EconomicsModel, lang: Lang): EChar
   })
   return {
     backgroundColor: 'transparent',
-    grid: { left: 98, right: 14, top: 10, bottom: 30, containLabel: false },
+    grid: { left: 98, right: 92, top: 10, bottom: 32, containLabel: false },
     tooltip: {
       ...tooltipBase(),
       trigger: 'item',
@@ -88,12 +98,20 @@ export function capitalBreakdownOption(model: EconomicsModel, lang: Lang): EChar
         if (!item) return ''
         return [
           `<div style="font-weight:600;margin-bottom:4px">${lang === 'en' ? item.labelEn : item.labelZh}</div>`,
-          `<div>${L(lang, '投入区间', 'Range')}：<b>${fmtCnyFull(item.min)} – ${fmtCnyFull(item.max)}</b></div>`,
+          `<div>${L(lang, '下限（实色）', 'Low (solid)')}：<b>${fmtCnyFull(item.min)}</b></div>`,
+          `<div>${L(lang, '上限（浅色）', 'High (light)')}：<b>${fmtCnyFull(item.max)}</b></div>`,
           `<div style="color:${C.muted};margin-top:3px;max-width:260px;line-height:1.5">${L(lang, '依据', 'Basis')}：${item.basis}</div>`,
         ].join('')
       },
     },
-    xAxis: axisMoney(lang),
+    xAxis: {
+      type: 'value',
+      min: 0,
+      axisLine: { show: true, lineStyle: { color: 'rgba(230,233,240,.45)', width: 1.5 } },
+      axisTick: { show: true, lineStyle: { color: 'rgba(230,233,240,.35)' } },
+      axisLabel: { color: C.dim, fontSize: 12, formatter: (v: number) => fmtCny(v) },
+      splitLine: { show: true, lineStyle: { color: 'rgba(35,41,54,.7)', type: 'dashed' } },
+    },
     yAxis: {
       type: 'category',
       data: categories,
@@ -104,24 +122,44 @@ export function capitalBreakdownOption(model: EconomicsModel, lang: Lang): EChar
     },
     series: [
       {
-        name: L(lang, '下限', 'Low'),
+        name: L(lang, '下限（实色）', 'Low (solid)'),
         type: 'bar',
-        stack: 'range',
-        silent: true,
-        itemStyle: { color: 'transparent' },
-        emphasis: { disabled: true },
-        data: items.map((x) => x.min),
-        barWidth: 12,
+        stack: 'capital',
+        barWidth: 14,
+        data: items.map((x, i) => ({
+          value: x.min,
+          itemStyle: { color: PALETTE[i % PALETTE.length], borderRadius: [3, 0, 0, 3] },
+        })),
       },
       {
-        name: L(lang, '区间', 'Range'),
+        name: L(lang, '区间至上限（浅色）', 'Range to high (light)'),
         type: 'bar',
-        stack: 'range',
-        barWidth: 13,
+        stack: 'capital',
+        barWidth: 14,
         data: items.map((x, i) => ({
-          value: Math.max(1, x.max - x.min),
-          itemStyle: { color: PALETTE[i % PALETTE.length], borderRadius: [0, 3, 3, 0] },
+          value: Math.max(0, x.max - x.min),
+          itemStyle: { color: hexToRgba(PALETTE[i % PALETTE.length], 0.26), borderRadius: [0, 3, 3, 0] },
         })),
+        label: {
+          show: true,
+          position: 'right',
+          distance: 6,
+          color: C.muted,
+          fontSize: 12,
+          formatter: (p: unknown) => {
+            const i = Number((p as { dataIndex?: number }).dataIndex ?? 0)
+            const item = items[i]
+            if (!item) return ''
+            return `${fmtCny(item.min)}–${fmtCny(item.max)}`
+          },
+        },
+        markLine: {
+          silent: true,
+          symbol: 'none',
+          lineStyle: { color: 'rgba(230,233,240,.45)', width: 1 },
+          label: { show: true, position: 'end', color: C.muted, fontSize: 11, formatter: '0' },
+          data: [{ xAxis: 0 }],
+        },
       },
     ],
   }
@@ -132,11 +170,7 @@ export function capitalBreakdownOption(model: EconomicsModel, lang: Lang): EChar
 /* ------------------------------------------------------------------ */
 
 export function unitEconomicsOption(model: EconomicsModel, calc: EconCalc, lang: Lang): EChartsOption {
-  const aov = calc.aov
-  const unitCost = calc.unitCost
-  const unitGross = calc.unitGrossProfit
-  const fixedShare = calc.unitFixedCost
-  const netUnit = calc.unitNetProfit
+  const d = unitEconomicsDisplay(calc)
   const labels = [
     L(lang, '客单价', 'AOV'),
     L(lang, '商品/服务\n成本', 'Cost of\ngoods'),
@@ -144,34 +178,29 @@ export function unitEconomicsOption(model: EconomicsModel, calc: EconCalc, lang:
     L(lang, '固定成本\n分摊', 'Fixed\ncost'),
     L(lang, '单品净贡献', 'Unit net\ncontribution'),
   ]
-  const ranges = [aov, unitCost, unitGross, fixedShare, netUnit]
-  const helper: number[] = []
-  const bars: number[] = []
-  let running = 0
-  for (let i = 0; i < ranges.length; i += 1) {
-    const v = ranges[i]
-    if (i === 0) {
-      helper.push(0)
-      bars.push(v)
-      running = v
-    } else if (i === 1 || i === 3) {
-      helper.push(running - v)
-      bars.push(v)
-      running -= v
-    } else if (i === 2) {
-      helper.push(0)
-      bars.push(unitGross)
-      running = unitGross
-    } else {
-      helper.push(netUnit >= 0 ? 0 : Math.abs(netUnit))
-      bars.push(Math.abs(netUnit))
-      running = netUnit
-    }
-  }
-  const colors = [C.cyan, C.danger, C.signal, C.amber, netUnit >= 0 ? C.signal : C.danger]
+  // 真瀑布：0→客单价，客单价→毛利（扣成本），0→毛利，毛利→净贡献（扣固定成本），0→净贡献
+  const helper = [0, d.gross, 0, d.net, 0]
+  const bars = [d.aov, d.cost, d.gross, d.fixed, d.net]
+  const colors = [C.cyan, C.danger, C.signal, C.amber, d.net >= 0 ? C.signal : C.danger]
+  const signs = ['+', '−', '=', '−', '=']
+  const valueOf = (i: number) => [d.aov, d.cost, d.gross, d.fixed, d.net][i]
+  const formulas = [
+    `${L(lang, '客单价', 'AOV')} ${fmtCnyFull(d.aov)}`,
+    `${fmtCnyFull(d.aov)} − ${fmtCnyFull(d.cost)} = ${fmtCnyFull(d.gross)}`,
+    `${fmtCnyFull(d.aov)} − ${fmtCnyFull(d.cost)} = ${fmtCnyFull(d.gross)}`,
+    `${fmtCnyFull(d.gross)} − ${fmtCnyFull(d.fixed)} = ${fmtCnyFull(d.net)}`,
+    `${fmtCnyFull(d.gross)} − ${fmtCnyFull(d.fixed)} = ${fmtCnyFull(d.net)}`,
+  ]
+  // 累计连接线：上一步终点 → 下一步起点（虚线），保证瀑布可勾稽
+  const connectors = [
+    [{ coord: [0, d.aov] }, { coord: [1, d.aov] }],
+    [{ coord: [1, d.gross] }, { coord: [2, d.gross] }],
+    [{ coord: [2, d.gross] }, { coord: [3, d.gross] }],
+    [{ coord: [3, d.net] }, { coord: [4, d.net] }],
+  ]
   return {
     backgroundColor: 'transparent',
-    grid: { left: 4, right: 12, top: 12, bottom: 34, containLabel: true },
+    grid: { left: 6, right: 14, top: 20, bottom: 40, containLabel: true },
     tooltip: {
       ...tooltipBase(),
       trigger: 'axis',
@@ -180,20 +209,24 @@ export function unitEconomicsOption(model: EconomicsModel, calc: EconCalc, lang:
         const list = Array.isArray(params) ? params : [params]
         const idx = Number((list[0] as { dataIndex?: number })?.dataIndex ?? 0)
         const label = labels[idx] || ''
-        const valuesList = [aov, unitCost, unitGross, fixedShare, netUnit]
-        const v = valuesList[idx]
-        const sign = (idx === 1 || idx === 3) && v > 0 ? '-' : idx === 4 && netUnit < 0 ? '-' : ''
-        return `<div style="font-weight:600;margin-bottom:3px">${label}</div><div style="font-size:13px">${sign}${fmtCnyFull(Math.abs(v))}</div>`
+        return [
+          `<div style="font-weight:600;margin-bottom:3px">${label}</div>`,
+          `<div style="font-size:13px">${signs[idx]}${fmtCnyFull(Math.abs(valueOf(idx)))}</div>`,
+          `<div style="color:${C.muted};margin-top:3px">${formulas[idx]}</div>`,
+        ].join('')
       },
     },
     xAxis: {
       type: 'category',
       data: labels,
-      axisLine: { lineStyle: { color: C.line } },
+      axisLine: { show: true, lineStyle: { color: 'rgba(230,233,240,.4)', width: 1.5 } },
       axisTick: { show: false },
       axisLabel: { color: C.muted, fontSize: 12, interval: 0, lineHeight: 16 },
     },
-    yAxis: axisMoney(lang),
+    yAxis: {
+      ...axisMoney(lang),
+      axisLine: { show: true, lineStyle: { color: 'rgba(230,233,240,.35)' } },
+    },
     series: [
       {
         type: 'bar',
@@ -209,7 +242,7 @@ export function unitEconomicsOption(model: EconomicsModel, calc: EconCalc, lang:
         barMaxWidth: 42,
         data: bars.map((v, i) => ({
           value: v,
-          itemStyle: { color: colors[i], borderRadius: [3, 3, 0, 0] },
+          itemStyle: { color: colors[i], borderRadius: i === 4 ? [3, 3, 0, 0] : [3, 3, 0, 0] },
         })),
         label: {
           show: true,
@@ -218,17 +251,20 @@ export function unitEconomicsOption(model: EconomicsModel, calc: EconCalc, lang:
           fontSize: 12,
           formatter: (p: unknown) => {
             const idx = Number((p as { dataIndex?: number }).dataIndex ?? 0)
-            const v = [aov, unitCost, unitGross, fixedShare, netUnit][idx]
-            const sign = (idx === 1 || idx === 3) ? '-' : idx === 4 && v < 0 ? '-' : ''
-            return `${sign}${fmtCny(Math.abs(v))}`
+            return `${signs[idx]}${fmtCny(Math.abs(valueOf(idx)))}`
           },
+        },
+        markLine: {
+          silent: true,
+          symbol: ['none', 'none'],
+          lineStyle: { color: 'rgba(139,147,167,.55)', type: 'dashed', width: 1 },
+          label: { show: false },
+          data: connectors as never,
         },
       },
     ],
   }
 }
-
-/* ------------------------------------------------------------------ */
 /* 3) 回本曲线：累计净现金流 vs 0                                          */
 /* ------------------------------------------------------------------ */
 
@@ -385,23 +421,16 @@ export function revenueStructureOption(model: EconomicsModel, lang: Lang): EChar
         return `<div style="font-weight:600">${item.name ?? ''}</div><div>${fmtPct(item.percent ?? 0, 1)} · ${L(lang, '理论月收入', 'Theoretical monthly revenue')} ${range}</div>${stream?.basis ? `<div style="color:${C.muted};max-width:240px;line-height:1.5;margin-top:2px">${stream.basis}</div>` : ''}`
       },
     },
-    legend: {
-      orient: 'vertical',
-      right: 4,
-      top: 'center',
-      itemWidth: 8,
-      itemHeight: 8,
-      textStyle: { color: C.muted, fontSize: 12 },
-      formatter: (name: string) => (name.length > 14 ? `${name.slice(0, 14)}…` : name),
-    },
+    legend: { show: false },
     series: [
       {
         type: 'pie',
-        radius: ['52%', '74%'],
-        center: ['34%', '50%'],
+        radius: ['62%', '84%'],
+        center: ['50%', '50%'],
         avoidLabelOverlap: true,
         label: { show: false },
         labelLine: { show: false },
+        emphasis: { scale: false },
         itemStyle: { borderColor: '#12151c', borderWidth: 2 },
         data: streams.map((s, i) => ({
           name: s.name,
@@ -413,25 +442,27 @@ export function revenueStructureOption(model: EconomicsModel, lang: Lang): EChar
     graphic: [
       {
         type: 'text',
-        left: '24%',
+        left: '50%',
         top: '40%',
         style: {
           text: L(lang, '理论月收入', 'Monthly revenue'),
           fill: C.muted,
-          fontSize: 12,
+          fontSize: 11,
           align: 'center',
+          verticalAlign: 'middle',
         },
       },
       {
         type: 'text',
-        left: '24%',
-        top: '48%',
+        left: '50%',
+        top: '50%',
         style: {
           text: fmtCny(model.base.revenue),
           fill: C.ink,
-          fontSize: 19,
+          fontSize: 18,
           fontWeight: 600,
           align: 'center',
+          verticalAlign: 'middle',
         },
       },
     ],
@@ -443,11 +474,28 @@ export function revenueStructureOption(model: EconomicsModel, lang: Lang): EChar
 /* ------------------------------------------------------------------ */
 
 export function sensitivityOption(model: EconomicsModel, calc: EconCalc, lang: Lang): EChartsOption {
-  const points = calc.sensitivity
+  const be = calc.breakevenOrders
+  const current = Math.round(calc.orders)
+  const baseMax = Math.max(...calc.sensitivity.map((p) => p.orders), current * 1.2)
+  const baseMin = Math.min(...calc.sensitivity.map((p) => p.orders), current * 0.8)
+  const minOrders = Math.max(0.5, Math.min(baseMin, be > 0 ? be * 0.9 : baseMin))
+  const maxOrders = Math.max(baseMax, be > 0 ? be * 1.1 : baseMax, current * 1.05)
+  const steps = 9
+  const points = Array.from({ length: steps }, (_, i) => {
+    const orders = minOrders + ((maxOrders - minOrders) / (steps - 1)) * i
+    const revenue = orders * calc.aov
+    const grossProfit = revenue * calc.marginPct
+    return { orders, revenue, grossProfit, profit: grossProfit - calc.fixedCost, base: Math.abs(orders - current) < (maxOrders - minOrders) / 16 }
+  })
+  // 强制插入盈亏平衡点，保证折线在 x=盈亏平衡单量 时精确过 y=0
+  if (be > 0 && be >= minOrders && be <= maxOrders) {
+    points.push({ orders: be, revenue: be * calc.aov, grossProfit: be * calc.aov * calc.marginPct, profit: 0, base: false })
+    points.sort((a, b) => a.orders - b.orders)
+  }
   const hit = points.find((p) => p.base)
   return {
     backgroundColor: 'transparent',
-    grid: { left: 8, right: 18, top: 26, bottom: 6, containLabel: true },
+    grid: { left: 8, right: 20, top: 50, bottom: 8, containLabel: true },
     tooltip: {
       ...tooltipBase(),
       trigger: 'axis',
@@ -460,32 +508,52 @@ export function sensitivityOption(model: EconomicsModel, calc: EconCalc, lang: L
           `<div style="font-weight:600;margin-bottom:2px">${L(lang, '月单量', 'Orders / month')} ${fmtInt(p.orders)}</div>`,
           `<div>${L(lang, '月收入', 'Revenue')}：${fmtCny(p.revenue)}</div>`,
           `<div>${L(lang, '月净利', 'Net profit')}：<b style="color:${p.profit >= 0 ? C.signal : C.danger}">${fmtCny(p.profit)}</b></div>`,
+          `<div style="color:${C.muted};margin-top:2px">${L(lang, '公式', 'Formula')}：${fmtCny(p.revenue)} × ${fmtPct(calc.marginPct * 100, 0)} − ${fmtCny(calc.fixedCost)}</div>`,
         ].join('')
       },
     },
     xAxis: {
       type: 'value',
+      min: Math.floor(minOrders),
+      max: Math.ceil(maxOrders),
       axisLabel: { color: C.dim, fontSize: 12, formatter: (v: number) => `${fmtInt(v)}` },
       splitLine: { show: false },
-      axisLine: { lineStyle: { color: C.line } },
+      axisLine: { show: true, lineStyle: { color: 'rgba(230,233,240,.35)' } },
       axisTick: { show: false },
     },
-    yAxis: axisMoney(lang),
+    yAxis: {
+      ...axisMoney(lang),
+      axisLine: { show: true, lineStyle: { color: 'rgba(230,233,240,.35)' } },
+    },
     series: [
       {
         type: 'line',
         smooth: 0.2,
         symbolSize: 5,
-        data: points.map((p) => [p.orders, Math.round(p.profit)]),
+        data: points.map((p) => [Number(p.orders.toFixed(2)), Math.round(p.profit)]),
         lineStyle: { width: 2.5, color: C.cyan },
         itemStyle: { color: C.cyan },
         areaStyle: { color: 'rgba(76,201,240,.12)' },
         markLine: {
           silent: true,
           symbol: 'none',
-          lineStyle: { color: C.amber, type: 'dashed', width: 1 },
-          label: { color: C.amber, fontSize: 12, formatter: L(lang, '盈亏平衡', 'Break-even') },
-          data: [{ yAxis: 0 }],
+          data: [
+            {
+              xAxis: Number(be.toFixed(1)),
+              lineStyle: { color: C.amber, type: 'dashed', width: 1.2 },
+              label: { rotate: 0, color: C.amber, fontSize: 12, position: 'insideEndTop', distance: 4, formatter: `${L(lang, '盈亏平衡', 'Break-even')} ${Math.round(be)}` },
+            },
+            {
+              xAxis: current,
+              lineStyle: { color: C.cyan, type: 'dashed', width: 1.2 },
+              label: { rotate: 0, color: C.cyan, fontSize: 12, position: 'insideEndTop', distance: 4, formatter: `${L(lang, '当前', 'Current')} ${current}` },
+            },
+            {
+              yAxis: 0,
+              lineStyle: { color: C.amber, type: 'dotted', width: 1 },
+              label: { rotate: 0, color: C.amber, fontSize: 11, position: 'insideStartTop', formatter: '0' },
+            },
+          ],
         },
         markPoint: hit
           ? {
@@ -500,16 +568,14 @@ export function sensitivityOption(model: EconomicsModel, calc: EconCalc, lang: L
       {
         type: 'scatter',
         symbol: 'circle',
-        symbolSize: 7,
-        itemStyle: { color: C.amber },
-        data: calc.breakevenOrders > 0 ? [[Number(calc.breakevenOrders.toFixed(1)), 0]] : [],
+        symbolSize: 8,
+        itemStyle: { color: C.amber, borderColor: '#10131a', borderWidth: 2 },
+        data: be > 0 ? [[Number(be.toFixed(1)), 0]] : [],
         tooltip: { show: false },
       },
     ],
   }
 }
-
-/* ------------------------------------------------------------------ */
 /* 7) 10 维雷达                                                          */
 /* ------------------------------------------------------------------ */
 
@@ -615,7 +681,7 @@ export function cardCapitalOption(model: EconomicsModel, lang: Lang): EChartsOpt
         return `<div style="font-weight:600">${lang === 'en' ? item.labelEn : item.labelZh}</div><div>${fmtCny(item.min)}–${fmtCny(item.max)}</div>`
       },
     },
-    xAxis: { type: 'value', show: false, max: model.investment.total.max * 1.02 },
+    xAxis: { type: 'value', show: false, min: 0, max: model.investment.total.max * 1.02 },
     yAxis: { type: 'category', show: false, data: ['capital'] },
     series: [
       {
@@ -623,10 +689,23 @@ export function cardCapitalOption(model: EconomicsModel, lang: Lang): EChartsOpt
         stack: 'cap',
         barWidth: 14,
         data: items.map((x, i) => ({
-          value: x.max,
+          value: x.min,
           itemStyle: {
             color: PALETTE[i % PALETTE.length],
-            borderRadius: i === 0 ? [3, 0, 0, 3] : i === items.length - 1 ? [0, 3, 3, 0] : 0,
+            borderRadius: i === 0 ? [3, 0, 0, 3] : 0,
+          },
+        })),
+        label: { show: false },
+      },
+      {
+        type: 'bar',
+        stack: 'cap',
+        barWidth: 14,
+        data: items.map((x, i) => ({
+          value: Math.max(0, x.max - x.min),
+          itemStyle: {
+            color: hexToRgba(PALETTE[i % PALETTE.length], 0.26),
+            borderRadius: i === items.length - 1 ? [0, 3, 3, 0] : 0,
           },
         })),
         label: { show: false },

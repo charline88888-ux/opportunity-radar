@@ -421,7 +421,7 @@ export function buildCandidateAssessment(c: Candidate): Assessment {
       flatten(sevenFlat.model),
       isObj(c.profit_model) ? flatten(c.profit_model.pricing_range) : '',
     ],
-    preferTextAov: true,
+    preferTextAov: false,
   })
   const evidence: AssessmentEvidence[] = c.evidence.map((e) => ({ title: e.title || e.url || '', url: e.url || '', publisher: e.publisher || '', date: e.date || '', quote: '', tier: undefined }))
   const score = c.scores
@@ -517,7 +517,7 @@ export function buildOpportunityAssessment(o: Opportunity): Assessment {
       flatten(isObj(o.profit_model) ? o.profit_model.pricing_range : ''),
       o.signal.summary,
     ],
-    preferTextAov: true,
+    preferTextAov: false,
   })
   const evidence: AssessmentEvidence[] = o.signal.evidence.map((e) => ({
     title: e.title,

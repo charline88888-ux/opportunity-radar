@@ -45,7 +45,7 @@ export default function About() {
           ))}
         </div>
         <div className="mt-2 rounded border border-cyan/25 bg-cyan/[0.05] px-3 py-2 text-[13px] leading-[1.7] text-cyan/90">
-          {L('v1.5.2 PATCH：里程碑字段映射为中文标签（里程碑/目标），不再外露 name/target 原始 key；全站图表标签 ≥12px，资金拆项/执行时间线/单位经济/桑基图可读性修复。', 'v1.5.2 PATCH: milestone fields mapped to readable labels (Milestone/Target) instead of raw name/target keys; all ECharts labels ≥12px; fixed capital, execution-timeline, unit-economics and Sankey readability.')}
+          {L('v1.5.3 PATCH：图表口径修正——资金拆项全部从 0 对齐（实色下限/浅色上限/0 基线）、单位经济真瀑布严格勾稽（100−60=40，40−19=21）、敏感性新增盈亏平衡/当前竖线、收入结构中心文字加大内径不再遮挡；里程碑字段中文标签同步保留。', 'v1.5.3 PATCH: chart baselines fixed — capital bars aligned at 0 (solid low / light high / 0 axis), unit-economics waterfall reconciles exactly (100−60=40, 40−19=21), sensitivity adds break-even/current vertical lines, and the revenue-mix centre label no longer overlaps the ring; milestone labels kept.')}
         </div>
       </Panel>
 
