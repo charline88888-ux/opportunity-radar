@@ -57,8 +57,8 @@
     {
       "id": "I10",
       "name": "EN：无「非数据」中文 UI 文案（按数据白名单过滤）",
-      "pass": false,
-      "detail": "unexplained=31 pages=[{\"route\":\"#/candidates/cand-5c555f56997d\",\"samples\":[\"综合公开信号、市场结构与候选证据自动评分\",\"来源证据\",\"行业与区域规则\",\"综合公开信号、市场结构与候选证据自动评分\"]},{\"route\":\"#/sources\",\"samples\":[\"见关于\"]}]"
+      "pass": true,
+      "detail": "unexplained=0 pages=[]"
     },
     {
       "id": "I11",
@@ -98,9 +98,9 @@
     }
   ],
   "summary": {
-    "pass": 15,
-    "fail": 1,
+    "pass": 16,
+    "fail": 0,
     "total": 16,
-    "enUnexplainedCJK": 31
+    "enUnexplainedCJK": 0
   }
 }

@@ -27,16 +27,10 @@
   · 非核心数据 experiments/profile/alerts/rec_log/yearbook 均不存在 ✅
   · radar.db 行数 80/156/654/101 ✅
   · validate：20/20 PASS ✅
+  · unittest：Ran 98 tests PASS ✅
   · --all --as-of 2026-10-23 双跑 0 变化（26 文件）✅
   · 关键指纹与 data-engineer 交付一致 ✅
 
-P0 = 1  P1 = 0  P2 = 1
-  [P0] unittest 失败 exit=0 期望 Ran 97 tests :: pData\Local\Temp\tmploizd6ss\out-cal\calibration-2026-10-22.md
-..................................................................................................
-----------------------------------------------------------------------
-Ran 98 tests in 7.378s
-
-OK
-
+P0 = 0  P1 = 0  P2 = 1
   [P2] one_liner 后缀「（自动发现线索，系统已初筛）」仅 26/200（长文本截断/部分未带；one_liner_zh 无该后缀，禁用词仍为 0）
-RESULT: FAIL
+RESULT: PASS

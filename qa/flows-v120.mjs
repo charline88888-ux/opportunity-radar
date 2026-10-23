@@ -138,7 +138,7 @@ await nav('#/sources'); await reload(); await waitFor(`document.body.innerText.i
 const srcText = (await bodyText()).replace(/\s+/g, ' ')
 check('T12', '数据源：168 平台 / 自动100 / 11 区域', /168/.test(srcText) && /自动\s*100|Auto\s*100/.test(srcText) && /11/.test(srcText), srcText.slice(0, 200))
 await nav('#/about'); await waitFor(`document.body.innerText.includes('1.0.1')`, 10000); const aboutText = await bodyText()
-check('T13', '关于：版本 v1.2.0 + 核心边界说明', /1\.0\.1/.test(aboutText) && /核心|每日|扫描|商机/.test(aboutText), aboutText.slice(0, 240))
+check('T13', '关于：版本 v1.2.0 + 核心边界说明', /1\.2\.0/.test(aboutText) && /核心|每日|扫描|商机/.test(aboutText), aboutText.slice(0, 240))
 // 10) 全站无已删功能文本（9 路由）
 const forbidden = ['本地控制台', '实验台', '个人画像', '预警中心', '回测校准', '年度复盘', '个人数据', '自动发现榜']
 const hits = []

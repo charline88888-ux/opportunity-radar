@@ -29,10 +29,10 @@ P2: list[str] = []
 notes: list[str] = []
 
 FP = {
-    "data/rankings.json": "b5ed9a22569464bc",
-    "data/stats.json": "2b11f3b81f52a6b5",
-    "data/candidates.json": "36624c7995e2c676",
-    "data/candidate-rankings.json": "755bc10bb80fd2fb",
+    "data/rankings.json": "7111c67ddfb759f1",
+    "data/stats.json": "e1273aebb618d4a7",
+    "data/candidates.json": "3db6417023a87158",
+    "data/candidate-rankings.json": "684be3c4f975a4d5",
     "data/sources.json": "9d55d1708533301c",
     "data/source-health.json": "36e0e64f76f3f5a1",
     "data/radar.db": "1313c98c58ba6486",
@@ -317,7 +317,7 @@ def main() -> int:
         P1.append(f"radar.db 检查失败 {exc}")
     # validate / tests / idempotency
     for label, cmd, expect in (("validate", ["scanner/validate.py"], "20/20"),
-                               ("unittest", ["-m", "unittest", "discover", "-s", "scanner/tests"], "Ran 97 tests")):
+                               ("unittest", ["-m", "unittest", "discover", "-s", "scanner/tests"], "Ran 98 tests")):
         rr = run(cmd, timeout=300)
         blob = rr.stdout + rr.stderr
         if rr.returncode != 0 or expect not in blob:

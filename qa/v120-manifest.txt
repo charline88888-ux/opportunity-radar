@@ -1,0 +1,9 @@
+
+== manifest-check v1.2.0（tag=v1.2.0）==
+  · tag=v1.2.0 type=tag commit=7b3b49def166
+  · MANIFEST 19/19 条 sha256/bytes 与 tag blob 一致 ✅
+  · 冻结 dist = 4a63f9afba469399… / 5325706 B（与 MANIFEST 一致）✅
+  · 内容提交 e939e74 是 tag 祖先 ✅
+  · tag 提交：docs: record v1.2.0 manifest (content commit e939e74)
+  · dist/VERSION-README.md 含 v1.2.0 ✅
+RESULT: PASS

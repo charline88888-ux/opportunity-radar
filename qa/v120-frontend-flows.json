@@ -1,0 +1,111 @@
+{
+  "results": [
+    {
+      "id": "T01",
+      "name": "9 路由全部可达且核心内容渲染",
+      "pass": true,
+      "detail": "#/:ok #/rankings:ok #/candidates/cand-5c555f56997d:ok #/opportunities/opp-pet-memorial-glass-001:ok #/scanner:ok #/method:ok #/sources:ok #/calendar:ok #/about:ok"
+    },
+    {
+      "id": "T02",
+      "name": "导航/页面无已删功能入口（控制台/实验/画像/预警/校准/年鉴/数据/发现榜）",
+      "pass": true,
+      "detail": "hits="
+    },
+    {
+      "id": "T03",
+      "name": "8 个已删路由不渲染对应功能（NotFound/无功能页头）",
+      "pass": true,
+      "detail": "bad="
+    },
+    {
+      "id": "T04",
+      "name": "商机榜：唯一榜单(候选200/精选80) + 四窗口 + 候选/精选混排",
+      "pass": true,
+      "detail": "{\"candLinksDay\":200,\"curLinksDay\":49,\"windowLabels\":true}"
+    },
+    {
+      "id": "T05",
+      "name": "年窗口：候选+精选均入榜（200 候选覆盖）",
+      "pass": true,
+      "detail": "{\"cand\":200,\"cur\":80}"
+    },
+    {
+      "id": "T06",
+      "name": "商机榜筛选：全部/自动/精选可用（精选仅精选）",
+      "pass": true,
+      "detail": "{\"filterButtons\":[\"全部 · 280\",\"精选 · 80\"],\"curFilter\":{\"cand\":0,\"cur\":80}}"
+    },
+    {
+      "id": "T07",
+      "name": "候选详情：评分 + 9 大评估分区（画布/为什么/竞争/跨市场/时机/条件/利润/执行/来源）+ 无门禁",
+      "pass": true,
+      "detail": "OPPORTUNITY RADAR\n机会雷达\n全球商机扫描器 · 本地个人版\nNAVIGATION / 工作台\n01\n指挥台\nCOMMAND\n核心 KPI · 今日候选\n02\n商机榜\nRANKINGS\n四窗口 · 自动候选 + 精选\n03\n扫描室\nSCANNER\n每日扫描 · 源健康 · 漏斗\n04\n方法论\nMETHOD\n评分模型 · 七问 · 文化维度\n05\n数据源矩阵\nSOURCES\n12 大类平台 · 合规等级\n06\n全球商业日历\nCALENDAR\n节庆 / 税季 / 开学节点\n07\n关于\nABOUT\n版本 "
+    },
+    {
+      "id": "T08",
+      "name": "候选详情无已删功能链接",
+      "pass": true,
+      "detail": "bad=0"
+    },
+    {
+      "id": "T09",
+      "name": "精选机会详情：七问/评分/证据/免责正常",
+      "pass": true,
+      "detail": "OPPORTUNITY RADAR\n机会雷达\n全球商机扫描器 · 本地个人版\nNAVIGATION / 工作台\n01\n指挥台\nCOMMAND\n核心 KPI · 今日候选\n02\n商机榜\nRANKINGS\n四窗口 · 自动候选 + 精选\n03\n扫描室\nSCANNER\n每日扫描 · 源健康 · 漏斗\n04\n方法论\nMETHOD\n评分模型 · 七问 · 文化维度\n05\n数据源矩阵\nSOURCES\n12 大"
+    },
+    {
+      "id": "T10",
+      "name": "扫描室：每日扫描流程 + 源健康表（101 源）",
+      "pass": true,
+      "detail": "{\"healthRows\":168,\"snippet\":\"OPPORTUNITY RADAR 机会雷达 全球商机扫描器 · 本地个人版 NAVIGATION / 工作台 01 指挥台 COMMAND 核心 KPI · 今日候选 02 商机榜 RANKINGS 四窗口 · 自动候选 + 精选 03 扫描室 SCANNER 每日扫描 · 源健康 · 漏斗 04 方法论 METHOD 评分模型 · 七问 · 文化维度 0\"}"
+    },
+    {
+      "id": "T11",
+      "name": "指挥台：核心 KPI（今日候选99/候选200/自动源100/区域11），无旧功能入口",
+      "pass": true,
+      "detail": "OPPORTUNITY RADAR 机会雷达 全球商机扫描器 · 本地个人版 NAVIGATION / 工作台 01 指挥台 COMMAND 核心 KPI · 今日候选 02 商机榜 RANKINGS 四窗口 · 自动候选 + 精选 03 扫描室 SCANNER 每日扫描 · 源健康 · 漏斗 04 方法论 METHOD 评分模型 · 七问 · 文化维度 05 数据源矩阵 SOURCES 12 大类平台 · 合规等级 06 全球商业日历 CALENDAR 节庆 / 税季 / 开学节点 07 关于 ABOUT 版本 · 免责声明 DATA STATUS REAL DATA v1.2.0 as_of 2026-10-23 opportu"
+    },
+    {
+      "id": "T12",
+      "name": "数据源：168 平台 / 自动100 / 11 区域",
+      "pass": true,
+      "detail": "OPPORTUNITY RADAR 机会雷达 全球商机扫描器 · 本地个人版 NAVIGATION / 工作台 01 指挥台 COMMAND 核心 KPI · 今日候选 02 商机榜 RANKINGS 四窗口 · 自动候选 + 精选 03 扫描室 SCANNER 每日扫描 · 源健康 · 漏斗 04 方法论 METHOD 评分模型 · 七问 · 文化维度 05 数据源矩阵 SOURCES 12 大"
+    },
+    {
+      "id": "T13",
+      "name": "关于：版本 v1.2.0 + 核心边界说明",
+      "pass": true,
+      "detail": "OPPORTUNITY RADAR\n机会雷达\n全球商机扫描器 · 本地个人版\nNAVIGATION / 工作台\n01\n指挥台\nCOMMAND\n核心 KPI · 今日候选\n02\n商机榜\nRANKINGS\n四窗口 · 自动候选 + 精选\n03\n扫描室\nSCANNER\n每日扫描 · 源健康 · 漏斗\n04\n方法论\nMETHOD\n评分模型 · 七问 · 文化维度\n05\n数据源矩阵\nSOURCES\n12 大类平台 · 合规等级\n06\n全球商业日历\nCALENDAR\n节庆 / 税季 / "
+    },
+    {
+      "id": "T14",
+      "name": "9 路由无已删功能文案/入口",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "id": "T15",
+      "name": "运行时无 console error",
+      "pass": true,
+      "detail": "0"
+    },
+    {
+      "id": "T16",
+      "name": "候选详情无「验证/实验/复核/门禁」文案（v1.2.0 清洗）",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "id": "T17",
+      "name": "方法论：10 维怎么判断（数据来源/判断标准）+ 画布/竞争/跨市场/执行解释",
+      "pass": true,
+      "detail": "OPPORTUNITY RADAR\n机会雷达\n全球商机扫描器 · 本地个人版\nNAVIGATION / 工作台\n01\n指挥台\nCOMMAND\n核心 KPI · 今日候选\n02\n商机榜\nRANKINGS\n四窗口 · 自动候选 + 精选\n03\n扫描室\nSCANNER\n每日扫描 · 源健康 · 漏斗\n04\n方法论\nMETHOD\n评分模型 · 七问 · 文化维度\n05\n数据源矩阵\nSOURCES\n12 大类平台 · 合规等级\n06\n全球商业日历\nCALENDAR\n节庆 / 税季 / 开学节点\n07\n关于\nABOUT\n版本 "
+    }
+  ],
+  "summary": {
+    "pass": 17,
+    "fail": 0,
+    "total": 17
+  }
+}

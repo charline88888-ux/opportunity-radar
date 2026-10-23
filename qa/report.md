@@ -1801,3 +1801,44 @@ python qa/online-check-v07.py --version v0.7.2             # 新站结构 PASS
 ### A.4 一句话
 
 **v1.0.1 可发布：v1.0.0 的 P1（候选七问验证/实验文案 400 处）已清零，数据 funnel/health 一致性修复，冷缓存 determinism cold1==committed 通过；9 路由/唯一商机榜/候选200+精选80/flows16/16/routes/i18n 15/16/MANIFEST19/19/tag deploy+CI success/线上同 hash；P0=0、P1=0、3 个 P2 不阻塞。**
+
+---
+
+# 第 27 章 · v1.2.0 商机评估深化红队验收（2026-10-23 20:48）
+
+> 版本：app 1.2.0 / data 1.2.0（as_of=2026-10-23）｜验收人：redteam｜任务：task-63
+> 冻结：`releases/v1.2.0/`（tag v1.2.0 → 7b3b49de，内容提交 e939e74）｜dist 5,325,706 B / `4A63F9AF…4989D`
+> **结论：可发布（v1.2.0，P0=0 / P1=0 / P2=2，均不阻塞）**
+
+## 27.1 数据：商机评估深化（PASS）
+
+- `qa/v120-check.py` **PASS（P0=0/P1=0/P2=1）**：
+  - 200/200 候选含 `business_canvas`（9 块：客户细分/价值主张/渠道/客户关系/收入来源/核心资源/关键活动/重要伙伴/成本结构）、`judgment`（10 维 score+rationale+data_used + why_opportunity + not_opportunity_if）、competition（6）/cross_market（5）/timing（6）/conditions（7）/barriers（6）/profit_model（含 revenue_streams/event_effect 等）/execution_plan（5 段）/sources；**business_canvas 200/200 唯一**（同行业不同信号有差异）；实体/数字引用 200/200；全量 grep 验证/实验/复核/门禁 = **0**。
+  - 顶层 `primary_industry` 200/200；industry_ids 以 primary 为首（MAS=`['fintech','crossborder']`、PineDrama=`['content']`、Z 世代非洲=`['crossborder']`）；judgment.primary_industry/event_type 200/200；抽检 10 条主行业/事件正确：MAS→fintech/policy、Z 世代非洲→crossborder/demand、PineDrama→content/demand、Lianlian→crossborder/partnership、Telegram→ai/policy、EU EPR→compliance/market、Petrol/Nigeria→crossborder/demand、Cygrid→ai/funding、稳定币法案→ai/policy 等；why 已含实体+事件逻辑+区域/行业缺口+商业模式+窗口（MAS：“规则落地前 6–12 个月…牌照/清算合规/本地银行通道/资金归集缺口…手续费+汇率”）。
+  - `--all --as-of 2026-10-23` 双跑 **0 变化（26 文件）**；validate **20/20**、unittest **98/98**；data 9 文件 meta=1.2.0；窗口 day99/week200/month200/year200、精选 80 不变；stats 候选 200/今日 99；db 80/156/654/101；reports 8 文件。
+  - **cold determinism（P1 修复验证）**：删除 translation-cache 后冷跑两次 candidates **cold1==committed（3DB64170…）**、cold2==cold1、`--all` 后一致（Lead 已修 LF 归一 + `.gitattributes data/** eol=lf`；tag blob 与 working LF 一致）。
+  - 指纹（LF 归一后）：candidates 3DB64170、candidate-rankings 684BE3C4、stats E1273AEB、rankings 7111C67D、report-day 37D33C34、business.py C9E51A0F、candidates.py 37A8F5F6、translate.py 2350C346。
+
+## 27.2 前端：商机评估说明书（PASS）
+
+- 最终构建 **5,325,706 B / 4A63F9AF…4989D** = releases/v1.2.0/dist；app 1.2.0。
+- `qa/flows-v120.mjs` **17/17 PASS**：9 路由/唯一商机榜四窗口/候选200+精选80/候选详情九分区（商业画布/为什么是商机 10 维 rationale+data_used+证伪条件/竞争与差异/跨市场机会/时机与窗口/条件门槛资金/利润模型/执行方案 0–90/信息来源与依据）、方法论 10 维判断表、无删除功能/无验证门禁。
+- `qa/routes-v100.mjs` 9 路由 ×1600/1024 **overflow=0、consoleErrors=0、removedBad=0**；`qa/i18n-check.mjs` **16/16 PASS（enUnexplainedCJK=0）**。
+- 截图 `qa/screenshots/v120-final/` **15 张**（9 路由 + 长页 + 1024，jsErrors=0）+ frontend `final-v1.2` 4 张；read_image 目检候选详情（九分区/一屏摘要/MAS fintech+policy 徽标）、关于 v1.2.0、方法论表格正常。
+
+## 27.3 冻结 + Actions + 线上
+
+- `qa/manifest-check.py --version v1.2.0`：**MANIFEST 19/19 与 tag blob 一致**；`verify_manifest.py` **MANIFEST OK (19/19)**；冻结 dist `4A63F9AF…`/5,325,706 B = app/dist；tag v1.2.0→7b3b49de，内容 e939e74；VERSION-README 含 v1.2.0。
+- Actions：**Deploy run 39955396014 success**（tag v1.2.0）；**CI run 39955389373 success**；pages run 39955453226 success。
+- 线上（`qa/online-check-v07.py --version v1.2.0`）**PASS**：`/` 与 `/v1.2.0/` 同 hash 4A63F9AF…/5,325,706 B；versions latest=v1.2.0 path=/v1.2.0/；历史 v0.1.0…v1.0.1 全部与各自 tag 冻结 blob 逐字节一致不串台；404 正常。
+
+## 27.4 P2 清单（2 个，均不阻塞）
+
+| # | 项 | 现状 | 建议 |
+|---|---|---|---|
+| P2-1 | one_liner 后缀仅 26/200 | 长摘要截断导致「（自动发现线索，系统已初筛）」未统一；全量禁用词仍 0 | 下轮统一（非核心） |
+| P2-2 | versions.json daily 字段 | daily_channel/live_as_of 缺失（可选字段；root=最新冻结当日数据） | 下次 daily workflow 或 build_site tag 模式补齐 |
+
+## 27.5 一句话
+
+**v1.2.0 可发布：200/200 候选含 9 画布 + 10 维判断依据（primary_industry/event_type 正确、实体/数字引用、why 具体、200 画布唯一、禁用词 0）；cold determinism/validate20/98 单测/`--all` 幂等均通过，9 路由/flows17/17/routes/i18n16/16，MANIFEST19/19、tag deploy+CI success、线上 root 与 /v1.2.0/ 同 hash 且旧归档不串台；P0=0、P1=0、2 个 P2 不阻塞。**
