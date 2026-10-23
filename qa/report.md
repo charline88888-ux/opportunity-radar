@@ -1941,3 +1941,44 @@ python qa/online-check-v07.py --version v0.7.2             # 新站结构 PASS
 ## 29.5 一句话
 
 **v1.4.1 可发布：数据收敛为 63 条质量优先候选（102/102 单测、20/20 validate、cold determinism/--all 幂等、标题唯一/无噪声/禁用词0、四窗口 22/50/53/63）；前端 UI/UX 修复经独立测量（min font 10、sticky<900、锚点/返顶/30卡、重复大幅下降、i18n16/16、9 路由 console0）；MANIFEST19/19、tag deploy+CI success、线上 root 与 /v1.4.1/ 同 hash 且旧归档不串台；P0=0、P1=0、4 个 P2 不阻塞（1024 header 8px 溢出待 v1.4.2）。**
+
+---
+
+# 第 30 章 · v1.5.0 投资/单位经济测算 + 统一评估详情终验（2026-10-24 00:05）
+
+> 版本：app 1.5.0 / data 1.5.0（as_of=2026-10-23；候选 63 + 精选 80）｜验收人：redteam
+> 冻结：`releases/v1.5.0/`（tag v1.5.0 → a462901d，内容提交 de76740）｜dist 5,053,588 B / `7C382E20…6210`
+> **结论：可发布（v1.5.0，P0=0 / P1=0 / P2=2，均不阻塞）**
+
+## 30.1 数据：投资拆项 + 单位经济（PASS）
+
+- 独立复验（candidates `E5125D9B…`，opportunities `6524A105…`）：
+  - **经济一致性全部通过**：investment_breakdown 9 项合计=total（63+80）；IB total=roi.capital=conditions.capital（0 异常）；gross_margin_pct **min≤max**（0 异常）；价格−成本=单位毛利、月收入=客单×单量、月成本=单位成本×单量、月利润=收入−变动−固定（0 异常）；payback **target==roi.payback、range 含 target 且 1–60 月**（0 异常）；None/NaN=0；敏感性 3–5 点。
+  - 精选 80 均补 business_canvas/judgment/analyst_narrative/competition/cross_market/timing/conditions/barriers/execution_plan；原 title/evidence/seven_questions 保留（8 处 one_liner/seven_questions 按清洗要求「验证→核验」）。
+  - 禁用词：candidates 验证/实验/复核/门禁 = **0/0/0/0**；opportunities 同样 **0/0/0/0**。
+  - **unittest 102/102 OK、validate 20/20**；**cold determinism：cold1==committed E5125D9B、cold2==cold1、`--all` 后一致**（红队独立删缓存验证）；`--all` 双跑 changed=0，opportunities 不变。
+  - 指纹：candidates E5125D9B、opportunities 6524A105、candidate-rankings E35197A7、stats 4839D8D5、rankings 65D49C3C、economy.py 38605874、business.py 622918CE、candidates.py 7A8652FF。
+
+## 30.2 前端：统一 AssessmentDetail + 卡片 v2（PASS）
+
+- 最终构建 **5,053,588 B / 7C382E20…6210** = releases/v1.5.0/dist；版本 1.5.0。
+- **统一详情**：候选详情与精选详情共用 AssessmentDetail（CDP 目检/shared headings：经济性驾驶舱/核心判断/10 维/商业画布/竞争与跨市场/时机条件执行/来源与证据，7 个共享区块；8 个 canvas 均非零）；经济性驾驶舱 **4 个 `[role=slider]` 滑杆**、8 图、「理论测算·非实盘」文案 9 处、KPI（理论月收入/盈亏平衡单量）常显；精选 1024 docScroll=docClient=1024、无溢出。
+- **卡片 v2**：榜单 30 卡、30 个迷你回本曲线 canvas、46 个 SVG、资金结构/回本档/筛选/加载更多/返回顶部存在，无溢出。
+- `qa/routes-v100.mjs` 9 路由×1600/1024：**overflow=0、consoleErrors=0、removedBad=0**；`i18n` **16/16、enUnexplainedCJK=0**；截图 final-v1.5（candidate/curated zh/en、detail-1024、rankings 多宽度等）目检正常。
+
+## 30.3 冻结 + Actions + 线上
+
+- `manifest-check` **MANIFEST 19/19 与 tag blob 一致**；`verify_manifest.py` **OK (19/19)**；dist 7C382E20…/5,053,588 B = app/dist；tag v1.5.0→a462901d，内容 de76740；VERSION/README/前端 1.5.0。
+- Actions：**Deploy 39983162195 success**、**CI 39983146958 success**、pages 39983232452 success。
+- 线上（`online-check --version v1.5.0`）**PASS**：`/` 与 `/v1.5.0/` 同 hash 7C382E20…/5,053,588 B；versions latest=v1.5.0 path=/v1.5.0/；历史 v0.1.0…v1.4.1 全部与各自 tag 冻结 blob 逐字节一致不串台；404 正常。
+
+## 30.4 P2 清单（2 个，均不阻塞）
+
+| # | 项 | 现状 | 建议 |
+|---|---|---|---|
+| P2-1 | AOV/客单口径 | 候选与精选的客单价/单量来源不同（均标注「理论测算·非实盘」并附 basis/assumptions）；属已知差异 | 字段字典/UI 持续标注口径；下轮可统一抽样校准 |
+| P2-2 | versions.json daily 字段 | daily_channel/live_as_of 缺失（可选字段；root=最新冻结当日数据） | 下次 daily workflow 或 build_site tag 模式补齐 |
+
+## 30.5 一句话
+
+**v1.5.0 可发布：63 候选 + 80 精选均具备 9 项投资拆项与单位经济/回本理论测算（合计/ROI/利润/回本/min≤max/None 全部一致，102/102 单测、20/20 validate、cold determinism/--all 幂等、禁用词 0）；统一 AssessmentDetail（7 共享区块、8 图、4 滑杆、理论声明/KPI 常显）、卡片 v2、9 路由/i18n16/16、1440/1024 无溢出；MANIFEST19/19、tag deploy+CI success、线上 root 与 /v1.5.0/ 同 hash 且旧归档不串台；P0=0、P1=0、2 个 P2 不阻塞。**

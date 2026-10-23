@@ -1,0 +1,95 @@
+{
+  "curated": {
+    "title": "机会雷达 · 全球商机扫描器",
+    "textLen": 7599,
+    "heads": [
+      "宠物离世纪念玻璃：把骨灰毛发封进玻璃的定制生意",
+      "经济性驾驶舱 · 投资、单位经济、回本与敏感性",
+      "核心判断 · 为什么成立、缺口在哪、何时失效",
+      "10 维判断依据",
+      "商业画布 · 9 格",
+      "竞争与跨市场",
+      "时机、条件与执行路线",
+      "来源与证据"
+    ],
+    "hasTheory": true,
+    "theoryCount": 9,
+    "sections": {
+      "investment": true,
+      "unit": true,
+      "payback": true,
+      "revenue": true,
+      "sensitivity": true,
+      "canvas9": true,
+      "judgment": true,
+      "competition": true,
+      "cross": true,
+      "execution": true,
+      "sources": false
+    },
+    "sliders": 0,
+    "canvases": 8,
+    "canvasZero": 0,
+    "overflow": false,
+    "scrollH": 7516
+  },
+  "candidate": {
+    "textLen": 6745,
+    "heads": [
+      "马来西亚、泰国央行加入 MAS 跨境支付倡议",
+      "经济性驾驶舱 · 投资、单位经济、回本与敏感性",
+      "核心判断 · 为什么成立、缺口在哪、何时失效",
+      "10 维判断依据",
+      "商业画布 · 9 格",
+      "竞争与跨市场",
+      "时机、条件与执行路线",
+      "来源与证据"
+    ],
+    "hasTheory": true,
+    "sections": {
+      "investment": true,
+      "unit": true,
+      "payback": true,
+      "revenue": true,
+      "sensitivity": true,
+      "canvas9": true,
+      "judgment": true,
+      "competition": true,
+      "cross": true,
+      "execution": true,
+      "sources": false
+    },
+    "sliders": 0,
+    "canvases": 8,
+    "canvasZero": 0,
+    "overflow": false,
+    "scrollH": 7160
+  },
+  "sharedHead": [
+    "经济性驾驶舱 · 投资、单位经济、回本与敏感性",
+    "核心判断 · 为什么成立、缺口在哪、何时失效",
+    "10 维判断依据",
+    "商业画布 · 9 格",
+    "竞争与跨市场",
+    "时机、条件与执行路线",
+    "来源与证据"
+  ],
+  "rankings": {
+    "textLen": 8955,
+    "hasCurve": true,
+    "tabs": 30,
+    "filterChips": 178,
+    "canvasCount": 30,
+    "svgCount": 46,
+    "loadMore": true,
+    "overflow": false
+  },
+  "curated1024": {
+    "innerWidth": 1024,
+    "docScroll": 1024,
+    "docClient": 1024,
+    "bodyScroll": 1024,
+    "overflow": false,
+    "canvases": 0
+  }
+}
