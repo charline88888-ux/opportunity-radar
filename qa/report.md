@@ -1982,3 +1982,22 @@ python qa/online-check-v07.py --version v0.7.2             # 新站结构 PASS
 ## 30.5 一句话
 
 **v1.5.0 可发布：63 候选 + 80 精选均具备 9 项投资拆项与单位经济/回本理论测算（合计/ROI/利润/回本/min≤max/None 全部一致，102/102 单测、20/20 validate、cold determinism/--all 幂等、禁用词 0）；统一 AssessmentDetail（7 共享区块、8 图、4 滑杆、理论声明/KPI 常显）、卡片 v2、9 路由/i18n16/16、1440/1024 无溢出；MANIFEST19/19、tag deploy+CI success、线上 root 与 /v1.5.0/ 同 hash 且旧归档不串台；P0=0、P1=0、2 个 P2 不阻塞。**
+
+---
+
+## 30 附录 · v1.5.2 图表/排版修复复验（2026-10-24 00:55，追认可发布）
+
+> 版本：app 1.5.2 / data 1.5.0（未变：candidates E5125D9B、opportunities 6524A105）｜dist **5,055,560 B / `EE54C98E…D7B4`**
+> 冻结：tag v1.5.2 → 5c339842（清单）、内容 40f1639｜MANIFEST 19/19
+> **结论：可发布（P0=0、P1=0、P2=2）。**
+
+- **修复点复验**：
+  - 资金拆项 y 轴标签完整（截图 fix1-capital-zh/en）。
+  - 执行方案 30–90 chip 不再压标题（截图 fix2-execution-zh：三列 0–30/30–90/90+ 正常）。
+  - **里程碑不再外露原始 key**：read fix2 截图仅「里程碑：首单/首批客户 · 目标：30 天内」「里程碑：正向单位经济 · 目标：90 天内」「里程碑：可复制模型 · 目标：12 个月左右」，无 `name/target` 原始字段。
+  - 方法论单位经济 x 标签两行/图高；扫描室 Sankey 右侧 Top8+其他行业(22)、图高 560、字体 12；1024 method/scanner 截图目检标签完整、无遮挡。
+  - 全站图表标签 ≥12px。
+- **独立检查**：`routes-v100` 9 路由×1600/1024 **overflow=0、consoleErrors=0、removedBad=0**；`i18n` **16/16、enUnexplainedCJK=0**；数据 1.5.0 未变（此前 102 单测/20 validate/cold determinism/--all 仍有效）。
+- **冻结/Actions/线上**：MANIFEST **19/19**（tag blob）、verify OK；tag v1.5.2→5c339842，内容 40f1639；Deploy **39990298888 success**、CI **39990291577 success**、pages **39990370046 success**；线上 `/` 与 `/v1.5.2/` 同 hash EE54C98E…/5,055,560 B；versions latest=v1.5.2；历史 v0.1.0…v1.5.1 全部不串台；404 正常。
+- **P2（不变，2 个）**：①AOV/客单口径候选与精选来源不同（均理论测算、已标注）；②versions.json daily_channel/live_as_of 可选字段缺失。
+- **一句话**：**v1.5.2 可发布**——图表/排版/里程碑标签修复通过（里程碑无 name/target 外露、1024 method/scanner 标签完整、Sankey 右侧 Top8+其他行业正常），9 路由/i18n 16/16、MANIFEST19/19、tag deploy+CI success、线上同 hash 旧归档不串台；P0=0、P1=0、2 个 P2 不阻塞。
