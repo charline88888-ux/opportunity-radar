@@ -1,16 +1,16 @@
 {
   "meta": {
     "data_version": "1.5.1",
-    "as_of": "2026-10-23",
-    "generated_at": "2026-10-23T00:00:00+08:00",
+    "as_of": "2026-10-24",
+    "generated_at": "2026-10-24T00:00:00+08:00",
     "generator": "scanner/candidates.py",
     "method": "按 first_seen 归属窗口；排序同 rank 规则（rank_score/momentum/evidence/last_activity/id）",
     "total": 63,
     "counts": {
-      "day": 22,
-      "week": 50,
-      "month": 53,
-      "year": 63
+      "day": 2,
+      "week": 46,
+      "month": 50,
+      "year": 62
     },
     "verification_affects_ranking": false,
     "note": "候选发现榜与精选人工榜（rankings.json，80 条）并行；系统评估仅用于发现与排序参考。"
@@ -18,239 +18,17 @@
   "windows": {
     "day": {
       "window": "day",
-      "key": "2026-10-23",
-      "label": "2026年10月23日",
-      "count": 22,
+      "key": "2026-10-24",
+      "label": "2026年10月24日",
+      "count": 2,
       "items": [
         {
-          "candidate_id": "cand-a084c0a4c0fb",
+          "candidate_id": "cand-0be4ffa1df3f",
           "rank": 1,
-          "total": 74.5,
-          "rank_score": 74.5,
-          "grade": "B",
-          "confidence": 95,
-          "title": "欧盟理事会包装法规立场",
-          "industry_ids": [
-            "compliance"
-          ],
-          "region_ids": [
-            "europe",
-            "north-america"
-          ],
-          "first_seen": "2026-10-23"
-        },
-        {
-          "candidate_id": "cand-e34583045571",
-          "rank": 2,
           "total": 70.9,
           "rank_score": 70.9,
           "grade": "B",
-          "confidence": 95,
-          "title": "Lianlian与PayPal跨境支付合作",
-          "industry_ids": [
-            "crossborder",
-            "fintech"
-          ],
-          "region_ids": [
-            "sea",
-            "north-america"
-          ],
-          "first_seen": "2026-10-23"
-        },
-        {
-          "candidate_id": "cand-2944f06b5fc9",
-          "rank": 3,
-          "total": 68.7,
-          "rank_score": 68.7,
-          "grade": "B",
-          "confidence": 68,
-          "title": "澳大利亚跨境监管变化",
-          "industry_ids": [
-            "crossborder"
-          ],
-          "region_ids": [
-            "oceania"
-          ],
-          "first_seen": "2026-10-23"
-        },
-        {
-          "candidate_id": "cand-699ebcaf988f",
-          "rank": 4,
-          "total": 67.5,
-          "rank_score": 67.5,
-          "grade": "B",
-          "confidence": 66,
-          "title": "日本跨境监管变化",
-          "industry_ids": [
-            "crossborder"
-          ],
-          "region_ids": [
-            "east-asia",
-            "cis"
-          ],
-          "first_seen": "2026-10-23"
-        },
-        {
-          "candidate_id": "cand-3a416042984e",
-          "rank": 5,
-          "total": 67.3,
-          "rank_score": 67.3,
-          "grade": "B",
-          "confidence": 92,
-          "title": "美国合规监管变化",
-          "industry_ids": [
-            "compliance",
-            "ai"
-          ],
-          "region_ids": [
-            "north-america"
-          ],
-          "first_seen": "2026-10-23"
-        },
-        {
-          "candidate_id": "cand-4c5cf1aef8c5",
-          "rank": 6,
-          "total": 67.3,
-          "rank_score": 67.3,
-          "grade": "B",
-          "confidence": 94,
-          "title": "尼日利亚宠物消费初创跨境套利",
-          "industry_ids": [
-            "crossborder"
-          ],
-          "region_ids": [
-            "africa"
-          ],
-          "first_seen": "2026-10-23"
-        },
-        {
-          "candidate_id": "cand-f8f3af875b12",
-          "rank": 7,
-          "total": 67.2,
-          "rank_score": 67.2,
-          "grade": "B",
-          "confidence": 70,
-          "title": "印尼跨境监管变化",
-          "industry_ids": [
-            "crossborder",
-            "fintech"
-          ],
-          "region_ids": [
-            "sea",
-            "north-america"
-          ],
-          "first_seen": "2026-10-23"
-        },
-        {
-          "candidate_id": "cand-8f2dd53c5365",
-          "rank": 8,
-          "total": 67.0,
-          "rank_score": 67.0,
-          "grade": "B",
           "confidence": 74,
-          "title": "澳大利亚包装法规监管变化",
-          "industry_ids": [
-            "compliance"
-          ],
-          "region_ids": [
-            "oceania",
-            "europe"
-          ],
-          "first_seen": "2026-10-23"
-        },
-        {
-          "candidate_id": "cand-225ff715d0e3",
-          "rank": 9,
-          "total": 66.4,
-          "rank_score": 66.4,
-          "grade": "B",
-          "confidence": 88,
-          "title": "中国大陆合规监管变化",
-          "industry_ids": [
-            "compliance"
-          ],
-          "region_ids": [
-            "china"
-          ],
-          "first_seen": "2026-10-23"
-        },
-        {
-          "candidate_id": "cand-21e21d169ae1",
-          "rank": 10,
-          "total": 66.2,
-          "rank_score": 66.2,
-          "grade": "B",
-          "confidence": 72,
-          "title": "澳大利亚教育监管变化",
-          "industry_ids": [
-            "education"
-          ],
-          "region_ids": [
-            "oceania",
-            "north-america"
-          ],
-          "first_seen": "2026-10-23"
-        },
-        {
-          "candidate_id": "cand-5c555f56997d",
-          "rank": 11,
-          "total": 66.2,
-          "rank_score": 66.2,
-          "grade": "B",
-          "confidence": 95,
-          "title": "马来西亚、泰国央行加入 MAS 跨境支付倡议",
-          "industry_ids": [
-            "fintech",
-            "crossborder"
-          ],
-          "region_ids": [
-            "sea",
-            "north-america"
-          ],
-          "first_seen": "2026-10-23"
-        },
-        {
-          "candidate_id": "cand-538cd6677019",
-          "rank": 12,
-          "total": 64.9,
-          "rank_score": 64.9,
-          "grade": "C",
-          "confidence": 68,
-          "title": "德国人工智能变化",
-          "industry_ids": [
-            "ai",
-            "compliance"
-          ],
-          "region_ids": [
-            "europe",
-            "north-america"
-          ],
-          "first_seen": "2026-10-23"
-        },
-        {
-          "candidate_id": "cand-d6e36d9268b7",
-          "rank": 13,
-          "total": 64.9,
-          "rank_score": 64.9,
-          "grade": "C",
-          "confidence": 74,
-          "title": "阿联酋制造供应链监管变化",
-          "industry_ids": [
-            "manufacturing"
-          ],
-          "region_ids": [
-            "mena",
-            "north-america"
-          ],
-          "first_seen": "2026-10-23"
-        },
-        {
-          "candidate_id": "cand-deaef06c1421",
-          "rank": 14,
-          "total": 64.0,
-          "rank_score": 64.0,
-          "grade": "C",
-          "confidence": 66,
           "title": "德国跨境成本变化",
           "industry_ids": [
             "crossborder"
@@ -259,141 +37,23 @@
             "europe",
             "north-america"
           ],
-          "first_seen": "2026-10-23"
+          "first_seen": "2026-10-24"
         },
         {
-          "candidate_id": "cand-7311886c8138",
-          "rank": 15,
-          "total": 63.2,
-          "rank_score": 63.2,
-          "grade": "C",
-          "confidence": 72,
-          "title": "印度本地生活变化",
-          "industry_ids": [
-            "local"
-          ],
-          "region_ids": [
-            "south-asia",
-            "north-america"
-          ],
-          "first_seen": "2026-10-23"
-        },
-        {
-          "candidate_id": "cand-b10129d25f55",
-          "rank": 16,
-          "total": 62.4,
-          "rank_score": 62.4,
-          "grade": "C",
-          "confidence": 62,
-          "title": "哈萨克斯坦文化差异",
-          "industry_ids": [
-            "culture"
-          ],
-          "region_ids": [
-            "cis",
-            "north-america"
-          ],
-          "first_seen": "2026-10-23"
-        },
-        {
-          "candidate_id": "cand-85c91f32c4eb",
-          "rank": 17,
-          "total": 62.3,
-          "rank_score": 62.3,
-          "grade": "C",
+          "candidate_id": "cand-c3f2e419c216",
+          "rank": 2,
+          "total": 66.9,
+          "rank_score": 66.9,
+          "grade": "B",
           "confidence": 74,
-          "title": "尼日利亚包装法规初创监管变化",
-          "industry_ids": [
-            "compliance"
-          ],
-          "region_ids": [
-            "africa",
-            "europe"
-          ],
-          "first_seen": "2026-10-23"
-        },
-        {
-          "candidate_id": "cand-e1d3e9f1c714",
-          "rank": 18,
-          "total": 62.3,
-          "rank_score": 62.3,
-          "grade": "C",
-          "confidence": 72,
-          "title": "美国人工智能初创跨境套利",
+          "title": "美国跨境成本变化",
           "industry_ids": [
             "crossborder"
           ],
           "region_ids": [
             "north-america"
           ],
-          "first_seen": "2026-10-23"
-        },
-        {
-          "candidate_id": "cand-971910d14b0f",
-          "rank": 19,
-          "total": 61.5,
-          "rank_score": 61.5,
-          "grade": "C",
-          "confidence": 88,
-          "title": "德国包装法规初创监管变化",
-          "industry_ids": [
-            "crossborder"
-          ],
-          "region_ids": [
-            "europe",
-            "north-america"
-          ],
-          "first_seen": "2026-10-23"
-        },
-        {
-          "candidate_id": "cand-c0dbd061bcef",
-          "rank": 20,
-          "total": 61.4,
-          "rank_score": 61.4,
-          "grade": "C",
-          "confidence": 92,
-          "title": "全球包装法规初创监管变化",
-          "industry_ids": [
-            "crossborder"
-          ],
-          "region_ids": [
-            "global",
-            "europe"
-          ],
-          "first_seen": "2026-10-23"
-        },
-        {
-          "candidate_id": "cand-a62228cd3007",
-          "rank": 21,
-          "total": 61.2,
-          "rank_score": 61.2,
-          "grade": "C",
-          "confidence": 64,
-          "title": "印度跨境监管变化",
-          "industry_ids": [
-            "crossborder"
-          ],
-          "region_ids": [
-            "south-asia"
-          ],
-          "first_seen": "2026-10-23"
-        },
-        {
-          "candidate_id": "cand-e85e27c3f6d9",
-          "rank": 22,
-          "total": 59.5,
-          "rank_score": 59.5,
-          "grade": "C",
-          "confidence": 74,
-          "title": "澳大利亚包装法规初创监管变化",
-          "industry_ids": [
-            "crossborder"
-          ],
-          "region_ids": [
-            "oceania",
-            "europe"
-          ],
-          "first_seen": "2026-10-23"
+          "first_seen": "2026-10-24"
         }
       ]
     },
@@ -401,27 +61,11 @@
       "window": "week",
       "key": "2026-W43",
       "label": "2026年第43周",
-      "count": 50,
+      "count": 46,
       "items": [
         {
-          "candidate_id": "cand-3bc2bd4c9327",
-          "rank": 1,
-          "total": 75.4,
-          "rank_score": 75.4,
-          "grade": "A",
-          "confidence": 95,
-          "title": "巴西包装法规初创监管变化",
-          "industry_ids": [
-            "crossborder"
-          ],
-          "region_ids": [
-            "latam"
-          ],
-          "first_seen": "2026-10-21"
-        },
-        {
           "candidate_id": "cand-ea70f74fdd9e",
-          "rank": 2,
+          "rank": 1,
           "total": 75.4,
           "rank_score": 75.4,
           "grade": "A",
@@ -437,25 +81,8 @@
           "first_seen": "2026-10-22"
         },
         {
-          "candidate_id": "cand-a084c0a4c0fb",
-          "rank": 3,
-          "total": 74.5,
-          "rank_score": 74.5,
-          "grade": "B",
-          "confidence": 95,
-          "title": "欧盟理事会包装法规立场",
-          "industry_ids": [
-            "compliance"
-          ],
-          "region_ids": [
-            "europe",
-            "north-america"
-          ],
-          "first_seen": "2026-10-23"
-        },
-        {
           "candidate_id": "cand-3e2aa3889e64",
-          "rank": 4,
+          "rank": 2,
           "total": 73.2,
           "rank_score": 73.2,
           "grade": "B",
@@ -470,24 +97,8 @@
           "first_seen": "2026-10-22"
         },
         {
-          "candidate_id": "cand-cf00a2f00467",
-          "rank": 5,
-          "total": 71.9,
-          "rank_score": 71.9,
-          "grade": "B",
-          "confidence": 74,
-          "title": "澳大利亚合规成本变化",
-          "industry_ids": [
-            "compliance"
-          ],
-          "region_ids": [
-            "oceania"
-          ],
-          "first_seen": "2026-10-22"
-        },
-        {
           "candidate_id": "cand-0c83e7ad9344",
-          "rank": 6,
+          "rank": 3,
           "total": 71.8,
           "rank_score": 71.8,
           "grade": "B",
@@ -505,7 +116,7 @@
         },
         {
           "candidate_id": "cand-6f3f9f1311ff",
-          "rank": 7,
+          "rank": 4,
           "total": 71.7,
           "rank_score": 71.7,
           "grade": "B",
@@ -521,19 +132,67 @@
           "first_seen": "2026-10-22"
         },
         {
-          "candidate_id": "cand-e34583045571",
-          "rank": 8,
+          "candidate_id": "cand-324cdcf0aefd",
+          "rank": 5,
+          "total": 71.4,
+          "rank_score": 71.4,
+          "grade": "B",
+          "confidence": 88,
+          "title": "德国包装法规初创监管变化",
+          "industry_ids": [
+            "ai",
+            "compliance"
+          ],
+          "region_ids": [
+            "europe"
+          ],
+          "first_seen": "2026-10-23"
+        },
+        {
+          "candidate_id": "cand-0aef26b25925",
+          "rank": 6,
+          "total": 71.0,
+          "rank_score": 71.0,
+          "grade": "B",
+          "confidence": 88,
+          "title": "德国跨境监管变化",
+          "industry_ids": [
+            "crossborder"
+          ],
+          "region_ids": [
+            "europe"
+          ],
+          "first_seen": "2026-10-23"
+        },
+        {
+          "candidate_id": "cand-0be4ffa1df3f",
+          "rank": 7,
           "total": 70.9,
           "rank_score": 70.9,
           "grade": "B",
-          "confidence": 95,
-          "title": "Lianlian与PayPal跨境支付合作",
+          "confidence": 74,
+          "title": "德国跨境成本变化",
           "industry_ids": [
-            "crossborder",
-            "fintech"
+            "crossborder"
           ],
           "region_ids": [
-            "sea",
+            "europe",
+            "north-america"
+          ],
+          "first_seen": "2026-10-24"
+        },
+        {
+          "candidate_id": "cand-71d641ffc619",
+          "rank": 8,
+          "total": 70.7,
+          "rank_score": 70.7,
+          "grade": "B",
+          "confidence": 92,
+          "title": "美国人工智能初创成本变化",
+          "industry_ids": [
+            "crossborder"
+          ],
+          "region_ids": [
             "north-america"
           ],
           "first_seen": "2026-10-23"
@@ -545,7 +204,7 @@
           "rank_score": 70.2,
           "grade": "B",
           "confidence": 88,
-          "title": "全球包装法规监管变化",
+          "title": "全球包装法规初创监管变化",
           "industry_ids": [
             "crossborder"
           ],
@@ -556,21 +215,21 @@
           "first_seen": "2026-10-20"
         },
         {
-          "candidate_id": "cand-edfc58c58e9e",
+          "candidate_id": "cand-5a08d99e29cb",
           "rank": 10,
-          "total": 69.9,
-          "rank_score": 69.9,
+          "total": 69.7,
+          "rank_score": 69.7,
           "grade": "B",
-          "confidence": 74,
-          "title": "德国跨境监管变化",
+          "confidence": 68,
+          "title": "全球跨境成本变化",
           "industry_ids": [
             "crossborder"
           ],
           "region_ids": [
-            "europe",
+            "global",
             "north-america"
           ],
-          "first_seen": "2026-10-22"
+          "first_seen": "2026-10-23"
         },
         {
           "candidate_id": "cand-0af455efc323",
@@ -589,25 +248,8 @@
           "first_seen": "2026-10-22"
         },
         {
-          "candidate_id": "cand-b3cb2dae3e87",
-          "rank": 12,
-          "total": 68.8,
-          "rank_score": 68.8,
-          "grade": "B",
-          "confidence": 64,
-          "title": "尼日利亚跨境成本变化",
-          "industry_ids": [
-            "crossborder"
-          ],
-          "region_ids": [
-            "africa",
-            "north-america"
-          ],
-          "first_seen": "2026-10-21"
-        },
-        {
           "candidate_id": "cand-2944f06b5fc9",
-          "rank": 13,
+          "rank": 12,
           "total": 68.7,
           "rank_score": 68.7,
           "grade": "B",
@@ -618,6 +260,23 @@
           ],
           "region_ids": [
             "oceania"
+          ],
+          "first_seen": "2026-10-23"
+        },
+        {
+          "candidate_id": "cand-36048f160b91",
+          "rank": 13,
+          "total": 68.6,
+          "rank_score": 68.6,
+          "grade": "B",
+          "confidence": 74,
+          "title": "澳大利亚人工智能初创监管变化",
+          "industry_ids": [
+            "crossborder"
+          ],
+          "region_ids": [
+            "oceania",
+            "north-america"
           ],
           "first_seen": "2026-10-23"
         },
@@ -638,59 +297,142 @@
           "first_seen": "2026-10-22"
         },
         {
-          "candidate_id": "cand-9695c369a9e6",
+          "candidate_id": "cand-310dea3620ea",
           "rank": 15,
-          "total": 68.2,
-          "rank_score": 68.2,
+          "total": 68.3,
+          "rank_score": 68.3,
           "grade": "B",
-          "confidence": 68,
-          "title": "德国制造供应链变化",
+          "confidence": 70,
+          "title": "寒武纪AI需求缺口",
           "industry_ids": [
-            "manufacturing"
+            "ai"
+          ],
+          "region_ids": [
+            "china"
+          ],
+          "first_seen": "2026-10-23"
+        },
+        {
+          "candidate_id": "cand-a084c0a4c0fb",
+          "rank": 16,
+          "total": 68.1,
+          "rank_score": 68.1,
+          "grade": "B",
+          "confidence": 95,
+          "title": "欧盟理事会包装法规立场",
+          "industry_ids": [
+            "compliance"
           ],
           "region_ids": [
             "europe",
             "north-america"
           ],
-          "first_seen": "2026-10-22"
+          "first_seen": "2026-10-23"
         },
         {
-          "candidate_id": "cand-fd21c26c407c",
-          "rank": 16,
+          "candidate_id": "cand-7ec80abae97d",
+          "rank": 17,
+          "total": 68.0,
+          "rank_score": 68.0,
+          "grade": "B",
+          "confidence": 74,
+          "title": "美国包装法规监管变化",
+          "industry_ids": [
+            "crossborder"
+          ],
+          "region_ids": [
+            "north-america",
+            "europe"
+          ],
+          "first_seen": "2026-10-23"
+        },
+        {
+          "candidate_id": "cand-3b576506d705",
+          "rank": 18,
           "total": 67.7,
           "rank_score": 67.7,
           "grade": "B",
           "confidence": 66,
-          "title": "尼日利亚包装法规监管变化",
+          "title": "德国制造供应链变化",
+          "industry_ids": [
+            "manufacturing"
+          ],
+          "region_ids": [
+            "europe"
+          ],
+          "first_seen": "2026-10-21"
+        },
+        {
+          "candidate_id": "cand-7cd1b0ca61af",
+          "rank": 19,
+          "total": 67.7,
+          "rank_score": 67.7,
+          "grade": "B",
+          "confidence": 74,
+          "title": "尼日利亚成本变化",
           "industry_ids": [
             "crossborder"
           ],
           "region_ids": [
             "africa",
-            "europe"
+            "north-america"
           ],
-          "first_seen": "2026-10-22"
+          "first_seen": "2026-10-23"
         },
         {
-          "candidate_id": "cand-699ebcaf988f",
-          "rank": 17,
-          "total": 67.5,
-          "rank_score": 67.5,
+          "candidate_id": "cand-c43fd954a078",
+          "rank": 20,
+          "total": 67.6,
+          "rank_score": 67.6,
           "grade": "B",
-          "confidence": 66,
-          "title": "日本跨境监管变化",
+          "confidence": 64,
+          "title": "巴西包装法规监管变化",
           "industry_ids": [
-            "crossborder"
+            "compliance"
           ],
           "region_ids": [
-            "east-asia",
-            "cis"
+            "latam"
+          ],
+          "first_seen": "2026-10-23"
+        },
+        {
+          "candidate_id": "cand-d3cf10cfca82",
+          "rank": 21,
+          "total": 67.6,
+          "rank_score": 67.6,
+          "grade": "B",
+          "confidence": 72,
+          "title": "全球包装法规监管变化",
+          "industry_ids": [
+            "compliance"
+          ],
+          "region_ids": [
+            "global",
+            "europe"
+          ],
+          "first_seen": "2026-10-23"
+        },
+        {
+          "candidate_id": "cand-d8666f471584",
+          "rank": 22,
+          "total": 67.4,
+          "rank_score": 67.4,
+          "grade": "B",
+          "confidence": 70,
+          "title": "全球人工智能初创监管变化",
+          "industry_ids": [
+            "compliance",
+            "ai"
+          ],
+          "region_ids": [
+            "global",
+            "north-america"
           ],
           "first_seen": "2026-10-23"
         },
         {
           "candidate_id": "cand-3a416042984e",
-          "rank": 18,
+          "rank": 23,
           "total": 67.3,
           "rank_score": 67.3,
           "grade": "B",
@@ -706,42 +448,8 @@
           "first_seen": "2026-10-23"
         },
         {
-          "candidate_id": "cand-4c5cf1aef8c5",
-          "rank": 19,
-          "total": 67.3,
-          "rank_score": 67.3,
-          "grade": "B",
-          "confidence": 94,
-          "title": "尼日利亚宠物消费初创跨境套利",
-          "industry_ids": [
-            "crossborder"
-          ],
-          "region_ids": [
-            "africa"
-          ],
-          "first_seen": "2026-10-23"
-        },
-        {
-          "candidate_id": "cand-f8f3af875b12",
-          "rank": 20,
-          "total": 67.2,
-          "rank_score": 67.2,
-          "grade": "B",
-          "confidence": 70,
-          "title": "印尼跨境监管变化",
-          "industry_ids": [
-            "crossborder",
-            "fintech"
-          ],
-          "region_ids": [
-            "sea",
-            "north-america"
-          ],
-          "first_seen": "2026-10-23"
-        },
-        {
           "candidate_id": "cand-8f2dd53c5365",
-          "rank": 21,
+          "rank": 24,
           "total": 67.0,
           "rank_score": 67.0,
           "grade": "B",
@@ -757,41 +465,24 @@
           "first_seen": "2026-10-23"
         },
         {
-          "candidate_id": "cand-c8c97de16f9b",
-          "rank": 22,
-          "total": 66.8,
-          "rank_score": 66.8,
+          "candidate_id": "cand-c3f2e419c216",
+          "rank": 25,
+          "total": 66.9,
+          "rank_score": 66.9,
           "grade": "B",
-          "confidence": 88,
-          "title": "德国包装法规监管变化",
+          "confidence": 74,
+          "title": "美国跨境成本变化",
           "industry_ids": [
             "crossborder"
           ],
           "region_ids": [
-            "europe",
             "north-america"
           ],
-          "first_seen": "2026-10-22"
-        },
-        {
-          "candidate_id": "cand-225ff715d0e3",
-          "rank": 23,
-          "total": 66.4,
-          "rank_score": 66.4,
-          "grade": "B",
-          "confidence": 88,
-          "title": "中国大陆合规监管变化",
-          "industry_ids": [
-            "compliance"
-          ],
-          "region_ids": [
-            "china"
-          ],
-          "first_seen": "2026-10-23"
+          "first_seen": "2026-10-24"
         },
         {
           "candidate_id": "cand-21e21d169ae1",
-          "rank": 24,
+          "rank": 26,
           "total": 66.2,
           "rank_score": 66.2,
           "grade": "B",
@@ -807,43 +498,42 @@
           "first_seen": "2026-10-23"
         },
         {
-          "candidate_id": "cand-5c555f56997d",
-          "rank": 25,
-          "total": 66.2,
-          "rank_score": 66.2,
+          "candidate_id": "cand-2220d5513125",
+          "rank": 27,
+          "total": 66.0,
+          "rank_score": 66.0,
           "grade": "B",
-          "confidence": 95,
-          "title": "马来西亚、泰国央行加入 MAS 跨境支付倡议",
+          "confidence": 88,
+          "title": "德国包装法规监管变化",
           "industry_ids": [
-            "fintech",
-            "crossborder"
+            "compliance"
           ],
           "region_ids": [
-            "sea",
+            "europe",
             "north-america"
           ],
           "first_seen": "2026-10-23"
         },
         {
-          "candidate_id": "cand-d9fa657bbd1e",
-          "rank": 26,
-          "total": 65.1,
-          "rank_score": 65.1,
+          "candidate_id": "cand-69df2b7021e2",
+          "rank": 28,
+          "total": 65.0,
+          "rank_score": 65.0,
           "grade": "B",
-          "confidence": 68,
-          "title": "印度包装法规监管变化",
+          "confidence": 64,
+          "title": "美国AI监管变化",
           "industry_ids": [
             "crossborder"
           ],
           "region_ids": [
-            "south-asia",
-            "europe"
+            "mena",
+            "north-america"
           ],
-          "first_seen": "2026-10-21"
+          "first_seen": "2026-10-23"
         },
         {
           "candidate_id": "cand-538cd6677019",
-          "rank": 27,
+          "rank": 29,
           "total": 64.9,
           "rank_score": 64.9,
           "grade": "C",
@@ -860,25 +550,8 @@
           "first_seen": "2026-10-23"
         },
         {
-          "candidate_id": "cand-d6e36d9268b7",
-          "rank": 28,
-          "total": 64.9,
-          "rank_score": 64.9,
-          "grade": "C",
-          "confidence": 74,
-          "title": "阿联酋制造供应链监管变化",
-          "industry_ids": [
-            "manufacturing"
-          ],
-          "region_ids": [
-            "mena",
-            "north-america"
-          ],
-          "first_seen": "2026-10-23"
-        },
-        {
           "candidate_id": "cand-826fda680bf7",
-          "rank": 29,
+          "rank": 30,
           "total": 64.8,
           "rank_score": 64.8,
           "grade": "C",
@@ -894,55 +567,40 @@
           "first_seen": "2026-10-22"
         },
         {
-          "candidate_id": "cand-886e4e47eeb5",
-          "rank": 30,
-          "total": 64.8,
-          "rank_score": 64.8,
-          "grade": "C",
-          "confidence": 86,
-          "title": "德国合规监管变化",
-          "industry_ids": [
-            "compliance"
-          ],
-          "region_ids": [
-            "europe"
-          ],
-          "first_seen": "2026-10-22"
-        },
-        {
-          "candidate_id": "cand-c56b451fc8fb",
+          "candidate_id": "cand-e8b1e0e7d23f",
           "rank": 31,
           "total": 64.5,
           "rank_score": 64.5,
           "grade": "C",
-          "confidence": 66,
+          "confidence": 62,
           "title": "全球合规监管变化",
           "industry_ids": [
-            "compliance"
+            "compliance",
+            "crossborder"
           ],
           "region_ids": [
             "global",
-            "cis"
+            "north-america"
           ],
-          "first_seen": "2026-10-22"
+          "first_seen": "2026-10-23"
         },
         {
-          "candidate_id": "cand-0d5701562377",
+          "candidate_id": "cand-6c72be8efabe",
           "rank": 32,
           "total": 64.4,
           "rank_score": 64.4,
           "grade": "C",
-          "confidence": 74,
-          "title": "印尼人工智能初创AI应用变化",
+          "confidence": 95,
+          "title": "尼日利亚人工智能初创监管变化",
           "industry_ids": [
-            "compliance",
-            "ai"
+            "fintech",
+            "crossborder"
           ],
           "region_ids": [
-            "sea",
-            "east-asia"
+            "africa",
+            "north-america"
           ],
-          "first_seen": "2026-10-21"
+          "first_seen": "2026-10-23"
         },
         {
           "candidate_id": "cand-65de307844a8",
@@ -963,13 +621,30 @@
           "first_seen": "2026-10-21"
         },
         {
-          "candidate_id": "cand-be952f87ac18",
+          "candidate_id": "cand-8f81f6a3e0e1",
           "rank": 34,
+          "total": 64.3,
+          "rank_score": 64.3,
+          "grade": "C",
+          "confidence": 66,
+          "title": "美国包装法规初创监管变化",
+          "industry_ids": [
+            "crossborder"
+          ],
+          "region_ids": [
+            "north-america",
+            "europe"
+          ],
+          "first_seen": "2026-10-23"
+        },
+        {
+          "candidate_id": "cand-be952f87ac18",
+          "rank": 35,
           "total": 64.0,
           "rank_score": 64.0,
           "grade": "C",
           "confidence": 88,
-          "title": "中国大陆合规变化",
+          "title": "中国大陆合规监管变化",
           "industry_ids": [
             "compliance"
           ],
@@ -980,41 +655,42 @@
           "first_seen": "2026-10-22"
         },
         {
-          "candidate_id": "cand-deaef06c1421",
-          "rank": 35,
-          "total": 64.0,
-          "rank_score": 64.0,
+          "candidate_id": "cand-cc868acf7674",
+          "rank": 36,
+          "total": 63.9,
+          "rank_score": 63.9,
           "grade": "C",
-          "confidence": 66,
-          "title": "德国跨境成本变化",
+          "confidence": 74,
+          "title": "美国人工智能成本变化",
           "industry_ids": [
             "crossborder"
           ],
           "region_ids": [
-            "europe",
             "north-america"
           ],
           "first_seen": "2026-10-23"
         },
         {
-          "candidate_id": "cand-771be5e40c55",
-          "rank": 36,
+          "candidate_id": "cand-1a07b8f62681",
+          "rank": 37,
           "total": 63.7,
           "rank_score": 63.7,
           "grade": "C",
-          "confidence": 88,
-          "title": "德国情绪监管变化",
+          "confidence": 72,
+          "title": "非洲包装法规监管变化",
           "industry_ids": [
-            "emotional"
+            "compliance",
+            "ai"
           ],
           "region_ids": [
+            "africa",
             "europe"
           ],
-          "first_seen": "2026-10-19"
+          "first_seen": "2026-10-23"
         },
         {
           "candidate_id": "cand-fa2f0eaa7f67",
-          "rank": 37,
+          "rank": 38,
           "total": 63.6,
           "rank_score": 63.6,
           "grade": "C",
@@ -1029,8 +705,24 @@
           "first_seen": "2026-10-21"
         },
         {
+          "candidate_id": "cand-9d226549d428",
+          "rank": 39,
+          "total": 63.4,
+          "rank_score": 63.4,
+          "grade": "C",
+          "confidence": 70,
+          "title": "美国人工智能初创监管变化",
+          "industry_ids": [
+            "crossborder"
+          ],
+          "region_ids": [
+            "north-america"
+          ],
+          "first_seen": "2026-10-23"
+        },
+        {
           "candidate_id": "cand-7311886c8138",
-          "rank": 38,
+          "rank": 40,
           "total": 63.2,
           "rank_score": 63.2,
           "grade": "C",
@@ -1047,7 +739,7 @@
         },
         {
           "candidate_id": "cand-75298d501035",
-          "rank": 39,
+          "rank": 41,
           "total": 62.8,
           "rank_score": 62.8,
           "grade": "C",
@@ -1063,131 +755,47 @@
           "first_seen": "2026-10-22"
         },
         {
-          "candidate_id": "cand-b10129d25f55",
-          "rank": 40,
-          "total": 62.4,
-          "rank_score": 62.4,
+          "candidate_id": "cand-f3e13e5ab836",
+          "rank": 42,
+          "total": 62.7,
+          "rank_score": 62.7,
           "grade": "C",
-          "confidence": 62,
-          "title": "哈萨克斯坦文化差异",
+          "confidence": 88,
+          "title": "尼日利亚合规监管变化",
           "industry_ids": [
-            "culture"
-          ],
-          "region_ids": [
-            "cis",
-            "north-america"
-          ],
-          "first_seen": "2026-10-23"
-        },
-        {
-          "candidate_id": "cand-85c91f32c4eb",
-          "rank": 41,
-          "total": 62.3,
-          "rank_score": 62.3,
-          "grade": "C",
-          "confidence": 74,
-          "title": "尼日利亚包装法规初创监管变化",
-          "industry_ids": [
-            "compliance"
+            "compliance",
+            "ai"
           ],
           "region_ids": [
             "africa",
-            "europe"
-          ],
-          "first_seen": "2026-10-23"
-        },
-        {
-          "candidate_id": "cand-e1d3e9f1c714",
-          "rank": 42,
-          "total": 62.3,
-          "rank_score": 62.3,
-          "grade": "C",
-          "confidence": 72,
-          "title": "美国人工智能初创跨境套利",
-          "industry_ids": [
-            "crossborder"
-          ],
-          "region_ids": [
             "north-america"
           ],
           "first_seen": "2026-10-23"
         },
         {
-          "candidate_id": "cand-e0ce73dc40d9",
+          "candidate_id": "cand-2cc7aca27d4f",
           "rank": 43,
-          "total": 61.9,
-          "rank_score": 61.9,
+          "total": 61.0,
+          "rank_score": 61.0,
           "grade": "C",
-          "confidence": 88,
-          "title": "德国人工智能监管变化",
-          "industry_ids": [
-            "ai",
-            "compliance"
-          ],
-          "region_ids": [
-            "europe",
-            "north-america"
-          ],
-          "first_seen": "2026-10-22"
-        },
-        {
-          "candidate_id": "cand-971910d14b0f",
-          "rank": 44,
-          "total": 61.5,
-          "rank_score": 61.5,
-          "grade": "C",
-          "confidence": 88,
-          "title": "德国包装法规初创监管变化",
+          "confidence": 86,
+          "title": "德国跨境跨境套利",
           "industry_ids": [
             "crossborder"
           ],
           "region_ids": [
-            "europe",
-            "north-america"
-          ],
-          "first_seen": "2026-10-23"
-        },
-        {
-          "candidate_id": "cand-c0dbd061bcef",
-          "rank": 45,
-          "total": 61.4,
-          "rank_score": 61.4,
-          "grade": "C",
-          "confidence": 92,
-          "title": "全球包装法规初创监管变化",
-          "industry_ids": [
-            "crossborder"
-          ],
-          "region_ids": [
-            "global",
             "europe"
-          ],
-          "first_seen": "2026-10-23"
-        },
-        {
-          "candidate_id": "cand-a62228cd3007",
-          "rank": 46,
-          "total": 61.2,
-          "rank_score": 61.2,
-          "grade": "C",
-          "confidence": 64,
-          "title": "印度跨境监管变化",
-          "industry_ids": [
-            "crossborder"
-          ],
-          "region_ids": [
-            "south-asia"
           ],
           "first_seen": "2026-10-23"
         },
         {
           "candidate_id": "cand-f1f69a2ab045",
-          "rank": 47,
+          "rank": 44,
           "total": 60.9,
           "rank_score": 60.9,
           "grade": "C",
           "confidence": 74,
-          "title": "澳大利亚人工智能初创监管变化",
+          "title": "澳大利亚人工智能监管变化",
           "industry_ids": [
             "crossborder"
           ],
@@ -1198,24 +806,8 @@
           "first_seen": "2026-10-21"
         },
         {
-          "candidate_id": "cand-71a97f843ab1",
-          "rank": 48,
-          "total": 59.5,
-          "rank_score": 59.5,
-          "grade": "C",
-          "confidence": 62,
-          "title": "美国跨境成本变化",
-          "industry_ids": [
-            "crossborder"
-          ],
-          "region_ids": [
-            "north-america"
-          ],
-          "first_seen": "2026-10-20"
-        },
-        {
           "candidate_id": "cand-e85e27c3f6d9",
-          "rank": 49,
+          "rank": 45,
           "total": 59.5,
           "rank_score": 59.5,
           "grade": "C",
@@ -1231,21 +823,21 @@
           "first_seen": "2026-10-23"
         },
         {
-          "candidate_id": "cand-b34627a8d41e",
-          "rank": 50,
-          "total": 58.9,
-          "rank_score": 58.9,
+          "candidate_id": "cand-0fc5429f672b",
+          "rank": 46,
+          "total": 58.8,
+          "rank_score": 58.8,
           "grade": "C",
-          "confidence": 66,
-          "title": "全球跨境成本变化",
+          "confidence": 68,
+          "title": "全球跨境监管变化",
           "industry_ids": [
             "crossborder"
           ],
           "region_ids": [
             "global",
-            "north-america"
+            "europe"
           ],
-          "first_seen": "2026-10-22"
+          "first_seen": "2026-10-23"
         }
       ]
     },
@@ -1253,27 +845,11 @@
       "window": "month",
       "key": "2026-10",
       "label": "2026年10月",
-      "count": 53,
+      "count": 50,
       "items": [
         {
-          "candidate_id": "cand-3bc2bd4c9327",
-          "rank": 1,
-          "total": 75.4,
-          "rank_score": 75.4,
-          "grade": "A",
-          "confidence": 95,
-          "title": "巴西包装法规初创监管变化",
-          "industry_ids": [
-            "crossborder"
-          ],
-          "region_ids": [
-            "latam"
-          ],
-          "first_seen": "2026-10-21"
-        },
-        {
           "candidate_id": "cand-ea70f74fdd9e",
-          "rank": 2,
+          "rank": 1,
           "total": 75.4,
           "rank_score": 75.4,
           "grade": "A",
@@ -1289,25 +865,8 @@
           "first_seen": "2026-10-22"
         },
         {
-          "candidate_id": "cand-a084c0a4c0fb",
-          "rank": 3,
-          "total": 74.5,
-          "rank_score": 74.5,
-          "grade": "B",
-          "confidence": 95,
-          "title": "欧盟理事会包装法规立场",
-          "industry_ids": [
-            "compliance"
-          ],
-          "region_ids": [
-            "europe",
-            "north-america"
-          ],
-          "first_seen": "2026-10-23"
-        },
-        {
           "candidate_id": "cand-3e2aa3889e64",
-          "rank": 4,
+          "rank": 2,
           "total": 73.2,
           "rank_score": 73.2,
           "grade": "B",
@@ -1322,24 +881,8 @@
           "first_seen": "2026-10-22"
         },
         {
-          "candidate_id": "cand-cf00a2f00467",
-          "rank": 5,
-          "total": 71.9,
-          "rank_score": 71.9,
-          "grade": "B",
-          "confidence": 74,
-          "title": "澳大利亚合规成本变化",
-          "industry_ids": [
-            "compliance"
-          ],
-          "region_ids": [
-            "oceania"
-          ],
-          "first_seen": "2026-10-22"
-        },
-        {
           "candidate_id": "cand-0c83e7ad9344",
-          "rank": 6,
+          "rank": 3,
           "total": 71.8,
           "rank_score": 71.8,
           "grade": "B",
@@ -1357,7 +900,7 @@
         },
         {
           "candidate_id": "cand-6f3f9f1311ff",
-          "rank": 7,
+          "rank": 4,
           "total": 71.7,
           "rank_score": 71.7,
           "grade": "B",
@@ -1373,19 +916,67 @@
           "first_seen": "2026-10-22"
         },
         {
-          "candidate_id": "cand-e34583045571",
-          "rank": 8,
+          "candidate_id": "cand-324cdcf0aefd",
+          "rank": 5,
+          "total": 71.4,
+          "rank_score": 71.4,
+          "grade": "B",
+          "confidence": 88,
+          "title": "德国包装法规初创监管变化",
+          "industry_ids": [
+            "ai",
+            "compliance"
+          ],
+          "region_ids": [
+            "europe"
+          ],
+          "first_seen": "2026-10-23"
+        },
+        {
+          "candidate_id": "cand-0aef26b25925",
+          "rank": 6,
+          "total": 71.0,
+          "rank_score": 71.0,
+          "grade": "B",
+          "confidence": 88,
+          "title": "德国跨境监管变化",
+          "industry_ids": [
+            "crossborder"
+          ],
+          "region_ids": [
+            "europe"
+          ],
+          "first_seen": "2026-10-23"
+        },
+        {
+          "candidate_id": "cand-0be4ffa1df3f",
+          "rank": 7,
           "total": 70.9,
           "rank_score": 70.9,
           "grade": "B",
-          "confidence": 95,
-          "title": "Lianlian与PayPal跨境支付合作",
+          "confidence": 74,
+          "title": "德国跨境成本变化",
           "industry_ids": [
-            "crossborder",
-            "fintech"
+            "crossborder"
           ],
           "region_ids": [
-            "sea",
+            "europe",
+            "north-america"
+          ],
+          "first_seen": "2026-10-24"
+        },
+        {
+          "candidate_id": "cand-71d641ffc619",
+          "rank": 8,
+          "total": 70.7,
+          "rank_score": 70.7,
+          "grade": "B",
+          "confidence": 92,
+          "title": "美国人工智能初创成本变化",
+          "industry_ids": [
+            "crossborder"
+          ],
+          "region_ids": [
             "north-america"
           ],
           "first_seen": "2026-10-23"
@@ -1397,7 +988,7 @@
           "rank_score": 70.2,
           "grade": "B",
           "confidence": 88,
-          "title": "全球包装法规监管变化",
+          "title": "全球包装法规初创监管变化",
           "industry_ids": [
             "crossborder"
           ],
@@ -1408,21 +999,21 @@
           "first_seen": "2026-10-20"
         },
         {
-          "candidate_id": "cand-edfc58c58e9e",
+          "candidate_id": "cand-5a08d99e29cb",
           "rank": 10,
-          "total": 69.9,
-          "rank_score": 69.9,
+          "total": 69.7,
+          "rank_score": 69.7,
           "grade": "B",
-          "confidence": 74,
-          "title": "德国跨境监管变化",
+          "confidence": 68,
+          "title": "全球跨境成本变化",
           "industry_ids": [
             "crossborder"
           ],
           "region_ids": [
-            "europe",
+            "global",
             "north-america"
           ],
-          "first_seen": "2026-10-22"
+          "first_seen": "2026-10-23"
         },
         {
           "candidate_id": "cand-0af455efc323",
@@ -1441,25 +1032,8 @@
           "first_seen": "2026-10-22"
         },
         {
-          "candidate_id": "cand-b3cb2dae3e87",
-          "rank": 12,
-          "total": 68.8,
-          "rank_score": 68.8,
-          "grade": "B",
-          "confidence": 64,
-          "title": "尼日利亚跨境成本变化",
-          "industry_ids": [
-            "crossborder"
-          ],
-          "region_ids": [
-            "africa",
-            "north-america"
-          ],
-          "first_seen": "2026-10-21"
-        },
-        {
           "candidate_id": "cand-2944f06b5fc9",
-          "rank": 13,
+          "rank": 12,
           "total": 68.7,
           "rank_score": 68.7,
           "grade": "B",
@@ -1475,12 +1049,12 @@
         },
         {
           "candidate_id": "cand-185ddd225442",
-          "rank": 14,
+          "rank": 13,
           "total": 68.6,
           "rank_score": 68.6,
           "grade": "B",
           "confidence": 90,
-          "title": "巴西包装法规监管变化",
+          "title": "巴西包装法规初创监管变化",
           "industry_ids": [
             "culture",
             "content"
@@ -1490,6 +1064,23 @@
             "europe"
           ],
           "first_seen": "2026-10-07"
+        },
+        {
+          "candidate_id": "cand-36048f160b91",
+          "rank": 14,
+          "total": 68.6,
+          "rank_score": 68.6,
+          "grade": "B",
+          "confidence": 74,
+          "title": "澳大利亚人工智能初创监管变化",
+          "industry_ids": [
+            "crossborder"
+          ],
+          "region_ids": [
+            "oceania",
+            "north-america"
+          ],
+          "first_seen": "2026-10-23"
         },
         {
           "candidate_id": "cand-bf01cdffc9fe",
@@ -1508,42 +1099,91 @@
           "first_seen": "2026-10-22"
         },
         {
-          "candidate_id": "cand-9695c369a9e6",
+          "candidate_id": "cand-310dea3620ea",
           "rank": 16,
-          "total": 68.2,
-          "rank_score": 68.2,
+          "total": 68.3,
+          "rank_score": 68.3,
           "grade": "B",
-          "confidence": 68,
-          "title": "德国制造供应链变化",
+          "confidence": 70,
+          "title": "寒武纪AI需求缺口",
           "industry_ids": [
-            "manufacturing"
+            "ai"
+          ],
+          "region_ids": [
+            "china"
+          ],
+          "first_seen": "2026-10-23"
+        },
+        {
+          "candidate_id": "cand-a084c0a4c0fb",
+          "rank": 17,
+          "total": 68.1,
+          "rank_score": 68.1,
+          "grade": "B",
+          "confidence": 95,
+          "title": "欧盟理事会包装法规立场",
+          "industry_ids": [
+            "compliance"
           ],
           "region_ids": [
             "europe",
             "north-america"
           ],
-          "first_seen": "2026-10-22"
+          "first_seen": "2026-10-23"
         },
         {
-          "candidate_id": "cand-fd21c26c407c",
-          "rank": 17,
+          "candidate_id": "cand-7ec80abae97d",
+          "rank": 18,
+          "total": 68.0,
+          "rank_score": 68.0,
+          "grade": "B",
+          "confidence": 74,
+          "title": "美国包装法规监管变化",
+          "industry_ids": [
+            "crossborder"
+          ],
+          "region_ids": [
+            "north-america",
+            "europe"
+          ],
+          "first_seen": "2026-10-23"
+        },
+        {
+          "candidate_id": "cand-3b576506d705",
+          "rank": 19,
           "total": 67.7,
           "rank_score": 67.7,
           "grade": "B",
           "confidence": 66,
-          "title": "尼日利亚包装法规监管变化",
+          "title": "德国制造供应链变化",
+          "industry_ids": [
+            "manufacturing"
+          ],
+          "region_ids": [
+            "europe"
+          ],
+          "first_seen": "2026-10-21"
+        },
+        {
+          "candidate_id": "cand-7cd1b0ca61af",
+          "rank": 20,
+          "total": 67.7,
+          "rank_score": 67.7,
+          "grade": "B",
+          "confidence": 74,
+          "title": "尼日利亚成本变化",
           "industry_ids": [
             "crossborder"
           ],
           "region_ids": [
             "africa",
-            "europe"
+            "north-america"
           ],
-          "first_seen": "2026-10-22"
+          "first_seen": "2026-10-23"
         },
         {
           "candidate_id": "cand-2176a18c2025",
-          "rank": 18,
+          "rank": 21,
           "total": 67.6,
           "rank_score": 67.6,
           "grade": "B",
@@ -1559,25 +1199,59 @@
           "first_seen": "2026-10-04"
         },
         {
-          "candidate_id": "cand-699ebcaf988f",
-          "rank": 19,
-          "total": 67.5,
-          "rank_score": 67.5,
+          "candidate_id": "cand-c43fd954a078",
+          "rank": 22,
+          "total": 67.6,
+          "rank_score": 67.6,
           "grade": "B",
-          "confidence": 66,
-          "title": "日本跨境监管变化",
+          "confidence": 64,
+          "title": "巴西包装法规监管变化",
           "industry_ids": [
-            "crossborder"
+            "compliance"
           ],
           "region_ids": [
-            "east-asia",
-            "cis"
+            "latam"
+          ],
+          "first_seen": "2026-10-23"
+        },
+        {
+          "candidate_id": "cand-d3cf10cfca82",
+          "rank": 23,
+          "total": 67.6,
+          "rank_score": 67.6,
+          "grade": "B",
+          "confidence": 72,
+          "title": "全球包装法规监管变化",
+          "industry_ids": [
+            "compliance"
+          ],
+          "region_ids": [
+            "global",
+            "europe"
+          ],
+          "first_seen": "2026-10-23"
+        },
+        {
+          "candidate_id": "cand-d8666f471584",
+          "rank": 24,
+          "total": 67.4,
+          "rank_score": 67.4,
+          "grade": "B",
+          "confidence": 70,
+          "title": "全球人工智能初创监管变化",
+          "industry_ids": [
+            "compliance",
+            "ai"
+          ],
+          "region_ids": [
+            "global",
+            "north-america"
           ],
           "first_seen": "2026-10-23"
         },
         {
           "candidate_id": "cand-3a416042984e",
-          "rank": 20,
+          "rank": 25,
           "total": 67.3,
           "rank_score": 67.3,
           "grade": "B",
@@ -1593,42 +1267,8 @@
           "first_seen": "2026-10-23"
         },
         {
-          "candidate_id": "cand-4c5cf1aef8c5",
-          "rank": 21,
-          "total": 67.3,
-          "rank_score": 67.3,
-          "grade": "B",
-          "confidence": 94,
-          "title": "尼日利亚宠物消费初创跨境套利",
-          "industry_ids": [
-            "crossborder"
-          ],
-          "region_ids": [
-            "africa"
-          ],
-          "first_seen": "2026-10-23"
-        },
-        {
-          "candidate_id": "cand-f8f3af875b12",
-          "rank": 22,
-          "total": 67.2,
-          "rank_score": 67.2,
-          "grade": "B",
-          "confidence": 70,
-          "title": "印尼跨境监管变化",
-          "industry_ids": [
-            "crossborder",
-            "fintech"
-          ],
-          "region_ids": [
-            "sea",
-            "north-america"
-          ],
-          "first_seen": "2026-10-23"
-        },
-        {
           "candidate_id": "cand-8f2dd53c5365",
-          "rank": 23,
+          "rank": 26,
           "total": 67.0,
           "rank_score": 67.0,
           "grade": "B",
@@ -1644,41 +1284,40 @@
           "first_seen": "2026-10-23"
         },
         {
-          "candidate_id": "cand-c8c97de16f9b",
-          "rank": 24,
-          "total": 66.8,
-          "rank_score": 66.8,
+          "candidate_id": "cand-96dacb42ab3a",
+          "rank": 27,
+          "total": 66.9,
+          "rank_score": 66.9,
           "grade": "B",
           "confidence": 88,
-          "title": "德国包装法规监管变化",
-          "industry_ids": [
-            "crossborder"
-          ],
-          "region_ids": [
-            "europe",
-            "north-america"
-          ],
-          "first_seen": "2026-10-22"
-        },
-        {
-          "candidate_id": "cand-225ff715d0e3",
-          "rank": 25,
-          "total": 66.4,
-          "rank_score": 66.4,
-          "grade": "B",
-          "confidence": 88,
-          "title": "中国大陆合规监管变化",
+          "title": "租只“毛孩子”过周末悄然流行，行业监管仍待规范，消费新观察",
           "industry_ids": [
             "compliance"
           ],
           "region_ids": [
             "china"
           ],
-          "first_seen": "2026-10-23"
+          "first_seen": "2026-10-18"
+        },
+        {
+          "candidate_id": "cand-c3f2e419c216",
+          "rank": 28,
+          "total": 66.9,
+          "rank_score": 66.9,
+          "grade": "B",
+          "confidence": 74,
+          "title": "美国跨境成本变化",
+          "industry_ids": [
+            "crossborder"
+          ],
+          "region_ids": [
+            "north-america"
+          ],
+          "first_seen": "2026-10-24"
         },
         {
           "candidate_id": "cand-21e21d169ae1",
-          "rank": 26,
+          "rank": 29,
           "total": 66.2,
           "rank_score": 66.2,
           "grade": "B",
@@ -1694,26 +1333,8 @@
           "first_seen": "2026-10-23"
         },
         {
-          "candidate_id": "cand-5c555f56997d",
-          "rank": 27,
-          "total": 66.2,
-          "rank_score": 66.2,
-          "grade": "B",
-          "confidence": 95,
-          "title": "马来西亚、泰国央行加入 MAS 跨境支付倡议",
-          "industry_ids": [
-            "fintech",
-            "crossborder"
-          ],
-          "region_ids": [
-            "sea",
-            "north-america"
-          ],
-          "first_seen": "2026-10-23"
-        },
-        {
           "candidate_id": "cand-029522024400",
-          "rank": 28,
+          "rank": 30,
           "total": 66.1,
           "rank_score": 66.1,
           "grade": "B",
@@ -1730,25 +1351,42 @@
           "first_seen": "2026-10-08"
         },
         {
-          "candidate_id": "cand-d9fa657bbd1e",
-          "rank": 29,
-          "total": 65.1,
-          "rank_score": 65.1,
+          "candidate_id": "cand-2220d5513125",
+          "rank": 31,
+          "total": 66.0,
+          "rank_score": 66.0,
           "grade": "B",
-          "confidence": 68,
-          "title": "印度包装法规监管变化",
+          "confidence": 88,
+          "title": "德国包装法规监管变化",
+          "industry_ids": [
+            "compliance"
+          ],
+          "region_ids": [
+            "europe",
+            "north-america"
+          ],
+          "first_seen": "2026-10-23"
+        },
+        {
+          "candidate_id": "cand-69df2b7021e2",
+          "rank": 32,
+          "total": 65.0,
+          "rank_score": 65.0,
+          "grade": "B",
+          "confidence": 64,
+          "title": "美国AI监管变化",
           "industry_ids": [
             "crossborder"
           ],
           "region_ids": [
-            "south-asia",
-            "europe"
+            "mena",
+            "north-america"
           ],
-          "first_seen": "2026-10-21"
+          "first_seen": "2026-10-23"
         },
         {
           "candidate_id": "cand-538cd6677019",
-          "rank": 30,
+          "rank": 33,
           "total": 64.9,
           "rank_score": 64.9,
           "grade": "C",
@@ -1765,25 +1403,8 @@
           "first_seen": "2026-10-23"
         },
         {
-          "candidate_id": "cand-d6e36d9268b7",
-          "rank": 31,
-          "total": 64.9,
-          "rank_score": 64.9,
-          "grade": "C",
-          "confidence": 74,
-          "title": "阿联酋制造供应链监管变化",
-          "industry_ids": [
-            "manufacturing"
-          ],
-          "region_ids": [
-            "mena",
-            "north-america"
-          ],
-          "first_seen": "2026-10-23"
-        },
-        {
           "candidate_id": "cand-826fda680bf7",
-          "rank": 32,
+          "rank": 34,
           "total": 64.8,
           "rank_score": 64.8,
           "grade": "C",
@@ -1799,59 +1420,44 @@
           "first_seen": "2026-10-22"
         },
         {
-          "candidate_id": "cand-886e4e47eeb5",
-          "rank": 33,
-          "total": 64.8,
-          "rank_score": 64.8,
-          "grade": "C",
-          "confidence": 86,
-          "title": "德国合规监管变化",
-          "industry_ids": [
-            "compliance"
-          ],
-          "region_ids": [
-            "europe"
-          ],
-          "first_seen": "2026-10-22"
-        },
-        {
-          "candidate_id": "cand-c56b451fc8fb",
-          "rank": 34,
+          "candidate_id": "cand-e8b1e0e7d23f",
+          "rank": 35,
           "total": 64.5,
           "rank_score": 64.5,
           "grade": "C",
-          "confidence": 66,
+          "confidence": 62,
           "title": "全球合规监管变化",
           "industry_ids": [
-            "compliance"
+            "compliance",
+            "crossborder"
           ],
           "region_ids": [
             "global",
-            "cis"
+            "north-america"
           ],
-          "first_seen": "2026-10-22"
+          "first_seen": "2026-10-23"
         },
         {
-          "candidate_id": "cand-0d5701562377",
-          "rank": 35,
+          "candidate_id": "cand-6c72be8efabe",
+          "rank": 36,
           "total": 64.4,
           "rank_score": 64.4,
           "grade": "C",
-          "confidence": 74,
-          "title": "印尼人工智能初创AI应用变化",
+          "confidence": 95,
+          "title": "尼日利亚人工智能初创监管变化",
           "industry_ids": [
-            "compliance",
-            "ai"
+            "fintech",
+            "crossborder"
           ],
           "region_ids": [
-            "sea",
-            "east-asia"
+            "africa",
+            "north-america"
           ],
-          "first_seen": "2026-10-21"
+          "first_seen": "2026-10-23"
         },
         {
           "candidate_id": "cand-65de307844a8",
-          "rank": 36,
+          "rank": 37,
           "total": 64.3,
           "rank_score": 64.3,
           "grade": "C",
@@ -1868,13 +1474,30 @@
           "first_seen": "2026-10-21"
         },
         {
+          "candidate_id": "cand-8f81f6a3e0e1",
+          "rank": 38,
+          "total": 64.3,
+          "rank_score": 64.3,
+          "grade": "C",
+          "confidence": 66,
+          "title": "美国包装法规初创监管变化",
+          "industry_ids": [
+            "crossborder"
+          ],
+          "region_ids": [
+            "north-america",
+            "europe"
+          ],
+          "first_seen": "2026-10-23"
+        },
+        {
           "candidate_id": "cand-be952f87ac18",
-          "rank": 37,
+          "rank": 39,
           "total": 64.0,
           "rank_score": 64.0,
           "grade": "C",
           "confidence": 88,
-          "title": "中国大陆合规变化",
+          "title": "中国大陆合规监管变化",
           "industry_ids": [
             "compliance"
           ],
@@ -1885,41 +1508,42 @@
           "first_seen": "2026-10-22"
         },
         {
-          "candidate_id": "cand-deaef06c1421",
-          "rank": 38,
-          "total": 64.0,
-          "rank_score": 64.0,
+          "candidate_id": "cand-cc868acf7674",
+          "rank": 40,
+          "total": 63.9,
+          "rank_score": 63.9,
           "grade": "C",
-          "confidence": 66,
-          "title": "德国跨境成本变化",
+          "confidence": 74,
+          "title": "美国人工智能成本变化",
           "industry_ids": [
             "crossborder"
           ],
           "region_ids": [
-            "europe",
             "north-america"
           ],
           "first_seen": "2026-10-23"
         },
         {
-          "candidate_id": "cand-771be5e40c55",
-          "rank": 39,
+          "candidate_id": "cand-1a07b8f62681",
+          "rank": 41,
           "total": 63.7,
           "rank_score": 63.7,
           "grade": "C",
-          "confidence": 88,
-          "title": "德国情绪监管变化",
+          "confidence": 72,
+          "title": "非洲包装法规监管变化",
           "industry_ids": [
-            "emotional"
+            "compliance",
+            "ai"
           ],
           "region_ids": [
+            "africa",
             "europe"
           ],
-          "first_seen": "2026-10-19"
+          "first_seen": "2026-10-23"
         },
         {
           "candidate_id": "cand-fa2f0eaa7f67",
-          "rank": 40,
+          "rank": 42,
           "total": 63.6,
           "rank_score": 63.6,
           "grade": "C",
@@ -1934,8 +1558,24 @@
           "first_seen": "2026-10-21"
         },
         {
+          "candidate_id": "cand-9d226549d428",
+          "rank": 43,
+          "total": 63.4,
+          "rank_score": 63.4,
+          "grade": "C",
+          "confidence": 70,
+          "title": "美国人工智能初创监管变化",
+          "industry_ids": [
+            "crossborder"
+          ],
+          "region_ids": [
+            "north-america"
+          ],
+          "first_seen": "2026-10-23"
+        },
+        {
           "candidate_id": "cand-7311886c8138",
-          "rank": 41,
+          "rank": 44,
           "total": 63.2,
           "rank_score": 63.2,
           "grade": "C",
@@ -1952,7 +1592,7 @@
         },
         {
           "candidate_id": "cand-75298d501035",
-          "rank": 42,
+          "rank": 45,
           "total": 62.8,
           "rank_score": 62.8,
           "grade": "C",
@@ -1968,131 +1608,47 @@
           "first_seen": "2026-10-22"
         },
         {
-          "candidate_id": "cand-b10129d25f55",
-          "rank": 43,
-          "total": 62.4,
-          "rank_score": 62.4,
+          "candidate_id": "cand-f3e13e5ab836",
+          "rank": 46,
+          "total": 62.7,
+          "rank_score": 62.7,
           "grade": "C",
-          "confidence": 62,
-          "title": "哈萨克斯坦文化差异",
+          "confidence": 88,
+          "title": "尼日利亚合规监管变化",
           "industry_ids": [
-            "culture"
-          ],
-          "region_ids": [
-            "cis",
-            "north-america"
-          ],
-          "first_seen": "2026-10-23"
-        },
-        {
-          "candidate_id": "cand-85c91f32c4eb",
-          "rank": 44,
-          "total": 62.3,
-          "rank_score": 62.3,
-          "grade": "C",
-          "confidence": 74,
-          "title": "尼日利亚包装法规初创监管变化",
-          "industry_ids": [
-            "compliance"
+            "compliance",
+            "ai"
           ],
           "region_ids": [
             "africa",
-            "europe"
-          ],
-          "first_seen": "2026-10-23"
-        },
-        {
-          "candidate_id": "cand-e1d3e9f1c714",
-          "rank": 45,
-          "total": 62.3,
-          "rank_score": 62.3,
-          "grade": "C",
-          "confidence": 72,
-          "title": "美国人工智能初创跨境套利",
-          "industry_ids": [
-            "crossborder"
-          ],
-          "region_ids": [
             "north-america"
           ],
           "first_seen": "2026-10-23"
         },
         {
-          "candidate_id": "cand-e0ce73dc40d9",
-          "rank": 46,
-          "total": 61.9,
-          "rank_score": 61.9,
-          "grade": "C",
-          "confidence": 88,
-          "title": "德国人工智能监管变化",
-          "industry_ids": [
-            "ai",
-            "compliance"
-          ],
-          "region_ids": [
-            "europe",
-            "north-america"
-          ],
-          "first_seen": "2026-10-22"
-        },
-        {
-          "candidate_id": "cand-971910d14b0f",
+          "candidate_id": "cand-2cc7aca27d4f",
           "rank": 47,
-          "total": 61.5,
-          "rank_score": 61.5,
+          "total": 61.0,
+          "rank_score": 61.0,
           "grade": "C",
-          "confidence": 88,
-          "title": "德国包装法规初创监管变化",
+          "confidence": 86,
+          "title": "德国跨境跨境套利",
           "industry_ids": [
             "crossborder"
           ],
           "region_ids": [
-            "europe",
-            "north-america"
-          ],
-          "first_seen": "2026-10-23"
-        },
-        {
-          "candidate_id": "cand-c0dbd061bcef",
-          "rank": 48,
-          "total": 61.4,
-          "rank_score": 61.4,
-          "grade": "C",
-          "confidence": 92,
-          "title": "全球包装法规初创监管变化",
-          "industry_ids": [
-            "crossborder"
-          ],
-          "region_ids": [
-            "global",
             "europe"
-          ],
-          "first_seen": "2026-10-23"
-        },
-        {
-          "candidate_id": "cand-a62228cd3007",
-          "rank": 49,
-          "total": 61.2,
-          "rank_score": 61.2,
-          "grade": "C",
-          "confidence": 64,
-          "title": "印度跨境监管变化",
-          "industry_ids": [
-            "crossborder"
-          ],
-          "region_ids": [
-            "south-asia"
           ],
           "first_seen": "2026-10-23"
         },
         {
           "candidate_id": "cand-f1f69a2ab045",
-          "rank": 50,
+          "rank": 48,
           "total": 60.9,
           "rank_score": 60.9,
           "grade": "C",
           "confidence": 74,
-          "title": "澳大利亚人工智能初创监管变化",
+          "title": "澳大利亚人工智能监管变化",
           "industry_ids": [
             "crossborder"
           ],
@@ -2103,24 +1659,8 @@
           "first_seen": "2026-10-21"
         },
         {
-          "candidate_id": "cand-71a97f843ab1",
-          "rank": 51,
-          "total": 59.5,
-          "rank_score": 59.5,
-          "grade": "C",
-          "confidence": 62,
-          "title": "美国跨境成本变化",
-          "industry_ids": [
-            "crossborder"
-          ],
-          "region_ids": [
-            "north-america"
-          ],
-          "first_seen": "2026-10-20"
-        },
-        {
           "candidate_id": "cand-e85e27c3f6d9",
-          "rank": 52,
+          "rank": 49,
           "total": 59.5,
           "rank_score": 59.5,
           "grade": "C",
@@ -2136,21 +1676,21 @@
           "first_seen": "2026-10-23"
         },
         {
-          "candidate_id": "cand-b34627a8d41e",
-          "rank": 53,
-          "total": 58.9,
-          "rank_score": 58.9,
+          "candidate_id": "cand-0fc5429f672b",
+          "rank": 50,
+          "total": 58.8,
+          "rank_score": 58.8,
           "grade": "C",
-          "confidence": 66,
-          "title": "全球跨境成本变化",
+          "confidence": 68,
+          "title": "全球跨境监管变化",
           "industry_ids": [
             "crossborder"
           ],
           "region_ids": [
             "global",
-            "north-america"
+            "europe"
           ],
-          "first_seen": "2026-10-22"
+          "first_seen": "2026-10-23"
         }
       ]
     },
@@ -2158,27 +1698,11 @@
       "window": "year",
       "key": "2026",
       "label": "2026年",
-      "count": 63,
+      "count": 62,
       "items": [
         {
-          "candidate_id": "cand-3bc2bd4c9327",
-          "rank": 1,
-          "total": 75.4,
-          "rank_score": 75.4,
-          "grade": "A",
-          "confidence": 95,
-          "title": "巴西包装法规初创监管变化",
-          "industry_ids": [
-            "crossborder"
-          ],
-          "region_ids": [
-            "latam"
-          ],
-          "first_seen": "2026-10-21"
-        },
-        {
           "candidate_id": "cand-ea70f74fdd9e",
-          "rank": 2,
+          "rank": 1,
           "total": 75.4,
           "rank_score": 75.4,
           "grade": "A",
@@ -2194,25 +1718,8 @@
           "first_seen": "2026-10-22"
         },
         {
-          "candidate_id": "cand-a084c0a4c0fb",
-          "rank": 3,
-          "total": 74.5,
-          "rank_score": 74.5,
-          "grade": "B",
-          "confidence": 95,
-          "title": "欧盟理事会包装法规立场",
-          "industry_ids": [
-            "compliance"
-          ],
-          "region_ids": [
-            "europe",
-            "north-america"
-          ],
-          "first_seen": "2026-10-23"
-        },
-        {
           "candidate_id": "cand-fcec83287419",
-          "rank": 4,
+          "rank": 2,
           "total": 74.2,
           "rank_score": 74.2,
           "grade": "B",
@@ -2229,7 +1736,7 @@
         },
         {
           "candidate_id": "cand-3e2aa3889e64",
-          "rank": 5,
+          "rank": 3,
           "total": 73.2,
           "rank_score": 73.2,
           "grade": "B",
@@ -2244,24 +1751,8 @@
           "first_seen": "2026-10-22"
         },
         {
-          "candidate_id": "cand-cf00a2f00467",
-          "rank": 6,
-          "total": 71.9,
-          "rank_score": 71.9,
-          "grade": "B",
-          "confidence": 74,
-          "title": "澳大利亚合规成本变化",
-          "industry_ids": [
-            "compliance"
-          ],
-          "region_ids": [
-            "oceania"
-          ],
-          "first_seen": "2026-10-22"
-        },
-        {
           "candidate_id": "cand-0c83e7ad9344",
-          "rank": 7,
+          "rank": 4,
           "total": 71.8,
           "rank_score": 71.8,
           "grade": "B",
@@ -2279,7 +1770,7 @@
         },
         {
           "candidate_id": "cand-6f3f9f1311ff",
-          "rank": 8,
+          "rank": 5,
           "total": 71.7,
           "rank_score": 71.7,
           "grade": "B",
@@ -2295,19 +1786,67 @@
           "first_seen": "2026-10-22"
         },
         {
-          "candidate_id": "cand-e34583045571",
-          "rank": 9,
+          "candidate_id": "cand-324cdcf0aefd",
+          "rank": 6,
+          "total": 71.4,
+          "rank_score": 71.4,
+          "grade": "B",
+          "confidence": 88,
+          "title": "德国包装法规初创监管变化",
+          "industry_ids": [
+            "ai",
+            "compliance"
+          ],
+          "region_ids": [
+            "europe"
+          ],
+          "first_seen": "2026-10-23"
+        },
+        {
+          "candidate_id": "cand-0aef26b25925",
+          "rank": 7,
+          "total": 71.0,
+          "rank_score": 71.0,
+          "grade": "B",
+          "confidence": 88,
+          "title": "德国跨境监管变化",
+          "industry_ids": [
+            "crossborder"
+          ],
+          "region_ids": [
+            "europe"
+          ],
+          "first_seen": "2026-10-23"
+        },
+        {
+          "candidate_id": "cand-0be4ffa1df3f",
+          "rank": 8,
           "total": 70.9,
           "rank_score": 70.9,
           "grade": "B",
-          "confidence": 95,
-          "title": "Lianlian与PayPal跨境支付合作",
+          "confidence": 74,
+          "title": "德国跨境成本变化",
           "industry_ids": [
-            "crossborder",
-            "fintech"
+            "crossborder"
           ],
           "region_ids": [
-            "sea",
+            "europe",
+            "north-america"
+          ],
+          "first_seen": "2026-10-24"
+        },
+        {
+          "candidate_id": "cand-71d641ffc619",
+          "rank": 9,
+          "total": 70.7,
+          "rank_score": 70.7,
+          "grade": "B",
+          "confidence": 92,
+          "title": "美国人工智能初创成本变化",
+          "industry_ids": [
+            "crossborder"
+          ],
+          "region_ids": [
             "north-america"
           ],
           "first_seen": "2026-10-23"
@@ -2319,7 +1858,7 @@
           "rank_score": 70.2,
           "grade": "B",
           "confidence": 88,
-          "title": "全球包装法规监管变化",
+          "title": "全球包装法规初创监管变化",
           "industry_ids": [
             "crossborder"
           ],
@@ -2330,25 +1869,8 @@
           "first_seen": "2026-10-20"
         },
         {
-          "candidate_id": "cand-edfc58c58e9e",
-          "rank": 11,
-          "total": 69.9,
-          "rank_score": 69.9,
-          "grade": "B",
-          "confidence": 74,
-          "title": "德国跨境监管变化",
-          "industry_ids": [
-            "crossborder"
-          ],
-          "region_ids": [
-            "europe",
-            "north-america"
-          ],
-          "first_seen": "2026-10-22"
-        },
-        {
           "candidate_id": "cand-bbc5f7bdd1b9",
-          "rank": 12,
+          "rank": 11,
           "total": 69.8,
           "rank_score": 69.8,
           "grade": "B",
@@ -2362,6 +1884,23 @@
             "north-america"
           ],
           "first_seen": "2026-09-08"
+        },
+        {
+          "candidate_id": "cand-5a08d99e29cb",
+          "rank": 12,
+          "total": 69.7,
+          "rank_score": 69.7,
+          "grade": "B",
+          "confidence": 68,
+          "title": "全球跨境成本变化",
+          "industry_ids": [
+            "crossborder"
+          ],
+          "region_ids": [
+            "global",
+            "north-america"
+          ],
+          "first_seen": "2026-10-23"
         },
         {
           "candidate_id": "cand-0af455efc323",
@@ -2380,25 +1919,8 @@
           "first_seen": "2026-10-22"
         },
         {
-          "candidate_id": "cand-b3cb2dae3e87",
-          "rank": 14,
-          "total": 68.8,
-          "rank_score": 68.8,
-          "grade": "B",
-          "confidence": 64,
-          "title": "尼日利亚跨境成本变化",
-          "industry_ids": [
-            "crossborder"
-          ],
-          "region_ids": [
-            "africa",
-            "north-america"
-          ],
-          "first_seen": "2026-10-21"
-        },
-        {
           "candidate_id": "cand-2944f06b5fc9",
-          "rank": 15,
+          "rank": 14,
           "total": 68.7,
           "rank_score": 68.7,
           "grade": "B",
@@ -2414,12 +1936,12 @@
         },
         {
           "candidate_id": "cand-185ddd225442",
-          "rank": 16,
+          "rank": 15,
           "total": 68.6,
           "rank_score": 68.6,
           "grade": "B",
           "confidence": 90,
-          "title": "巴西包装法规监管变化",
+          "title": "巴西包装法规初创监管变化",
           "industry_ids": [
             "culture",
             "content"
@@ -2431,8 +1953,43 @@
           "first_seen": "2026-10-07"
         },
         {
-          "candidate_id": "cand-bf01cdffc9fe",
+          "candidate_id": "cand-36048f160b91",
+          "rank": 16,
+          "total": 68.6,
+          "rank_score": 68.6,
+          "grade": "B",
+          "confidence": 74,
+          "title": "澳大利亚人工智能初创监管变化",
+          "industry_ids": [
+            "crossborder"
+          ],
+          "region_ids": [
+            "oceania",
+            "north-america"
+          ],
+          "first_seen": "2026-10-23"
+        },
+        {
+          "candidate_id": "cand-075c43994d28",
           "rank": 17,
+          "total": 68.5,
+          "rank_score": 68.5,
+          "grade": "B",
+          "confidence": 94,
+          "title": "德国合规监管变化",
+          "industry_ids": [
+            "compliance",
+            "ai"
+          ],
+          "region_ids": [
+            "europe",
+            "north-america"
+          ],
+          "first_seen": "2026-07-07"
+        },
+        {
+          "candidate_id": "cand-bf01cdffc9fe",
+          "rank": 18,
           "total": 68.3,
           "rank_score": 68.3,
           "grade": "B",
@@ -2447,42 +2004,91 @@
           "first_seen": "2026-10-22"
         },
         {
-          "candidate_id": "cand-9695c369a9e6",
-          "rank": 18,
-          "total": 68.2,
-          "rank_score": 68.2,
+          "candidate_id": "cand-310dea3620ea",
+          "rank": 19,
+          "total": 68.3,
+          "rank_score": 68.3,
           "grade": "B",
-          "confidence": 68,
-          "title": "德国制造供应链变化",
+          "confidence": 70,
+          "title": "寒武纪AI需求缺口",
           "industry_ids": [
-            "manufacturing"
+            "ai"
+          ],
+          "region_ids": [
+            "china"
+          ],
+          "first_seen": "2026-10-23"
+        },
+        {
+          "candidate_id": "cand-a084c0a4c0fb",
+          "rank": 20,
+          "total": 68.1,
+          "rank_score": 68.1,
+          "grade": "B",
+          "confidence": 95,
+          "title": "欧盟理事会包装法规立场",
+          "industry_ids": [
+            "compliance"
           ],
           "region_ids": [
             "europe",
             "north-america"
           ],
-          "first_seen": "2026-10-22"
+          "first_seen": "2026-10-23"
         },
         {
-          "candidate_id": "cand-fd21c26c407c",
-          "rank": 19,
+          "candidate_id": "cand-7ec80abae97d",
+          "rank": 21,
+          "total": 68.0,
+          "rank_score": 68.0,
+          "grade": "B",
+          "confidence": 74,
+          "title": "美国包装法规监管变化",
+          "industry_ids": [
+            "crossborder"
+          ],
+          "region_ids": [
+            "north-america",
+            "europe"
+          ],
+          "first_seen": "2026-10-23"
+        },
+        {
+          "candidate_id": "cand-3b576506d705",
+          "rank": 22,
           "total": 67.7,
           "rank_score": 67.7,
           "grade": "B",
           "confidence": 66,
-          "title": "尼日利亚包装法规监管变化",
+          "title": "德国制造供应链变化",
+          "industry_ids": [
+            "manufacturing"
+          ],
+          "region_ids": [
+            "europe"
+          ],
+          "first_seen": "2026-10-21"
+        },
+        {
+          "candidate_id": "cand-7cd1b0ca61af",
+          "rank": 23,
+          "total": 67.7,
+          "rank_score": 67.7,
+          "grade": "B",
+          "confidence": 74,
+          "title": "尼日利亚成本变化",
           "industry_ids": [
             "crossborder"
           ],
           "region_ids": [
             "africa",
-            "europe"
+            "north-america"
           ],
-          "first_seen": "2026-10-22"
+          "first_seen": "2026-10-23"
         },
         {
           "candidate_id": "cand-36f97c4e197f",
-          "rank": 20,
+          "rank": 24,
           "total": 67.6,
           "rank_score": 67.6,
           "grade": "B",
@@ -2499,7 +2105,7 @@
         },
         {
           "candidate_id": "cand-2176a18c2025",
-          "rank": 21,
+          "rank": 25,
           "total": 67.6,
           "rank_score": 67.6,
           "grade": "B",
@@ -2515,25 +2121,59 @@
           "first_seen": "2026-10-04"
         },
         {
-          "candidate_id": "cand-699ebcaf988f",
-          "rank": 22,
-          "total": 67.5,
-          "rank_score": 67.5,
+          "candidate_id": "cand-c43fd954a078",
+          "rank": 26,
+          "total": 67.6,
+          "rank_score": 67.6,
           "grade": "B",
-          "confidence": 66,
-          "title": "日本跨境监管变化",
+          "confidence": 64,
+          "title": "巴西包装法规监管变化",
           "industry_ids": [
-            "crossborder"
+            "compliance"
           ],
           "region_ids": [
-            "east-asia",
-            "cis"
+            "latam"
+          ],
+          "first_seen": "2026-10-23"
+        },
+        {
+          "candidate_id": "cand-d3cf10cfca82",
+          "rank": 27,
+          "total": 67.6,
+          "rank_score": 67.6,
+          "grade": "B",
+          "confidence": 72,
+          "title": "全球包装法规监管变化",
+          "industry_ids": [
+            "compliance"
+          ],
+          "region_ids": [
+            "global",
+            "europe"
+          ],
+          "first_seen": "2026-10-23"
+        },
+        {
+          "candidate_id": "cand-d8666f471584",
+          "rank": 28,
+          "total": 67.4,
+          "rank_score": 67.4,
+          "grade": "B",
+          "confidence": 70,
+          "title": "全球人工智能初创监管变化",
+          "industry_ids": [
+            "compliance",
+            "ai"
+          ],
+          "region_ids": [
+            "global",
+            "north-america"
           ],
           "first_seen": "2026-10-23"
         },
         {
           "candidate_id": "cand-3a416042984e",
-          "rank": 23,
+          "rank": 29,
           "total": 67.3,
           "rank_score": 67.3,
           "grade": "B",
@@ -2549,58 +2189,8 @@
           "first_seen": "2026-10-23"
         },
         {
-          "candidate_id": "cand-4c5cf1aef8c5",
-          "rank": 24,
-          "total": 67.3,
-          "rank_score": 67.3,
-          "grade": "B",
-          "confidence": 94,
-          "title": "尼日利亚宠物消费初创跨境套利",
-          "industry_ids": [
-            "crossborder"
-          ],
-          "region_ids": [
-            "africa"
-          ],
-          "first_seen": "2026-10-23"
-        },
-        {
-          "candidate_id": "cand-24942f819fc2",
-          "rank": 25,
-          "total": 67.2,
-          "rank_score": 67.2,
-          "grade": "B",
-          "confidence": 94,
-          "title": "美国适老服务监管变化",
-          "industry_ids": [
-            "silver"
-          ],
-          "region_ids": [
-            "north-america"
-          ],
-          "first_seen": "2026-07-27"
-        },
-        {
-          "candidate_id": "cand-f8f3af875b12",
-          "rank": 26,
-          "total": 67.2,
-          "rank_score": 67.2,
-          "grade": "B",
-          "confidence": 70,
-          "title": "印尼跨境监管变化",
-          "industry_ids": [
-            "crossborder",
-            "fintech"
-          ],
-          "region_ids": [
-            "sea",
-            "north-america"
-          ],
-          "first_seen": "2026-10-23"
-        },
-        {
           "candidate_id": "cand-8f2dd53c5365",
-          "rank": 27,
+          "rank": 30,
           "total": 67.0,
           "rank_score": 67.0,
           "grade": "B",
@@ -2616,41 +2206,56 @@
           "first_seen": "2026-10-23"
         },
         {
-          "candidate_id": "cand-c8c97de16f9b",
-          "rank": 28,
-          "total": 66.8,
-          "rank_score": 66.8,
+          "candidate_id": "cand-96dacb42ab3a",
+          "rank": 31,
+          "total": 66.9,
+          "rank_score": 66.9,
           "grade": "B",
           "confidence": 88,
-          "title": "德国包装法规监管变化",
-          "industry_ids": [
-            "crossborder"
-          ],
-          "region_ids": [
-            "europe",
-            "north-america"
-          ],
-          "first_seen": "2026-10-22"
-        },
-        {
-          "candidate_id": "cand-225ff715d0e3",
-          "rank": 29,
-          "total": 66.4,
-          "rank_score": 66.4,
-          "grade": "B",
-          "confidence": 88,
-          "title": "中国大陆合规监管变化",
+          "title": "租只“毛孩子”过周末悄然流行，行业监管仍待规范，消费新观察",
           "industry_ids": [
             "compliance"
           ],
           "region_ids": [
             "china"
           ],
-          "first_seen": "2026-10-23"
+          "first_seen": "2026-10-18"
+        },
+        {
+          "candidate_id": "cand-c3f2e419c216",
+          "rank": 32,
+          "total": 66.9,
+          "rank_score": 66.9,
+          "grade": "B",
+          "confidence": 74,
+          "title": "美国跨境成本变化",
+          "industry_ids": [
+            "crossborder"
+          ],
+          "region_ids": [
+            "north-america"
+          ],
+          "first_seen": "2026-10-24"
+        },
+        {
+          "candidate_id": "cand-9c9320f5ffcc",
+          "rank": 33,
+          "total": 66.7,
+          "rank_score": 66.7,
+          "grade": "B",
+          "confidence": 66,
+          "title": "欧洲包装法规监管变化",
+          "industry_ids": [
+            "crossborder"
+          ],
+          "region_ids": [
+            "europe"
+          ],
+          "first_seen": "2026-09-09"
         },
         {
           "candidate_id": "cand-21e21d169ae1",
-          "rank": 30,
+          "rank": 34,
           "total": 66.2,
           "rank_score": 66.2,
           "grade": "B",
@@ -2666,26 +2271,8 @@
           "first_seen": "2026-10-23"
         },
         {
-          "candidate_id": "cand-5c555f56997d",
-          "rank": 31,
-          "total": 66.2,
-          "rank_score": 66.2,
-          "grade": "B",
-          "confidence": 95,
-          "title": "马来西亚、泰国央行加入 MAS 跨境支付倡议",
-          "industry_ids": [
-            "fintech",
-            "crossborder"
-          ],
-          "region_ids": [
-            "sea",
-            "north-america"
-          ],
-          "first_seen": "2026-10-23"
-        },
-        {
           "candidate_id": "cand-029522024400",
-          "rank": 32,
+          "rank": 35,
           "total": 66.1,
           "rank_score": 66.1,
           "grade": "B",
@@ -2702,8 +2289,25 @@
           "first_seen": "2026-10-08"
         },
         {
+          "candidate_id": "cand-2220d5513125",
+          "rank": 36,
+          "total": 66.0,
+          "rank_score": 66.0,
+          "grade": "B",
+          "confidence": 88,
+          "title": "德国包装法规监管变化",
+          "industry_ids": [
+            "compliance"
+          ],
+          "region_ids": [
+            "europe",
+            "north-america"
+          ],
+          "first_seen": "2026-10-23"
+        },
+        {
           "candidate_id": "cand-2a7f17f1528e",
-          "rank": 33,
+          "rank": 37,
           "total": 65.6,
           "rank_score": 65.6,
           "grade": "B",
@@ -2718,42 +2322,25 @@
           "first_seen": "2026-08-11"
         },
         {
-          "candidate_id": "cand-51f23a59a8a2",
-          "rank": 34,
-          "total": 65.5,
-          "rank_score": 65.5,
+          "candidate_id": "cand-69df2b7021e2",
+          "rank": 38,
+          "total": 65.0,
+          "rank_score": 65.0,
           "grade": "B",
-          "confidence": 88,
-          "title": "德国合规监管监管变化",
-          "industry_ids": [
-            "compliance"
-          ],
-          "region_ids": [
-            "europe",
-            "north-america"
-          ],
-          "first_seen": "2026-04-29"
-        },
-        {
-          "candidate_id": "cand-d9fa657bbd1e",
-          "rank": 35,
-          "total": 65.1,
-          "rank_score": 65.1,
-          "grade": "B",
-          "confidence": 68,
-          "title": "印度包装法规监管变化",
+          "confidence": 64,
+          "title": "美国AI监管变化",
           "industry_ids": [
             "crossborder"
           ],
           "region_ids": [
-            "south-asia",
-            "europe"
+            "mena",
+            "north-america"
           ],
-          "first_seen": "2026-10-21"
+          "first_seen": "2026-10-23"
         },
         {
           "candidate_id": "cand-538cd6677019",
-          "rank": 36,
+          "rank": 39,
           "total": 64.9,
           "rank_score": 64.9,
           "grade": "C",
@@ -2770,25 +2357,8 @@
           "first_seen": "2026-10-23"
         },
         {
-          "candidate_id": "cand-d6e36d9268b7",
-          "rank": 37,
-          "total": 64.9,
-          "rank_score": 64.9,
-          "grade": "C",
-          "confidence": 74,
-          "title": "阿联酋制造供应链监管变化",
-          "industry_ids": [
-            "manufacturing"
-          ],
-          "region_ids": [
-            "mena",
-            "north-america"
-          ],
-          "first_seen": "2026-10-23"
-        },
-        {
           "candidate_id": "cand-0ccd35160410",
-          "rank": 38,
+          "rank": 40,
           "total": 64.8,
           "rank_score": 64.8,
           "grade": "C",
@@ -2805,7 +2375,7 @@
         },
         {
           "candidate_id": "cand-826fda680bf7",
-          "rank": 39,
+          "rank": 41,
           "total": 64.8,
           "rank_score": 64.8,
           "grade": "C",
@@ -2821,59 +2391,44 @@
           "first_seen": "2026-10-22"
         },
         {
-          "candidate_id": "cand-886e4e47eeb5",
-          "rank": 40,
-          "total": 64.8,
-          "rank_score": 64.8,
-          "grade": "C",
-          "confidence": 86,
-          "title": "德国合规监管变化",
-          "industry_ids": [
-            "compliance"
-          ],
-          "region_ids": [
-            "europe"
-          ],
-          "first_seen": "2026-10-22"
-        },
-        {
-          "candidate_id": "cand-c56b451fc8fb",
-          "rank": 41,
+          "candidate_id": "cand-e8b1e0e7d23f",
+          "rank": 42,
           "total": 64.5,
           "rank_score": 64.5,
           "grade": "C",
-          "confidence": 66,
+          "confidence": 62,
           "title": "全球合规监管变化",
           "industry_ids": [
-            "compliance"
+            "compliance",
+            "crossborder"
           ],
           "region_ids": [
             "global",
-            "cis"
+            "north-america"
           ],
-          "first_seen": "2026-10-22"
+          "first_seen": "2026-10-23"
         },
         {
-          "candidate_id": "cand-0d5701562377",
-          "rank": 42,
+          "candidate_id": "cand-6c72be8efabe",
+          "rank": 43,
           "total": 64.4,
           "rank_score": 64.4,
           "grade": "C",
-          "confidence": 74,
-          "title": "印尼人工智能初创AI应用变化",
+          "confidence": 95,
+          "title": "尼日利亚人工智能初创监管变化",
           "industry_ids": [
-            "compliance",
-            "ai"
+            "fintech",
+            "crossborder"
           ],
           "region_ids": [
-            "sea",
-            "east-asia"
+            "africa",
+            "north-america"
           ],
-          "first_seen": "2026-10-21"
+          "first_seen": "2026-10-23"
         },
         {
           "candidate_id": "cand-65de307844a8",
-          "rank": 43,
+          "rank": 44,
           "total": 64.3,
           "rank_score": 64.3,
           "grade": "C",
@@ -2890,13 +2445,30 @@
           "first_seen": "2026-10-21"
         },
         {
+          "candidate_id": "cand-8f81f6a3e0e1",
+          "rank": 45,
+          "total": 64.3,
+          "rank_score": 64.3,
+          "grade": "C",
+          "confidence": 66,
+          "title": "美国包装法规初创监管变化",
+          "industry_ids": [
+            "crossborder"
+          ],
+          "region_ids": [
+            "north-america",
+            "europe"
+          ],
+          "first_seen": "2026-10-23"
+        },
+        {
           "candidate_id": "cand-be952f87ac18",
-          "rank": 44,
+          "rank": 46,
           "total": 64.0,
           "rank_score": 64.0,
           "grade": "C",
           "confidence": 88,
-          "title": "中国大陆合规变化",
+          "title": "中国大陆合规监管变化",
           "industry_ids": [
             "compliance"
           ],
@@ -2907,41 +2479,42 @@
           "first_seen": "2026-10-22"
         },
         {
-          "candidate_id": "cand-deaef06c1421",
-          "rank": 45,
-          "total": 64.0,
-          "rank_score": 64.0,
+          "candidate_id": "cand-cc868acf7674",
+          "rank": 47,
+          "total": 63.9,
+          "rank_score": 63.9,
           "grade": "C",
-          "confidence": 66,
-          "title": "德国跨境成本变化",
+          "confidence": 74,
+          "title": "美国人工智能成本变化",
           "industry_ids": [
             "crossborder"
           ],
           "region_ids": [
-            "europe",
             "north-america"
           ],
           "first_seen": "2026-10-23"
         },
         {
-          "candidate_id": "cand-771be5e40c55",
-          "rank": 46,
+          "candidate_id": "cand-1a07b8f62681",
+          "rank": 48,
           "total": 63.7,
           "rank_score": 63.7,
           "grade": "C",
-          "confidence": 88,
-          "title": "德国情绪监管变化",
+          "confidence": 72,
+          "title": "非洲包装法规监管变化",
           "industry_ids": [
-            "emotional"
+            "compliance",
+            "ai"
           ],
           "region_ids": [
+            "africa",
             "europe"
           ],
-          "first_seen": "2026-10-19"
+          "first_seen": "2026-10-23"
         },
         {
           "candidate_id": "cand-fa2f0eaa7f67",
-          "rank": 47,
+          "rank": 49,
           "total": 63.6,
           "rank_score": 63.6,
           "grade": "C",
@@ -2956,8 +2529,24 @@
           "first_seen": "2026-10-21"
         },
         {
+          "candidate_id": "cand-9d226549d428",
+          "rank": 50,
+          "total": 63.4,
+          "rank_score": 63.4,
+          "grade": "C",
+          "confidence": 70,
+          "title": "美国人工智能初创监管变化",
+          "industry_ids": [
+            "crossborder"
+          ],
+          "region_ids": [
+            "north-america"
+          ],
+          "first_seen": "2026-10-23"
+        },
+        {
           "candidate_id": "cand-7311886c8138",
-          "rank": 48,
+          "rank": 51,
           "total": 63.2,
           "rank_score": 63.2,
           "grade": "C",
@@ -2973,8 +2562,24 @@
           "first_seen": "2026-10-23"
         },
         {
+          "candidate_id": "cand-9382a14ca729",
+          "rank": 52,
+          "total": 63.1,
+          "rank_score": 63.1,
+          "grade": "C",
+          "confidence": 74,
+          "title": "德国合规监管监管变化",
+          "industry_ids": [
+            "compliance"
+          ],
+          "region_ids": [
+            "europe"
+          ],
+          "first_seen": "2026-07-01"
+        },
+        {
           "candidate_id": "cand-2ba8e9409446",
-          "rank": 49,
+          "rank": 53,
           "total": 62.9,
           "rank_score": 62.9,
           "grade": "C",
@@ -2992,7 +2597,7 @@
         },
         {
           "candidate_id": "cand-75298d501035",
-          "rank": 50,
+          "rank": 54,
           "total": 62.8,
           "rank_score": 62.8,
           "grade": "C",
@@ -3008,75 +2613,26 @@
           "first_seen": "2026-10-22"
         },
         {
-          "candidate_id": "cand-5d7a045a00ff",
-          "rank": 51,
-          "total": 62.5,
-          "rank_score": 62.5,
+          "candidate_id": "cand-f3e13e5ab836",
+          "rank": 55,
+          "total": 62.7,
+          "rank_score": 62.7,
           "grade": "C",
-          "confidence": 70,
-          "title": "阿联酋文化文化差异",
+          "confidence": 88,
+          "title": "尼日利亚合规监管变化",
           "industry_ids": [
-            "culture"
-          ],
-          "region_ids": [
-            "mena",
-            "sea"
-          ],
-          "first_seen": "2026-07-31"
-        },
-        {
-          "candidate_id": "cand-b10129d25f55",
-          "rank": 52,
-          "total": 62.4,
-          "rank_score": 62.4,
-          "grade": "C",
-          "confidence": 62,
-          "title": "哈萨克斯坦文化差异",
-          "industry_ids": [
-            "culture"
-          ],
-          "region_ids": [
-            "cis",
-            "north-america"
-          ],
-          "first_seen": "2026-10-23"
-        },
-        {
-          "candidate_id": "cand-85c91f32c4eb",
-          "rank": 53,
-          "total": 62.3,
-          "rank_score": 62.3,
-          "grade": "C",
-          "confidence": 74,
-          "title": "尼日利亚包装法规初创监管变化",
-          "industry_ids": [
-            "compliance"
+            "compliance",
+            "ai"
           ],
           "region_ids": [
             "africa",
-            "europe"
-          ],
-          "first_seen": "2026-10-23"
-        },
-        {
-          "candidate_id": "cand-e1d3e9f1c714",
-          "rank": 54,
-          "total": 62.3,
-          "rank_score": 62.3,
-          "grade": "C",
-          "confidence": 72,
-          "title": "美国人工智能初创跨境套利",
-          "industry_ids": [
-            "crossborder"
-          ],
-          "region_ids": [
             "north-america"
           ],
           "first_seen": "2026-10-23"
         },
         {
           "candidate_id": "cand-b2624474378d",
-          "rank": 55,
+          "rank": 56,
           "total": 62.1,
           "rank_score": 62.1,
           "grade": "C",
@@ -3092,81 +2648,46 @@
           "first_seen": "2026-08-10"
         },
         {
-          "candidate_id": "cand-e0ce73dc40d9",
-          "rank": 56,
+          "candidate_id": "cand-d9f01abc341c",
+          "rank": 57,
           "total": 61.9,
           "rank_score": 61.9,
           "grade": "C",
-          "confidence": 88,
+          "confidence": 94,
           "title": "德国人工智能监管变化",
           "industry_ids": [
-            "ai",
-            "compliance"
+            "compliance",
+            "ai"
           ],
           "region_ids": [
-            "europe",
-            "north-america"
+            "europe"
           ],
-          "first_seen": "2026-10-22"
+          "first_seen": "2026-08-20"
         },
         {
-          "candidate_id": "cand-971910d14b0f",
-          "rank": 57,
-          "total": 61.5,
-          "rank_score": 61.5,
-          "grade": "C",
-          "confidence": 88,
-          "title": "德国包装法规初创监管变化",
-          "industry_ids": [
-            "crossborder"
-          ],
-          "region_ids": [
-            "europe",
-            "north-america"
-          ],
-          "first_seen": "2026-10-23"
-        },
-        {
-          "candidate_id": "cand-c0dbd061bcef",
+          "candidate_id": "cand-2cc7aca27d4f",
           "rank": 58,
-          "total": 61.4,
-          "rank_score": 61.4,
+          "total": 61.0,
+          "rank_score": 61.0,
           "grade": "C",
-          "confidence": 92,
-          "title": "全球包装法规初创监管变化",
+          "confidence": 86,
+          "title": "德国跨境跨境套利",
           "industry_ids": [
             "crossborder"
           ],
           "region_ids": [
-            "global",
             "europe"
           ],
           "first_seen": "2026-10-23"
         },
         {
-          "candidate_id": "cand-a62228cd3007",
-          "rank": 59,
-          "total": 61.2,
-          "rank_score": 61.2,
-          "grade": "C",
-          "confidence": 64,
-          "title": "印度跨境监管变化",
-          "industry_ids": [
-            "crossborder"
-          ],
-          "region_ids": [
-            "south-asia"
-          ],
-          "first_seen": "2026-10-23"
-        },
-        {
           "candidate_id": "cand-f1f69a2ab045",
-          "rank": 60,
+          "rank": 59,
           "total": 60.9,
           "rank_score": 60.9,
           "grade": "C",
           "confidence": 74,
-          "title": "澳大利亚人工智能初创监管变化",
+          "title": "澳大利亚人工智能监管变化",
           "industry_ids": [
             "crossborder"
           ],
@@ -3177,24 +2698,24 @@
           "first_seen": "2026-10-21"
         },
         {
-          "candidate_id": "cand-71a97f843ab1",
-          "rank": 61,
+          "candidate_id": "cand-4d638ca7b5ec",
+          "rank": 60,
           "total": 59.5,
           "rank_score": 59.5,
           "grade": "C",
-          "confidence": 62,
-          "title": "美国跨境成本变化",
+          "confidence": 68,
+          "title": "印尼人工智能初创监管变化",
           "industry_ids": [
             "crossborder"
           ],
           "region_ids": [
-            "north-america"
+            "sea"
           ],
-          "first_seen": "2026-10-20"
+          "first_seen": "2026-06-02"
         },
         {
           "candidate_id": "cand-e85e27c3f6d9",
-          "rank": 62,
+          "rank": 61,
           "total": 59.5,
           "rank_score": 59.5,
           "grade": "C",
@@ -3210,21 +2731,21 @@
           "first_seen": "2026-10-23"
         },
         {
-          "candidate_id": "cand-b34627a8d41e",
-          "rank": 63,
-          "total": 58.9,
-          "rank_score": 58.9,
+          "candidate_id": "cand-0fc5429f672b",
+          "rank": 62,
+          "total": 58.8,
+          "rank_score": 58.8,
           "grade": "C",
-          "confidence": 66,
-          "title": "全球跨境成本变化",
+          "confidence": 68,
+          "title": "全球跨境监管变化",
           "industry_ids": [
             "crossborder"
           ],
           "region_ids": [
             "global",
-            "north-america"
+            "europe"
           ],
-          "first_seen": "2026-10-22"
+          "first_seen": "2026-10-23"
         }
       ]
     }
