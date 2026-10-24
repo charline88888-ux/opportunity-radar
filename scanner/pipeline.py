@@ -421,6 +421,14 @@ def main(argv: list[str] | None = None) -> int:
             translate_provider=args.translate_provider,
             translate_cache=not args.no_translate_cache,
         )
+        # v1.8.0：有 key 时对新/变更候选自动分析；失败不阻断主流程，单测跳过
+        try:
+            if "unittest" not in sys.modules:
+                from scanner import analysis_batch
+                if analysis_batch.available():
+                    analysis_batch.main()
+        except Exception as exc:  # noqa: BLE001
+            log(f"[analysis] 自动分析跳过：{exc}")
     if args.rank or full:
         stage_rank(opportunities, as_of)
     if args.stats or full:

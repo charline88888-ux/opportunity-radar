@@ -14,6 +14,27 @@ import type { Lang } from './i18n'
 export type AssessmentKind = 'candidate' | 'curated'
 
 /** v1.7.0：DeepSeek 商机分析（仅候选提供；精选无字段时整块隐藏） */
+export interface AssessmentInformationValue {
+  score: number | null
+  dimensions: Array<{ key: string; labelZh: string; labelEn: string; value: number }>
+}
+
+export interface AssessmentKeyFact {
+  text: string
+  type: 'fact' | 'inference'
+  sourceTitle?: string
+  sourceUrl?: string
+}
+
+export interface AssessmentEvidenceQuality {
+  sourceCount: number | null
+  independence: number | null
+  authority: number | null
+  timeliness: number | null
+  score: number | null
+  note?: string
+}
+
 export interface AssessmentAnalysis {
   thesis: string
   dominantDrivers: string[]
@@ -31,6 +52,10 @@ export interface AssessmentAnalysis {
   singleAxisStrong: boolean
   scenarioLabel: string
   notAGate: boolean
+  /** v1.8.0：信息价值 5 维 / 关键事实推断 / 证据质量（缺失时对应 UI 自动隐藏） */
+  informationValue?: AssessmentInformationValue
+  keyFacts: AssessmentKeyFact[]
+  evidenceQuality?: AssessmentEvidenceQuality
 }
 
 const COMMERCIAL_LABELS: Record<string, { zh: string; en: string }> = {
@@ -41,6 +66,14 @@ const COMMERCIAL_LABELS: Record<string, { zh: string; en: string }> = {
   startup_conditions: { zh: '启动条件', en: 'Startup conditions' },
 }
 
+const INFO_VALUE_LABELS: Record<string, { zh: string; en: string }> = {
+  novelty: { zh: '新颖度', en: 'Novelty' },
+  specificity: { zh: '具体度', en: 'Specificity' },
+  impact: { zh: '影响力', en: 'Impact' },
+  urgency: { zh: '紧迫度', en: 'Urgency' },
+  actionability: { zh: '可执行性', en: 'Actionability' },
+}
+
 function buildAnalysis(c: Candidate): AssessmentAnalysis | undefined {
   const a = c.analysis
   if (!a || !a.thesis) return undefined
@@ -48,6 +81,17 @@ function buildAnalysis(c: Candidate): AssessmentAnalysis | undefined {
   const commercial = Object.entries(COMMERCIAL_LABELS)
     .map(([key, label]) => ({ key, labelZh: label.zh, labelEn: label.en, value: rawStructure[key] || '' }))
     .filter((x) => !!x.value)
+  const informationValue = a.information_value
+    ? {
+        score: a.information_value.score,
+        dimensions: a.information_value.dimensions
+          .map((d) => {
+            const label = INFO_VALUE_LABELS[d.key]
+            return label ? { key: d.key, labelZh: label.zh, labelEn: label.en, value: d.value } : null
+          })
+          .filter((d): d is { key: string; labelZh: string; labelEn: string; value: number } => !!d),
+      }
+    : undefined
   return {
     thesis: a.thesis,
     dominantDrivers: a.dominant_driver,
@@ -65,6 +109,9 @@ function buildAnalysis(c: Candidate): AssessmentAnalysis | undefined {
     singleAxisStrong: a.single_axis_strong === true || c.single_axis_strong === true,
     scenarioLabel: a.scenario_label || '',
     notAGate: a.not_a_gate !== false,
+    informationValue,
+    keyFacts: (a.key_facts || []).map((f) => ({ text: f.text, type: f.type, sourceTitle: f.sourceTitle, sourceUrl: f.sourceUrl })),
+    evidenceQuality: a.evidence_quality,
   }
 }
 

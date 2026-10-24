@@ -232,7 +232,7 @@ class DeepSeekProvider:
             "causal_chain(必须恰好 5 项，顺序固定：事实→变化→受影响主体→缺口→切入点；每项一句、不得空、不得合并), entry_point, differentiation, "
             "commercial_structure(对象：value_proposition/pricing/cost_structure/channels/startup_conditions), "
             "evidence_refs(数组，必须只用输入 evidence), falsifiers(数组), confidence(0-1), "
-            "analysis_score(0-100), single_axis_strong(布尔)。"
+            "analysis_score(0-100), single_axis_strong(布尔), information_value(对象：score 0-10 + dimensions{novelty/specificity/impact/urgency/actionability 各0-10}), key_facts(数组3-6项：{text,type:fact/inference,source_ref:{title,url}}，source_ref 必须来自输入 evidence), evidence_quality(对象：source_count/independence/authority/recency/timeliness/score/note)."
             f"\n场景：{label}\n候选：{json.dumps({'title': record.get('title_zh') or record.get('title'), 'title_original': record.get('title_original'), 'source': record.get('source'), 'evidence': evidence, 'scores': record.get('scores'), 'industry_ids': record.get('industry_ids'), 'region_ids': record.get('region_ids')}, ensure_ascii=False)}"
         )
 

@@ -28,6 +28,7 @@ ALLOWED_FIELDS = {
     "thesis", "dominant_driver", "strengths", "weaknesses", "unknowns", "causal_chain",
     "entry_point", "differentiation", "commercial_structure", "evidence_refs",
     "falsifiers", "confidence", "analysis_score", "single_axis_strong", "scenario", "not_a_gate",
+    "information_value", "key_facts", "evidence_quality",
 }
 
 
@@ -101,6 +102,91 @@ def _allowed_refs(record: dict[str, Any]) -> list[dict[str, str]]:
     return refs
 
 
+def _normalize_information_value(raw: Any) -> dict[str, Any]:
+    source = raw if isinstance(raw, dict) else {}
+    dimensions_raw = source.get("dimensions") if isinstance(source.get("dimensions"), dict) else source
+    keys = ("novelty", "specificity", "impact", "urgency", "actionability")
+    dimensions = {}
+    for key in keys:
+        try:
+            value = float(dimensions_raw.get(key, source.get(key)))
+        except (TypeError, ValueError):
+            value = 5.0
+        dimensions[key] = round(min(10.0, max(0.0, value)), 1)
+    score = round(sum(dimensions.values()) / len(dimensions), 1)
+    result = {"score": score, "dimensions": dimensions}
+    result.update(dimensions)
+    return result
+
+
+def _normalize_key_facts(raw: Any, refs: list[dict[str, str]], title: str) -> list[dict[str, Any]]:
+    facts = []
+    if isinstance(raw, list):
+        for item in raw:
+            if not isinstance(item, dict):
+                continue
+            text = str(item.get("text") or item.get("fact") or "").strip()
+            if not text:
+                continue
+            kind = str(item.get("type") or "fact").strip().lower()
+            if kind not in {"fact", "inference"}:
+                kind = "inference" if ("推断" in kind or "推断" in text) else "fact"
+            source = item.get("source_ref")
+            ref_title = ref_url = ""
+            if isinstance(source, dict):
+                ref_title = str(source.get("title") or "")
+                ref_url = str(source.get("url") or "")
+            elif isinstance(source, str):
+                ref_url = source
+            if ref_url and not any(ref_url in ref["url"] for ref in refs):
+                ref_url = ""
+            if not ref_url and refs:
+                ref_url = refs[0]["url"]
+                ref_title = ref_title or refs[0]["title"]
+            if not ref_title and ref_url:
+                ref_title = next((ref["title"] for ref in refs if ref["url"] == ref_url), "")
+            facts.append({"text": text, "fact": text, "type": kind, "source_ref": {"title": ref_title, "url": ref_url}})
+    if len(facts) < 3:
+        for ref in refs[:3]:
+            text = ref.get("title") or title
+            facts.append({"text": f"{text}（公开信号摘要）", "fact": f"{text}（公开信号摘要）", "type": "fact",
+                          "source_ref": {"title": ref.get("title") or "", "url": ref.get("url") or ""}})
+    return facts[:6]
+
+
+def _normalize_evidence_quality(raw: Any, refs: list[dict[str, str]], record: dict[str, Any]) -> dict[str, Any]:
+    publishers = {ref.get("publisher") for ref in refs if ref.get("publisher")}
+    source_count = len(refs)
+    independence = min(10.0, max(1.0, len(publishers) * 2.0)) if publishers else (4.0 if source_count else 1.0)
+    authority = 7.0 if source_count else 3.0
+    recency = 8.0 if source_count else 5.0
+    score = min(100.0, (source_count * 8 + independence * 2 + authority * 3 + recency * 2) * 2.5)
+    note = f"公开来源 {source_count} 条，独立发布方 {len(publishers)} 个；理论评分，非人工审计。"
+    if isinstance(raw, dict):
+        try:
+            source_count = int(raw.get("source_count", source_count))
+        except (TypeError, ValueError):
+            pass
+        for key in ("independence", "authority", "recency", "timeliness"):
+            try:
+                value = float(raw.get(key))
+            except (TypeError, ValueError):
+                continue
+            if key == "independence":
+                independence = min(10.0, max(0.0, value))
+            elif key == "authority":
+                authority = min(10.0, max(0.0, value))
+            else:
+                recency = min(10.0, max(0.0, value))
+        try:
+            score = min(100.0, max(0.0, float(raw.get("score"))))
+        except (TypeError, ValueError):
+            pass
+        note = str(raw.get("note") or note)
+    return {"source_count": source_count, "independence": round(independence, 1), "authority": round(authority, 1),
+            "recency": round(recency, 1), "timeliness": round(recency, 1), "score": round(score, 1), "note": note}
+
+
 def normalize_analysis(record: dict[str, Any], raw: dict[str, Any]) -> dict[str, Any] | None:
     if not isinstance(raw, dict):
         return None
@@ -161,10 +247,18 @@ def normalize_analysis(record: dict[str, Any], raw: dict[str, Any]) -> dict[str,
         "single_axis_strong": bool(raw.get("single_axis_strong")),
         "scenario": str(raw.get("scenario") or "batch"),
         "not_a_gate": True,
+        "information_value": _normalize_information_value(raw.get("information_value")),
+        "key_facts": _normalize_key_facts(raw.get("key_facts"), evidence, str(record.get("title_zh") or record.get("title") or "")),
+        "evidence_quality": _normalize_evidence_quality(raw.get("evidence_quality"), evidence, record),
     }
     if not all(result[key] for key in ("thesis", "entry_point", "differentiation", "dominant_driver", "causal_chain", "strengths", "weaknesses", "unknowns", "falsifiers")):
         return None
     return {key: value for key, value in result.items() if key in ALLOWED_FIELDS}
+
+
+def available() -> bool:
+    env = read_hkcu_env()
+    return bool(env.get("DEEPSEEK_API_KEY") or os.environ.get("DEEPSEEK_API_KEY"))
 
 
 def main() -> int:
@@ -172,6 +266,9 @@ def main() -> int:
     for name, value in env.items():
         os.environ[name] = value
     provider = llm_analysis.DeepSeekProvider()
+    if not provider.available:
+        print("analysis skipped: no DEEPSEEK_API_KEY")
+        return 0
     records = json.loads(CANDIDATES_PATH.read_text(encoding="utf-8")).get("candidates") or []
     cache: dict[str, Any] = {}
     if CACHE_PATH.exists():
@@ -201,7 +298,7 @@ def main() -> int:
     for index, record in enumerate(records, 1):
         candidate_id = str(record.get("candidate_id") or "")
         old_analysis = record.get("analysis") or cache.get(candidate_id)
-        if isinstance(old_analysis, dict) and old_analysis.get("evidence_refs") and old_analysis.get("analysis_score") is not None:
+        if isinstance(old_analysis, dict) and all(key in old_analysis for key in ("evidence_refs", "analysis_score", "information_value", "key_facts", "evidence_quality")):
             # 已有缓存且结构完整：直接保留（可节省成本）
             record["analysis"] = old_analysis
             cache[candidate_id] = old_analysis
@@ -235,10 +332,13 @@ def main() -> int:
         results.append({"candidate_id": candidate_id, "status": "ok", "score": record["analysis"].get("analysis_score"), "usage": usage, "latency_seconds": latency})
         if index % 10 == 0:
             print(f"analyzed {index}/{len(records)} ok={success} failed={failed} cached={skipped}", flush=True)
-    # data_version 1.7.0（仅 meta 版本；不改其他字段）
+    if success == 0 and failed == 0 and skipped == len(records):
+        print(f"analysis skipped: all {len(records)} candidates already have v1.8 analysis")
+        return 0
+    # data_version 1.8.0（仅 meta 版本；不改其他字段）
     payload = json.loads(CANDIDATES_PATH.read_text(encoding="utf-8"))
     payload["candidates"] = records
-    payload.setdefault("meta", {})["data_version"] = "1.7.0"
+    payload.setdefault("meta", {})["data_version"] = "1.8.0"
     payload["meta"]["analysis_meta"] = {
         "provider": "deepseek" if provider.available else "mock",
         "model": provider.model,
@@ -255,7 +355,7 @@ def main() -> int:
     CACHE_PATH.parent.mkdir(parents=True, exist_ok=True)
     CACHE_PATH.write_text(json.dumps(cache, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     report = {
-        "data_version": "1.7.0",
+        "data_version": "1.8.0",
         "generated_at": llm_analysis._now(),
         "provider": "deepseek" if provider.available else "mock",
         "api_key_present": provider.available,

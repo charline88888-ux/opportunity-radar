@@ -19,7 +19,7 @@ export default function About() {
       />
 
       <Panel className="mb-3 p-4">
-        <div className="mono-label mb-2">{L('v1.7.0 更新', 'v1.7.0 changes')}</div>
+        <div className="mono-label mb-2">{L('v1.8.0 更新', 'v1.8.0 changes')}</div>
         <div className="grid grid-cols-1 gap-2.5 md:grid-cols-2">
           {[
             {
@@ -45,7 +45,7 @@ export default function About() {
           ))}
         </div>
         <div className="mt-2 rounded border border-cyan/25 bg-cyan/[0.05] px-3 py-2 text-[13px] leading-[1.7] text-cyan/90">
-          {L('v1.7.0：新增「商机分析」区块（默认展开、位于核心判断之后）：分析评分、主导型机会、置信度、论点、主导驱动、因果链、切入点/差异化、商业结构 5 项、强项/弱项/未知、证伪条件与证据引用；榜单新增「主导型机会」徽标与可选筛选；分析 ≠ 门禁，弱项只标注、不参与过滤/排序；精选无分析字段时隐藏区块。', 'v1.7.0: adds an Opportunity analysis block (expanded by default, after the core thesis): analysis score, single-axis flag, confidence, thesis, dominant drivers, causal chain, entry/differentiation, five commercial-structure items, strengths/weaknesses/unknowns, falsifiers and evidence refs; the board adds a Single-axis badge and optional filter. Analysis ≠ gate: weaknesses are annotated only and never filter or rank. Curated opportunities without analysis fields hide the block.')}
+          {L('v1.8.0：商机分析区块新增「信息价值 5 维」（新颖度/具体度/影响力/紧迫度/可执行性，0–10 进度条与均分）、「关键事实 / 推断」列表（类型标签 + 来源外链）与「证据质量」行（来源数/独立性/权威性/时效性/评分）；保留 v1.7.0 分析区全部内容，精选无字段仍隐藏，分析 ≠ 门禁。', 'v1.8.0: the analysis block adds Information value (novelty/specificity/impact/urgency/actionability, 0–10 bars + average), Key facts & inferences (type tags + source links) and Evidence quality (sources/independence/authority/timeliness/score); all v1.7.0 analysis content retained, curated opportunities without fields still hide the block, analysis ≠ gate.')}
         </div>
       </Panel>
 

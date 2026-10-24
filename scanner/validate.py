@@ -839,6 +839,7 @@ def _v20(ctx: dict[str, Any]) -> str:
             "thesis", "dominant_driver", "strengths", "weaknesses", "unknowns", "causal_chain",
             "entry_point", "differentiation", "commercial_structure", "evidence_refs",
             "falsifiers", "confidence", "analysis_score", "single_axis_strong", "scenario", "not_a_gate",
+            "information_value", "key_facts", "evidence_quality",
         }
         if len(candidate_rows) < 100:
             errors.append(f"候选数 {len(candidate_rows)} < 100")
@@ -863,6 +864,15 @@ def _v20(ctx: dict[str, Any]) -> str:
             analysis_text = json.dumps(analysis, ensure_ascii=False)
             if any(word in analysis_text for word in ("验证", "实验", "复核", "门禁")):
                 errors.append(f"{cid}: analysis 含禁用词 验证/实验/复核/门禁")
+            info = analysis.get("information_value")
+            if not isinstance(info, dict) or not isinstance(info.get("dimensions"), dict) or not all(key in info["dimensions"] for key in ("novelty", "specificity", "impact", "urgency", "actionability")):
+                errors.append(f"{cid}: information_value 缺 5 维")
+            facts = analysis.get("key_facts")
+            if not isinstance(facts, list) or len(facts) < 3 or not all(isinstance(item, dict) and item.get("text") and item.get("type") in {"fact", "inference"} and isinstance(item.get("source_ref"), dict) and item["source_ref"].get("url") for item in facts):
+                errors.append(f"{cid}: key_facts 必须≥3且 type/source_ref 合法")
+            quality = analysis.get("evidence_quality")
+            if not isinstance(quality, dict) or not all(key in quality for key in ("source_count", "independence", "authority", "recency", "score", "note")):
+                errors.append(f"{cid}: evidence_quality 字段不全")
             try:
                 score = float(analysis.get("analysis_score"))
                 confidence = float(analysis.get("confidence"))

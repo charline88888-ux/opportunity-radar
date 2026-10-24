@@ -55,6 +55,30 @@ export interface CandidateEvidenceRef {
   url?: string
 }
 
+/** v1.8.0：信息价值 5 维（0–10 统一归一） */
+export interface CandidateInformationValue {
+  score: number | null
+  dimensions: Array<{ key: string; value: number }>
+}
+
+/** v1.8.0：关键事实 / 推断 */
+export interface CandidateKeyFact {
+  text: string
+  type: 'fact' | 'inference'
+  sourceTitle?: string
+  sourceUrl?: string
+}
+
+/** v1.8.0：证据质量（来源数/独立性/权威/时效/评分） */
+export interface CandidateEvidenceQuality {
+  sourceCount: number | null
+  independence: number | null
+  authority: number | null
+  timeliness: number | null
+  score: number | null
+  note?: string
+}
+
 export interface CandidateAnalysis {
   thesis?: string
   dominant_driver: string[]
@@ -73,6 +97,10 @@ export interface CandidateAnalysis {
   scenario?: string
   scenario_label?: string
   not_a_gate?: boolean
+  /** v1.8.0 增量（缺失时 UI 自动隐藏对应卡片） */
+  information_value?: CandidateInformationValue
+  key_facts: CandidateKeyFact[]
+  evidence_quality?: CandidateEvidenceQuality
 }
 
 export interface Candidate {
@@ -171,6 +199,89 @@ function normalizeTextList(x: unknown): string[] {
     .filter(Boolean)
 }
 
+/* ---------------------- v1.8.0 信息价值 / 事实 / 证据质量 ---------------------- */
+
+const INFO_VALUE_KEYS = ['novelty', 'specificity', 'impact', 'urgency', 'actionability'] as const
+
+/** 统一到 0–10（兼容 0–100 分制与字符串数字） */
+function normalizeScore10(v: unknown): number | null {
+  const n = typeof v === 'number' ? v : typeof v === 'string' ? Number(v.replace('%', '').trim()) : NaN
+  if (!Number.isFinite(n)) return null
+  const x = n > 10 ? n / 10 : n
+  return Math.round(Math.max(0, Math.min(10, x)) * 10) / 10
+}
+
+function normalizeInformationValue(raw: unknown): CandidateInformationValue | undefined {
+  if (!isObj(raw)) return undefined
+  const dimRaw = isObj(raw.dimensions) ? raw.dimensions : isObj(raw.scores) ? raw.scores : isObj(raw.value_dimensions) ? raw.value_dimensions : raw
+  const byKey = new Map<string, number>()
+  if (Array.isArray(dimRaw)) {
+    for (const item of dimRaw) {
+      if (!isObj(item)) continue
+      const key = str(item.id, str(item.key, str(item.name))).toLowerCase()
+      const value = normalizeScore10(item.score ?? item.value)
+      if (key && value != null) byKey.set(key, value)
+    }
+  } else {
+    for (const key of INFO_VALUE_KEYS) {
+      const value = normalizeScore10(dimRaw[key])
+      if (value != null) byKey.set(key, value)
+    }
+  }
+  const dimensions = INFO_VALUE_KEYS.map((key) => ({ key, value: byKey.get(key) ?? 0 })).filter((d) => byKey.has(d.key))
+  const scoreRaw = normalizeScore10(raw.score ?? raw.average ?? raw.avg ?? raw.total)
+  const score = scoreRaw ?? (dimensions.length ? Math.round((dimensions.reduce((a, b) => a + b.value, 0) / dimensions.length) * 10) / 10 : null)
+  if (!dimensions.length && score == null) return undefined
+  return { score, dimensions }
+}
+
+function normalizeKeyFacts(raw: unknown): CandidateKeyFact[] {
+  return arr(raw)
+    .map((v): CandidateKeyFact | null => {
+      if (typeof v === 'string') return v.trim() ? { text: v.trim(), type: 'fact' } : null
+      if (!isObj(v)) return null
+      const text = str(v.text, str(v.statement, str(v.content, str(v.fact, str(v.value)))))
+      if (!text) return null
+      const typeRaw = str(v.type, str(v.kind)).toLowerCase()
+      const type: 'fact' | 'inference' = /infer|推断|推测|假设|hypoth/.test(typeRaw) ? 'inference' : 'fact'
+      let sourceTitle: string | undefined
+      let sourceUrl: string | undefined
+      const ref = v.source_ref ?? v.sourceRef ?? v.source ?? v.ref ?? v.evidence_ref
+      if (typeof ref === 'string') {
+        if (/^https?:\/\//i.test(ref)) sourceUrl = ref
+        else sourceTitle = ref
+      } else if (isObj(ref)) {
+        sourceTitle = str(ref.title, str(ref.name, str(ref.label))) || undefined
+        sourceUrl = str(ref.url, str(ref.link, str(ref.href))) || undefined
+      }
+      sourceTitle = sourceTitle || str(v.source_title, str(v.sourceTitle)) || undefined
+      sourceUrl = sourceUrl || str(v.source_url, str(v.url, str(v.link))) || undefined
+      return { text, type, sourceTitle, sourceUrl }
+    })
+    .filter((v): v is CandidateKeyFact => !!v)
+}
+
+function normalizeEvidenceQuality(raw: unknown): CandidateEvidenceQuality | undefined {
+  if (!isObj(raw)) return undefined
+  const pick = (...keys: string[]): number | null => {
+    for (const key of keys) {
+      const n = num(raw[key])
+      if (n != null) return n
+    }
+    return null
+  }
+  const quality: CandidateEvidenceQuality = {
+    sourceCount: pick('source_count', 'sources', 'count', 'source_num', 'sources_count'),
+    independence: normalizeScore10(pick('independence', 'independence_score', 'independent')),
+    authority: normalizeScore10(pick('authority', 'authority_score', 'credibility')),
+    timeliness: normalizeScore10(pick('timeliness', 'timeliness_score', 'freshness', 'recency')),
+    score: normalizeScore10(pick('score', 'overall', 'total', 'evidence_score')),
+    note: str(raw.note) || undefined,
+  }
+  const hasAny = Object.values(quality).some((v) => v != null)
+  return hasAny ? quality : undefined
+}
+
 function normalizeAnalysis(raw: unknown): CandidateAnalysis | undefined {
   if (!isObj(raw)) return undefined
   const commercialRaw = isObj(raw.commercial_structure) ? raw.commercial_structure : {}
@@ -203,6 +314,9 @@ function normalizeAnalysis(raw: unknown): CandidateAnalysis | undefined {
     scenario: str(raw.scenario) || undefined,
     scenario_label: str(raw.scenario_label) || undefined,
     not_a_gate: raw.not_a_gate === true,
+    information_value: normalizeInformationValue(raw.information_value ?? raw.info_value),
+    key_facts: normalizeKeyFacts(raw.key_facts ?? raw.facts ?? raw.facts_and_inferences),
+    evidence_quality: normalizeEvidenceQuality(raw.evidence_quality ?? raw.evidence_quality_score),
   }
   const hasContent =
     !!analysis.thesis ||
@@ -236,6 +350,13 @@ function normalizeCandidate(raw: unknown, index = 0): Candidate | null {
     checks: arr(svRaw.checks).filter(isObj).map((c) => ({ id: str(c.id), name: str(c.name), passed: c.passed === true, note: str(c.note) })),
     notes: str(svRaw.notes),
   }
+  // v1.8.0 字段可能位于 analysis 内，也可能挂在候选顶层；两种都兼容
+  const analysis = normalizeAnalysis(raw.analysis)
+  if (analysis) {
+    if (!analysis.information_value) analysis.information_value = normalizeInformationValue(raw.information_value ?? raw.info_value)
+    if (!analysis.key_facts.length) analysis.key_facts = normalizeKeyFacts(raw.key_facts ?? raw.facts)
+    if (!analysis.evidence_quality) analysis.evidence_quality = normalizeEvidenceQuality(raw.evidence_quality)
+  }
   return {
     candidate_id: id,
     title,
@@ -255,7 +376,7 @@ function normalizeCandidate(raw: unknown, index = 0): Candidate | null {
     one_liner: str(raw.one_liner, str(raw.summary)),
     industry_ids: strs(raw.industry_ids),
     primary_industry: str(raw.primary_industry),
-    analysis: normalizeAnalysis(raw.analysis),
+    analysis,
     analysis_score: raw.analysis_score != null ? num(raw.analysis_score) : isObj(raw.analysis) && raw.analysis.analysis_score != null ? num(raw.analysis.analysis_score) : undefined,
     single_axis_strong: raw.single_axis_strong === true || (isObj(raw.analysis) && raw.analysis.single_axis_strong === true),
     gap_type_ids: strs(raw.gap_type_ids),

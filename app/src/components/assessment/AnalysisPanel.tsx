@@ -3,7 +3,7 @@
  * 默认展开、放在「核心判断」之后；分析 ≠ 门禁：弱项只标注，不参与过滤/排序。
  */
 import type { ReactNode } from 'react'
-import { AlertTriangle, ArrowRight, Brain, ExternalLink, GitBranch, HelpCircle, Lightbulb, Link2, ShieldAlert, Target, TrendingUp, Zap } from 'lucide-react'
+import { AlertTriangle, ArrowRight, BadgeCheck, Brain, ExternalLink, Gauge, GitBranch, HelpCircle, Lightbulb, Link2, ListChecks, ShieldAlert, Target, TrendingUp, Zap } from 'lucide-react'
 import { Badge, Panel } from '@/components/ui'
 import type { AssessmentAnalysis } from '@/lib/assessment'
 import { useI18n } from '@/lib/i18n'
@@ -43,6 +43,9 @@ export function AnalysisPanel({ analysis }: { analysis: AssessmentAnalysis }) {
   const L = (zh: string, en: string) => (lang === 'en' ? en : zh)
   const a = analysis
   const confidencePct = a.confidence != null ? Math.round(a.confidence * 100) : null
+  const infoDims = a.informationValue?.dimensions || []
+  const infoAvg = a.informationValue?.score ?? (infoDims.length ? Math.round((infoDims.reduce((sum, d) => sum + d.value, 0) / infoDims.length) * 10) / 10 : null)
+  const evidenceQuality = a.evidenceQuality
   const nonGate = L('分析≠门禁：弱项只标注，不参与过滤/排序。', 'Analysis ≠ gate: weaknesses are annotated only and never filter or rank.')
 
   return (
@@ -57,6 +60,13 @@ export function AnalysisPanel({ analysis }: { analysis: AssessmentAnalysis }) {
             <span className="inline-flex items-baseline gap-1 rounded border border-line/70 bg-panel-2/50 px-2 py-0.5 text-[12px] text-muted">
               {L('分析评分', 'Analysis score')}
               <span className="num text-[15px] font-semibold text-ink">{fmtScore(a.score)}</span>
+            </span>
+          )}
+          {infoAvg != null && (
+            <span className="inline-flex items-baseline gap-1 rounded border border-cyan/35 bg-cyan/[0.06] px-2 py-0.5 text-[12px] text-cyan">
+              {L('信息价值均分', 'Info value avg')}
+              <span className="num text-[15px] font-semibold text-cyan">{fmtScore(infoAvg)}</span>
+              <span className="text-[11px] text-cyan/70">/10</span>
             </span>
           )}
           {a.singleAxisStrong && (
@@ -89,7 +99,102 @@ export function AnalysisPanel({ analysis }: { analysis: AssessmentAnalysis }) {
         )}
       </Panel>
 
-      {/* 因果链 */}
+      {/* v1.8.0：信息价值 5 维 + 证据质量行 */}
+      {(infoDims.length > 0 || evidenceQuality) && (
+        <Panel className="p-5">
+          <Head
+            icon={<Gauge className="h-4 w-4" />}
+            title={L('信息价值 · 5 维', 'Information value · 5 dimensions')}
+            sub={L('新颖度、具体度、影响力、紧迫度、可执行性（0–10）；证据质量用于判断信息可信度。', 'Novelty, specificity, impact, urgency and actionability (0–10); evidence quality indicates how trustworthy the information is.')}
+            right={infoAvg != null ? <Badge tone="cyan">{L('均分', 'Average')} {fmtScore(infoAvg)} / 10</Badge> : undefined}
+          />
+          <div className="grid grid-cols-1 gap-5 xl:grid-cols-12">
+            <div className="xl:col-span-7">
+              {infoDims.length ? (
+                <div className="space-y-2.5">
+                  {infoDims.map((d) => (
+                    <div key={d.key}>
+                      <div className="flex items-baseline justify-between gap-2">
+                        <span className="text-[13px] text-muted">{lang === 'en' ? d.labelEn : d.labelZh}</span>
+                        <span className="num text-[13px] font-medium text-ink">{fmtScore(d.value)}</span>
+                      </div>
+                      <div className="mt-1 h-2 overflow-hidden rounded bg-line/60">
+                        <div className="h-full rounded bg-gradient-to-r from-cyan/70 to-signal" style={{ width: `${Math.max(0, Math.min(100, d.value * 10))}%` }} />
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <div className="text-[13px] text-dim">—</div>
+              )}
+            </div>
+            <div className="min-w-0 xl:col-span-5">
+              <div className="mb-2 flex items-center gap-1.5 text-[12px] text-dim">
+                <BadgeCheck className="h-3.5 w-3.5" /> {L('证据质量', 'Evidence quality')}
+              </div>
+              <div className="grid grid-cols-2 gap-2">
+                {[
+                  { label: L('来源数', 'Sources'), value: evidenceQuality?.sourceCount != null ? String(evidenceQuality.sourceCount) : '—', unit: '' },
+                  { label: L('独立性', 'Independence'), value: evidenceQuality?.independence != null ? fmtScore(evidenceQuality.independence) : '—', unit: '/10' },
+                  { label: L('权威性', 'Authority'), value: evidenceQuality?.authority != null ? fmtScore(evidenceQuality.authority) : '—', unit: '/10' },
+                  { label: L('时效性', 'Timeliness'), value: evidenceQuality?.timeliness != null ? fmtScore(evidenceQuality.timeliness) : '—', unit: '/10' },
+                  { label: L('证据评分', 'Evidence score'), value: evidenceQuality?.score != null ? fmtScore(evidenceQuality.score) : '—', unit: '/10' },
+                ].map((cell) => (
+                  <div key={cell.label} className="rounded-lg border border-line/60 bg-panel-2/25 px-3 py-2">
+                    <div className="text-[11.5px] text-dim">{cell.label}</div>
+                    <div className="num mt-0.5 text-[15px] font-semibold text-ink">
+                      {cell.value}
+                      {cell.unit && <span className="ml-0.5 text-[11px] font-normal text-dim">{cell.unit}</span>}
+                    </div>
+                  </div>
+                ))}
+              </div>
+              {evidenceQuality?.note && <div className="mt-2 text-[12px] leading-[1.65] text-dim">{evidenceQuality.note}</div>}
+            </div>
+          </div>
+        </Panel>
+      )}
+
+      {/* v1.8.0：关键事实 / 推断 */}
+      {a.keyFacts.length > 0 && (
+        <Panel className="p-5">
+          <Head
+            icon={<ListChecks className="h-4 w-4" />}
+            title={L('关键事实与推断', 'Key facts & inferences')}
+            sub={L('事实可回溯来源；推断为分析判断，需人工复核。', 'Facts trace to sources; inferences are analytical judgements that need manual review.')}
+            right={<Badge tone="muted">{a.keyFacts.length} {L('条', 'items')}</Badge>}
+          />
+          <ul className="divide-y divide-line/40">
+            {a.keyFacts.map((fact, i) => (
+              <li key={i} className="flex flex-wrap items-start gap-2 py-2.5 first:pt-0 last:pb-0">
+                <span
+                  className={cn(
+                    'mt-0.5 shrink-0 rounded border px-1.5 py-0.5 text-[11px] font-medium',
+                    fact.type === 'inference' ? 'border-amber/35 bg-amber/[0.07] text-amber' : 'border-signal/35 bg-signal/[0.07] text-signal',
+                  )}
+                >
+                  {fact.type === 'inference' ? L('推断', 'Inference') : L('事实', 'Fact')}
+                </span>
+                <span className="min-w-0 flex-1 text-[13.5px] leading-[1.7] text-ink/85">{fact.text}</span>
+                {fact.sourceUrl ? (
+                  <a
+                    href={fact.sourceUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                    title={fact.sourceTitle || fact.sourceUrl}
+                    className="inline-flex max-w-full shrink-0 items-center gap-1 truncate rounded border border-cyan/30 bg-cyan/[0.05] px-2 py-0.5 text-[11.5px] text-cyan/90 hover:border-cyan/60 hover:text-cyan"
+                  >
+                    <ExternalLink className="h-3 w-3 shrink-0" /> <span className="max-w-[180px] truncate">{fact.sourceTitle || L('来源', 'Source')}</span>
+                  </a>
+                ) : fact.sourceTitle ? (
+                  <span className="shrink-0 rounded border border-line/70 px-2 py-0.5 text-[11.5px] text-dim">{fact.sourceTitle}</span>
+                ) : null}
+              </li>
+            ))}
+          </ul>
+        </Panel>
+      )}
+
       {a.causalChain.length > 0 && (
         <Panel className="p-5">
           <Head
