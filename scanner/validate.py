@@ -831,10 +831,66 @@ def _v20(ctx: dict[str, Any]) -> str:
                 errors.append(f"{source_id}: ok=false 时 error 必须为非空原因")
         if row.get("ok") is True and mode == "offline":
             errors.append(f"{source_id}: offline 模式不应 ok=true")
+    # v1.7.0：候选 analysis 字段与证据引用校验（旧字段不受影响）
+    candidate_doc = ctx.get("candidates") or {}
+    candidate_rows = candidate_doc.get("candidates") or []
+    if candidate_rows:
+        required = {
+            "thesis", "dominant_driver", "strengths", "weaknesses", "unknowns", "causal_chain",
+            "entry_point", "differentiation", "commercial_structure", "evidence_refs",
+            "falsifiers", "confidence", "analysis_score", "single_axis_strong", "scenario", "not_a_gate",
+        }
+        if len(candidate_rows) < 100:
+            errors.append(f"候选数 {len(candidate_rows)} < 100")
+        for row in candidate_rows:
+            cid = row.get("candidate_id")
+            analysis = row.get("analysis")
+            if not isinstance(analysis, dict):
+                errors.append(f"{cid}: 缺少 analysis")
+                continue
+            missing = required - set(analysis)
+            if missing:
+                errors.append(f"{cid}: analysis 缺字段 {sorted(missing)}")
+            if analysis.get("not_a_gate") is not True:
+                errors.append(f"{cid}: analysis.not_a_gate 必须为 true")
+            drivers = analysis.get("dominant_driver")
+            allowed_drivers = {"信号", "信息差", "可行性", "经济性", "时机", "竞争", "风险", "匹配", "证据", "杠杆"}
+            if not isinstance(drivers, list) or not (1 <= len(drivers) <= 2) or not set(drivers) <= allowed_drivers:
+                errors.append(f"{cid}: dominant_driver 必须为 1–2 个允许维度")
+            chain = analysis.get("causal_chain")
+            if not isinstance(chain, list) or len(chain) != 5 or not all(isinstance(item, str) and item.strip() for item in chain):
+                errors.append(f"{cid}: causal_chain 必须为 5 步非空")
+            analysis_text = json.dumps(analysis, ensure_ascii=False)
+            if any(word in analysis_text for word in ("验证", "实验", "复核", "门禁")):
+                errors.append(f"{cid}: analysis 含禁用词 验证/实验/复核/门禁")
+            try:
+                score = float(analysis.get("analysis_score"))
+                confidence = float(analysis.get("confidence"))
+            except (TypeError, ValueError):
+                errors.append(f"{cid}: analysis_score/confidence 非数值")
+                continue
+            if not (0 <= score <= 100 and 0 <= confidence <= 1):
+                errors.append(f"{cid}: analysis_score/confidence 越界")
+            refs = analysis.get("evidence_refs")
+            if not isinstance(refs, list) or not refs:
+                errors.append(f"{cid}: evidence_refs 为空")
+                continue
+            allowed_urls = {
+                str(item.get("url")) for item in (row.get("evidence") or []) if item.get("url")
+            }
+            source_url = (row.get("source") or {}).get("url")
+            if source_url:
+                allowed_urls.add(str(source_url))
+            for ref in refs:
+                if not isinstance(ref, dict) or not ref.get("url"):
+                    errors.append(f"{cid}: evidence_refs 项不是含 url 的对象")
+                    continue
+                if str(ref.get("url")) not in allowed_urls:
+                    errors.append(f"{cid}: evidence_refs 引用非候选来源 {ref.get('url')}")
     _require(not errors, "；".join(errors[:12]))
     ok_count = sum(1 for row in rows if row.get("ok"))
     modes = sorted({row.get("mode") for row in rows})
-    return f"{len(rows)} 个源健康度合法（ok={ok_count}，modes={modes}）"
+    return f"{len(rows)} 个源健康度合法（ok={ok_count}，modes={modes}；candidate analysis {len(candidate_rows)}/{len(candidate_rows)}）"
 
 
 # ---------------------------------------------------------------- 附加（非 V 规则，仅提示）

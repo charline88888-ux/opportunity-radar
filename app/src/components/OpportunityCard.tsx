@@ -5,7 +5,7 @@
  */
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { ArrowUpRight } from 'lucide-react'
+import { ArrowUpRight, Zap } from 'lucide-react'
 import { Badge } from '@/components/ui'
 import { Chart } from '@/components/charts/Chart'
 import { cardCapitalOption, cardPaybackOption } from '@/components/charts/econ-options'
@@ -64,6 +64,14 @@ export function OpportunityCard({
         {rank != null && <span className="num mt-0.5 w-6 shrink-0 text-[13px] text-dim">{String(rank).padStart(2, '0')}</span>}
         <div className="flex min-w-0 flex-1 flex-wrap items-center gap-1.5">
           <Badge tone={a.kind === 'candidate' ? 'cyan' : 'signal'}>{a.kind === 'candidate' ? L('自动发现', 'Auto') : L('精选', 'Curated')}</Badge>
+          {a.singleAxisStrong && (
+            <span
+              className="inline-flex items-center gap-1 rounded border border-amber/40 bg-amber/10 px-1.5 py-0.5 text-[11.5px] font-medium text-amber"
+              title={L('单一主导驱动强；分析 ≠ 门禁，不参与过滤/排序', 'Single dominant driver; analysis ≠ gate and never filters or ranks')}
+            >
+              <Zap className="h-3 w-3" /> {L('主导型机会', 'Single-axis')}
+            </span>
+          )}
           {industryTag && (
             <span className="rounded border border-line/70 px-1.5 py-0.5 text-[11.5px] text-muted">
               {lang === 'en' ? industryTag.labelEn : industryTag.labelZh}

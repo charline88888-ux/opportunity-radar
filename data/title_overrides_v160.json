@@ -1,6 +1,6 @@
 {
   "meta": {
-    "data_version": "1.6.0",
+    "data_version": "1.7.0",
     "note": "v1.6.0 人工/模型中文标题 override：signal_id → title_zh（具体主体+事件；品牌保留；≤32 字）"
   },
   "overrides": {

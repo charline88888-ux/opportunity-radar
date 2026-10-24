@@ -13,6 +13,61 @@ import type { Lang } from './i18n'
 
 export type AssessmentKind = 'candidate' | 'curated'
 
+/** v1.7.0：DeepSeek 商机分析（仅候选提供；精选无字段时整块隐藏） */
+export interface AssessmentAnalysis {
+  thesis: string
+  dominantDrivers: string[]
+  strengths: string[]
+  weaknesses: string[]
+  unknowns: string[]
+  causalChain: string[]
+  entryPoint: string
+  differentiation: string
+  commercial: Array<{ key: string; labelZh: string; labelEn: string; value: string }>
+  evidenceRefs: Array<{ title: string; url?: string }>
+  falsifiers: string[]
+  confidence: number | null
+  score: number | null
+  singleAxisStrong: boolean
+  scenarioLabel: string
+  notAGate: boolean
+}
+
+const COMMERCIAL_LABELS: Record<string, { zh: string; en: string }> = {
+  value_proposition: { zh: '价值主张', en: 'Value proposition' },
+  pricing: { zh: '定价', en: 'Pricing' },
+  cost_structure: { zh: '成本结构', en: 'Cost structure' },
+  channels: { zh: '渠道', en: 'Channels' },
+  startup_conditions: { zh: '启动条件', en: 'Startup conditions' },
+}
+
+function buildAnalysis(c: Candidate): AssessmentAnalysis | undefined {
+  const a = c.analysis
+  if (!a || !a.thesis) return undefined
+  const rawStructure = a.commercial_structure || {}
+  const commercial = Object.entries(COMMERCIAL_LABELS)
+    .map(([key, label]) => ({ key, labelZh: label.zh, labelEn: label.en, value: rawStructure[key] || '' }))
+    .filter((x) => !!x.value)
+  return {
+    thesis: a.thesis,
+    dominantDrivers: a.dominant_driver,
+    strengths: a.strengths,
+    weaknesses: a.weaknesses,
+    unknowns: a.unknowns,
+    causalChain: a.causal_chain,
+    entryPoint: a.entry_point || '',
+    differentiation: a.differentiation || '',
+    commercial,
+    evidenceRefs: a.evidence_refs.map((r) => ({ title: r.title, url: r.url })),
+    falsifiers: a.falsifiers,
+    confidence: a.confidence ?? c.confidence ?? null,
+    score: a.analysis_score ?? c.analysis_score ?? null,
+    singleAxisStrong: a.single_axis_strong === true || c.single_axis_strong === true,
+    scenarioLabel: a.scenario_label || '',
+    notAGate: a.not_a_gate !== false,
+  }
+}
+
 export interface AssessmentDimension {
   key: string
   labelZh: string
@@ -106,6 +161,9 @@ export interface Assessment {
   disclaimer: string
   tags: AssessmentTag[]
   theoryNote: string
+  /** v1.7.0：分析区块（候选有、精选无则隐藏） */
+  analysis?: AssessmentAnalysis
+  singleAxisStrong: boolean
 }
 
 type Obj = Record<string, unknown>
@@ -481,6 +539,8 @@ export function buildCandidateAssessment(c: Candidate): Assessment {
     disclaimer: c.disclaimer,
     tags: tagsOf(industryId, c.gap_type_ids, c.region_ids),
     theoryNote: THEORY_NOTE,
+    analysis: buildAnalysis(c),
+    singleAxisStrong: c.single_axis_strong === true || c.analysis?.single_axis_strong === true,
   }
 }
 
@@ -579,6 +639,7 @@ export function buildOpportunityAssessment(o: Opportunity): Assessment {
     disclaimer: o.disclaimer,
     tags: tagsOf(o.industry_id, o.gap_type_ids, o.region_ids),
     theoryNote: THEORY_NOTE,
+    singleAxisStrong: false,
   }
 }
 

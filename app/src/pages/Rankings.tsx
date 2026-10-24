@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { ArrowUpRight, Download, LayoutGrid, Search, SlidersHorizontal } from 'lucide-react'
+import { ArrowUpRight, Download, LayoutGrid, Search, SlidersHorizontal, Zap } from 'lucide-react'
 import { PageHeader } from '@/components/PageHeader'
 import { Badge, EmptyState, Panel } from '@/components/ui'
 import { OpportunityCard, type CardFilterKind } from '@/components/OpportunityCard'
@@ -55,6 +55,7 @@ export default function Rankings() {
   const [paybackBand, setPaybackBand] = useState<PaybackBand>('all')
   const [sort, setSort] = useState<SortKey>('score')
   const [visibleCount, setVisibleCount] = useState(30)
+  const [onlySingleAxis, setOnlySingleAxis] = useState(false)
 
   const candidateRows = useMemo<Row[]>(
     () =>
@@ -106,6 +107,7 @@ export default function Rankings() {
       if (industry !== 'all' && a.industryId !== industry) return false
       if (region !== 'all' && !a.regionIds.includes(region)) return false
       if (gap !== 'all' && !a.gapIds.includes(gap)) return false
+      if (onlySingleAxis && !a.singleAxisStrong) return false
       const capital = a.economics.base.capital
       if (capitalBand === 'le10k' && capital > 10_000) return false
       if (capitalBand === '10k-50k' && (capital <= 10_000 || capital > 50_000)) return false
@@ -140,7 +142,9 @@ export default function Rankings() {
       return y.assessment.score.total - x.assessment.score.total
     })
     return sorted
-  }, [baseRows, industry, region, gap, capitalBand, paybackBand, query, sort])
+  }, [baseRows, industry, region, gap, onlySingleAxis, capitalBand, paybackBand, query, sort])
+
+  const singleAxisCount = useMemo(() => baseRows.filter((r) => r.assessment.singleAxisStrong).length, [baseRows])
 
   const stats = useMemo(() => {
     const capitals = rows.map((r) => r.assessment.economics.base.capital)
@@ -172,6 +176,7 @@ export default function Rankings() {
     setCapitalBand('all')
     setPaybackBand('all')
     setSort('score')
+    setOnlySingleAxis(false)
   }
 
   return (
@@ -211,6 +216,20 @@ export default function Rankings() {
         </button>
         <button type="button" onClick={() => setTrack('curated')} className={cn('rounded border px-3 py-1.5 text-[13px]', track === 'curated' ? 'border-signal/50 bg-signal/10 text-signal' : 'border-line text-muted hover:border-line-strong hover:text-ink')}>
           {L('精选', 'Curated')} · {curatedRows.length}
+        </button>
+        <button
+          type="button"
+          onClick={() => {
+            setOnlySingleAxis((v) => !v)
+            setVisibleCount(30)
+          }}
+          className={cn(
+            'inline-flex items-center gap-1 rounded border px-3 py-1.5 text-[13px]',
+            onlySingleAxis ? 'border-amber/50 bg-amber/10 text-amber' : 'border-line text-muted hover:border-line-strong hover:text-ink',
+          )}
+          title={L('仅看单一主导驱动强的机会；分析 ≠ 门禁，不改变排序', 'Show opportunities with a strong single dominant driver only; analysis ≠ gate and does not change ranking')}
+        >
+          <Zap className="h-3.5 w-3.5" /> {L('主导型', 'Single-axis')} · {singleAxisCount}
         </button>
         <span className="ml-auto text-[12px] text-dim">{L(`当前 ${rows.length} 条`, `${rows.length} rows`)}</span>
       </div>

@@ -1124,6 +1124,60 @@ def _is_blocked_title(title: str) -> bool:
     return False
 
 
+def _load_analysis_cache() -> dict[str, dict[str, Any]]:
+    path = Path(__file__).resolve().parent / "build" / "analysis-cache.json"
+    if not path.exists():
+        return {}
+    try:
+        payload = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return {}
+    if not isinstance(payload, dict):
+        return {}
+    return {str(key): value for key, value in payload.items() if isinstance(value, dict)}
+
+
+ANALYSIS_BANNED = (("验证", "核验"), ("实验", "测试"), ("复核", "核对"), ("门禁", "门槛"))
+
+
+def _clean_analysis_strings(value: Any) -> Any:
+    if isinstance(value, str):
+        text = value
+        for old, new in ANALYSIS_BANNED:
+            text = text.replace(old, new)
+        return text
+    if isinstance(value, list):
+        return [_clean_analysis_strings(item) for item in value]
+    if isinstance(value, dict):
+        return {key: _clean_analysis_strings(item) for key, item in value.items()}
+    return value
+
+
+def _analysis_template_chain(record: dict[str, Any], analysis: dict[str, Any]) -> list[str]:
+    title = str(record.get("title_zh") or record.get("title") or "该信号").strip()
+    refs = record.get("evidence") or []
+    ref_title = str((refs[0] or {}).get("title") or title) if refs else title
+    drivers = "、".join(str(item) for item in analysis.get("dominant_driver") or ["信号"])
+    industry = "、".join(record.get("industry_ids") or []) or "目标行业"
+    regions = "、".join(record.get("region_ids") or []) or "目标区域"
+    return [
+        f"事实：公开信号显示「{title}」，来源为「{ref_title}」。",
+        f"变化：该信号指向{drivers}层面的变化，正在改变{regions}相关主体的成本、供给或规则条件。",
+        f"受影响主体：{regions}的{industry}买家、卖家与服务商需要重新评估采购与交付方式。",
+        f"缺口：现有供给尚未充分覆盖「{title}」对应的本地化、合规或效率需求。",
+        "切入点：先用最小可售方案锁定首批客户，建立可复用的交付与成本结构后再扩张。",
+    ]
+
+
+def _ensure_analysis(record: dict[str, Any], analysis: dict[str, Any]) -> dict[str, Any]:
+    analysis = _clean_analysis_strings(analysis)
+    chain = analysis.get("causal_chain")
+    if not isinstance(chain, list) or len(chain) != 5 or not all(isinstance(item, str) and item.strip() for item in chain):
+        analysis["causal_chain"] = _analysis_template_chain(record, analysis)
+    analysis["not_a_gate"] = True
+    return analysis
+
+
 def build_candidates(
     as_of: date | None = None,
     outbox_path: Path | None = None,
@@ -1138,6 +1192,17 @@ def build_candidates(
     signals = [signal for signal in (outbox.get("signals") or []) if isinstance(signal, dict)]
     sources = _load_sources()
     title_overrides = _load_title_overrides()
+    analysis_cache = _load_analysis_cache()
+    try:
+        existing_doc = common.load_json(config.CANDIDATES_PATH) or {}
+    except (OSError, FileNotFoundError):
+        existing_doc = {}
+    existing_meta = (existing_doc.get("meta") or {}) if isinstance(existing_doc, dict) else {}
+    existing_analysis = {
+        str(row.get("candidate_id")): row.get("analysis")
+        for row in existing_doc.get("candidates") or []
+        if isinstance(row, dict) and isinstance(row.get("analysis"), dict)
+    }
     business = sorted(
         [signal for signal in signals if signal.get("tier") == "business"],
         key=lambda signal: (
@@ -1229,6 +1294,10 @@ def build_candidates(
         if candidate.get("source"):
             candidate["source"]["cleaned"] = unique_title
         used_titles.add(candidate["title_zh"])
+        candidate_id = str(candidate.get("candidate_id") or "")
+        cached_analysis = existing_analysis.get(candidate_id) or analysis_cache.get(candidate_id)
+        if isinstance(cached_analysis, dict):
+            candidate["analysis"] = _ensure_analysis(candidate, cached_analysis)
         candidates.append(candidate)
         if len(candidates) >= limit:
             break
@@ -1358,6 +1427,7 @@ def build_candidates(
                 "不写入 opportunities.json。"
             ),
             "disclaimer": DISCLAIMER,
+            "analysis_meta": existing_meta.get("analysis_meta"),
         },
         "candidates": candidates,
     }

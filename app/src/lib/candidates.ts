@@ -50,6 +50,31 @@ export interface CandidateTranslation {
   template?: boolean
 }
 
+export interface CandidateEvidenceRef {
+  title: string
+  url?: string
+}
+
+export interface CandidateAnalysis {
+  thesis?: string
+  dominant_driver: string[]
+  strengths: string[]
+  weaknesses: string[]
+  unknowns: string[]
+  causal_chain: string[]
+  entry_point?: string
+  differentiation?: string
+  commercial_structure?: Record<string, string>
+  evidence_refs: CandidateEvidenceRef[]
+  falsifiers: string[]
+  confidence?: number
+  analysis_score?: number
+  single_axis_strong?: boolean
+  scenario?: string
+  scenario_label?: string
+  not_a_gate?: boolean
+}
+
 export interface Candidate {
   candidate_id: string
   title: string
@@ -62,6 +87,10 @@ export interface Candidate {
   one_liner: string
   industry_ids: string[]
   primary_industry?: string
+  /** v1.7.0：DeepSeek 商机分析（仅候选；精选无字段时隐藏区块） */
+  analysis?: CandidateAnalysis
+  analysis_score?: number
+  single_axis_strong?: boolean
   gap_type_ids: string[]
   region_ids: string[]
   target_countries: string[]
@@ -135,6 +164,58 @@ function normalizeRoi(raw: unknown): CandidateRoi {
   }
 }
 
+function normalizeTextList(x: unknown): string[] {
+  return arr(x)
+    .map((v) => (typeof v === 'string' ? v : isObj(v) ? str(v.text, str(v.value, str(v.name))) : ''))
+    .map((v) => v.trim())
+    .filter(Boolean)
+}
+
+function normalizeAnalysis(raw: unknown): CandidateAnalysis | undefined {
+  if (!isObj(raw)) return undefined
+  const commercialRaw = isObj(raw.commercial_structure) ? raw.commercial_structure : {}
+  const commercial_structure = Object.keys(commercialRaw).length
+    ? Object.fromEntries(Object.entries(commercialRaw).map(([k, v]) => [k, str(v)]).filter(([, v]) => !!v))
+    : undefined
+  const analysis: CandidateAnalysis = {
+    thesis: str(raw.thesis) || undefined,
+    dominant_driver: normalizeTextList(raw.dominant_driver),
+    strengths: normalizeTextList(raw.strengths),
+    weaknesses: normalizeTextList(raw.weaknesses),
+    unknowns: normalizeTextList(raw.unknowns),
+    causal_chain: normalizeTextList(raw.causal_chain),
+    entry_point: str(raw.entry_point) || undefined,
+    differentiation: str(raw.differentiation) || undefined,
+    commercial_structure,
+    evidence_refs: arr(raw.evidence_refs)
+      .map((v) =>
+        typeof v === 'string'
+          ? { title: v }
+          : isObj(v)
+            ? { title: str(v.title, str(v.name, str(v.text, str(v.value)))), url: str(v.url) || undefined }
+            : null,
+      )
+      .filter((v): v is CandidateEvidenceRef => !!v && !!v.title),
+    falsifiers: normalizeTextList(raw.falsifiers),
+    confidence: raw.confidence == null ? undefined : num(raw.confidence),
+    analysis_score: raw.analysis_score == null ? undefined : num(raw.analysis_score),
+    single_axis_strong: raw.single_axis_strong === true,
+    scenario: str(raw.scenario) || undefined,
+    scenario_label: str(raw.scenario_label) || undefined,
+    not_a_gate: raw.not_a_gate === true,
+  }
+  const hasContent =
+    !!analysis.thesis ||
+    analysis.dominant_driver.length > 0 ||
+    analysis.causal_chain.length > 0 ||
+    analysis.entry_point != null ||
+    analysis.strengths.length > 0 ||
+    analysis.weaknesses.length > 0 ||
+    analysis.unknowns.length > 0 ||
+    analysis.falsifiers.length > 0
+  return hasContent ? analysis : undefined
+}
+
 function normalizeCandidate(raw: unknown, index = 0): Candidate | null {
   if (!isObj(raw)) return null
   const id = str(raw.candidate_id, str(raw.id, `candidate-${index + 1}`))
@@ -174,6 +255,9 @@ function normalizeCandidate(raw: unknown, index = 0): Candidate | null {
     one_liner: str(raw.one_liner, str(raw.summary)),
     industry_ids: strs(raw.industry_ids),
     primary_industry: str(raw.primary_industry),
+    analysis: normalizeAnalysis(raw.analysis),
+    analysis_score: raw.analysis_score != null ? num(raw.analysis_score) : isObj(raw.analysis) && raw.analysis.analysis_score != null ? num(raw.analysis.analysis_score) : undefined,
+    single_axis_strong: raw.single_axis_strong === true || (isObj(raw.analysis) && raw.analysis.single_axis_strong === true),
     gap_type_ids: strs(raw.gap_type_ids),
     region_ids: strs(raw.region_ids),
     target_countries: strs(raw.target_countries),

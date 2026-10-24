@@ -19,7 +19,7 @@ export default function About() {
       />
 
       <Panel className="mb-3 p-4">
-        <div className="mono-label mb-2">{L('v1.6.0 更新', 'v1.6.0 changes')}</div>
+        <div className="mono-label mb-2">{L('v1.7.0 更新', 'v1.7.0 changes')}</div>
         <div className="grid grid-cols-1 gap-2.5 md:grid-cols-2">
           {[
             {
@@ -45,7 +45,7 @@ export default function About() {
           ))}
         </div>
         <div className="mt-2 rounded border border-cyan/25 bg-cyan/[0.05] px-3 py-2 text-[13px] leading-[1.7] text-cyan/90">
-          {L('v1.6.0：候选数据扩展至 102 条（中文标题覆盖、无英文整句、无泛化标题），AOV 候选与精选统一为 roi_reverse 口径（ROI 月收入 ÷ 理论单量），经济驾驶舱 AOV 卡下显示来源；保留 v1.5.3 图表口径修正（0 基线、真瀑布勾稽、盈亏竖线、donut 居中）。', 'v1.6.0: auto candidates expanded to 102 (Chinese titles, no full English sentences, no generic titles); AOV unified to roi_reverse (ROI revenue ÷ theoretical orders) for both auto and curated, with the source shown under the AOV card; v1.5.3 chart fixes retained (0 baseline, reconciled waterfall, break-even lines, centred donut).')}
+          {L('v1.7.0：新增「商机分析」区块（默认展开、位于核心判断之后）：分析评分、主导型机会、置信度、论点、主导驱动、因果链、切入点/差异化、商业结构 5 项、强项/弱项/未知、证伪条件与证据引用；榜单新增「主导型机会」徽标与可选筛选；分析 ≠ 门禁，弱项只标注、不参与过滤/排序；精选无分析字段时隐藏区块。', 'v1.7.0: adds an Opportunity analysis block (expanded by default, after the core thesis): analysis score, single-axis flag, confidence, thesis, dominant drivers, causal chain, entry/differentiation, five commercial-structure items, strengths/weaknesses/unknowns, falsifiers and evidence refs; the board adds a Single-axis badge and optional filter. Analysis ≠ gate: weaknesses are annotated only and never filter or rank. Curated opportunities without analysis fields hide the block.')}
         </div>
       </Panel>
 

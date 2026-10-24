@@ -12,19 +12,21 @@ import { Badge, Panel } from '@/components/ui'
 import { Chart } from '@/components/charts/Chart'
 import { scoreRadarOption } from '@/components/charts/econ-options'
 import { EconCockpit } from './EconCockpit'
+import { AnalysisPanel } from './AnalysisPanel'
 import { localizedText, textOf, urgencyLabel, type Assessment } from '@/lib/assessment'
 import { dataAsOf, dataMeta } from '@/lib/data'
 import { useI18n } from '@/lib/i18n'
 import { cn, fmtCny, fmtCnyRange, fmtDate, fmtInt, fmtPct, fmtScore } from '@/lib/utils'
 
 const SECTIONS = [
-  { id: 'economics', zh: '经济性', en: 'Economics' },
-  { id: 'judgment', zh: '核心判断', en: 'Thesis' },
-  { id: 'score', zh: '10 维', en: '10 dims' },
-  { id: 'canvas', zh: '画布', en: 'Canvas' },
-  { id: 'competition', zh: '竞争 / 跨市场', en: 'Competition' },
-  { id: 'execution', zh: '时机 / 执行', en: 'Execution' },
-  { id: 'evidence', zh: '证据', en: 'Evidence' },
+  { id: 'economics', num: '01', zh: '经济性', en: 'Economics' },
+  { id: 'judgment', num: '02', zh: '核心判断', en: 'Thesis' },
+  { id: 'analysis', num: '02A', zh: '商机分析', en: 'Analysis' },
+  { id: 'score', num: '03', zh: '10 维', en: '10 dims' },
+  { id: 'canvas', num: '04', zh: '画布', en: 'Canvas' },
+  { id: 'competition', num: '05', zh: '竞争 / 跨市场', en: 'Competition' },
+  { id: 'execution', num: '06', zh: '时机 / 执行', en: 'Execution' },
+  { id: 'evidence', num: '07', zh: '证据', en: 'Evidence' },
 ] as const
 
 type Obj = Record<string, unknown>
@@ -345,14 +347,14 @@ export function AssessmentDetail({ assessment }: { assessment: Assessment }) {
 
       {/* 锚点导航（唯一一份，无侧栏重复） */}
       <nav className="sticky top-[52px] z-20 -mx-1 mb-5 flex gap-1 overflow-x-auto rounded-lg border border-line/70 bg-bg/90 px-1.5 py-1.5 backdrop-blur-md">
-        {SECTIONS.map((s, i) => (
+        {SECTIONS.filter((s) => s.id !== 'analysis' || !!a.analysis).map((s) => (
           <button
             key={s.id}
             type="button"
             onClick={() => document.getElementById(s.id)?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
             className="shrink-0 rounded px-2.5 py-1 text-[12.5px] text-muted transition-colors hover:bg-white/[0.04] hover:text-ink"
           >
-            <span className="mr-1 font-mono text-[11px] text-dim">{String(i + 1).padStart(2, '0')}</span>
+            <span className="mr-1 font-mono text-[11px] text-dim">{s.num}</span>
             {L(s.zh, s.en)}
           </button>
         ))}
@@ -402,6 +404,17 @@ export function AssessmentDetail({ assessment }: { assessment: Assessment }) {
             </div>
           </div>
         </Section>
+
+        {a.analysis && (
+          <Section
+            id="analysis"
+            index="02A"
+            title={L('商机分析 · 单轴强机会、因果链与证伪条件', 'Opportunity analysis · single-axis signal, causal chain & falsifiers')}
+            sub={L('结构化分析：论点、主导驱动、因果链、切入点、商业结构、强项/弱项/未知与证伪条件。分析 ≠ 门禁：弱项只标注，不参与过滤/排序。', 'Structured analysis: thesis, dominant drivers, causal chain, entry point, commercial structure, strengths/weaknesses/unknowns and falsifiers. Analysis ≠ gate: weaknesses are annotated only and never filter or rank.')}
+          >
+            <AnalysisPanel analysis={a.analysis} />
+          </Section>
+        )}
 
         <Section id="score" index="03" title={L('10 维判断依据', '10-dimension rationale')} sub={L('雷达看结构，右侧逐维看分数、判断理由与本条使用的数据。', 'Radar shows structure; right side shows each score with rationale and data used.')}>
           <Panel className="p-5">

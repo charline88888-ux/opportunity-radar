@@ -29,7 +29,7 @@ CANDIDATES_PATH = DATA_DIR / "candidates.json"
 CANDIDATE_RANKINGS_PATH = DATA_DIR / "candidate-rankings.json"
 DB_PATH = DATA_DIR / "radar.db"
 
-DATA_VERSION = "1.6.0"
+DATA_VERSION = "1.7.0"
 DEFAULT_AS_OF = "2026-10-22"
 CURRENT_WEEK = "2026-W43"
 CANDIDATE_LIMIT = 120  # v0.9.1：候选上限可配置（CLI --candidates-limit / candidates.py --limit）

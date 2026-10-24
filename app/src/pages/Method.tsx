@@ -177,6 +177,34 @@ export default function Method() {
         </div>
       </Panel>
 
+      <Panel className="mb-4 p-5">
+        <div className="mono-label">{L('04 · 商机分析（v1.7.0）', '04 · Opportunity analysis (v1.7.0)')}</div>
+        <h2 className="mt-1 text-[20px] font-semibold tracking-tight text-ink">{L('单轴强机会与因果链：补充判断，不是门禁', 'Single-axis signal and causal chain: extra judgment, not a gate')}</h2>
+        <div className="mt-3 grid grid-cols-1 gap-3 md:grid-cols-3">
+          {[
+            {
+              zh: '论点 + 主导驱动 + 因果链：把「事实 → 变化 → 受影响主体 → 缺口 → 切入点」逐段写清，方便复核。',
+              en: 'Thesis, dominant drivers and causal chain: fact → change → affected parties → gap → entry point, step by step for review.',
+            },
+            {
+              zh: '商业结构 5 项 + 强项/弱项/未知 + 证伪条件：弱项只做标注，用于行动前检查，不参与候选过滤/排序。',
+              en: 'Five commercial-structure items, strengths/weaknesses/unknowns and falsifiers: weaknesses are annotated for pre-action checks, never filtering or ranking candidates.',
+            },
+            {
+              zh: '分析评分（analysis_score）与 10 维评分并列展示，便于对照；主导型机会以「单一主导驱动强」标注。',
+              en: 'Analysis score is shown next to the 10-dimension score for comparison; single-axis opportunities are marked when one dominant driver is strong.',
+            },
+          ].map((item) => (
+            <div key={item.en} className="rounded-lg border border-line/60 bg-panel-2/25 px-4 py-3 text-[13px] leading-[1.75] text-muted">
+              {L(item.zh, item.en)}
+            </div>
+          ))}
+        </div>
+        <div className="mt-3 rounded-lg border border-amber/30 bg-amber/[0.06] px-4 py-2.5 text-[12.5px] leading-[1.75] text-amber">
+          {L('分析 ≠ 门禁：弱项只标注，不参与过滤/排序；分析为理论判断，不构成收入承诺。精选机会无分析字段时，详情页不显示该区块。', 'Analysis ≠ gate: weaknesses are annotated only and never filter or rank; analysis is theoretical and not a revenue promise. Curated opportunities without analysis fields simply hide this block.')}
+        </div>
+      </Panel>
+
       <Panel className="p-5">
         <div className="mono-label mb-2">{L('边界', 'Boundary')}</div>
         <div className="text-[13px] leading-[1.8] text-muted">
