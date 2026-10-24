@@ -1,5 +1,6 @@
 {
   "meta": {
+<<<<<<< HEAD
     "data_version": "1.5.1",
     "as_of": "2026-10-24",
     "generated_at": "2026-10-24T00:58:31+00:00",
@@ -7,12 +8,211 @@
     "count": 101,
     "ok_count": 99,
     "failed_count": 2,
+=======
+    "data_version": "1.6.0",
+    "as_of": "2026-10-23",
+    "generated_at": "2026-10-24T16:46:07+08:00",
+    "generator": "scanner/fetch.py",
+    "count": 142,
+    "ok_count": 139,
+    "failed_count": 3,
+>>>>>>> 3bb0bd9 (release: v1.6.0)
     "mode": "online-fetch",
     "cached_count": 0,
-    "online_count": 101,
+    "online_count": 142,
     "note": "source-health v2：mode/http_status/latency_ms/cached/items/error；缓存命中 latency 记 0"
   },
   "sources": [
+    {
+      "id": "african-business",
+      "name": "African Business",
+      "category": "demand",
+      "url": "https://african.business/feed",
+      "access": "rss",
+      "compliance": "green",
+      "ok": true,
+      "mode": "online-fetch",
+      "http_status": 200,
+      "latency_ms": 2279,
+      "cached": false,
+      "items": 25,
+      "signals": 25,
+      "checked_at": "2026-10-24T16:39:47+08:00",
+      "error": null,
+      "status": 200,
+      "note": "v1.6.0 接入 researcher sources-v160 P0 源（商业/产业；实测 200）；只取标题/摘要/链接，限速 ≤1 req/5s、缓存 ≥6h。"
+    },
+    {
+      "id": "businesstoday-in",
+      "name": "Business Today India",
+      "category": "demand",
+      "url": "https://www.businesstoday.in/rss/home",
+      "access": "rss",
+      "compliance": "green",
+      "ok": true,
+      "mode": "online-fetch",
+      "http_status": 200,
+      "latency_ms": 3770,
+      "cached": false,
+      "items": 30,
+      "signals": 30,
+      "checked_at": "2026-10-24T16:39:50+08:00",
+      "error": null,
+      "status": 200,
+      "note": "v1.6.0 接入 researcher sources-v160 P0 源（商业/财经；实测 200）；只取标题/摘要/链接，限速 ≤1 req/5s、缓存 ≥6h。"
+    },
+    {
+      "id": "elfinanciero-mx",
+      "name": "El Financiero MX",
+      "category": "demand",
+      "url": "https://www.elfinanciero.com.mx/rss/",
+      "access": "rss",
+      "compliance": "green",
+      "ok": true,
+      "mode": "online-fetch",
+      "http_status": 200,
+      "latency_ms": 4407,
+      "cached": false,
+      "items": 30,
+      "signals": 30,
+      "checked_at": "2026-10-24T16:39:55+08:00",
+      "error": null,
+      "status": 200,
+      "note": "v1.6.0 接入 researcher sources-v160 P0 源（商业/财经；实测 200）；只取标题/摘要/链接，限速 ≤1 req/5s、缓存 ≥6h。"
+    },
+    {
+      "id": "euobserver-business",
+      "name": "EUobserver Business",
+      "category": "demand",
+      "url": "https://euobserver.com/rss",
+      "access": "rss",
+      "compliance": "green",
+      "ok": true,
+      "mode": "online-fetch",
+      "http_status": 200,
+      "latency_ms": 4084,
+      "cached": false,
+      "items": 20,
+      "signals": 20,
+      "checked_at": "2026-10-24T16:39:59+08:00",
+      "error": null,
+      "status": 200,
+      "note": "v1.6.0 接入 researcher sources-v160 P0 源（政策/商业；实测 200）；只取标题/摘要/链接，限速 ≤1 req/5s、缓存 ≥6h。"
+    },
+    {
+      "id": "hindubusinessline-companies",
+      "name": "BusinessLine Companies",
+      "category": "demand",
+      "url": "https://www.thehindubusinessline.com/companies/feeder/default.rss",
+      "access": "rss",
+      "compliance": "green",
+      "ok": true,
+      "mode": "online-fetch",
+      "http_status": 200,
+      "latency_ms": 3038,
+      "cached": false,
+      "items": 30,
+      "signals": 30,
+      "checked_at": "2026-10-24T16:40:02+08:00",
+      "error": null,
+      "status": 200,
+      "note": "v1.6.0 接入 researcher sources-v160 P0 源（商业/公司；实测 200）；只取标题/摘要/链接，限速 ≤1 req/5s、缓存 ≥6h。"
+    },
+    {
+      "id": "pandaily",
+      "name": "Pandaily",
+      "category": "demand",
+      "url": "https://pandaily.com/feed/",
+      "access": "rss",
+      "compliance": "green",
+      "ok": true,
+      "mode": "online-fetch",
+      "http_status": 200,
+      "latency_ms": 1942,
+      "cached": false,
+      "items": 20,
+      "signals": 20,
+      "checked_at": "2026-10-24T16:40:04+08:00",
+      "error": null,
+      "status": 200,
+      "note": "v1.6.0 接入 researcher sources-v160 P0 源（科技/出海；实测 200）；只取标题/摘要/链接，限速 ≤1 req/5s、缓存 ≥6h。"
+    },
+    {
+      "id": "pv-magazine",
+      "name": "pv magazine",
+      "category": "demand",
+      "url": "https://www.pv-magazine.com/feed/",
+      "access": "rss",
+      "compliance": "green",
+      "ok": true,
+      "mode": "online-fetch",
+      "http_status": 200,
+      "latency_ms": 2239,
+      "cached": false,
+      "items": 10,
+      "signals": 10,
+      "checked_at": "2026-10-24T16:40:06+08:00",
+      "error": null,
+      "status": 200,
+      "note": "v1.6.0 接入 researcher sources-v160 P0 源（光伏/新能源；实测 200）；只取标题/摘要/链接，限速 ≤1 req/5s、缓存 ≥6h。"
+    },
+    {
+      "id": "techfundingnews",
+      "name": "Tech Funding News",
+      "category": "demand",
+      "url": "https://techfundingnews.com/feed/",
+      "access": "rss",
+      "compliance": "green",
+      "ok": true,
+      "mode": "online-fetch",
+      "http_status": 200,
+      "latency_ms": 2491,
+      "cached": false,
+      "items": 10,
+      "signals": 10,
+      "checked_at": "2026-10-24T16:40:09+08:00",
+      "error": null,
+      "status": 200,
+      "note": "v1.6.0 接入 researcher sources-v160 P0 源（创业/融资；实测 200）；只取标题/摘要/链接，限速 ≤1 req/5s、缓存 ≥6h。"
+    },
+    {
+      "id": "technode-global",
+      "name": "TechNode Global",
+      "category": "demand",
+      "url": "https://technode.global/feed/",
+      "access": "rss",
+      "compliance": "green",
+      "ok": true,
+      "mode": "online-fetch",
+      "http_status": 200,
+      "latency_ms": 2336,
+      "cached": false,
+      "items": 30,
+      "signals": 30,
+      "checked_at": "2026-10-24T16:40:11+08:00",
+      "error": null,
+      "status": 200,
+      "note": "v1.6.0 接入 researcher sources-v160 P0 源（科技/出海；实测 200）；只取标题/摘要/链接，限速 ≤1 req/5s、缓存 ≥6h。"
+    },
+    {
+      "id": "yonhap-en",
+      "name": "Yonhap English",
+      "category": "demand",
+      "url": "https://en.yna.co.kr/RSS/news.xml",
+      "access": "rss",
+      "compliance": "green",
+      "ok": true,
+      "mode": "online-fetch",
+      "http_status": 200,
+      "latency_ms": 2389,
+      "cached": false,
+      "items": 30,
+      "signals": 30,
+      "checked_at": "2026-10-24T16:40:14+08:00",
+      "error": null,
+      "status": 200,
+      "note": "v1.6.0 接入 researcher sources-v160 P0 源（商业/综合；实测 200）；只取标题/摘要/链接，限速 ≤1 req/5s、缓存 ≥6h。"
+    },
     {
       "id": "eu-commission-press",
       "name": "European Commission Press",
@@ -23,11 +223,19 @@
       "ok": true,
       "mode": "online-fetch",
       "http_status": 200,
+<<<<<<< HEAD
       "latency_ms": 1337,
       "cached": false,
       "items": 10,
       "signals": 10,
       "checked_at": "2026-10-24T00:56:05+00:00",
+=======
+      "latency_ms": 2605,
+      "cached": false,
+      "items": 10,
+      "signals": 10,
+      "checked_at": "2026-10-24T16:40:16+08:00",
+>>>>>>> 3bb0bd9 (release: v1.6.0)
       "error": null,
       "status": 200,
       "note": "v0.9.1 并入 researcher sources-expansion.md 实测源；免 key/免登录，只取标题/摘要/链接，限速 1 req/s；实测 HTTP 200、解析 10 条"
@@ -42,11 +250,19 @@
       "ok": true,
       "mode": "online-fetch",
       "http_status": 200,
+<<<<<<< HEAD
       "latency_ms": 557,
       "cached": false,
       "items": 30,
       "signals": 30,
       "checked_at": "2026-10-24T00:56:06+00:00",
+=======
+      "latency_ms": 2316,
+      "cached": false,
+      "items": 30,
+      "signals": 30,
+      "checked_at": "2026-10-24T16:40:18+08:00",
+>>>>>>> 3bb0bd9 (release: v1.6.0)
       "error": null,
       "status": 200,
       "note": "v0.9.1 并入 researcher sources-expansion.md 实测源；免 key/免登录，只取标题/摘要/链接，限速 1 req/s；实测 HTTP 200、解析 200 条"
@@ -61,11 +277,19 @@
       "ok": true,
       "mode": "online-fetch",
       "http_status": 200,
+<<<<<<< HEAD
       "latency_ms": 599,
       "cached": false,
       "items": 30,
       "signals": 30,
       "checked_at": "2026-10-24T00:56:07+00:00",
+=======
+      "latency_ms": 2370,
+      "cached": false,
+      "items": 30,
+      "signals": 30,
+      "checked_at": "2026-10-24T16:40:21+08:00",
+>>>>>>> 3bb0bd9 (release: v1.6.0)
       "error": null,
       "status": 200,
       "note": "v0.8.0 新增可执行源（news-aggregator）；实测 2026-10-23：HTTP 200、解析 100 条、2214ms；免 key/免登录"
@@ -80,11 +304,19 @@
       "ok": true,
       "mode": "online-fetch",
       "http_status": 200,
+<<<<<<< HEAD
       "latency_ms": 367,
       "cached": false,
       "items": 12,
       "signals": 12,
       "checked_at": "2026-10-24T00:56:07+00:00",
+=======
+      "latency_ms": 1297,
+      "cached": false,
+      "items": 12,
+      "signals": 12,
+      "checked_at": "2026-10-24T16:40:22+08:00",
+>>>>>>> 3bb0bd9 (release: v1.6.0)
       "error": null,
       "status": 200,
       "note": "v0.9.2：URL 修复为 /feed/latest/ 且 fetch.py 增加 XML 容错（清理未转义 &/控制字符），实测 200/12 条恢复 enabled=true"
@@ -99,11 +331,19 @@
       "ok": true,
       "mode": "online-fetch",
       "http_status": 200,
+<<<<<<< HEAD
       "latency_ms": 235,
       "cached": false,
       "items": 10,
       "signals": 10,
       "checked_at": "2026-10-24T00:56:07+00:00",
+=======
+      "latency_ms": 1678,
+      "cached": false,
+      "items": 10,
+      "signals": 10,
+      "checked_at": "2026-10-24T16:40:24+08:00",
+>>>>>>> 3bb0bd9 (release: v1.6.0)
       "error": null,
       "status": 200,
       "note": "v0.9.1 并入 researcher sources-expansion.md 实测源；免 key/免登录，只取标题/摘要/链接，限速 1 req/s；实测 HTTP 200、解析 10 条"
@@ -118,11 +358,19 @@
       "ok": true,
       "mode": "online-fetch",
       "http_status": 200,
+<<<<<<< HEAD
       "latency_ms": 1465,
       "cached": false,
       "items": 30,
       "signals": 30,
       "checked_at": "2026-10-24T00:56:09+00:00",
+=======
+      "latency_ms": 493,
+      "cached": false,
+      "items": 30,
+      "signals": 30,
+      "checked_at": "2026-10-24T16:40:24+08:00",
+>>>>>>> 3bb0bd9 (release: v1.6.0)
       "error": null,
       "status": 200,
       "note": "v0.9.1 并入 researcher sources-expansion.md 实测源；免 key/免登录，只取标题/摘要/链接，限速 1 req/s；实测 HTTP 200、解析 30 条"
@@ -137,11 +385,19 @@
       "ok": true,
       "mode": "online-fetch",
       "http_status": 200,
+<<<<<<< HEAD
       "latency_ms": 423,
       "cached": false,
       "items": 30,
       "signals": 30,
       "checked_at": "2026-10-24T00:56:09+00:00",
+=======
+      "latency_ms": 2600,
+      "cached": false,
+      "items": 30,
+      "signals": 30,
+      "checked_at": "2026-10-24T16:40:27+08:00",
+>>>>>>> 3bb0bd9 (release: v1.6.0)
       "error": null,
       "status": 200,
       "note": "v0.9.1 并入 researcher sources-expansion.md 实测源；免 key/免登录，只取标题/摘要/链接，限速 1 req/s；实测 HTTP 200、解析 50 条"
@@ -156,11 +412,19 @@
       "ok": true,
       "mode": "online-fetch",
       "http_status": 200,
+<<<<<<< HEAD
       "latency_ms": 613,
       "cached": false,
       "items": 30,
       "signals": 30,
       "checked_at": "2026-10-24T00:56:10+00:00",
+=======
+      "latency_ms": 2123,
+      "cached": false,
+      "items": 30,
+      "signals": 30,
+      "checked_at": "2026-10-24T16:40:29+08:00",
+>>>>>>> 3bb0bd9 (release: v1.6.0)
       "error": null,
       "status": 200,
       "note": "v0.8.0 新增可执行源（news-aggregator）；实测 2026-10-23：HTTP 200、解析 100 条、2104ms；免 key/免登录"
@@ -175,11 +439,19 @@
       "ok": true,
       "mode": "online-fetch",
       "http_status": 200,
+<<<<<<< HEAD
       "latency_ms": 455,
       "cached": false,
       "items": 30,
       "signals": 30,
       "checked_at": "2026-10-24T00:56:11+00:00",
+=======
+      "latency_ms": 2250,
+      "cached": false,
+      "items": 30,
+      "signals": 30,
+      "checked_at": "2026-10-24T16:40:31+08:00",
+>>>>>>> 3bb0bd9 (release: v1.6.0)
       "error": null,
       "status": 200,
       "note": "v0.8.0 新增可执行源（news-aggregator）；实测 2026-10-23：HTTP 200、解析 100 条、2641ms；免 key/免登录"
@@ -194,11 +466,19 @@
       "ok": true,
       "mode": "online-fetch",
       "http_status": 200,
+<<<<<<< HEAD
       "latency_ms": 609,
       "cached": false,
       "items": 10,
       "signals": 10,
       "checked_at": "2026-10-24T00:56:11+00:00",
+=======
+      "latency_ms": 3583,
+      "cached": false,
+      "items": 10,
+      "signals": 10,
+      "checked_at": "2026-10-24T16:40:35+08:00",
+>>>>>>> 3bb0bd9 (release: v1.6.0)
       "error": null,
       "status": 200,
       "note": "v0.9.1 并入 researcher sources-expansion.md 实测源；免 key/免登录，只取标题/摘要/链接，限速 1 req/s；实测 HTTP 200、解析 10 条"
@@ -210,17 +490,26 @@
       "url": "https://tech.eu/feed/",
       "access": "rss",
       "compliance": "green",
-      "ok": false,
+      "ok": true,
       "mode": "online-fetch",
-      "http_status": 403,
-      "latency_ms": 0,
+      "http_status": 200,
+      "latency_ms": 3842,
       "cached": false,
+<<<<<<< HEAD
       "items": 0,
       "signals": 0,
       "checked_at": "2026-10-24T00:56:14+00:00",
       "error": "HTTP 403",
       "status": 403,
       "note": "v0.9.1 并入 researcher sources-expansion.md 实测源；免 key/免登录，只取标题/摘要/链接，限速 1 req/s；实测 HTTP 200、解析 20 条"
+=======
+      "items": 20,
+      "signals": 20,
+      "checked_at": "2026-10-24T16:40:39+08:00",
+      "error": null,
+      "status": 200,
+      "note": "v0.9.1 并入 researcher sources-expansion.md 实测源；免 key/免登录，只取标题/摘要/链接，限速 1 req/s；实测 HTTP 200、解析 20 条 v1.6.0：researcher 2026"
+>>>>>>> 3bb0bd9 (release: v1.6.0)
     },
     {
       "id": "wto-news",
@@ -232,14 +521,459 @@
       "ok": true,
       "mode": "online-fetch",
       "http_status": 200,
+<<<<<<< HEAD
       "latency_ms": 486,
       "cached": false,
       "items": 10,
       "signals": 10,
       "checked_at": "2026-10-24T00:56:15+00:00",
+=======
+      "latency_ms": 1696,
+      "cached": false,
+      "items": 10,
+      "signals": 10,
+      "checked_at": "2026-10-24T16:40:41+08:00",
+>>>>>>> 3bb0bd9 (release: v1.6.0)
       "error": null,
       "status": 200,
       "note": "v0.9.1 并入 researcher sources-expansion.md 实测源；免 key/免登录，只取标题/摘要/链接，限速 1 req/s；实测 HTTP 200、解析 10 条"
+    },
+    {
+      "id": "gn-v160-ae-regulation",
+      "name": "Google News · 中东监管",
+      "category": "demand",
+      "url": "https://news.google.com/rss/search?q=regulation+business+UAE+when:14d&hl=en-AE&gl=AE&ceid=AE:en",
+      "access": "rss",
+      "compliance": "yellow",
+      "ok": true,
+      "mode": "online-fetch",
+      "http_status": 200,
+      "latency_ms": 3210,
+      "cached": false,
+      "items": 30,
+      "signals": 30,
+      "checked_at": "2026-10-24T16:40:44+08:00",
+      "error": null,
+      "status": 200,
+      "note": "v1.6.0 扩源：按区域/语言增加机会事件查询（监管/需求/成本/供给缺口/平台规则）；仅个人研究、限速/缓存。"
+    },
+    {
+      "id": "gn-v160-br-regulation",
+      "name": "Google News · 巴西监管",
+      "category": "policy",
+      "url": "https://news.google.com/rss/search?q=regulamenta%C3%A7%C3%A3o+neg%C3%B3cios+when:14d&hl=pt-BR&gl=BR&ceid=BR:pt",
+      "access": "rss",
+      "compliance": "yellow",
+      "ok": true,
+      "mode": "online-fetch",
+      "http_status": 200,
+      "latency_ms": 3646,
+      "cached": false,
+      "items": 30,
+      "signals": 30,
+      "checked_at": "2026-10-24T16:40:47+08:00",
+      "error": null,
+      "status": 200,
+      "note": "v1.6.0 扩源：按区域/语言增加机会事件查询（监管/需求/成本/供给缺口/平台规则）；仅个人研究、限速/缓存。"
+    },
+    {
+      "id": "gn-v160-de-regulation",
+      "name": "Google News · 德国监管",
+      "category": "policy",
+      "url": "https://news.google.com/rss/search?q=Regulierung+Unternehmen+when:14d&hl=de&gl=DE&ceid=DE:de",
+      "access": "rss",
+      "compliance": "yellow",
+      "ok": true,
+      "mode": "online-fetch",
+      "http_status": 200,
+      "latency_ms": 1802,
+      "cached": false,
+      "items": 30,
+      "signals": 30,
+      "checked_at": "2026-10-24T16:40:49+08:00",
+      "error": null,
+      "status": 200,
+      "note": "v1.6.0 扩源：按区域/语言增加机会事件查询（监管/需求/成本/供给缺口/平台规则）；仅个人研究、限速/缓存。"
+    },
+    {
+      "id": "gn-v160-es-regulation",
+      "name": "Google News · 西班牙监管",
+      "category": "policy",
+      "url": "https://news.google.com/rss/search?q=regulaci%C3%B3n+empresas+when:14d&hl=es&gl=ES&ceid=ES:es",
+      "access": "rss",
+      "compliance": "yellow",
+      "ok": true,
+      "mode": "online-fetch",
+      "http_status": 200,
+      "latency_ms": 2024,
+      "cached": false,
+      "items": 30,
+      "signals": 30,
+      "checked_at": "2026-10-24T16:40:51+08:00",
+      "error": null,
+      "status": 200,
+      "note": "v1.6.0 扩源：按区域/语言增加机会事件查询（监管/需求/成本/供给缺口/平台规则）；仅个人研究、限速/缓存。"
+    },
+    {
+      "id": "gn-v160-fr-regulation",
+      "name": "Google News · 法国监管",
+      "category": "policy",
+      "url": "https://news.google.com/rss/search?q=r%C3%A9glementation+entreprises+when:14d&hl=fr&gl=FR&ceid=FR:fr",
+      "access": "rss",
+      "compliance": "yellow",
+      "ok": true,
+      "mode": "online-fetch",
+      "http_status": 200,
+      "latency_ms": 5893,
+      "cached": false,
+      "items": 30,
+      "signals": 30,
+      "checked_at": "2026-10-24T16:40:57+08:00",
+      "error": null,
+      "status": 200,
+      "note": "v1.6.0 扩源：按区域/语言增加机会事件查询（监管/需求/成本/供给缺口/平台规则）；仅个人研究、限速/缓存。"
+    },
+    {
+      "id": "gn-v160-global-platform",
+      "name": "Google News · 平台规则变化",
+      "category": "trend",
+      "url": "https://news.google.com/rss/search?q=platform+policy+change+sellers+when:14d&hl=en-US&gl=US&ceid=US:en",
+      "access": "rss",
+      "compliance": "yellow",
+      "ok": true,
+      "mode": "online-fetch",
+      "http_status": 200,
+      "latency_ms": 1771,
+      "cached": false,
+      "items": 30,
+      "signals": 30,
+      "checked_at": "2026-10-24T16:40:59+08:00",
+      "error": null,
+      "status": 200,
+      "note": "v1.6.0 扩源：按区域/语言增加机会事件查询（监管/需求/成本/供给缺口/平台规则）；仅个人研究、限速/缓存。"
+    },
+    {
+      "id": "gn-v160-global-supply",
+      "name": "Google News · 全球供应链缺口",
+      "category": "trend",
+      "url": "https://news.google.com/rss/search?q=supply+chain+shortage+demand+when:14d&hl=en-US&gl=US&ceid=US:en",
+      "access": "rss",
+      "compliance": "yellow",
+      "ok": true,
+      "mode": "online-fetch",
+      "http_status": 200,
+      "latency_ms": 1687,
+      "cached": false,
+      "items": 30,
+      "signals": 30,
+      "checked_at": "2026-10-24T16:41:01+08:00",
+      "error": null,
+      "status": 200,
+      "note": "v1.6.0 扩源：按区域/语言增加机会事件查询（监管/需求/成本/供给缺口/平台规则）；仅个人研究、限速/缓存。"
+    },
+    {
+      "id": "gn-v160-global-tariff",
+      "name": "Google News · 关税与进口成本",
+      "category": "trend",
+      "url": "https://news.google.com/rss/search?q=tariff+import+cost+impact+when:14d&hl=en-US&gl=US&ceid=US:en",
+      "access": "rss",
+      "compliance": "yellow",
+      "ok": true,
+      "mode": "online-fetch",
+      "http_status": 200,
+      "latency_ms": 1782,
+      "cached": false,
+      "items": 27,
+      "signals": 27,
+      "checked_at": "2026-10-24T16:41:03+08:00",
+      "error": null,
+      "status": 200,
+      "note": "v1.6.0 扩源：按区域/语言增加机会事件查询（监管/需求/成本/供给缺口/平台规则）；仅个人研究、限速/缓存。"
+    },
+    {
+      "id": "gn-v160-id-regulation",
+      "name": "Google News · 印尼监管",
+      "category": "policy",
+      "url": "https://news.google.com/rss/search?q=regulasi+bisnis+when:14d&hl=id-ID&gl=ID&ceid=ID:id",
+      "access": "rss",
+      "compliance": "yellow",
+      "ok": true,
+      "mode": "online-fetch",
+      "http_status": 200,
+      "latency_ms": 3430,
+      "cached": false,
+      "items": 30,
+      "signals": 30,
+      "checked_at": "2026-10-24T16:41:06+08:00",
+      "error": null,
+      "status": 200,
+      "note": "v1.6.0 扩源：按区域/语言增加机会事件查询（监管/需求/成本/供给缺口/平台规则）；仅个人研究、限速/缓存。"
+    },
+    {
+      "id": "gn-v160-in-regulation",
+      "name": "Google News · 印度监管",
+      "category": "policy",
+      "url": "https://news.google.com/rss/search?q=regulation+small+business+India+when:14d&hl=en-IN&gl=IN&ceid=IN:en",
+      "access": "rss",
+      "compliance": "yellow",
+      "ok": true,
+      "mode": "online-fetch",
+      "http_status": 200,
+      "latency_ms": 2124,
+      "cached": false,
+      "items": 30,
+      "signals": 30,
+      "checked_at": "2026-10-24T16:41:08+08:00",
+      "error": null,
+      "status": 200,
+      "note": "v1.6.0 扩源：按区域/语言增加机会事件查询（监管/需求/成本/供给缺口/平台规则）；仅个人研究、限速/缓存。"
+    },
+    {
+      "id": "gn-v160-jp-regulation",
+      "name": "Google News · 日本监管",
+      "category": "demand",
+      "url": "https://news.google.com/rss/search?q=%E8%A6%8F%E5%88%B6+%E3%83%93%E3%82%B8%E3%83%8D%E3%82%B9+when:14d&hl=ja&gl=JP&ceid=JP:ja",
+      "access": "rss",
+      "compliance": "yellow",
+      "ok": true,
+      "mode": "online-fetch",
+      "http_status": 200,
+      "latency_ms": 1782,
+      "cached": false,
+      "items": 30,
+      "signals": 30,
+      "checked_at": "2026-10-24T16:41:10+08:00",
+      "error": null,
+      "status": 200,
+      "note": "v1.6.0 扩源：按区域/语言增加机会事件查询（监管/需求/成本/供给缺口/平台规则）；仅个人研究、限速/缓存。"
+    },
+    {
+      "id": "gn-v160-ke-regulation",
+      "name": "Google News · 肯尼亚监管",
+      "category": "demand",
+      "url": "https://news.google.com/rss/search?q=business+regulation+Kenya+when:14d&hl=en-KE&gl=KE&ceid=KE:en",
+      "access": "rss",
+      "compliance": "yellow",
+      "ok": true,
+      "mode": "online-fetch",
+      "http_status": 200,
+      "latency_ms": 1995,
+      "cached": false,
+      "items": 30,
+      "signals": 30,
+      "checked_at": "2026-10-24T16:41:12+08:00",
+      "error": null,
+      "status": 200,
+      "note": "v1.6.0 扩源：按区域/语言增加机会事件查询（监管/需求/成本/供给缺口/平台规则）；仅个人研究、限速/缓存。"
+    },
+    {
+      "id": "gn-v160-kr-regulation",
+      "name": "Google News · 韩国监管",
+      "category": "demand",
+      "url": "https://news.google.com/rss/search?q=%EA%B7%9C%EC%A0%9C+%EB%B9%84%EC%A6%88%EB%8B%88%EC%8A%A4+when:14d&hl=ko&gl=KR&ceid=KR:ko",
+      "access": "rss",
+      "compliance": "yellow",
+      "ok": true,
+      "mode": "online-fetch",
+      "http_status": 200,
+      "latency_ms": 1978,
+      "cached": false,
+      "items": 30,
+      "signals": 30,
+      "checked_at": "2026-10-24T16:41:14+08:00",
+      "error": null,
+      "status": 200,
+      "note": "v1.6.0 扩源：按区域/语言增加机会事件查询（监管/需求/成本/供给缺口/平台规则）；仅个人研究、限速/缓存。"
+    },
+    {
+      "id": "gn-v160-mx-regulation",
+      "name": "Google News · 墨西哥监管",
+      "category": "policy",
+      "url": "https://news.google.com/rss/search?q=regulaci%C3%B3n+negocios+when:14d&hl=es-419&gl=MX&ceid=MX:es",
+      "access": "rss",
+      "compliance": "yellow",
+      "ok": true,
+      "mode": "online-fetch",
+      "http_status": 200,
+      "latency_ms": 3275,
+      "cached": false,
+      "items": 30,
+      "signals": 30,
+      "checked_at": "2026-10-24T16:41:17+08:00",
+      "error": null,
+      "status": 200,
+      "note": "v1.6.0 扩源：按区域/语言增加机会事件查询（监管/需求/成本/供给缺口/平台规则）；仅个人研究、限速/缓存。"
+    },
+    {
+      "id": "gn-v160-ng-regulation",
+      "name": "Google News · 尼日利亚监管",
+      "category": "demand",
+      "url": "https://news.google.com/rss/search?q=regulation+business+Nigeria+when:14d&hl=en-NG&gl=NG&ceid=NG:en",
+      "access": "rss",
+      "compliance": "yellow",
+      "ok": true,
+      "mode": "online-fetch",
+      "http_status": 200,
+      "latency_ms": 2976,
+      "cached": false,
+      "items": 30,
+      "signals": 30,
+      "checked_at": "2026-10-24T16:41:20+08:00",
+      "error": null,
+      "status": 200,
+      "note": "v1.6.0 扩源：按区域/语言增加机会事件查询（监管/需求/成本/供给缺口/平台规则）；仅个人研究、限速/缓存。"
+    },
+    {
+      "id": "gn-v160-ru-regulation",
+      "name": "Google News · 俄罗斯监管",
+      "category": "demand",
+      "url": "https://news.google.com/rss/search?q=%D1%80%D0%B5%D0%B3%D1%83%D0%BB%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5+%D0%B1%D0%B8%D0%B7%D0%BD%D0%B5%D1%81%D0%B0+when:14d&hl=ru&gl=RU&ceid=RU:ru",
+      "access": "rss",
+      "compliance": "yellow",
+      "ok": true,
+      "mode": "online-fetch",
+      "http_status": 200,
+      "latency_ms": 2086,
+      "cached": false,
+      "items": 30,
+      "signals": 30,
+      "checked_at": "2026-10-24T16:41:22+08:00",
+      "error": null,
+      "status": 200,
+      "note": "v1.6.0 扩源：按区域/语言增加机会事件查询（监管/需求/成本/供给缺口/平台规则）；仅个人研究、限速/缓存。"
+    },
+    {
+      "id": "gn-v160-sea-regulation",
+      "name": "Google News · 东南亚监管",
+      "category": "policy",
+      "url": "https://news.google.com/rss/search?q=regulation+ecommerce+Southeast+Asia+when:14d&hl=en-SG&gl=SG&ceid=SG:en",
+      "access": "rss",
+      "compliance": "yellow",
+      "ok": true,
+      "mode": "online-fetch",
+      "http_status": 200,
+      "latency_ms": 1665,
+      "cached": false,
+      "items": 14,
+      "signals": 14,
+      "checked_at": "2026-10-24T16:41:24+08:00",
+      "error": null,
+      "status": 200,
+      "note": "v1.6.0 扩源：按区域/语言增加机会事件查询（监管/需求/成本/供给缺口/平台规则）；仅个人研究、限速/缓存。"
+    },
+    {
+      "id": "gn-v160-th-regulation",
+      "name": "Google News · 泰国监管",
+      "category": "policy",
+      "url": "https://news.google.com/rss/search?q=%E0%B8%81%E0%B8%8E%E0%B8%A3%E0%B8%B0%E0%B9%80%E0%B8%9A%E0%B8%B5%E0%B8%A2%E0%B8%9A%E0%B8%98%E0%B8%B8%E0%B8%A3%E0%B8%81%E0%B8%B4%E0%B8%88+when:14d&hl=th-TH&gl=TH&ceid=TH:th",
+      "access": "rss",
+      "compliance": "yellow",
+      "ok": true,
+      "mode": "online-fetch",
+      "http_status": 200,
+      "latency_ms": 3222,
+      "cached": false,
+      "items": 30,
+      "signals": 30,
+      "checked_at": "2026-10-24T16:41:27+08:00",
+      "error": null,
+      "status": 200,
+      "note": "v1.6.0 扩源：按区域/语言增加机会事件查询（监管/需求/成本/供给缺口/平台规则）；仅个人研究、限速/缓存。"
+    },
+    {
+      "id": "gn-v160-tr-regulation",
+      "name": "Google News · 土耳其监管",
+      "category": "demand",
+      "url": "https://news.google.com/rss/search?q=d%C3%BCzenleme+i%C5%9Fletme+when:14d&hl=tr&gl=TR&ceid=TR:tr",
+      "access": "rss",
+      "compliance": "yellow",
+      "ok": true,
+      "mode": "online-fetch",
+      "http_status": 200,
+      "latency_ms": 1950,
+      "cached": false,
+      "items": 30,
+      "signals": 30,
+      "checked_at": "2026-10-24T16:41:29+08:00",
+      "error": null,
+      "status": 200,
+      "note": "v1.6.0 扩源：按区域/语言增加机会事件查询（监管/需求/成本/供给缺口/平台规则）；仅个人研究、限速/缓存。"
+    },
+    {
+      "id": "gn-v160-uk-regulation",
+      "name": "Google News · 英国合规监管",
+      "category": "policy",
+      "url": "https://news.google.com/rss/search?q=regulation+small+business+compliance+when:14d&hl=en-GB&gl=GB&ceid=GB:en",
+      "access": "rss",
+      "compliance": "yellow",
+      "ok": true,
+      "mode": "online-fetch",
+      "http_status": 200,
+      "latency_ms": 2733,
+      "cached": false,
+      "items": 24,
+      "signals": 24,
+      "checked_at": "2026-10-24T16:41:32+08:00",
+      "error": null,
+      "status": 200,
+      "note": "v1.6.0 扩源：按区域/语言增加机会事件查询（监管/需求/成本/供给缺口/平台规则）；仅个人研究、限速/缓存。"
+    },
+    {
+      "id": "gn-v160-us-regulation",
+      "name": "Google News · 美国监管变化",
+      "category": "policy",
+      "url": "https://news.google.com/rss/search?q=regulation+impact+small+business+when:14d&hl=en-US&gl=US&ceid=US:en",
+      "access": "rss",
+      "compliance": "yellow",
+      "ok": true,
+      "mode": "online-fetch",
+      "http_status": 200,
+      "latency_ms": 2249,
+      "cached": false,
+      "items": 30,
+      "signals": 30,
+      "checked_at": "2026-10-24T16:41:34+08:00",
+      "error": null,
+      "status": 200,
+      "note": "v1.6.0 扩源：按区域/语言增加机会事件查询（监管/需求/成本/供给缺口/平台规则）；仅个人研究、限速/缓存。"
+    },
+    {
+      "id": "gn-v160-vn-regulation",
+      "name": "Google News · 越南监管",
+      "category": "policy",
+      "url": "https://news.google.com/rss/search?q=quy+%C4%91%E1%BB%8Bnh+kinh+doanh+when:14d&hl=vi-VN&gl=VN&ceid=VN:vi",
+      "access": "rss",
+      "compliance": "yellow",
+      "ok": true,
+      "mode": "online-fetch",
+      "http_status": 200,
+      "latency_ms": 3693,
+      "cached": false,
+      "items": 30,
+      "signals": 30,
+      "checked_at": "2026-10-24T16:41:38+08:00",
+      "error": null,
+      "status": 200,
+      "note": "v1.6.0 扩源：按区域/语言增加机会事件查询（监管/需求/成本/供给缺口/平台规则）；仅个人研究、限速/缓存。"
+    },
+    {
+      "id": "gn-v160-za-regulation",
+      "name": "Google News · 南非监管",
+      "category": "demand",
+      "url": "https://news.google.com/rss/search?q=regulation+South+Africa+business+when:14d&hl=en-ZA&gl=ZA&ceid=ZA:en",
+      "access": "rss",
+      "compliance": "yellow",
+      "ok": true,
+      "mode": "online-fetch",
+      "http_status": 200,
+      "latency_ms": 1935,
+      "cached": false,
+      "items": 30,
+      "signals": 30,
+      "checked_at": "2026-10-24T16:41:40+08:00",
+      "error": null,
+      "status": 200,
+      "note": "v1.6.0 扩源：按区域/语言增加机会事件查询（监管/需求/成本/供给缺口/平台规则）；仅个人研究、限速/缓存。"
     },
     {
       "id": "cna-asia",
@@ -251,11 +985,19 @@
       "ok": true,
       "mode": "online-fetch",
       "http_status": 200,
+<<<<<<< HEAD
       "latency_ms": 356,
       "cached": false,
       "items": 20,
       "signals": 20,
       "checked_at": "2026-10-24T00:56:15+00:00",
+=======
+      "latency_ms": 1522,
+      "cached": false,
+      "items": 20,
+      "signals": 20,
+      "checked_at": "2026-10-24T16:41:41+08:00",
+>>>>>>> 3bb0bd9 (release: v1.6.0)
       "error": null,
       "status": 200,
       "note": "v0.9.1 并入 researcher sources-expansion.md 实测源；免 key/免登录，只取标题/摘要/链接，限速 1 req/s；实测 HTTP 200、解析 20 条"
@@ -270,11 +1012,19 @@
       "ok": true,
       "mode": "online-fetch",
       "http_status": 200,
+<<<<<<< HEAD
       "latency_ms": 687,
       "cached": false,
       "items": 30,
       "signals": 30,
       "checked_at": "2026-10-24T00:56:16+00:00",
+=======
+      "latency_ms": 1579,
+      "cached": false,
+      "items": 30,
+      "signals": 30,
+      "checked_at": "2026-10-24T16:41:43+08:00",
+>>>>>>> 3bb0bd9 (release: v1.6.0)
       "error": null,
       "status": 200,
       "note": "v0.9.1 并入 researcher sources-expansion.md 实测源；免 key/免登录，只取标题/摘要/链接，限速 1 req/s；实测 HTTP 200、解析 50 条"
@@ -289,11 +1039,19 @@
       "ok": true,
       "mode": "online-fetch",
       "http_status": 200,
+<<<<<<< HEAD
       "latency_ms": 640,
       "cached": false,
       "items": 30,
       "signals": 30,
       "checked_at": "2026-10-24T00:56:16+00:00",
+=======
+      "latency_ms": 3427,
+      "cached": false,
+      "items": 30,
+      "signals": 30,
+      "checked_at": "2026-10-24T16:41:46+08:00",
+>>>>>>> 3bb0bd9 (release: v1.6.0)
       "error": null,
       "status": 200,
       "note": "v0.8.0 新增可执行源（news-aggregator）；实测 2026-10-23：HTTP 200、解析 100 条、3448ms；免 key/免登录"
@@ -308,11 +1066,19 @@
       "ok": true,
       "mode": "online-fetch",
       "http_status": 200,
+<<<<<<< HEAD
       "latency_ms": 733,
       "cached": false,
       "items": 30,
       "signals": 30,
       "checked_at": "2026-10-24T00:56:17+00:00",
+=======
+      "latency_ms": 3121,
+      "cached": false,
+      "items": 30,
+      "signals": 30,
+      "checked_at": "2026-10-24T16:41:50+08:00",
+>>>>>>> 3bb0bd9 (release: v1.6.0)
       "error": null,
       "status": 200,
       "note": "v0.8.0 新增可执行源（news-aggregator）；实测 2026-10-23：HTTP 200、解析 63 条、3267ms；免 key/免登录"
@@ -327,11 +1093,19 @@
       "ok": true,
       "mode": "online-fetch",
       "http_status": 200,
+<<<<<<< HEAD
       "latency_ms": 1865,
       "cached": false,
       "items": 30,
       "signals": 30,
       "checked_at": "2026-10-24T00:56:19+00:00",
+=======
+      "latency_ms": 4511,
+      "cached": false,
+      "items": 30,
+      "signals": 30,
+      "checked_at": "2026-10-24T16:41:54+08:00",
+>>>>>>> 3bb0bd9 (release: v1.6.0)
       "error": null,
       "status": 200,
       "note": "v0.9.1 并入 researcher sources-expansion.md 实测源；免 key/免登录，只取标题/摘要/链接，限速 1 req/s；实测 HTTP 200、解析 30 条"
@@ -346,11 +1120,19 @@
       "ok": true,
       "mode": "online-fetch",
       "http_status": 200,
+<<<<<<< HEAD
       "latency_ms": 321,
       "cached": false,
       "items": 24,
       "signals": 24,
       "checked_at": "2026-10-24T00:56:20+00:00",
+=======
+      "latency_ms": 1879,
+      "cached": false,
+      "items": 24,
+      "signals": 24,
+      "checked_at": "2026-10-24T16:41:56+08:00",
+>>>>>>> 3bb0bd9 (release: v1.6.0)
       "error": null,
       "status": 200,
       "note": "v0.8.0 新增可执行源（vertical-media）；实测 2026-10-23：HTTP 200、解析 24 条、1300ms；免 key/免登录"
@@ -365,11 +1147,19 @@
       "ok": true,
       "mode": "online-fetch",
       "http_status": 200,
+<<<<<<< HEAD
       "latency_ms": 279,
       "cached": false,
       "items": 10,
       "signals": 10,
       "checked_at": "2026-10-24T00:56:20+00:00",
+=======
+      "latency_ms": 1996,
+      "cached": false,
+      "items": 10,
+      "signals": 10,
+      "checked_at": "2026-10-24T16:41:58+08:00",
+>>>>>>> 3bb0bd9 (release: v1.6.0)
       "error": null,
       "status": 200,
       "note": "v0.9.1 并入 researcher sources-expansion.md 实测源；免 key/免登录，只取标题/摘要/链接，限速 1 req/s；实测 HTTP 200、解析 10 条"
@@ -384,14 +1174,193 @@
       "ok": true,
       "mode": "online-fetch",
       "http_status": 200,
+<<<<<<< HEAD
       "latency_ms": 506,
       "cached": false,
       "items": 30,
       "signals": 30,
       "checked_at": "2026-10-24T00:56:21+00:00",
+=======
+      "latency_ms": 3381,
+      "cached": false,
+      "items": 30,
+      "signals": 30,
+      "checked_at": "2026-10-24T16:42:02+08:00",
+>>>>>>> 3bb0bd9 (release: v1.6.0)
       "error": null,
       "status": 200,
       "note": "v0.8.0 新增可执行源（vertical-media）；实测 2026-10-23：HTTP 200、解析 2000 条、2626ms；免 key/免登录"
+    },
+    {
+      "id": "agfundernews",
+      "name": "AgFunderNews",
+      "category": "trend",
+      "url": "https://agfundernews.com/feed",
+      "access": "rss",
+      "compliance": "green",
+      "ok": true,
+      "mode": "online-fetch",
+      "http_status": 200,
+      "latency_ms": 2471,
+      "cached": false,
+      "items": 30,
+      "signals": 30,
+      "checked_at": "2026-10-24T16:42:04+08:00",
+      "error": null,
+      "status": 200,
+      "note": "v1.6.0 扩源：产业/区域商业媒体，实测后启用；只取标题/摘要/链接，限速 1 req/s。"
+    },
+    {
+      "id": "e27",
+      "name": "e27",
+      "category": "demand",
+      "url": "https://e27.co/feed/",
+      "access": "rss",
+      "compliance": "green",
+      "ok": true,
+      "mode": "online-fetch",
+      "http_status": 200,
+      "latency_ms": 5394,
+      "cached": false,
+      "items": 30,
+      "signals": 30,
+      "checked_at": "2026-10-24T16:42:10+08:00",
+      "error": null,
+      "status": 200,
+      "note": "v1.6.0 扩源：产业/区域商业媒体，实测后启用；只取标题/摘要/链接，限速 1 req/s。"
+    },
+    {
+      "id": "fooddive",
+      "name": "Food Dive",
+      "category": "trend",
+      "url": "https://www.fooddive.com/feeds/news/",
+      "access": "rss",
+      "compliance": "green",
+      "ok": true,
+      "mode": "online-fetch",
+      "http_status": 200,
+      "latency_ms": 1589,
+      "cached": false,
+      "items": 10,
+      "signals": 10,
+      "checked_at": "2026-10-24T16:42:11+08:00",
+      "error": null,
+      "status": 200,
+      "note": "v1.6.0 扩源：产业/区域商业媒体，实测后启用；只取标题/摘要/链接，限速 1 req/s。"
+    },
+    {
+      "id": "inc42",
+      "name": "Inc42",
+      "category": "demand",
+      "url": "https://inc42.com/feed/",
+      "access": "rss",
+      "compliance": "green",
+      "ok": true,
+      "mode": "online-fetch",
+      "http_status": 200,
+      "latency_ms": 2196,
+      "cached": false,
+      "items": 24,
+      "signals": 24,
+      "checked_at": "2026-10-24T16:42:13+08:00",
+      "error": null,
+      "status": 200,
+      "note": "v1.6.0 扩源：产业/区域商业媒体，实测后启用；只取标题/摘要/链接，限速 1 req/s。"
+    },
+    {
+      "id": "kr-asia",
+      "name": "KrASIA",
+      "category": "demand",
+      "url": "https://kr-asia.com/feed",
+      "access": "rss",
+      "compliance": "green",
+      "ok": false,
+      "mode": "online-fetch",
+      "http_status": 404,
+      "latency_ms": 0,
+      "cached": false,
+      "items": 0,
+      "signals": 0,
+      "checked_at": "2026-10-24T16:42:24+08:00",
+      "error": "HTTP 404",
+      "status": 404,
+      "note": "v1.6.0 扩源：产业/区域商业媒体，实测后启用；只取标题/摘要/链接，限速 1 req/s。"
+    },
+    {
+      "id": "manufacturingdive",
+      "name": "Manufacturing Dive",
+      "category": "trend",
+      "url": "https://www.manufacturingdive.com/feeds/news/",
+      "access": "rss",
+      "compliance": "green",
+      "ok": true,
+      "mode": "online-fetch",
+      "http_status": 200,
+      "latency_ms": 1602,
+      "cached": false,
+      "items": 10,
+      "signals": 10,
+      "checked_at": "2026-10-24T16:42:25+08:00",
+      "error": null,
+      "status": 200,
+      "note": "v1.6.0 扩源：产业/区域商业媒体，实测后启用；只取标题/摘要/链接，限速 1 req/s。"
+    },
+    {
+      "id": "packagingdive",
+      "name": "Packaging Dive",
+      "category": "trend",
+      "url": "https://www.packagingdive.com/feeds/news/",
+      "access": "rss",
+      "compliance": "green",
+      "ok": true,
+      "mode": "online-fetch",
+      "http_status": 200,
+      "latency_ms": 1710,
+      "cached": false,
+      "items": 10,
+      "signals": 10,
+      "checked_at": "2026-10-24T16:42:27+08:00",
+      "error": null,
+      "status": 200,
+      "note": "v1.6.0 扩源：产业/区域商业媒体，实测后启用；只取标题/摘要/链接，限速 1 req/s。"
+    },
+    {
+      "id": "techcabal",
+      "name": "TechCabal",
+      "category": "demand",
+      "url": "https://techcabal.com/feed/",
+      "access": "rss",
+      "compliance": "green",
+      "ok": true,
+      "mode": "online-fetch",
+      "http_status": 200,
+      "latency_ms": 2971,
+      "cached": false,
+      "items": 10,
+      "signals": 10,
+      "checked_at": "2026-10-24T16:42:30+08:00",
+      "error": null,
+      "status": 200,
+      "note": "v1.6.0 扩源：产业/区域商业媒体，实测后启用；只取标题/摘要/链接，限速 1 req/s。"
+    },
+    {
+      "id": "yourstory",
+      "name": "YourStory",
+      "category": "demand",
+      "url": "https://yourstory.com/feed",
+      "access": "rss",
+      "compliance": "green",
+      "ok": true,
+      "mode": "online-fetch",
+      "http_status": 200,
+      "latency_ms": 2399,
+      "cached": false,
+      "items": 20,
+      "signals": 20,
+      "checked_at": "2026-10-24T16:42:33+08:00",
+      "error": null,
+      "status": 200,
+      "note": "v1.6.0 扩源：产业/区域商业媒体，实测后启用；只取标题/摘要/链接，限速 1 req/s。"
     },
     {
       "id": "braziljournal",
@@ -403,11 +1372,19 @@
       "ok": true,
       "mode": "online-fetch",
       "http_status": 200,
+<<<<<<< HEAD
       "latency_ms": 1081,
       "cached": false,
       "items": 15,
       "signals": 15,
       "checked_at": "2026-10-24T00:56:22+00:00",
+=======
+      "latency_ms": 2929,
+      "cached": false,
+      "items": 15,
+      "signals": 15,
+      "checked_at": "2026-10-24T16:42:36+08:00",
+>>>>>>> 3bb0bd9 (release: v1.6.0)
       "error": null,
       "status": 200,
       "note": "v0.9.1 并入 researcher sources-expansion.md 实测源；免 key/免登录，只取标题/摘要/链接，限速 1 req/s；实测 HTTP 200、解析 15 条"
@@ -422,11 +1399,19 @@
       "ok": true,
       "mode": "online-fetch",
       "http_status": 200,
+<<<<<<< HEAD
       "latency_ms": 1457,
       "cached": false,
       "items": 10,
       "signals": 10,
       "checked_at": "2026-10-24T00:56:23+00:00",
+=======
+      "latency_ms": 3807,
+      "cached": false,
+      "items": 10,
+      "signals": 10,
+      "checked_at": "2026-10-24T16:42:39+08:00",
+>>>>>>> 3bb0bd9 (release: v1.6.0)
       "error": null,
       "status": 200,
       "note": "v0.8.0 新增可执行源（vertical-media）；实测 2026-10-23：HTTP 200、解析 10 条、3536ms；免 key/免登录"
@@ -441,11 +1426,19 @@
       "ok": true,
       "mode": "online-fetch",
       "http_status": 200,
+<<<<<<< HEAD
       "latency_ms": 204,
       "cached": false,
       "items": 30,
       "signals": 30,
       "checked_at": "2026-10-24T00:56:24+00:00",
+=======
+      "latency_ms": 1620,
+      "cached": false,
+      "items": 30,
+      "signals": 30,
+      "checked_at": "2026-10-24T16:42:41+08:00",
+>>>>>>> 3bb0bd9 (release: v1.6.0)
       "error": null,
       "status": 200,
       "note": "v0.9.1 并入 researcher sources-expansion.md 实测源；免 key/免登录，只取标题/摘要/链接，限速 1 req/s；实测 HTTP 200、解析 50 条"
@@ -460,11 +1453,19 @@
       "ok": true,
       "mode": "online-fetch",
       "http_status": 200,
+<<<<<<< HEAD
       "latency_ms": 474,
       "cached": false,
       "items": 30,
       "signals": 30,
       "checked_at": "2026-10-24T00:56:24+00:00",
+=======
+      "latency_ms": 1789,
+      "cached": false,
+      "items": 30,
+      "signals": 30,
+      "checked_at": "2026-10-24T16:42:43+08:00",
+>>>>>>> 3bb0bd9 (release: v1.6.0)
       "error": null,
       "status": 200,
       "note": "v0.9.1 Google News RSS 地区/query 源（聚合器黄级；仅个人研究，限速/缓存；标题+来源去重）；实测 HTTP 200、解析 27 条"
@@ -479,11 +1480,19 @@
       "ok": true,
       "mode": "online-fetch",
       "http_status": 200,
+<<<<<<< HEAD
       "latency_ms": 377,
       "cached": false,
       "items": 24,
       "signals": 24,
       "checked_at": "2026-10-24T00:56:24+00:00",
+=======
+      "latency_ms": 1902,
+      "cached": false,
+      "items": 24,
+      "signals": 24,
+      "checked_at": "2026-10-24T16:42:45+08:00",
+>>>>>>> 3bb0bd9 (release: v1.6.0)
       "error": null,
       "status": 200,
       "note": "v0.8.0 新增可执行源（vertical-media）；实测 2026-10-23：HTTP 200、解析 24 条、1916ms；免 key/免登录"
@@ -498,14 +1507,22 @@
       "ok": true,
       "mode": "online-fetch",
       "http_status": 200,
+<<<<<<< HEAD
       "latency_ms": 327,
       "cached": false,
       "items": 30,
       "signals": 30,
       "checked_at": "2026-10-24T00:56:25+00:00",
+=======
+      "latency_ms": 1727,
+      "cached": false,
+      "items": 30,
+      "signals": 30,
+      "checked_at": "2026-10-24T16:42:46+08:00",
+>>>>>>> 3bb0bd9 (release: v1.6.0)
       "error": null,
       "status": 200,
-      "note": "v0.9.1 并入 researcher sources-expansion.md 实测源；免 key/免登录，只取标题/摘要/链接，限速 1 req/s；实测 HTTP 200、解析 30 条"
+      "note": "v0.9.1 并入 researcher sources-expansion.md 实测源；免 key/免登录，只取标题/摘要/链接，限速 1 req/s；实测 HTTP 200、解析 30 条 v1.6.0：researcher 实测 2"
     },
     {
       "id": "mena-middleeastmonitor",
@@ -517,11 +1534,19 @@
       "ok": true,
       "mode": "online-fetch",
       "http_status": 200,
+<<<<<<< HEAD
       "latency_ms": 1192,
       "cached": false,
       "items": 30,
       "signals": 30,
       "checked_at": "2026-10-24T00:56:26+00:00",
+=======
+      "latency_ms": 2619,
+      "cached": false,
+      "items": 30,
+      "signals": 30,
+      "checked_at": "2026-10-24T16:42:49+08:00",
+>>>>>>> 3bb0bd9 (release: v1.6.0)
       "error": null,
       "status": 200,
       "note": "v0.9.2 替换 Arab News（原 Arab News，rss.xml 返回 403）→ Middle East Monitor（实测 200/50 条）"
@@ -536,11 +1561,19 @@
       "ok": true,
       "mode": "online-fetch",
       "http_status": 200,
+<<<<<<< HEAD
       "latency_ms": 662,
       "cached": false,
       "items": 20,
       "signals": 20,
       "checked_at": "2026-10-24T00:56:27+00:00",
+=======
+      "latency_ms": 1908,
+      "cached": false,
+      "items": 20,
+      "signals": 20,
+      "checked_at": "2026-10-24T16:42:51+08:00",
+>>>>>>> 3bb0bd9 (release: v1.6.0)
       "error": null,
       "status": 200,
       "note": "v0.9.1 并入 researcher sources-expansion.md 实测源；免 key/免登录，只取标题/摘要/链接，限速 1 req/s；实测 HTTP 200、解析 20 条"
@@ -555,11 +1588,19 @@
       "ok": true,
       "mode": "online-fetch",
       "http_status": 200,
+<<<<<<< HEAD
       "latency_ms": 1766,
       "cached": false,
       "items": 10,
       "signals": 10,
       "checked_at": "2026-10-24T00:56:28+00:00",
+=======
+      "latency_ms": 2676,
+      "cached": false,
+      "items": 10,
+      "signals": 10,
+      "checked_at": "2026-10-24T16:42:54+08:00",
+>>>>>>> 3bb0bd9 (release: v1.6.0)
       "error": null,
       "status": 200,
       "note": "v0.8.0 新增可执行源（vertical-media）；实测 2026-10-23：HTTP 200、解析 10 条、2202ms；免 key/免登录"
@@ -574,11 +1615,19 @@
       "ok": true,
       "mode": "online-fetch",
       "http_status": 200,
+<<<<<<< HEAD
       "latency_ms": 285,
       "cached": false,
       "items": 20,
       "signals": 20,
       "checked_at": "2026-10-24T00:56:29+00:00",
+=======
+      "latency_ms": 2027,
+      "cached": false,
+      "items": 20,
+      "signals": 20,
+      "checked_at": "2026-10-24T16:42:56+08:00",
+>>>>>>> 3bb0bd9 (release: v1.6.0)
       "error": null,
       "status": 200,
       "note": "v0.9.1 并入 researcher sources-expansion.md 实测源；免 key/免登录，只取标题/摘要/链接，限速 1 req/s；实测 HTTP 200、解析 20 条"
@@ -593,11 +1642,19 @@
       "ok": true,
       "mode": "online-fetch",
       "http_status": 200,
+<<<<<<< HEAD
       "latency_ms": 207,
       "cached": false,
       "items": 10,
       "signals": 10,
       "checked_at": "2026-10-24T00:56:29+00:00",
+=======
+      "latency_ms": 1433,
+      "cached": false,
+      "items": 10,
+      "signals": 10,
+      "checked_at": "2026-10-24T16:42:57+08:00",
+>>>>>>> 3bb0bd9 (release: v1.6.0)
       "error": null,
       "status": 200,
       "note": "v0.8.0 新增可执行源（vertical-media）；实测 2026-10-23：HTTP 200、解析 10 条、1434ms；免 key/免登录"
@@ -612,11 +1669,19 @@
       "ok": true,
       "mode": "online-fetch",
       "http_status": 200,
+<<<<<<< HEAD
       "latency_ms": 230,
       "cached": false,
       "items": 10,
       "signals": 10,
       "checked_at": "2026-10-24T00:56:29+00:00",
+=======
+      "latency_ms": 1592,
+      "cached": false,
+      "items": 10,
+      "signals": 10,
+      "checked_at": "2026-10-24T16:42:59+08:00",
+>>>>>>> 3bb0bd9 (release: v1.6.0)
       "error": null,
       "status": 200,
       "note": "v0.8.0 新增可执行源（vertical-media）；实测 2026-10-23：HTTP 200、解析 10 条、1284ms；免 key/免登录"
@@ -631,16 +1696,25 @@
       "ok": true,
       "mode": "online-fetch",
       "http_status": 200,
+<<<<<<< HEAD
       "latency_ms": 217,
       "cached": false,
       "items": 30,
       "signals": 30,
       "checked_at": "2026-10-24T00:56:29+00:00",
+=======
+      "latency_ms": 1519,
+      "cached": false,
+      "items": 30,
+      "signals": 30,
+      "checked_at": "2026-10-24T16:43:00+08:00",
+>>>>>>> 3bb0bd9 (release: v1.6.0)
       "error": null,
       "status": 200,
       "note": "v0.9.2 新增欧洲商业源（实测 200/55 条）"
     },
     {
+<<<<<<< HEAD
       "id": "e27",
       "name": "e27",
       "category": "capital",
@@ -660,6 +1734,8 @@
       "note": "v0.8.0 新增可执行源（vertical-media）；实测 2026-10-23：HTTP 200、解析 50 条、5115ms；免 key/免登录"
     },
     {
+=======
+>>>>>>> 3bb0bd9 (release: v1.6.0)
       "id": "gn-query-sa-halal",
       "name": "Google News · 清真商业（阿语）",
       "category": "culture",
@@ -669,11 +1745,19 @@
       "ok": true,
       "mode": "online-fetch",
       "http_status": 200,
+<<<<<<< HEAD
       "latency_ms": 434,
       "cached": false,
       "items": 24,
       "signals": 24,
       "checked_at": "2026-10-24T00:56:32+00:00",
+=======
+      "latency_ms": 1843,
+      "cached": false,
+      "items": 30,
+      "signals": 30,
+      "checked_at": "2026-10-24T16:43:02+08:00",
+>>>>>>> 3bb0bd9 (release: v1.6.0)
       "error": null,
       "status": 200,
       "note": "v0.9.1 Google News RSS 地区/query 源（聚合器黄级；仅个人研究，限速/缓存；标题+来源去重）；实测 HTTP 200、解析 32 条"
@@ -688,11 +1772,19 @@
       "ok": true,
       "mode": "online-fetch",
       "http_status": 200,
+<<<<<<< HEAD
       "latency_ms": 335,
       "cached": false,
       "items": 30,
       "signals": 30,
       "checked_at": "2026-10-24T00:56:33+00:00",
+=======
+      "latency_ms": 1705,
+      "cached": false,
+      "items": 30,
+      "signals": 30,
+      "checked_at": "2026-10-24T16:43:04+08:00",
+>>>>>>> 3bb0bd9 (release: v1.6.0)
       "error": null,
       "status": 200,
       "note": "v0.9.2 新增欧洲商业源（实测 200/40 条）"
@@ -707,11 +1799,19 @@
       "ok": true,
       "mode": "online-fetch",
       "http_status": 200,
+<<<<<<< HEAD
       "latency_ms": 1587,
       "cached": false,
       "items": 20,
       "signals": 20,
       "checked_at": "2026-10-24T00:56:34+00:00",
+=======
+      "latency_ms": 413,
+      "cached": false,
+      "items": 20,
+      "signals": 20,
+      "checked_at": "2026-10-24T16:43:04+08:00",
+>>>>>>> 3bb0bd9 (release: v1.6.0)
       "error": null,
       "status": 200,
       "note": "v0.9.1 并入 researcher sources-expansion.md 实测源；免 key/免登录，只取标题/摘要/链接，限速 1 req/s；实测 HTTP 200、解析 20 条"
@@ -726,11 +1826,19 @@
       "ok": true,
       "mode": "online-fetch",
       "http_status": 200,
+<<<<<<< HEAD
       "latency_ms": 294,
       "cached": false,
       "items": 10,
       "signals": 10,
       "checked_at": "2026-10-24T00:56:35+00:00",
+=======
+      "latency_ms": 2106,
+      "cached": false,
+      "items": 10,
+      "signals": 10,
+      "checked_at": "2026-10-24T16:43:06+08:00",
+>>>>>>> 3bb0bd9 (release: v1.6.0)
       "error": null,
       "status": 200,
       "note": "v0.8.0 新增可执行源（vertical-media）；实测 2026-10-23：HTTP 200、解析 10 条、1698ms；免 key/免登录"
@@ -749,8 +1857,13 @@
       "cached": false,
       "items": 0,
       "signals": 0,
+<<<<<<< HEAD
       "checked_at": "2026-10-24T00:57:38+00:00",
       "error": "URLError: <urlopen error timed out>",
+=======
+      "checked_at": "2026-10-24T16:43:36+08:00",
+      "error": "URLError: <urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1016)>",
+>>>>>>> 3bb0bd9 (release: v1.6.0)
       "status": 0,
       "note": "v0.9.1 并入 researcher sources-expansion.md 实测源；免 key/免登录，只取标题/摘要/链接，限速 1 req/s；实测 HTTP 200、解析 10 条"
     },
@@ -764,11 +1877,19 @@
       "ok": true,
       "mode": "online-fetch",
       "http_status": 200,
+<<<<<<< HEAD
       "latency_ms": 204,
       "cached": false,
       "items": 10,
       "signals": 10,
       "checked_at": "2026-10-24T00:57:38+00:00",
+=======
+      "latency_ms": 1792,
+      "cached": false,
+      "items": 10,
+      "signals": 10,
+      "checked_at": "2026-10-24T16:43:38+08:00",
+>>>>>>> 3bb0bd9 (release: v1.6.0)
       "error": null,
       "status": 200,
       "note": "v0.9.2 新增科技趋势源（实测 200/10 条）"
@@ -783,11 +1904,19 @@
       "ok": true,
       "mode": "online-fetch",
       "http_status": 200,
+<<<<<<< HEAD
       "latency_ms": 1588,
       "cached": false,
       "items": 12,
       "signals": 12,
       "checked_at": "2026-10-24T00:57:39+00:00",
+=======
+      "latency_ms": 3620,
+      "cached": false,
+      "items": 12,
+      "signals": 12,
+      "checked_at": "2026-10-24T16:43:41+08:00",
+>>>>>>> 3bb0bd9 (release: v1.6.0)
       "error": null,
       "status": 200,
       "note": "v0.9.1 并入 researcher sources-expansion.md 实测源；免 key/免登录，只取标题/摘要/链接，限速 1 req/s；实测 HTTP 200、解析 12 条"
@@ -802,11 +1931,19 @@
       "ok": true,
       "mode": "online-fetch",
       "http_status": 200,
+<<<<<<< HEAD
       "latency_ms": 1316,
       "cached": false,
       "items": 20,
       "signals": 20,
       "checked_at": "2026-10-24T00:57:41+00:00",
+=======
+      "latency_ms": 2891,
+      "cached": false,
+      "items": 20,
+      "signals": 20,
+      "checked_at": "2026-10-24T16:43:44+08:00",
+>>>>>>> 3bb0bd9 (release: v1.6.0)
       "error": null,
       "status": 200,
       "note": "v0.8.0 新增可执行源（vertical-media）；实测 2026-10-23：HTTP 200、解析 20 条、2533ms；免 key/免登录"
@@ -821,11 +1958,19 @@
       "ok": true,
       "mode": "online-fetch",
       "http_status": 200,
+<<<<<<< HEAD
       "latency_ms": 2215,
       "cached": false,
       "items": 10,
       "signals": 10,
       "checked_at": "2026-10-24T00:57:43+00:00",
+=======
+      "latency_ms": 2578,
+      "cached": false,
+      "items": 10,
+      "signals": 10,
+      "checked_at": "2026-10-24T16:43:47+08:00",
+>>>>>>> 3bb0bd9 (release: v1.6.0)
       "error": null,
       "status": 200,
       "note": "v0.9.1 并入 researcher sources-expansion.md 实测源；免 key/免登录，只取标题/摘要/链接，限速 1 req/s；实测 HTTP 200、解析 10 条"
@@ -840,11 +1985,19 @@
       "ok": true,
       "mode": "online-fetch",
       "http_status": 200,
+<<<<<<< HEAD
       "latency_ms": 817,
       "cached": false,
       "items": 5,
       "signals": 5,
       "checked_at": "2026-10-24T00:57:44+00:00",
+=======
+      "latency_ms": 1847,
+      "cached": false,
+      "items": 5,
+      "signals": 5,
+      "checked_at": "2026-10-24T16:43:49+08:00",
+>>>>>>> 3bb0bd9 (release: v1.6.0)
       "error": null,
       "status": 200,
       "note": "v0.9.1 并入 researcher sources-expansion.md 实测源；免 key/免登录，只取标题/摘要/链接，限速 1 req/s；实测 HTTP 200、解析 5 条"
@@ -859,11 +2012,19 @@
       "ok": true,
       "mode": "online-fetch",
       "http_status": 200,
+<<<<<<< HEAD
       "latency_ms": 414,
       "cached": false,
       "items": 30,
       "signals": 30,
       "checked_at": "2026-10-24T00:57:44+00:00",
+=======
+      "latency_ms": 1738,
+      "cached": false,
+      "items": 26,
+      "signals": 26,
+      "checked_at": "2026-10-24T16:43:50+08:00",
+>>>>>>> 3bb0bd9 (release: v1.6.0)
       "error": null,
       "status": 200,
       "note": "v0.9.1 Google News RSS 地区/query 源（聚合器黄级；仅个人研究，限速/缓存；标题+来源去重）；实测 HTTP 200、解析 63 条"
@@ -878,11 +2039,19 @@
       "ok": true,
       "mode": "online-fetch",
       "http_status": 200,
+<<<<<<< HEAD
       "latency_ms": 420,
       "cached": false,
       "items": 30,
       "signals": 30,
       "checked_at": "2026-10-24T00:57:45+00:00",
+=======
+      "latency_ms": 2967,
+      "cached": false,
+      "items": 30,
+      "signals": 30,
+      "checked_at": "2026-10-24T16:43:53+08:00",
+>>>>>>> 3bb0bd9 (release: v1.6.0)
       "error": null,
       "status": 200,
       "note": "v0.9.2 新增 MENA 补充源（实测 200/115 条）"
@@ -897,11 +2066,19 @@
       "ok": true,
       "mode": "online-fetch",
       "http_status": 200,
+<<<<<<< HEAD
       "latency_ms": 437,
       "cached": false,
       "items": 10,
       "signals": 10,
       "checked_at": "2026-10-24T00:57:45+00:00",
+=======
+      "latency_ms": 1565,
+      "cached": false,
+      "items": 10,
+      "signals": 10,
+      "checked_at": "2026-10-24T16:43:55+08:00",
+>>>>>>> 3bb0bd9 (release: v1.6.0)
       "error": null,
       "status": 200,
       "note": "v0.9.2 新增北美商业源（实测 200/10 条）"
@@ -916,11 +2093,19 @@
       "ok": true,
       "mode": "online-fetch",
       "http_status": 200,
+<<<<<<< HEAD
       "latency_ms": 279,
       "cached": false,
       "items": 10,
       "signals": 10,
       "checked_at": "2026-10-24T00:57:45+00:00",
+=======
+      "latency_ms": 2420,
+      "cached": false,
+      "items": 10,
+      "signals": 10,
+      "checked_at": "2026-10-24T16:43:57+08:00",
+>>>>>>> 3bb0bd9 (release: v1.6.0)
       "error": null,
       "status": 200,
       "note": "v0.9.1 并入 researcher sources-expansion.md 实测源；免 key/免登录，只取标题/摘要/链接，限速 1 req/s；实测 HTTP 200、解析 10 条"
@@ -935,11 +2120,19 @@
       "ok": true,
       "mode": "online-fetch",
       "http_status": 200,
+<<<<<<< HEAD
       "latency_ms": 1293,
       "cached": false,
       "items": 10,
       "signals": 10,
       "checked_at": "2026-10-24T00:57:47+00:00",
+=======
+      "latency_ms": 318,
+      "cached": false,
+      "items": 10,
+      "signals": 10,
+      "checked_at": "2026-10-24T16:43:58+08:00",
+>>>>>>> 3bb0bd9 (release: v1.6.0)
       "error": null,
       "status": 200,
       "note": "v0.9.1 并入 researcher sources-expansion.md 实测源；免 key/免登录，只取标题/摘要/链接，限速 1 req/s；实测 HTTP 200、解析 10 条"
@@ -954,11 +2147,19 @@
       "ok": true,
       "mode": "online-fetch",
       "http_status": 200,
+<<<<<<< HEAD
       "latency_ms": 427,
       "cached": false,
       "items": 10,
       "signals": 10,
       "checked_at": "2026-10-24T00:57:47+00:00",
+=======
+      "latency_ms": 2053,
+      "cached": false,
+      "items": 10,
+      "signals": 10,
+      "checked_at": "2026-10-24T16:44:00+08:00",
+>>>>>>> 3bb0bd9 (release: v1.6.0)
       "error": null,
       "status": 200,
       "note": "v0.8.0 新增可执行源（vertical-media）；实测 2026-10-23：HTTP 200、解析 10 条、1484ms；免 key/免登录"
@@ -973,11 +2174,19 @@
       "ok": true,
       "mode": "online-fetch",
       "http_status": 200,
+<<<<<<< HEAD
       "latency_ms": 230,
       "cached": false,
       "items": 20,
       "signals": 20,
       "checked_at": "2026-10-24T00:57:47+00:00",
+=======
+      "latency_ms": 1608,
+      "cached": false,
+      "items": 20,
+      "signals": 20,
+      "checked_at": "2026-10-24T16:44:01+08:00",
+>>>>>>> 3bb0bd9 (release: v1.6.0)
       "error": null,
       "status": 200,
       "note": "v0.8.0 新增可执行源（vertical-media）；实测 2026-10-23：HTTP 200、解析 20 条、1498ms；免 key/免登录"
@@ -992,11 +2201,19 @@
       "ok": true,
       "mode": "online-fetch",
       "http_status": 200,
+<<<<<<< HEAD
       "latency_ms": 710,
       "cached": false,
       "items": 30,
       "signals": 30,
       "checked_at": "2026-10-24T00:57:48+00:00",
+=======
+      "latency_ms": 3492,
+      "cached": false,
+      "items": 30,
+      "signals": 30,
+      "checked_at": "2026-10-24T16:44:05+08:00",
+>>>>>>> 3bb0bd9 (release: v1.6.0)
       "error": null,
       "status": 200,
       "note": "v0.8.0 新增可执行源（news-aggregator）；实测 2026-10-23：HTTP 200、解析 100 条、3109ms；免 key/免登录"
@@ -1011,11 +2228,19 @@
       "ok": true,
       "mode": "online-fetch",
       "http_status": 200,
+<<<<<<< HEAD
       "latency_ms": 673,
       "cached": false,
       "items": 30,
       "signals": 30,
       "checked_at": "2026-10-24T00:57:49+00:00",
+=======
+      "latency_ms": 3420,
+      "cached": false,
+      "items": 30,
+      "signals": 30,
+      "checked_at": "2026-10-24T16:44:08+08:00",
+>>>>>>> 3bb0bd9 (release: v1.6.0)
       "error": null,
       "status": 200,
       "note": "v0.8.0 新增可执行源（news-aggregator）；实测 2026-10-23：HTTP 200、解析 100 条、3727ms；免 key/免登录"
@@ -1030,11 +2255,19 @@
       "ok": true,
       "mode": "online-fetch",
       "http_status": 200,
+<<<<<<< HEAD
       "latency_ms": 788,
       "cached": false,
       "items": 30,
       "signals": 30,
       "checked_at": "2026-10-24T00:57:50+00:00",
+=======
+      "latency_ms": 3461,
+      "cached": false,
+      "items": 30,
+      "signals": 30,
+      "checked_at": "2026-10-24T16:44:12+08:00",
+>>>>>>> 3bb0bd9 (release: v1.6.0)
       "error": null,
       "status": 200,
       "note": "v0.8.0 新增可执行源（news-aggregator）；实测 2026-10-23：HTTP 200、解析 100 条、3421ms；免 key/免登录"
@@ -1049,11 +2282,19 @@
       "ok": true,
       "mode": "online-fetch",
       "http_status": 200,
+<<<<<<< HEAD
       "latency_ms": 705,
       "cached": false,
       "items": 30,
       "signals": 30,
       "checked_at": "2026-10-24T00:57:51+00:00",
+=======
+      "latency_ms": 3271,
+      "cached": false,
+      "items": 30,
+      "signals": 30,
+      "checked_at": "2026-10-24T16:44:15+08:00",
+>>>>>>> 3bb0bd9 (release: v1.6.0)
       "error": null,
       "status": 200,
       "note": "v0.8.0 新增可执行源（news-aggregator）；实测 2026-10-23：HTTP 200、解析 100 条、2953ms；免 key/免登录"
@@ -1068,11 +2309,19 @@
       "ok": true,
       "mode": "online-fetch",
       "http_status": 200,
+<<<<<<< HEAD
       "latency_ms": 576,
       "cached": false,
       "items": 30,
       "signals": 30,
       "checked_at": "2026-10-24T00:57:52+00:00",
+=======
+      "latency_ms": 2082,
+      "cached": false,
+      "items": 30,
+      "signals": 30,
+      "checked_at": "2026-10-24T16:44:17+08:00",
+>>>>>>> 3bb0bd9 (release: v1.6.0)
       "error": null,
       "status": 200,
       "note": "v0.8.0 新增可执行源（news-aggregator）；实测 2026-10-23：HTTP 200、解析 101 条、2195ms；免 key/免登录"
@@ -1087,11 +2336,19 @@
       "ok": true,
       "mode": "online-fetch",
       "http_status": 200,
+<<<<<<< HEAD
       "latency_ms": 207,
       "cached": false,
       "items": 30,
       "signals": 30,
       "checked_at": "2026-10-24T00:57:53+00:00",
+=======
+      "latency_ms": 2889,
+      "cached": false,
+      "items": 30,
+      "signals": 30,
+      "checked_at": "2026-10-24T16:44:20+08:00",
+>>>>>>> 3bb0bd9 (release: v1.6.0)
       "error": null,
       "status": 200,
       "note": "v0.8.0 新增可执行源（news-aggregator）；实测 2026-10-23：HTTP 200、解析 100 条、3000ms；免 key/免登录"
@@ -1106,11 +2363,19 @@
       "ok": true,
       "mode": "online-fetch",
       "http_status": 200,
+<<<<<<< HEAD
       "latency_ms": 208,
       "cached": false,
       "items": 30,
       "signals": 30,
       "checked_at": "2026-10-24T00:57:54+00:00",
+=======
+      "latency_ms": 2832,
+      "cached": false,
+      "items": 30,
+      "signals": 30,
+      "checked_at": "2026-10-24T16:44:23+08:00",
+>>>>>>> 3bb0bd9 (release: v1.6.0)
       "error": null,
       "status": 200,
       "note": "v0.8.0 新增可执行源（news-aggregator）；实测 2026-10-23：HTTP 200、解析 100 条、3015ms；免 key/免登录"
@@ -1125,11 +2390,19 @@
       "ok": true,
       "mode": "online-fetch",
       "http_status": 200,
+<<<<<<< HEAD
       "latency_ms": 315,
       "cached": false,
       "items": 30,
       "signals": 30,
       "checked_at": "2026-10-24T00:57:55+00:00",
+=======
+      "latency_ms": 2980,
+      "cached": false,
+      "items": 30,
+      "signals": 30,
+      "checked_at": "2026-10-24T16:44:26+08:00",
+>>>>>>> 3bb0bd9 (release: v1.6.0)
       "error": null,
       "status": 200,
       "note": "v0.8.0 新增可执行源（news-aggregator）；实测 2026-10-23：HTTP 200、解析 100 条、3162ms；免 key/免登录"
@@ -1144,11 +2417,19 @@
       "ok": true,
       "mode": "online-fetch",
       "http_status": 200,
+<<<<<<< HEAD
       "latency_ms": 604,
       "cached": false,
       "items": 30,
       "signals": 30,
       "checked_at": "2026-10-24T00:57:56+00:00",
+=======
+      "latency_ms": 3223,
+      "cached": false,
+      "items": 30,
+      "signals": 30,
+      "checked_at": "2026-10-24T16:44:29+08:00",
+>>>>>>> 3bb0bd9 (release: v1.6.0)
       "error": null,
       "status": 200,
       "note": "v0.8.0 新增可执行源（news-aggregator）；实测 2026-10-23：HTTP 200、解析 100 条、3747ms；免 key/免登录"
@@ -1163,11 +2444,19 @@
       "ok": true,
       "mode": "online-fetch",
       "http_status": 200,
+<<<<<<< HEAD
       "latency_ms": 648,
       "cached": false,
       "items": 30,
       "signals": 30,
       "checked_at": "2026-10-24T00:57:57+00:00",
+=======
+      "latency_ms": 2190,
+      "cached": false,
+      "items": 30,
+      "signals": 30,
+      "checked_at": "2026-10-24T16:44:31+08:00",
+>>>>>>> 3bb0bd9 (release: v1.6.0)
       "error": null,
       "status": 200,
       "note": "v0.8.0 新增可执行源（news-aggregator）；实测 2026-10-23：HTTP 200、解析 100 条、2138ms；免 key/免登录"
@@ -1182,11 +2471,19 @@
       "ok": true,
       "mode": "online-fetch",
       "http_status": 200,
+<<<<<<< HEAD
       "latency_ms": 743,
       "cached": false,
       "items": 30,
       "signals": 30,
       "checked_at": "2026-10-24T00:57:58+00:00",
+=======
+      "latency_ms": 3322,
+      "cached": false,
+      "items": 30,
+      "signals": 30,
+      "checked_at": "2026-10-24T16:44:35+08:00",
+>>>>>>> 3bb0bd9 (release: v1.6.0)
       "error": null,
       "status": 200,
       "note": "v0.8.0 新增可执行源（news-aggregator）；实测 2026-10-23：HTTP 200、解析 100 条、3873ms；免 key/免登录"
@@ -1201,11 +2498,19 @@
       "ok": true,
       "mode": "online-fetch",
       "http_status": 200,
+<<<<<<< HEAD
       "latency_ms": 704,
       "cached": false,
       "items": 30,
       "signals": 30,
       "checked_at": "2026-10-24T00:57:59+00:00",
+=======
+      "latency_ms": 3356,
+      "cached": false,
+      "items": 30,
+      "signals": 30,
+      "checked_at": "2026-10-24T16:44:38+08:00",
+>>>>>>> 3bb0bd9 (release: v1.6.0)
       "error": null,
       "status": 200,
       "note": "v0.8.0 新增可执行源（news-aggregator）；实测 2026-10-23：HTTP 200、解析 102 条、3538ms；免 key/免登录"
@@ -1220,11 +2525,19 @@
       "ok": true,
       "mode": "online-fetch",
       "http_status": 200,
+<<<<<<< HEAD
       "latency_ms": 204,
       "cached": false,
       "items": 30,
       "signals": 30,
       "checked_at": "2026-10-24T00:58:00+00:00",
+=======
+      "latency_ms": 3009,
+      "cached": false,
+      "items": 30,
+      "signals": 30,
+      "checked_at": "2026-10-24T16:44:41+08:00",
+>>>>>>> 3bb0bd9 (release: v1.6.0)
       "error": null,
       "status": 200,
       "note": "v0.8.0 新增可执行源（news-aggregator）；实测 2026-10-23：HTTP 200、解析 100 条、3081ms；免 key/免登录"
@@ -1239,11 +2552,19 @@
       "ok": true,
       "mode": "online-fetch",
       "http_status": 200,
+<<<<<<< HEAD
       "latency_ms": 680,
       "cached": false,
       "items": 30,
       "signals": 30,
       "checked_at": "2026-10-24T00:58:01+00:00",
+=======
+      "latency_ms": 3279,
+      "cached": false,
+      "items": 30,
+      "signals": 30,
+      "checked_at": "2026-10-24T16:44:44+08:00",
+>>>>>>> 3bb0bd9 (release: v1.6.0)
       "error": null,
       "status": 200,
       "note": "v0.8.0 新增可执行源（news-aggregator）；实测 2026-10-23：HTTP 200、解析 100 条、3577ms；免 key/免登录"
@@ -1258,11 +2579,19 @@
       "ok": true,
       "mode": "online-fetch",
       "http_status": 200,
+<<<<<<< HEAD
       "latency_ms": 201,
       "cached": false,
       "items": 30,
       "signals": 30,
       "checked_at": "2026-10-24T00:58:02+00:00",
+=======
+      "latency_ms": 3127,
+      "cached": false,
+      "items": 30,
+      "signals": 30,
+      "checked_at": "2026-10-24T16:44:47+08:00",
+>>>>>>> 3bb0bd9 (release: v1.6.0)
       "error": null,
       "status": 200,
       "note": "v0.8.0 新增可执行源（news-aggregator）；实测 2026-10-23：HTTP 200、解析 100 条、5880ms；免 key/免登录"
@@ -1277,11 +2606,19 @@
       "ok": true,
       "mode": "online-fetch",
       "http_status": 200,
+<<<<<<< HEAD
       "latency_ms": 217,
       "cached": false,
       "items": 30,
       "signals": 30,
       "checked_at": "2026-10-24T00:58:03+00:00",
+=======
+      "latency_ms": 2841,
+      "cached": false,
+      "items": 30,
+      "signals": 30,
+      "checked_at": "2026-10-24T16:44:50+08:00",
+>>>>>>> 3bb0bd9 (release: v1.6.0)
       "error": null,
       "status": 200,
       "note": "v0.8.0 新增可执行源（news-aggregator）；实测 2026-10-23：HTTP 200、解析 100 条、3050ms；免 key/免登录"
@@ -1296,11 +2633,19 @@
       "ok": true,
       "mode": "online-fetch",
       "http_status": 200,
+<<<<<<< HEAD
       "latency_ms": 202,
       "cached": false,
       "items": 30,
       "signals": 30,
       "checked_at": "2026-10-24T00:58:04+00:00",
+=======
+      "latency_ms": 3105,
+      "cached": false,
+      "items": 30,
+      "signals": 30,
+      "checked_at": "2026-10-24T16:44:53+08:00",
+>>>>>>> 3bb0bd9 (release: v1.6.0)
       "error": null,
       "status": 200,
       "note": "v0.8.0 新增可执行源（news-aggregator）；实测 2026-10-23：HTTP 200、解析 100 条、2905ms；免 key/免登录"
@@ -1315,11 +2660,19 @@
       "ok": true,
       "mode": "online-fetch",
       "http_status": 200,
+<<<<<<< HEAD
       "latency_ms": 650,
       "cached": false,
       "items": 30,
       "signals": 30,
       "checked_at": "2026-10-24T00:58:05+00:00",
+=======
+      "latency_ms": 3558,
+      "cached": false,
+      "items": 30,
+      "signals": 30,
+      "checked_at": "2026-10-24T16:44:57+08:00",
+>>>>>>> 3bb0bd9 (release: v1.6.0)
       "error": null,
       "status": 200,
       "note": "v0.8.0 新增可执行源（news-aggregator）；实测 2026-10-23：HTTP 200、解析 100 条、3670ms；免 key/免登录"
@@ -1334,11 +2687,19 @@
       "ok": true,
       "mode": "online-fetch",
       "http_status": 200,
+<<<<<<< HEAD
       "latency_ms": 781,
       "cached": false,
       "items": 30,
       "signals": 30,
       "checked_at": "2026-10-24T00:58:06+00:00",
+=======
+      "latency_ms": 3283,
+      "cached": false,
+      "items": 30,
+      "signals": 30,
+      "checked_at": "2026-10-24T16:45:00+08:00",
+>>>>>>> 3bb0bd9 (release: v1.6.0)
       "error": null,
       "status": 200,
       "note": "v0.8.0 新增可执行源（news-aggregator）；实测 2026-10-23：HTTP 200、解析 101 条、3665ms；免 key/免登录"
@@ -1353,11 +2714,19 @@
       "ok": true,
       "mode": "online-fetch",
       "http_status": 200,
+<<<<<<< HEAD
       "latency_ms": 219,
       "cached": false,
       "items": 30,
       "signals": 30,
       "checked_at": "2026-10-24T00:58:07+00:00",
+=======
+      "latency_ms": 2911,
+      "cached": false,
+      "items": 30,
+      "signals": 30,
+      "checked_at": "2026-10-24T16:45:03+08:00",
+>>>>>>> 3bb0bd9 (release: v1.6.0)
       "error": null,
       "status": 200,
       "note": "v0.8.0 新增可执行源（news-aggregator）；实测 2026-10-23：HTTP 200、解析 100 条、3687ms；免 key/免登录"
@@ -1372,11 +2741,19 @@
       "ok": true,
       "mode": "online-fetch",
       "http_status": 200,
+<<<<<<< HEAD
       "latency_ms": 208,
       "cached": false,
       "items": 30,
       "signals": 30,
       "checked_at": "2026-10-24T00:58:08+00:00",
+=======
+      "latency_ms": 2931,
+      "cached": false,
+      "items": 30,
+      "signals": 30,
+      "checked_at": "2026-10-24T16:45:06+08:00",
+>>>>>>> 3bb0bd9 (release: v1.6.0)
       "error": null,
       "status": 200,
       "note": "v0.8.0 新增可执行源（news-aggregator）；实测 2026-10-23：HTTP 200、解析 100 条、2973ms；免 key/免登录"
@@ -1391,11 +2768,19 @@
       "ok": true,
       "mode": "online-fetch",
       "http_status": 200,
+<<<<<<< HEAD
       "latency_ms": 213,
       "cached": false,
       "items": 30,
       "signals": 30,
       "checked_at": "2026-10-24T00:58:09+00:00",
+=======
+      "latency_ms": 2872,
+      "cached": false,
+      "items": 30,
+      "signals": 30,
+      "checked_at": "2026-10-24T16:45:09+08:00",
+>>>>>>> 3bb0bd9 (release: v1.6.0)
       "error": null,
       "status": 200,
       "note": "v0.8.0 新增可执行源（news-aggregator）；实测 2026-10-23：HTTP 200、解析 100 条、2916ms；免 key/免登录"
@@ -1410,11 +2795,19 @@
       "ok": true,
       "mode": "online-fetch",
       "http_status": 200,
+<<<<<<< HEAD
       "latency_ms": 840,
       "cached": false,
       "items": 30,
       "signals": 30,
       "checked_at": "2026-10-24T00:58:10+00:00",
+=======
+      "latency_ms": 3445,
+      "cached": false,
+      "items": 30,
+      "signals": 30,
+      "checked_at": "2026-10-24T16:45:13+08:00",
+>>>>>>> 3bb0bd9 (release: v1.6.0)
       "error": null,
       "status": 200,
       "note": "v0.8.0 新增可执行源（news-aggregator）；实测 2026-10-23：HTTP 200、解析 100 条、3595ms；免 key/免登录"
@@ -1429,11 +2822,19 @@
       "ok": true,
       "mode": "online-fetch",
       "http_status": 200,
+<<<<<<< HEAD
       "latency_ms": 214,
       "cached": false,
       "items": 30,
       "signals": 30,
       "checked_at": "2026-10-24T00:58:11+00:00",
+=======
+      "latency_ms": 2893,
+      "cached": false,
+      "items": 30,
+      "signals": 30,
+      "checked_at": "2026-10-24T16:45:15+08:00",
+>>>>>>> 3bb0bd9 (release: v1.6.0)
       "error": null,
       "status": 200,
       "note": "v0.8.0 新增可执行源（news-aggregator）；实测 2026-10-23：HTTP 200、解析 100 条、3078ms；免 key/免登录"
@@ -1448,11 +2849,19 @@
       "ok": true,
       "mode": "online-fetch",
       "http_status": 200,
+<<<<<<< HEAD
       "latency_ms": 204,
       "cached": false,
       "items": 30,
       "signals": 30,
       "checked_at": "2026-10-24T00:58:12+00:00",
+=======
+      "latency_ms": 3313,
+      "cached": false,
+      "items": 30,
+      "signals": 30,
+      "checked_at": "2026-10-24T16:45:19+08:00",
+>>>>>>> 3bb0bd9 (release: v1.6.0)
       "error": null,
       "status": 200,
       "note": "v0.9.1 Google News RSS 地区/query 源（聚合器黄级；仅个人研究，限速/缓存；标题+来源去重）；实测 HTTP 200、解析 100 条"
@@ -1467,11 +2876,19 @@
       "ok": true,
       "mode": "online-fetch",
       "http_status": 200,
+<<<<<<< HEAD
       "latency_ms": 108,
       "cached": false,
       "items": 30,
       "signals": 30,
       "checked_at": "2026-10-24T00:58:13+00:00",
+=======
+      "latency_ms": 1604,
+      "cached": false,
+      "items": 30,
+      "signals": 30,
+      "checked_at": "2026-10-24T16:45:20+08:00",
+>>>>>>> 3bb0bd9 (release: v1.6.0)
       "error": null,
       "status": 200,
       "note": "v0.8.0 新增可执行源（news-aggregator）；实测 2026-10-23：HTTP 200、解析 100 条、4292ms；免 key/免登录"
@@ -1486,11 +2903,19 @@
       "ok": true,
       "mode": "online-fetch",
       "http_status": 200,
+<<<<<<< HEAD
       "latency_ms": 559,
       "cached": false,
       "items": 30,
       "signals": 30,
       "checked_at": "2026-10-24T00:58:14+00:00",
+=======
+      "latency_ms": 2092,
+      "cached": false,
+      "items": 30,
+      "signals": 30,
+      "checked_at": "2026-10-24T16:45:23+08:00",
+>>>>>>> 3bb0bd9 (release: v1.6.0)
       "error": null,
       "status": 200,
       "note": "v0.8.0 新增可执行源（news-aggregator）；实测 2026-10-23：HTTP 200、解析 100 条、2287ms；免 key/免登录"
@@ -1505,11 +2930,19 @@
       "ok": true,
       "mode": "online-fetch",
       "http_status": 200,
+<<<<<<< HEAD
       "latency_ms": 203,
       "cached": false,
       "items": 30,
       "signals": 30,
       "checked_at": "2026-10-24T00:58:15+00:00",
+=======
+      "latency_ms": 2989,
+      "cached": false,
+      "items": 30,
+      "signals": 30,
+      "checked_at": "2026-10-24T16:45:26+08:00",
+>>>>>>> 3bb0bd9 (release: v1.6.0)
       "error": null,
       "status": 200,
       "note": "v0.8.0 新增可执行源（news-aggregator）；实测 2026-10-23：HTTP 200、解析 100 条、3280ms；免 key/免登录"
@@ -1524,11 +2957,19 @@
       "ok": true,
       "mode": "online-fetch",
       "http_status": 200,
+<<<<<<< HEAD
       "latency_ms": 723,
       "cached": false,
       "items": 30,
       "signals": 30,
       "checked_at": "2026-10-24T00:58:16+00:00",
+=======
+      "latency_ms": 3455,
+      "cached": false,
+      "items": 30,
+      "signals": 30,
+      "checked_at": "2026-10-24T16:45:29+08:00",
+>>>>>>> 3bb0bd9 (release: v1.6.0)
       "error": null,
       "status": 200,
       "note": "v0.8.0 新增可执行源（news-aggregator）；实测 2026-10-23：HTTP 200、解析 100 条、3489ms；免 key/免登录"
@@ -1543,11 +2984,19 @@
       "ok": true,
       "mode": "online-fetch",
       "http_status": 200,
+<<<<<<< HEAD
       "latency_ms": 209,
       "cached": false,
       "items": 10,
       "signals": 10,
       "checked_at": "2026-10-24T00:58:16+00:00",
+=======
+      "latency_ms": 1959,
+      "cached": false,
+      "items": 10,
+      "signals": 10,
+      "checked_at": "2026-10-24T16:45:31+08:00",
+>>>>>>> 3bb0bd9 (release: v1.6.0)
       "error": null,
       "status": 200,
       "note": "v0.8.0 新增可执行源（trend-feed）；实测 2026-10-23：HTTP 200、解析 10 条、1837ms；免 key/免登录"
@@ -1562,11 +3011,19 @@
       "ok": true,
       "mode": "online-fetch",
       "http_status": 200,
+<<<<<<< HEAD
       "latency_ms": 292,
       "cached": false,
       "items": 10,
       "signals": 10,
       "checked_at": "2026-10-24T00:58:17+00:00",
+=======
+      "latency_ms": 1575,
+      "cached": false,
+      "items": 10,
+      "signals": 10,
+      "checked_at": "2026-10-24T16:45:33+08:00",
+>>>>>>> 3bb0bd9 (release: v1.6.0)
       "error": null,
       "status": 200,
       "note": "v0.8.0 新增可执行源（trend-feed）；实测 2026-10-23：HTTP 200、解析 10 条、1581ms；免 key/免登录"
@@ -1581,11 +3038,19 @@
       "ok": true,
       "mode": "online-fetch",
       "http_status": 200,
+<<<<<<< HEAD
       "latency_ms": 127,
       "cached": false,
       "items": 10,
       "signals": 10,
       "checked_at": "2026-10-24T00:58:18+00:00",
+=======
+      "latency_ms": 1444,
+      "cached": false,
+      "items": 10,
+      "signals": 10,
+      "checked_at": "2026-10-24T16:45:34+08:00",
+>>>>>>> 3bb0bd9 (release: v1.6.0)
       "error": null,
       "status": 200,
       "note": "v0.8.0 新增可执行源（trend-feed）；实测 2026-10-23：HTTP 200、解析 10 条、1481ms；免 key/免登录"
@@ -1600,11 +3065,19 @@
       "ok": true,
       "mode": "online-fetch",
       "http_status": 200,
+<<<<<<< HEAD
       "latency_ms": 260,
       "cached": false,
       "items": 10,
       "signals": 10,
       "checked_at": "2026-10-24T00:58:19+00:00",
+=======
+      "latency_ms": 1561,
+      "cached": false,
+      "items": 10,
+      "signals": 10,
+      "checked_at": "2026-10-24T16:45:36+08:00",
+>>>>>>> 3bb0bd9 (release: v1.6.0)
       "error": null,
       "status": 200,
       "note": "v0.8.0 新增可执行源（vertical-media）；实测 2026-10-23：HTTP 200、解析 10 条、3298ms；免 key/免登录"
@@ -1619,11 +3092,19 @@
       "ok": true,
       "mode": "online-fetch",
       "http_status": 200,
+<<<<<<< HEAD
       "latency_ms": 246,
       "cached": false,
       "items": 30,
       "signals": 30,
       "checked_at": "2026-10-24T00:58:19+00:00",
+=======
+      "latency_ms": 1584,
+      "cached": false,
+      "items": 30,
+      "signals": 30,
+      "checked_at": "2026-10-24T16:45:37+08:00",
+>>>>>>> 3bb0bd9 (release: v1.6.0)
       "error": null,
       "status": 200,
       "note": "v0.9.2 新增科技消费源（实测 200/50 条）"
@@ -1638,11 +3119,19 @@
       "ok": true,
       "mode": "online-fetch",
       "http_status": 200,
+<<<<<<< HEAD
       "latency_ms": 433,
       "cached": false,
       "items": 30,
       "signals": 30,
       "checked_at": "2026-10-24T00:58:19+00:00",
+=======
+      "latency_ms": 1474,
+      "cached": false,
+      "items": 30,
+      "signals": 30,
+      "checked_at": "2026-10-24T16:45:39+08:00",
+>>>>>>> 3bb0bd9 (release: v1.6.0)
       "error": null,
       "status": 200,
       "note": "v0.9.2 新增科技趋势源（实测 200/30 条）"
@@ -1657,11 +3146,19 @@
       "ok": true,
       "mode": "online-fetch",
       "http_status": 200,
+<<<<<<< HEAD
       "latency_ms": 420,
       "cached": false,
       "items": 30,
       "signals": 30,
       "checked_at": "2026-10-24T00:58:20+00:00",
+=======
+      "latency_ms": 1795,
+      "cached": false,
+      "items": 30,
+      "signals": 30,
+      "checked_at": "2026-10-24T16:45:40+08:00",
+>>>>>>> 3bb0bd9 (release: v1.6.0)
       "error": null,
       "status": 200,
       "note": "v0.9.2 新增科研趋势源（实测 200/60 条）"
@@ -1676,11 +3173,19 @@
       "ok": true,
       "mode": "online-fetch",
       "http_status": 200,
+<<<<<<< HEAD
       "latency_ms": 984,
       "cached": false,
       "items": 30,
       "signals": 30,
       "checked_at": "2026-10-24T00:58:21+00:00",
+=======
+      "latency_ms": 1138,
+      "cached": false,
+      "items": 30,
+      "signals": 30,
+      "checked_at": "2026-10-24T16:45:42+08:00",
+>>>>>>> 3bb0bd9 (release: v1.6.0)
       "error": null,
       "status": 200,
       "note": "v0.9.1 App Store Top Free JSON 多国模板（researcher 实测 50 条/国）；只取榜单标题，缓存 12h；实测 HTTP 200、解析 50 条"
@@ -1695,11 +3200,19 @@
       "ok": true,
       "mode": "online-fetch",
       "http_status": 200,
+<<<<<<< HEAD
       "latency_ms": 892,
       "cached": false,
       "items": 30,
       "signals": 30,
       "checked_at": "2026-10-24T00:58:22+00:00",
+=======
+      "latency_ms": 1110,
+      "cached": false,
+      "items": 30,
+      "signals": 30,
+      "checked_at": "2026-10-24T16:45:43+08:00",
+>>>>>>> 3bb0bd9 (release: v1.6.0)
       "error": null,
       "status": 200,
       "note": "v0.9.1 App Store Top Free JSON 多国模板（researcher 实测 50 条/国）；只取榜单标题，缓存 12h；实测 HTTP 200、解析 50 条"
@@ -1714,11 +3227,19 @@
       "ok": true,
       "mode": "online-fetch",
       "http_status": 200,
+<<<<<<< HEAD
       "latency_ms": 982,
       "cached": false,
       "items": 30,
       "signals": 30,
       "checked_at": "2026-10-24T00:58:23+00:00",
+=======
+      "latency_ms": 1254,
+      "cached": false,
+      "items": 30,
+      "signals": 30,
+      "checked_at": "2026-10-24T16:45:44+08:00",
+>>>>>>> 3bb0bd9 (release: v1.6.0)
       "error": null,
       "status": 200,
       "note": "v0.9.1 App Store Top Free JSON 多国模板（researcher 实测 50 条/国）；只取榜单标题，缓存 12h；实测 HTTP 200、解析 50 条"
@@ -1733,11 +3254,19 @@
       "ok": true,
       "mode": "online-fetch",
       "http_status": 200,
+<<<<<<< HEAD
       "latency_ms": 951,
       "cached": false,
       "items": 30,
       "signals": 30,
       "checked_at": "2026-10-24T00:58:24+00:00",
+=======
+      "latency_ms": 1284,
+      "cached": false,
+      "items": 30,
+      "signals": 30,
+      "checked_at": "2026-10-24T16:45:45+08:00",
+>>>>>>> 3bb0bd9 (release: v1.6.0)
       "error": null,
       "status": 200,
       "note": "v0.9.1 App Store Top Free JSON 多国模板（researcher 实测 50 条/国）；只取榜单标题，缓存 12h；实测 HTTP 200、解析 50 条"
@@ -1752,11 +3281,19 @@
       "ok": true,
       "mode": "online-fetch",
       "http_status": 200,
+<<<<<<< HEAD
       "latency_ms": 750,
       "cached": false,
       "items": 30,
       "signals": 30,
       "checked_at": "2026-10-24T00:58:24+00:00",
+=======
+      "latency_ms": 948,
+      "cached": false,
+      "items": 30,
+      "signals": 30,
+      "checked_at": "2026-10-24T16:45:46+08:00",
+>>>>>>> 3bb0bd9 (release: v1.6.0)
       "error": null,
       "status": 200,
       "note": "v0.9.1 App Store Top Free JSON 多国模板（researcher 实测 50 条/国）；只取榜单标题，缓存 12h；实测 HTTP 200、解析 50 条"
@@ -1771,11 +3308,19 @@
       "ok": true,
       "mode": "online-fetch",
       "http_status": 200,
+<<<<<<< HEAD
       "latency_ms": 1066,
       "cached": false,
       "items": 30,
       "signals": 30,
       "checked_at": "2026-10-24T00:58:26+00:00",
+=======
+      "latency_ms": 1021,
+      "cached": false,
+      "items": 30,
+      "signals": 30,
+      "checked_at": "2026-10-24T16:45:47+08:00",
+>>>>>>> 3bb0bd9 (release: v1.6.0)
       "error": null,
       "status": 200,
       "note": "v0.9.1 App Store Top Free JSON 多国模板（researcher 实测 50 条/国）；只取榜单标题，缓存 12h；实测 HTTP 200、解析 50 条"
@@ -1790,11 +3335,19 @@
       "ok": true,
       "mode": "online-fetch",
       "http_status": 200,
+<<<<<<< HEAD
       "latency_ms": 225,
       "cached": false,
       "items": 25,
       "signals": 25,
       "checked_at": "2026-10-24T00:58:26+00:00",
+=======
+      "latency_ms": 1424,
+      "cached": false,
+      "items": 25,
+      "signals": 25,
+      "checked_at": "2026-10-24T16:45:49+08:00",
+>>>>>>> 3bb0bd9 (release: v1.6.0)
       "error": null,
       "status": 200,
       "note": "v0.8.0 新增可执行源（news-aggregator）；实测 2026-10-23：HTTP 200、解析 25 条、1299ms；免 key/免登录"
@@ -1809,11 +3362,19 @@
       "ok": true,
       "mode": "online-fetch",
       "http_status": 200,
+<<<<<<< HEAD
       "latency_ms": 409,
       "cached": false,
       "items": 30,
       "signals": 30,
       "checked_at": "2026-10-24T00:58:27+00:00",
+=======
+      "latency_ms": 2739,
+      "cached": false,
+      "items": 30,
+      "signals": 30,
+      "checked_at": "2026-10-24T16:45:52+08:00",
+>>>>>>> 3bb0bd9 (release: v1.6.0)
       "error": null,
       "status": 200,
       "note": "v0.3.1：shopify.dev/changelog 是 HTML，改为官方 RSS feed.xml（实测 778 条，抓取后按单源上限保留 30 条）；平台新功能/规则变化 30 天窗口信号"
@@ -1828,11 +3389,19 @@
       "ok": true,
       "mode": "online-fetch",
       "http_status": 200,
+<<<<<<< HEAD
       "latency_ms": 321,
       "cached": false,
       "items": 20,
       "signals": 20,
       "checked_at": "2026-10-24T00:58:27+00:00",
+=======
+      "latency_ms": 1936,
+      "cached": false,
+      "items": 20,
+      "signals": 20,
+      "checked_at": "2026-10-24T16:45:54+08:00",
+>>>>>>> 3bb0bd9 (release: v1.6.0)
       "error": null,
       "status": 200,
       "note": "公开 RSS，`--fetch` 实际采集源之一；只用标题/摘要，限速 ≤1 req/s，不抓评论"
@@ -1847,11 +3416,19 @@
       "ok": true,
       "mode": "online-fetch",
       "http_status": 200,
+<<<<<<< HEAD
       "latency_ms": 273,
       "cached": false,
       "items": 25,
       "signals": 25,
       "checked_at": "2026-10-24T00:58:27+00:00",
+=======
+      "latency_ms": 2690,
+      "cached": false,
+      "items": 25,
+      "signals": 25,
+      "checked_at": "2026-10-24T16:45:56+08:00",
+>>>>>>> 3bb0bd9 (release: v1.6.0)
       "error": null,
       "status": 200,
       "note": "v0.3.1 新增：reddit.com 在当前网络环境持续超时，改用 Lobsters 公开 RSS（实测 25 条）；技术圈讨论与新品信号"
@@ -1866,11 +3443,19 @@
       "ok": true,
       "mode": "online-fetch",
       "http_status": 200,
+<<<<<<< HEAD
       "latency_ms": 828,
       "cached": false,
       "items": 30,
       "signals": 30,
       "checked_at": "2026-10-24T00:58:28+00:00",
+=======
+      "latency_ms": 1110,
+      "cached": false,
+      "items": 30,
+      "signals": 30,
+      "checked_at": "2026-10-24T16:45:57+08:00",
+>>>>>>> 3bb0bd9 (release: v1.6.0)
       "error": null,
       "status": 200,
       "note": "公开 JSON RSS；各国区榜单对比是『时间差/地区差』的现成信号"
@@ -1882,15 +3467,24 @@
       "url": "http://export.arxiv.org/rss/cs.AI",
       "access": "rss",
       "compliance": "green",
-      "ok": true,
+      "ok": false,
       "mode": "online-fetch",
       "http_status": 200,
+<<<<<<< HEAD
       "latency_ms": 425,
       "cached": false,
       "items": 30,
       "signals": 30,
       "checked_at": "2026-10-24T00:58:29+00:00",
       "error": null,
+=======
+      "latency_ms": 2336,
+      "cached": false,
+      "items": 0,
+      "signals": 0,
+      "checked_at": "2026-10-24T16:46:00+08:00",
+      "error": "返回内容不是可解析的 feed（http_status=200，有效条目 0 条）",
+>>>>>>> 3bb0bd9 (release: v1.6.0)
       "status": 200,
       "note": "arXiv 官方 RSS；论文标题/摘要级信号，适合判断技术拐点"
     },
@@ -1904,11 +3498,19 @@
       "ok": true,
       "mode": "online-fetch",
       "http_status": 200,
+<<<<<<< HEAD
       "latency_ms": 236,
       "cached": false,
       "items": 20,
       "signals": 20,
       "checked_at": "2026-10-24T00:58:29+00:00",
+=======
+      "latency_ms": 1455,
+      "cached": false,
+      "items": 20,
+      "signals": 20,
+      "checked_at": "2026-10-24T16:46:01+08:00",
+>>>>>>> 3bb0bd9 (release: v1.6.0)
       "error": null,
       "status": 200,
       "note": "公开 RSS；黄区源，个人研究用途、限速与缓存，不转售原文"
@@ -1923,11 +3525,19 @@
       "ok": true,
       "mode": "online-fetch",
       "http_status": 200,
+<<<<<<< HEAD
       "latency_ms": 232,
       "cached": false,
       "items": 30,
       "signals": 30,
       "checked_at": "2026-10-24T00:58:29+00:00",
+=======
+      "latency_ms": 1537,
+      "cached": false,
+      "items": 30,
+      "signals": 30,
+      "checked_at": "2026-10-24T16:46:03+08:00",
+>>>>>>> 3bb0bd9 (release: v1.6.0)
       "error": null,
       "status": 200,
       "note": "公开 RSS；看新品标题与一句话描述，不自动抓评论区"

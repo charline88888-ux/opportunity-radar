@@ -1,0 +1,1780 @@
+{
+  "meta": {
+    "data_version": "1.6.0",
+    "as_of": "2026-10-23",
+    "count": 60,
+    "note": "v1.6.0 中文标题 override 候选：仅导出被严格中文具体标题过滤掉的英文具体机会信号，不生成 candidates。等待人工/模型回填 title_overrides_v160.json（signal_id→title_zh）。"
+  },
+  "items": [
+    {
+      "signal_id": "sig-1ee7864277bc",
+      "title_original": "CapQuest closes $1 million pre-Seed funding to expand globally",
+      "source_id": "wamda",
+      "source_name": "wamda",
+      "url": "http://wamda.com/2026/10/capquest-closes-1-million-pre-seed-funding-expand-globally",
+      "published_date": "2026-10-20",
+      "tier": "business",
+      "relevance_score": 100.0,
+      "industry_hints": [
+        "ai",
+        "content",
+        "fintech"
+      ],
+      "industry_ids": [
+        "ai",
+        "content",
+        "fintech"
+      ],
+      "region_hints": [
+        "mena",
+        "north-america"
+      ],
+      "region_ids": [
+        "mena",
+        "north-america"
+      ],
+      "gap_hints": [
+        "platform",
+        "regulation"
+      ],
+      "why_filtered": "英文原题已通过机会事件/实体检查，但未进入 v1.6.0 中文具体标题（translation 未产出可用的具体中文标题）"
+    },
+    {
+      "signal_id": "sig-468fed7dbe51",
+      "title_original": "EU weighs PPWR compliance relief as cross-border small businesses face costs - Packaging Insights",
+      "source_id": "gn-v160-uk-regulation",
+      "source_name": "gn-v160-uk-regulation",
+      "url": "https://news.google.com/rss/articles/CBMikgFBVV95cUxOcTF0MW5sd1dNZEgybEk2WjJwdUdzMWNWSEpQcTdSX1pKbGFOTmI2S0FiQ2NSUll1bk9scHRtaUMxV2FzbHZZcnhUclpaNWJjTWVNT29YdFYwWUZQX0xGd0FreFRPRXBRc2N1N2JHa3VoUUQ3MUtUZUJUbXIwQWJab0pFQ1dhaFhEQU5vbkVlQzVJdw?oc=5",
+      "published_date": "2026-10-12",
+      "tier": "business",
+      "relevance_score": 100.0,
+      "industry_hints": [
+        "compliance",
+        "crossborder",
+        "silver"
+      ],
+      "industry_ids": [
+        "compliance",
+        "crossborder",
+        "silver"
+      ],
+      "region_hints": [
+        "europe",
+        "north-america"
+      ],
+      "region_ids": [
+        "europe",
+        "north-america"
+      ],
+      "gap_hints": [
+        "demographic",
+        "geo",
+        "price",
+        "regulation"
+      ],
+      "why_filtered": "英文原题已通过机会事件/实体检查，但未进入 v1.6.0 中文具体标题（translation 未产出可用的具体中文标题）"
+    },
+    {
+      "signal_id": "sig-2cb70541101b",
+      "title_original": "CPSC Rule Mandates eFiling of Certificates of Compliance for Imported Consumer Products - Akin Gump Strauss Hauer & Feld LLP",
+      "source_id": "gn-industry-compliance",
+      "source_name": "gn-industry-compliance",
+      "url": "https://news.google.com/rss/articles/CBMiywFBVV95cUxOVm1sTV9mMGh4U01HcExfZkhjVjFIM2hkXzB4d180MmY1Qm1sdlRvWGxpa2M5TktXcy1naURHdlJseVlXODM0NFlLT2xLRHZmZHJPM0RTVVFCSjhidkQ5SFBNNmluREFEeXM0S2N3VUo3VVExODVGblFFWnZwZWJSWm8xN2tlMEtnSy1UcUdiZnZSbXNlbS1jcjNhT2w4UFFaaTk5MjZVLW1ndkJDTVB2VUdkR1FyRkFrV3YtQXdrV09SS0N0dTR6Y1lmbw?oc=5",
+      "published_date": "2026-07-15",
+      "tier": "business",
+      "relevance_score": 100.0,
+      "industry_hints": [
+        "compliance",
+        "pet"
+      ],
+      "industry_ids": [
+        "compliance",
+        "pet"
+      ],
+      "region_hints": [
+        "north-america"
+      ],
+      "region_ids": [
+        "north-america"
+      ],
+      "gap_hints": [
+        "geo",
+        "regulation"
+      ],
+      "why_filtered": "英文原题已通过机会事件/实体检查，但未进入 v1.6.0 中文具体标题（translation 未产出可用的具体中文标题）"
+    },
+    {
+      "signal_id": "sig-d0a85f6ce0a0",
+      "title_original": "Pet supplement compliance risks can hide between audits",
+      "source_id": "petfoodindustry",
+      "source_name": "petfoodindustry",
+      "url": "https://petfoodindustry.com/pet-supplements-pro/industry-voices/article/15836937/pet-supplement-compliance-risks-can-hide-between-audits",
+      "published_date": "2026-10-22",
+      "tier": "business",
+      "relevance_score": 97.0,
+      "industry_hints": [
+        "ai",
+        "compliance",
+        "manufacturing",
+        "pet"
+      ],
+      "industry_ids": [
+        "ai",
+        "compliance",
+        "manufacturing",
+        "pet"
+      ],
+      "region_hints": [
+        "north-america"
+      ],
+      "region_ids": [
+        "north-america"
+      ],
+      "gap_hints": [
+        "price",
+        "regulation"
+      ],
+      "why_filtered": "英文原题已通过机会事件/实体检查，但未进入 v1.6.0 中文具体标题（translation 未产出可用的具体中文标题）"
+    },
+    {
+      "signal_id": "sig-9375b953b170",
+      "title_original": "Europe risks startup exodus as regulation, funding and skill gaps hamper AI adoption, AWS EMEA head says - Reuters",
+      "source_id": "gn-query-retail-funding",
+      "source_name": "gn-query-retail-funding",
+      "url": "https://news.google.com/rss/articles/CBMi2AFBVV95cUxQWlBCRzNNN1hVU0RydnVDdzB6MUtiWVlURnFsTHBMcXlhMWxjMnFvZHVfbmFzSmRPbEtlRlUzQVFxUUgwbEhDdHR5eFFOZXFxdWJ2M0tUTi1DRU4xa2lFMFBEVHdmc25KZUNlVGV2bVA1SnczQ3pCeGE1cjgzV1hVbk9hVjdOTmNOeFEtZEJsVHNpNllLWGtHSWZnd3UxMmFwa2pPVDdMTW8xUm42dmxXbmMxQS1HUDJHektqMnZ1bUJ6OFpFVF9DYzhUSHhIQ0VNTEVnRkdiWGg?oc=5",
+      "published_date": "2026-10-21",
+      "tier": "business",
+      "relevance_score": 97.0,
+      "industry_hints": [
+        "ai",
+        "compliance"
+      ],
+      "industry_ids": [
+        "ai",
+        "compliance"
+      ],
+      "region_hints": [
+        "europe",
+        "north-america"
+      ],
+      "region_ids": [
+        "europe",
+        "north-america"
+      ],
+      "gap_hints": [
+        "regulation"
+      ],
+      "why_filtered": "英文原题已通过机会事件/实体检查，但未进入 v1.6.0 中文具体标题（translation 未产出可用的具体中文标题）"
+    },
+    {
+      "signal_id": "sig-b28099d598be",
+      "title_original": "Packaging compliance becomes an industrial data test - Manufacturing Today",
+      "source_id": "gn-industry-compliance",
+      "source_name": "gn-industry-compliance",
+      "url": "https://news.google.com/rss/articles/CBMijgFBVV95cUxOMlRudUwwY1gtdXZ5RkdyR19SYUoydGEzblF4Y0c3UDB3OUVLWnhmdDJOaXVvaGN2cThSSUFjaXBOVjd2U3JlQnJKcWVCOTJHLWRMbjkzT01JaGt3NHZsSUk2UXl0VzlXWHQxOTFMSzl5M1dqNmQ4TVZWNHozUm5iQnZqa0l1aUk4c0F1UFNR?oc=5",
+      "published_date": "2026-08-25",
+      "tier": "business",
+      "relevance_score": 97.0,
+      "industry_hints": [
+        "compliance",
+        "manufacturing",
+        "silver"
+      ],
+      "industry_ids": [
+        "compliance",
+        "manufacturing",
+        "silver"
+      ],
+      "region_hints": [
+        "north-america"
+      ],
+      "region_ids": [
+        "north-america"
+      ],
+      "gap_hints": [
+        "demographic",
+        "regulation"
+      ],
+      "why_filtered": "英文原题已通过机会事件/实体检查，但未进入 v1.6.0 中文具体标题（translation 未产出可用的具体中文标题）"
+    },
+    {
+      "signal_id": "sig-634b2d38c2da",
+      "title_original": "New German Act set to implement EU Packaging Regulation - Gleiss Lutz",
+      "source_id": "gn-industry-compliance",
+      "source_name": "gn-industry-compliance",
+      "url": "https://news.google.com/rss/articles/CBMilgFBVV95cUxNWHBoby1GNHppVjF5Y2lIX2sxRmpUTXdSVFdxdnFnOHpKd3pDVklmdkJuSzVnNXVkMTRVUXRUSVBqMXpLVUpFNEw3aUxNTFlzSElzbFVlRW5ORWZnMDJFY3lRLUVOY3RJRjgzMzl3UVR0QU91c2JyS3dUQlF6dXNoTHdVOXBibTRUXy1ESkx0R1RPUFVkakE?oc=5",
+      "published_date": "2026-07-21",
+      "tier": "business",
+      "relevance_score": 97.0,
+      "industry_hints": [
+        "compliance",
+        "silver"
+      ],
+      "industry_ids": [
+        "compliance",
+        "silver"
+      ],
+      "region_hints": [
+        "europe"
+      ],
+      "region_ids": [
+        "europe"
+      ],
+      "gap_hints": [
+        "demographic",
+        "regulation"
+      ],
+      "why_filtered": "英文原题已通过机会事件/实体检查，但未进入 v1.6.0 中文具体标题（translation 未产出可用的具体中文标题）"
+    },
+    {
+      "signal_id": "sig-ed120b1d1cf4",
+      "title_original": "ByteDance’s PineDrama targets overseas growth with an ecosystem behind its free model",
+      "source_id": "technode",
+      "source_name": "technode",
+      "url": "https://technode.com/2026/10/23/bytedances-pinedrama-targets-overseas-growth-with-an-ecosystem-behind-its-free-model",
+      "published_date": "2026-10-23",
+      "tier": "business",
+      "relevance_score": 95.0,
+      "industry_hints": [
+        "ai",
+        "content",
+        "pet"
+      ],
+      "industry_ids": [
+        "ai",
+        "content",
+        "pet"
+      ],
+      "region_hints": [
+        "china",
+        "north-america"
+      ],
+      "region_ids": [
+        "china",
+        "north-america"
+      ],
+      "gap_hints": [
+        "geo",
+        "platform"
+      ],
+      "why_filtered": "英文原题已通过机会事件/实体检查，但未进入 v1.6.0 中文具体标题（translation 未产出可用的具体中文标题）"
+    },
+    {
+      "signal_id": "sig-5a9803e34c85",
+      "title_original": "Singapore launches first national embodied AI challenge to accelerate real-world robotics deployment in manufacturing",
+      "source_id": "technode-global",
+      "source_name": "technode-global",
+      "url": "https://technode.global/2026/10/22/singapore-launches-first-national-embodied-ai-challenge-to-accelerate-real-world-robotics-deployment-in-manufacturing",
+      "published_date": "2026-10-22",
+      "tier": "business",
+      "relevance_score": 95.0,
+      "industry_hints": [
+        "ai",
+        "manufacturing",
+        "pet"
+      ],
+      "industry_ids": [
+        "ai",
+        "manufacturing",
+        "pet"
+      ],
+      "region_hints": [
+        "north-america",
+        "sea"
+      ],
+      "region_ids": [
+        "north-america",
+        "sea"
+      ],
+      "gap_hints": [
+        "knowledge",
+        "regulation"
+      ],
+      "why_filtered": "英文原题已通过机会事件/实体检查，但未进入 v1.6.0 中文具体标题（translation 未产出可用的具体中文标题）"
+    },
+    {
+      "signal_id": "sig-c0f152aca8ee",
+      "title_original": "Foodics invests in Funding Souq to expand restaurant financing in KSA, UAE",
+      "source_id": "wamda",
+      "source_name": "wamda",
+      "url": "http://wamda.com/2026/10/foodics-invests-funding-souq-expand-restaurant-financing-ksa-uae",
+      "published_date": "2026-10-14",
+      "tier": "business",
+      "relevance_score": 95.0,
+      "industry_hints": [
+        "ai",
+        "content",
+        "fintech",
+        "local"
+      ],
+      "industry_ids": [
+        "ai",
+        "content",
+        "fintech",
+        "local"
+      ],
+      "region_hints": [
+        "mena",
+        "north-america"
+      ],
+      "region_ids": [
+        "mena",
+        "north-america"
+      ],
+      "gap_hints": [
+        "platform",
+        "price"
+      ],
+      "why_filtered": "英文原题已通过机会事件/实体检查，但未进入 v1.6.0 中文具体标题（translation 未产出可用的具体中文标题）"
+    },
+    {
+      "signal_id": "sig-a18c4174e8a6",
+      "title_original": "Ecobank strengthens China-Africa trade links with new Beijing office and CIPS partnership",
+      "source_id": "african-business",
+      "source_name": "african-business",
+      "url": "https://african.business/2026/10/partner-content/ecobank-strengthens-china-africa-trade-links-with-new-beijing-office-and-cips-partnership",
+      "published_date": "2026-10-12",
+      "tier": "business",
+      "relevance_score": 95.0,
+      "industry_hints": [
+        "ai",
+        "content",
+        "crossborder",
+        "fintech"
+      ],
+      "industry_ids": [
+        "ai",
+        "content",
+        "crossborder",
+        "fintech"
+      ],
+      "region_hints": [
+        "africa",
+        "china",
+        "north-america"
+      ],
+      "region_ids": [
+        "africa",
+        "china",
+        "north-america"
+      ],
+      "gap_hints": [
+        "geo",
+        "infrastructure",
+        "platform"
+      ],
+      "why_filtered": "英文原题已通过机会事件/实体检查，但未进入 v1.6.0 中文具体标题（translation 未产出可用的具体中文标题）"
+    },
+    {
+      "signal_id": "sig-5c0c8f089a15",
+      "title_original": "Saudi Vrtx secures $3.6 million for embedded finance platform",
+      "source_id": "wamda",
+      "source_name": "wamda",
+      "url": "http://wamda.com/2026/10/saudi-vrtx-secures-3-6-million-embedded-finance-platform",
+      "published_date": "2026-10-07",
+      "tier": "business",
+      "relevance_score": 95.0,
+      "industry_hints": [
+        "ai",
+        "fintech",
+        "local"
+      ],
+      "industry_ids": [
+        "ai",
+        "fintech",
+        "local"
+      ],
+      "region_hints": [
+        "mena",
+        "north-america"
+      ],
+      "region_ids": [
+        "mena",
+        "north-america"
+      ],
+      "gap_hints": [
+        "platform",
+        "regulation"
+      ],
+      "why_filtered": "英文原题已通过机会事件/实体检查，但未进入 v1.6.0 中文具体标题（translation 未产出可用的具体中文标题）"
+    },
+    {
+      "signal_id": "sig-8069cd3ac2c2",
+      "title_original": "K-beauty sales get glow-up as halal certification drives popularity among Muslim consumers - Korea JoongAng Daily",
+      "source_id": "gn-industry-halal",
+      "source_name": "gn-industry-halal",
+      "url": "https://news.google.com/rss/articles/CBMi2AFBVV95cUxPTEpPZWIzZ0Z3SG5pQmlPT29NTGhyS1c2RUxNT0EtcXhNQ1ZUUG5IWC1xZThqN1k2UVRrNUVvb1V3Z1M2elp6T3hSWGp5LXE4UnJSTVVPbGVuLURnd2JDVVlWbVpwWGlSb2RPc2JTYnZyNmhjbkhJUl9IMXJ4X1dHUzdSNnZLc0xIYl9CenBfOUk4bUFIWnFJdjJ5TFBIMm5IVXBMLU9LOUc2cFE0Y0lUVmt0elFxWmRPcVRmY1dzVUNrdk9OYTdvZWJQcDhJdGh6R3Yzem1wSTE?oc=5",
+      "published_date": "2026-09-30",
+      "tier": "business",
+      "relevance_score": 95.0,
+      "industry_hints": [
+        "ai",
+        "compliance",
+        "culture",
+        "pet"
+      ],
+      "industry_ids": [
+        "ai",
+        "compliance",
+        "culture",
+        "pet"
+      ],
+      "region_hints": [
+        "east-asia",
+        "north-america"
+      ],
+      "region_ids": [
+        "east-asia",
+        "north-america"
+      ],
+      "gap_hints": [
+        "culture",
+        "regulation"
+      ],
+      "why_filtered": "英文原题已通过机会事件/实体检查，但未进入 v1.6.0 中文具体标题（translation 未产出可用的具体中文标题）"
+    },
+    {
+      "signal_id": "sig-a447c8004f2a",
+      "title_original": "Logistics And Transport Overtakes Fintech as Nigeria Reclaims Africa’s Startup Funding Lead - Tekedia",
+      "source_id": "gn-ng-startup",
+      "source_name": "gn-ng-startup",
+      "url": "https://news.google.com/rss/articles/CBMitgFBVV95cUxQQm04X3ZEbXpqRk9QZlhkdm1CRHF3Tl9QZ0QzZmcxNHh3cVZrLWxzRUhJNkg5N2VWWVk3WjlGcVkzYWo1UjdCZllQWEhtYjNIc1ZPN051Qjg3T3doVnFHdWhHMlIweVdOdVBjcmZQUlZPSG5Lc210ZmpUamNma0dreWtHTEYyNm5NSVBGQnFCX21iVzFIaWJEZ0Zxam5TWG9pRFFKWEoycXh1ZEE1d0I1YVVUYVJXUQ?oc=5",
+      "published_date": "2026-10-21",
+      "tier": "business",
+      "relevance_score": 93.0,
+      "industry_hints": [
+        "ai",
+        "fintech"
+      ],
+      "industry_ids": [
+        "ai",
+        "fintech"
+      ],
+      "region_hints": [
+        "africa"
+      ],
+      "region_ids": [
+        "africa"
+      ],
+      "gap_hints": [
+        "infrastructure"
+      ],
+      "why_filtered": "英文原题已通过机会事件/实体检查，但未进入 v1.6.0 中文具体标题（translation 未产出可用的具体中文标题）"
+    },
+    {
+      "signal_id": "sig-6b9ca12f5123",
+      "title_original": "Yuma launches Yuma 2.0, a single AI platform that runs customer service across every channel from one tested Handbook - Lohud",
+      "source_id": "gn-v160-global-platform",
+      "source_name": "gn-v160-global-platform",
+      "url": "https://news.google.com/rss/articles/CBMi-gFBVV95cUxPeVg1eFZ2cUhuSnhGU2E0THJmcXBrWDlIaGQyMEJSSXJmVjhjYjllRGUwVnRuczh1Z2tINkdUMmlqM3RhUFVvNHAybFBTY1FkMTl0dW5QWC1VT2FvczlDcmw1cnBRNWZzZXZ5NWJVT0NjQ3RkYzhEaFUtMzltVFhQaWVjcllXdWt0MFRyWmtOQV94QTZERGIyMzFBYW1SRUFOWlRHV3AzVi1NZjhmeXQtcjU3Zk5UNmV1dDlfVkE0U21NZXFscWxQdVVIWWFjX3lOOWdNT3VEdnNzZWlheVhJTkVIUEhfWW9VRTZfZ1pOOHlXdHJVOEEwU293?oc=5",
+      "published_date": "2026-10-13",
+      "tier": "business",
+      "relevance_score": 93.0,
+      "industry_hints": [
+        "ai",
+        "local"
+      ],
+      "industry_ids": [
+        "ai",
+        "local"
+      ],
+      "region_hints": [
+        "north-america"
+      ],
+      "region_ids": [
+        "north-america"
+      ],
+      "gap_hints": [
+        "demographic",
+        "platform"
+      ],
+      "why_filtered": "英文原题已通过机会事件/实体检查，但未进入 v1.6.0 中文具体标题（translation 未产出可用的具体中文标题）"
+    },
+    {
+      "signal_id": "sig-f563f4bc3dd0",
+      "title_original": "DENSO Launches Battery Passport Service Supporting Compliance with the European Battery Regulation - DENSO Global",
+      "source_id": "gn-industry-compliance",
+      "source_name": "gn-industry-compliance",
+      "url": "https://news.google.com/rss/articles/CBMickFVX3lxTFByTllfYmgzUEo0aTdIaGVKdUxwX2RJNTRjMVcyLUotVWhVRVRLcWExWlhhVm5rMUh4eWhENkFtaUFuSFhjZDl3TmdOUzlqa01mNkJjWnVjRDAxeWlSRTRPcEo1XzFzRUVsTHM1R2dGVkZwdw?oc=5",
+      "published_date": "2026-08-25",
+      "tier": "business",
+      "relevance_score": 93.0,
+      "industry_hints": [
+        "compliance",
+        "local"
+      ],
+      "industry_ids": [
+        "compliance",
+        "local"
+      ],
+      "region_hints": [
+        "europe"
+      ],
+      "region_ids": [
+        "europe"
+      ],
+      "gap_hints": [
+        "regulation"
+      ],
+      "why_filtered": "英文原题已通过机会事件/实体检查，但未进入 v1.6.0 中文具体标题（translation 未产出可用的具体中文标题）"
+    },
+    {
+      "signal_id": "sig-6828e4275126",
+      "title_original": "Adherent Launches Agentic AI Platform for Product Compliance - Yahoo Finance",
+      "source_id": "gn-industry-compliance",
+      "source_name": "gn-industry-compliance",
+      "url": "https://news.google.com/rss/articles/CBMiowFBVV95cUxPS1EzQjJUWlBfVENiRzhmYTU5NUhOZmlNNTN5eHRvLWVQQ3VQUlNlS0h0STVEeHZrNUxpY2Nad0lIb2toZ28tM3YzUEhFV0dBSnVkN0pXZG1wRUxmTG9TTXh4ZnJfbk5LckFWUDNuMjJtOWxCd0pPMGt5LS0zMmNtQkhjQk1ndkhFR3ZWM1VubkdWREpFb2tkeXBKQzZObDdrNVdF?oc=5",
+      "published_date": "2026-06-16",
+      "tier": "business",
+      "relevance_score": 93.0,
+      "industry_hints": [
+        "ai",
+        "compliance"
+      ],
+      "industry_ids": [
+        "ai",
+        "compliance"
+      ],
+      "region_hints": [],
+      "region_ids": [],
+      "gap_hints": [
+        "platform",
+        "regulation"
+      ],
+      "why_filtered": "英文原题已通过机会事件/实体检查，但未进入 v1.6.0 中文具体标题（translation 未产出可用的具体中文标题）"
+    },
+    {
+      "signal_id": "sig-ceaea4f23b18",
+      "title_original": "eMudhra to exit global website security certificate business",
+      "source_id": "yourstory",
+      "source_name": "yourstory",
+      "url": "https://yourstory.com/2026/10/emudhra-to-exit-global-ssltls-certificate-business",
+      "published_date": "2026-10-22",
+      "tier": "business",
+      "relevance_score": 91.0,
+      "industry_hints": [
+        "compliance",
+        "pet"
+      ],
+      "industry_ids": [
+        "compliance",
+        "pet"
+      ],
+      "region_hints": [
+        "north-america"
+      ],
+      "region_ids": [
+        "north-america"
+      ],
+      "gap_hints": [
+        "price",
+        "regulation"
+      ],
+      "why_filtered": "英文原题已通过机会事件/实体检查，但未进入 v1.6.0 中文具体标题（translation 未产出可用的具体中文标题）"
+    },
+    {
+      "signal_id": "sig-6268c3c5e1ae",
+      "title_original": "Logistics Attracts $780 Million, Overtaking Fintech in African Startup Funding - We are Tech",
+      "source_id": "gn-ng-startup",
+      "source_name": "gn-ng-startup",
+      "url": "https://news.google.com/rss/articles/CBMixAFBVV95cUxQYWtQY2Q5SUJXN2dRaFU2SGJwQVhJN0lTaEdzT0ZjRFAweXRXbklxdmhsOG9GeW1yRnFqc1FSUHRLZFpZUUZEaTRYZUVTclBkbHIxd0VueTBqN0J4N3J5aWdJZ2V3RkVEaDA5b3NKSkVTdk1BZTY4cVlSM19rQ0VJOFpnV3NteU9HdzZ6MWN0ZS1LTEJzZmJaRmJ4LUhWeW9BNDFER0xZQmFrUXF0VjBhYTRoSXVuSjlyeDE1RnVoU285S1M1?oc=5",
+      "published_date": "2026-10-22",
+      "tier": "business",
+      "relevance_score": 91.0,
+      "industry_hints": [
+        "fintech"
+      ],
+      "industry_ids": [
+        "fintech"
+      ],
+      "region_hints": [
+        "africa"
+      ],
+      "region_ids": [
+        "africa"
+      ],
+      "gap_hints": [
+        "infrastructure",
+        "regulation"
+      ],
+      "why_filtered": "英文原题已通过机会事件/实体检查，但未进入 v1.6.0 中文具体标题（translation 未产出可用的具体中文标题）"
+    },
+    {
+      "signal_id": "sig-594288a4dfa6",
+      "title_original": "EU Parliament votes to exempt small businesses from representative rules until 2035 - Packaging Europe",
+      "source_id": "gn-v160-uk-regulation",
+      "source_name": "gn-v160-uk-regulation",
+      "url": "https://news.google.com/rss/articles/CBMitwFBVV95cUxNSVpSV0h6M0c3ZlBsdWxzazRrWEZCVDRiN0NjVWlrckwzdm5vS2hCczR3eW1HNUVaa28wemJXWDAyOW51aEJSWFNfVXEySGNkYzJ6V2hfbjVXQTlZTGQwb0JHTC1TNTdGOHVDclN0ckllZHRPcktiRWtIb3hTQTFHTnZuX205bW1JWFJfbXBUb3RkYTFJejBNTmdZcnpjTjFhVW9RVEh4QXF5VmdUcG1YT0FLYmJQRFk?oc=5",
+      "published_date": "2026-10-22",
+      "tier": "business",
+      "relevance_score": 91.0,
+      "industry_hints": [
+        "compliance",
+        "silver"
+      ],
+      "industry_ids": [
+        "compliance",
+        "silver"
+      ],
+      "region_hints": [
+        "europe",
+        "north-america"
+      ],
+      "region_ids": [
+        "europe",
+        "north-america"
+      ],
+      "gap_hints": [
+        "demographic"
+      ],
+      "why_filtered": "英文原题已通过机会事件/实体检查，但未进入 v1.6.0 中文具体标题（translation 未产出可用的具体中文标题）"
+    },
+    {
+      "signal_id": "sig-e04470972a46",
+      "title_original": "Halal certification issue halts NZ meat exports to UAE - Farmers Weekly",
+      "source_id": "gn-industry-halal",
+      "source_name": "gn-industry-halal",
+      "url": "https://news.google.com/rss/articles/CBMimwFBVV95cUxNRWRRNGw4QWFrdXItRHRSOFgtS2pva25tOHAtZ01jSWxxckVzVW12RUF5VjZxYkdsdnlqc1Jic1JpaEIyLWhmWHhoelN5ODBySGJGRlEwRXNtd3ltV2d1cHVMdlRsMEJEMW1mUmZOVjI2NDV0enpqcUNBNjl2XzdBOFhiZTV1UHZYQlRmbTRpaExkdTU0c09lczVOQQ?oc=5",
+      "published_date": "2026-10-21",
+      "tier": "business",
+      "relevance_score": 91.0,
+      "industry_hints": [
+        "compliance",
+        "culture",
+        "pet"
+      ],
+      "industry_ids": [
+        "compliance",
+        "culture",
+        "pet"
+      ],
+      "region_hints": [
+        "mena"
+      ],
+      "region_ids": [
+        "mena"
+      ],
+      "gap_hints": [
+        "culture",
+        "geo",
+        "regulation"
+      ],
+      "why_filtered": "英文原题已通过机会事件/实体检查，但未进入 v1.6.0 中文具体标题（translation 未产出可用的具体中文标题）"
+    },
+    {
+      "signal_id": "sig-5f341d15d56d",
+      "title_original": "Popcorn Studio AI secures $1 million to expand AI-powered filmmaking platform",
+      "source_id": "wamda",
+      "source_name": "wamda",
+      "url": "http://wamda.com/2026/10/popcorn-ai-studio-secures-1-million-expand-ai-powered-filmmaking-platform",
+      "published_date": "2026-10-19",
+      "tier": "business",
+      "relevance_score": 91.0,
+      "industry_hints": [
+        "ai",
+        "compliance",
+        "content",
+        "gaming"
+      ],
+      "industry_ids": [
+        "ai",
+        "compliance",
+        "content",
+        "gaming"
+      ],
+      "region_hints": [
+        "europe",
+        "mena"
+      ],
+      "region_ids": [
+        "europe",
+        "mena"
+      ],
+      "gap_hints": [
+        "platform"
+      ],
+      "why_filtered": "英文原题已通过机会事件/实体检查，但未进入 v1.6.0 中文具体标题（translation 未产出可用的具体中文标题）"
+    },
+    {
+      "signal_id": "sig-dc42a02c2218",
+      "title_original": "ThakAIذكا brings UAE regulatory compliance onto one AI-powered platform - Gulf Today",
+      "source_id": "gn-v160-ae-regulation",
+      "source_name": "gn-v160-ae-regulation",
+      "url": "https://news.google.com/rss/articles/CBMixgFBVV95cUxOSE9xV2VKZGZ2SWNHVXpLcnRNRHUzeXFtQXpKbFg4dGZVT1NaX3UxOEdwLWVwVXladnNieEFxeVhpMFI5ZWVOZ1lYTmxKdDhGS2tqSzdDRU96U3FZcjJSYnNfbE80czUtb1RIbGo4aXF2b1p0SHc3VFYtZDl4bHZ5aU5MMGwtNXJIY3ZraFRiN2hKcDlMeEtkWWVuelNEbG00ZVEybUc3MmVfY3RqOHU0ZUhvRXc0TDYzdzFaSU1VMmdpYmRLbXc?oc=5",
+      "published_date": "2026-10-18",
+      "tier": "business",
+      "relevance_score": 91.0,
+      "industry_hints": [
+        "ai",
+        "compliance"
+      ],
+      "industry_ids": [
+        "ai",
+        "compliance"
+      ],
+      "region_hints": [
+        "mena"
+      ],
+      "region_ids": [
+        "mena"
+      ],
+      "gap_hints": [
+        "platform",
+        "regulation"
+      ],
+      "why_filtered": "英文原题已通过机会事件/实体检查，但未进入 v1.6.0 中文具体标题（translation 未产出可用的具体中文标题）"
+    },
+    {
+      "signal_id": "sig-7081cdbe3aea",
+      "title_original": "Five Korean Agencies Join Forces to Help Exporters Enter Halal Markets - Seoul Economic Daily",
+      "source_id": "gn-industry-halal",
+      "source_name": "gn-industry-halal",
+      "url": "https://news.google.com/rss/articles/CBMinwFBVV95cUxPOFk3eVdUZVBiM0VGLV9BaHBfWk53akczMU9FcVZkNEgtbi1kZ0dSdmlNZEdVcF9hbmJNS2RSR0FXWVpCaVlzYlEwdzlZZmZPREtPNXAtWVVTQXFhUFVmVTFGNDJXaWJlYlUtMGQ0c1FnUGVZN2phTWR1ZndtdGRPMGV1eWlPOEVnTFB3QzZMVkdXa1Z4Tzc2OWFPWGlFWk0?oc=5",
+      "published_date": "2026-10-16",
+      "tier": "business",
+      "relevance_score": 91.0,
+      "industry_hints": [
+        "ai",
+        "culture"
+      ],
+      "industry_ids": [
+        "ai",
+        "culture"
+      ],
+      "region_hints": [
+        "east-asia"
+      ],
+      "region_ids": [
+        "east-asia"
+      ],
+      "gap_hints": [
+        "channel",
+        "culture",
+        "geo"
+      ],
+      "why_filtered": "英文原题已通过机会事件/实体检查，但未进入 v1.6.0 中文具体标题（translation 未产出可用的具体中文标题）"
+    },
+    {
+      "signal_id": "sig-6c9ae000d9dd",
+      "title_original": "Five South Korean Export Agencies Join Forces for One-Stop Halal Support, From Certification to Marketing - BigGo Finance",
+      "source_id": "gn-industry-halal",
+      "source_name": "gn-industry-halal",
+      "url": "https://news.google.com/rss/articles/CBMidkFVX3lxTE5CTWtPb25tVFUtNURTckNlNlB5cGV4RFY5WTlidkFhRnpUSW5xcFMwQjhyTUUzemJxb1JrV0IwdGpreGwxenpfMzhJVmF6azhfcllqS2NYT0dRMlhFd2N1TGQ0dVM1N0NWcDlHbDJpbTNpOU1wU3c?oc=5",
+      "published_date": "2026-10-16",
+      "tier": "business",
+      "relevance_score": 91.0,
+      "industry_hints": [
+        "culture",
+        "pet"
+      ],
+      "industry_ids": [
+        "culture",
+        "pet"
+      ],
+      "region_hints": [
+        "east-asia"
+      ],
+      "region_ids": [
+        "east-asia"
+      ],
+      "gap_hints": [
+        "culture",
+        "geo",
+        "regulation"
+      ],
+      "why_filtered": "英文原题已通过机会事件/实体检查，但未进入 v1.6.0 中文具体标题（translation 未产出可用的具体中文标题）"
+    },
+    {
+      "signal_id": "sig-b1b330bbe628",
+      "title_original": "Australia’s 2.2 GW Snowy 2.0 pumped hydro cost estimate rises again",
+      "source_id": "pv-magazine",
+      "source_name": "pv-magazine",
+      "url": "https://pv-magazine.com/2026/10/24/australias-2-2-gw-snowy-2-0-pumped-hydro-cost-estimate-rises-again",
+      "published_date": "2026-10-24",
+      "tier": "business",
+      "relevance_score": 89.0,
+      "industry_hints": [
+        "ai",
+        "content",
+        "pet"
+      ],
+      "industry_ids": [
+        "ai",
+        "content",
+        "pet"
+      ],
+      "region_hints": [
+        "north-america",
+        "oceania"
+      ],
+      "region_ids": [
+        "north-america",
+        "oceania"
+      ],
+      "gap_hints": [
+        "price",
+        "regulation"
+      ],
+      "why_filtered": "英文原题已通过机会事件/实体检查，但未进入 v1.6.0 中文具体标题（translation 未产出可用的具体中文标题）"
+    },
+    {
+      "signal_id": "sig-1e72ff69a164",
+      "title_original": "UK government cuts business compliance and tariff costs ahead of Budget - Traders Union",
+      "source_id": "gn-v160-uk-regulation",
+      "source_name": "gn-v160-uk-regulation",
+      "url": "https://news.google.com/rss/articles/CBMilAFBVV95cUxOa1c0U3U4Z1JqaE96NTg1UTNKTVExNEVhUGlUWmpqbmNoTVB6bWk1OVBlOElobHgyMFJsajFnaTFfREdwRmVJeHZtS3RsNXlYdUFNQzZ6bFVWT1JUdi1YQzJiRlRSa2hHcUhPVDk3UHNCVWRHRVFRZndPel9WbmJOWmRwTWFLc1VJSzNpX0ZsdHZkZWQ5?oc=5",
+      "published_date": "2026-10-23",
+      "tier": "business",
+      "relevance_score": 89.0,
+      "industry_hints": [
+        "compliance"
+      ],
+      "industry_ids": [
+        "compliance"
+      ],
+      "region_hints": [
+        "europe",
+        "north-america"
+      ],
+      "region_ids": [
+        "europe",
+        "north-america"
+      ],
+      "gap_hints": [
+        "price",
+        "regulation"
+      ],
+      "why_filtered": "英文原题已通过机会事件/实体检查，但未进入 v1.6.0 中文具体标题（translation 未产出可用的具体中文标题）"
+    },
+    {
+      "signal_id": "sig-95ec4c7d2c9b",
+      "title_original": "[Update] Tonbo Imaging Shares End Debut Session At 62% Premium To IPO Price",
+      "source_id": "inc42",
+      "source_name": "inc42",
+      "url": "https://inc42.com/buzz/tonbo-imaging-makes-strong-market-debut-lists-at-66-premium-to-ipo-price",
+      "published_date": "2026-10-23",
+      "tier": "business",
+      "relevance_score": 87.0,
+      "industry_hints": [
+        "content",
+        "silver"
+      ],
+      "industry_ids": [
+        "content",
+        "silver"
+      ],
+      "region_hints": [],
+      "region_ids": [],
+      "gap_hints": [
+        "demographic",
+        "price"
+      ],
+      "why_filtered": "英文原题已通过机会事件/实体检查，但未进入 v1.6.0 中文具体标题（translation 未产出可用的具体中文标题）"
+    },
+    {
+      "signal_id": "sig-6e79392a3d6b",
+      "title_original": "Zetwerk eyes manufacturing demand from AI, clean energy as shares debut",
+      "source_id": "et-tech",
+      "source_name": "et-tech",
+      "url": "https://economictimes.indiatimes.com/tech/technology/zetwerk-eyes-manufacturing-demand-from-ai-clean-energy-as-shares-debut/articleshow/135135770.cms",
+      "published_date": "2026-10-23",
+      "tier": "business",
+      "relevance_score": 87.0,
+      "industry_hints": [
+        "ai",
+        "manufacturing"
+      ],
+      "industry_ids": [
+        "ai",
+        "manufacturing"
+      ],
+      "region_hints": [
+        "north-america"
+      ],
+      "region_ids": [
+        "north-america"
+      ],
+      "gap_hints": [
+        "platform",
+        "price",
+        "regulation"
+      ],
+      "why_filtered": "英文原题已通过机会事件/实体检查，但未进入 v1.6.0 中文具体标题（translation 未产出可用的具体中文标题）"
+    },
+    {
+      "signal_id": "sig-f510426f478a",
+      "title_original": "Kenya’s Revenue Drive Needs Fairer Rules and Simpler Compliance - Vellum Kenya",
+      "source_id": "gn-v160-ke-regulation",
+      "source_name": "gn-v160-ke-regulation",
+      "url": "https://news.google.com/rss/articles/CBMijAFBVV95cUxOVzVrMUFNcmpnUjdZVk5GZk00VWZYdl90QnJiLW1OVTd0S2d5bExKNGNvT1hyek5OSDdWUkphWlcxT0NfVXBfLXVuQmZhMXNDem9uMFAxY2p1R3RHSlNYUGlaX20tcWltRHI3cnY4MnZaWjBRQ202aWFBMGp6a01XbDdfTnFmcTRYSnc3Mg?oc=5",
+      "published_date": "2026-10-17",
+      "tier": "business",
+      "relevance_score": 87.0,
+      "industry_hints": [
+        "ai",
+        "compliance"
+      ],
+      "industry_ids": [
+        "ai",
+        "compliance"
+      ],
+      "region_hints": [
+        "africa"
+      ],
+      "region_ids": [
+        "africa"
+      ],
+      "gap_hints": [
+        "regulation"
+      ],
+      "why_filtered": "英文原题已通过机会事件/实体检查，但未进入 v1.6.0 中文具体标题（translation 未产出可用的具体中文标题）"
+    },
+    {
+      "signal_id": "sig-92cc0b3a76a6",
+      "title_original": "Import Licensing Committee addresses notifications, trade concerns, transparency efforts",
+      "source_id": "wto-news",
+      "source_name": "wto-news",
+      "url": "https://wto.org/english/news_e/news26_e/impl_15oct26_518_e.htm",
+      "published_date": "2026-10-15",
+      "tier": "business",
+      "relevance_score": 87.0,
+      "industry_hints": [
+        "ai",
+        "content",
+        "education",
+        "pet"
+      ],
+      "industry_ids": [
+        "ai",
+        "content",
+        "education",
+        "pet"
+      ],
+      "region_hints": [],
+      "region_ids": [],
+      "gap_hints": [
+        "geo",
+        "regulation"
+      ],
+      "why_filtered": "英文原题已通过机会事件/实体检查，但未进入 v1.6.0 中文具体标题（translation 未产出可用的具体中文标题）"
+    },
+    {
+      "signal_id": "sig-a6f83a7f3d5e",
+      "title_original": "Asia Today: AI, Digital Payments, Semiconductors & Logistics - Asia Business Outlook",
+      "source_id": "gn-v160-sea-regulation",
+      "source_name": "gn-v160-sea-regulation",
+      "url": "https://news.google.com/rss/articles/CBMitwFBVV95cUxOTlR5VW5qU2lRZ0FQT1dCUHBBamVqTDgxVTZVSEllbkllLW1mVzFNSzRYMjNtS0cyZzNpSzFWdFg3V1JNV2k1Wk05ejJ1NFJZTG15dFlienZ1WXJkTVBsTnBfNnVZMC01dlJYdDI0UE5mY3RPSEZvMmxuQUsxdm9uclJHd1gyMmxfS2RINW5aeU0xQzIwclFjT1NTcGhmV2N0bDVCZ2lzUmg4SVd5UDVoQ1ZZZmlrSms?oc=5",
+      "published_date": "2026-10-14",
+      "tier": "business",
+      "relevance_score": 87.0,
+      "industry_hints": [
+        "ai",
+        "fintech"
+      ],
+      "industry_ids": [
+        "ai",
+        "fintech"
+      ],
+      "region_hints": [
+        "north-america"
+      ],
+      "region_ids": [
+        "north-america"
+      ],
+      "gap_hints": [
+        "infrastructure"
+      ],
+      "why_filtered": "英文原题已通过机会事件/实体检查，但未进入 v1.6.0 中文具体标题（translation 未产出可用的具体中文标题）"
+    },
+    {
+      "signal_id": "sig-d68565f96546",
+      "title_original": "Daptic Raises $15 Million Series A For Product Compliance Platform - Pulse 2.0",
+      "source_id": "gn-industry-compliance",
+      "source_name": "gn-industry-compliance",
+      "url": "https://news.google.com/rss/articles/CBMijgFBVV95cUxPa2FOUl9OSVdlR1pIcUIwaEpjUVdkSzh6Tk1uT1ZSSzdkcHhqMkNqbHdaaS1Xb3RYYzFZVC1xMEZiTjZHMTNzdGo4U1JTd25aUW5TT3JST0VNaHVHVzl6X2lYMEhqamtIXzN2RVVEMWhWeHpLcUlOcWg4bTRVZ0hQa1RjVWtlY0UtdXF5YzZ30gGTAUFVX3lxTE1tV2c5YV9TYUQzSlpkRER0NE1hT2FpdUVmUkpkbUVhRGg2aFVyY1pyMzBDODgzaGlEREFyd2pHZVUwSk1JRTRzY2xacXhnamdXTXhDSW5YMHdZdElSR1RxQUxFR3p4c0V2ZnpTT0tjNFcwR2hQREx1b1l2VFd4SXlhalExMUZCMWE2R1BGdzVmNFZFNA?oc=5",
+      "published_date": "2026-10-02",
+      "tier": "business",
+      "relevance_score": 87.0,
+      "industry_hints": [
+        "ai",
+        "compliance"
+      ],
+      "industry_ids": [
+        "ai",
+        "compliance"
+      ],
+      "region_hints": [],
+      "region_ids": [],
+      "gap_hints": [
+        "platform",
+        "regulation"
+      ],
+      "why_filtered": "英文原题已通过机会事件/实体检查，但未进入 v1.6.0 中文具体标题（translation 未产出可用的具体中文标题）"
+    },
+    {
+      "signal_id": "sig-2ecadc2ec604",
+      "title_original": "Infographic: COVID pet food inflation became new-normal retail price - PetfoodIndustry",
+      "source_id": "gn-industry-pet",
+      "source_name": "gn-industry-pet",
+      "url": "https://news.google.com/rss/articles/CBMiwgFBVV95cUxQWDc5V3BidGUtdlNRclJIdGhRNGRPZTBJV2VZTmRONk5ER3FULTg5TVFFTnhOTVQtd2NKUnZQR1lLVjNiRE9scUQtNFU4aUZOTGNmUGJNUVpmRWRDN0NDSnRNT3NCODQwQ3VZQmk3TUlZc3o2NDRodmUzOHp3UHU3aUVFaV9PaUk1eFJWRWc5aG9ZaGFMSVQxWWwzellGblRKazJHQV9QbUtOeEFQeWN0aDFXczUyS19Cb1FlOENxaXhCQQ?oc=5",
+      "published_date": "2026-10-02",
+      "tier": "business",
+      "relevance_score": 87.0,
+      "industry_hints": [
+        "ai",
+        "pet"
+      ],
+      "industry_ids": [
+        "ai",
+        "pet"
+      ],
+      "region_hints": [
+        "north-america"
+      ],
+      "region_ids": [
+        "north-america"
+      ],
+      "gap_hints": [
+        "price"
+      ],
+      "why_filtered": "英文原题已通过机会事件/实体检查，但未进入 v1.6.0 中文具体标题（translation 未产出可用的具体中文标题）"
+    },
+    {
+      "signal_id": "sig-b1b3764ca7a3",
+      "title_original": "New beef imports raise questions for area halal market - CBS 19 News",
+      "source_id": "gn-industry-halal",
+      "source_name": "gn-industry-halal",
+      "url": "https://news.google.com/rss/articles/CBMi0AFBVV95cUxNMkFnWkg5RE1uWTAwTXBwY0lJVHB4aEh2ZHJXOVVaUXZMZ2liMWpGSGpCa2w2WURSQWtBLXpFdl9CRDRxMzcyMW1yVVdBYU0tbUstZjhLZVMycGhQazVIeWlWLU1KS2RMQ2x2RjlFX250ZHN0R04tN2JKM0dNOXVvelBDRGxWcTdKUWtNX2sxMHhhTVhzcTNVMmE5ZndBa0tIRlJ1QU5kUUVEbnh0Z1MzTEVibDE3dnNEZF9YT1Q0LVhkNm1qN0YwR2E5RExZV1o5?oc=5",
+      "published_date": "2026-09-01",
+      "tier": "business",
+      "relevance_score": 87.0,
+      "industry_hints": [
+        "ai",
+        "culture"
+      ],
+      "industry_ids": [
+        "ai",
+        "culture"
+      ],
+      "region_hints": [],
+      "region_ids": [],
+      "gap_hints": [
+        "culture",
+        "geo"
+      ],
+      "why_filtered": "英文原题已通过机会事件/实体检查，但未进入 v1.6.0 中文具体标题（translation 未产出可用的具体中文标题）"
+    },
+    {
+      "signal_id": "sig-a6f8f820e654",
+      "title_original": "10 European compliance startups to watch as AI Act enforcement kicks in - EU-Startups",
+      "source_id": "gn-industry-compliance",
+      "source_name": "gn-industry-compliance",
+      "url": "https://news.google.com/rss/articles/CBMirAFBVV95cUxNNmEtWGo2ejMzSWpIR09Jbmw3ckZVLTYyWDNVVVFaTF96c1ZyeEFhQVlrYmNna0dQN0lTcjhfY1F6eWFzSUJTbW9OZWlhd2c3NlE2cWZyWWJ5d2lJYkgtLWVIRGtjWUxOYlV5N3h6VExLNmpfZnduMEZBdGRmX182S2J1UUxGYmJIbmhwbGkxbTVoOG5xYnpBZjhSTFNuc3NweV8tS2tZMThnSFN2?oc=5",
+      "published_date": "2026-08-20",
+      "tier": "business",
+      "relevance_score": 87.0,
+      "industry_hints": [
+        "ai",
+        "compliance"
+      ],
+      "industry_ids": [
+        "ai",
+        "compliance"
+      ],
+      "region_hints": [
+        "europe"
+      ],
+      "region_ids": [
+        "europe"
+      ],
+      "gap_hints": [
+        "regulation"
+      ],
+      "why_filtered": "英文原题已通过机会事件/实体检查，但未进入 v1.6.0 中文具体标题（translation 未产出可用的具体中文标题）"
+    },
+    {
+      "signal_id": "sig-ac781fdb131f",
+      "title_original": "How Policy Changes Are Reshaping Aging in America - Bipartisan Policy Center",
+      "source_id": "gn-industry-silver",
+      "source_name": "gn-industry-silver",
+      "url": "https://news.google.com/rss/articles/CBMikAFBVV95cUxPQUVuTU1GYkdLWnhpenNZTjJXMkhMcGFfalpRVmRmXzlIVW5ibHg5MWc2cllZUk5LZjJzeEhMdzNTNmRBWERvaE5TVTloZlkyYTJKU1RYQnJVcnE5OGRRNDV3d0xnUlgxV3F5SEpTRUltbTFQZ3hiQ2NORHc2TnVHdlcwTGJGeHIzelhuSXIza3U?oc=5",
+      "published_date": "2026-07-27",
+      "tier": "business",
+      "relevance_score": 87.0,
+      "industry_hints": [
+        "content",
+        "silver"
+      ],
+      "industry_ids": [
+        "content",
+        "silver"
+      ],
+      "region_hints": [
+        "north-america"
+      ],
+      "region_ids": [
+        "north-america"
+      ],
+      "gap_hints": [
+        "demographic",
+        "platform"
+      ],
+      "why_filtered": "英文原题已通过机会事件/实体检查，但未进入 v1.6.0 中文具体标题（translation 未产出可用的具体中文标题）"
+    },
+    {
+      "signal_id": "sig-a80208e642cf",
+      "title_original": "New EU Waste Shipment Regulation: Stricter controls and increased compliance obligations for companies - DLA Piper",
+      "source_id": "gn-industry-compliance",
+      "source_name": "gn-industry-compliance",
+      "url": "https://news.google.com/rss/articles/CBMi3AFBVV95cUxNLUtFb1VCQmJfQy1UamZOelBMTTNxTVQtVV9abzRTVTlBMUJXSDdPeENKcDBqeDZrVDlpWmhEakp6aEJKUTFyVXd0U1c4aDJoLUE2amNEQzZhZ3B2blJ4ZV9mQWpmdnhJWW9FUmVZTkJ6bUo1WWR3eVpvWUFVcVZrRWlzZ2tUNC00RDQ3YWFJdnh6bVIxb2l4YTZ1V01JaHNrSnZScEVfQ1pYZDl0cUJwUElyYXAwa2RrSDNLU2dmVmY3VkJSWXVDb3ZXOThqRmM5M1MybFVVQkZaakdS?oc=5",
+      "published_date": "2026-06-26",
+      "tier": "business",
+      "relevance_score": 87.0,
+      "industry_hints": [
+        "compliance",
+        "content"
+      ],
+      "industry_ids": [
+        "compliance",
+        "content"
+      ],
+      "region_hints": [
+        "europe"
+      ],
+      "region_ids": [
+        "europe"
+      ],
+      "gap_hints": [
+        "regulation"
+      ],
+      "why_filtered": "英文原题已通过机会事件/实体检查，但未进入 v1.6.0 中文具体标题（translation 未产出可用的具体中文标题）"
+    },
+    {
+      "signal_id": "sig-6c256af34d4d",
+      "title_original": "CAICT Token Report: Domestic Model Prices Nearly Doubled in 2026 as Daily Use Hit 500 Trillion",
+      "source_id": "pandaily",
+      "source_name": "pandaily",
+      "url": "https://pandaily.com/caict-token-service-performance-report-2026-domestic-model-prices-double-500-trillion-daily",
+      "published_date": "2026-10-24",
+      "tier": "business",
+      "relevance_score": 85.0,
+      "industry_hints": [
+        "ai",
+        "local"
+      ],
+      "industry_ids": [
+        "ai",
+        "local"
+      ],
+      "region_hints": [
+        "north-america"
+      ],
+      "region_ids": [
+        "north-america"
+      ],
+      "gap_hints": [
+        "price",
+        "time"
+      ],
+      "why_filtered": "英文原题已通过机会事件/实体检查，但未进入 v1.6.0 中文具体标题（translation 未产出可用的具体中文标题）"
+    },
+    {
+      "signal_id": "sig-c191d16eab51",
+      "title_original": "Austria allocates 173 MW at average price of €0.0642/kWh in PV tender",
+      "source_id": "pv-magazine",
+      "source_name": "pv-magazine",
+      "url": "https://pv-magazine.com/2026/10/23/austria-allocates-173-mw-at-average-price-of-e0-0642-kwh-in-ground-mounted-pv-tender",
+      "published_date": "2026-10-23",
+      "tier": "business",
+      "relevance_score": 85.0,
+      "industry_hints": [
+        "green",
+        "pet"
+      ],
+      "industry_ids": [
+        "green",
+        "pet"
+      ],
+      "region_hints": [
+        "north-america"
+      ],
+      "region_ids": [
+        "north-america"
+      ],
+      "gap_hints": [
+        "price",
+        "regulation"
+      ],
+      "why_filtered": "英文原题已通过机会事件/实体检查，但未进入 v1.6.0 中文具体标题（translation 未产出可用的具体中文标题）"
+    },
+    {
+      "signal_id": "sig-b498f3ec383c",
+      "title_original": "Revision of National Environmental Policy Act Implementing Procedures; Extension of Comment Period",
+      "source_id": "federalregister",
+      "source_name": "federalregister",
+      "url": "https://federalregister.gov/documents/2026/10/23/2026-21699/revision-of-national-environmental-policy-act-implementing-procedures-extension-of-comment-period",
+      "published_date": "2026-10-23",
+      "tier": "business",
+      "relevance_score": 85.0,
+      "industry_hints": [
+        "ai",
+        "compliance",
+        "local"
+      ],
+      "industry_ids": [
+        "ai",
+        "compliance",
+        "local"
+      ],
+      "region_hints": [
+        "north-america"
+      ],
+      "region_ids": [
+        "north-america"
+      ],
+      "gap_hints": [
+        "platform",
+        "regulation"
+      ],
+      "why_filtered": "英文原题已通过机会事件/实体检查，但未进入 v1.6.0 中文具体标题（translation 未产出可用的具体中文标题）"
+    },
+    {
+      "signal_id": "sig-20e9cc8ae737",
+      "title_original": "Some of Europe’s highest energy costs expected in Britain this winter",
+      "source_id": "guardian-business",
+      "source_name": "guardian-business",
+      "url": "https://theguardian.com/business/2026/oct/23/europe-highest-energy-costs-great-britain-this-winter",
+      "published_date": "2026-10-23",
+      "tier": "business",
+      "relevance_score": 85.0,
+      "industry_hints": [
+        "ai"
+      ],
+      "industry_ids": [
+        "ai"
+      ],
+      "region_hints": [
+        "europe",
+        "north-america"
+      ],
+      "region_ids": [
+        "europe",
+        "north-america"
+      ],
+      "gap_hints": [
+        "geo",
+        "price"
+      ],
+      "why_filtered": "英文原题已通过机会事件/实体检查，但未进入 v1.6.0 中文具体标题（translation 未产出可用的具体中文标题）"
+    },
+    {
+      "signal_id": "sig-1b7fef1bc6d1",
+      "title_original": "France slips into contraction as Europe’s growth slows: How bad could it get?",
+      "source_id": "euronews-business",
+      "source_name": "euronews-business",
+      "url": "https://euronews.com/2026/10/23/france-slips-into-contraction-as-europes-growth-slows-how-bad-could-it-get",
+      "published_date": "2026-10-23",
+      "tier": "business",
+      "relevance_score": 85.0,
+      "industry_hints": [
+        "ai",
+        "content"
+      ],
+      "industry_ids": [
+        "ai",
+        "content"
+      ],
+      "region_hints": [
+        "europe",
+        "north-america"
+      ],
+      "region_ids": [
+        "europe",
+        "north-america"
+      ],
+      "gap_hints": [
+        "price",
+        "regulation"
+      ],
+      "why_filtered": "英文原题已通过机会事件/实体检查，但未进入 v1.6.0 中文具体标题（translation 未产出可用的具体中文标题）"
+    },
+    {
+      "signal_id": "sig-082923c8feb3",
+      "title_original": "Green trade rules put African small exporters under pressure as traceability becomes a market-access requirement - Africa Sustainability Matters",
+      "source_id": "gn-v160-uk-regulation",
+      "source_name": "gn-v160-uk-regulation",
+      "url": "https://news.google.com/rss/articles/CBMi6AFBVV95cUxNaEJsZTB4TVJjRVdvb01zSlRMOFFwczRzMHBnUF81eTJrQ0lpZVRkb2UtWEdnaTNaZldseHZ3ZXVKOGxROGdrQkNWODBFVVE1MWRhMjVuRlhzSlQ4eW1faU5HMzB3Yk1XRU95bGN0empNU0NtSkQydl9XdlJ1dFlFaGY3ekJfR3lWVkx4S0MxV1Z6U2tqMzZlT0tUTDY3WTVXREFRdXhvQ1BmdWdiNjJjYkRjQ1ZDRlhSaXpuT1A1eS1YOXdLV1EzYzlHd3pxaHN0UFNOd1dUQUd5bWlaZWdvVWFtLTAzd3BE?oc=5",
+      "published_date": "2026-10-23",
+      "tier": "business",
+      "relevance_score": 85.0,
+      "industry_hints": [
+        "ai",
+        "green"
+      ],
+      "industry_ids": [
+        "ai",
+        "green"
+      ],
+      "region_hints": [
+        "africa",
+        "north-america"
+      ],
+      "region_ids": [
+        "africa",
+        "north-america"
+      ],
+      "gap_hints": [
+        "geo"
+      ],
+      "why_filtered": "英文原题已通过机会事件/实体检查，但未进入 v1.6.0 中文具体标题（translation 未产出可用的具体中文标题）"
+    },
+    {
+      "signal_id": "sig-da981f7604e5",
+      "title_original": "INVE raises $300,000 from Outliers VC to scale eventtech platform across GCC",
+      "source_id": "wamda",
+      "source_name": "wamda",
+      "url": "http://wamda.com/2026/10/inve-raises-300000-outliers-vc-scale-eventtech-platform-gcc",
+      "published_date": "2026-10-22",
+      "tier": "business",
+      "relevance_score": 85.0,
+      "industry_hints": [
+        "ai"
+      ],
+      "industry_ids": [
+        "ai"
+      ],
+      "region_hints": [
+        "mena",
+        "north-america"
+      ],
+      "region_ids": [
+        "mena",
+        "north-america"
+      ],
+      "gap_hints": [
+        "platform"
+      ],
+      "why_filtered": "英文原题已通过机会事件/实体检查，但未进入 v1.6.0 中文具体标题（translation 未产出可用的具体中文标题）"
+    },
+    {
+      "signal_id": "sig-366bf57f4f86",
+      "title_original": "Small businesses face mandatory audits under costly new online safety rules",
+      "source_id": "smartcompany-au",
+      "source_name": "smartcompany-au",
+      "url": "https://smartcompany.com.au/information-technology/small-businesses-face-mandatory-audits-under-costly-new-online-safety-rules",
+      "published_date": "2026-10-22",
+      "tier": "business",
+      "relevance_score": 85.0,
+      "industry_hints": [
+        "compliance"
+      ],
+      "industry_ids": [
+        "compliance"
+      ],
+      "region_hints": [
+        "north-america"
+      ],
+      "region_ids": [
+        "north-america"
+      ],
+      "gap_hints": [
+        "price",
+        "regulation"
+      ],
+      "why_filtered": "英文原题已通过机会事件/实体检查，但未进入 v1.6.0 中文具体标题（translation 未产出可用的具体中文标题）"
+    },
+    {
+      "signal_id": "sig-794e95236b11",
+      "title_original": "The Nigerian Ports Economic Regulatory Agency Act 2026 – From Shippers’ Council to NPERA 2026: Reshaping the economic regulation of Nigerian ports - Businessday NG",
+      "source_id": "gn-v160-ng-regulation",
+      "source_name": "gn-v160-ng-regulation",
+      "url": "https://news.google.com/rss/articles/CBMinwJBVV95cUxPMmliVVJfb2Q2SEpuSlZiX25DbE0yQnRfazRjNzktLXZBd0JHUUdBRmFNNlFNRWxQR09ZR3N2REh4ajh5UDN5bFcxQ0F1NTlxSEQ3U3BUTG5tbTJSeDJkTDZGYXBrTUZOa0RjdGlxNHRzelBhdUVNR0E3d0RsQ3Bwc3A1VXdYdy1mQXZFYjVldlVLeHc3cG9ublFkbFpTVGpnaW1UNjRzb0hjM2dkc3J3NUQwUDYzMHJVSm1JcDI4RGpoMmNQUC1SNjFuYnQ4ZVVRdy10QVhiazlDTzZITWdoaDdFMlFiWlRDT01raHRMS2kwZHhNUWE3U3MtMnpaRzU5T1cwQWxDR1BpUG0zcl9CT0xvNmNOWm84VmVzbUxPWdIBpAJBVV95cUxPTk8xUlhXX1EtV0ROZE5obDFtUTFZS1ctb0lLc3l1bnRQTGtEM3pteWE3WFlWVzRXWEZPcUFORjN3V0U3YW1PN3pxYXJTWFF4YU9kUk1EeWVMMU1HSTROb19kZmZZRW9IS1NpWGdJbGs4cDN4NFZSWl9SVU1YaGg2SHE4UlV5amxCUHF1N3QwWWpJSDJIUzIzRGluVjN4OTF1VnFTeVhHUnhKT3BvZkw2N2x3ZFg4c3l6bmhsR3huckptZl83VGtzcE9yM1JfOGpRMi1FRVZVeUdudlpPbG1WSmljVk5GajJLTjVCRkFyaWdDakVFQjNWaG1jQ29RcFNLX19JNVZyU2pXU2YtbU9ueVdaZmZJUUJuWS01RFNKVU9MQ2dC?oc=5",
+      "published_date": "2026-10-21",
+      "tier": "business",
+      "relevance_score": 85.0,
+      "industry_hints": [
+        "compliance",
+        "content"
+      ],
+      "industry_ids": [
+        "compliance",
+        "content"
+      ],
+      "region_hints": [
+        "africa",
+        "north-america"
+      ],
+      "region_ids": [
+        "africa",
+        "north-america"
+      ],
+      "gap_hints": [
+        "regulation"
+      ],
+      "why_filtered": "英文原题已通过机会事件/实体检查，但未进入 v1.6.0 中文具体标题（translation 未产出可用的具体中文标题）"
+    },
+    {
+      "signal_id": "sig-690ded38f277",
+      "title_original": "Canada launches regulatory directive to cut business compliance costs - Traders Union",
+      "source_id": "gn-v160-uk-regulation",
+      "source_name": "gn-v160-uk-regulation",
+      "url": "https://news.google.com/rss/articles/CBMilwFBVV95cUxQU28waTJzbjhHSHFCalpSV2lpMVh3QW5lT0VxX04yY2NzTTlHT0JaSXpIcjdtZE9pQVBfaG9wQmZTaU5tMkJKald2MFZVLW1MTWxfNTVxYjB2MG5wM3lNQVNBUHZMeEFheW1hT3otNDAtSnJiMF9RV05JcVdPNU5RQzA4OXNTWDFKQ205VjQ4YnNNN2pTalRR?oc=5",
+      "published_date": "2026-10-21",
+      "tier": "business",
+      "relevance_score": 85.0,
+      "industry_hints": [
+        "compliance"
+      ],
+      "industry_ids": [
+        "compliance"
+      ],
+      "region_hints": [
+        "north-america"
+      ],
+      "region_ids": [
+        "north-america"
+      ],
+      "gap_hints": [
+        "price",
+        "regulation"
+      ],
+      "why_filtered": "英文原题已通过机会事件/实体检查，但未进入 v1.6.0 中文具体标题（translation 未产出可用的具体中文标题）"
+    },
+    {
+      "signal_id": "sig-5f603f2cdd64",
+      "title_original": "Cambodia halal certifications spike amid Malaysian support - Khmer Times",
+      "source_id": "gn-industry-halal",
+      "source_name": "gn-industry-halal",
+      "url": "https://news.google.com/rss/articles/CBMinwFBVV95cUxObFdraWNoLWl3QUhmVmEyMVVNR1dlZzRBOU1iWEpfUXVnT1J1R0lBb25wRHp6S1N6OXNrQjEwNURLdHBNZklIU0hIX2hhV2dzdkhrZ1g5b05nOFd0OU5qZ3ZYVWVWLVkzT05zUE9tTEZqUFBfMUhRaFBMVXFJd3ZlVVBoZENST3Fac0owYUQ3dENzeEJxS2w3d1YxVkZkajQ?oc=5",
+      "published_date": "2026-10-20",
+      "tier": "business",
+      "relevance_score": 85.0,
+      "industry_hints": [
+        "compliance",
+        "culture",
+        "pet"
+      ],
+      "industry_ids": [
+        "compliance",
+        "culture",
+        "pet"
+      ],
+      "region_hints": [
+        "sea"
+      ],
+      "region_ids": [
+        "sea"
+      ],
+      "gap_hints": [
+        "culture",
+        "regulation"
+      ],
+      "why_filtered": "英文原题已通过机会事件/实体检查，但未进入 v1.6.0 中文具体标题（translation 未产出可用的具体中文标题）"
+    },
+    {
+      "signal_id": "sig-565e9c89ef16",
+      "title_original": "Reserve Bank pushes digital payments to wean consumers off costly cash - Business Day",
+      "source_id": "gn-v160-za-regulation",
+      "source_name": "gn-v160-za-regulation",
+      "url": "https://news.google.com/rss/articles/CBMipAFBVV95cUxONE9VdUp5dnFKdWVGYlJpdXRGMEVJaEQyWENTYmpsYUREbW5ZQ0RPbjZoejRlT2ZaUEN5bExtdDVKekFaQXhLLWVuTTVYSXhfdWNsUzVPRWJSTjVjb1lSWHlKSWd1M1RSVXVOb3VleUprLTdHUFN4QTI1ckRFS3NURFpxOFl1WkJ2aVgwcGxVTE1FWS1aVGlRTjFlU0s3b0FFcHphMA?oc=5",
+      "published_date": "2026-10-20",
+      "tier": "business",
+      "relevance_score": 85.0,
+      "industry_hints": [
+        "fintech"
+      ],
+      "industry_ids": [
+        "fintech"
+      ],
+      "region_hints": [
+        "north-america"
+      ],
+      "region_ids": [
+        "north-america"
+      ],
+      "gap_hints": [
+        "infrastructure",
+        "price"
+      ],
+      "why_filtered": "英文原题已通过机会事件/实体检查，但未进入 v1.6.0 中文具体标题（translation 未产出可用的具体中文标题）"
+    },
+    {
+      "signal_id": "sig-a02faa534860",
+      "title_original": "NCDMB, Dangote, Push for Sustainable Nigerian Content, Call Industry to Go Beyond Compliance - Nigerian Content Development & Monitoring Board",
+      "source_id": "gn-v160-ng-regulation",
+      "source_name": "gn-v160-ng-regulation",
+      "url": "https://news.google.com/rss/articles/CBMisAFBVV95cUxPR01PcDNLQ01OQS13WE9zbkd6cE51N0dkWnBNS1YxM2RsVGw0SE1RaW10RGE3TUw0Y3FqTnVhcDhqM0E3UDV2RW9YcGx0N0xkQ3BXeEVuUkJiOERkUnI2b3RYS1F5eVRyVV9mNjV0a1k3T1NjcUxKS0NGWmIzQ2czZzZ1d3BFX2RpeURYdV9OTFZUU094dXkxMk1Cd3lwTzByYURHUXNZcUtPZG8tM0wtcQ?oc=5",
+      "published_date": "2026-10-19",
+      "tier": "business",
+      "relevance_score": 85.0,
+      "industry_hints": [
+        "ai",
+        "compliance",
+        "content"
+      ],
+      "industry_ids": [
+        "ai",
+        "compliance",
+        "content"
+      ],
+      "region_hints": [
+        "africa",
+        "north-america"
+      ],
+      "region_ids": [
+        "africa",
+        "north-america"
+      ],
+      "gap_hints": [
+        "regulation"
+      ],
+      "why_filtered": "英文原题已通过机会事件/实体检查，但未进入 v1.6.0 中文具体标题（translation 未产出可用的具体中文标题）"
+    },
+    {
+      "signal_id": "sig-8e17d6a0e9bb",
+      "title_original": "Hoengseong Hanwoo Beef Enters Qatar in Third Halal Market Push - Seoul Economic Daily",
+      "source_id": "gn-industry-halal",
+      "source_name": "gn-industry-halal",
+      "url": "https://news.google.com/rss/articles/CBMioAFBVV95cUxQQ1ZaUW1yN0taY1dRY3NFQlpucGxLd2s4MVhOd01feWt6b0lHZ2E5bHRrWGtKMnRiSlJvSEpDZFlGUWIyUnlZNGZ5dHBkZURCUE85T0NlOG0zcXZyanRpLWxCNjVWRXdmUWYzc1EwaU1pSi1SRFhSdklsWUhKS2dTQlJhbkJWNThTblR3aXA1U0hldHBqNDNRcUZPWFZmWlJN?oc=5",
+      "published_date": "2026-10-19",
+      "tier": "business",
+      "relevance_score": 85.0,
+      "industry_hints": [
+        "ai",
+        "culture"
+      ],
+      "industry_ids": [
+        "ai",
+        "culture"
+      ],
+      "region_hints": [
+        "north-america"
+      ],
+      "region_ids": [
+        "north-america"
+      ],
+      "gap_hints": [
+        "channel",
+        "culture"
+      ],
+      "why_filtered": "英文原题已通过机会事件/实体检查，但未进入 v1.6.0 中文具体标题（translation 未产出可用的具体中文标题）"
+    },
+    {
+      "signal_id": "sig-3166b823fdf7",
+      "title_original": "The cost of entry: Is Kenya regulating its way out of global competitiveness? - Business Daily",
+      "source_id": "gn-v160-ke-regulation",
+      "source_name": "gn-v160-ke-regulation",
+      "url": "https://news.google.com/rss/articles/CBMizAFBVV95cUxPZzVnZlJONDhUVnhKUFB2TGU5Ymg0NTN6UnpNOHlJRWxlVTg3bjJLM3hjMWxCX3JCOXVYZDZQOERCRzNzMi1rY0FEQnVwQlRkMTEyLVZTQXpUc2dxMnh6b3ZDb05rUEx0d3RMZldqX1pmVzVCLW92OVRaRmoxVXJxbWV0TVg2MlNaXzBYMWVaekx2Ym8xMS1BdXJUZDJFNFVNaWV6QW9wZ3JGYml0dEp3VUM5SUZ0NXlIdWxCMnc0Y1luM2gwamRNTTRKY1k?oc=5",
+      "published_date": "2026-10-19",
+      "tier": "business",
+      "relevance_score": 85.0,
+      "industry_hints": [
+        "ai",
+        "pet"
+      ],
+      "industry_ids": [
+        "ai",
+        "pet"
+      ],
+      "region_hints": [
+        "africa",
+        "north-america"
+      ],
+      "region_ids": [
+        "africa",
+        "north-america"
+      ],
+      "gap_hints": [
+        "price"
+      ],
+      "why_filtered": "英文原题已通过机会事件/实体检查，但未进入 v1.6.0 中文具体标题（translation 未产出可用的具体中文标题）"
+    },
+    {
+      "signal_id": "sig-1856a1428ec1",
+      "title_original": "Green colonialism and Africa’s renewable energy push: pathways to sustainable green technology partnerships - APRI - APRI – Africa Policy Research Institute",
+      "source_id": "gn-industry-solar",
+      "source_name": "gn-industry-solar",
+      "url": "https://news.google.com/rss/articles/CBMixAFBVV95cUxNZkpVdkluaUJQUkdabTB5WVNobHVoWkU3enBycjN1OVVaYWxxdkNMZ3JNbHRwMFB0MGsyYkRoWU5RRVdpNmE2c3JjWDBxTkdGblhEbThvcVB6R3FjeVdLc2dDOHIzLUtEZFRTV3hERDU3aDNCb2tBTWttY2ZoQUdnUjV5OXBYNEVSM3RvV0RfeFdaa0lpTU1LY09fMk5QeE5jcU9xcmIxU0RqT1NheFkxNDhZbWhDV0JWUG15U0hJOGtpaEk0?oc=5",
+      "published_date": "2026-07-14",
+      "tier": "business",
+      "relevance_score": 85.0,
+      "industry_hints": [
+        "ai",
+        "content",
+        "green"
+      ],
+      "industry_ids": [
+        "ai",
+        "content",
+        "green"
+      ],
+      "region_hints": [
+        "africa",
+        "north-america"
+      ],
+      "region_ids": [
+        "africa",
+        "north-america"
+      ],
+      "gap_hints": [
+        "knowledge",
+        "platform"
+      ],
+      "why_filtered": "英文原题已通过机会事件/实体检查，但未进入 v1.6.0 中文具体标题（translation 未产出可用的具体中文标题）"
+    },
+    {
+      "signal_id": "sig-cf3b7ef0e0df",
+      "title_original": "Trump tweaks Canada tariffs, removing certain goods while adding others",
+      "source_id": "supplychaindive",
+      "source_name": "supplychaindive",
+      "url": "https://supplychaindive.com/news/trump-tweaks-canada-tariffs-removing-certain-goods-while-adding-others/833895",
+      "published_date": "2026-10-23",
+      "tier": "business",
+      "relevance_score": 83.0,
+      "industry_hints": [
+        "ai",
+        "silver"
+      ],
+      "industry_ids": [
+        "ai",
+        "silver"
+      ],
+      "region_hints": [
+        "north-america"
+      ],
+      "region_ids": [
+        "north-america"
+      ],
+      "gap_hints": [
+        "demographic"
+      ],
+      "why_filtered": "英文原题已通过机会事件/实体检查，但未进入 v1.6.0 中文具体标题（translation 未产出可用的具体中文标题）"
+    },
+    {
+      "signal_id": "sig-7cda22f6fdfc",
+      "title_original": "Report: Payments a growth lever in Southeast Asia e-commerce - Inside Retail Asia",
+      "source_id": "gn-v160-sea-regulation",
+      "source_name": "gn-v160-sea-regulation",
+      "url": "https://news.google.com/rss/articles/CBMingFBVV95cUxPdU1sbVk3VjJWZWM5blh5RTlRQW9VbmtFSUlqX2JTRFE2NUcxUFJyQk1sWWRWaVlsSE9rbktJM3UzeDVlbXlhZ2gwbHFfcDRZd3R4QmJFc0s0U3plc2JuRjdRRmlSYXJ4QVBYU1F1YmNWN04xeTUwTXliMlU5OHYzOElpZnloTnBnQUl4amttTjNseUR5QmYwVU5DdkJJZw?oc=5",
+      "published_date": "2026-10-22",
+      "tier": "business",
+      "relevance_score": 83.0,
+      "industry_hints": [
+        "ai",
+        "fintech"
+      ],
+      "industry_ids": [
+        "ai",
+        "fintech"
+      ],
+      "region_hints": [],
+      "region_ids": [],
+      "gap_hints": [
+        "infrastructure"
+      ],
+      "why_filtered": "英文原题已通过机会事件/实体检查，但未进入 v1.6.0 中文具体标题（translation 未产出可用的具体中文标题）"
+    },
+    {
+      "signal_id": "sig-56a4a4304617",
+      "title_original": "Opply raises $7.5M to expand its agentic AI platform for CPG brands",
+      "source_id": "tech-eu",
+      "source_name": "tech-eu",
+      "url": "https://tech.eu/2026/10/21/opply-raises-75m-to-expand-its-agentic-ai-platform-for-cpg-brands",
+      "published_date": "2026-10-21",
+      "tier": "business",
+      "relevance_score": 83.0,
+      "industry_hints": [
+        "ai",
+        "content"
+      ],
+      "industry_ids": [
+        "ai",
+        "content"
+      ],
+      "region_hints": [],
+      "region_ids": [],
+      "gap_hints": [
+        "platform"
+      ],
+      "why_filtered": "英文原题已通过机会事件/实体检查，但未进入 v1.6.0 中文具体标题（translation 未产出可用的具体中文标题）"
+    },
+    {
+      "signal_id": "sig-00176dc8279b",
+      "title_original": "Tufin Advances AI-Ready Network Security with Expanded Platform Coverage and Compliance in TOS 5.4 - Yahoo Finance",
+      "source_id": "gn-v160-global-platform",
+      "source_name": "gn-v160-global-platform",
+      "url": "https://news.google.com/rss/articles/CBMimwFBVV95cUxQWEN5VUZjUDFhWjExbUtyajRxN0lqS2NJRUpKZ3BDM0RzeUhHcENVQWVja09nN1htNlV5SUNjVFpwWjRpdy1JZUhOMXUzcFR1dVkxWENuSWRNTUN0eXdoaDlHRXlZX3JwU2ZzSDVmZHgzWmNqZUdjVGpLSC1icUZGVUdkdzZDWWt1QnJrUDgzOEpqRU5UV1NIcy0ycw?oc=5",
+      "published_date": "2026-10-19",
+      "tier": "business",
+      "relevance_score": 83.0,
+      "industry_hints": [
+        "ai",
+        "compliance"
+      ],
+      "industry_ids": [
+        "ai",
+        "compliance"
+      ],
+      "region_hints": [],
+      "region_ids": [],
+      "gap_hints": [
+        "platform",
+        "regulation"
+      ],
+      "why_filtered": "英文原题已通过机会事件/实体检查，但未进入 v1.6.0 中文具体标题（translation 未产出可用的具体中文标题）"
+    },
+    {
+      "signal_id": "sig-09eaa3e5c462",
+      "title_original": "UAE&#039;s JustAd attracts $5 million to expand into new markets",
+      "source_id": "wamda",
+      "source_name": "wamda",
+      "url": "http://wamda.com/2026/10/uae-justad-attracts-5-million-expand-new-markets",
+      "published_date": "2026-10-14",
+      "tier": "business",
+      "relevance_score": 83.0,
+      "industry_hints": [
+        "ai"
+      ],
+      "industry_ids": [
+        "ai"
+      ],
+      "region_hints": [
+        "mena",
+        "north-america"
+      ],
+      "region_ids": [
+        "mena",
+        "north-america"
+      ],
+      "gap_hints": [
+        "platform",
+        "regulation"
+      ],
+      "why_filtered": "英文原题已通过机会事件/实体检查，但未进入 v1.6.0 中文具体标题（translation 未产出可用的具体中文标题）"
+    },
+    {
+      "signal_id": "sig-4f7e9bf16148",
+      "title_original": "From compliance to competitive advantage: Turning regulatory change into enterprise value with SAP and Capgemini - Capgemini",
+      "source_id": "gn-industry-compliance",
+      "source_name": "gn-industry-compliance",
+      "url": "https://news.google.com/rss/articles/CBMi-wFBVV95cUxOSWFTOWpZZGpIQ1FNNWxyMEQyTGRRN1c1VmtLQUFQZEFfWmx6c25iZ3BwWkJGenFnVHRpMVhjNzc2bEp4bGZSaWI5el9GdVZHQUVhcDlnQ3docmh0WUp5U080YVZlbzVJU0sybjNPZEVMajBLUU91dkRfd0VXcUFadVplS3NYLW1Sbm5pMlZZcUNQYnkzcG5Bek43Rm1NTGZLVWU4N0FFNlJSbTFpcGNzZ0pOcjdUM09CN3Q2cFRuZDlPckMtOWlFYTd1Y2hQcEd1QjEtSDgzQnZpRTM3VVd1VjJwVlUxNkpqelRuQWNneWY4d0dhbGZJaFNPQQ?oc=5",
+      "published_date": "2026-09-23",
+      "tier": "business",
+      "relevance_score": 83.0,
+      "industry_hints": [
+        "compliance",
+        "pet"
+      ],
+      "industry_ids": [
+        "compliance",
+        "pet"
+      ],
+      "region_hints": [],
+      "region_ids": [],
+      "gap_hints": [
+        "regulation"
+      ],
+      "why_filtered": "英文原题已通过机会事件/实体检查，但未进入 v1.6.0 中文具体标题（translation 未产出可用的具体中文标题）"
+    }
+  ]
+}

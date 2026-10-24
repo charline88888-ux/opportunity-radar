@@ -216,6 +216,10 @@ export function EconCockpit({ model }: { model: EconomicsModel }) {
               <div className={cn('num text-[13px]', unitDisplay.net >= 0 ? 'text-signal' : 'text-danger')}>{fmtCny(unitDisplay.net)}</div>
             </div>
           </div>
+          <div className="mt-1.5 flex flex-wrap items-center gap-x-2 text-[11.5px] leading-snug text-dim" title={model.aovBasis || undefined}>
+            <span>{L('AOV 口径：ROI 月收入 / 理论单量', 'AOV basis: ROI revenue / theoretical orders')}</span>
+            {model.aovSource && <span className="rounded border border-line/60 px-1.5 py-0.5 font-mono text-[11px] text-muted">{model.aovSource}</span>}
+          </div>
           <div className="mt-2 rounded border border-line/50 bg-panel-2/25 px-3 py-2 text-[12.5px] leading-relaxed text-muted">
             {L('勾稽：', 'Reconciles: ')}
             <span className="num text-ink">{unitDisplay.aov}</span> − <span className="num text-ink">{unitDisplay.cost}</span> = <span className="num text-signal">{unitDisplay.gross}</span>

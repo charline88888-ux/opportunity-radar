@@ -110,6 +110,9 @@ export interface EconomicsModel {
   assumptions: string[]
   sources: EconomicsSources
   dataNotes: string[]
+  /** v1.6.0：AOV 口径来源（aov_source）与说明（aov_basis） */
+  aovSource?: string
+  aovBasis?: string
 }
 
 export interface EconParams {
@@ -704,6 +707,8 @@ export function buildEconomics(input: EconomicsInput): EconomicsModel {
       payback: paybackTarget ? 'data' : 'derived',
     },
     dataNotes,
+    aovSource: str(ue.aov_source) || undefined,
+    aovBasis: str(ue.aov_basis) || undefined,
   }
 
   const calc = recompute(model, {

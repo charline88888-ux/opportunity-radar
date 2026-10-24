@@ -1,7 +1,12 @@
 {
   "meta": {
+<<<<<<< HEAD
     "data_version": "1.5.1",
     "as_of": "2026-10-24",
+=======
+    "data_version": "1.6.0",
+    "as_of": "2026-10-23",
+>>>>>>> 3bb0bd9 (release: v1.6.0)
     "generator": "scanner/pipeline.py",
     "window_rules": "day=last_activity==as_of; week=ISO week; month=YYYY-MM; year=YYYY",
     "delta_rules": "优先上一快照同窗口名次（delta=上期名次−本期名次）；无历史回退 adjacent-window：day←week, week←month, month←year, year 无参照",

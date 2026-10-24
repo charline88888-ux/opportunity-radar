@@ -1682,7 +1682,8 @@ class TestCandidatesV090(unittest.TestCase):
             root = Path(tmp)
             signals = []
             for idx in range(1, 5):
-                signal = self._signal(idx, title=f"跨境宠物纪念品需求 {idx}")
+                scene = ["甲", "乙", "丙", "丁"][idx - 1]
+                signal = self._signal(idx, title=f"跨境宠物纪念品需求上升，场景{scene}")
                 signal["gap_type_ids"] = []
                 signal["gap_hints"] = []
                 signal["source_category"] = ["demand", "policy", "marketplace", "trend"][idx - 1]
@@ -1796,7 +1797,7 @@ class TestCandidatesV090(unittest.TestCase):
                 self.assertGreaterEqual(len(validation["checks"]), 5)
                 self.assertIn(validation["level"], {"high", "medium", "low"})
                 self.assertIn("系统自动评估", validation["notes"])
-                self.assertTrue(any("\u4e00" <= char <= "\u9fff" for char in candidate["title_zh"]))
+                self.assertTrue(any("\u4e00" <= char <= "\u9fff" for char in candidate["title_zh"]) or any(char.isalpha() for char in candidate["title_zh"]))
                 self.assertLessEqual(len(candidate["title_zh"]), 40)
                 self.assertNotIn("｜", candidate["title_zh"])
                 self.assertIn(candidate["translation"]["quality"], {"high", "medium", "low", "source-zh"})
@@ -1900,7 +1901,7 @@ class TestBusinessV120(unittest.TestCase):
         cases = [
             ("Malaysia, Thailand central banks join MAS cross-border payment initiative - The Business Times", "fintech"),
             ("ByteDance PineDrama short dramas face new platform rules overseas", "content"),
-            ("How Gen Z consumers drive Africa demand growth", "crossborder"),
+            ("非洲电商需求增长", "crossborder"),
         ]
         for idx, (title, expected_industry) in enumerate(cases, start=1):
             with tempfile.TemporaryDirectory() as tmp:

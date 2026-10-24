@@ -498,6 +498,8 @@
           "basis": "单位固定成本×理论单量"
         }
       ],
+      "aov_source": "roi_reverse",
+      "aov_basis": "与 unit_economics.price_per_unit 同源：ROI 月收入 / 理论月单量",
       "unit_price": {
         "min": 40,
         "max": 150
@@ -633,6 +635,8 @@
       "basis": "按 pet 行业默认比例拆分；合计严格等于 roi.capital / conditions.capital"
     },
     "unit_economics": {
+      "aov_source": "roi_reverse",
+      "aov_basis": "AOV = ROI 月收入区间 / 理论月单量（整数；与 price_per_unit、profit_model.unit_price 同源）",
       "price_per_unit": {
         "min": 40,
         "max": 150,
@@ -745,6 +749,11 @@
           "profit": 1400
         }
       ]
+    },
+    "aov_source": "roi_reverse",
+    "aov": {
+      "min": 40,
+      "max": 150
     }
   },
   {
@@ -1229,6 +1238,8 @@
           "basis": "单位固定成本×理论单量"
         }
       ],
+      "aov_source": "roi_reverse",
+      "aov_basis": "与 unit_economics.price_per_unit 同源：ROI 月收入 / 理论月单量",
       "unit_price": {
         "min": 75,
         "max": 250
@@ -1364,6 +1375,8 @@
       "basis": "按 pet 行业默认比例拆分；合计严格等于 roi.capital / conditions.capital"
     },
     "unit_economics": {
+      "aov_source": "roi_reverse",
+      "aov_basis": "AOV = ROI 月收入区间 / 理论月单量（整数；与 price_per_unit、profit_model.unit_price 同源）",
       "price_per_unit": {
         "min": 75,
         "max": 250,
@@ -1476,6 +1489,11 @@
           "profit": 3400
         }
       ]
+    },
+    "aov_source": "roi_reverse",
+    "aov": {
+      "min": 75,
+      "max": 250
     }
   },
   {
@@ -1969,6 +1987,8 @@
           "basis": "单位固定成本×理论单量"
         }
       ],
+      "aov_source": "roi_reverse",
+      "aov_basis": "与 unit_economics.price_per_unit 同源：ROI 月收入 / 理论月单量",
       "unit_price": {
         "min": 100,
         "max": 300
@@ -2104,6 +2124,8 @@
       "basis": "按 pet 行业默认比例拆分；合计严格等于 roi.capital / conditions.capital"
     },
     "unit_economics": {
+      "aov_source": "roi_reverse",
+      "aov_basis": "AOV = ROI 月收入区间 / 理论月单量（整数；与 price_per_unit、profit_model.unit_price 同源）",
       "price_per_unit": {
         "min": 100,
         "max": 300,
@@ -2216,6 +2238,11 @@
           "profit": 4400
         }
       ]
+    },
+    "aov_source": "roi_reverse",
+    "aov": {
+      "min": 100,
+      "max": 300
     }
   },
   {
@@ -2703,6 +2730,8 @@
           "basis": "单位固定成本×理论单量"
         }
       ],
+      "aov_source": "roi_reverse",
+      "aov_basis": "与 unit_economics.price_per_unit 同源：ROI 月收入 / 理论月单量",
       "unit_price": {
         "min": 250,
         "max": 750
@@ -2838,6 +2867,8 @@
       "basis": "按 silver 行业默认比例拆分；合计严格等于 roi.capital / conditions.capital"
     },
     "unit_economics": {
+      "aov_source": "roi_reverse",
+      "aov_basis": "AOV = ROI 月收入区间 / 理论月单量（整数；与 price_per_unit、profit_model.unit_price 同源）",
       "price_per_unit": {
         "min": 250,
         "max": 750,
@@ -2950,6 +2981,11 @@
           "profit": 13400
         }
       ]
+    },
+    "aov_source": "roi_reverse",
+    "aov": {
+      "min": 250,
+      "max": 750
     }
   },
   {
@@ -3451,6 +3487,8 @@
           "basis": "单位固定成本×理论单量"
         }
       ],
+      "aov_source": "roi_reverse",
+      "aov_basis": "与 unit_economics.price_per_unit 同源：ROI 月收入 / 理论月单量",
       "unit_price": {
         "min": 150,
         "max": 500
@@ -3586,6 +3624,8 @@
       "basis": "按 silver 行业默认比例拆分；合计严格等于 roi.capital / conditions.capital"
     },
     "unit_economics": {
+      "aov_source": "roi_reverse",
+      "aov_basis": "AOV = ROI 月收入区间 / 理论月单量（整数；与 price_per_unit、profit_model.unit_price 同源）",
       "price_per_unit": {
         "min": 150,
         "max": 500,
@@ -3698,6 +3738,11 @@
           "profit": 8000
         }
       ]
+    },
+    "aov_source": "roi_reverse",
+    "aov": {
+      "min": 150,
+      "max": 500
     }
   },
   {
@@ -4187,6 +4232,8 @@
           "basis": "单位固定成本×理论单量"
         }
       ],
+      "aov_source": "roi_reverse",
+      "aov_basis": "与 unit_economics.price_per_unit 同源：ROI 月收入 / 理论月单量",
       "unit_price": {
         "min": 350,
         "max": 1400
@@ -4322,6 +4369,8 @@
       "basis": "按 silver 行业默认比例拆分；合计严格等于 roi.capital / conditions.capital"
     },
     "unit_economics": {
+      "aov_source": "roi_reverse",
+      "aov_basis": "AOV = ROI 月收入区间 / 理论月单量（整数；与 price_per_unit、profit_model.unit_price 同源）",
       "price_per_unit": {
         "min": 350,
         "max": 1400,
@@ -4434,6 +4483,11 @@
           "profit": 17000
         }
       ]
+    },
+    "aov_source": "roi_reverse",
+    "aov": {
+      "min": 350,
+      "max": 1400
     }
   },
   {
@@ -4936,6 +4990,8 @@
           "basis": "单位固定成本×理论单量"
         }
       ],
+      "aov_source": "roi_reverse",
+      "aov_basis": "与 unit_economics.price_per_unit 同源：ROI 月收入 / 理论月单量",
       "unit_price": {
         "min": 50,
         "max": 150
@@ -5071,6 +5127,8 @@
       "basis": "按 emotional 行业默认比例拆分；合计严格等于 roi.capital / conditions.capital"
     },
     "unit_economics": {
+      "aov_source": "roi_reverse",
+      "aov_basis": "AOV = ROI 月收入区间 / 理论月单量（整数；与 price_per_unit、profit_model.unit_price 同源）",
       "price_per_unit": {
         "min": 50,
         "max": 150,
@@ -5183,6 +5241,11 @@
           "profit": 3000
         }
       ]
+    },
+    "aov_source": "roi_reverse",
+    "aov": {
+      "min": 50,
+      "max": 150
     }
   },
   {
@@ -5676,6 +5739,8 @@
           "basis": "单位固定成本×理论单量"
         }
       ],
+      "aov_source": "roi_reverse",
+      "aov_basis": "与 unit_economics.price_per_unit 同源：ROI 月收入 / 理论月单量",
       "unit_price": {
         "min": 100,
         "max": 300
@@ -5811,6 +5876,8 @@
       "basis": "按 emotional 行业默认比例拆分；合计严格等于 roi.capital / conditions.capital"
     },
     "unit_economics": {
+      "aov_source": "roi_reverse",
+      "aov_basis": "AOV = ROI 月收入区间 / 理论月单量（整数；与 price_per_unit、profit_model.unit_price 同源）",
       "price_per_unit": {
         "min": 100,
         "max": 300,
@@ -5923,6 +5990,11 @@
           "profit": 7000
         }
       ]
+    },
+    "aov_source": "roi_reverse",
+    "aov": {
+      "min": 100,
+      "max": 300
     }
   },
   {
@@ -6413,6 +6485,8 @@
           "basis": "单位固定成本×理论单量"
         }
       ],
+      "aov_source": "roi_reverse",
+      "aov_basis": "与 unit_economics.price_per_unit 同源：ROI 月收入 / 理论月单量",
       "unit_price": {
         "min": 50,
         "max": 150
@@ -6548,6 +6622,8 @@
       "basis": "按 emotional 行业默认比例拆分；合计严格等于 roi.capital / conditions.capital"
     },
     "unit_economics": {
+      "aov_source": "roi_reverse",
+      "aov_basis": "AOV = ROI 月收入区间 / 理论月单量（整数；与 price_per_unit、profit_model.unit_price 同源）",
       "price_per_unit": {
         "min": 50,
         "max": 150,
@@ -6660,6 +6736,11 @@
           "profit": 3400
         }
       ]
+    },
+    "aov_source": "roi_reverse",
+    "aov": {
+      "min": 50,
+      "max": 150
     }
   },
   {
@@ -7145,6 +7226,8 @@
           "basis": "单位固定成本×理论单量"
         }
       ],
+      "aov_source": "roi_reverse",
+      "aov_basis": "与 unit_economics.price_per_unit 同源：ROI 月收入 / 理论月单量",
       "unit_price": {
         "min": 75,
         "max": 200
@@ -7280,6 +7363,8 @@
       "basis": "按 emotional 行业默认比例拆分；合计严格等于 roi.capital / conditions.capital"
     },
     "unit_economics": {
+      "aov_source": "roi_reverse",
+      "aov_basis": "AOV = ROI 月收入区间 / 理论月单量（整数；与 price_per_unit、profit_model.unit_price 同源）",
       "price_per_unit": {
         "min": 75,
         "max": 200,
@@ -7392,6 +7477,11 @@
           "profit": 2800
         }
       ]
+    },
+    "aov_source": "roi_reverse",
+    "aov": {
+      "min": 75,
+      "max": 200
     }
   },
   {
@@ -7879,6 +7969,8 @@
           "basis": "单位固定成本×理论单量"
         }
       ],
+      "aov_source": "roi_reverse",
+      "aov_basis": "与 unit_economics.price_per_unit 同源：ROI 月收入 / 理论月单量",
       "unit_price": {
         "min": 100,
         "max": 400
@@ -8014,6 +8106,8 @@
       "basis": "按 ai 行业默认比例拆分；合计严格等于 roi.capital / conditions.capital"
     },
     "unit_economics": {
+      "aov_source": "roi_reverse",
+      "aov_basis": "AOV = ROI 月收入区间 / 理论月单量（整数；与 price_per_unit、profit_model.unit_price 同源）",
       "price_per_unit": {
         "min": 100,
         "max": 400,
@@ -8126,6 +8220,11 @@
           "profit": 5800
         }
       ]
+    },
+    "aov_source": "roi_reverse",
+    "aov": {
+      "min": 100,
+      "max": 400
     }
   },
   {
@@ -8616,6 +8715,8 @@
           "basis": "单位固定成本×理论单量"
         }
       ],
+      "aov_source": "roi_reverse",
+      "aov_basis": "与 unit_economics.price_per_unit 同源：ROI 月收入 / 理论月单量",
       "unit_price": {
         "min": 75,
         "max": 250
@@ -8751,6 +8852,8 @@
       "basis": "按 ai 行业默认比例拆分；合计严格等于 roi.capital / conditions.capital"
     },
     "unit_economics": {
+      "aov_source": "roi_reverse",
+      "aov_basis": "AOV = ROI 月收入区间 / 理论月单量（整数；与 price_per_unit、profit_model.unit_price 同源）",
       "price_per_unit": {
         "min": 75,
         "max": 250,
@@ -8863,6 +8966,11 @@
           "profit": 3800
         }
       ]
+    },
+    "aov_source": "roi_reverse",
+    "aov": {
+      "min": 75,
+      "max": 250
     }
   },
   {
@@ -9355,6 +9463,8 @@
           "basis": "单位固定成本×理论单量"
         }
       ],
+      "aov_source": "roi_reverse",
+      "aov_basis": "与 unit_economics.price_per_unit 同源：ROI 月收入 / 理论月单量",
       "unit_price": {
         "min": 100,
         "max": 400
@@ -9490,6 +9600,8 @@
       "basis": "按 ai 行业默认比例拆分；合计严格等于 roi.capital / conditions.capital"
     },
     "unit_economics": {
+      "aov_source": "roi_reverse",
+      "aov_basis": "AOV = ROI 月收入区间 / 理论月单量（整数；与 price_per_unit、profit_model.unit_price 同源）",
       "price_per_unit": {
         "min": 100,
         "max": 400,
@@ -9602,6 +9714,11 @@
           "profit": 6000
         }
       ]
+    },
+    "aov_source": "roi_reverse",
+    "aov": {
+      "min": 100,
+      "max": 400
     }
   },
   {
@@ -10095,6 +10212,8 @@
           "basis": "单位固定成本×理论单量"
         }
       ],
+      "aov_source": "roi_reverse",
+      "aov_basis": "与 unit_economics.price_per_unit 同源：ROI 月收入 / 理论月单量",
       "unit_price": {
         "min": 150,
         "max": 500
@@ -10230,6 +10349,8 @@
       "basis": "按 crossborder 行业默认比例拆分；合计严格等于 roi.capital / conditions.capital"
     },
     "unit_economics": {
+      "aov_source": "roi_reverse",
+      "aov_basis": "AOV = ROI 月收入区间 / 理论月单量（整数；与 price_per_unit、profit_model.unit_price 同源）",
       "price_per_unit": {
         "min": 150,
         "max": 500,
@@ -10342,6 +10463,11 @@
           "profit": 9000
         }
       ]
+    },
+    "aov_source": "roi_reverse",
+    "aov": {
+      "min": 150,
+      "max": 500
     }
   },
   {
@@ -10828,6 +10954,8 @@
           "basis": "单位固定成本×理论单量"
         }
       ],
+      "aov_source": "roi_reverse",
+      "aov_basis": "与 unit_economics.price_per_unit 同源：ROI 月收入 / 理论月单量",
       "unit_price": {
         "min": 250,
         "max": 1000
@@ -10963,6 +11091,8 @@
       "basis": "按 crossborder 行业默认比例拆分；合计严格等于 roi.capital / conditions.capital"
     },
     "unit_economics": {
+      "aov_source": "roi_reverse",
+      "aov_basis": "AOV = ROI 月收入区间 / 理论月单量（整数；与 price_per_unit、profit_model.unit_price 同源）",
       "price_per_unit": {
         "min": 250,
         "max": 1000,
@@ -11075,6 +11205,11 @@
           "profit": 11200
         }
       ]
+    },
+    "aov_source": "roi_reverse",
+    "aov": {
+      "min": 250,
+      "max": 1000
     }
   },
   {
@@ -11561,6 +11696,8 @@
           "basis": "单位固定成本×理论单量"
         }
       ],
+      "aov_source": "roi_reverse",
+      "aov_basis": "与 unit_economics.price_per_unit 同源：ROI 月收入 / 理论月单量",
       "unit_price": {
         "min": 75,
         "max": 200
@@ -11696,6 +11833,8 @@
       "basis": "按 crossborder 行业默认比例拆分；合计严格等于 roi.capital / conditions.capital"
     },
     "unit_economics": {
+      "aov_source": "roi_reverse",
+      "aov_basis": "AOV = ROI 月收入区间 / 理论月单量（整数；与 price_per_unit、profit_model.unit_price 同源）",
       "price_per_unit": {
         "min": 75,
         "max": 200,
@@ -11808,6 +11947,11 @@
           "profit": 2400
         }
       ]
+    },
+    "aov_source": "roi_reverse",
+    "aov": {
+      "min": 75,
+      "max": 200
     }
   },
   {
@@ -12297,6 +12441,8 @@
           "basis": "单位固定成本×理论单量"
         }
       ],
+      "aov_source": "roi_reverse",
+      "aov_basis": "与 unit_economics.price_per_unit 同源：ROI 月收入 / 理论月单量",
       "unit_price": {
         "min": 500,
         "max": 1500
@@ -12432,6 +12578,8 @@
       "basis": "按 crossborder 行业默认比例拆分；合计严格等于 roi.capital / conditions.capital"
     },
     "unit_economics": {
+      "aov_source": "roi_reverse",
+      "aov_basis": "AOV = ROI 月收入区间 / 理论月单量（整数；与 price_per_unit、profit_model.unit_price 同源）",
       "price_per_unit": {
         "min": 500,
         "max": 1500,
@@ -12544,6 +12692,11 @@
           "profit": 23400
         }
       ]
+    },
+    "aov_source": "roi_reverse",
+    "aov": {
+      "min": 500,
+      "max": 1500
     }
   },
   {
@@ -13040,6 +13193,8 @@
           "basis": "单位固定成本×理论单量"
         }
       ],
+      "aov_source": "roi_reverse",
+      "aov_basis": "与 unit_economics.price_per_unit 同源：ROI 月收入 / 理论月单量",
       "unit_price": {
         "min": 50,
         "max": 250
@@ -13175,6 +13330,8 @@
       "basis": "按 content 行业默认比例拆分；合计严格等于 roi.capital / conditions.capital"
     },
     "unit_economics": {
+      "aov_source": "roi_reverse",
+      "aov_basis": "AOV = ROI 月收入区间 / 理论月单量（整数；与 price_per_unit、profit_model.unit_price 同源）",
       "price_per_unit": {
         "min": 50,
         "max": 250,
@@ -13287,6 +13444,11 @@
           "profit": 2200
         }
       ]
+    },
+    "aov_source": "roi_reverse",
+    "aov": {
+      "min": 50,
+      "max": 250
     }
   },
   {
@@ -13779,6 +13941,8 @@
           "basis": "单位固定成本×理论单量"
         }
       ],
+      "aov_source": "roi_reverse",
+      "aov_basis": "与 unit_economics.price_per_unit 同源：ROI 月收入 / 理论月单量",
       "unit_price": {
         "min": 50,
         "max": 200
@@ -13914,6 +14078,8 @@
       "basis": "按 content 行业默认比例拆分；合计严格等于 roi.capital / conditions.capital"
     },
     "unit_economics": {
+      "aov_source": "roi_reverse",
+      "aov_basis": "AOV = ROI 月收入区间 / 理论月单量（整数；与 price_per_unit、profit_model.unit_price 同源）",
       "price_per_unit": {
         "min": 50,
         "max": 200,
@@ -14026,6 +14192,11 @@
           "profit": 3400
         }
       ]
+    },
+    "aov_source": "roi_reverse",
+    "aov": {
+      "min": 50,
+      "max": 200
     }
   },
   {
@@ -14514,6 +14685,8 @@
           "basis": "单位固定成本×理论单量"
         }
       ],
+      "aov_source": "roi_reverse",
+      "aov_basis": "与 unit_economics.price_per_unit 同源：ROI 月收入 / 理论月单量",
       "unit_price": {
         "min": 100,
         "max": 300
@@ -14649,6 +14822,8 @@
       "basis": "按 content 行业默认比例拆分；合计严格等于 roi.capital / conditions.capital"
     },
     "unit_economics": {
+      "aov_source": "roi_reverse",
+      "aov_basis": "AOV = ROI 月收入区间 / 理论月单量（整数；与 price_per_unit、profit_model.unit_price 同源）",
       "price_per_unit": {
         "min": 100,
         "max": 300,
@@ -14761,6 +14936,11 @@
           "profit": 4800
         }
       ]
+    },
+    "aov_source": "roi_reverse",
+    "aov": {
+      "min": 100,
+      "max": 300
     }
   },
   {
@@ -15247,6 +15427,8 @@
           "basis": "单位固定成本×理论单量"
         }
       ],
+      "aov_source": "roi_reverse",
+      "aov_basis": "与 unit_economics.price_per_unit 同源：ROI 月收入 / 理论月单量",
       "unit_price": {
         "min": 1000,
         "max": 2500
@@ -15382,6 +15564,8 @@
       "basis": "按 education 行业默认比例拆分；合计严格等于 roi.capital / conditions.capital"
     },
     "unit_economics": {
+      "aov_source": "roi_reverse",
+      "aov_basis": "AOV = ROI 月收入区间 / 理论月单量（整数；与 price_per_unit、profit_model.unit_price 同源）",
       "price_per_unit": {
         "min": 1000,
         "max": 2500,
@@ -15494,6 +15678,11 @@
           "profit": 26600
         }
       ]
+    },
+    "aov_source": "roi_reverse",
+    "aov": {
+      "min": 1000,
+      "max": 2500
     }
   },
   {
@@ -15980,6 +16169,8 @@
           "basis": "单位固定成本×理论单量"
         }
       ],
+      "aov_source": "roi_reverse",
+      "aov_basis": "与 unit_economics.price_per_unit 同源：ROI 月收入 / 理论月单量",
       "unit_price": {
         "min": 50,
         "max": 200
@@ -16115,6 +16306,8 @@
       "basis": "按 education 行业默认比例拆分；合计严格等于 roi.capital / conditions.capital"
     },
     "unit_economics": {
+      "aov_source": "roi_reverse",
+      "aov_basis": "AOV = ROI 月收入区间 / 理论月单量（整数；与 price_per_unit、profit_model.unit_price 同源）",
       "price_per_unit": {
         "min": 50,
         "max": 200,
@@ -16227,6 +16420,11 @@
           "profit": 3400
         }
       ]
+    },
+    "aov_source": "roi_reverse",
+    "aov": {
+      "min": 50,
+      "max": 200
     }
   },
   {
@@ -16711,6 +16909,8 @@
           "basis": "单位固定成本×理论单量"
         }
       ],
+      "aov_source": "roi_reverse",
+      "aov_basis": "与 unit_economics.price_per_unit 同源：ROI 月收入 / 理论月单量",
       "unit_price": {
         "min": 100,
         "max": 300
@@ -16846,6 +17046,8 @@
       "basis": "按 education 行业默认比例拆分；合计严格等于 roi.capital / conditions.capital"
     },
     "unit_economics": {
+      "aov_source": "roi_reverse",
+      "aov_basis": "AOV = ROI 月收入区间 / 理论月单量（整数；与 price_per_unit、profit_model.unit_price 同源）",
       "price_per_unit": {
         "min": 100,
         "max": 300,
@@ -16958,6 +17160,11 @@
           "profit": 4000
         }
       ]
+    },
+    "aov_source": "roi_reverse",
+    "aov": {
+      "min": 100,
+      "max": 300
     }
   },
   {
@@ -17455,6 +17662,8 @@
           "basis": "单位固定成本×理论单量"
         }
       ],
+      "aov_source": "roi_reverse",
+      "aov_basis": "与 unit_economics.price_per_unit 同源：ROI 月收入 / 理论月单量",
       "unit_price": {
         "min": 50,
         "max": 200
@@ -17590,6 +17799,8 @@
       "basis": "按 local 行业默认比例拆分；合计严格等于 roi.capital / conditions.capital"
     },
     "unit_economics": {
+      "aov_source": "roi_reverse",
+      "aov_basis": "AOV = ROI 月收入区间 / 理论月单量（整数；与 price_per_unit、profit_model.unit_price 同源）",
       "price_per_unit": {
         "min": 50,
         "max": 200,
@@ -17702,6 +17913,11 @@
           "profit": 1400
         }
       ]
+    },
+    "aov_source": "roi_reverse",
+    "aov": {
+      "min": 50,
+      "max": 200
     }
   },
   {
@@ -18194,6 +18410,8 @@
           "basis": "单位固定成本×理论单量"
         }
       ],
+      "aov_source": "roi_reverse",
+      "aov_basis": "与 unit_economics.price_per_unit 同源：ROI 月收入 / 理论月单量",
       "unit_price": {
         "min": 100,
         "max": 400
@@ -18329,6 +18547,8 @@
       "basis": "按 local 行业默认比例拆分；合计严格等于 roi.capital / conditions.capital"
     },
     "unit_economics": {
+      "aov_source": "roi_reverse",
+      "aov_basis": "AOV = ROI 月收入区间 / 理论月单量（整数；与 price_per_unit、profit_model.unit_price 同源）",
       "price_per_unit": {
         "min": 100,
         "max": 400,
@@ -18441,6 +18661,11 @@
           "profit": 3000
         }
       ]
+    },
+    "aov_source": "roi_reverse",
+    "aov": {
+      "min": 100,
+      "max": 400
     }
   },
   {
@@ -18930,6 +19155,8 @@
           "basis": "单位固定成本×理论单量"
         }
       ],
+      "aov_source": "roi_reverse",
+      "aov_basis": "与 unit_economics.price_per_unit 同源：ROI 月收入 / 理论月单量",
       "unit_price": {
         "min": 40,
         "max": 150
@@ -19065,6 +19292,8 @@
       "basis": "按 culture 行业默认比例拆分；合计严格等于 roi.capital / conditions.capital"
     },
     "unit_economics": {
+      "aov_source": "roi_reverse",
+      "aov_basis": "AOV = ROI 月收入区间 / 理论月单量（整数；与 price_per_unit、profit_model.unit_price 同源）",
       "price_per_unit": {
         "min": 40,
         "max": 150,
@@ -19177,6 +19406,11 @@
           "profit": 1200
         }
       ]
+    },
+    "aov_source": "roi_reverse",
+    "aov": {
+      "min": 40,
+      "max": 150
     }
   },
   {
@@ -19678,6 +19912,8 @@
           "basis": "单位固定成本×理论单量"
         }
       ],
+      "aov_source": "roi_reverse",
+      "aov_basis": "与 unit_economics.price_per_unit 同源：ROI 月收入 / 理论月单量",
       "unit_price": {
         "min": 100,
         "max": 400
@@ -19813,6 +20049,8 @@
       "basis": "按 culture 行业默认比例拆分；合计严格等于 roi.capital / conditions.capital"
     },
     "unit_economics": {
+      "aov_source": "roi_reverse",
+      "aov_basis": "AOV = ROI 月收入区间 / 理论月单量（整数；与 price_per_unit、profit_model.unit_price 同源）",
       "price_per_unit": {
         "min": 100,
         "max": 400,
@@ -19925,6 +20163,11 @@
           "profit": 4800
         }
       ]
+    },
+    "aov_source": "roi_reverse",
+    "aov": {
+      "min": 100,
+      "max": 400
     }
   },
   {
@@ -20414,6 +20657,8 @@
           "basis": "单位固定成本×理论单量"
         }
       ],
+      "aov_source": "roi_reverse",
+      "aov_basis": "与 unit_economics.price_per_unit 同源：ROI 月收入 / 理论月单量",
       "unit_price": {
         "min": 50,
         "max": 250
@@ -20549,6 +20794,8 @@
       "basis": "按 culture 行业默认比例拆分；合计严格等于 roi.capital / conditions.capital"
     },
     "unit_economics": {
+      "aov_source": "roi_reverse",
+      "aov_basis": "AOV = ROI 月收入区间 / 理论月单量（整数；与 price_per_unit、profit_model.unit_price 同源）",
       "price_per_unit": {
         "min": 50,
         "max": 250,
@@ -20661,6 +20908,11 @@
           "profit": 3000
         }
       ]
+    },
+    "aov_source": "roi_reverse",
+    "aov": {
+      "min": 50,
+      "max": 250
     }
   },
   {
@@ -21142,6 +21394,8 @@
           "basis": "单位固定成本×理论单量"
         }
       ],
+      "aov_source": "roi_reverse",
+      "aov_basis": "与 unit_economics.price_per_unit 同源：ROI 月收入 / 理论月单量",
       "unit_price": {
         "min": 125,
         "max": 500
@@ -21277,6 +21531,8 @@
       "basis": "按 crossborder 行业默认比例拆分；合计严格等于 roi.capital / conditions.capital"
     },
     "unit_economics": {
+      "aov_source": "roi_reverse",
+      "aov_basis": "AOV = ROI 月收入区间 / 理论月单量（整数；与 price_per_unit、profit_model.unit_price 同源）",
       "price_per_unit": {
         "min": 125,
         "max": 500,
@@ -21389,6 +21645,11 @@
           "profit": 5520
         }
       ]
+    },
+    "aov_source": "roi_reverse",
+    "aov": {
+      "min": 125,
+      "max": 500
     }
   },
   {
@@ -21871,6 +22132,8 @@
           "basis": "单位固定成本×理论单量"
         }
       ],
+      "aov_source": "roi_reverse",
+      "aov_basis": "与 unit_economics.price_per_unit 同源：ROI 月收入 / 理论月单量",
       "unit_price": {
         "min": 125,
         "max": 625
@@ -22006,6 +22269,8 @@
       "basis": "按 crossborder 行业默认比例拆分；合计严格等于 roi.capital / conditions.capital"
     },
     "unit_economics": {
+      "aov_source": "roi_reverse",
+      "aov_basis": "AOV = ROI 月收入区间 / 理论月单量（整数；与 price_per_unit、profit_model.unit_price 同源）",
       "price_per_unit": {
         "min": 125,
         "max": 625,
@@ -22118,6 +22383,11 @@
           "profit": 5280
         }
       ]
+    },
+    "aov_source": "roi_reverse",
+    "aov": {
+      "min": 125,
+      "max": 625
     }
   },
   {
@@ -22599,6 +22869,8 @@
           "basis": "单位固定成本×理论单量"
         }
       ],
+      "aov_source": "roi_reverse",
+      "aov_basis": "与 unit_economics.price_per_unit 同源：ROI 月收入 / 理论月单量",
       "unit_price": {
         "min": 125,
         "max": 625
@@ -22734,6 +23006,8 @@
       "basis": "按 manufacturing 行业默认比例拆分；合计严格等于 roi.capital / conditions.capital"
     },
     "unit_economics": {
+      "aov_source": "roi_reverse",
+      "aov_basis": "AOV = ROI 月收入区间 / 理论月单量（整数；与 price_per_unit、profit_model.unit_price 同源）",
       "price_per_unit": {
         "min": 125,
         "max": 625,
@@ -22846,6 +23120,11 @@
           "profit": 6000
         }
       ]
+    },
+    "aov_source": "roi_reverse",
+    "aov": {
+      "min": 125,
+      "max": 625
     }
   },
   {
@@ -23337,6 +23616,8 @@
           "basis": "单位固定成本×理论单量"
         }
       ],
+      "aov_source": "roi_reverse",
+      "aov_basis": "与 unit_economics.price_per_unit 同源：ROI 月收入 / 理论月单量",
       "unit_price": {
         "min": 100,
         "max": 400
@@ -23472,6 +23753,8 @@
       "basis": "按 manufacturing 行业默认比例拆分；合计严格等于 roi.capital / conditions.capital"
     },
     "unit_economics": {
+      "aov_source": "roi_reverse",
+      "aov_basis": "AOV = ROI 月收入区间 / 理论月单量（整数；与 price_per_unit、profit_model.unit_price 同源）",
       "price_per_unit": {
         "min": 100,
         "max": 400,
@@ -23584,6 +23867,11 @@
           "profit": 5800
         }
       ]
+    },
+    "aov_source": "roi_reverse",
+    "aov": {
+      "min": 100,
+      "max": 400
     }
   },
   {
@@ -24085,6 +24373,8 @@
           "basis": "单位固定成本×理论单量"
         }
       ],
+      "aov_source": "roi_reverse",
+      "aov_basis": "与 unit_economics.price_per_unit 同源：ROI 月收入 / 理论月单量",
       "unit_price": {
         "min": 250,
         "max": 1000
@@ -24220,6 +24510,8 @@
       "basis": "按 manufacturing 行业默认比例拆分；合计严格等于 roi.capital / conditions.capital"
     },
     "unit_economics": {
+      "aov_source": "roi_reverse",
+      "aov_basis": "AOV = ROI 月收入区间 / 理论月单量（整数；与 price_per_unit、profit_model.unit_price 同源）",
       "price_per_unit": {
         "min": 250,
         "max": 1000,
@@ -24332,6 +24624,11 @@
           "profit": 10600
         }
       ]
+    },
+    "aov_source": "roi_reverse",
+    "aov": {
+      "min": 250,
+      "max": 1000
     }
   },
   {
@@ -24811,6 +25108,8 @@
           "basis": "单位固定成本×理论单量"
         }
       ],
+      "aov_source": "roi_reverse",
+      "aov_basis": "与 unit_economics.price_per_unit 同源：ROI 月收入 / 理论月单量",
       "unit_price": {
         "min": 50,
         "max": 250
@@ -24946,6 +25245,8 @@
       "basis": "按 compliance 行业默认比例拆分；合计严格等于 roi.capital / conditions.capital"
     },
     "unit_economics": {
+      "aov_source": "roi_reverse",
+      "aov_basis": "AOV = ROI 月收入区间 / 理论月单量（整数；与 price_per_unit、profit_model.unit_price 同源）",
       "price_per_unit": {
         "min": 50,
         "max": 250,
@@ -25058,6 +25359,11 @@
           "profit": 1800
         }
       ]
+    },
+    "aov_source": "roi_reverse",
+    "aov": {
+      "min": 50,
+      "max": 250
     }
   },
   {
@@ -25546,6 +25852,8 @@
           "basis": "单位固定成本×理论单量"
         }
       ],
+      "aov_source": "roi_reverse",
+      "aov_basis": "与 unit_economics.price_per_unit 同源：ROI 月收入 / 理论月单量",
       "unit_price": {
         "min": 75,
         "max": 300
@@ -25681,6 +25989,8 @@
       "basis": "按 compliance 行业默认比例拆分；合计严格等于 roi.capital / conditions.capital"
     },
     "unit_economics": {
+      "aov_source": "roi_reverse",
+      "aov_basis": "AOV = ROI 月收入区间 / 理论月单量（整数；与 price_per_unit、profit_model.unit_price 同源）",
       "price_per_unit": {
         "min": 75,
         "max": 300,
@@ -25793,6 +26103,11 @@
           "profit": 1800
         }
       ]
+    },
+    "aov_source": "roi_reverse",
+    "aov": {
+      "min": 75,
+      "max": 300
     }
   },
   {
@@ -26282,6 +26597,8 @@
           "basis": "单位固定成本×理论单量"
         }
       ],
+      "aov_source": "roi_reverse",
+      "aov_basis": "与 unit_economics.price_per_unit 同源：ROI 月收入 / 理论月单量",
       "unit_price": {
         "min": 100,
         "max": 400
@@ -26417,6 +26734,8 @@
       "basis": "按 compliance 行业默认比例拆分；合计严格等于 roi.capital / conditions.capital"
     },
     "unit_economics": {
+      "aov_source": "roi_reverse",
+      "aov_basis": "AOV = ROI 月收入区间 / 理论月单量（整数；与 price_per_unit、profit_model.unit_price 同源）",
       "price_per_unit": {
         "min": 100,
         "max": 400,
@@ -26529,6 +26848,11 @@
           "profit": 6000
         }
       ]
+    },
+    "aov_source": "roi_reverse",
+    "aov": {
+      "min": 100,
+      "max": 400
     }
   },
   {
@@ -27018,6 +27342,8 @@
           "basis": "单位固定成本×理论单量"
         }
       ],
+      "aov_source": "roi_reverse",
+      "aov_basis": "与 unit_economics.price_per_unit 同源：ROI 月收入 / 理论月单量",
       "unit_price": {
         "min": 100,
         "max": 300
@@ -27153,6 +27479,8 @@
       "basis": "按 compliance 行业默认比例拆分；合计严格等于 roi.capital / conditions.capital"
     },
     "unit_economics": {
+      "aov_source": "roi_reverse",
+      "aov_basis": "AOV = ROI 月收入区间 / 理论月单量（整数；与 price_per_unit、profit_model.unit_price 同源）",
       "price_per_unit": {
         "min": 100,
         "max": 300,
@@ -27265,6 +27593,11 @@
           "profit": 6000
         }
       ]
+    },
+    "aov_source": "roi_reverse",
+    "aov": {
+      "min": 100,
+      "max": 300
     }
   },
   {
@@ -27764,6 +28097,8 @@
           "basis": "单位固定成本×理论单量"
         }
       ],
+      "aov_source": "roi_reverse",
+      "aov_basis": "与 unit_economics.price_per_unit 同源：ROI 月收入 / 理论月单量",
       "unit_price": {
         "min": 50,
         "max": 250
@@ -27899,6 +28234,8 @@
       "basis": "按 compliance 行业默认比例拆分；合计严格等于 roi.capital / conditions.capital"
     },
     "unit_economics": {
+      "aov_source": "roi_reverse",
+      "aov_basis": "AOV = ROI 月收入区间 / 理论月单量（整数；与 price_per_unit、profit_model.unit_price 同源）",
       "price_per_unit": {
         "min": 50,
         "max": 250,
@@ -28011,6 +28348,11 @@
           "profit": 1800
         }
       ]
+    },
+    "aov_source": "roi_reverse",
+    "aov": {
+      "min": 50,
+      "max": 250
     }
   },
   {
@@ -28501,6 +28843,8 @@
           "basis": "单位固定成本×理论单量"
         }
       ],
+      "aov_source": "roi_reverse",
+      "aov_basis": "与 unit_economics.price_per_unit 同源：ROI 月收入 / 理论月单量",
       "unit_price": {
         "min": 50,
         "max": 250
@@ -28636,6 +28980,8 @@
       "basis": "按 green 行业默认比例拆分；合计严格等于 roi.capital / conditions.capital"
     },
     "unit_economics": {
+      "aov_source": "roi_reverse",
+      "aov_basis": "AOV = ROI 月收入区间 / 理论月单量（整数；与 price_per_unit、profit_model.unit_price 同源）",
       "price_per_unit": {
         "min": 50,
         "max": 250,
@@ -28748,6 +29094,11 @@
           "profit": 3000
         }
       ]
+    },
+    "aov_source": "roi_reverse",
+    "aov": {
+      "min": 50,
+      "max": 250
     }
   },
   {
@@ -29238,6 +29589,8 @@
           "basis": "单位固定成本×理论单量"
         }
       ],
+      "aov_source": "roi_reverse",
+      "aov_basis": "与 unit_economics.price_per_unit 同源：ROI 月收入 / 理论月单量",
       "unit_price": {
         "min": 100,
         "max": 400
@@ -29373,6 +29726,8 @@
       "basis": "按 green 行业默认比例拆分；合计严格等于 roi.capital / conditions.capital"
     },
     "unit_economics": {
+      "aov_source": "roi_reverse",
+      "aov_basis": "AOV = ROI 月收入区间 / 理论月单量（整数；与 price_per_unit、profit_model.unit_price 同源）",
       "price_per_unit": {
         "min": 100,
         "max": 400,
@@ -29485,6 +29840,11 @@
           "profit": 6000
         }
       ]
+    },
+    "aov_source": "roi_reverse",
+    "aov": {
+      "min": 100,
+      "max": 400
     }
   },
   {
@@ -29975,6 +30335,8 @@
           "basis": "单位固定成本×理论单量"
         }
       ],
+      "aov_source": "roi_reverse",
+      "aov_basis": "与 unit_economics.price_per_unit 同源：ROI 月收入 / 理论月单量",
       "unit_price": {
         "min": 100,
         "max": 500
@@ -30110,6 +30472,8 @@
       "basis": "按 green 行业默认比例拆分；合计严格等于 roi.capital / conditions.capital"
     },
     "unit_economics": {
+      "aov_source": "roi_reverse",
+      "aov_basis": "AOV = ROI 月收入区间 / 理论月单量（整数；与 price_per_unit、profit_model.unit_price 同源）",
       "price_per_unit": {
         "min": 100,
         "max": 500,
@@ -30222,6 +30586,11 @@
           "profit": 6200
         }
       ]
+    },
+    "aov_source": "roi_reverse",
+    "aov": {
+      "min": 100,
+      "max": 500
     }
   },
   {
@@ -30713,6 +31082,8 @@
           "basis": "单位固定成本×理论单量"
         }
       ],
+      "aov_source": "roi_reverse",
+      "aov_basis": "与 unit_economics.price_per_unit 同源：ROI 月收入 / 理论月单量",
       "unit_price": {
         "min": 50,
         "max": 250
@@ -30848,6 +31219,8 @@
       "basis": "按 gaming 行业默认比例拆分；合计严格等于 roi.capital / conditions.capital"
     },
     "unit_economics": {
+      "aov_source": "roi_reverse",
+      "aov_basis": "AOV = ROI 月收入区间 / 理论月单量（整数；与 price_per_unit、profit_model.unit_price 同源）",
       "price_per_unit": {
         "min": 50,
         "max": 250,
@@ -30960,6 +31333,11 @@
           "profit": 3400
         }
       ]
+    },
+    "aov_source": "roi_reverse",
+    "aov": {
+      "min": 50,
+      "max": 250
     }
   },
   {
@@ -31449,6 +31827,8 @@
           "basis": "单位固定成本×理论单量"
         }
       ],
+      "aov_source": "roi_reverse",
+      "aov_basis": "与 unit_economics.price_per_unit 同源：ROI 月收入 / 理论月单量",
       "unit_price": {
         "min": 50,
         "max": 200
@@ -31584,6 +31964,8 @@
       "basis": "按 gaming 行业默认比例拆分；合计严格等于 roi.capital / conditions.capital"
     },
     "unit_economics": {
+      "aov_source": "roi_reverse",
+      "aov_basis": "AOV = ROI 月收入区间 / 理论月单量（整数；与 price_per_unit、profit_model.unit_price 同源）",
       "price_per_unit": {
         "min": 50,
         "max": 200,
@@ -31696,6 +32078,11 @@
           "profit": 3000
         }
       ]
+    },
+    "aov_source": "roi_reverse",
+    "aov": {
+      "min": 50,
+      "max": 200
     }
   },
   {
@@ -32183,6 +32570,8 @@
           "basis": "单位固定成本×理论单量"
         }
       ],
+      "aov_source": "roi_reverse",
+      "aov_basis": "与 unit_economics.price_per_unit 同源：ROI 月收入 / 理论月单量",
       "unit_price": {
         "min": 50,
         "max": 250
@@ -32318,6 +32707,8 @@
       "basis": "按 fintech 行业默认比例拆分；合计严格等于 roi.capital / conditions.capital"
     },
     "unit_economics": {
+      "aov_source": "roi_reverse",
+      "aov_basis": "AOV = ROI 月收入区间 / 理论月单量（整数；与 price_per_unit、profit_model.unit_price 同源）",
       "price_per_unit": {
         "min": 50,
         "max": 250,
@@ -32430,6 +32821,11 @@
           "profit": 4400
         }
       ]
+    },
+    "aov_source": "roi_reverse",
+    "aov": {
+      "min": 50,
+      "max": 250
     }
   },
   {
@@ -32917,6 +33313,8 @@
           "basis": "单位固定成本×理论单量"
         }
       ],
+      "aov_source": "roi_reverse",
+      "aov_basis": "与 unit_economics.price_per_unit 同源：ROI 月收入 / 理论月单量",
       "unit_price": {
         "min": 100,
         "max": 300
@@ -33052,6 +33450,8 @@
       "basis": "按 compliance 行业默认比例拆分；合计严格等于 roi.capital / conditions.capital"
     },
     "unit_economics": {
+      "aov_source": "roi_reverse",
+      "aov_basis": "AOV = ROI 月收入区间 / 理论月单量（整数；与 price_per_unit、profit_model.unit_price 同源）",
       "price_per_unit": {
         "min": 100,
         "max": 300,
@@ -33164,6 +33564,11 @@
           "profit": 5800
         }
       ]
+    },
+    "aov_source": "roi_reverse",
+    "aov": {
+      "min": 100,
+      "max": 300
     }
   },
   {
@@ -33654,6 +34059,8 @@
           "basis": "单位固定成本×理论单量"
         }
       ],
+      "aov_source": "roi_reverse",
+      "aov_basis": "与 unit_economics.price_per_unit 同源：ROI 月收入 / 理论月单量",
       "unit_price": {
         "min": 50,
         "max": 200
@@ -33789,6 +34196,8 @@
       "basis": "按 fintech 行业默认比例拆分；合计严格等于 roi.capital / conditions.capital"
     },
     "unit_economics": {
+      "aov_source": "roi_reverse",
+      "aov_basis": "AOV = ROI 月收入区间 / 理论月单量（整数；与 price_per_unit、profit_model.unit_price 同源）",
       "price_per_unit": {
         "min": 50,
         "max": 200,
@@ -33901,6 +34310,11 @@
           "profit": 3400
         }
       ]
+    },
+    "aov_source": "roi_reverse",
+    "aov": {
+      "min": 50,
+      "max": 200
     }
   },
   {
@@ -34392,6 +34806,8 @@
           "basis": "单位固定成本×理论单量"
         }
       ],
+      "aov_source": "roi_reverse",
+      "aov_basis": "与 unit_economics.price_per_unit 同源：ROI 月收入 / 理论月单量",
       "unit_price": {
         "min": 50,
         "max": 200
@@ -34527,6 +34943,8 @@
       "basis": "按 manufacturing 行业默认比例拆分；合计严格等于 roi.capital / conditions.capital"
     },
     "unit_economics": {
+      "aov_source": "roi_reverse",
+      "aov_basis": "AOV = ROI 月收入区间 / 理论月单量（整数；与 price_per_unit、profit_model.unit_price 同源）",
       "price_per_unit": {
         "min": 50,
         "max": 200,
@@ -34639,6 +35057,11 @@
           "profit": 3000
         }
       ]
+    },
+    "aov_source": "roi_reverse",
+    "aov": {
+      "min": 50,
+      "max": 200
     }
   },
   {
@@ -35133,6 +35556,8 @@
           "basis": "单位固定成本×理论单量"
         }
       ],
+      "aov_source": "roi_reverse",
+      "aov_basis": "与 unit_economics.price_per_unit 同源：ROI 月收入 / 理论月单量",
       "unit_price": {
         "min": 25,
         "max": 100
@@ -35268,6 +35693,8 @@
       "basis": "按 pet 行业默认比例拆分；合计严格等于 roi.capital / conditions.capital"
     },
     "unit_economics": {
+      "aov_source": "roi_reverse",
+      "aov_basis": "AOV = ROI 月收入区间 / 理论月单量（整数；与 price_per_unit、profit_model.unit_price 同源）",
       "price_per_unit": {
         "min": 25,
         "max": 100,
@@ -35380,6 +35807,11 @@
           "profit": 800
         }
       ]
+    },
+    "aov_source": "roi_reverse",
+    "aov": {
+      "min": 25,
+      "max": 100
     }
   },
   {
@@ -35863,6 +36295,8 @@
           "basis": "单位固定成本×理论单量"
         }
       ],
+      "aov_source": "roi_reverse",
+      "aov_basis": "与 unit_economics.price_per_unit 同源：ROI 月收入 / 理论月单量",
       "unit_price": {
         "min": 250,
         "max": 1000
@@ -35998,6 +36432,8 @@
       "basis": "按 pet 行业默认比例拆分；合计严格等于 roi.capital / conditions.capital"
     },
     "unit_economics": {
+      "aov_source": "roi_reverse",
+      "aov_basis": "AOV = ROI 月收入区间 / 理论月单量（整数；与 price_per_unit、profit_model.unit_price 同源）",
       "price_per_unit": {
         "min": 250,
         "max": 1000,
@@ -36110,6 +36546,11 @@
           "profit": 8400
         }
       ]
+    },
+    "aov_source": "roi_reverse",
+    "aov": {
+      "min": 250,
+      "max": 1000
     }
   },
   {
@@ -36604,6 +37045,8 @@
           "basis": "单位固定成本×理论单量"
         }
       ],
+      "aov_source": "roi_reverse",
+      "aov_basis": "与 unit_economics.price_per_unit 同源：ROI 月收入 / 理论月单量",
       "unit_price": {
         "min": 50,
         "max": 250
@@ -36739,6 +37182,8 @@
       "basis": "按 pet 行业默认比例拆分；合计严格等于 roi.capital / conditions.capital"
     },
     "unit_economics": {
+      "aov_source": "roi_reverse",
+      "aov_basis": "AOV = ROI 月收入区间 / 理论月单量（整数；与 price_per_unit、profit_model.unit_price 同源）",
       "price_per_unit": {
         "min": 50,
         "max": 250,
@@ -36851,6 +37296,11 @@
           "profit": 2600
         }
       ]
+    },
+    "aov_source": "roi_reverse",
+    "aov": {
+      "min": 50,
+      "max": 250
     }
   },
   {
@@ -37345,6 +37795,8 @@
           "basis": "单位固定成本×理论单量"
         }
       ],
+      "aov_source": "roi_reverse",
+      "aov_basis": "与 unit_economics.price_per_unit 同源：ROI 月收入 / 理论月单量",
       "unit_price": {
         "min": 50,
         "max": 250
@@ -37480,6 +37932,8 @@
       "basis": "按 local 行业默认比例拆分；合计严格等于 roi.capital / conditions.capital"
     },
     "unit_economics": {
+      "aov_source": "roi_reverse",
+      "aov_basis": "AOV = ROI 月收入区间 / 理论月单量（整数；与 price_per_unit、profit_model.unit_price 同源）",
       "price_per_unit": {
         "min": 50,
         "max": 250,
@@ -37592,6 +38046,11 @@
           "profit": 2200
         }
       ]
+    },
+    "aov_source": "roi_reverse",
+    "aov": {
+      "min": 50,
+      "max": 250
     }
   },
   {
@@ -38076,6 +38535,8 @@
           "basis": "单位固定成本×理论单量"
         }
       ],
+      "aov_source": "roi_reverse",
+      "aov_basis": "与 unit_economics.price_per_unit 同源：ROI 月收入 / 理论月单量",
       "unit_price": {
         "min": 25,
         "max": 150
@@ -38211,6 +38672,8 @@
       "basis": "按 content 行业默认比例拆分；合计严格等于 roi.capital / conditions.capital"
     },
     "unit_economics": {
+      "aov_source": "roi_reverse",
+      "aov_basis": "AOV = ROI 月收入区间 / 理论月单量（整数；与 price_per_unit、profit_model.unit_price 同源）",
       "price_per_unit": {
         "min": 25,
         "max": 150,
@@ -38323,6 +38786,11 @@
           "profit": 1400
         }
       ]
+    },
+    "aov_source": "roi_reverse",
+    "aov": {
+      "min": 25,
+      "max": 150
     }
   },
   {
@@ -38810,6 +39278,8 @@
           "basis": "单位固定成本×理论单量"
         }
       ],
+      "aov_source": "roi_reverse",
+      "aov_basis": "与 unit_economics.price_per_unit 同源：ROI 月收入 / 理论月单量",
       "unit_price": {
         "min": 25,
         "max": 150
@@ -38945,6 +39415,8 @@
       "basis": "按 content 行业默认比例拆分；合计严格等于 roi.capital / conditions.capital"
     },
     "unit_economics": {
+      "aov_source": "roi_reverse",
+      "aov_basis": "AOV = ROI 月收入区间 / 理论月单量（整数；与 price_per_unit、profit_model.unit_price 同源）",
       "price_per_unit": {
         "min": 25,
         "max": 150,
@@ -39057,6 +39529,11 @@
           "profit": 1800
         }
       ]
+    },
+    "aov_source": "roi_reverse",
+    "aov": {
+      "min": 25,
+      "max": 150
     }
   },
   {
@@ -39538,6 +40015,8 @@
           "basis": "单位固定成本×理论单量"
         }
       ],
+      "aov_source": "roi_reverse",
+      "aov_basis": "与 unit_economics.price_per_unit 同源：ROI 月收入 / 理论月单量",
       "unit_price": {
         "min": 50,
         "max": 250
@@ -39673,6 +40152,8 @@
       "basis": "按 silver 行业默认比例拆分；合计严格等于 roi.capital / conditions.capital"
     },
     "unit_economics": {
+      "aov_source": "roi_reverse",
+      "aov_basis": "AOV = ROI 月收入区间 / 理论月单量（整数；与 price_per_unit、profit_model.unit_price 同源）",
       "price_per_unit": {
         "min": 50,
         "max": 250,
@@ -39785,6 +40266,11 @@
           "profit": 2600
         }
       ]
+    },
+    "aov_source": "roi_reverse",
+    "aov": {
+      "min": 50,
+      "max": 250
     }
   },
   {
@@ -40275,6 +40761,8 @@
           "basis": "单位固定成本×理论单量"
         }
       ],
+      "aov_source": "roi_reverse",
+      "aov_basis": "与 unit_economics.price_per_unit 同源：ROI 月收入 / 理论月单量",
       "unit_price": {
         "min": 25,
         "max": 150
@@ -40410,6 +40898,8 @@
       "basis": "按 fintech 行业默认比例拆分；合计严格等于 roi.capital / conditions.capital"
     },
     "unit_economics": {
+      "aov_source": "roi_reverse",
+      "aov_basis": "AOV = ROI 月收入区间 / 理论月单量（整数；与 price_per_unit、profit_model.unit_price 同源）",
       "price_per_unit": {
         "min": 25,
         "max": 150,
@@ -40522,6 +41012,11 @@
           "profit": 1400
         }
       ]
+    },
+    "aov_source": "roi_reverse",
+    "aov": {
+      "min": 25,
+      "max": 150
     }
   },
   {
@@ -41022,6 +41517,8 @@
           "basis": "单位固定成本×理论单量"
         }
       ],
+      "aov_source": "roi_reverse",
+      "aov_basis": "与 unit_economics.price_per_unit 同源：ROI 月收入 / 理论月单量",
       "unit_price": {
         "min": 50,
         "max": 400
@@ -41157,6 +41654,8 @@
       "basis": "按 crossborder 行业默认比例拆分；合计严格等于 roi.capital / conditions.capital"
     },
     "unit_economics": {
+      "aov_source": "roi_reverse",
+      "aov_basis": "AOV = ROI 月收入区间 / 理论月单量（整数；与 price_per_unit、profit_model.unit_price 同源）",
       "price_per_unit": {
         "min": 50,
         "max": 400,
@@ -41269,6 +41768,11 @@
           "profit": 2600
         }
       ]
+    },
+    "aov_source": "roi_reverse",
+    "aov": {
+      "min": 50,
+      "max": 400
     }
   },
   {
@@ -41759,6 +42263,8 @@
           "basis": "单位固定成本×理论单量"
         }
       ],
+      "aov_source": "roi_reverse",
+      "aov_basis": "与 unit_economics.price_per_unit 同源：ROI 月收入 / 理论月单量",
       "unit_price": {
         "min": 100,
         "max": 500
@@ -41894,6 +42400,8 @@
       "basis": "按 content 行业默认比例拆分；合计严格等于 roi.capital / conditions.capital"
     },
     "unit_economics": {
+      "aov_source": "roi_reverse",
+      "aov_basis": "AOV = ROI 月收入区间 / 理论月单量（整数；与 price_per_unit、profit_model.unit_price 同源）",
       "price_per_unit": {
         "min": 100,
         "max": 500,
@@ -42006,6 +42514,11 @@
           "profit": 6000
         }
       ]
+    },
+    "aov_source": "roi_reverse",
+    "aov": {
+      "min": 100,
+      "max": 500
     }
   },
   {
@@ -42507,6 +43020,8 @@
           "basis": "单位固定成本×理论单量"
         }
       ],
+      "aov_source": "roi_reverse",
+      "aov_basis": "与 unit_economics.price_per_unit 同源：ROI 月收入 / 理论月单量",
       "unit_price": {
         "min": 50,
         "max": 400
@@ -42642,6 +43157,8 @@
       "basis": "按 crossborder 行业默认比例拆分；合计严格等于 roi.capital / conditions.capital"
     },
     "unit_economics": {
+      "aov_source": "roi_reverse",
+      "aov_basis": "AOV = ROI 月收入区间 / 理论月单量（整数；与 price_per_unit、profit_model.unit_price 同源）",
       "price_per_unit": {
         "min": 50,
         "max": 400,
@@ -42754,6 +43271,11 @@
           "profit": 3400
         }
       ]
+    },
+    "aov_source": "roi_reverse",
+    "aov": {
+      "min": 50,
+      "max": 400
     }
   },
   {
@@ -43247,6 +43769,8 @@
           "basis": "单位固定成本×理论单量"
         }
       ],
+      "aov_source": "roi_reverse",
+      "aov_basis": "与 unit_economics.price_per_unit 同源：ROI 月收入 / 理论月单量",
       "unit_price": {
         "min": 250,
         "max": 1500
@@ -43382,6 +43906,8 @@
       "basis": "按 crossborder 行业默认比例拆分；合计严格等于 roi.capital / conditions.capital"
     },
     "unit_economics": {
+      "aov_source": "roi_reverse",
+      "aov_basis": "AOV = ROI 月收入区间 / 理论月单量（整数；与 price_per_unit、profit_model.unit_price 同源）",
       "price_per_unit": {
         "min": 250,
         "max": 1500,
@@ -43494,6 +44020,11 @@
           "profit": 7800
         }
       ]
+    },
+    "aov_source": "roi_reverse",
+    "aov": {
+      "min": 250,
+      "max": 1500
     }
   },
   {
@@ -43984,6 +44515,8 @@
           "basis": "单位固定成本×理论单量"
         }
       ],
+      "aov_source": "roi_reverse",
+      "aov_basis": "与 unit_economics.price_per_unit 同源：ROI 月收入 / 理论月单量",
       "unit_price": {
         "min": 25,
         "max": 200
@@ -44119,6 +44652,8 @@
       "basis": "按 fintech 行业默认比例拆分；合计严格等于 roi.capital / conditions.capital"
     },
     "unit_economics": {
+      "aov_source": "roi_reverse",
+      "aov_basis": "AOV = ROI 月收入区间 / 理论月单量（整数；与 price_per_unit、profit_model.unit_price 同源）",
       "price_per_unit": {
         "min": 25,
         "max": 200,
@@ -44231,6 +44766,11 @@
           "profit": 1200
         }
       ]
+    },
+    "aov_source": "roi_reverse",
+    "aov": {
+      "min": 25,
+      "max": 200
     }
   },
   {
@@ -44719,6 +45259,8 @@
           "basis": "单位固定成本×理论单量"
         }
       ],
+      "aov_source": "roi_reverse",
+      "aov_basis": "与 unit_economics.price_per_unit 同源：ROI 月收入 / 理论月单量",
       "unit_price": {
         "min": 25,
         "max": 150
@@ -44854,6 +45396,8 @@
       "basis": "按 fintech 行业默认比例拆分；合计严格等于 roi.capital / conditions.capital"
     },
     "unit_economics": {
+      "aov_source": "roi_reverse",
+      "aov_basis": "AOV = ROI 月收入区间 / 理论月单量（整数；与 price_per_unit、profit_model.unit_price 同源）",
       "price_per_unit": {
         "min": 25,
         "max": 150,
@@ -44966,6 +45510,11 @@
           "profit": 1800
         }
       ]
+    },
+    "aov_source": "roi_reverse",
+    "aov": {
+      "min": 25,
+      "max": 150
     }
   },
   {
@@ -45455,6 +46004,8 @@
           "basis": "单位固定成本×理论单量"
         }
       ],
+      "aov_source": "roi_reverse",
+      "aov_basis": "与 unit_economics.price_per_unit 同源：ROI 月收入 / 理论月单量",
       "unit_price": {
         "min": 50,
         "max": 400
@@ -45590,6 +46141,8 @@
       "basis": "按 green 行业默认比例拆分；合计严格等于 roi.capital / conditions.capital"
     },
     "unit_economics": {
+      "aov_source": "roi_reverse",
+      "aov_basis": "AOV = ROI 月收入区间 / 理论月单量（整数；与 price_per_unit、profit_model.unit_price 同源）",
       "price_per_unit": {
         "min": 50,
         "max": 400,
@@ -45702,6 +46255,11 @@
           "profit": 3800
         }
       ]
+    },
+    "aov_source": "roi_reverse",
+    "aov": {
+      "min": 50,
+      "max": 400
     }
   },
   {
@@ -46190,6 +46748,8 @@
           "basis": "单位固定成本×理论单量"
         }
       ],
+      "aov_source": "roi_reverse",
+      "aov_basis": "与 unit_economics.price_per_unit 同源：ROI 月收入 / 理论月单量",
       "unit_price": {
         "min": 50,
         "max": 400
@@ -46325,6 +46885,8 @@
       "basis": "按 crossborder 行业默认比例拆分；合计严格等于 roi.capital / conditions.capital"
     },
     "unit_economics": {
+      "aov_source": "roi_reverse",
+      "aov_basis": "AOV = ROI 月收入区间 / 理论月单量（整数；与 price_per_unit、profit_model.unit_price 同源）",
       "price_per_unit": {
         "min": 50,
         "max": 400,
@@ -46437,6 +46999,11 @@
           "profit": 3000
         }
       ]
+    },
+    "aov_source": "roi_reverse",
+    "aov": {
+      "min": 50,
+      "max": 400
     }
   },
   {
@@ -46935,6 +47502,8 @@
           "basis": "单位固定成本×理论单量"
         }
       ],
+      "aov_source": "roi_reverse",
+      "aov_basis": "与 unit_economics.price_per_unit 同源：ROI 月收入 / 理论月单量",
       "unit_price": {
         "min": 250,
         "max": 1500
@@ -47070,6 +47639,8 @@
       "basis": "按 crossborder 行业默认比例拆分；合计严格等于 roi.capital / conditions.capital"
     },
     "unit_economics": {
+      "aov_source": "roi_reverse",
+      "aov_basis": "AOV = ROI 月收入区间 / 理论月单量（整数；与 price_per_unit、profit_model.unit_price 同源）",
       "price_per_unit": {
         "min": 250,
         "max": 1500,
@@ -47182,6 +47753,11 @@
           "profit": 10000
         }
       ]
+    },
+    "aov_source": "roi_reverse",
+    "aov": {
+      "min": 250,
+      "max": 1500
     }
   },
   {
@@ -47681,6 +48257,8 @@
           "basis": "单位固定成本×理论单量"
         }
       ],
+      "aov_source": "roi_reverse",
+      "aov_basis": "与 unit_economics.price_per_unit 同源：ROI 月收入 / 理论月单量",
       "unit_price": {
         "min": 25,
         "max": 150
@@ -47816,6 +48394,8 @@
       "basis": "按 emotional 行业默认比例拆分；合计严格等于 roi.capital / conditions.capital"
     },
     "unit_economics": {
+      "aov_source": "roi_reverse",
+      "aov_basis": "AOV = ROI 月收入区间 / 理论月单量（整数；与 price_per_unit、profit_model.unit_price 同源）",
       "price_per_unit": {
         "min": 25,
         "max": 150,
@@ -47928,6 +48508,11 @@
           "profit": 1800
         }
       ]
+    },
+    "aov_source": "roi_reverse",
+    "aov": {
+      "min": 25,
+      "max": 150
     }
   },
   {
@@ -48428,6 +49013,8 @@
           "basis": "单位固定成本×理论单量"
         }
       ],
+      "aov_source": "roi_reverse",
+      "aov_basis": "与 unit_economics.price_per_unit 同源：ROI 月收入 / 理论月单量",
       "unit_price": {
         "min": 50,
         "max": 250
@@ -48563,6 +49150,8 @@
       "basis": "按 compliance 行业默认比例拆分；合计严格等于 roi.capital / conditions.capital"
     },
     "unit_economics": {
+      "aov_source": "roi_reverse",
+      "aov_basis": "AOV = ROI 月收入区间 / 理论月单量（整数；与 price_per_unit、profit_model.unit_price 同源）",
       "price_per_unit": {
         "min": 50,
         "max": 250,
@@ -48675,6 +49264,11 @@
           "profit": 3000
         }
       ]
+    },
+    "aov_source": "roi_reverse",
+    "aov": {
+      "min": 50,
+      "max": 250
     }
   },
   {
@@ -49163,6 +49757,8 @@
           "basis": "单位固定成本×理论单量"
         }
       ],
+      "aov_source": "roi_reverse",
+      "aov_basis": "与 unit_economics.price_per_unit 同源：ROI 月收入 / 理论月单量",
       "unit_price": {
         "min": 50,
         "max": 250
@@ -49298,6 +49894,8 @@
       "basis": "按 compliance 行业默认比例拆分；合计严格等于 roi.capital / conditions.capital"
     },
     "unit_economics": {
+      "aov_source": "roi_reverse",
+      "aov_basis": "AOV = ROI 月收入区间 / 理论月单量（整数；与 price_per_unit、profit_model.unit_price 同源）",
       "price_per_unit": {
         "min": 50,
         "max": 250,
@@ -49410,6 +50008,11 @@
           "profit": 2200
         }
       ]
+    },
+    "aov_source": "roi_reverse",
+    "aov": {
+      "min": 50,
+      "max": 250
     }
   },
   {
@@ -49909,6 +50512,8 @@
           "basis": "单位固定成本×理论单量"
         }
       ],
+      "aov_source": "roi_reverse",
+      "aov_basis": "与 unit_economics.price_per_unit 同源：ROI 月收入 / 理论月单量",
       "unit_price": {
         "min": 25,
         "max": 150
@@ -50044,6 +50649,8 @@
       "basis": "按 local 行业默认比例拆分；合计严格等于 roi.capital / conditions.capital"
     },
     "unit_economics": {
+      "aov_source": "roi_reverse",
+      "aov_basis": "AOV = ROI 月收入区间 / 理论月单量（整数；与 price_per_unit、profit_model.unit_price 同源）",
       "price_per_unit": {
         "min": 25,
         "max": 150,
@@ -50156,6 +50763,11 @@
           "profit": 1400
         }
       ]
+    },
+    "aov_source": "roi_reverse",
+    "aov": {
+      "min": 25,
+      "max": 150
     }
   },
   {
@@ -50645,6 +51257,8 @@
           "basis": "单位固定成本×理论单量"
         }
       ],
+      "aov_source": "roi_reverse",
+      "aov_basis": "与 unit_economics.price_per_unit 同源：ROI 月收入 / 理论月单量",
       "unit_price": {
         "min": 50,
         "max": 250
@@ -50780,6 +51394,8 @@
       "basis": "按 crossborder 行业默认比例拆分；合计严格等于 roi.capital / conditions.capital"
     },
     "unit_economics": {
+      "aov_source": "roi_reverse",
+      "aov_basis": "AOV = ROI 月收入区间 / 理论月单量（整数；与 price_per_unit、profit_model.unit_price 同源）",
       "price_per_unit": {
         "min": 50,
         "max": 250,
@@ -50892,6 +51508,11 @@
           "profit": 3400
         }
       ]
+    },
+    "aov_source": "roi_reverse",
+    "aov": {
+      "min": 50,
+      "max": 250
     }
   },
   {
@@ -51379,6 +52000,8 @@
           "basis": "单位固定成本×理论单量"
         }
       ],
+      "aov_source": "roi_reverse",
+      "aov_basis": "与 unit_economics.price_per_unit 同源：ROI 月收入 / 理论月单量",
       "unit_price": {
         "min": 50,
         "max": 250
@@ -51514,6 +52137,8 @@
       "basis": "按 emotional 行业默认比例拆分；合计严格等于 roi.capital / conditions.capital"
     },
     "unit_economics": {
+      "aov_source": "roi_reverse",
+      "aov_basis": "AOV = ROI 月收入区间 / 理论月单量（整数；与 price_per_unit、profit_model.unit_price 同源）",
       "price_per_unit": {
         "min": 50,
         "max": 250,
@@ -51626,6 +52251,11 @@
           "profit": 2600
         }
       ]
+    },
+    "aov_source": "roi_reverse",
+    "aov": {
+      "min": 50,
+      "max": 250
     }
   },
   {
@@ -52123,6 +52753,8 @@
           "basis": "单位固定成本×理论单量"
         }
       ],
+      "aov_source": "roi_reverse",
+      "aov_basis": "与 unit_economics.price_per_unit 同源：ROI 月收入 / 理论月单量",
       "unit_price": {
         "min": 10,
         "max": 100
@@ -52258,6 +52890,8 @@
       "basis": "按 ai 行业默认比例拆分；合计严格等于 roi.capital / conditions.capital"
     },
     "unit_economics": {
+      "aov_source": "roi_reverse",
+      "aov_basis": "AOV = ROI 月收入区间 / 理论月单量（整数；与 price_per_unit、profit_model.unit_price 同源）",
       "price_per_unit": {
         "min": 10,
         "max": 100,
@@ -52370,6 +53004,11 @@
           "profit": 400
         }
       ]
+    },
+    "aov_source": "roi_reverse",
+    "aov": {
+      "min": 10,
+      "max": 100
     }
   },
   {
@@ -52867,6 +53506,8 @@
           "basis": "单位固定成本×理论单量"
         }
       ],
+      "aov_source": "roi_reverse",
+      "aov_basis": "与 unit_economics.price_per_unit 同源：ROI 月收入 / 理论月单量",
       "unit_price": {
         "min": 25,
         "max": 250
@@ -53002,6 +53643,8 @@
       "basis": "按 ai 行业默认比例拆分；合计严格等于 roi.capital / conditions.capital"
     },
     "unit_economics": {
+      "aov_source": "roi_reverse",
+      "aov_basis": "AOV = ROI 月收入区间 / 理论月单量（整数；与 price_per_unit、profit_model.unit_price 同源）",
       "price_per_unit": {
         "min": 25,
         "max": 250,
@@ -53114,6 +53757,11 @@
           "profit": 2200
         }
       ]
+    },
+    "aov_source": "roi_reverse",
+    "aov": {
+      "min": 25,
+      "max": 250
     }
   },
   {
@@ -53603,6 +54251,8 @@
           "basis": "单位固定成本×理论单量"
         }
       ],
+      "aov_source": "roi_reverse",
+      "aov_basis": "与 unit_economics.price_per_unit 同源：ROI 月收入 / 理论月单量",
       "unit_price": {
         "min": 250,
         "max": 1500
@@ -53738,6 +54388,8 @@
       "basis": "按 manufacturing 行业默认比例拆分；合计严格等于 roi.capital / conditions.capital"
     },
     "unit_economics": {
+      "aov_source": "roi_reverse",
+      "aov_basis": "AOV = ROI 月收入区间 / 理论月单量（整数；与 price_per_unit、profit_model.unit_price 同源）",
       "price_per_unit": {
         "min": 250,
         "max": 1500,
@@ -53850,6 +54502,11 @@
           "profit": 10000
         }
       ]
+    },
+    "aov_source": "roi_reverse",
+    "aov": {
+      "min": 250,
+      "max": 1500
     }
   },
   {
@@ -54338,6 +54995,8 @@
           "basis": "单位固定成本×理论单量"
         }
       ],
+      "aov_source": "roi_reverse",
+      "aov_basis": "与 unit_economics.price_per_unit 同源：ROI 月收入 / 理论月单量",
       "unit_price": {
         "min": 50,
         "max": 250
@@ -54473,6 +55132,8 @@
       "basis": "按 green 行业默认比例拆分；合计严格等于 roi.capital / conditions.capital"
     },
     "unit_economics": {
+      "aov_source": "roi_reverse",
+      "aov_basis": "AOV = ROI 月收入区间 / 理论月单量（整数；与 price_per_unit、profit_model.unit_price 同源）",
       "price_per_unit": {
         "min": 50,
         "max": 250,
@@ -54585,6 +55246,11 @@
           "profit": 3800
         }
       ]
+    },
+    "aov_source": "roi_reverse",
+    "aov": {
+      "min": 50,
+      "max": 250
     }
   },
   {
@@ -55072,6 +55738,8 @@
           "basis": "单位固定成本×理论单量"
         }
       ],
+      "aov_source": "roi_reverse",
+      "aov_basis": "与 unit_economics.price_per_unit 同源：ROI 月收入 / 理论月单量",
       "unit_price": {
         "min": 50,
         "max": 250
@@ -55207,6 +55875,8 @@
       "basis": "按 content 行业默认比例拆分；合计严格等于 roi.capital / conditions.capital"
     },
     "unit_economics": {
+      "aov_source": "roi_reverse",
+      "aov_basis": "AOV = ROI 月收入区间 / 理论月单量（整数；与 price_per_unit、profit_model.unit_price 同源）",
       "price_per_unit": {
         "min": 50,
         "max": 250,
@@ -55319,6 +55989,11 @@
           "profit": 2200
         }
       ]
+    },
+    "aov_source": "roi_reverse",
+    "aov": {
+      "min": 50,
+      "max": 250
     }
   },
   {
@@ -55808,6 +56483,8 @@
           "basis": "单位固定成本×理论单量"
         }
       ],
+      "aov_source": "roi_reverse",
+      "aov_basis": "与 unit_economics.price_per_unit 同源：ROI 月收入 / 理论月单量",
       "unit_price": {
         "min": 25,
         "max": 150
@@ -55943,6 +56620,8 @@
       "basis": "按 crossborder 行业默认比例拆分；合计严格等于 roi.capital / conditions.capital"
     },
     "unit_economics": {
+      "aov_source": "roi_reverse",
+      "aov_basis": "AOV = ROI 月收入区间 / 理论月单量（整数；与 price_per_unit、profit_model.unit_price 同源）",
       "price_per_unit": {
         "min": 25,
         "max": 150,
@@ -56055,6 +56734,11 @@
           "profit": 1800
         }
       ]
+    },
+    "aov_source": "roi_reverse",
+    "aov": {
+      "min": 25,
+      "max": 150
     }
   },
   {
@@ -56553,6 +57237,8 @@
           "basis": "单位固定成本×理论单量"
         }
       ],
+      "aov_source": "roi_reverse",
+      "aov_basis": "与 unit_economics.price_per_unit 同源：ROI 月收入 / 理论月单量",
       "unit_price": {
         "min": 100,
         "max": 500
@@ -56688,6 +57374,8 @@
       "basis": "按 pet 行业默认比例拆分；合计严格等于 roi.capital / conditions.capital"
     },
     "unit_economics": {
+      "aov_source": "roi_reverse",
+      "aov_basis": "AOV = ROI 月收入区间 / 理论月单量（整数；与 price_per_unit、profit_model.unit_price 同源）",
       "price_per_unit": {
         "min": 100,
         "max": 500,
@@ -56800,6 +57488,11 @@
           "profit": 4400
         }
       ]
+    },
+    "aov_source": "roi_reverse",
+    "aov": {
+      "min": 100,
+      "max": 500
     }
   },
   {
@@ -57288,6 +57981,8 @@
           "basis": "单位固定成本×理论单量"
         }
       ],
+      "aov_source": "roi_reverse",
+      "aov_basis": "与 unit_economics.price_per_unit 同源：ROI 月收入 / 理论月单量",
       "unit_price": {
         "min": 250,
         "max": 1000
@@ -57423,6 +58118,8 @@
       "basis": "按 silver 行业默认比例拆分；合计严格等于 roi.capital / conditions.capital"
     },
     "unit_economics": {
+      "aov_source": "roi_reverse",
+      "aov_basis": "AOV = ROI 月收入区间 / 理论月单量（整数；与 price_per_unit、profit_model.unit_price 同源）",
       "price_per_unit": {
         "min": 250,
         "max": 1000,
@@ -57535,6 +58232,11 @@
           "profit": 7800
         }
       ]
+    },
+    "aov_source": "roi_reverse",
+    "aov": {
+      "min": 250,
+      "max": 1000
     }
   },
   {
@@ -58028,6 +58730,8 @@
           "basis": "单位固定成本×理论单量"
         }
       ],
+      "aov_source": "roi_reverse",
+      "aov_basis": "与 unit_economics.price_per_unit 同源：ROI 月收入 / 理论月单量",
       "unit_price": {
         "min": 50,
         "max": 250
@@ -58163,6 +58867,8 @@
       "basis": "按 content 行业默认比例拆分；合计严格等于 roi.capital / conditions.capital"
     },
     "unit_economics": {
+      "aov_source": "roi_reverse",
+      "aov_basis": "AOV = ROI 月收入区间 / 理论月单量（整数；与 price_per_unit、profit_model.unit_price 同源）",
       "price_per_unit": {
         "min": 50,
         "max": 250,
@@ -58275,6 +58981,11 @@
           "profit": 2600
         }
       ]
+    },
+    "aov_source": "roi_reverse",
+    "aov": {
+      "min": 50,
+      "max": 250
     }
   },
   {
@@ -58775,6 +59486,8 @@
           "basis": "单位固定成本×理论单量"
         }
       ],
+      "aov_source": "roi_reverse",
+      "aov_basis": "与 unit_economics.price_per_unit 同源：ROI 月收入 / 理论月单量",
       "unit_price": {
         "min": 100,
         "max": 500
@@ -58910,6 +59623,8 @@
       "basis": "按 crossborder 行业默认比例拆分；合计严格等于 roi.capital / conditions.capital"
     },
     "unit_economics": {
+      "aov_source": "roi_reverse",
+      "aov_basis": "AOV = ROI 月收入区间 / 理论月单量（整数；与 price_per_unit、profit_model.unit_price 同源）",
       "price_per_unit": {
         "min": 100,
         "max": 500,
@@ -59022,6 +59737,11 @@
           "profit": 4000
         }
       ]
+    },
+    "aov_source": "roi_reverse",
+    "aov": {
+      "min": 100,
+      "max": 500
     }
   }
 ]

@@ -19,7 +19,7 @@ export default function About() {
       />
 
       <Panel className="mb-3 p-4">
-        <div className="mono-label mb-2">{L('v1.5.0 更新', 'v1.5.0 changes')}</div>
+        <div className="mono-label mb-2">{L('v1.6.0 更新', 'v1.6.0 changes')}</div>
         <div className="grid grid-cols-1 gap-2.5 md:grid-cols-2">
           {[
             {
@@ -45,7 +45,7 @@ export default function About() {
           ))}
         </div>
         <div className="mt-2 rounded border border-cyan/25 bg-cyan/[0.05] px-3 py-2 text-[13px] leading-[1.7] text-cyan/90">
-          {L('v1.5.3 PATCH：图表口径修正——资金拆项全部从 0 对齐（实色下限/浅色上限/0 基线）、单位经济真瀑布严格勾稽（100−60=40，40−19=21）、敏感性新增盈亏平衡/当前竖线、收入结构中心文字加大内径不再遮挡；里程碑字段中文标签同步保留。', 'v1.5.3 PATCH: chart baselines fixed — capital bars aligned at 0 (solid low / light high / 0 axis), unit-economics waterfall reconciles exactly (100−60=40, 40−19=21), sensitivity adds break-even/current vertical lines, and the revenue-mix centre label no longer overlaps the ring; milestone labels kept.')}
+          {L('v1.6.0：候选数据扩展至 102 条（中文标题覆盖、无英文整句、无泛化标题），AOV 候选与精选统一为 roi_reverse 口径（ROI 月收入 ÷ 理论单量），经济驾驶舱 AOV 卡下显示来源；保留 v1.5.3 图表口径修正（0 基线、真瀑布勾稽、盈亏竖线、donut 居中）。', 'v1.6.0: auto candidates expanded to 102 (Chinese titles, no full English sentences, no generic titles); AOV unified to roi_reverse (ROI revenue ÷ theoretical orders) for both auto and curated, with the source shown under the AOV card; v1.5.3 chart fixes retained (0 baseline, reconciled waterfall, break-even lines, centred donut).')}
         </div>
       </Panel>
 

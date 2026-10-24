@@ -159,6 +159,8 @@ def build_economics(
         })
 
     unit_economics = {
+        "aov_source": "roi_reverse",
+        "aov_basis": "AOV = ROI 月收入区间 / 理论月单量（整数；与 price_per_unit、profit_model.unit_price 同源）",
         "price_per_unit": {"min": price_min, "max": price_max, "basis": "整数客单价；月收入锚定 ROI 后按单量反推"},
         "cost_per_unit": {"min": cost_min, "max": cost_max, "items": [{"name": "直接成本", "min": cost_min, "max": cost_max, "basis": "按毛利率反推"}], "basis": "单件采购/交付成本"},
         "gross_profit_per_unit": {"min": gross_min, "max": gross_max},
@@ -193,6 +195,8 @@ def build_economics(
             {"id": "cogs", "name": "商品/服务直接成本", "monthly_amount_min": variable_month_min, "monthly_amount_max": variable_month_max, "basis": "单位成本×理论单量"},
             {"id": "fixed", "name": "固定成本", "monthly_amount_min": fixed_month_min, "monthly_amount_max": fixed_month_max, "basis": "单位固定成本×理论单量"},
         ],
+        "aov_source": "roi_reverse",
+        "aov_basis": "与 unit_economics.price_per_unit 同源：ROI 月收入 / 理论月单量",
         "unit_price": {"min": price_min, "max": price_max},
         "monthly_orders": {"min": orders, "max": orders},
         "monthly_revenue": {"min": revenue_month_min, "max": revenue_month_max},
