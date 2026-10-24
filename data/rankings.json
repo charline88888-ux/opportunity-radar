@@ -1,12 +1,12 @@
 {
   "meta": {
     "data_version": "1.8.0",
-    "as_of": "2026-10-23",
+    "as_of": "2026-10-24",
     "generator": "scanner/pipeline.py",
     "window_rules": "day=last_activity==as_of; week=ISO week; month=YYYY-MM; year=YYYY",
     "delta_rules": "优先上一快照同窗口名次（delta=上期名次−本期名次）；无历史回退 adjacent-window：day←week, week←month, month←year, year 无参照",
     "delta_basis": "history",
-    "history_as_of": "2026-10-22",
+    "history_as_of": "2026-10-23",
     "tie_breaker": "rank_score desc, momentum desc, evidence_count desc, last_activity desc, opp_id asc",
     "quotas": {
       "day": 10,
@@ -23,10 +23,10 @@
   },
   "windows": {
     "day": {
-      "key": "2026-10-23",
-      "label": "2026年10月23日",
+      "key": "2026-10-24",
+      "label": "2026年10月24日",
       "count": 0,
-      "delta_basis": "history",
+      "delta_basis": "adjacent-window",
       "items": []
     },
     "week": {
