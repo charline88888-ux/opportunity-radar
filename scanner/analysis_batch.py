@@ -11,7 +11,10 @@ import json
 import os
 import sys
 import time
-import winreg
+try:
+    import winreg  # Windows only
+except ImportError:  # pragma: no cover - CI/Linux
+    winreg = None  # type: ignore[assignment]
 from pathlib import Path
 from typing import Any
 
@@ -33,8 +36,10 @@ ALLOWED_FIELDS = {
 
 
 def read_hkcu_env() -> dict[str, str]:
-    """读取用户级 HKCU\\Environment，不打印值。"""
+    """读取用户级 HKCU\\Environment，不打印值；非 Windows/CI 环境返回空并继续用进程 env。"""
     result: dict[str, str] = {}
+    if winreg is None:
+        return result
     try:
         with winreg.OpenKey(winreg.HKEY_CURRENT_USER, "Environment") as key:
             for name in ("DEEPSEEK_API_KEY", "DEEPSEEK_BASE_URL", "DEEPSEEK_MODEL"):
