@@ -5,12 +5,12 @@
     "generated_at": "2026-10-24T00:00:00+08:00",
     "generator": "scanner/candidates.py",
     "method": "按 first_seen 归属窗口；排序同 rank 规则（rank_score/momentum/evidence/last_activity/id）",
-    "total": 102,
+    "total": 97,
     "counts": {
-      "day": 10,
-      "week": 64,
-      "month": 92,
-      "year": 102
+      "day": 9,
+      "week": 60,
+      "month": 87,
+      "year": 97
     },
     "verification_affects_ranking": false,
     "note": "候选发现榜与精选人工榜（rankings.json，80 条）并行；系统评估仅用于发现与排序参考。"
@@ -20,7 +20,7 @@
       "window": "day",
       "key": "2026-10-24",
       "label": "2026年10月24日",
-      "count": 10,
+      "count": 9,
       "items": [
         {
           "candidate_id": "cand-36a3321b0981",
@@ -141,24 +141,8 @@
           "first_seen": "2026-10-24"
         },
         {
-          "candidate_id": "cand-84cb1d9b25be",
-          "rank": 8,
-          "total": 61.9,
-          "rank_score": 61.9,
-          "grade": "C",
-          "confidence": 72,
-          "title": "关税寻求75%进口关税作为印度进口",
-          "industry_ids": [
-            "crossborder"
-          ],
-          "region_ids": [
-            "south-asia"
-          ],
-          "first_seen": "2026-10-24"
-        },
-        {
           "candidate_id": "cand-1cda2d6623a6",
-          "rank": 9,
+          "rank": 8,
           "total": 60.2,
           "rank_score": 60.2,
           "grade": "C",
@@ -175,7 +159,7 @@
         },
         {
           "candidate_id": "cand-7dc89142212b",
-          "rank": 10,
+          "rank": 9,
           "total": 58.0,
           "rank_score": 58.0,
           "grade": "C",
@@ -195,7 +179,7 @@
       "window": "week",
       "key": "2026-W43",
       "label": "2026年第43周",
-      "count": 64,
+      "count": 60,
       "items": [
         {
           "candidate_id": "cand-ea70f74fdd9e",
@@ -232,24 +216,8 @@
           "first_seen": "2026-10-23"
         },
         {
-          "candidate_id": "cand-3e2aa3889e64",
-          "rank": 3,
-          "total": 73.2,
-          "rank_score": 73.2,
-          "grade": "B",
-          "confidence": 72,
-          "title": "筑放心消费高地绘民生幸福底色——深圳市市场监督管理局龙华监管局全",
-          "industry_ids": [
-            "compliance"
-          ],
-          "region_ids": [
-            "china"
-          ],
-          "first_seen": "2026-10-22"
-        },
-        {
           "candidate_id": "cand-5195b340dea1",
-          "rank": 4,
+          "rank": 3,
           "total": 72.8,
           "rank_score": 72.8,
           "grade": "B",
@@ -267,7 +235,7 @@
         },
         {
           "candidate_id": "cand-edc7b59ef2e8",
-          "rank": 5,
+          "rank": 4,
           "total": 72.8,
           "rank_score": 72.8,
           "grade": "B",
@@ -279,6 +247,22 @@
           "region_ids": [
             "mena",
             "north-america"
+          ],
+          "first_seen": "2026-10-22"
+        },
+        {
+          "candidate_id": "cand-f91a670d9179",
+          "rank": 5,
+          "total": 72.0,
+          "rank_score": 72.0,
+          "grade": "B",
+          "confidence": 95,
+          "title": "非洲物流融资7.8亿美元超越金融科技",
+          "industry_ids": [
+            "fintech"
+          ],
+          "region_ids": [
+            "africa"
           ],
           "first_seen": "2026-10-22"
         },
@@ -454,24 +438,8 @@
           "first_seen": "2026-10-21"
         },
         {
-          "candidate_id": "cand-0af455efc323",
-          "rank": 16,
-          "total": 69.2,
-          "rank_score": 69.2,
-          "grade": "B",
-          "confidence": 92,
-          "title": "宠物诊疗争议引出监管空白",
-          "industry_ids": [
-            "compliance"
-          ],
-          "region_ids": [
-            "china"
-          ],
-          "first_seen": "2026-10-22"
-        },
-        {
           "candidate_id": "cand-2944f06b5fc9",
-          "rank": 17,
+          "rank": 16,
           "total": 68.7,
           "rank_score": 68.7,
           "grade": "B",
@@ -487,7 +455,7 @@
         },
         {
           "candidate_id": "cand-d578f54161e3",
-          "rank": 18,
+          "rank": 17,
           "total": 68.5,
           "rank_score": 68.5,
           "grade": "B",
@@ -504,7 +472,7 @@
         },
         {
           "candidate_id": "cand-646c34c53db9",
-          "rank": 19,
+          "rank": 18,
           "total": 68.5,
           "rank_score": 68.5,
           "grade": "B",
@@ -521,7 +489,7 @@
         },
         {
           "candidate_id": "cand-bf01cdffc9fe",
-          "rank": 20,
+          "rank": 19,
           "total": 68.3,
           "rank_score": 68.3,
           "grade": "B",
@@ -537,7 +505,7 @@
         },
         {
           "candidate_id": "cand-178a922004e3",
-          "rank": 21,
+          "rank": 20,
           "total": 68.2,
           "rank_score": 68.2,
           "grade": "B",
@@ -555,7 +523,7 @@
         },
         {
           "candidate_id": "cand-4d6fb4dcef8d",
-          "rank": 22,
+          "rank": 21,
           "total": 68.2,
           "rank_score": 68.2,
           "grade": "B",
@@ -572,7 +540,7 @@
         },
         {
           "candidate_id": "cand-5dfb2e371f8a",
-          "rank": 23,
+          "rank": 22,
           "total": 68.2,
           "rank_score": 68.2,
           "grade": "B",
@@ -590,7 +558,7 @@
         },
         {
           "candidate_id": "cand-51414c40aacd",
-          "rank": 24,
+          "rank": 23,
           "total": 67.8,
           "rank_score": 67.8,
           "grade": "B",
@@ -607,7 +575,7 @@
         },
         {
           "candidate_id": "cand-351b9e3eaf6f",
-          "rank": 25,
+          "rank": 24,
           "total": 67.7,
           "rank_score": 67.7,
           "grade": "B",
@@ -624,7 +592,7 @@
         },
         {
           "candidate_id": "cand-ac8ae5de0f0a",
-          "rank": 26,
+          "rank": 25,
           "total": 67.6,
           "rank_score": 67.6,
           "grade": "B",
@@ -640,7 +608,7 @@
         },
         {
           "candidate_id": "cand-410072f719ac",
-          "rank": 27,
+          "rank": 26,
           "total": 67.4,
           "rank_score": 67.4,
           "grade": "B",
@@ -657,7 +625,7 @@
         },
         {
           "candidate_id": "cand-d8666f471584",
-          "rank": 28,
+          "rank": 27,
           "total": 67.4,
           "rank_score": 67.4,
           "grade": "B",
@@ -675,7 +643,7 @@
         },
         {
           "candidate_id": "cand-3a416042984e",
-          "rank": 29,
+          "rank": 28,
           "total": 67.3,
           "rank_score": 67.3,
           "grade": "B",
@@ -692,7 +660,7 @@
         },
         {
           "candidate_id": "cand-206bedfcf0e3",
-          "rank": 30,
+          "rank": 29,
           "total": 67.2,
           "rank_score": 67.2,
           "grade": "B",
@@ -709,7 +677,7 @@
         },
         {
           "candidate_id": "cand-eee35ee66ecd",
-          "rank": 31,
+          "rank": 30,
           "total": 67.1,
           "rank_score": 67.1,
           "grade": "B",
@@ -726,7 +694,7 @@
         },
         {
           "candidate_id": "cand-8f83815e0f18",
-          "rank": 32,
+          "rank": 31,
           "total": 67.0,
           "rank_score": 67.0,
           "grade": "B",
@@ -744,7 +712,7 @@
         },
         {
           "candidate_id": "cand-7d26687f9867",
-          "rank": 33,
+          "rank": 32,
           "total": 67.0,
           "rank_score": 67.0,
           "grade": "B",
@@ -760,7 +728,7 @@
         },
         {
           "candidate_id": "cand-d4b53a931286",
-          "rank": 34,
+          "rank": 33,
           "total": 66.9,
           "rank_score": 66.9,
           "grade": "B",
@@ -777,7 +745,7 @@
         },
         {
           "candidate_id": "cand-940a96291507",
-          "rank": 35,
+          "rank": 34,
           "total": 66.8,
           "rank_score": 66.8,
           "grade": "B",
@@ -794,7 +762,7 @@
         },
         {
           "candidate_id": "cand-c0e83c6a4535",
-          "rank": 36,
+          "rank": 35,
           "total": 66.8,
           "rank_score": 66.8,
           "grade": "B",
@@ -812,7 +780,7 @@
         },
         {
           "candidate_id": "cand-07478484f58c",
-          "rank": 37,
+          "rank": 36,
           "total": 66.7,
           "rank_score": 66.7,
           "grade": "B",
@@ -829,7 +797,7 @@
         },
         {
           "candidate_id": "cand-e7f8fd55f9b2",
-          "rank": 38,
+          "rank": 37,
           "total": 66.7,
           "rank_score": 66.7,
           "grade": "B",
@@ -846,7 +814,7 @@
         },
         {
           "candidate_id": "cand-c65ecec8f511",
-          "rank": 39,
+          "rank": 38,
           "total": 66.6,
           "rank_score": 66.6,
           "grade": "B",
@@ -863,7 +831,7 @@
         },
         {
           "candidate_id": "cand-2d4507cad0c3",
-          "rank": 40,
+          "rank": 39,
           "total": 66.4,
           "rank_score": 66.4,
           "grade": "B",
@@ -881,7 +849,7 @@
         },
         {
           "candidate_id": "cand-e43718bf5a0d",
-          "rank": 41,
+          "rank": 40,
           "total": 66.3,
           "rank_score": 66.3,
           "grade": "B",
@@ -898,7 +866,7 @@
         },
         {
           "candidate_id": "cand-21e21d169ae1",
-          "rank": 42,
+          "rank": 41,
           "total": 66.2,
           "rank_score": 66.2,
           "grade": "B",
@@ -915,7 +883,7 @@
         },
         {
           "candidate_id": "cand-f80966f3e049",
-          "rank": 43,
+          "rank": 42,
           "total": 65.9,
           "rank_score": 65.9,
           "grade": "B",
@@ -932,7 +900,7 @@
         },
         {
           "candidate_id": "cand-86819ae1a171",
-          "rank": 44,
+          "rank": 43,
           "total": 65.9,
           "rank_score": 65.9,
           "grade": "B",
@@ -948,7 +916,7 @@
         },
         {
           "candidate_id": "cand-e25021bea9ea",
-          "rank": 45,
+          "rank": 44,
           "total": 65.7,
           "rank_score": 65.7,
           "grade": "B",
@@ -964,7 +932,7 @@
         },
         {
           "candidate_id": "cand-d655749048d6",
-          "rank": 46,
+          "rank": 45,
           "total": 65.2,
           "rank_score": 65.2,
           "grade": "B",
@@ -980,7 +948,7 @@
         },
         {
           "candidate_id": "cand-88d86d646be9",
-          "rank": 47,
+          "rank": 46,
           "total": 65.1,
           "rank_score": 65.1,
           "grade": "B",
@@ -997,7 +965,7 @@
         },
         {
           "candidate_id": "cand-4ba54f6df430",
-          "rank": 48,
+          "rank": 47,
           "total": 64.7,
           "rank_score": 64.7,
           "grade": "C",
@@ -1013,25 +981,8 @@
           "first_seen": "2026-10-19"
         },
         {
-          "candidate_id": "cand-ab5be876953a",
-          "rank": 49,
-          "total": 64.5,
-          "rank_score": 64.5,
-          "grade": "C",
-          "confidence": 72,
-          "title": "非洲扩张太阳能到59.5作为市场开发",
-          "industry_ids": [
-            "green"
-          ],
-          "region_ids": [
-            "africa",
-            "north-america"
-          ],
-          "first_seen": "2026-10-23"
-        },
-        {
           "candidate_id": "cand-a3d130e2442d",
-          "rank": 50,
+          "rank": 48,
           "total": 63.7,
           "rank_score": 63.7,
           "grade": "C",
@@ -1049,7 +1000,7 @@
         },
         {
           "candidate_id": "cand-b58b9a51a564",
-          "rank": 51,
+          "rank": 49,
           "total": 63.6,
           "rank_score": 63.6,
           "grade": "C",
@@ -1066,7 +1017,7 @@
         },
         {
           "candidate_id": "cand-fa2f0eaa7f67",
-          "rank": 52,
+          "rank": 50,
           "total": 63.6,
           "rank_score": 63.6,
           "grade": "C",
@@ -1082,7 +1033,7 @@
         },
         {
           "candidate_id": "cand-9d226549d428",
-          "rank": 53,
+          "rank": 51,
           "total": 63.4,
           "rank_score": 63.4,
           "grade": "C",
@@ -1098,7 +1049,7 @@
         },
         {
           "candidate_id": "cand-1918e969009b",
-          "rank": 54,
+          "rank": 52,
           "total": 63.2,
           "rank_score": 63.2,
           "grade": "C",
@@ -1116,7 +1067,7 @@
         },
         {
           "candidate_id": "cand-477021034e2c",
-          "rank": 55,
+          "rank": 53,
           "total": 63.2,
           "rank_score": 63.2,
           "grade": "C",
@@ -1133,7 +1084,7 @@
         },
         {
           "candidate_id": "cand-54ac1b8def35",
-          "rank": 56,
+          "rank": 54,
           "total": 62.9,
           "rank_score": 62.9,
           "grade": "C",
@@ -1150,40 +1101,8 @@
           "first_seen": "2026-10-19"
         },
         {
-          "candidate_id": "cand-82084b1afb47",
-          "rank": 57,
-          "total": 62.6,
-          "rank_score": 62.6,
-          "grade": "C",
-          "confidence": 74,
-          "title": "内罗毕需求百万来自在版权授权",
-          "industry_ids": [
-            "content"
-          ],
-          "region_ids": [
-            "africa"
-          ],
-          "first_seen": "2026-10-23"
-        },
-        {
-          "candidate_id": "cand-84cb1d9b25be",
-          "rank": 58,
-          "total": 61.9,
-          "rank_score": 61.9,
-          "grade": "C",
-          "confidence": 72,
-          "title": "关税寻求75%进口关税作为印度进口",
-          "industry_ids": [
-            "crossborder"
-          ],
-          "region_ids": [
-            "south-asia"
-          ],
-          "first_seen": "2026-10-24"
-        },
-        {
           "candidate_id": "cand-cf9ce9b52e48",
-          "rank": 59,
+          "rank": 55,
           "total": 61.5,
           "rank_score": 61.5,
           "grade": "C",
@@ -1200,7 +1119,7 @@
         },
         {
           "candidate_id": "cand-89a862f8ad31",
-          "rank": 60,
+          "rank": 56,
           "total": 60.2,
           "rank_score": 60.2,
           "grade": "C",
@@ -1217,7 +1136,7 @@
         },
         {
           "candidate_id": "cand-1cda2d6623a6",
-          "rank": 61,
+          "rank": 57,
           "total": 60.2,
           "rank_score": 60.2,
           "grade": "C",
@@ -1234,7 +1153,7 @@
         },
         {
           "candidate_id": "cand-ee0f2593e6fe",
-          "rank": 62,
+          "rank": 58,
           "total": 59.0,
           "rank_score": 59.0,
           "grade": "C",
@@ -1251,7 +1170,7 @@
         },
         {
           "candidate_id": "cand-b34627a8d41e",
-          "rank": 63,
+          "rank": 59,
           "total": 58.9,
           "rank_score": 58.9,
           "grade": "C",
@@ -1268,7 +1187,7 @@
         },
         {
           "candidate_id": "cand-7dc89142212b",
-          "rank": 64,
+          "rank": 60,
           "total": 58.0,
           "rank_score": 58.0,
           "grade": "C",
@@ -1288,7 +1207,7 @@
       "window": "month",
       "key": "2026-10",
       "label": "2026年10月",
-      "count": 92,
+      "count": 87,
       "items": [
         {
           "candidate_id": "cand-ea70f74fdd9e",
@@ -1325,24 +1244,8 @@
           "first_seen": "2026-10-23"
         },
         {
-          "candidate_id": "cand-3e2aa3889e64",
-          "rank": 3,
-          "total": 73.2,
-          "rank_score": 73.2,
-          "grade": "B",
-          "confidence": 72,
-          "title": "筑放心消费高地绘民生幸福底色——深圳市市场监督管理局龙华监管局全",
-          "industry_ids": [
-            "compliance"
-          ],
-          "region_ids": [
-            "china"
-          ],
-          "first_seen": "2026-10-22"
-        },
-        {
           "candidate_id": "cand-5195b340dea1",
-          "rank": 4,
+          "rank": 3,
           "total": 72.8,
           "rank_score": 72.8,
           "grade": "B",
@@ -1360,7 +1263,7 @@
         },
         {
           "candidate_id": "cand-edc7b59ef2e8",
-          "rank": 5,
+          "rank": 4,
           "total": 72.8,
           "rank_score": 72.8,
           "grade": "B",
@@ -1377,7 +1280,7 @@
         },
         {
           "candidate_id": "cand-afbdca96dbc7",
-          "rank": 6,
+          "rank": 5,
           "total": 72.4,
           "rank_score": 72.4,
           "grade": "B",
@@ -1390,6 +1293,22 @@
             "east-asia"
           ],
           "first_seen": "2026-10-16"
+        },
+        {
+          "candidate_id": "cand-f91a670d9179",
+          "rank": 6,
+          "total": 72.0,
+          "rank_score": 72.0,
+          "grade": "B",
+          "confidence": 95,
+          "title": "非洲物流融资7.8亿美元超越金融科技",
+          "industry_ids": [
+            "fintech"
+          ],
+          "region_ids": [
+            "africa"
+          ],
+          "first_seen": "2026-10-22"
         },
         {
           "candidate_id": "cand-765fcab13cd7",
@@ -1632,24 +1551,8 @@
           "first_seen": "2026-10-21"
         },
         {
-          "candidate_id": "cand-0af455efc323",
-          "rank": 21,
-          "total": 69.2,
-          "rank_score": 69.2,
-          "grade": "B",
-          "confidence": 92,
-          "title": "宠物诊疗争议引出监管空白",
-          "industry_ids": [
-            "compliance"
-          ],
-          "region_ids": [
-            "china"
-          ],
-          "first_seen": "2026-10-22"
-        },
-        {
           "candidate_id": "cand-e4763370cb58",
-          "rank": 22,
+          "rank": 21,
           "total": 68.7,
           "rank_score": 68.7,
           "grade": "B",
@@ -1666,7 +1569,7 @@
         },
         {
           "candidate_id": "cand-2944f06b5fc9",
-          "rank": 23,
+          "rank": 22,
           "total": 68.7,
           "rank_score": 68.7,
           "grade": "B",
@@ -1682,7 +1585,7 @@
         },
         {
           "candidate_id": "cand-d578f54161e3",
-          "rank": 24,
+          "rank": 23,
           "total": 68.5,
           "rank_score": 68.5,
           "grade": "B",
@@ -1699,7 +1602,7 @@
         },
         {
           "candidate_id": "cand-646c34c53db9",
-          "rank": 25,
+          "rank": 24,
           "total": 68.5,
           "rank_score": 68.5,
           "grade": "B",
@@ -1716,7 +1619,7 @@
         },
         {
           "candidate_id": "cand-bf01cdffc9fe",
-          "rank": 26,
+          "rank": 25,
           "total": 68.3,
           "rank_score": 68.3,
           "grade": "B",
@@ -1732,7 +1635,7 @@
         },
         {
           "candidate_id": "cand-178a922004e3",
-          "rank": 27,
+          "rank": 26,
           "total": 68.2,
           "rank_score": 68.2,
           "grade": "B",
@@ -1750,7 +1653,7 @@
         },
         {
           "candidate_id": "cand-4d6fb4dcef8d",
-          "rank": 28,
+          "rank": 27,
           "total": 68.2,
           "rank_score": 68.2,
           "grade": "B",
@@ -1767,7 +1670,7 @@
         },
         {
           "candidate_id": "cand-5dfb2e371f8a",
-          "rank": 29,
+          "rank": 28,
           "total": 68.2,
           "rank_score": 68.2,
           "grade": "B",
@@ -1785,7 +1688,7 @@
         },
         {
           "candidate_id": "cand-55efdc73d39d",
-          "rank": 30,
+          "rank": 29,
           "total": 68.1,
           "rank_score": 68.1,
           "grade": "B",
@@ -1802,7 +1705,7 @@
         },
         {
           "candidate_id": "cand-680c9c708699",
-          "rank": 31,
+          "rank": 30,
           "total": 68.0,
           "rank_score": 68.0,
           "grade": "B",
@@ -1819,7 +1722,7 @@
         },
         {
           "candidate_id": "cand-51414c40aacd",
-          "rank": 32,
+          "rank": 31,
           "total": 67.8,
           "rank_score": 67.8,
           "grade": "B",
@@ -1836,7 +1739,7 @@
         },
         {
           "candidate_id": "cand-351b9e3eaf6f",
-          "rank": 33,
+          "rank": 32,
           "total": 67.7,
           "rank_score": 67.7,
           "grade": "B",
@@ -1853,7 +1756,7 @@
         },
         {
           "candidate_id": "cand-2176a18c2025",
-          "rank": 34,
+          "rank": 33,
           "total": 67.6,
           "rank_score": 67.6,
           "grade": "B",
@@ -1870,7 +1773,7 @@
         },
         {
           "candidate_id": "cand-ac8ae5de0f0a",
-          "rank": 35,
+          "rank": 34,
           "total": 67.6,
           "rank_score": 67.6,
           "grade": "B",
@@ -1886,7 +1789,7 @@
         },
         {
           "candidate_id": "cand-410072f719ac",
-          "rank": 36,
+          "rank": 35,
           "total": 67.4,
           "rank_score": 67.4,
           "grade": "B",
@@ -1903,7 +1806,7 @@
         },
         {
           "candidate_id": "cand-d8666f471584",
-          "rank": 37,
+          "rank": 36,
           "total": 67.4,
           "rank_score": 67.4,
           "grade": "B",
@@ -1921,7 +1824,7 @@
         },
         {
           "candidate_id": "cand-3a416042984e",
-          "rank": 38,
+          "rank": 37,
           "total": 67.3,
           "rank_score": 67.3,
           "grade": "B",
@@ -1938,7 +1841,7 @@
         },
         {
           "candidate_id": "cand-206bedfcf0e3",
-          "rank": 39,
+          "rank": 38,
           "total": 67.2,
           "rank_score": 67.2,
           "grade": "B",
@@ -1955,7 +1858,7 @@
         },
         {
           "candidate_id": "cand-eee35ee66ecd",
-          "rank": 40,
+          "rank": 39,
           "total": 67.1,
           "rank_score": 67.1,
           "grade": "B",
@@ -1972,7 +1875,7 @@
         },
         {
           "candidate_id": "cand-8f83815e0f18",
-          "rank": 41,
+          "rank": 40,
           "total": 67.0,
           "rank_score": 67.0,
           "grade": "B",
@@ -1990,7 +1893,7 @@
         },
         {
           "candidate_id": "cand-7d26687f9867",
-          "rank": 42,
+          "rank": 41,
           "total": 67.0,
           "rank_score": 67.0,
           "grade": "B",
@@ -2006,7 +1909,7 @@
         },
         {
           "candidate_id": "cand-d4b53a931286",
-          "rank": 43,
+          "rank": 42,
           "total": 66.9,
           "rank_score": 66.9,
           "grade": "B",
@@ -2023,7 +1926,7 @@
         },
         {
           "candidate_id": "cand-940a96291507",
-          "rank": 44,
+          "rank": 43,
           "total": 66.8,
           "rank_score": 66.8,
           "grade": "B",
@@ -2040,7 +1943,7 @@
         },
         {
           "candidate_id": "cand-c0e83c6a4535",
-          "rank": 45,
+          "rank": 44,
           "total": 66.8,
           "rank_score": 66.8,
           "grade": "B",
@@ -2058,7 +1961,7 @@
         },
         {
           "candidate_id": "cand-07478484f58c",
-          "rank": 46,
+          "rank": 45,
           "total": 66.7,
           "rank_score": 66.7,
           "grade": "B",
@@ -2075,7 +1978,7 @@
         },
         {
           "candidate_id": "cand-e7f8fd55f9b2",
-          "rank": 47,
+          "rank": 46,
           "total": 66.7,
           "rank_score": 66.7,
           "grade": "B",
@@ -2092,7 +1995,7 @@
         },
         {
           "candidate_id": "cand-c65ecec8f511",
-          "rank": 48,
+          "rank": 47,
           "total": 66.6,
           "rank_score": 66.6,
           "grade": "B",
@@ -2109,7 +2012,7 @@
         },
         {
           "candidate_id": "cand-572ed9d6fb73",
-          "rank": 49,
+          "rank": 48,
           "total": 66.5,
           "rank_score": 66.5,
           "grade": "B",
@@ -2126,7 +2029,7 @@
         },
         {
           "candidate_id": "cand-73afddd879d5",
-          "rank": 50,
+          "rank": 49,
           "total": 66.5,
           "rank_score": 66.5,
           "grade": "B",
@@ -2143,7 +2046,7 @@
         },
         {
           "candidate_id": "cand-94c91fed03c6",
-          "rank": 51,
+          "rank": 50,
           "total": 66.4,
           "rank_score": 66.4,
           "grade": "B",
@@ -2161,7 +2064,7 @@
         },
         {
           "candidate_id": "cand-2d4507cad0c3",
-          "rank": 52,
+          "rank": 51,
           "total": 66.4,
           "rank_score": 66.4,
           "grade": "B",
@@ -2179,7 +2082,7 @@
         },
         {
           "candidate_id": "cand-4907282d8a46",
-          "rank": 53,
+          "rank": 52,
           "total": 66.3,
           "rank_score": 66.3,
           "grade": "B",
@@ -2197,7 +2100,7 @@
         },
         {
           "candidate_id": "cand-e43718bf5a0d",
-          "rank": 54,
+          "rank": 53,
           "total": 66.3,
           "rank_score": 66.3,
           "grade": "B",
@@ -2214,7 +2117,7 @@
         },
         {
           "candidate_id": "cand-58d8ba9e0622",
-          "rank": 55,
+          "rank": 54,
           "total": 66.2,
           "rank_score": 66.2,
           "grade": "B",
@@ -2231,7 +2134,7 @@
         },
         {
           "candidate_id": "cand-21e21d169ae1",
-          "rank": 56,
+          "rank": 55,
           "total": 66.2,
           "rank_score": 66.2,
           "grade": "B",
@@ -2248,7 +2151,7 @@
         },
         {
           "candidate_id": "cand-f80966f3e049",
-          "rank": 57,
+          "rank": 56,
           "total": 65.9,
           "rank_score": 65.9,
           "grade": "B",
@@ -2265,7 +2168,7 @@
         },
         {
           "candidate_id": "cand-86819ae1a171",
-          "rank": 58,
+          "rank": 57,
           "total": 65.9,
           "rank_score": 65.9,
           "grade": "B",
@@ -2281,7 +2184,7 @@
         },
         {
           "candidate_id": "cand-e25021bea9ea",
-          "rank": 59,
+          "rank": 58,
           "total": 65.7,
           "rank_score": 65.7,
           "grade": "B",
@@ -2297,7 +2200,7 @@
         },
         {
           "candidate_id": "cand-5be2d3dd2a05",
-          "rank": 60,
+          "rank": 59,
           "total": 65.2,
           "rank_score": 65.2,
           "grade": "B",
@@ -2315,7 +2218,7 @@
         },
         {
           "candidate_id": "cand-d655749048d6",
-          "rank": 61,
+          "rank": 60,
           "total": 65.2,
           "rank_score": 65.2,
           "grade": "B",
@@ -2331,7 +2234,7 @@
         },
         {
           "candidate_id": "cand-0af2e020f623",
-          "rank": 62,
+          "rank": 61,
           "total": 65.1,
           "rank_score": 65.1,
           "grade": "B",
@@ -2348,7 +2251,7 @@
         },
         {
           "candidate_id": "cand-88d86d646be9",
-          "rank": 63,
+          "rank": 62,
           "total": 65.1,
           "rank_score": 65.1,
           "grade": "B",
@@ -2365,7 +2268,7 @@
         },
         {
           "candidate_id": "cand-4ba54f6df430",
-          "rank": 64,
+          "rank": 63,
           "total": 64.7,
           "rank_score": 64.7,
           "grade": "C",
@@ -2382,7 +2285,7 @@
         },
         {
           "candidate_id": "cand-110df7f6d535",
-          "rank": 65,
+          "rank": 64,
           "total": 64.6,
           "rank_score": 64.6,
           "grade": "C",
@@ -2399,7 +2302,7 @@
         },
         {
           "candidate_id": "cand-957f288e7b39",
-          "rank": 66,
+          "rank": 65,
           "total": 64.6,
           "rank_score": 64.6,
           "grade": "C",
@@ -2415,25 +2318,8 @@
           "first_seen": "2026-10-14"
         },
         {
-          "candidate_id": "cand-ab5be876953a",
-          "rank": 67,
-          "total": 64.5,
-          "rank_score": 64.5,
-          "grade": "C",
-          "confidence": 72,
-          "title": "非洲扩张太阳能到59.5作为市场开发",
-          "industry_ids": [
-            "green"
-          ],
-          "region_ids": [
-            "africa",
-            "north-america"
-          ],
-          "first_seen": "2026-10-23"
-        },
-        {
           "candidate_id": "cand-1974b74b9339",
-          "rank": 68,
+          "rank": 66,
           "total": 64.1,
           "rank_score": 64.1,
           "grade": "C",
@@ -2450,7 +2336,7 @@
         },
         {
           "candidate_id": "cand-a858ea722580",
-          "rank": 69,
+          "rank": 67,
           "total": 63.8,
           "rank_score": 63.8,
           "grade": "C",
@@ -2467,7 +2353,7 @@
         },
         {
           "candidate_id": "cand-a3d130e2442d",
-          "rank": 70,
+          "rank": 68,
           "total": 63.7,
           "rank_score": 63.7,
           "grade": "C",
@@ -2485,7 +2371,7 @@
         },
         {
           "candidate_id": "cand-b58b9a51a564",
-          "rank": 71,
+          "rank": 69,
           "total": 63.6,
           "rank_score": 63.6,
           "grade": "C",
@@ -2502,7 +2388,7 @@
         },
         {
           "candidate_id": "cand-fa2f0eaa7f67",
-          "rank": 72,
+          "rank": 70,
           "total": 63.6,
           "rank_score": 63.6,
           "grade": "C",
@@ -2518,7 +2404,7 @@
         },
         {
           "candidate_id": "cand-9d226549d428",
-          "rank": 73,
+          "rank": 71,
           "total": 63.4,
           "rank_score": 63.4,
           "grade": "C",
@@ -2533,24 +2419,8 @@
           "first_seen": "2026-10-23"
         },
         {
-          "candidate_id": "cand-a65c91e20716",
-          "rank": 74,
-          "total": 63.2,
-          "rank_score": 63.2,
-          "grade": "C",
-          "confidence": 88,
-          "title": "租只“毛孩子”过周末悄然流行，行业监管仍待规范｜消费新观察",
-          "industry_ids": [
-            "compliance"
-          ],
-          "region_ids": [
-            "china"
-          ],
-          "first_seen": "2026-10-18"
-        },
-        {
           "candidate_id": "cand-1918e969009b",
-          "rank": 75,
+          "rank": 72,
           "total": 63.2,
           "rank_score": 63.2,
           "grade": "C",
@@ -2568,7 +2438,7 @@
         },
         {
           "candidate_id": "cand-477021034e2c",
-          "rank": 76,
+          "rank": 73,
           "total": 63.2,
           "rank_score": 63.2,
           "grade": "C",
@@ -2585,7 +2455,7 @@
         },
         {
           "candidate_id": "cand-de4a09054ac8",
-          "rank": 77,
+          "rank": 74,
           "total": 62.9,
           "rank_score": 62.9,
           "grade": "C",
@@ -2602,7 +2472,7 @@
         },
         {
           "candidate_id": "cand-54ac1b8def35",
-          "rank": 78,
+          "rank": 75,
           "total": 62.9,
           "rank_score": 62.9,
           "grade": "C",
@@ -2619,40 +2489,8 @@
           "first_seen": "2026-10-19"
         },
         {
-          "candidate_id": "cand-82084b1afb47",
-          "rank": 79,
-          "total": 62.6,
-          "rank_score": 62.6,
-          "grade": "C",
-          "confidence": 74,
-          "title": "内罗毕需求百万来自在版权授权",
-          "industry_ids": [
-            "content"
-          ],
-          "region_ids": [
-            "africa"
-          ],
-          "first_seen": "2026-10-23"
-        },
-        {
-          "candidate_id": "cand-84cb1d9b25be",
-          "rank": 80,
-          "total": 61.9,
-          "rank_score": 61.9,
-          "grade": "C",
-          "confidence": 72,
-          "title": "关税寻求75%进口关税作为印度进口",
-          "industry_ids": [
-            "crossborder"
-          ],
-          "region_ids": [
-            "south-asia"
-          ],
-          "first_seen": "2026-10-24"
-        },
-        {
           "candidate_id": "cand-fe2ad0ff5815",
-          "rank": 81,
+          "rank": 76,
           "total": 61.5,
           "rank_score": 61.5,
           "grade": "C",
@@ -2669,7 +2507,7 @@
         },
         {
           "candidate_id": "cand-cf9ce9b52e48",
-          "rank": 82,
+          "rank": 77,
           "total": 61.5,
           "rank_score": 61.5,
           "grade": "C",
@@ -2686,7 +2524,7 @@
         },
         {
           "candidate_id": "cand-61376277195b",
-          "rank": 83,
+          "rank": 78,
           "total": 61.2,
           "rank_score": 61.2,
           "grade": "C",
@@ -2703,7 +2541,7 @@
         },
         {
           "candidate_id": "cand-89a862f8ad31",
-          "rank": 84,
+          "rank": 79,
           "total": 60.2,
           "rank_score": 60.2,
           "grade": "C",
@@ -2720,7 +2558,7 @@
         },
         {
           "candidate_id": "cand-1cda2d6623a6",
-          "rank": 85,
+          "rank": 80,
           "total": 60.2,
           "rank_score": 60.2,
           "grade": "C",
@@ -2737,7 +2575,7 @@
         },
         {
           "candidate_id": "cand-03be411f1d0b",
-          "rank": 86,
+          "rank": 81,
           "total": 59.9,
           "rank_score": 59.9,
           "grade": "C",
@@ -2755,7 +2593,7 @@
         },
         {
           "candidate_id": "cand-18503ef3c4e5",
-          "rank": 87,
+          "rank": 82,
           "total": 59.7,
           "rank_score": 59.7,
           "grade": "C",
@@ -2772,7 +2610,7 @@
         },
         {
           "candidate_id": "cand-c55b10eebe88",
-          "rank": 88,
+          "rank": 83,
           "total": 59.1,
           "rank_score": 59.1,
           "grade": "C",
@@ -2789,7 +2627,7 @@
         },
         {
           "candidate_id": "cand-ee0f2593e6fe",
-          "rank": 89,
+          "rank": 84,
           "total": 59.0,
           "rank_score": 59.0,
           "grade": "C",
@@ -2806,7 +2644,7 @@
         },
         {
           "candidate_id": "cand-c3ec1e2ef47c",
-          "rank": 90,
+          "rank": 85,
           "total": 58.9,
           "rank_score": 58.9,
           "grade": "C",
@@ -2822,7 +2660,7 @@
         },
         {
           "candidate_id": "cand-b34627a8d41e",
-          "rank": 91,
+          "rank": 86,
           "total": 58.9,
           "rank_score": 58.9,
           "grade": "C",
@@ -2839,7 +2677,7 @@
         },
         {
           "candidate_id": "cand-7dc89142212b",
-          "rank": 92,
+          "rank": 87,
           "total": 58.0,
           "rank_score": 58.0,
           "grade": "C",
@@ -2859,7 +2697,7 @@
       "window": "year",
       "key": "2026",
       "label": "2026年",
-      "count": 102,
+      "count": 97,
       "items": [
         {
           "candidate_id": "cand-ea70f74fdd9e",
@@ -2913,41 +2751,8 @@
           "first_seen": "2026-10-23"
         },
         {
-          "candidate_id": "cand-f18e1cd39f87",
-          "rank": 4,
-          "total": 73.5,
-          "rank_score": 73.5,
-          "grade": "B",
-          "confidence": 92,
-          "title": "SAP与凯捷：把监管变化转为竞争优势",
-          "industry_ids": [
-            "compliance"
-          ],
-          "region_ids": [
-            "europe",
-            "north-america"
-          ],
-          "first_seen": "2026-09-23"
-        },
-        {
-          "candidate_id": "cand-3e2aa3889e64",
-          "rank": 5,
-          "total": 73.2,
-          "rank_score": 73.2,
-          "grade": "B",
-          "confidence": 72,
-          "title": "筑放心消费高地绘民生幸福底色——深圳市市场监督管理局龙华监管局全",
-          "industry_ids": [
-            "compliance"
-          ],
-          "region_ids": [
-            "china"
-          ],
-          "first_seen": "2026-10-22"
-        },
-        {
           "candidate_id": "cand-5195b340dea1",
-          "rank": 6,
+          "rank": 4,
           "total": 72.8,
           "rank_score": 72.8,
           "grade": "B",
@@ -2965,7 +2770,7 @@
         },
         {
           "candidate_id": "cand-edc7b59ef2e8",
-          "rank": 7,
+          "rank": 5,
           "total": 72.8,
           "rank_score": 72.8,
           "grade": "B",
@@ -2982,7 +2787,7 @@
         },
         {
           "candidate_id": "cand-afbdca96dbc7",
-          "rank": 8,
+          "rank": 6,
           "total": 72.4,
           "rank_score": 72.4,
           "grade": "B",
@@ -2998,7 +2803,7 @@
         },
         {
           "candidate_id": "cand-505ded6c09da",
-          "rank": 9,
+          "rank": 7,
           "total": 72.2,
           "rank_score": 72.2,
           "grade": "B",
@@ -3014,8 +2819,24 @@
           "first_seen": "2026-08-25"
         },
         {
+          "candidate_id": "cand-f91a670d9179",
+          "rank": 8,
+          "total": 72.0,
+          "rank_score": 72.0,
+          "grade": "B",
+          "confidence": 95,
+          "title": "非洲物流融资7.8亿美元超越金融科技",
+          "industry_ids": [
+            "fintech"
+          ],
+          "region_ids": [
+            "africa"
+          ],
+          "first_seen": "2026-10-22"
+        },
+        {
           "candidate_id": "cand-765fcab13cd7",
-          "rank": 10,
+          "rank": 9,
           "total": 71.9,
           "rank_score": 71.9,
           "grade": "B",
@@ -3033,7 +2854,7 @@
         },
         {
           "candidate_id": "cand-41277d8c3d98",
-          "rank": 11,
+          "rank": 10,
           "total": 71.8,
           "rank_score": 71.8,
           "grade": "B",
@@ -3050,7 +2871,7 @@
         },
         {
           "candidate_id": "cand-d6a57e3b4b92",
-          "rank": 12,
+          "rank": 11,
           "total": 71.8,
           "rank_score": 71.8,
           "grade": "B",
@@ -3067,7 +2888,7 @@
         },
         {
           "candidate_id": "cand-c3c6979bd445",
-          "rank": 13,
+          "rank": 12,
           "total": 71.7,
           "rank_score": 71.7,
           "grade": "B",
@@ -3085,7 +2906,7 @@
         },
         {
           "candidate_id": "cand-e648a384daad",
-          "rank": 14,
+          "rank": 13,
           "total": 71.2,
           "rank_score": 71.2,
           "grade": "B",
@@ -3102,7 +2923,7 @@
         },
         {
           "candidate_id": "cand-9d67f0fb275d",
-          "rank": 15,
+          "rank": 14,
           "total": 70.9,
           "rank_score": 70.9,
           "grade": "B",
@@ -3120,7 +2941,7 @@
         },
         {
           "candidate_id": "cand-1b44221228a4",
-          "rank": 16,
+          "rank": 15,
           "total": 70.7,
           "rank_score": 70.7,
           "grade": "B",
@@ -3137,7 +2958,7 @@
         },
         {
           "candidate_id": "cand-71d641ffc619",
-          "rank": 17,
+          "rank": 16,
           "total": 70.7,
           "rank_score": 70.7,
           "grade": "B",
@@ -3153,7 +2974,7 @@
         },
         {
           "candidate_id": "cand-36a3321b0981",
-          "rank": 18,
+          "rank": 17,
           "total": 70.5,
           "rank_score": 70.5,
           "grade": "B",
@@ -3169,7 +2990,7 @@
         },
         {
           "candidate_id": "cand-c0f3d99c1b81",
-          "rank": 19,
+          "rank": 18,
           "total": 69.8,
           "rank_score": 69.8,
           "grade": "B",
@@ -3187,7 +3008,7 @@
         },
         {
           "candidate_id": "cand-e3a083024c13",
-          "rank": 20,
+          "rank": 19,
           "total": 69.5,
           "rank_score": 69.5,
           "grade": "B",
@@ -3205,7 +3026,7 @@
         },
         {
           "candidate_id": "cand-c4b0bede36c1",
-          "rank": 21,
+          "rank": 20,
           "total": 69.4,
           "rank_score": 69.4,
           "grade": "B",
@@ -3222,7 +3043,7 @@
         },
         {
           "candidate_id": "cand-9da6c0c42997",
-          "rank": 22,
+          "rank": 21,
           "total": 69.3,
           "rank_score": 69.3,
           "grade": "B",
@@ -3238,7 +3059,7 @@
         },
         {
           "candidate_id": "cand-59d594584c75",
-          "rank": 23,
+          "rank": 22,
           "total": 69.2,
           "rank_score": 69.2,
           "grade": "B",
@@ -3254,24 +3075,8 @@
           "first_seen": "2026-10-21"
         },
         {
-          "candidate_id": "cand-0af455efc323",
-          "rank": 24,
-          "total": 69.2,
-          "rank_score": 69.2,
-          "grade": "B",
-          "confidence": 92,
-          "title": "宠物诊疗争议引出监管空白",
-          "industry_ids": [
-            "compliance"
-          ],
-          "region_ids": [
-            "china"
-          ],
-          "first_seen": "2026-10-22"
-        },
-        {
           "candidate_id": "cand-e4763370cb58",
-          "rank": 25,
+          "rank": 23,
           "total": 68.7,
           "rank_score": 68.7,
           "grade": "B",
@@ -3288,7 +3093,7 @@
         },
         {
           "candidate_id": "cand-2944f06b5fc9",
-          "rank": 26,
+          "rank": 24,
           "total": 68.7,
           "rank_score": 68.7,
           "grade": "B",
@@ -3304,7 +3109,7 @@
         },
         {
           "candidate_id": "cand-d578f54161e3",
-          "rank": 27,
+          "rank": 25,
           "total": 68.5,
           "rank_score": 68.5,
           "grade": "B",
@@ -3321,7 +3126,7 @@
         },
         {
           "candidate_id": "cand-646c34c53db9",
-          "rank": 28,
+          "rank": 26,
           "total": 68.5,
           "rank_score": 68.5,
           "grade": "B",
@@ -3338,7 +3143,7 @@
         },
         {
           "candidate_id": "cand-bf01cdffc9fe",
-          "rank": 29,
+          "rank": 27,
           "total": 68.3,
           "rank_score": 68.3,
           "grade": "B",
@@ -3354,7 +3159,7 @@
         },
         {
           "candidate_id": "cand-178a922004e3",
-          "rank": 30,
+          "rank": 28,
           "total": 68.2,
           "rank_score": 68.2,
           "grade": "B",
@@ -3372,7 +3177,7 @@
         },
         {
           "candidate_id": "cand-4d6fb4dcef8d",
-          "rank": 31,
+          "rank": 29,
           "total": 68.2,
           "rank_score": 68.2,
           "grade": "B",
@@ -3389,7 +3194,7 @@
         },
         {
           "candidate_id": "cand-5dfb2e371f8a",
-          "rank": 32,
+          "rank": 30,
           "total": 68.2,
           "rank_score": 68.2,
           "grade": "B",
@@ -3407,7 +3212,7 @@
         },
         {
           "candidate_id": "cand-55efdc73d39d",
-          "rank": 33,
+          "rank": 31,
           "total": 68.1,
           "rank_score": 68.1,
           "grade": "B",
@@ -3424,7 +3229,7 @@
         },
         {
           "candidate_id": "cand-680c9c708699",
-          "rank": 34,
+          "rank": 32,
           "total": 68.0,
           "rank_score": 68.0,
           "grade": "B",
@@ -3441,7 +3246,7 @@
         },
         {
           "candidate_id": "cand-51414c40aacd",
-          "rank": 35,
+          "rank": 33,
           "total": 67.8,
           "rank_score": 67.8,
           "grade": "B",
@@ -3458,7 +3263,7 @@
         },
         {
           "candidate_id": "cand-351b9e3eaf6f",
-          "rank": 36,
+          "rank": 34,
           "total": 67.7,
           "rank_score": 67.7,
           "grade": "B",
@@ -3475,7 +3280,7 @@
         },
         {
           "candidate_id": "cand-36f97c4e197f",
-          "rank": 37,
+          "rank": 35,
           "total": 67.6,
           "rank_score": 67.6,
           "grade": "B",
@@ -3492,7 +3297,7 @@
         },
         {
           "candidate_id": "cand-1b6db59da5a0",
-          "rank": 38,
+          "rank": 36,
           "total": 67.6,
           "rank_score": 67.6,
           "grade": "B",
@@ -3509,7 +3314,7 @@
         },
         {
           "candidate_id": "cand-2176a18c2025",
-          "rank": 39,
+          "rank": 37,
           "total": 67.6,
           "rank_score": 67.6,
           "grade": "B",
@@ -3526,7 +3331,7 @@
         },
         {
           "candidate_id": "cand-ac8ae5de0f0a",
-          "rank": 40,
+          "rank": 38,
           "total": 67.6,
           "rank_score": 67.6,
           "grade": "B",
@@ -3542,7 +3347,7 @@
         },
         {
           "candidate_id": "cand-c5877b408058",
-          "rank": 41,
+          "rank": 39,
           "total": 67.4,
           "rank_score": 67.4,
           "grade": "B",
@@ -3558,7 +3363,7 @@
         },
         {
           "candidate_id": "cand-410072f719ac",
-          "rank": 42,
+          "rank": 40,
           "total": 67.4,
           "rank_score": 67.4,
           "grade": "B",
@@ -3575,7 +3380,7 @@
         },
         {
           "candidate_id": "cand-d8666f471584",
-          "rank": 43,
+          "rank": 41,
           "total": 67.4,
           "rank_score": 67.4,
           "grade": "B",
@@ -3593,7 +3398,7 @@
         },
         {
           "candidate_id": "cand-3a416042984e",
-          "rank": 44,
+          "rank": 42,
           "total": 67.3,
           "rank_score": 67.3,
           "grade": "B",
@@ -3610,7 +3415,7 @@
         },
         {
           "candidate_id": "cand-24942f819fc2",
-          "rank": 45,
+          "rank": 43,
           "total": 67.2,
           "rank_score": 67.2,
           "grade": "B",
@@ -3626,7 +3431,7 @@
         },
         {
           "candidate_id": "cand-206bedfcf0e3",
-          "rank": 46,
+          "rank": 44,
           "total": 67.2,
           "rank_score": 67.2,
           "grade": "B",
@@ -3643,7 +3448,7 @@
         },
         {
           "candidate_id": "cand-eee35ee66ecd",
-          "rank": 47,
+          "rank": 45,
           "total": 67.1,
           "rank_score": 67.1,
           "grade": "B",
@@ -3660,7 +3465,7 @@
         },
         {
           "candidate_id": "cand-8f83815e0f18",
-          "rank": 48,
+          "rank": 46,
           "total": 67.0,
           "rank_score": 67.0,
           "grade": "B",
@@ -3678,7 +3483,7 @@
         },
         {
           "candidate_id": "cand-7d26687f9867",
-          "rank": 49,
+          "rank": 47,
           "total": 67.0,
           "rank_score": 67.0,
           "grade": "B",
@@ -3694,7 +3499,7 @@
         },
         {
           "candidate_id": "cand-d4b53a931286",
-          "rank": 50,
+          "rank": 48,
           "total": 66.9,
           "rank_score": 66.9,
           "grade": "B",
@@ -3711,7 +3516,7 @@
         },
         {
           "candidate_id": "cand-940a96291507",
-          "rank": 51,
+          "rank": 49,
           "total": 66.8,
           "rank_score": 66.8,
           "grade": "B",
@@ -3728,7 +3533,7 @@
         },
         {
           "candidate_id": "cand-c0e83c6a4535",
-          "rank": 52,
+          "rank": 50,
           "total": 66.8,
           "rank_score": 66.8,
           "grade": "B",
@@ -3746,7 +3551,7 @@
         },
         {
           "candidate_id": "cand-d437276be348",
-          "rank": 53,
+          "rank": 51,
           "total": 66.7,
           "rank_score": 66.7,
           "grade": "B",
@@ -3763,7 +3568,7 @@
         },
         {
           "candidate_id": "cand-07478484f58c",
-          "rank": 54,
+          "rank": 52,
           "total": 66.7,
           "rank_score": 66.7,
           "grade": "B",
@@ -3780,7 +3585,7 @@
         },
         {
           "candidate_id": "cand-e7f8fd55f9b2",
-          "rank": 55,
+          "rank": 53,
           "total": 66.7,
           "rank_score": 66.7,
           "grade": "B",
@@ -3797,7 +3602,7 @@
         },
         {
           "candidate_id": "cand-c65ecec8f511",
-          "rank": 56,
+          "rank": 54,
           "total": 66.6,
           "rank_score": 66.6,
           "grade": "B",
@@ -3814,7 +3619,7 @@
         },
         {
           "candidate_id": "cand-572ed9d6fb73",
-          "rank": 57,
+          "rank": 55,
           "total": 66.5,
           "rank_score": 66.5,
           "grade": "B",
@@ -3831,7 +3636,7 @@
         },
         {
           "candidate_id": "cand-73afddd879d5",
-          "rank": 58,
+          "rank": 56,
           "total": 66.5,
           "rank_score": 66.5,
           "grade": "B",
@@ -3848,7 +3653,7 @@
         },
         {
           "candidate_id": "cand-94c91fed03c6",
-          "rank": 59,
+          "rank": 57,
           "total": 66.4,
           "rank_score": 66.4,
           "grade": "B",
@@ -3866,7 +3671,7 @@
         },
         {
           "candidate_id": "cand-2d4507cad0c3",
-          "rank": 60,
+          "rank": 58,
           "total": 66.4,
           "rank_score": 66.4,
           "grade": "B",
@@ -3884,7 +3689,7 @@
         },
         {
           "candidate_id": "cand-4907282d8a46",
-          "rank": 61,
+          "rank": 59,
           "total": 66.3,
           "rank_score": 66.3,
           "grade": "B",
@@ -3902,7 +3707,7 @@
         },
         {
           "candidate_id": "cand-e43718bf5a0d",
-          "rank": 62,
+          "rank": 60,
           "total": 66.3,
           "rank_score": 66.3,
           "grade": "B",
@@ -3919,7 +3724,7 @@
         },
         {
           "candidate_id": "cand-58d8ba9e0622",
-          "rank": 63,
+          "rank": 61,
           "total": 66.2,
           "rank_score": 66.2,
           "grade": "B",
@@ -3936,7 +3741,7 @@
         },
         {
           "candidate_id": "cand-21e21d169ae1",
-          "rank": 64,
+          "rank": 62,
           "total": 66.2,
           "rank_score": 66.2,
           "grade": "B",
@@ -3953,7 +3758,7 @@
         },
         {
           "candidate_id": "cand-f80966f3e049",
-          "rank": 65,
+          "rank": 63,
           "total": 65.9,
           "rank_score": 65.9,
           "grade": "B",
@@ -3970,7 +3775,7 @@
         },
         {
           "candidate_id": "cand-86819ae1a171",
-          "rank": 66,
+          "rank": 64,
           "total": 65.9,
           "rank_score": 65.9,
           "grade": "B",
@@ -3986,7 +3791,7 @@
         },
         {
           "candidate_id": "cand-e25021bea9ea",
-          "rank": 67,
+          "rank": 65,
           "total": 65.7,
           "rank_score": 65.7,
           "grade": "B",
@@ -4002,7 +3807,7 @@
         },
         {
           "candidate_id": "cand-d551a6787cca",
-          "rank": 68,
+          "rank": 66,
           "total": 65.6,
           "rank_score": 65.6,
           "grade": "B",
@@ -4020,7 +3825,7 @@
         },
         {
           "candidate_id": "cand-5be2d3dd2a05",
-          "rank": 69,
+          "rank": 67,
           "total": 65.2,
           "rank_score": 65.2,
           "grade": "B",
@@ -4038,7 +3843,7 @@
         },
         {
           "candidate_id": "cand-d655749048d6",
-          "rank": 70,
+          "rank": 68,
           "total": 65.2,
           "rank_score": 65.2,
           "grade": "B",
@@ -4054,7 +3859,7 @@
         },
         {
           "candidate_id": "cand-0af2e020f623",
-          "rank": 71,
+          "rank": 69,
           "total": 65.1,
           "rank_score": 65.1,
           "grade": "B",
@@ -4071,7 +3876,7 @@
         },
         {
           "candidate_id": "cand-88d86d646be9",
-          "rank": 72,
+          "rank": 70,
           "total": 65.1,
           "rank_score": 65.1,
           "grade": "B",
@@ -4088,7 +3893,7 @@
         },
         {
           "candidate_id": "cand-844d3021542e",
-          "rank": 73,
+          "rank": 71,
           "total": 65.0,
           "rank_score": 65.0,
           "grade": "B",
@@ -4105,8 +3910,25 @@
           "first_seen": "2026-09-30"
         },
         {
+          "candidate_id": "cand-0ccd35160410",
+          "rank": 72,
+          "total": 64.8,
+          "rank_score": 64.8,
+          "grade": "C",
+          "confidence": 88,
+          "title": "收购在产品合规由全球监管内容与与注册",
+          "industry_ids": [
+            "compliance"
+          ],
+          "region_ids": [
+            "europe",
+            "north-america"
+          ],
+          "first_seen": "2026-07-09"
+        },
+        {
           "candidate_id": "cand-4ba54f6df430",
-          "rank": 74,
+          "rank": 73,
           "total": 64.7,
           "rank_score": 64.7,
           "grade": "C",
@@ -4123,7 +3945,7 @@
         },
         {
           "candidate_id": "cand-110df7f6d535",
-          "rank": 75,
+          "rank": 74,
           "total": 64.6,
           "rank_score": 64.6,
           "grade": "C",
@@ -4140,7 +3962,7 @@
         },
         {
           "candidate_id": "cand-957f288e7b39",
-          "rank": 76,
+          "rank": 75,
           "total": 64.6,
           "rank_score": 64.6,
           "grade": "C",
@@ -4156,25 +3978,8 @@
           "first_seen": "2026-10-14"
         },
         {
-          "candidate_id": "cand-ab5be876953a",
-          "rank": 77,
-          "total": 64.5,
-          "rank_score": 64.5,
-          "grade": "C",
-          "confidence": 72,
-          "title": "非洲扩张太阳能到59.5作为市场开发",
-          "industry_ids": [
-            "green"
-          ],
-          "region_ids": [
-            "africa",
-            "north-america"
-          ],
-          "first_seen": "2026-10-23"
-        },
-        {
           "candidate_id": "cand-1974b74b9339",
-          "rank": 78,
+          "rank": 76,
           "total": 64.1,
           "rank_score": 64.1,
           "grade": "C",
@@ -4191,7 +3996,7 @@
         },
         {
           "candidate_id": "cand-a858ea722580",
-          "rank": 79,
+          "rank": 77,
           "total": 63.8,
           "rank_score": 63.8,
           "grade": "C",
@@ -4208,7 +4013,7 @@
         },
         {
           "candidate_id": "cand-a3d130e2442d",
-          "rank": 80,
+          "rank": 78,
           "total": 63.7,
           "rank_score": 63.7,
           "grade": "C",
@@ -4226,7 +4031,7 @@
         },
         {
           "candidate_id": "cand-b58b9a51a564",
-          "rank": 81,
+          "rank": 79,
           "total": 63.6,
           "rank_score": 63.6,
           "grade": "C",
@@ -4243,7 +4048,7 @@
         },
         {
           "candidate_id": "cand-fa2f0eaa7f67",
-          "rank": 82,
+          "rank": 80,
           "total": 63.6,
           "rank_score": 63.6,
           "grade": "C",
@@ -4259,7 +4064,7 @@
         },
         {
           "candidate_id": "cand-9d226549d428",
-          "rank": 83,
+          "rank": 81,
           "total": 63.4,
           "rank_score": 63.4,
           "grade": "C",
@@ -4274,24 +4079,8 @@
           "first_seen": "2026-10-23"
         },
         {
-          "candidate_id": "cand-a65c91e20716",
-          "rank": 84,
-          "total": 63.2,
-          "rank_score": 63.2,
-          "grade": "C",
-          "confidence": 88,
-          "title": "租只“毛孩子”过周末悄然流行，行业监管仍待规范｜消费新观察",
-          "industry_ids": [
-            "compliance"
-          ],
-          "region_ids": [
-            "china"
-          ],
-          "first_seen": "2026-10-18"
-        },
-        {
           "candidate_id": "cand-1918e969009b",
-          "rank": 85,
+          "rank": 82,
           "total": 63.2,
           "rank_score": 63.2,
           "grade": "C",
@@ -4309,7 +4098,7 @@
         },
         {
           "candidate_id": "cand-477021034e2c",
-          "rank": 86,
+          "rank": 83,
           "total": 63.2,
           "rank_score": 63.2,
           "grade": "C",
@@ -4326,7 +4115,7 @@
         },
         {
           "candidate_id": "cand-de4a09054ac8",
-          "rank": 87,
+          "rank": 84,
           "total": 62.9,
           "rank_score": 62.9,
           "grade": "C",
@@ -4343,7 +4132,7 @@
         },
         {
           "candidate_id": "cand-54ac1b8def35",
-          "rank": 88,
+          "rank": 85,
           "total": 62.9,
           "rank_score": 62.9,
           "grade": "C",
@@ -4360,40 +4149,8 @@
           "first_seen": "2026-10-19"
         },
         {
-          "candidate_id": "cand-82084b1afb47",
-          "rank": 89,
-          "total": 62.6,
-          "rank_score": 62.6,
-          "grade": "C",
-          "confidence": 74,
-          "title": "内罗毕需求百万来自在版权授权",
-          "industry_ids": [
-            "content"
-          ],
-          "region_ids": [
-            "africa"
-          ],
-          "first_seen": "2026-10-23"
-        },
-        {
-          "candidate_id": "cand-84cb1d9b25be",
-          "rank": 90,
-          "total": 61.9,
-          "rank_score": 61.9,
-          "grade": "C",
-          "confidence": 72,
-          "title": "关税寻求75%进口关税作为印度进口",
-          "industry_ids": [
-            "crossborder"
-          ],
-          "region_ids": [
-            "south-asia"
-          ],
-          "first_seen": "2026-10-24"
-        },
-        {
           "candidate_id": "cand-fe2ad0ff5815",
-          "rank": 91,
+          "rank": 86,
           "total": 61.5,
           "rank_score": 61.5,
           "grade": "C",
@@ -4410,7 +4167,7 @@
         },
         {
           "candidate_id": "cand-cf9ce9b52e48",
-          "rank": 92,
+          "rank": 87,
           "total": 61.5,
           "rank_score": 61.5,
           "grade": "C",
@@ -4427,7 +4184,7 @@
         },
         {
           "candidate_id": "cand-61376277195b",
-          "rank": 93,
+          "rank": 88,
           "total": 61.2,
           "rank_score": 61.2,
           "grade": "C",
@@ -4444,7 +4201,7 @@
         },
         {
           "candidate_id": "cand-89a862f8ad31",
-          "rank": 94,
+          "rank": 89,
           "total": 60.2,
           "rank_score": 60.2,
           "grade": "C",
@@ -4461,7 +4218,7 @@
         },
         {
           "candidate_id": "cand-1cda2d6623a6",
-          "rank": 95,
+          "rank": 90,
           "total": 60.2,
           "rank_score": 60.2,
           "grade": "C",
@@ -4478,7 +4235,7 @@
         },
         {
           "candidate_id": "cand-03be411f1d0b",
-          "rank": 96,
+          "rank": 91,
           "total": 59.9,
           "rank_score": 59.9,
           "grade": "C",
@@ -4496,7 +4253,7 @@
         },
         {
           "candidate_id": "cand-18503ef3c4e5",
-          "rank": 97,
+          "rank": 92,
           "total": 59.7,
           "rank_score": 59.7,
           "grade": "C",
@@ -4513,7 +4270,7 @@
         },
         {
           "candidate_id": "cand-c55b10eebe88",
-          "rank": 98,
+          "rank": 93,
           "total": 59.1,
           "rank_score": 59.1,
           "grade": "C",
@@ -4530,7 +4287,7 @@
         },
         {
           "candidate_id": "cand-ee0f2593e6fe",
-          "rank": 99,
+          "rank": 94,
           "total": 59.0,
           "rank_score": 59.0,
           "grade": "C",
@@ -4547,7 +4304,7 @@
         },
         {
           "candidate_id": "cand-c3ec1e2ef47c",
-          "rank": 100,
+          "rank": 95,
           "total": 58.9,
           "rank_score": 58.9,
           "grade": "C",
@@ -4563,7 +4320,7 @@
         },
         {
           "candidate_id": "cand-b34627a8d41e",
-          "rank": 101,
+          "rank": 96,
           "total": 58.9,
           "rank_score": 58.9,
           "grade": "C",
@@ -4580,7 +4337,7 @@
         },
         {
           "candidate_id": "cand-7dc89142212b",
-          "rank": 102,
+          "rank": 97,
           "total": 58.0,
           "rank_score": 58.0,
           "grade": "C",
