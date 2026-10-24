@@ -2062,3 +2062,43 @@ python qa/online-check-v07.py --version v0.7.2             # 新站结构 PASS
 ## 31.5 一句话
 
 **v1.6.0 可发布：候选扩容至 102（标题唯一/无英文整句/泛化0、override53、AOV 与精选同源 roi_reverse、源 206/129、funnel 3392→102 一致），IB/单位经济/回本公式 0 异常、102/102 单测、20/20 validate、cold determinism/--all 幂等、禁用词0；统一详情/AOV 小字/102 候选榜单、9 路由/i18n16/16、18 张截图、MANIFEST19/19、tag deploy+CI success、线上同 hash 旧归档不串台；P0=0、P1=0、2 个 P2 不阻塞。**
+
+---
+
+# 第 32 章 · v1.7.0 商机分析/因果链 + 榜单主导型徽标终验（2026-10-24 20:30）
+
+> 版本：app 1.7.0 / data 1.7.0（as_of=2026-10-23；候选 102 + 精选 80）｜验收人：redteam
+> 冻结：`releases/v1.7.0/`（tag v1.7.0 → 06efcab9，内容提交 5aed5f8）｜dist 6,443,377 B / `99626B47…`
+> 数据最终：candidates `3BA9BA1D…`（采用 `-SkipData` 冻结，MANIFEST validation=skipped，数据侧另行 validate 20/20）
+> **结论：可发布（v1.7.0，P0=0 / P1=0 / P2=2，均不阻塞）**
+
+## 32.1 数据：analysis/因果链/禁用词（PASS）
+
+- 102/102 候选含 `analysis`：**causal_chain 五步 102/102**（cold 修复验证）；thesis/dominant_driver/strengths/weaknesses/unknowns/entry_point/differentiation/commercial_structure 5 项/evidence_refs/falsifiers/not_a_gate 完整；single_axis_strong **20**；evidence_refs URL **102/102 http(s)**；精选 80 **无 analysis**（curatedAnalysis=false）。
+- **禁用词 验证/实验/复核/门禁 = 0/0/0/0**；旧字段未动（business/经济/AOV/七问/来源保持）。
+- **unittest 102/102 OK、validate 20/20**；**cold determinism：清缓存 `candidates.py --limit 120` cold1==committed 3BA9BA1D、cold2==cold1、`pipeline --all` 后一致**；`--all` changed=0、opportunities 不变；data 1.7.0；四窗口 23/63/91/102。
+- 指纹：candidates 3BA9BA1D、opportunities 238787DC、candidate-rankings FB47B97F、stats CA22F153、rankings E3BB912F、llm_analysis FF844D96、analysis_batch 825AB0E1、candidates.py 9A7E7DDA、validate CEBA2B92。
+
+## 32.2 前端：分析区/徽标/回归（PASS）
+
+- 最终构建 **6,443,377 B / `99626B47…`** = releases/v1.7.0/dist；版本 1.7.0。
+- 候选详情「02A 商机分析」默认展开（分析评分/主导型/置信度/论点/主导驱动/五步因果链/切入点/差异化/商业结构 5 项/强弱未知/证伪/证据引用/非门禁小字）；五步因果链按 102/102 数据渲染；证据引用为 http(s) 外链。
+- 榜单「主导型机会」徽标 + 可选筛选，不挤压卡片布局；方法论说明；精选详情无分析区、原有 7 区块/图表不变（截图 curated-detail-zh 目检）。
+- `routes-v100` 9 路由×1600/1024 **overflow=0、consoleErrors=0、removedBad=0**；`i18n` **16/16、enUnexplainedCJK=0**；final-v1.7.0 15 张截图 + MANIFEST-screens 目检正常。
+
+## 32.3 冻结 + Actions + 线上
+
+- `manifest-check` **MANIFEST 19/19 与 tag blob 一致**；`verify_manifest.py` **OK (19/19)**；冻结 dist 99626B47…/6,443,377 B；tag 06efcab9/内容 5aed5f8；VERSION/README/前端 1.7.0。
+- Actions：**Deploy 40093766126 success**、**CI 40093763185 success**、pages **40093798057 success**。
+- 线上（`online-check --version v1.7.0`）**PASS**：`/` 与 `/v1.7.0/` 同 hash 99626B47…/6,443,377 B；versions latest=v1.7.0；历史 v0.1.0…v1.6.0 全部不串台；404 正常。
+
+## 32.4 P2 清单（2 个，均不阻塞）
+
+| # | 项 | 现状 | 建议 |
+|---|---|---|---|
+| P2-1 | MANIFEST validation=skipped | release 用 `-SkipData` 冻结，清单 validation 字段 skipped；数据侧单独 validate 20/20 | 若 Manifest 校验策略允许 skipped 记录即可；否则 release 后补记录 |
+| P2-2 | versions.json daily 可选字段 | daily_channel/live_as_of 缺失（tag deploy root=最新冻结数据） | daily workflow 或 build_site tag 模式补齐 |
+
+## 32.5 一句话
+
+**v1.7.0 可发布：102/102 候选 analysis 完整、五步因果链 102/102、禁用词 0、single_axis_strong 20、精选无分析区；unittest 102/102、validate 20/20、cold determinism cold1==committed 3BA9BA1D、--all 幂等；前端分析区/徽标/9 路由/i18n16/16、final-v1.7 15 张截图；MANIFEST19/19（validation skipped 记录）、tag deploy+CI success、线上同 hash 旧归档不串台；P0=0、P1=0、2 个 P2 不阻塞。**
