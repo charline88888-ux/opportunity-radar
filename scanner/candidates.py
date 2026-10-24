@@ -1178,6 +1178,72 @@ def _ensure_analysis(record: dict[str, Any], analysis: dict[str, Any]) -> dict[s
     return analysis
 
 
+def _fallback_analysis(record: dict[str, Any]) -> dict[str, Any]:
+    """v1.8.0：无 DeepSeek key / 新候选未分析时的确定性兜底（明确标记 rule_fallback）。
+
+    只做结构化占位，不冒充 LLM 深度结论；有 key 的 pipeline 会用真实分析覆盖它。
+    """
+    title = str(record.get("title_zh") or record.get("title") or "该候选").strip()
+    refs: list[dict[str, Any]] = []
+    for item in record.get("evidence") or []:
+        if isinstance(item, dict) and item.get("url"):
+            refs.append({"title": str(item.get("title") or title), "url": str(item["url"])})
+    source = record.get("source") or {}
+    if source.get("url"):
+        refs.append({"title": str(source.get("name") or title), "url": str(source["url"])})
+    if not refs:
+        refs = [{"title": title, "url": str(source.get("url") or "local://source")}]
+    first = refs[0]
+    industry = "、".join(record.get("industry_ids") or []) or "目标行业"
+    regions = "、".join(record.get("region_ids") or []) or "目标区域"
+    analysis: dict[str, Any] = {
+        "thesis": f"「{title}」指向{industry}的一次可观察变化，需用最小可售结构验证切入与交付。",
+        "dominant_driver": ["信号"],
+        "strengths": ["存在可观察的公开信号", "可落到具体执行动作"],
+        "weaknesses": ["缺少一手交易/价格数据", "新候选尚未完成 LLM 深度分析"],
+        "unknowns": ["需求规模与付费意愿", "竞争格局与交付成本", "规则/平台执行时间"],
+        "entry_point": f"围绕「{title}」先做单区域/单品类的最小可售服务或产品，锁定首批客户。",
+        "differentiation": "以本地化交付速度与可解释成本结构切入，避免同质化价格战。",
+        "commercial_structure": {
+            "value_proposition": f"围绕「{title}」提供可落地的本地化/合规/交付方案",
+            "pricing": "按项目/订阅/服务费组合，先小单试做",
+            "cost_structure": "合规/渠道/首批样品/交付人力为主要成本",
+            "channels": "行业社群、平台生态、本地合作方",
+            "startup_conditions": "需要明确主体资质、首批客户与本地交付伙伴",
+        },
+        "evidence_refs": refs,
+        "falsifiers": ["需求规模不足", "合规/渠道成本高于毛利", "头部玩家已锁定渠道"],
+        "confidence": 0.25,
+        "analysis_score": 45.0,
+        "single_axis_strong": False,
+        "scenario": "rule_fallback",
+        "scenario_label": "规则兜底（待 LLM 分析）",
+        "not_a_gate": True,
+        "information_value": {
+            "score": 4.0,
+            "dimensions": {"novelty": 4.0, "specificity": 4.0, "impact": 4.0, "urgency": 4.0, "actionability": 4.0},
+        },
+        "key_facts": [
+            {"text": title, "type": "fact", "source_ref": first},
+            {"text": f"该信号可能影响{regions}的{industry}供需或成本结构。", "type": "inference", "source_ref": first},
+            {"text": "需要更多一手价格/交易数据才能确认商业闭环。", "type": "inference", "source_ref": first},
+        ],
+        "evidence_quality": {
+            "source_count": len(refs),
+            "independence": 1.0,
+            "authority": 4.0,
+            "recency": 5.0,
+            "timeliness": 5.0,
+            "score": 2.0,
+            "note": "规则兜底：仅登记现有来源，未做 LLM 深度证据评估。",
+        },
+        "fallback": True,
+        "provider": "rule_fallback",
+    }
+    analysis["causal_chain"] = _analysis_template_chain(record, analysis)
+    return _clean_analysis_strings(analysis)
+
+
 def build_candidates(
     as_of: date | None = None,
     outbox_path: Path | None = None,
@@ -1298,6 +1364,9 @@ def build_candidates(
         cached_analysis = existing_analysis.get(candidate_id) or analysis_cache.get(candidate_id)
         if isinstance(cached_analysis, dict):
             candidate["analysis"] = _ensure_analysis(candidate, cached_analysis)
+        else:
+            # v1.8.0：CI/无 key 时不让新候选缺 analysis（明确标记 rule_fallback，供后续 LLM 覆盖）
+            candidate["analysis"] = _fallback_analysis(candidate)
         candidates.append(candidate)
         if len(candidates) >= limit:
             break

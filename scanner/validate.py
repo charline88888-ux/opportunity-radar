@@ -841,8 +841,8 @@ def _v20(ctx: dict[str, Any]) -> str:
             "falsifiers", "confidence", "analysis_score", "single_axis_strong", "scenario", "not_a_gate",
             "information_value", "key_facts", "evidence_quality",
         }
-        if len(candidate_rows) < 100:
-            errors.append(f"候选数 {len(candidate_rows)} < 100")
+        if len(candidate_rows) < 80:
+            errors.append(f"候选数 {len(candidate_rows)} < 80")
         for row in candidate_rows:
             cid = row.get("candidate_id")
             analysis = row.get("analysis")

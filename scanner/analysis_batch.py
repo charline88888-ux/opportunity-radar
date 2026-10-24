@@ -298,8 +298,8 @@ def main() -> int:
     for index, record in enumerate(records, 1):
         candidate_id = str(record.get("candidate_id") or "")
         old_analysis = record.get("analysis") or cache.get(candidate_id)
-        if isinstance(old_analysis, dict) and all(key in old_analysis for key in ("evidence_refs", "analysis_score", "information_value", "key_facts", "evidence_quality")):
-            # 已有缓存且结构完整：直接保留（可节省成本）
+        if isinstance(old_analysis, dict) and not old_analysis.get("fallback") and all(key in old_analysis for key in ("evidence_refs", "analysis_score", "information_value", "key_facts", "evidence_quality")):
+            # 已有真实缓存且结构完整：直接保留（可节省成本）；rule_fallback 仍会被真实 LLM 覆盖
             record["analysis"] = old_analysis
             cache[candidate_id] = old_analysis
             skipped += 1

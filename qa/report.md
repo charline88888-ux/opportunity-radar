@@ -2102,3 +2102,44 @@ python qa/online-check-v07.py --version v0.7.2             # 新站结构 PASS
 ## 32.5 一句话
 
 **v1.7.0 可发布：102/102 候选 analysis 完整、五步因果链 102/102、禁用词 0、single_axis_strong 20、精选无分析区；unittest 102/102、validate 20/20、cold determinism cold1==committed 3BA9BA1D、--all 幂等；前端分析区/徽标/9 路由/i18n16/16、final-v1.7 15 张截图；MANIFEST19/19（validation skipped 记录）、tag deploy+CI success、线上同 hash 旧归档不串台；P0=0、P1=0、2 个 P2 不阻塞。**
+
+---
+
+# 第 33 章 · v1.8.0 信息价值/关键事实/证据质量 + 分析区终验（2026-10-24 21:45）
+
+> 版本：app 1.8.0 / data 1.8.0（as_of=2026-10-23；候选 102 + 精选 80）｜验收人：redteam
+> 冻结：`releases/v1.8.0/`（tag v1.8.0 → 623a4ffc，内容提交 57fb9a8）｜dist 6,683,975 B / `0727DFB1…`
+> **结论：可发布（v1.8.0，P0=0 / P1=0 / P2=2，均不阻塞）**
+
+## 33.1 数据：分析增强（PASS）
+
+- 独立复验（candidates `BDFD1486…`，opportunities `238787DC…` 未变）：
+  - **102/102 含 analysis**；新增 `information_value`（score + novelty/specificity/impact/urgency/actionability 5 维）102/102；`key_facts` 102/102（共 **344 条**，fact 190 / inference 154，**source_ref URL 344/344 http(s)**）；`evidence_quality` 102/102（source_count/independence/authority/recency/timeliness/score/note 全字段）。
+  - **causal_chain 五步 102/102**；single_axis_strong **41**；旧字段（经济/AOV/七问/来源）未破坏；禁用词 验证/实验/复核/门禁 = **0/0/0/0**；精选 80 仍无 analysis。
+  - **unittest 102/102 OK、validate 20/20**；**cold determinism：清缓存 `candidates.py --limit 120` cold1==committed BDFD1486、cold2==cold1、`pipeline --all` 后一致**；`--all` changed=0、opportunities 不变。
+  - 指纹：candidates BDFD1486、opportunities 238787DC、candidate-rankings 2D06F54A、stats 3CEA2355、rankings 25C4463F；data 1.8.0；四窗口 23/63/91/102。
+
+## 33.2 前端：分析区信息价值/事实/证据（PASS）
+
+- 最终构建 **6,683,975 B / `0727DFB1…`** = releases/v1.8.0/dist；版本 1.8.0。
+- 候选详情 02A 分析区：**信息价值均分 6.0/10 + 5 维进度条**（新颖度/具体度/影响力/紧密度/可执行性）；**关键事实与推断**（fact/inference 类型标签 + source_ref 外链）；**证据质量行**（来源数 1/独立性/权威性/时效性/评分/note）；因果链五步/强弱未知/证伪/非门禁小字保留。
+- 精选详情 **无分析区**（curatedAnalysis=false），原 7 区块/图表/AOV 未变（截图目检）。
+- `routes-v100` 9 路由×1600/1024 **overflow=0、consoleErrors=0、removedBad=0**；`i18n` **16/16、enUnexplainedCJK=0**；final-v1.8.0 15 张截图目检正常（信息价值/事实/证据质量/1024/回归）。
+
+## 33.3 冻结 + Actions + 线上
+
+- `manifest-check` **MANIFEST 19/19 与 tag blob 一致**；`verify_manifest.py` **OK (19/19)**；dist 0727DFB1…/6,683,975 B；tag v1.8.0→623a4ffc，内容 57fb9a8；VERSION/README/前端 1.8.0。
+- Actions：**Deploy 40098856873 success**、**CI 40098854307 success**、pages **40099239420 success**。
+- 线上：`/v1.8.0/` 200 同 hash 0727DFB1…/6,683,975 B；根目录 `/` 传播延迟后重试 **PASS**（同日同 hash），versions latest=v1.8.0；历史 v0.1.0…v1.7.0 全部不串台；404 正常。
+- **Daily workflow** run 40098854309 在 step「Evaluate & rank for today」失败（tag head 623a4ff，发生于 secret env 注入前）；红队本地按同 step `pipeline.py --all --as-of 2026-10-24` + validate **20/20 通过**，降级为 P2 运维项，要求 Lead 重跑一次 green daily。
+
+## 33.4 P2 清单（2 个，均不阻塞）
+
+| # | 项 | 现状 | 建议 |
+|---|---|---|---|
+| P2-1 | GitHub Daily run 40098854309 failure | 失败在 Evaluate & rank（secret 注入前；同 step 本地 2026-10-24 全通过） | 注入 secret 后重跑 daily，确认 green |
+| P2-2 | versions.json daily 可选字段 | daily_channel/live_as_of 缺失（root=最新冻结当日数据） | daily workflow/build_site tag 模式补齐 |
+
+## 33.5 一句话
+
+**v1.8.0 可发布：102/102 候选 analysis 含 information_value（5 维+均分）、key_facts（fact/inference + 344 条 source_ref 外链）、evidence_quality（5 项+note），causal5 102/102、single41、禁用词0、精选无分析区；unittest102/102、validate20/20、cold determinism cold1==committed BDFD1486、--all 幂等；前端分析区/9 路由/i18n16/16、15 张截图；MANIFEST19/19、tag deploy+CI success、线上 /v1.8.0 与根目录传播后同 hash 且旧归档不串台；P0=0、P1=0、2 个 P2（daily 重跑、versions daily 字段）不阻塞。**
