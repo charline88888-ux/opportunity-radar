@@ -1,0 +1,9 @@
+
+== manifest-check v1.6.0（tag=v1.6.0）==
+  · tag=v1.6.0 type=tag commit=d4ff333cfc99
+  · MANIFEST 19/19 条 sha256/bytes 与 tag blob 一致 ✅
+  · 冻结 dist = 64026b103a49f65b… / 6055147 B（与 MANIFEST 一致）✅
+  · 内容提交 dea9804 是 tag 祖先 ✅
+  · tag 提交：docs: record v1.6.0 manifest (content commit dea9804)
+  · dist/VERSION-README.md 含 v1.6.0 ✅
+RESULT: PASS

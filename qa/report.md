@@ -2021,3 +2021,44 @@ python qa/online-check-v07.py --version v0.7.2             # 新站结构 PASS
 - **冻结/Actions/线上**：MANIFEST **19/19**（tag blob）、verify OK；tag v1.5.3→9ac4a6b5，内容 2c90437；Deploy **39994967637 success**、CI **39994960502 success**、pages **39995037809 success**；线上 `/` 与 `/v1.5.3/` 同 hash 39E56650…/5,062,882 B；versions latest=v1.5.3；历史 v0.1.0…v1.5.2 全部不串台；404 正常。
 - **P2**：①versions.json daily_channel/live_as_of 可选字段缺失；②sensitivity「客单±10%」按整数客单价取整（如 25→22/28）为近似展示，建议字段字典注明。
 - **一句话**：**v1.5.3 可发布**——5 处图表红线修复全部通过（资金 0 基线/真瀑布勾稽/敏感性盈亏竖线/donut 中心/方法论同口径），数据 1.5.1 经济公式/102 单测/20 validate/cold/--all 通过，9 路由/i18n 16/16、MANIFEST19/19、tag deploy+CI success、线上同 hash 旧归档不串台；P0=0、P1=0、2 个 P2 不阻塞。
+
+---
+
+# 第 31 章 · v1.6.0 候选扩容 102 + AOV 同源 + 源矩阵/图表联动终验（2026-10-24 17:40）
+
+> 版本：app 1.6.0 / data 1.6.0（as_of=2026-10-23；候选 102 + 精选 80）｜验收人：redteam
+> 冻结：`releases/v1.6.0/`（tag v1.6.0 → d4ff333c，内容提交 dea9804）｜dist 6,055,147 B / `64026B10…F377E`
+> **结论：可发布（v1.6.0，P0=0 / P1=0 / P2=2，均不阻塞）**
+
+## 31.1 数据：102 候选 + AOV 同源（PASS）
+
+- 独立复验（candidates `5701CED7…`、opportunities `238787DC…`）：
+  - **候选 102**（override 应用 53、基线 63 保留）；标题 **no-CJK=0、英文整句=0、泛化=0、唯一 102/102**；禁用词 验证/实验/复核/门禁 = **0/0/0/0**；noise_flags 全空。
+  - **AOV 同源**：候选/精选均 `aov_source=roi_reverse`，顶层 aov 与 `unit_economics.price_per_unit` **0 mismatch**（例 50–450）。
+  - **源矩阵**：sources 206 平台 / 129 enabled；source-health 142 行 / ok139 / failed3（kr-asia 404、startupi SSL、arxiv-rss 空 feed）；funnel raw3392→deduped2804→new1788→relevant449→candidates102，计数一致。
+  - 经济勾稽全部 0 异常：IB 9 项含 id/name、分项合计=total=roi.capital=conditions.capital；客单−成本=毛利、毛利−固定=净贡献、月收入/变动/固定/利润、payback target=roi；None/NaN=0。
+  - **unittest 102/102 OK、validate 20/20**；**cold determinism：按冻结参数 `--limit 120` 清缓存冷跑 cold1==committed 5701CED7、cold2==cold1、`--all` 后一致**（此前用 --limit 200 仅 meta.limit 120/200 差异，内容/标题/ID 完全一致，不是内容漂移）；`--all` 单独复跑 opportunities 不变。
+  - 四窗口 day23/week63/month91/year102；stats 候选 102 / today 23；指纹 candidates 5701CED7、candidate-rankings 62019778、stats 54817B50、rankings 84CB613A、sources F2761749、source-health DFFFFA7E、economy.py 9E25EAA0、candidates.py A623F598、opportunities 238787DC。
+
+## 31.2 前端：102 候选 + AOV + 图表联动（PASS）
+
+- 最终构建 **6,055,147 B / 64026B10…F377E** = releases/v1.6.0/dist；app 1.6.0。
+- AOV 卡下显示「AOV 口径：ROI 月收入 / 理论单量 · roi_reverse」（截图 econ-aov-caption-zh）；经济驾驶舱瀑布 50−25=25、25−8=17，donut 中心/资金 9 类标签/敏感性竖线正常；102 候选下榜单计数/搜索/筛选正常。
+- `routes-v100` 9 路由×1600/1024 **overflow=0、consoleErrors=0、removedBad=0**；`i18n` **16/16、enUnexplainedCJK=0**；final-v1.6.0 **18 张**截图（详情/精选/榜单/方法论/扫描室 zh/en/1024 + AOV 证据）目检正常。
+
+## 31.3 冻结 + Actions + 线上
+
+- `manifest-check` **MANIFEST 19/19 与 tag blob 一致**；`verify_manifest.py` **OK (19/19)**；tag v1.6.0→d4ff333c，内容 dea9804；dist 64026B10…/6,055,147 B。
+- Actions：**Deploy 40082794033 success**、**CI 40082791620 success**、pages **40082822902 success**。
+- 线上（`online-check --version v1.6.0`）**PASS**：`/` 与 `/v1.6.0/` 同 hash 64026B10…/6,055,147 B；versions latest=v1.6.0 path=/v1.6.0/；历史 v0.1.0…v1.5.3 全部与各自 tag 冻结 blob 逐字节一致不串台；404 正常。
+
+## 31.4 P2 清单（2 个，均不阻塞）
+
+| # | 项 | 现状 | 建议 |
+|---|---|---|---|
+| P2-1 | versions.json daily 字段 | daily_channel/live_as_of 缺失（可选字段；root=最新冻结当日数据） | 下次 daily workflow 或 build_site tag 模式补齐 |
+| P2-2 | sensitivity 客单±10% 整数取整 | 客单价取整后展示为近似（如 25→22/28），公式仍自洽 | 字段字典注明「整数客单近似」 |
+
+## 31.5 一句话
+
+**v1.6.0 可发布：候选扩容至 102（标题唯一/无英文整句/泛化0、override53、AOV 与精选同源 roi_reverse、源 206/129、funnel 3392→102 一致），IB/单位经济/回本公式 0 异常、102/102 单测、20/20 validate、cold determinism/--all 幂等、禁用词0；统一详情/AOV 小字/102 候选榜单、9 路由/i18n16/16、18 张截图、MANIFEST19/19、tag deploy+CI success、线上同 hash 旧归档不串台；P0=0、P1=0、2 个 P2 不阻塞。**
