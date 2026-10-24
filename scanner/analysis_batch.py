@@ -57,6 +57,25 @@ def read_hkcu_env() -> dict[str, str]:
 ANALYSIS_DIMENSIONS = ["信号", "信息差", "可行性", "经济性", "时机", "竞争", "风险", "匹配", "证据", "杠杆"]
 
 
+
+
+ANALYSIS_BANNED = (("验证", "核验"), ("实验", "测试"), ("复核", "核对"), ("门禁", "门槛"))
+
+
+def _clean_banned(value: Any) -> Any:
+    """LLM 分析文案统一清洗：验证/实验/复核/门禁 → 中性词，V20 要求 0。"""
+    if isinstance(value, str):
+        text = value
+        for old, new in ANALYSIS_BANNED:
+            text = text.replace(old, new)
+        return text
+    if isinstance(value, list):
+        return [_clean_banned(item) for item in value]
+    if isinstance(value, dict):
+        return {key: _clean_banned(item) for key, item in value.items()}
+    return value
+
+
 def _canonical_driver(value: Any) -> list[str]:
     items = value if isinstance(value, list) else [value]
     result: list[str] = []
@@ -256,6 +275,7 @@ def normalize_analysis(record: dict[str, Any], raw: dict[str, Any]) -> dict[str,
         "key_facts": _normalize_key_facts(raw.get("key_facts"), evidence, str(record.get("title_zh") or record.get("title") or "")),
         "evidence_quality": _normalize_evidence_quality(raw.get("evidence_quality"), evidence, record),
     }
+    result = _clean_banned(result)
     if not all(result[key] for key in ("thesis", "entry_point", "differentiation", "dominant_driver", "causal_chain", "strengths", "weaknesses", "unknowns", "falsifiers")):
         return None
     return {key: value for key, value in result.items() if key in ALLOWED_FIELDS}
