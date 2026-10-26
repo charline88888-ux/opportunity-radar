@@ -1,0 +1,1154 @@
+{
+  "meta": {
+    "data_version": "1.8.0",
+    "as_of": "2026-10-26",
+    "generator": "scanner/pipeline.py",
+    "window_rules": "day=last_activity==as_of; week=ISO week; month=YYYY-MM; year=YYYY",
+    "delta_rules": "优先上一快照同窗口名次（delta=上期名次−本期名次）；无历史回退 adjacent-window：day←week, week←month, month←year, year 无参照",
+    "delta_basis": "history",
+    "history_as_of": "2026-10-25",
+    "tie_breaker": "rank_score desc, momentum desc, evidence_count desc, last_activity desc, opp_id asc",
+    "quotas": {
+      "day": 10,
+      "week": 20,
+      "month": 30,
+      "year": 80
+    },
+    "counts": {
+      "day": 0,
+      "week": 0,
+      "month": 57,
+      "year": 80
+    },
+    "snapshot_at": "2026-10-26T00:00:00+08:00",
+    "reconstructed": false
+  },
+  "windows": {
+    "day": {
+      "key": "2026-10-26",
+      "label": "2026年10月26日",
+      "count": 0,
+      "delta_basis": "adjacent-window",
+      "items": []
+    },
+    "week": {
+      "key": "2026-W44",
+      "label": "2026年第44周",
+      "count": 0,
+      "delta_basis": "history",
+      "items": []
+    },
+    "month": {
+      "key": "2026-10",
+      "label": "2026年10月",
+      "count": 57,
+      "delta_basis": "history",
+      "items": [
+        {
+          "opp_id": "opp-crossborder-mercadolibre-030",
+          "rank": 1,
+          "rank_score": 82.0,
+          "total": 77.4,
+          "delta": 0,
+          "change": "flat"
+        },
+        {
+          "opp_id": "opp-pet-memorial-glass-001",
+          "rank": 2,
+          "rank_score": 81.8,
+          "total": 78.1,
+          "delta": 0,
+          "change": "flat"
+        },
+        {
+          "opp_id": "opp-local-umrah-service-025",
+          "rank": 3,
+          "rank_score": 81.4,
+          "total": 76.8,
+          "delta": 0,
+          "change": "flat"
+        },
+        {
+          "opp_id": "opp-local-furusato-nozei-024",
+          "rank": 4,
+          "rank_score": 81.4,
+          "total": 78.6,
+          "delta": 0,
+          "change": "flat"
+        },
+        {
+          "opp_id": "opp-emotional-grieftech-007",
+          "rank": 5,
+          "rank_score": 79.8,
+          "total": 74.4,
+          "delta": 0,
+          "change": "flat"
+        },
+        {
+          "opp_id": "opp-xb-temu-eu-compliance-014",
+          "rank": 6,
+          "rank_score": 79.1,
+          "total": 73.8,
+          "delta": 0,
+          "change": "flat"
+        },
+        {
+          "opp_id": "opp-pet-china-endlife-002",
+          "rank": 7,
+          "rank_score": 78.2,
+          "total": 73.8,
+          "delta": 0,
+          "change": "flat"
+        },
+        {
+          "opp_id": "opp-manufacturing-ceramic-pet-memorial-supply-047",
+          "rank": 8,
+          "rank_score": 77.3,
+          "total": 75.5,
+          "delta": 0,
+          "change": "flat"
+        },
+        {
+          "opp_id": "opp-culture-ramadan-027",
+          "rank": 9,
+          "rank_score": 75.8,
+          "total": 70.7,
+          "delta": 0,
+          "change": "flat"
+        },
+        {
+          "opp_id": "opp-fintech-brazil-pix-payment-060",
+          "rank": 10,
+          "rank_score": 75.8,
+          "total": 74.0,
+          "delta": 0,
+          "change": "flat"
+        },
+        {
+          "opp_id": "opp-ai-voice-smb-011",
+          "rank": 11,
+          "rank_score": 75.7,
+          "total": 71.4,
+          "delta": 0,
+          "change": "flat"
+        },
+        {
+          "opp_id": "opp-pet-kr-pet-insurance-claims-048",
+          "rank": 12,
+          "rank_score": 74.8,
+          "total": 73.0,
+          "delta": 0,
+          "change": "flat"
+        },
+        {
+          "opp_id": "opp-fintech-china-inbound-payment-guide-055",
+          "rank": 13,
+          "rank_score": 74.5,
+          "total": 72.8,
+          "delta": 0,
+          "change": "flat"
+        },
+        {
+          "opp_id": "opp-content-webtoon-018",
+          "rank": 14,
+          "rank_score": 74.2,
+          "total": 70.8,
+          "delta": 0,
+          "change": "flat"
+        },
+        {
+          "opp_id": "opp-content-china-guzi-economy-053",
+          "rank": 15,
+          "rank_score": 74.2,
+          "total": 72.5,
+          "delta": 0,
+          "change": "flat"
+        },
+        {
+          "opp_id": "opp-ai-etsy-digital-templates-071",
+          "rank": 16,
+          "rank_score": 74.1,
+          "total": 72.4,
+          "delta": 0,
+          "change": "flat"
+        },
+        {
+          "opp_id": "opp-silver-menopause-005",
+          "rank": 17,
+          "rank_score": 73.7,
+          "total": 71.1,
+          "delta": 0,
+          "change": "flat"
+        },
+        {
+          "opp_id": "opp-emotional-grief-memoir-service-070",
+          "rank": 18,
+          "rank_score": 73.4,
+          "total": 71.7,
+          "delta": 0,
+          "change": "flat"
+        },
+        {
+          "opp_id": "opp-pet-kr-pet-funeral-subscription-050",
+          "rank": 19,
+          "rank_score": 73.3,
+          "total": 71.6,
+          "delta": 0,
+          "change": "flat"
+        },
+        {
+          "opp_id": "opp-ai-automation-agency-012",
+          "rank": 20,
+          "rank_score": 73.3,
+          "total": 71.6,
+          "delta": 0,
+          "change": "flat"
+        },
+        {
+          "opp_id": "opp-ai-shopify-app-niche-072",
+          "rank": 21,
+          "rank_score": 73.2,
+          "total": 71.5,
+          "delta": 0,
+          "change": "flat"
+        },
+        {
+          "opp_id": "opp-xb-vietnam-tiktok-shop-ops-058",
+          "rank": 22,
+          "rank_score": 73.2,
+          "total": 71.5,
+          "delta": 0,
+          "change": "flat"
+        },
+        {
+          "opp_id": "opp-compliance-eu-ppwr-epr-packaging-067",
+          "rank": 23,
+          "rank_score": 73.1,
+          "total": 71.4,
+          "delta": 0,
+          "change": "flat"
+        },
+        {
+          "opp_id": "opp-content-china-shortdrama-id-l10n-079",
+          "rank": 24,
+          "rank_score": 73.0,
+          "total": 71.3,
+          "delta": 0,
+          "change": "flat"
+        },
+        {
+          "opp_id": "opp-xb-china-pet-memorial-b2b-080",
+          "rank": 25,
+          "rank_score": 72.8,
+          "total": 71.1,
+          "delta": 0,
+          "change": "flat"
+        },
+        {
+          "opp_id": "opp-compliance-germany-einvoice-service-066",
+          "rank": 26,
+          "rank_score": 72.5,
+          "total": 70.8,
+          "delta": 0,
+          "change": "flat"
+        },
+        {
+          "opp_id": "opp-silver-china-aging-retrofit-054",
+          "rank": 27,
+          "rank_score": 72.5,
+          "total": 70.8,
+          "delta": 0,
+          "change": "flat"
+        },
+        {
+          "opp_id": "opp-local-jp-inbound-experience-051",
+          "rank": 28,
+          "rank_score": 72.3,
+          "total": 70.6,
+          "delta": 0,
+          "change": "flat"
+        },
+        {
+          "opp_id": "opp-content-uae-eid-gifting-057",
+          "rank": 29,
+          "rank_score": 72.3,
+          "total": 70.6,
+          "delta": 0,
+          "change": "flat"
+        },
+        {
+          "opp_id": "opp-xb-africa-jumia-ops-063",
+          "rank": 30,
+          "rank_score": 72.2,
+          "total": 70.5,
+          "delta": 0,
+          "change": "flat"
+        },
+        {
+          "opp_id": "opp-xb-saudi-ecommerce-localization-056",
+          "rank": 31,
+          "rank_score": 72.0,
+          "total": 70.3,
+          "delta": 0,
+          "change": "flat"
+        },
+        {
+          "opp_id": "opp-content-audiobook-020",
+          "rank": 32,
+          "rank_score": 71.6,
+          "total": 69.9,
+          "delta": 0,
+          "change": "flat"
+        },
+        {
+          "opp_id": "opp-fintech-mexico-cod-oxxo-ops-061",
+          "rank": 33,
+          "rank_score": 71.5,
+          "total": 69.8,
+          "delta": 0,
+          "change": "flat"
+        },
+        {
+          "opp_id": "opp-pet-kr-pet-food-subscription-077",
+          "rank": 34,
+          "rank_score": 71.4,
+          "total": 69.7,
+          "delta": 0,
+          "change": "flat"
+        },
+        {
+          "opp_id": "opp-manufacturing-spare-parts-032",
+          "rank": 35,
+          "rank_score": 71.4,
+          "total": 70.6,
+          "delta": 0,
+          "change": "flat"
+        },
+        {
+          "opp_id": "opp-silver-jp-caretech-004",
+          "rank": 36,
+          "rank_score": 70.7,
+          "total": 69.0,
+          "delta": 0,
+          "change": "flat"
+        },
+        {
+          "opp_id": "opp-xb-japan-taxfree-016",
+          "rank": 37,
+          "rank_score": 70.6,
+          "total": 68.1,
+          "delta": 0,
+          "change": "flat"
+        },
+        {
+          "opp_id": "opp-local-poland-cee-localization-068",
+          "rank": 38,
+          "rank_score": 70.6,
+          "total": 68.9,
+          "delta": 0,
+          "change": "flat"
+        },
+        {
+          "opp_id": "opp-pet-sea-brand-003",
+          "rank": 39,
+          "rank_score": 70.4,
+          "total": 68.0,
+          "delta": 0,
+          "change": "flat"
+        },
+        {
+          "opp_id": "opp-xb-sea-halal-beauty-supply-059",
+          "rank": 40,
+          "rank_score": 70.2,
+          "total": 68.6,
+          "delta": 0,
+          "change": "flat"
+        },
+        {
+          "opp_id": "opp-content-japan-anime-pilgrimage-content-075",
+          "rank": 41,
+          "rank_score": 70.1,
+          "total": 68.5,
+          "delta": 0,
+          "change": "flat"
+        },
+        {
+          "opp_id": "opp-emotional-ai-companion-008",
+          "rank": 42,
+          "rank_score": 69.9,
+          "total": 67.5,
+          "delta": 0,
+          "change": "flat"
+        },
+        {
+          "opp_id": "opp-xb-india-wedding-supply-064",
+          "rank": 43,
+          "rank_score": 69.9,
+          "total": 68.3,
+          "delta": 0,
+          "change": "flat"
+        },
+        {
+          "opp_id": "opp-emotional-india-ayurveda-d2c-065",
+          "rank": 44,
+          "rank_score": 69.9,
+          "total": 68.3,
+          "delta": 0,
+          "change": "flat"
+        },
+        {
+          "opp_id": "opp-emotional-offline-club-009",
+          "rank": 45,
+          "rank_score": 69.9,
+          "total": 68.3,
+          "delta": 0,
+          "change": "flat"
+        },
+        {
+          "opp_id": "opp-green-africa-solar-accessories-074",
+          "rank": 46,
+          "rank_score": 69.4,
+          "total": 67.8,
+          "delta": 0,
+          "change": "flat"
+        },
+        {
+          "opp_id": "opp-xb-saudi-salla-zid-build-076",
+          "rank": 47,
+          "rank_score": 69.4,
+          "total": 67.8,
+          "delta": 0,
+          "change": "flat"
+        },
+        {
+          "opp_id": "opp-pet-jp-pet-insurance-settlement-049",
+          "rank": 48,
+          "rank_score": 69.2,
+          "total": 67.6,
+          "delta": 0,
+          "change": "flat"
+        },
+        {
+          "opp_id": "opp-manufacturing-west-africa-shea-processing-073",
+          "rank": 49,
+          "rank_score": 69.1,
+          "total": 67.5,
+          "delta": 0,
+          "change": "flat"
+        },
+        {
+          "opp_id": "opp-content-jp-oshi-goods-supply-052",
+          "rank": 50,
+          "rank_score": 69.0,
+          "total": 67.4,
+          "delta": 0,
+          "change": "flat"
+        },
+        {
+          "opp_id": "opp-xb-turkey-ecommerce-localization-069",
+          "rank": 51,
+          "rank_score": 68.9,
+          "total": 67.3,
+          "delta": 0,
+          "change": "flat"
+        },
+        {
+          "opp_id": "opp-silver-aging-inplace-006",
+          "rank": 52,
+          "rank_score": 68.5,
+          "total": 67.7,
+          "delta": 0,
+          "change": "flat"
+        },
+        {
+          "opp_id": "opp-green-kenya-payg-solar-channel-062",
+          "rank": 53,
+          "rank_score": 68.2,
+          "total": 66.6,
+          "delta": 0,
+          "change": "flat"
+        },
+        {
+          "opp_id": "opp-xb-poland-logistics-017",
+          "rank": 54,
+          "rank_score": 67.3,
+          "total": 65.7,
+          "delta": 0,
+          "change": "flat"
+        },
+        {
+          "opp_id": "opp-silver-jp-senior-digital-care-078",
+          "rank": 55,
+          "rank_score": 65.8,
+          "total": 64.3,
+          "delta": 0,
+          "change": "flat"
+        },
+        {
+          "opp_id": "opp-emotional-caregiver-respite-010",
+          "rank": 56,
+          "rank_score": 65.5,
+          "total": 65.5,
+          "delta": 0,
+          "change": "flat"
+        },
+        {
+          "opp_id": "opp-edu-jp-school-uniform-021",
+          "rank": 57,
+          "rank_score": 64.8,
+          "total": 64.8,
+          "delta": 0,
+          "change": "flat"
+        }
+      ]
+    },
+    "year": {
+      "key": "2026",
+      "label": "2026年",
+      "count": 80,
+      "delta_basis": "history",
+      "items": [
+        {
+          "opp_id": "opp-crossborder-mercadolibre-030",
+          "rank": 1,
+          "rank_score": 82.0,
+          "total": 77.4,
+          "delta": 0,
+          "change": "flat"
+        },
+        {
+          "opp_id": "opp-pet-memorial-glass-001",
+          "rank": 2,
+          "rank_score": 81.8,
+          "total": 78.1,
+          "delta": 0,
+          "change": "flat"
+        },
+        {
+          "opp_id": "opp-local-umrah-service-025",
+          "rank": 3,
+          "rank_score": 81.4,
+          "total": 76.8,
+          "delta": 0,
+          "change": "flat"
+        },
+        {
+          "opp_id": "opp-local-furusato-nozei-024",
+          "rank": 4,
+          "rank_score": 81.4,
+          "total": 78.6,
+          "delta": 0,
+          "change": "flat"
+        },
+        {
+          "opp_id": "opp-emotional-grieftech-007",
+          "rank": 5,
+          "rank_score": 79.8,
+          "total": 74.4,
+          "delta": 0,
+          "change": "flat"
+        },
+        {
+          "opp_id": "opp-xb-temu-eu-compliance-014",
+          "rank": 6,
+          "rank_score": 79.1,
+          "total": 73.8,
+          "delta": 0,
+          "change": "flat"
+        },
+        {
+          "opp_id": "opp-crossborder-kbeauty-029",
+          "rank": 7,
+          "rank_score": 78.6,
+          "total": 75.0,
+          "delta": 0,
+          "change": "flat"
+        },
+        {
+          "opp_id": "opp-pet-china-endlife-002",
+          "rank": 8,
+          "rank_score": 78.2,
+          "total": 73.8,
+          "delta": 0,
+          "change": "flat"
+        },
+        {
+          "opp_id": "opp-compliance-cbam-036",
+          "rank": 9,
+          "rank_score": 78.2,
+          "total": 76.4,
+          "delta": 0,
+          "change": "flat"
+        },
+        {
+          "opp_id": "opp-compliance-eaa-accessibility-034",
+          "rank": 10,
+          "rank_score": 78.0,
+          "total": 77.1,
+          "delta": 0,
+          "change": "flat"
+        },
+        {
+          "opp_id": "opp-manufacturing-ceramic-pet-memorial-supply-047",
+          "rank": 11,
+          "rank_score": 77.3,
+          "total": 75.5,
+          "delta": 0,
+          "change": "flat"
+        },
+        {
+          "opp_id": "opp-compliance-indonesia-halal-035",
+          "rank": 12,
+          "rank_score": 77.2,
+          "total": 75.4,
+          "delta": 0,
+          "change": "flat"
+        },
+        {
+          "opp_id": "opp-manufacturing-shea-butter-031",
+          "rank": 13,
+          "rank_score": 77.0,
+          "total": 75.2,
+          "delta": 0,
+          "change": "flat"
+        },
+        {
+          "opp_id": "opp-compliance-ai-act-038",
+          "rank": 14,
+          "rank_score": 76.4,
+          "total": 75.5,
+          "delta": 0,
+          "change": "flat"
+        },
+        {
+          "opp_id": "opp-ai-shortdrama-pipeline-013",
+          "rank": 15,
+          "rank_score": 76.0,
+          "total": 74.2,
+          "delta": 0,
+          "change": "flat"
+        },
+        {
+          "opp_id": "opp-culture-ramadan-027",
+          "rank": 16,
+          "rank_score": 75.8,
+          "total": 70.7,
+          "delta": 0,
+          "change": "flat"
+        },
+        {
+          "opp_id": "opp-fintech-brazil-pix-payment-060",
+          "rank": 17,
+          "rank_score": 75.8,
+          "total": 74.0,
+          "delta": 0,
+          "change": "flat"
+        },
+        {
+          "opp_id": "opp-ai-voice-smb-011",
+          "rank": 18,
+          "rank_score": 75.7,
+          "total": 71.4,
+          "delta": 0,
+          "change": "flat"
+        },
+        {
+          "opp_id": "opp-culture-religious-l10n-026",
+          "rank": 19,
+          "rank_score": 75.2,
+          "total": 75.2,
+          "delta": 0,
+          "change": "flat"
+        },
+        {
+          "opp_id": "opp-pet-kr-pet-insurance-claims-048",
+          "rank": 20,
+          "rank_score": 74.8,
+          "total": 73.0,
+          "delta": 0,
+          "change": "flat"
+        },
+        {
+          "opp_id": "opp-fintech-china-inbound-payment-guide-055",
+          "rank": 21,
+          "rank_score": 74.5,
+          "total": 72.8,
+          "delta": 0,
+          "change": "flat"
+        },
+        {
+          "opp_id": "opp-content-webtoon-018",
+          "rank": 22,
+          "rank_score": 74.2,
+          "total": 70.8,
+          "delta": 0,
+          "change": "flat"
+        },
+        {
+          "opp_id": "opp-content-china-guzi-economy-053",
+          "rank": 23,
+          "rank_score": 74.2,
+          "total": 72.5,
+          "delta": 0,
+          "change": "flat"
+        },
+        {
+          "opp_id": "opp-ai-etsy-digital-templates-071",
+          "rank": 24,
+          "rank_score": 74.1,
+          "total": 72.4,
+          "delta": 0,
+          "change": "flat"
+        },
+        {
+          "opp_id": "opp-compliance-gpsr-epr-037",
+          "rank": 25,
+          "rank_score": 74.0,
+          "total": 72.3,
+          "delta": 0,
+          "change": "flat"
+        },
+        {
+          "opp_id": "opp-silver-menopause-005",
+          "rank": 26,
+          "rank_score": 73.7,
+          "total": 71.1,
+          "delta": 0,
+          "change": "flat"
+        },
+        {
+          "opp_id": "opp-green-cooling-water-040",
+          "rank": 27,
+          "rank_score": 73.5,
+          "total": 71.8,
+          "delta": 0,
+          "change": "flat"
+        },
+        {
+          "opp_id": "opp-xb-tiktok-us-015",
+          "rank": 28,
+          "rank_score": 73.4,
+          "total": 70.0,
+          "delta": 0,
+          "change": "flat"
+        },
+        {
+          "opp_id": "opp-emotional-grief-memoir-service-070",
+          "rank": 29,
+          "rank_score": 73.4,
+          "total": 71.7,
+          "delta": 0,
+          "change": "flat"
+        },
+        {
+          "opp_id": "opp-pet-kr-pet-funeral-subscription-050",
+          "rank": 30,
+          "rank_score": 73.3,
+          "total": 71.6,
+          "delta": 0,
+          "change": "flat"
+        },
+        {
+          "opp_id": "opp-ai-automation-agency-012",
+          "rank": 31,
+          "rank_score": 73.3,
+          "total": 71.6,
+          "delta": 0,
+          "change": "flat"
+        },
+        {
+          "opp_id": "opp-ai-shopify-app-niche-072",
+          "rank": 32,
+          "rank_score": 73.2,
+          "total": 71.5,
+          "delta": 0,
+          "change": "flat"
+        },
+        {
+          "opp_id": "opp-xb-vietnam-tiktok-shop-ops-058",
+          "rank": 33,
+          "rank_score": 73.2,
+          "total": 71.5,
+          "delta": 0,
+          "change": "flat"
+        },
+        {
+          "opp_id": "opp-compliance-eu-ppwr-epr-packaging-067",
+          "rank": 34,
+          "rank_score": 73.1,
+          "total": 71.4,
+          "delta": 0,
+          "change": "flat"
+        },
+        {
+          "opp_id": "opp-content-china-shortdrama-id-l10n-079",
+          "rank": 35,
+          "rank_score": 73.0,
+          "total": 71.3,
+          "delta": 0,
+          "change": "flat"
+        },
+        {
+          "opp_id": "opp-xb-china-pet-memorial-b2b-080",
+          "rank": 36,
+          "rank_score": 72.8,
+          "total": 71.1,
+          "delta": 0,
+          "change": "flat"
+        },
+        {
+          "opp_id": "opp-compliance-germany-einvoice-service-066",
+          "rank": 37,
+          "rank_score": 72.5,
+          "total": 70.8,
+          "delta": 0,
+          "change": "flat"
+        },
+        {
+          "opp_id": "opp-silver-china-aging-retrofit-054",
+          "rank": 38,
+          "rank_score": 72.5,
+          "total": 70.8,
+          "delta": 0,
+          "change": "flat"
+        },
+        {
+          "opp_id": "opp-local-jp-inbound-experience-051",
+          "rank": 39,
+          "rank_score": 72.3,
+          "total": 70.6,
+          "delta": 0,
+          "change": "flat"
+        },
+        {
+          "opp_id": "opp-content-uae-eid-gifting-057",
+          "rank": 40,
+          "rank_score": 72.3,
+          "total": 70.6,
+          "delta": 0,
+          "change": "flat"
+        },
+        {
+          "opp_id": "opp-xb-africa-jumia-ops-063",
+          "rank": 41,
+          "rank_score": 72.2,
+          "total": 70.5,
+          "delta": 0,
+          "change": "flat"
+        },
+        {
+          "opp_id": "opp-edu-microschool-022",
+          "rank": 42,
+          "rank_score": 72.1,
+          "total": 71.2,
+          "delta": 0,
+          "change": "flat"
+        },
+        {
+          "opp_id": "opp-xb-saudi-ecommerce-localization-056",
+          "rank": 43,
+          "rank_score": 72.0,
+          "total": 70.3,
+          "delta": 0,
+          "change": "flat"
+        },
+        {
+          "opp_id": "opp-compliance-eudr-045",
+          "rank": 44,
+          "rank_score": 71.8,
+          "total": 71.8,
+          "delta": 0,
+          "change": "flat"
+        },
+        {
+          "opp_id": "opp-content-audiobook-020",
+          "rank": 45,
+          "rank_score": 71.6,
+          "total": 69.9,
+          "delta": 0,
+          "change": "flat"
+        },
+        {
+          "opp_id": "opp-fintech-mexico-cod-oxxo-ops-061",
+          "rank": 46,
+          "rank_score": 71.5,
+          "total": 69.8,
+          "delta": 0,
+          "change": "flat"
+        },
+        {
+          "opp_id": "opp-pet-kr-pet-food-subscription-077",
+          "rank": 47,
+          "rank_score": 71.4,
+          "total": 69.7,
+          "delta": 0,
+          "change": "flat"
+        },
+        {
+          "opp_id": "opp-manufacturing-spare-parts-032",
+          "rank": 48,
+          "rank_score": 71.4,
+          "total": 70.6,
+          "delta": 0,
+          "change": "flat"
+        },
+        {
+          "opp_id": "opp-green-heatpump-039",
+          "rank": 49,
+          "rank_score": 70.9,
+          "total": 70.1,
+          "delta": 0,
+          "change": "flat"
+        },
+        {
+          "opp_id": "opp-silver-jp-caretech-004",
+          "rank": 50,
+          "rank_score": 70.7,
+          "total": 69.0,
+          "delta": 0,
+          "change": "flat"
+        },
+        {
+          "opp_id": "opp-xb-japan-taxfree-016",
+          "rank": 51,
+          "rank_score": 70.6,
+          "total": 68.1,
+          "delta": 0,
+          "change": "flat"
+        },
+        {
+          "opp_id": "opp-local-poland-cee-localization-068",
+          "rank": 52,
+          "rank_score": 70.6,
+          "total": 68.9,
+          "delta": 0,
+          "change": "flat"
+        },
+        {
+          "opp_id": "opp-culture-quran-app-028",
+          "rank": 53,
+          "rank_score": 70.5,
+          "total": 69.7,
+          "delta": 0,
+          "change": "flat"
+        },
+        {
+          "opp_id": "opp-pet-sea-brand-003",
+          "rank": 54,
+          "rank_score": 70.4,
+          "total": 68.0,
+          "delta": 0,
+          "change": "flat"
+        },
+        {
+          "opp_id": "opp-edu-korea-tutoring-023",
+          "rank": 55,
+          "rank_score": 70.3,
+          "total": 68.7,
+          "delta": 0,
+          "change": "flat"
+        },
+        {
+          "opp_id": "opp-xb-sea-halal-beauty-supply-059",
+          "rank": 56,
+          "rank_score": 70.2,
+          "total": 68.6,
+          "delta": 0,
+          "change": "flat"
+        },
+        {
+          "opp_id": "opp-green-solar-africa-041",
+          "rank": 57,
+          "rank_score": 70.2,
+          "total": 69.4,
+          "delta": 0,
+          "change": "flat"
+        },
+        {
+          "opp_id": "opp-content-japan-anime-pilgrimage-content-075",
+          "rank": 58,
+          "rank_score": 70.1,
+          "total": 68.5,
+          "delta": 0,
+          "change": "flat"
+        },
+        {
+          "opp_id": "opp-gaming-arabic-l10n-043",
+          "rank": 59,
+          "rank_score": 70.1,
+          "total": 70.1,
+          "delta": 0,
+          "change": "flat"
+        },
+        {
+          "opp_id": "opp-emotional-ai-companion-008",
+          "rank": 60,
+          "rank_score": 69.9,
+          "total": 67.5,
+          "delta": 0,
+          "change": "flat"
+        },
+        {
+          "opp_id": "opp-xb-india-wedding-supply-064",
+          "rank": 61,
+          "rank_score": 69.9,
+          "total": 68.3,
+          "delta": 0,
+          "change": "flat"
+        },
+        {
+          "opp_id": "opp-emotional-india-ayurveda-d2c-065",
+          "rank": 62,
+          "rank_score": 69.9,
+          "total": 68.3,
+          "delta": 0,
+          "change": "flat"
+        },
+        {
+          "opp_id": "opp-emotional-offline-club-009",
+          "rank": 63,
+          "rank_score": 69.9,
+          "total": 68.3,
+          "delta": 0,
+          "change": "flat"
+        },
+        {
+          "opp_id": "opp-manufacturing-ev-battery-033",
+          "rank": 64,
+          "rank_score": 69.7,
+          "total": 68.9,
+          "delta": 0,
+          "change": "flat"
+        },
+        {
+          "opp_id": "opp-green-africa-solar-accessories-074",
+          "rank": 65,
+          "rank_score": 69.4,
+          "total": 67.8,
+          "delta": 0,
+          "change": "flat"
+        },
+        {
+          "opp_id": "opp-xb-saudi-salla-zid-build-076",
+          "rank": 66,
+          "rank_score": 69.4,
+          "total": 67.8,
+          "delta": 0,
+          "change": "flat"
+        },
+        {
+          "opp_id": "opp-content-kpop-merch-019",
+          "rank": 67,
+          "rank_score": 69.4,
+          "total": 68.6,
+          "delta": 0,
+          "change": "flat"
+        },
+        {
+          "opp_id": "opp-pet-jp-pet-insurance-settlement-049",
+          "rank": 68,
+          "rank_score": 69.2,
+          "total": 67.6,
+          "delta": 0,
+          "change": "flat"
+        },
+        {
+          "opp_id": "opp-manufacturing-west-africa-shea-processing-073",
+          "rank": 69,
+          "rank_score": 69.1,
+          "total": 67.5,
+          "delta": 0,
+          "change": "flat"
+        },
+        {
+          "opp_id": "opp-content-jp-oshi-goods-supply-052",
+          "rank": 70,
+          "rank_score": 69.0,
+          "total": 67.4,
+          "delta": 0,
+          "change": "flat"
+        },
+        {
+          "opp_id": "opp-xb-turkey-ecommerce-localization-069",
+          "rank": 71,
+          "rank_score": 68.9,
+          "total": 67.3,
+          "delta": 0,
+          "change": "flat"
+        },
+        {
+          "opp_id": "opp-silver-aging-inplace-006",
+          "rank": 72,
+          "rank_score": 68.5,
+          "total": 67.7,
+          "delta": 0,
+          "change": "flat"
+        },
+        {
+          "opp_id": "opp-green-kenya-payg-solar-channel-062",
+          "rank": 73,
+          "rank_score": 68.2,
+          "total": 66.6,
+          "delta": 0,
+          "change": "flat"
+        },
+        {
+          "opp_id": "opp-gaming-roblox-042",
+          "rank": 74,
+          "rank_score": 68.2,
+          "total": 68.2,
+          "delta": 0,
+          "change": "flat"
+        },
+        {
+          "opp_id": "opp-fintech-nigeria-pay-044",
+          "rank": 75,
+          "rank_score": 67.8,
+          "total": 67.8,
+          "delta": 0,
+          "change": "flat"
+        },
+        {
+          "opp_id": "opp-fintech-uae-visa-046",
+          "rank": 76,
+          "rank_score": 67.7,
+          "total": 67.7,
+          "delta": 0,
+          "change": "flat"
+        },
+        {
+          "opp_id": "opp-xb-poland-logistics-017",
+          "rank": 77,
+          "rank_score": 67.3,
+          "total": 65.7,
+          "delta": 0,
+          "change": "flat"
+        },
+        {
+          "opp_id": "opp-silver-jp-senior-digital-care-078",
+          "rank": 78,
+          "rank_score": 65.8,
+          "total": 64.3,
+          "delta": 0,
+          "change": "flat"
+        },
+        {
+          "opp_id": "opp-emotional-caregiver-respite-010",
+          "rank": 79,
+          "rank_score": 65.5,
+          "total": 65.5,
+          "delta": 0,
+          "change": "flat"
+        },
+        {
+          "opp_id": "opp-edu-jp-school-uniform-021",
+          "rank": 80,
+          "rank_score": 64.8,
+          "total": 64.8,
+          "delta": 0,
+          "change": "flat"
+        }
+      ]
+    }
+  }
+}
