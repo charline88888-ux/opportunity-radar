@@ -1,7 +1,7 @@
 {
   "meta": {
     "data_version": "1.8.0",
-    "as_of": "2026-10-26",
+    "as_of": "2026-10-29",
     "generator": "scanner/pipeline.py"
   },
   "kpi": {
@@ -13,8 +13,8 @@
     "regions_covered": 11,
     "avg_total": 70.8,
     "evidence_total": 156,
-    "candidates_total": 86,
-    "today_new_candidates": 1
+    "candidates_total": 80,
+    "today_new_candidates": 5
   },
   "by_grade": {
     "S": 0,
@@ -351,24 +351,6 @@
   ],
   "trend_14d": [
     {
-      "date": "2026-10-13",
-      "new_count": 0,
-      "active_count": 1,
-      "avg_score": 65.7
-    },
-    {
-      "date": "2026-10-14",
-      "new_count": 0,
-      "active_count": 1,
-      "avg_score": 68.3
-    },
-    {
-      "date": "2026-10-15",
-      "new_count": 0,
-      "active_count": 1,
-      "avg_score": 64.8
-    },
-    {
       "date": "2026-10-16",
       "new_count": 0,
       "active_count": 1,
@@ -430,6 +412,24 @@
     },
     {
       "date": "2026-10-26",
+      "new_count": 0,
+      "active_count": 0,
+      "avg_score": 0.0
+    },
+    {
+      "date": "2026-10-27",
+      "new_count": 0,
+      "active_count": 0,
+      "avg_score": 0.0
+    },
+    {
+      "date": "2026-10-28",
+      "new_count": 0,
+      "active_count": 0,
+      "avg_score": 0.0
+    },
+    {
+      "date": "2026-10-29",
       "new_count": 0,
       "active_count": 0,
       "avg_score": 0.0
