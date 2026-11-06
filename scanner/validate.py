@@ -841,8 +841,11 @@ def _v20(ctx: dict[str, Any]) -> str:
             "falsifiers", "confidence", "analysis_score", "single_axis_strong", "scenario", "not_a_gate",
             "information_value", "key_facts", "evidence_quality",
         }
-        if len(candidate_rows) < 80:
-            errors.append(f"候选数 {len(candidate_rows)} < 80")
+        # v1.8.4：每日源波动时不必因数量硬失败；<80 仅提示，<40 才视为异常
+        if len(candidate_rows) < 40:
+            errors.append(f"候选数 {len(candidate_rows)} < 40")
+        elif len(candidate_rows) < 80:
+            print(f"[WARN] 候选数偏少：{len(candidate_rows)} < 80（每日源波动，继续发布）")
         for row in candidate_rows:
             cid = row.get("candidate_id")
             analysis = row.get("analysis")
