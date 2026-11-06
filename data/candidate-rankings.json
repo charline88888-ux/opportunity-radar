@@ -5,12 +5,12 @@
     "generated_at": "2026-11-06T00:00:00+08:00",
     "generator": "scanner/candidates.py",
     "method": "按 first_seen 归属窗口；排序同 rank 规则（rank_score/momentum/evidence/last_activity/id）",
-    "total": 68,
+    "total": 66,
     "counts": {
-      "day": 19,
-      "week": 51,
-      "month": 52,
-      "year": 65
+      "day": 20,
+      "week": 52,
+      "month": 53,
+      "year": 64
     },
     "verification_affects_ranking": false,
     "note": "候选发现榜与精选人工榜（rankings.json，80 条）并行；系统评估仅用于发现与排序参考。"
@@ -20,7 +20,7 @@
       "window": "day",
       "key": "2026-11-06",
       "label": "2026年11月6日",
-      "count": 19,
+      "count": 20,
       "items": [
         {
           "candidate_id": "cand-fa8e114d6cf6",
@@ -189,8 +189,25 @@
           "first_seen": "2026-11-06"
         },
         {
-          "candidate_id": "cand-8c6319c8ee50",
+          "candidate_id": "cand-2e3bc0d69299",
           "rank": 11,
+          "total": 66.0,
+          "rank_score": 66.0,
+          "grade": "B",
+          "confidence": 70,
+          "title": "影响的天然气价格增长在电力关税",
+          "industry_ids": [
+            "crossborder"
+          ],
+          "region_ids": [
+            "europe",
+            "north-america"
+          ],
+          "first_seen": "2026-11-06"
+        },
+        {
+          "candidate_id": "cand-8c6319c8ee50",
+          "rank": 12,
           "total": 65.0,
           "rank_score": 65.0,
           "grade": "B",
@@ -207,7 +224,7 @@
         },
         {
           "candidate_id": "cand-0bbd397ca180",
-          "rank": 12,
+          "rank": 13,
           "total": 64.8,
           "rank_score": 64.8,
           "grade": "C",
@@ -223,7 +240,7 @@
         },
         {
           "candidate_id": "cand-25923230dafd",
-          "rank": 13,
+          "rank": 14,
           "total": 64.8,
           "rank_score": 64.8,
           "grade": "C",
@@ -240,7 +257,7 @@
         },
         {
           "candidate_id": "cand-d58d9a064d4b",
-          "rank": 14,
+          "rank": 15,
           "total": 64.7,
           "rank_score": 64.7,
           "grade": "C",
@@ -257,7 +274,7 @@
         },
         {
           "candidate_id": "cand-4855fd85834d",
-          "rank": 15,
+          "rank": 16,
           "total": 64.4,
           "rank_score": 64.4,
           "grade": "C",
@@ -274,7 +291,7 @@
         },
         {
           "candidate_id": "cand-e8b69146319e",
-          "rank": 16,
+          "rank": 17,
           "total": 64.3,
           "rank_score": 64.3,
           "grade": "C",
@@ -291,7 +308,7 @@
         },
         {
           "candidate_id": "cand-0587b7beae06",
-          "rank": 17,
+          "rank": 18,
           "total": 63.2,
           "rank_score": 63.2,
           "grade": "C",
@@ -309,7 +326,7 @@
         },
         {
           "candidate_id": "cand-75c0b45bffc9",
-          "rank": 18,
+          "rank": 19,
           "total": 62.9,
           "rank_score": 62.9,
           "grade": "C",
@@ -325,7 +342,7 @@
         },
         {
           "candidate_id": "cand-80510d8d2383",
-          "rank": 19,
+          "rank": 20,
           "total": 62.8,
           "rank_score": 62.8,
           "grade": "C",
@@ -346,7 +363,7 @@
       "window": "week",
       "key": "2026-W45",
       "label": "2026年第45周",
-      "count": 51,
+      "count": 52,
       "items": [
         {
           "candidate_id": "cand-fa8e114d6cf6",
@@ -835,8 +852,25 @@
           "first_seen": "2026-11-05"
         },
         {
-          "candidate_id": "cand-25468f6dc7cc",
+          "candidate_id": "cand-2e3bc0d69299",
           "rank": 30,
+          "total": 66.0,
+          "rank_score": 66.0,
+          "grade": "B",
+          "confidence": 70,
+          "title": "影响的天然气价格增长在电力关税",
+          "industry_ids": [
+            "crossborder"
+          ],
+          "region_ids": [
+            "europe",
+            "north-america"
+          ],
+          "first_seen": "2026-11-06"
+        },
+        {
+          "candidate_id": "cand-25468f6dc7cc",
+          "rank": 31,
           "total": 65.7,
           "rank_score": 65.7,
           "grade": "B",
@@ -852,7 +886,7 @@
         },
         {
           "candidate_id": "cand-5dc8ca63c586",
-          "rank": 31,
+          "rank": 32,
           "total": 65.5,
           "rank_score": 65.5,
           "grade": "B",
@@ -869,7 +903,7 @@
         },
         {
           "candidate_id": "cand-862d9ecf602a",
-          "rank": 32,
+          "rank": 33,
           "total": 65.5,
           "rank_score": 65.5,
           "grade": "B",
@@ -886,7 +920,7 @@
         },
         {
           "candidate_id": "cand-33ec37369434",
-          "rank": 33,
+          "rank": 34,
           "total": 65.1,
           "rank_score": 65.1,
           "grade": "B",
@@ -903,7 +937,7 @@
         },
         {
           "candidate_id": "cand-31e75311ef8d",
-          "rank": 34,
+          "rank": 35,
           "total": 65.0,
           "rank_score": 65.0,
           "grade": "B",
@@ -920,7 +954,7 @@
         },
         {
           "candidate_id": "cand-8c6319c8ee50",
-          "rank": 35,
+          "rank": 36,
           "total": 65.0,
           "rank_score": 65.0,
           "grade": "B",
@@ -937,7 +971,7 @@
         },
         {
           "candidate_id": "cand-0bbd397ca180",
-          "rank": 36,
+          "rank": 37,
           "total": 64.8,
           "rank_score": 64.8,
           "grade": "C",
@@ -953,7 +987,7 @@
         },
         {
           "candidate_id": "cand-25923230dafd",
-          "rank": 37,
+          "rank": 38,
           "total": 64.8,
           "rank_score": 64.8,
           "grade": "C",
@@ -970,7 +1004,7 @@
         },
         {
           "candidate_id": "cand-d58d9a064d4b",
-          "rank": 38,
+          "rank": 39,
           "total": 64.7,
           "rank_score": 64.7,
           "grade": "C",
@@ -987,7 +1021,7 @@
         },
         {
           "candidate_id": "cand-4855fd85834d",
-          "rank": 39,
+          "rank": 40,
           "total": 64.4,
           "rank_score": 64.4,
           "grade": "C",
@@ -1004,7 +1038,7 @@
         },
         {
           "candidate_id": "cand-e8b69146319e",
-          "rank": 40,
+          "rank": 41,
           "total": 64.3,
           "rank_score": 64.3,
           "grade": "C",
@@ -1021,7 +1055,7 @@
         },
         {
           "candidate_id": "cand-93d22c83cc6b",
-          "rank": 41,
+          "rank": 42,
           "total": 64.1,
           "rank_score": 64.1,
           "grade": "C",
@@ -1038,7 +1072,7 @@
         },
         {
           "candidate_id": "cand-c3ca426059b7",
-          "rank": 42,
+          "rank": 43,
           "total": 63.9,
           "rank_score": 63.9,
           "grade": "C",
@@ -1055,7 +1089,7 @@
         },
         {
           "candidate_id": "cand-fb2c3acdf356",
-          "rank": 43,
+          "rank": 44,
           "total": 63.8,
           "rank_score": 63.8,
           "grade": "C",
@@ -1071,7 +1105,7 @@
         },
         {
           "candidate_id": "cand-e226e840d32b",
-          "rank": 44,
+          "rank": 45,
           "total": 63.8,
           "rank_score": 63.8,
           "grade": "C",
@@ -1088,7 +1122,7 @@
         },
         {
           "candidate_id": "cand-0587b7beae06",
-          "rank": 45,
+          "rank": 46,
           "total": 63.2,
           "rank_score": 63.2,
           "grade": "C",
@@ -1106,7 +1140,7 @@
         },
         {
           "candidate_id": "cand-75c0b45bffc9",
-          "rank": 46,
+          "rank": 47,
           "total": 62.9,
           "rank_score": 62.9,
           "grade": "C",
@@ -1122,7 +1156,7 @@
         },
         {
           "candidate_id": "cand-80510d8d2383",
-          "rank": 47,
+          "rank": 48,
           "total": 62.8,
           "rank_score": 62.8,
           "grade": "C",
@@ -1139,7 +1173,7 @@
         },
         {
           "candidate_id": "cand-519293cd88ce",
-          "rank": 48,
+          "rank": 49,
           "total": 62.7,
           "rank_score": 62.7,
           "grade": "C",
@@ -1155,7 +1189,7 @@
         },
         {
           "candidate_id": "cand-8e570bc43831",
-          "rank": 49,
+          "rank": 50,
           "total": 61.3,
           "rank_score": 61.3,
           "grade": "C",
@@ -1172,7 +1206,7 @@
         },
         {
           "candidate_id": "cand-e0aca53489c2",
-          "rank": 50,
+          "rank": 51,
           "total": 59.4,
           "rank_score": 59.4,
           "grade": "C",
@@ -1190,7 +1224,7 @@
         },
         {
           "candidate_id": "cand-f6ff24d4529e",
-          "rank": 51,
+          "rank": 52,
           "total": 58.7,
           "rank_score": 58.7,
           "grade": "C",
@@ -1211,7 +1245,7 @@
       "window": "month",
       "key": "2026-11",
       "label": "2026年11月",
-      "count": 52,
+      "count": 53,
       "items": [
         {
           "candidate_id": "cand-fa8e114d6cf6",
@@ -1717,8 +1751,25 @@
           "first_seen": "2026-11-05"
         },
         {
-          "candidate_id": "cand-25468f6dc7cc",
+          "candidate_id": "cand-2e3bc0d69299",
           "rank": 31,
+          "total": 66.0,
+          "rank_score": 66.0,
+          "grade": "B",
+          "confidence": 70,
+          "title": "影响的天然气价格增长在电力关税",
+          "industry_ids": [
+            "crossborder"
+          ],
+          "region_ids": [
+            "europe",
+            "north-america"
+          ],
+          "first_seen": "2026-11-06"
+        },
+        {
+          "candidate_id": "cand-25468f6dc7cc",
+          "rank": 32,
           "total": 65.7,
           "rank_score": 65.7,
           "grade": "B",
@@ -1734,7 +1785,7 @@
         },
         {
           "candidate_id": "cand-5dc8ca63c586",
-          "rank": 32,
+          "rank": 33,
           "total": 65.5,
           "rank_score": 65.5,
           "grade": "B",
@@ -1751,7 +1802,7 @@
         },
         {
           "candidate_id": "cand-862d9ecf602a",
-          "rank": 33,
+          "rank": 34,
           "total": 65.5,
           "rank_score": 65.5,
           "grade": "B",
@@ -1768,7 +1819,7 @@
         },
         {
           "candidate_id": "cand-33ec37369434",
-          "rank": 34,
+          "rank": 35,
           "total": 65.1,
           "rank_score": 65.1,
           "grade": "B",
@@ -1785,7 +1836,7 @@
         },
         {
           "candidate_id": "cand-31e75311ef8d",
-          "rank": 35,
+          "rank": 36,
           "total": 65.0,
           "rank_score": 65.0,
           "grade": "B",
@@ -1802,7 +1853,7 @@
         },
         {
           "candidate_id": "cand-8c6319c8ee50",
-          "rank": 36,
+          "rank": 37,
           "total": 65.0,
           "rank_score": 65.0,
           "grade": "B",
@@ -1819,7 +1870,7 @@
         },
         {
           "candidate_id": "cand-0bbd397ca180",
-          "rank": 37,
+          "rank": 38,
           "total": 64.8,
           "rank_score": 64.8,
           "grade": "C",
@@ -1835,7 +1886,7 @@
         },
         {
           "candidate_id": "cand-25923230dafd",
-          "rank": 38,
+          "rank": 39,
           "total": 64.8,
           "rank_score": 64.8,
           "grade": "C",
@@ -1852,7 +1903,7 @@
         },
         {
           "candidate_id": "cand-d58d9a064d4b",
-          "rank": 39,
+          "rank": 40,
           "total": 64.7,
           "rank_score": 64.7,
           "grade": "C",
@@ -1869,7 +1920,7 @@
         },
         {
           "candidate_id": "cand-4855fd85834d",
-          "rank": 40,
+          "rank": 41,
           "total": 64.4,
           "rank_score": 64.4,
           "grade": "C",
@@ -1886,7 +1937,7 @@
         },
         {
           "candidate_id": "cand-e8b69146319e",
-          "rank": 41,
+          "rank": 42,
           "total": 64.3,
           "rank_score": 64.3,
           "grade": "C",
@@ -1903,7 +1954,7 @@
         },
         {
           "candidate_id": "cand-93d22c83cc6b",
-          "rank": 42,
+          "rank": 43,
           "total": 64.1,
           "rank_score": 64.1,
           "grade": "C",
@@ -1920,7 +1971,7 @@
         },
         {
           "candidate_id": "cand-c3ca426059b7",
-          "rank": 43,
+          "rank": 44,
           "total": 63.9,
           "rank_score": 63.9,
           "grade": "C",
@@ -1937,7 +1988,7 @@
         },
         {
           "candidate_id": "cand-fb2c3acdf356",
-          "rank": 44,
+          "rank": 45,
           "total": 63.8,
           "rank_score": 63.8,
           "grade": "C",
@@ -1953,7 +2004,7 @@
         },
         {
           "candidate_id": "cand-e226e840d32b",
-          "rank": 45,
+          "rank": 46,
           "total": 63.8,
           "rank_score": 63.8,
           "grade": "C",
@@ -1970,7 +2021,7 @@
         },
         {
           "candidate_id": "cand-0587b7beae06",
-          "rank": 46,
+          "rank": 47,
           "total": 63.2,
           "rank_score": 63.2,
           "grade": "C",
@@ -1988,7 +2039,7 @@
         },
         {
           "candidate_id": "cand-75c0b45bffc9",
-          "rank": 47,
+          "rank": 48,
           "total": 62.9,
           "rank_score": 62.9,
           "grade": "C",
@@ -2004,7 +2055,7 @@
         },
         {
           "candidate_id": "cand-80510d8d2383",
-          "rank": 48,
+          "rank": 49,
           "total": 62.8,
           "rank_score": 62.8,
           "grade": "C",
@@ -2021,7 +2072,7 @@
         },
         {
           "candidate_id": "cand-519293cd88ce",
-          "rank": 49,
+          "rank": 50,
           "total": 62.7,
           "rank_score": 62.7,
           "grade": "C",
@@ -2037,7 +2088,7 @@
         },
         {
           "candidate_id": "cand-8e570bc43831",
-          "rank": 50,
+          "rank": 51,
           "total": 61.3,
           "rank_score": 61.3,
           "grade": "C",
@@ -2054,7 +2105,7 @@
         },
         {
           "candidate_id": "cand-e0aca53489c2",
-          "rank": 51,
+          "rank": 52,
           "total": 59.4,
           "rank_score": 59.4,
           "grade": "C",
@@ -2072,7 +2123,7 @@
         },
         {
           "candidate_id": "cand-f6ff24d4529e",
-          "rank": 52,
+          "rank": 53,
           "total": 58.7,
           "rank_score": 58.7,
           "grade": "C",
@@ -2093,7 +2144,7 @@
       "window": "year",
       "key": "2026",
       "label": "2026年",
-      "count": 65,
+      "count": 64,
       "items": [
         {
           "candidate_id": "cand-fc8d9fc3ea69",
@@ -2702,8 +2753,25 @@
           "first_seen": "2026-11-05"
         },
         {
-          "candidate_id": "cand-25468f6dc7cc",
+          "candidate_id": "cand-2e3bc0d69299",
           "rank": 37,
+          "total": 66.0,
+          "rank_score": 66.0,
+          "grade": "B",
+          "confidence": 70,
+          "title": "影响的天然气价格增长在电力关税",
+          "industry_ids": [
+            "crossborder"
+          ],
+          "region_ids": [
+            "europe",
+            "north-america"
+          ],
+          "first_seen": "2026-11-06"
+        },
+        {
+          "candidate_id": "cand-25468f6dc7cc",
+          "rank": 38,
           "total": 65.7,
           "rank_score": 65.7,
           "grade": "B",
@@ -2719,7 +2787,7 @@
         },
         {
           "candidate_id": "cand-5dc8ca63c586",
-          "rank": 38,
+          "rank": 39,
           "total": 65.5,
           "rank_score": 65.5,
           "grade": "B",
@@ -2736,7 +2804,7 @@
         },
         {
           "candidate_id": "cand-862d9ecf602a",
-          "rank": 39,
+          "rank": 40,
           "total": 65.5,
           "rank_score": 65.5,
           "grade": "B",
@@ -2753,7 +2821,7 @@
         },
         {
           "candidate_id": "cand-33ec37369434",
-          "rank": 40,
+          "rank": 41,
           "total": 65.1,
           "rank_score": 65.1,
           "grade": "B",
@@ -2770,7 +2838,7 @@
         },
         {
           "candidate_id": "cand-31e75311ef8d",
-          "rank": 41,
+          "rank": 42,
           "total": 65.0,
           "rank_score": 65.0,
           "grade": "B",
@@ -2787,7 +2855,7 @@
         },
         {
           "candidate_id": "cand-8c6319c8ee50",
-          "rank": 42,
+          "rank": 43,
           "total": 65.0,
           "rank_score": 65.0,
           "grade": "B",
@@ -2804,7 +2872,7 @@
         },
         {
           "candidate_id": "cand-0bbd397ca180",
-          "rank": 43,
+          "rank": 44,
           "total": 64.8,
           "rank_score": 64.8,
           "grade": "C",
@@ -2820,7 +2888,7 @@
         },
         {
           "candidate_id": "cand-25923230dafd",
-          "rank": 44,
+          "rank": 45,
           "total": 64.8,
           "rank_score": 64.8,
           "grade": "C",
@@ -2837,7 +2905,7 @@
         },
         {
           "candidate_id": "cand-d58d9a064d4b",
-          "rank": 45,
+          "rank": 46,
           "total": 64.7,
           "rank_score": 64.7,
           "grade": "C",
@@ -2854,7 +2922,7 @@
         },
         {
           "candidate_id": "cand-4855fd85834d",
-          "rank": 46,
+          "rank": 47,
           "total": 64.4,
           "rank_score": 64.4,
           "grade": "C",
@@ -2868,23 +2936,6 @@
             "north-america"
           ],
           "first_seen": "2026-11-06"
-        },
-        {
-          "candidate_id": "cand-ddc70a4e6668",
-          "rank": 47,
-          "total": 64.3,
-          "rank_score": 64.3,
-          "grade": "C",
-          "confidence": 66,
-          "title": "非洲为太阳能之后创纪录增长",
-          "industry_ids": [
-            "green"
-          ],
-          "region_ids": [
-            "africa",
-            "europe"
-          ],
-          "first_seen": "2026-02-27"
         },
         {
           "candidate_id": "cand-e8b69146319e",
@@ -3090,25 +3141,8 @@
           "first_seen": "2026-11-05"
         },
         {
-          "candidate_id": "cand-06e3b25421fc",
-          "rank": 60,
-          "total": 61.3,
-          "rank_score": 61.3,
-          "grade": "C",
-          "confidence": 70,
-          "title": "来自消费者到在的AI需求",
-          "industry_ids": [
-            "ai"
-          ],
-          "region_ids": [
-            "europe",
-            "north-america"
-          ],
-          "first_seen": "2026-10-31"
-        },
-        {
           "candidate_id": "cand-8e570bc43831",
-          "rank": 61,
+          "rank": 60,
           "total": 61.3,
           "rank_score": 61.3,
           "grade": "C",
@@ -3125,7 +3159,7 @@
         },
         {
           "candidate_id": "cand-2790d3876b67",
-          "rank": 62,
+          "rank": 61,
           "total": 60.2,
           "rank_score": 60.2,
           "grade": "C",
@@ -3142,7 +3176,7 @@
         },
         {
           "candidate_id": "cand-e0aca53489c2",
-          "rank": 63,
+          "rank": 62,
           "total": 59.4,
           "rank_score": 59.4,
           "grade": "C",
@@ -3160,7 +3194,7 @@
         },
         {
           "candidate_id": "cand-f6ff24d4529e",
-          "rank": 64,
+          "rank": 63,
           "total": 58.7,
           "rank_score": 58.7,
           "grade": "C",
@@ -3177,7 +3211,7 @@
         },
         {
           "candidate_id": "cand-9bbd1f7b2394",
-          "rank": 65,
+          "rank": 64,
           "total": 56.7,
           "rank_score": 56.7,
           "grade": "C",

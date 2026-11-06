@@ -7,35 +7,35 @@
     "status": "auto-discovered",
     "system_boundary": "系统自动评估商机信号（需求/信息差/证据/时效/可执行性）；仅代表发现与评估，不代表收入承诺。",
     "limit": 120,
-    "total": 68,
-    "business_signals": 395,
-    "maybe_signals": 1776,
+    "total": 66,
+    "business_signals": 398,
+    "maybe_signals": 1775,
     "dropped_duplicates": 6,
     "noise_filtered": 3,
-    "low_info_filtered": 299,
+    "low_info_filtered": 300,
     "title_override_applied": 2,
-    "quality_filtered": 1795,
+    "quality_filtered": 1798,
     "system_validation_summary": {
       "high": 3,
       "medium": 20,
-      "low": 45,
-      "avg_score": 82.2,
+      "low": 43,
+      "avg_score": 83.0,
       "note": "系统自动评估商机信号（需求/信息差/证据/时效/可执行性）；仅代表发现与评估，不代表收入承诺。"
     },
     "translation_summary": {
       "provider": {
-        "glossary": 63,
+        "glossary": 61,
         "source-zh": 5
       },
-      "total": 68,
-      "cached": 68,
+      "total": 66,
+      "cached": 66,
       "cache_hit_ratio": 1.0,
       "quality_high": 0,
-      "quality_medium": 59,
+      "quality_medium": 57,
       "quality_low": 4,
       "quality_source_zh": 5,
       "source_zh": 5,
-      "glossary": 63,
+      "glossary": 61,
       "llm": 0,
       "mock": 0,
       "coverage": 1.0,
@@ -43,11 +43,11 @@
       "disclaimer": "系统翻译（自动生成，可能不完美）；质量不参与商机收录/排序，前端可切换原文。"
     },
     "translation_coverage": {
-      "total": 68,
-      "zh_titles": 68,
+      "total": 66,
+      "zh_titles": 66,
       "ratio": 1.0,
       "methods": {
-        "glossary": 63,
+        "glossary": 61,
         "source-zh": 5
       }
     },
@@ -67,17 +67,17 @@
           "error": "HTTP 403"
         }
       ],
-      "raw": 3192,
-      "deduped": 2640,
-      "new": 2612,
-      "relevant": 395,
-      "candidates": 68
+      "raw": 3189,
+      "deduped": 2637,
+      "new": 2609,
+      "relevant": 398,
+      "candidates": 66
     },
     "gap_inference_coverage": {
-      "inferred": 68,
+      "inferred": 66,
       "missing": 0,
       "ratio": 1.0,
-      "fallback_used": 28,
+      "fallback_used": 25,
       "target_max_missing_ratio": 0.15
     },
     "region_coverage": {
@@ -109,14 +109,14 @@
     "source_outbox": {
       "file": "signals-2026-11-06.json",
       "as_of": "2026-11-06",
-      "raw_count": 3192,
-      "signal_count": 2640,
-      "new_count": 2612,
+      "raw_count": 3189,
+      "signal_count": 2637,
+      "new_count": 2609,
       "seen_count": 28,
       "tiers": {
-        "business": 395,
-        "maybe": 1776,
-        "off-topic": 469
+        "business": 398,
+        "maybe": 1775,
+        "off-topic": 464
       }
     },
     "note": "自动发现候选（discovery layer）：由系统自动评估商机信号（system_validation：需求/信息差/证据/时效/可执行性）；不写入 opportunities.json。",
@@ -125,16 +125,16 @@
       "provider": "deepseek",
       "model": "deepseek-chat",
       "base_url": "https://api.deepseek.com",
-      "count": 68,
-      "cached": 10,
+      "count": 66,
+      "cached": 65,
       "failed": 0,
       "usage": {
-        "prompt_tokens": 54493,
-        "completion_tokens": 86362,
-        "total_tokens": 140855
+        "prompt_tokens": 1069,
+        "completion_tokens": 1857,
+        "total_tokens": 2926
       },
-      "latency_seconds": 630.1,
-      "wall_seconds": 630.16,
+      "latency_seconds": 13.61,
+      "wall_seconds": 13.63,
       "not_a_gate": true
     }
   },
@@ -23670,6 +23670,944 @@
           "timeliness": 8.0,
           "score": 2.5,
           "note": "仅一条机器翻译后的标题级证据，无正文、无协议细节、无多方交叉核验，证据强度不足以支撑高置信度判断，需补充原始报道与官方声明。"
+        }
+      }
+    },
+    {
+      "candidate_id": "cand-2e3bc0d69299",
+      "title": "影响的天然气价格增长在电力关税",
+      "title_zh": "影响的天然气价格增长在电力关税",
+      "one_liner_zh": "跨境，Armenian PSRC assessed the impact of three gas price inc…",
+      "summary_zh": "Armenian PSRC assessed 影响的 three 天然气价格增长 scenarios 在电力关税 ARKA.am",
+      "title_original": "Armenian PSRC assessed the impact of three gas price increase scenarios on electricity tariffs - ARKA.am",
+      "translation": {
+        "provider": "glossary",
+        "quality": "medium",
+        "cached": true,
+        "source_lang": "en",
+        "target_lang": "zh",
+        "fallback": false,
+        "template": false,
+        "disclaimer": "系统翻译（自动生成，可能不完美）；质量不参与商机收录/排序，前端可切换原文。"
+      },
+      "translation_method": "glossary",
+      "one_liner": "跨境｜Armenian PSRC assessed the impact of three gas price increase scenarios on electricity tariffs ARKA.am（自动发现线索，系统已初筛）",
+      "industry_ids": [
+        "crossborder"
+      ],
+      "primary_industry": "crossborder",
+      "primary_region": "europe",
+      "gap_type_ids": [
+        "price",
+        "regulation"
+      ],
+      "gap_inferred": false,
+      "gap_inference": "来自信号原文的显式信息差：「价格差、监管差」",
+      "region_ids": [
+        "europe",
+        "north-america"
+      ],
+      "region_inferred": false,
+      "target_countries": [
+        "德国",
+        "英国",
+        "法国",
+        "波兰",
+        "美国",
+        "加拿大"
+      ],
+      "source": {
+        "id": "gn-v160-global-tariff",
+        "name": "Google News · 关税与进口成本",
+        "url": "https://news.google.com/rss/articles/CBMixgFBVV95cUxNdEdlX2M4dEVlMkY4MS1kVWpOYmxJMnR0MkpRcUJ0N256aW8tS2UxTVF4c1AzMk5lcU81eUJDaVFENERvbEdjb1laaTJkRXl6dWQxTktaNWlDT1hpejF6YldrRTVSM1M0TENHTk4wVFdrQWN1QVBxTlo1cE1vX25mb2xERVZSaUhlYlVRMU56OWVfS1FuNTdKaXhsZW9KR1NKMDZoMVJVVnQ5bmVCTUp5V3B5c05qNWc4ZlB3RDEzRFAwZlFXUlE?oc=5",
+        "cleaned": "影响的天然气价格增长在电力关税",
+        "raw_title": "Armenian PSRC assessed the impact of three gas price increase scenarios on electricity tariffs - ARKA.am",
+        "published_at": "2026-11-06",
+        "summary": "Armenian PSRC assessed the impact of three gas price increase scenarios on electricity tariffs ARKA.am"
+      },
+      "evidence": [
+        {
+          "title": "影响的天然气价格增长在电力关税",
+          "url": "https://news.google.com/rss/articles/CBMixgFBVV95cUxNdEdlX2M4dEVlMkY4MS1kVWpOYmxJMnR0MkpRcUJ0N256aW8tS2UxTVF4c1AzMk5lcU81eUJDaVFENERvbEdjb1laaTJkRXl6dWQxTktaNWlDT1hpejF6YldrRTVSM1M0TENHTk4wVFdrQWN1QVBxTlo1cE1vX25mb2xERVZSaUhlYlVRMU56OWVfS1FuNTdKaXhsZW9KR1NKMDZoMVJVVnQ5bmVCTUp5V3B5c05qNWc4ZlB3RDEzRFAwZlFXUlE?oc=5",
+          "source_id": "gn-v160-global-tariff",
+          "publisher": "Google News · 关税与进口成本",
+          "date": "2026-11-06",
+          "tier": "public-signal",
+          "verified_by_human": false,
+          "link_status": "public-url",
+          "fetch_status": "unfetched"
+        }
+      ],
+      "system_validation": {
+        "level": "low",
+        "score": 85,
+        "level_thresholds": {
+          "high": 95,
+          "medium": 87
+        },
+        "checks": [
+          {
+            "id": "demand_signal",
+            "name": "需求信号",
+            "passed": true,
+            "note": "相关性 59/100，tier=maybe；16/25",
+            "points": 16
+          },
+          {
+            "id": "gap_clarity",
+            "name": "信息差明确",
+            "passed": true,
+            "note": "信息差：价格差、监管差；15/15",
+            "points": 15
+          },
+          {
+            "id": "evidence",
+            "name": "证据链接",
+            "passed": true,
+            "note": "公开链接 1 条（无需人工核验）；8/12",
+            "points": 8
+          },
+          {
+            "id": "source_quality",
+            "name": "来源质量",
+            "passed": true,
+            "note": "来源 Google News · 关税与进口成本（compliance=yellow）；8/12",
+            "points": 8
+          },
+          {
+            "id": "timeliness",
+            "name": "时效",
+            "passed": true,
+            "note": "发布距基准日 0 天；15/15",
+            "points": 15
+          },
+          {
+            "id": "actionability",
+            "name": "可执行性",
+            "passed": true,
+            "note": "行业 1 / 目标国家 6 / ROI 默认区间；10/10",
+            "points": 10
+          },
+          {
+            "id": "specificity",
+            "name": "地理/场景具体性",
+            "passed": true,
+            "note": "区域：北美、欧洲；8/8",
+            "points": 8
+          },
+          {
+            "id": "competition_window",
+            "name": "竞争/窗口",
+            "passed": true,
+            "note": "新鲜度窗口 0 天；5/5",
+            "points": 5
+          }
+        ],
+        "checks_passed": 8,
+        "checks_total": 8,
+        "notes": "系统自动评估商机信号（需求/信息差/证据/时效/可执行性）；仅代表发现与评估，不代表收入承诺。"
+      },
+      "seven_questions": {
+        "需求": {
+          "question": "需求",
+          "answer": "围绕「Armenian PSRC assessed the…」：跨境需求正在被公开讨论，可能存在未被满足的具体场景。",
+          "draft": true
+        },
+        "人群": {
+          "question": "人群",
+          "answer": "从该信号来源的读者/从业者中找最早 100 个种子用户（如原文评论区、相关社群）。",
+          "draft": true
+        },
+        "竞品": {
+          "question": "竞品",
+          "answer": "现有替代方案多为通用商品/服务；需人工对比价格、交付与本地化程度。",
+          "draft": true
+        },
+        "差异": {
+          "question": "差异",
+          "answer": "利用价格差、监管差做出本地化/更快/更透明的供给（自动草稿，待人工细化）。",
+          "draft": true
+        },
+        "渠道": {
+          "question": "渠道",
+          "answer": "先用来源媒体/社群做小成本测试，再考虑搜索/平台/私域渠道（自动草稿）。",
+          "draft": true
+        },
+        "成本": {
+          "question": "成本",
+          "answer": "先按行业默认 ROI 估算最小启动成本；真实成本需人工核价。",
+          "draft": true
+        },
+        "跟踪": {
+          "question": "跟踪",
+          "answer": "14 天内观察到询价/预约/加购等可量化信号再投入（自动草稿）。",
+          "draft": true
+        }
+      },
+      "roi": {
+        "capital_min": 50000,
+        "capital_max": 300000,
+        "monthly_revenue_min": 20000,
+        "monthly_revenue_max": 120000,
+        "gross_margin_min": 25,
+        "gross_margin_max": 50,
+        "payback_months": 10,
+        "time_to_revenue_months": 2,
+        "effort": "中高",
+        "estimated": true,
+        "note": "行业默认区间估算（自动生成），非承诺；需人工按实际采购/渠道成本重算"
+      },
+      "investment_breakdown": {
+        "currency": "CNY",
+        "theoretical": true,
+        "total_min": 50000,
+        "total_max": 300000,
+        "items": [
+          {
+            "id": "registration",
+            "key": "registration",
+            "name": "注册/主体",
+            "label": "注册/主体",
+            "min": 2000,
+            "max": 12000,
+            "basis": "主体注册/开户/备案等一次性费用",
+            "note": "注册/主体按行业默认比例（4%）估算，需按实际报价调整"
+          },
+          {
+            "id": "compliance",
+            "key": "compliance",
+            "name": "合规/资质",
+            "label": "合规/资质",
+            "min": 4000,
+            "max": 24000,
+            "basis": "许可、认证、检测或合规咨询",
+            "note": "合规/资质按行业默认比例（8%）估算，需按实际报价调整"
+          },
+          {
+            "id": "inventory",
+            "key": "inventory",
+            "name": "首批库存/样品",
+            "label": "首批库存/样品",
+            "min": 15000,
+            "max": 90000,
+            "basis": "首批样品/小批量库存与打样",
+            "note": "首批库存/样品按行业默认比例（30%）估算，需按实际报价调整"
+          },
+          {
+            "id": "channels",
+            "key": "channels",
+            "name": "平台/渠道开通",
+            "label": "平台/渠道开通",
+            "min": 5000,
+            "max": 30000,
+            "basis": "平台入驻、店铺/渠道建设",
+            "note": "平台/渠道开通按行业默认比例（10%）估算，需按实际报价调整"
+          },
+          {
+            "id": "logistics",
+            "key": "logistics",
+            "name": "物流仓储",
+            "label": "物流仓储",
+            "min": 5000,
+            "max": 30000,
+            "basis": "头程/仓储/退换与本地配送",
+            "note": "物流仓储按行业默认比例（10%）估算，需按实际报价调整"
+          },
+          {
+            "id": "tools",
+            "key": "tools",
+            "name": "工具/软件",
+            "label": "工具/软件",
+            "min": 3000,
+            "max": 18000,
+            "basis": "店铺/内容/数据工具订阅",
+            "note": "工具/软件按行业默认比例（6%）估算，需按实际报价调整"
+          },
+          {
+            "id": "marketing",
+            "key": "marketing",
+            "name": "市场推广",
+            "label": "市场推广",
+            "min": 8000,
+            "max": 48000,
+            "basis": "内容投放、达人/社群与冷启动获客",
+            "note": "市场推广按行业默认比例（16%）估算，需按实际报价调整"
+          },
+          {
+            "id": "labor",
+            "key": "labor",
+            "name": "人力/外包",
+            "label": "人力/外包",
+            "min": 5000,
+            "max": 30000,
+            "basis": "运营/客服/设计/外包",
+            "note": "人力/外包按行业默认比例（10%）估算，需按实际报价调整"
+          },
+          {
+            "id": "working_capital",
+            "key": "working_capital",
+            "name": "流动资金",
+            "label": "流动资金",
+            "min": 2000,
+            "max": 12000,
+            "basis": "现金流缓冲与补货周转",
+            "note": "流动资金按行业默认比例（4%）估算，需按实际报价调整"
+          },
+          {
+            "id": "contingency",
+            "key": "contingency",
+            "name": "预备金",
+            "label": "预备金",
+            "min": 1000,
+            "max": 6000,
+            "basis": "汇率/物流/退款等意外预备",
+            "note": "预备金按行业默认比例（2%）估算，需按实际报价调整"
+          }
+        ],
+        "basis": "按 crossborder 行业默认比例拆分；合计严格等于 roi.capital / conditions.capital"
+      },
+      "unit_economics": {
+        "aov_source": "roi_reverse",
+        "aov_basis": "AOV = ROI 月收入区间 / 理论月单量（整数；与 price_per_unit、profit_model.unit_price 同源）",
+        "price_per_unit": {
+          "min": 100,
+          "max": 600,
+          "basis": "整数客单价；月收入锚定 ROI 后按单量反推"
+        },
+        "cost_per_unit": {
+          "min": 75,
+          "max": 300,
+          "items": [
+            {
+              "name": "直接成本",
+              "min": 75,
+              "max": 300,
+              "basis": "按毛利率反推"
+            }
+          ],
+          "basis": "单件采购/交付成本"
+        },
+        "gross_profit_per_unit": {
+          "min": 25,
+          "max": 300
+        },
+        "fixed_cost_per_unit": {
+          "min": 1,
+          "max": 150,
+          "basis": "月固定成本按理论单量摊到每单"
+        },
+        "net_contribution_per_unit": {
+          "min": 24,
+          "max": 150
+        },
+        "gross_margin_pct": {
+          "min": 25.0,
+          "max": 50.0
+        },
+        "monthly_orders": {
+          "min": 200,
+          "max": 200,
+          "basis": "整除 ROI 月收入的理论单量（同口径）"
+        },
+        "monthly_revenue": {
+          "min": 20000,
+          "max": 120000
+        },
+        "monthly_variable_cost": {
+          "min": 15000,
+          "max": 60000
+        },
+        "monthly_fixed_cost": {
+          "min": 200,
+          "max": 30000
+        },
+        "monthly_profit": {
+          "min": 4800,
+          "max": 30000
+        },
+        "breakeven_orders": 8,
+        "payback_months": {
+          "min": 1.7,
+          "max": 62.5,
+          "target": 10.0,
+          "target_months": 10.0
+        },
+        "formula": "客单价−单位成本=单位毛利；单位毛利−单位固定=单位净贡献；月收入=客单价×月单量；月利润=月收入−月变动−月固定；回本=投资/月利润",
+        "assumptions": [
+          "全部为整数理论测算，不含实盘数据；四舍五入后加减仍严格相等。",
+          "月收入锚定 ROI 月收入，单量取能整除收入的整数，客单价随之反推。",
+          "固定成本按理论单量摊到每单，实际人力/工具/渠道成本可能不同。",
+          "未计入汇率、退款、税费与一次性意外支出。"
+        ],
+        "sensitivity": [
+          {
+            "label": "单量 -20%",
+            "orders": 160,
+            "revenue": 16000,
+            "variable_cost": 12000,
+            "fixed_cost": 160,
+            "profit": 3840
+          },
+          {
+            "label": "基准",
+            "orders": 200,
+            "revenue": 20000,
+            "variable_cost": 15000,
+            "fixed_cost": 200,
+            "profit": 4800
+          },
+          {
+            "label": "单量 +20%",
+            "orders": 240,
+            "revenue": 24000,
+            "variable_cost": 18000,
+            "fixed_cost": 240,
+            "profit": 5760
+          },
+          {
+            "label": "客单价 -10%",
+            "orders": 200,
+            "revenue": 18000,
+            "variable_cost": 15000,
+            "fixed_cost": 200,
+            "profit": 2800
+          },
+          {
+            "label": "客单价 +10%",
+            "orders": 200,
+            "revenue": 22000,
+            "variable_cost": 15000,
+            "fixed_cost": 200,
+            "profit": 6800
+          }
+        ]
+      },
+      "aov_source": "roi_reverse",
+      "aov": {
+        "min": 100,
+        "max": 600
+      },
+      "grade": "B",
+      "noise_flags": [],
+      "scores": {
+        "dimensions": {
+          "signal": 7.5,
+          "gap": 6.5,
+          "feasibility": 7.0,
+          "economics": 6.2,
+          "timing": 7.2,
+          "competition": 6.0,
+          "risk": 7.0,
+          "fit": 6.5,
+          "evidence": 4.0,
+          "leverage": 6.0
+        },
+        "total": 66.0,
+        "rank_score": 66.0,
+        "grade": "B",
+        "momentum": 1.0
+      },
+      "analyst_narrative": {
+        "thesis": "Armenian PSRC在德国、英国、法国给出成本变化信号，成本/价格变化会改变价差与供应链选择；跨境要补的是物流清关、本地售后与合规认证（关键卡点）。",
+        "market": "德国的需求方是海外本地中小买家，该信号会放大其对货品差价的需求；供给若停留在本地制造，物流清关、本地售后与合规认证（关键卡点）就是缺口。",
+        "verdict": "综合看，跨境方向优先级较高：成本/价格变化会改变价差与供应链选择叠加物流清关、本地售后与合规认证（关键卡点）；风险在关税/认证/产品合规与库存与头程。30 天内围绕Armenian PSRC锁定首批 20–50 个客户并跑通最小可售版，首单后校准单位经济，约10个月跑通货品差价 + 服务；不构成收入承诺。"
+      },
+      "business_canvas": {
+        "customer_segments": [
+          "海外本地中小买家",
+          "中国供应链卖家",
+          "德国、英国、法国本地用户/买家"
+        ],
+        "value_proposition": "用中国供应链效率做海外本地化选品与履约；信号主体「Armenian PSRC」指向成本/价格变化会改变价差与供应链选择，替代供给出现窗口",
+        "channels": [
+          "跨境平台",
+          "本地分销/社群",
+          "德国、英国、法国本地社群/渠道"
+        ],
+        "customer_relationships": "小 B 分销 + 复购 + 本地服务",
+        "revenue_streams": [
+          "货品差价",
+          "本地履约/服务费",
+          "价格差套利带来的额外溢价/服务费"
+        ],
+        "key_resources": [
+          "供应链与选品能力",
+          "跨境物流/合规资源",
+          "德国、英国、法国本地合规/物流资源"
+        ],
+        "key_activities": [
+          "选品与合规",
+          "本地履约与售后",
+          "本地化选品与内容运营"
+        ],
+        "key_partners": [
+          "工厂",
+          "海外仓/物流商",
+          "EU GPSR/CE/VAT相关服务商"
+        ],
+        "cost_structure": [
+          "采购与头程",
+          "本地仓配/退换",
+          "价格差套利本地化成本"
+        ]
+      },
+      "judgment": {
+        "dimensions": [
+          {
+            "id": "signal",
+            "name": "信号强度",
+            "score": 7.5,
+            "rationale": "标题提到Armenian PSRC，且属于成本/价格变化会改变价差与供应链选择，替代供给出现窗口，不是泛泛趋势。",
+            "data_used": [
+              "标题实体：Armenian PSRC",
+              "行业：跨境",
+              "事件类型：成本变化",
+              "信息差：价格差套利",
+              "区域：德国、英国、法国"
+            ]
+          },
+          {
+            "id": "gap",
+            "name": "信息差",
+            "score": 6.5,
+            "rationale": "价格差套利：价格差套利：成本结构优势；德国、英国、法国市场的本地价格带适配是切入点。",
+            "data_used": [
+              "标题实体：Armenian PSRC",
+              "行业：跨境",
+              "事件类型：成本变化",
+              "信息差：价格差套利",
+              "区域：德国、英国、法国"
+            ]
+          },
+          {
+            "id": "feasibility",
+            "name": "可行性",
+            "score": 7.0,
+            "rationale": "可先用跨境选品与中国工厂 + 海外仓小规模起步，首期投入控制在 50,000–300,000 元。",
+            "data_used": [
+              "标题实体：Armenian PSRC",
+              "行业：跨境",
+              "事件类型：成本变化",
+              "信息差：价格差套利",
+              "区域：德国、英国、法国"
+            ]
+          },
+          {
+            "id": "economics",
+            "name": "经济性",
+            "score": 6.2,
+            "rationale": "货品差价 + 服务，毛利率约 25%–50%，预计 10 个月回本。",
+            "data_used": [
+              "标题实体：Armenian PSRC",
+              "行业：跨境",
+              "事件类型：成本变化",
+              "信息差：价格差套利",
+              "区域：德国、英国、法国"
+            ]
+          },
+          {
+            "id": "timing",
+            "name": "时机",
+            "score": 7.2,
+            "rationale": "信号日期 2026-11-06，按成本变化事件判断窗口约 3–6 个月；成本/价格变化会改变价差与供应链选择，替代供给出现窗口。",
+            "data_used": [
+              "标题实体：Armenian PSRC",
+              "行业：跨境",
+              "事件类型：成本变化",
+              "信息差：价格差套利",
+              "区域：德国、英国、法国"
+            ]
+          },
+          {
+            "id": "competition",
+            "name": "竞争",
+            "score": 6.0,
+            "rationale": "直接竞品：跨境大卖/平台卖家；我们的差异是供应链 + 本地化合规/履约。",
+            "data_used": [
+              "标题实体：Armenian PSRC",
+              "行业：跨境",
+              "事件类型：成本变化",
+              "信息差：价格差套利",
+              "区域：德国、英国、法国"
+            ]
+          },
+          {
+            "id": "risk",
+            "name": "风险",
+            "score": 7.0,
+            "rationale": "主要风险在关税/认证/产品合规与库存与头程，EU GPSR/CE/VAT需提前准备。",
+            "data_used": [
+              "标题实体：Armenian PSRC",
+              "行业：跨境",
+              "事件类型：成本变化",
+              "信息差：价格差套利",
+              "区域：德国、英国、法国"
+            ]
+          },
+          {
+            "id": "fit",
+            "name": "匹配度",
+            "score": 6.5,
+            "rationale": "与跨境知识包和德国、英国、法国区域规则匹配，平台/分销准入是主要适配点。",
+            "data_used": [
+              "标题实体：Armenian PSRC",
+              "行业：跨境",
+              "事件类型：成本变化",
+              "信息差：价格差套利",
+              "区域：德国、英国、法国"
+            ]
+          },
+          {
+            "id": "evidence",
+            "name": "证据",
+            "score": 4.0,
+            "rationale": "已有 1 条公开来源（Google News · 关税与进口成本），可支撑初步判断，商业结果需实操观察。",
+            "data_used": [
+              "标题实体：Armenian PSRC",
+              "行业：跨境",
+              "事件类型：成本变化",
+              "信息差：价格差套利",
+              "区域：德国、英国、法国"
+            ]
+          },
+          {
+            "id": "leverage",
+            "name": "杠杆",
+            "score": 6.0,
+            "rationale": "规模化杠杆：同一供应链扩品类/市场；合规与本地服务可形成本地壁垒。",
+            "data_used": [
+              "标题实体：Armenian PSRC",
+              "行业：跨境",
+              "事件类型：成本变化",
+              "信息差：价格差套利",
+              "区域：德国、英国、法国"
+            ]
+          }
+        ],
+        "why_opportunity": "Armenian PSRC（成本变化）意味着成本/价格变化会改变价差与供应链选择，替代供给出现窗口；在德国、英国、法国，物流清关、本地售后与合规认证是跨境的核心缺口；可用货品差价 + 服务切入，窗口约 3–6 个月。",
+        "not_opportunity_if": [
+          "若德国、英国、法国出现「物流/关税吃掉价差，或供应链切换成本高于节省」的情况。",
+          "若关税/认证/产品合规（EU GPSR/CE/VAT）导致进入成本过高，或库存与头程超出可承受范围。",
+          "若跨境大卖/平台卖家已形成强网络效应，且我们无法做出供应链 + 本地化合规/履约差异。"
+        ],
+        "event_type": "成本变化",
+        "primary_industry": "crossborder"
+      },
+      "competition": {
+        "direct": [
+          "跨境大卖/平台卖家",
+          "本地同类品牌"
+        ],
+        "indirect": [
+          "本地批发商",
+          "贸易公司"
+        ],
+        "substitutes": [
+          "本地制造",
+          "代购/集运"
+        ],
+        "differentiation": "供应链 + 本地化合规/履约；结合价格差套利做本地化差异",
+        "moat": "供应链 + 本地化合规/履约",
+        "positioning": "细分市场本地化跨境供给"
+      },
+      "cross_market": {
+        "target_markets": [
+          "德国",
+          "英国",
+          "法国"
+        ],
+        "arbitrage_type": "价格差套利",
+        "why_migratable": "成本优势可扩品类；跨境供给可按本地价格带适配复制，事件类型（成本变化）决定进入节奏。",
+        "localization_needs": [
+          "多语言 + GDPR/CE",
+          "英/德/法内容与客服",
+          "EU GPSR/CE/VAT"
+        ],
+        "pricing_power": "性价比定位，毛利受竞争约束"
+      },
+      "timing": {
+        "why_now": "信号日期 2026-11-06，Armenian PSRC触发成本变化变化：成本/价格变化会改变价差与供应链选择，替代供给出现窗口。",
+        "catalysts": [
+          "成本持续上升",
+          "替代供应链成熟",
+          "客户开始比价",
+          "德国、英国、法国本地供给缺口"
+        ],
+        "window_stage": "窗口打开",
+        "window_months": "4–6",
+        "urgency": "high",
+        "risks": [
+          "窗口可能被跨境大卖/平台卖家快速跟进",
+          "EU GPSR/CE/VAT变化影响节奏"
+        ]
+      },
+      "conditions": {
+        "capital_range_cny": [
+          50000,
+          300000
+        ],
+        "skills": [
+          "跨境选品",
+          "物流与合规"
+        ],
+        "licenses": "目标市场产品认证/进口商资质",
+        "supply_chain": "中国工厂 + 海外仓",
+        "partners": [
+          "工厂",
+          "海外仓/物流商"
+        ],
+        "team": "1 名选品 + 1 名运营",
+        "time_to_launch_months": 4,
+        "event_entry_requirement": "成本/价格变化会改变价差与供应链选择，替代供给出现窗口"
+      },
+      "barriers": {
+        "regulatory": "关税/认证/产品合规",
+        "technical": "选品与品控",
+        "capital": "库存与头程",
+        "brand": "本地信任",
+        "channel": "平台/分销准入",
+        "region_specific": "EU GPSR/CE/VAT",
+        "event_specific": "物流/关税吃掉价差，或供应链切换成本高于节省"
+      },
+      "profit_model": {
+        "revenue_model": "货品差价 + 服务",
+        "revenue_streams": [
+          {
+            "id": "product",
+            "name": "主营产品/服务",
+            "monthly_amount_min": 20000,
+            "monthly_amount_max": 120000,
+            "share_pct": 85,
+            "basis": "客单价×理论单量（理论测算）"
+          },
+          {
+            "id": "service",
+            "name": "增值服务",
+            "monthly_amount_min": 2000,
+            "monthly_amount_max": 12000,
+            "share_pct": 10,
+            "basis": "按主营收入 10% 估算"
+          },
+          {
+            "id": "fee",
+            "name": "渠道/分佣",
+            "monthly_amount_min": 1000,
+            "monthly_amount_max": 6000,
+            "share_pct": 5,
+            "basis": "按主营收入 5% 估算"
+          }
+        ],
+        "pricing_range": "参考客单价/服务费：20,000–120,000 元/月规模",
+        "gross_margin": "毛利率约 25%–50%",
+        "cost_items": [
+          {
+            "id": "cogs",
+            "name": "商品/服务直接成本",
+            "monthly_amount_min": 15000,
+            "monthly_amount_max": 60000,
+            "basis": "单位成本×理论单量"
+          },
+          {
+            "id": "fixed",
+            "name": "固定成本",
+            "monthly_amount_min": 200,
+            "monthly_amount_max": 30000,
+            "basis": "单位固定成本×理论单量"
+          }
+        ],
+        "unit_economics": "以海外本地中小买家为首批客户，单客贡献 = 客单价 × 毛利率 − 获客/履约成本；参考 ROI 默认区间。",
+        "payback_months": {
+          "min": 1.7,
+          "max": 62.5,
+          "target": 10.0,
+          "target_months": 10.0
+        },
+        "scale_levers": "同一供应链扩品类/市场",
+        "event_effect": "成本/价格变化会改变价差与供应链选择，替代供给出现窗口",
+        "currency": "CNY",
+        "aov_source": "roi_reverse",
+        "aov_basis": "与 unit_economics.price_per_unit 同源：ROI 月收入 / 理论月单量",
+        "unit_price": {
+          "min": 100,
+          "max": 600
+        },
+        "monthly_orders": {
+          "min": 200,
+          "max": 200
+        },
+        "monthly_revenue": {
+          "min": 20000,
+          "max": 120000
+        },
+        "monthly_profit": {
+          "min": 4800,
+          "max": 30000
+        },
+        "basis": "crossborder 行业默认区间 + 标题信号「Armenian PSRC assessed 影响的 three 天然气价格增…」；理论测算，非实盘",
+        "formula": "客单价−单位成本=单位毛利；单位毛利−单位固定=单位净贡献；月收入=客单价×月单量；月利润=月收入−月变动−月固定；回本=投资/月利润"
+      },
+      "execution_plan": {
+        "phase_0_30_days": [
+          "锁定德国、英国、法国首批 20–50 个目标客户/买家（海外本地中小买家），围绕Armenian PSRC事件切入。",
+          "完成选品与合规的最小可售版本，确认中国工厂 + 海外仓。",
+          "搭建跨境平台与本地内容/客服（英/德/法）；完成替代供应链比价与小批量试单，建立本地交付。"
+        ],
+        "phase_30_90_days": [
+          "小批量投放/试单，目标是首笔收入与 动销率 达标。",
+          "按本地价格带适配迭代供给，建立供应链 + 本地化合规/履约。",
+          "评估同一供应链扩品类/市场的复制节奏，跟踪成本持续上升。"
+        ],
+        "milestones": [
+          {
+            "name": "首单/首批客户",
+            "target": "30 天内"
+          },
+          {
+            "name": "正向单位经济",
+            "target": "90 天内"
+          },
+          {
+            "name": "可复制模型",
+            "target": "10 个月左右"
+          }
+        ],
+        "first_revenue_path": "通过跨境平台向海外本地中小买家交付货品差价，先收首批订单/服务费。",
+        "kpis": [
+          "动销率",
+          "履约时效"
+        ]
+      },
+      "sources": [
+        {
+          "title": "Armenian PSRC assessed 影响的 three 天然气价格增…",
+          "url": "https://news.google.com/rss/articles/CBMixgFBVV95cUxNdEdlX2M4dEVlMkY4MS1kVWpOYmxJMnR0MkpRcUJ0N256aW8tS2UxTVF4c1AzMk5lcU81eUJDaVFENERvbEdjb1laaTJkRXl6dWQxTktaNWlDT1hpejF6YldrRTVSM1M0TENHTk4wVFdrQWN1QVBxTlo1cE1vX25mb2xERVZSaUhlYlVRMU56OWVfS1FuNTdKaXhsZW9KR1NKMDZoMVJVVnQ5bmVCTUp5V3B5c05qNWc4ZlB3RDEzRFAwZlFXUlE?oc=5",
+          "publisher": "Google News · 关税与进口成本",
+          "date": "2026-11-06",
+          "tier": "public-signal",
+          "fetch_status": "unfetched"
+        }
+      ],
+      "confidence": 70,
+      "status": "auto-discovered",
+      "first_seen": "2026-11-06",
+      "last_seen": "2026-11-06",
+      "relevance_score": 59.0,
+      "source_tier": "maybe",
+      "signal_id": "sig-e33fe7f02030",
+      "outbox_file": "",
+      "disclaimer": "自动发现的候选线索：由公开信号自动生成，系统已做商机初筛评估（system_validation）；不代表收入承诺。",
+      "analysis": {
+        "thesis": "亚美尼亚PSRC对三种天然气涨价情景下的电价影响进行评估，意味着监管层正在为气价传导至终端电价做量化准备；对跨境能源贸易、电力成本对冲与亚美尼亚市场相关方而言，这是一个早期政策信号，但当前仅有单一新闻标题级证据，尚不足以支撑具体商业动作。",
+        "dominant_driver": [
+          "信号",
+          "时机"
+        ],
+        "strengths": [
+          "监管机构（PSRC）主动评估三种气价上涨情景，说明气价上行已被纳入正式政策议程，信号明确",
+          "气价→电价传导链条清晰，受影响主体（发电商、配电公司、大工业用户）可识别",
+          "评估处于情景阶段而非已定案，存在政策窗口期与信息差",
+          "亚美尼亚属欧洲区域能源进口依赖型市场，气价波动敏感度高"
+        ],
+        "weaknesses": [
+          "证据仅有一条新闻标题级摘要，无具体涨幅、时间表、电价调整幅度",
+          "未披露三种情景的参数与PSRC结论，无法量化影响",
+          "来源为聚合类Google News条目，非ARKA.am原文，权威性与可核验性弱",
+          "发布日期为2026-11-06，时效与真实性待核"
+        ],
+        "unknowns": [
+          "三种气价上涨情景的具体涨幅与假设",
+          "PSRC评估结论及是否触发电价上调、上调幅度与生效时间",
+          "气源结构（俄罗斯气占比）与合同定价机制",
+          "受影响最大的用电行业与居民电价补贴安排",
+          "该评估是否已进入公开征求意见或立法程序"
+        ],
+        "causal_chain": [
+          "事实：亚美尼亚PSRC对三种天然气涨价情景下的电价影响开展评估",
+          "变化：气价上行从市场传闻进入监管机构的正式情景测算阶段",
+          "受影响主体：发电企业、配电公司、大工业用户与居民用户将面临成本传导",
+          "缺口：情景参数、评估结论与电价调整时间表均未公开，市场缺乏可定价信息",
+          "切入点：以监管情景披露为触发点，向亚美尼亚能源进口商与用电大户提供气价-电价传导测算与对冲方案"
+        ],
+        "entry_point": "面向亚美尼亚大工业用户与电力交易方，提供气价情景→电价传导的量化模型与采购/对冲建议，并在PSRC公开征求意见阶段提供合规咨询。",
+        "differentiation": "不做泛能源资讯，而是聚焦‘监管情景参数→电价传导→企业成本’的量化映射，以情景敏感性分析作为差异化交付物。",
+        "commercial_structure": {
+          "value_proposition": "为亚美尼亚用电大户与能源贸易商提供气价上涨情景下的电价成本测算、采购时机与对冲策略，降低政策不确定性带来的成本冲击。",
+          "pricing": "按项目付费的情景测算报告（数千至数万美元级）+ 年度订阅式政策跟踪与模型更新。",
+          "cost_structure": "主要成本为本地监管信息获取、能源数据分析人力与模型维护；轻资产、以专家服务为主。",
+          "channels": "本地能源咨询伙伴、行业协会、跨境能源贸易商网络、监管公开文件监测。",
+          "startup_conditions": "需建立亚美尼亚PSRC与气价合同的信息监测渠道，并具备电力市场与天然气定价的基础建模能力。"
+        },
+        "evidence_refs": [
+          {
+            "title": "影响的天然气价格增长在电力关税",
+            "url": "https://news.google.com/rss/articles/CBMixgFBVV95cUxNdEdlX2M4dEVlMkY4MS1kVWpOYmxJMnR0MkpRcUJ0N256aW8tS2UxTVF4c1AzMk5lcU81eUJDaVFENERvbEdjb1laaTJkRXl6dWQxTktaNWlDT1hpejF6YldrRTVSM1M0TENHTk4wVFdrQWN1QVBxTlo1cE1vX25mb2xERVZSaUhlYlVRMU56OWVfS1FuNTdKaXhsZW9KR1NKMDZoMVJVVnQ5bmVCTUp5V3B5c05qNWc4ZlB3RDEzRFAwZlFXUlE?oc=5",
+            "publisher": "Google News · 关税与进口成本",
+            "date": "2026-11-06"
+          }
+        ],
+        "falsifiers": [
+          "若PSRC评估结论为气价上涨不传导至电价（如通过补贴或合同锁定），则传导逻辑不成立",
+          "若三种情景涨幅极小或评估仅为例行程序、无后续政策动作，则商业窗口消失",
+          "若亚美尼亚气价由长期合同固定、短期波动不传导，则情景敏感性分析价值下降",
+          "若无法获取PSRC原文与情景参数，量化模型无法落地"
+        ],
+        "confidence": 0.42,
+        "analysis_score": 58.0,
+        "single_axis_strong": false,
+        "scenario": "batch",
+        "not_a_gate": true,
+        "information_value": {
+          "score": 4.6,
+          "dimensions": {
+            "novelty": 6.0,
+            "specificity": 3.0,
+            "impact": 6.0,
+            "urgency": 5.0,
+            "actionability": 3.0
+          },
+          "novelty": 6.0,
+          "specificity": 3.0,
+          "impact": 6.0,
+          "urgency": 5.0,
+          "actionability": 3.0
+        },
+        "key_facts": [
+          {
+            "text": "亚美尼亚PSRC对三种天然气涨价情景下的电价影响进行了评估",
+            "fact": "亚美尼亚PSRC对三种天然气涨价情景下的电价影响进行了评估",
+            "type": "fact",
+            "source_ref": {
+              "title": "影响的天然气价格增长在电力关税",
+              "url": "https://news.google.com/rss/articles/CBMixgFBVV95cUxNdEdlX2M4dEVlMkY4MS1kVWpOYmxJMnR0MkpRcUJ0N256aW8tS2UxTVF4c1AzMk5lcU81eUJDaVFENERvbEdjb1laaTJkRXl6dWQxTktaNWlDT1hpejF6YldrRTVSM1M0TENHTk4wVFdrQWN1QVBxTlo1cE1vX25mb2xERVZSaUhlYlVRMU56OWVfS1FuNTdKaXhsZW9KR1NKMDZoMVJVVnQ5bmVCTUp5V3B5c05qNWc4ZlB3RDEzRFAwZlFXUlE?oc=5"
+            }
+          },
+          {
+            "text": "评估采用三种气价上涨情景，说明气价上行已被纳入监管测算",
+            "fact": "评估采用三种气价上涨情景，说明气价上行已被纳入监管测算",
+            "type": "inference",
+            "source_ref": {
+              "title": "影响的天然气价格增长在电力关税",
+              "url": "https://news.google.com/rss/articles/CBMixgFBVV95cUxNdEdlX2M4dEVlMkY4MS1kVWpOYmxJMnR0MkpRcUJ0N256aW8tS2UxTVF4c1AzMk5lcU81eUJDaVFENERvbEdjb1laaTJkRXl6dWQxTktaNWlDT1hpejF6YldrRTVSM1M0TENHTk4wVFdrQWN1QVBxTlo1cE1vX25mb2xERVZSaUhlYlVRMU56OWVfS1FuNTdKaXhsZW9KR1NKMDZoMVJVVnQ5bmVCTUp5V3B5c05qNWc4ZlB3RDEzRFAwZlFXUlE?oc=5"
+            }
+          },
+          {
+            "text": "现有证据仅为标题级摘要，未披露情景参数与评估结论",
+            "fact": "现有证据仅为标题级摘要，未披露情景参数与评估结论",
+            "type": "inference",
+            "source_ref": {
+              "title": "影响的天然气价格增长在电力关税",
+              "url": "https://news.google.com/rss/articles/CBMixgFBVV95cUxNdEdlX2M4dEVlMkY4MS1kVWpOYmxJMnR0MkpRcUJ0N256aW8tS2UxTVF4c1AzMk5lcU81eUJDaVFENERvbEdjb1laaTJkRXl6dWQxTktaNWlDT1hpejF6YldrRTVSM1M0TENHTk4wVFdrQWN1QVBxTlo1cE1vX25mb2xERVZSaUhlYlVRMU56OWVfS1FuNTdKaXhsZW9KR1NKMDZoMVJVVnQ5bmVCTUp5V3B5c05qNWc4ZlB3RDEzRFAwZlFXUlE?oc=5"
+            }
+          }
+        ],
+        "evidence_quality": {
+          "source_count": 1,
+          "independence": 2.0,
+          "authority": 7.0,
+          "recency": 8.0,
+          "timeliness": 8.0,
+          "score": 3.0,
+          "note": "仅一条标题级证据，缺乏原文与参数，证据强度不足以支撑高置信度结论。"
         }
       }
     },
@@ -52898,942 +53836,6 @@
       }
     },
     {
-      "candidate_id": "cand-06e3b25421fc",
-      "title": "来自消费者到在的AI需求",
-      "title_zh": "来自消费者到在的AI需求",
-      "one_liner_zh": "AI，Intel shifts production capacity 来自消费者到 server CPUs 在 fa…",
-      "summary_zh": "Intel shifts production capacity 来自消费者到 server CPUs 在 face 的 'unprecedented' AI 需求 — company navigating…",
-      "title_original": "Intel shifts production capacity from consumer to server CPUs in face of 'unprecedented' AI demand — company navigating…",
-      "translation": {
-        "provider": "glossary",
-        "quality": "medium",
-        "cached": true,
-        "source_lang": "en",
-        "target_lang": "zh",
-        "fallback": false,
-        "template": false,
-        "disclaimer": "系统翻译（自动生成，可能不完美）；质量不参与商机收录/排序，前端可切换原文。"
-      },
-      "translation_method": "glossary",
-      "one_liner": "AI｜Intel shifts production capacity from consumer to server CPUs in face of 'unprecedented' AI demand — company navigat…",
-      "industry_ids": [
-        "ai"
-      ],
-      "primary_industry": "ai",
-      "primary_region": "europe",
-      "gap_type_ids": [
-        "knowledge",
-        "time"
-      ],
-      "gap_inferred": true,
-      "gap_inference": "信号原文未给出明确信息差，按行业/来源/关键词自动推断为「知识差、时间差」（推断，非原文）",
-      "region_ids": [
-        "europe",
-        "north-america"
-      ],
-      "region_inferred": false,
-      "target_countries": [
-        "德国",
-        "英国",
-        "法国",
-        "波兰",
-        "美国",
-        "加拿大"
-      ],
-      "source": {
-        "id": "gn-v160-global-supply",
-        "name": "Google News · 全球供应链缺口",
-        "url": "https://news.google.com/rss/articles/CBMiwAJBVV95cUxPWXZ0U3dtOGJGUTItMklhUWZ4cFlnTGpQcVlDaURwdGpselkyWE5KcDdqcGo2NFVnejdPTjVsd25pSW5Wc0xuQnlwcFdTSmdUZTVrbWYxRk80RkZOb0RzdXVLOU84WDJfSV8tMldsdWR3N3VFYjZ4eDhULWxIb05jSmdfbUFsNktVdzY0bExacER6QlpiNmJidkpCcks3TjU1QThBdlA3aHFhNmpsa0pNUVlia29INWROMVBFYlN2OEFjVzA4dFZET2tEa0Z6RkZjOE9aMXhSRnNXckdSa3p5emJ5RkpHQ3d6cjZkNU9hZHY2SU5tTTJoNWZDX2FXSE9uMFZ0ck9BZC1lcjRZbHJzT2ZzOTluR2NvN1RNRDJiSFAzR0JDUUNfZFk2VDNIZnIyVEcxaWdOS1IweGVlWE5LQw?oc=5",
-        "cleaned": "来自消费者到在的AI需求",
-        "raw_title": "Intel shifts production capacity from consumer to server CPUs in face of 'unprecedented' AI demand — company navigating 'one of the most significant supply shortages in history' - Tom's Hardware",
-        "published_at": "2026-10-31",
-        "summary": "Intel shifts production capacity from consumer to server CPUs in face of 'unprecedented' AI demand — company navigating…"
-      },
-      "evidence": [
-        {
-          "title": "来自消费者到在的AI需求",
-          "url": "https://news.google.com/rss/articles/CBMiwAJBVV95cUxPWXZ0U3dtOGJGUTItMklhUWZ4cFlnTGpQcVlDaURwdGpselkyWE5KcDdqcGo2NFVnejdPTjVsd25pSW5Wc0xuQnlwcFdTSmdUZTVrbWYxRk80RkZOb0RzdXVLOU84WDJfSV8tMldsdWR3N3VFYjZ4eDhULWxIb05jSmdfbUFsNktVdzY0bExacER6QlpiNmJidkpCcks3TjU1QThBdlA3aHFhNmpsa0pNUVlia29INWROMVBFYlN2OEFjVzA4dFZET2tEa0Z6RkZjOE9aMXhSRnNXckdSa3p5emJ5RkpHQ3d6cjZkNU9hZHY2SU5tTTJoNWZDX2FXSE9uMFZ0ck9BZC1lcjRZbHJzT2ZzOTluR2NvN1RNRDJiSFAzR0JDUUNfZFk2VDNIZnIyVEcxaWdOS1IweGVlWE5LQw?oc=5",
-          "source_id": "gn-v160-global-supply",
-          "publisher": "Google News · 全球供应链缺口",
-          "date": "2026-10-31",
-          "tier": "public-signal",
-          "verified_by_human": false,
-          "link_status": "public-url",
-          "fetch_status": "unfetched"
-        }
-      ],
-      "system_validation": {
-        "level": "low",
-        "score": 76,
-        "level_thresholds": {
-          "high": 95,
-          "medium": 87
-        },
-        "checks": [
-          {
-            "id": "demand_signal",
-            "name": "需求信号",
-            "passed": true,
-            "note": "相关性 61/100，tier=maybe；16/25",
-            "points": 16
-          },
-          {
-            "id": "gap_clarity",
-            "name": "信息差明确",
-            "passed": true,
-            "note": "信息差：知识差、时间差；9/15",
-            "points": 9
-          },
-          {
-            "id": "evidence",
-            "name": "证据链接",
-            "passed": true,
-            "note": "公开链接 1 条（无需人工核验）；8/12",
-            "points": 8
-          },
-          {
-            "id": "source_quality",
-            "name": "来源质量",
-            "passed": true,
-            "note": "来源 Google News · 全球供应链缺口（compliance=yellow）；8/12",
-            "points": 8
-          },
-          {
-            "id": "timeliness",
-            "name": "时效",
-            "passed": true,
-            "note": "发布距基准日 6 天；12/15",
-            "points": 12
-          },
-          {
-            "id": "actionability",
-            "name": "可执行性",
-            "passed": true,
-            "note": "行业 1 / 目标国家 2 / ROI 默认区间；10/10",
-            "points": 10
-          },
-          {
-            "id": "specificity",
-            "name": "地理/场景具体性",
-            "passed": true,
-            "note": "区域：北美；8/8",
-            "points": 8
-          },
-          {
-            "id": "competition_window",
-            "name": "竞争/窗口",
-            "passed": true,
-            "note": "新鲜度窗口 6 天；5/5",
-            "points": 5
-          }
-        ],
-        "checks_passed": 8,
-        "checks_total": 8,
-        "notes": "系统自动评估商机信号（需求/信息差/证据/时效/可执行性）；仅代表发现与评估，不代表收入承诺。"
-      },
-      "seven_questions": {
-        "需求": {
-          "question": "需求",
-          "answer": "围绕「Intel shifts production cap…」：AI需求正在被公开讨论，可能存在未被满足的具体场景。",
-          "draft": true
-        },
-        "人群": {
-          "question": "人群",
-          "answer": "从该信号来源的读者/从业者中找最早 100 个种子用户（如原文评论区、相关社群）。",
-          "draft": true
-        },
-        "竞品": {
-          "question": "竞品",
-          "answer": "现有替代方案多为通用商品/服务；需人工对比价格、交付与本地化程度。",
-          "draft": true
-        },
-        "差异": {
-          "question": "差异",
-          "answer": "利用知识差、时间差做出本地化/更快/更透明的供给（自动草稿，待人工细化）。",
-          "draft": true
-        },
-        "渠道": {
-          "question": "渠道",
-          "answer": "先用来源媒体/社群做小成本测试，再考虑搜索/平台/私域渠道（自动草稿）。",
-          "draft": true
-        },
-        "成本": {
-          "question": "成本",
-          "answer": "先按行业默认 ROI 估算最小启动成本；真实成本需人工核价。",
-          "draft": true
-        },
-        "跟踪": {
-          "question": "跟踪",
-          "answer": "14 天内观察到询价/预约/加购等可量化信号再投入（自动草稿）。",
-          "draft": true
-        }
-      },
-      "roi": {
-        "capital_min": 20000,
-        "capital_max": 200000,
-        "monthly_revenue_min": 10000,
-        "monthly_revenue_max": 100000,
-        "gross_margin_min": 55,
-        "gross_margin_max": 80,
-        "payback_months": 6,
-        "time_to_revenue_months": 1,
-        "effort": "中",
-        "estimated": true,
-        "note": "行业默认区间估算（自动生成），非承诺；需人工按实际采购/渠道成本重算"
-      },
-      "investment_breakdown": {
-        "currency": "CNY",
-        "theoretical": true,
-        "total_min": 20000,
-        "total_max": 200000,
-        "items": [
-          {
-            "id": "registration",
-            "key": "registration",
-            "name": "注册/主体",
-            "label": "注册/主体",
-            "min": 800,
-            "max": 8000,
-            "basis": "主体注册/开户/备案等一次性费用",
-            "note": "注册/主体按行业默认比例（4%）估算，需按实际报价调整"
-          },
-          {
-            "id": "compliance",
-            "key": "compliance",
-            "name": "合规/资质",
-            "label": "合规/资质",
-            "min": 1600,
-            "max": 16000,
-            "basis": "许可、认证、检测或合规咨询",
-            "note": "合规/资质按行业默认比例（8%）估算，需按实际报价调整"
-          },
-          {
-            "id": "inventory",
-            "key": "inventory",
-            "name": "首批库存/样品",
-            "label": "首批库存/样品",
-            "min": 6000,
-            "max": 60000,
-            "basis": "首批样品/小批量库存与打样",
-            "note": "首批库存/样品按行业默认比例（30%）估算，需按实际报价调整"
-          },
-          {
-            "id": "channels",
-            "key": "channels",
-            "name": "平台/渠道开通",
-            "label": "平台/渠道开通",
-            "min": 2000,
-            "max": 20000,
-            "basis": "平台入驻、店铺/渠道建设",
-            "note": "平台/渠道开通按行业默认比例（10%）估算，需按实际报价调整"
-          },
-          {
-            "id": "logistics",
-            "key": "logistics",
-            "name": "物流仓储",
-            "label": "物流仓储",
-            "min": 2000,
-            "max": 20000,
-            "basis": "头程/仓储/退换与本地配送",
-            "note": "物流仓储按行业默认比例（10%）估算，需按实际报价调整"
-          },
-          {
-            "id": "tools",
-            "key": "tools",
-            "name": "工具/软件",
-            "label": "工具/软件",
-            "min": 1200,
-            "max": 12000,
-            "basis": "店铺/内容/数据工具订阅",
-            "note": "工具/软件按行业默认比例（6%）估算，需按实际报价调整"
-          },
-          {
-            "id": "marketing",
-            "key": "marketing",
-            "name": "市场推广",
-            "label": "市场推广",
-            "min": 3200,
-            "max": 32000,
-            "basis": "内容投放、达人/社群与冷启动获客",
-            "note": "市场推广按行业默认比例（16%）估算，需按实际报价调整"
-          },
-          {
-            "id": "labor",
-            "key": "labor",
-            "name": "人力/外包",
-            "label": "人力/外包",
-            "min": 2000,
-            "max": 20000,
-            "basis": "运营/客服/设计/外包",
-            "note": "人力/外包按行业默认比例（10%）估算，需按实际报价调整"
-          },
-          {
-            "id": "working_capital",
-            "key": "working_capital",
-            "name": "流动资金",
-            "label": "流动资金",
-            "min": 800,
-            "max": 8000,
-            "basis": "现金流缓冲与补货周转",
-            "note": "流动资金按行业默认比例（4%）估算，需按实际报价调整"
-          },
-          {
-            "id": "contingency",
-            "key": "contingency",
-            "name": "预备金",
-            "label": "预备金",
-            "min": 400,
-            "max": 4000,
-            "basis": "汇率/物流/退款等意外预备",
-            "note": "预备金按行业默认比例（2%）估算，需按实际报价调整"
-          }
-        ],
-        "basis": "按 ai 行业默认比例拆分；合计严格等于 roi.capital / conditions.capital"
-      },
-      "unit_economics": {
-        "aov_source": "roi_reverse",
-        "aov_basis": "AOV = ROI 月收入区间 / 理论月单量（整数；与 price_per_unit、profit_model.unit_price 同源）",
-        "price_per_unit": {
-          "min": 50,
-          "max": 500,
-          "basis": "整数客单价；月收入锚定 ROI 后按单量反推"
-        },
-        "cost_per_unit": {
-          "min": 22,
-          "max": 100,
-          "items": [
-            {
-              "name": "直接成本",
-              "min": 22,
-              "max": 100,
-              "basis": "按毛利率反推"
-            }
-          ],
-          "basis": "单件采购/交付成本"
-        },
-        "gross_profit_per_unit": {
-          "min": 28,
-          "max": 400
-        },
-        "fixed_cost_per_unit": {
-          "min": 11,
-          "max": 233,
-          "basis": "月固定成本按理论单量摊到每单"
-        },
-        "net_contribution_per_unit": {
-          "min": 17,
-          "max": 167
-        },
-        "gross_margin_pct": {
-          "min": 56.0,
-          "max": 80.0
-        },
-        "monthly_orders": {
-          "min": 200,
-          "max": 200,
-          "basis": "整除 ROI 月收入的理论单量（同口径）"
-        },
-        "monthly_revenue": {
-          "min": 10000,
-          "max": 100000
-        },
-        "monthly_variable_cost": {
-          "min": 4400,
-          "max": 20000
-        },
-        "monthly_fixed_cost": {
-          "min": 2200,
-          "max": 46600
-        },
-        "monthly_profit": {
-          "min": 3400,
-          "max": 33400
-        },
-        "breakeven_orders": 79,
-        "payback_months": {
-          "min": 1.0,
-          "max": 58.8,
-          "target": 6.0,
-          "target_months": 6.0
-        },
-        "formula": "客单价−单位成本=单位毛利；单位毛利−单位固定=单位净贡献；月收入=客单价×月单量；月利润=月收入−月变动−月固定；回本=投资/月利润",
-        "assumptions": [
-          "全部为整数理论测算，不含实盘数据；四舍五入后加减仍严格相等。",
-          "月收入锚定 ROI 月收入，单量取能整除收入的整数，客单价随之反推。",
-          "固定成本按理论单量摊到每单，实际人力/工具/渠道成本可能不同。",
-          "未计入汇率、退款、税费与一次性意外支出。"
-        ],
-        "sensitivity": [
-          {
-            "label": "单量 -20%",
-            "orders": 160,
-            "revenue": 8000,
-            "variable_cost": 3520,
-            "fixed_cost": 1760,
-            "profit": 2720
-          },
-          {
-            "label": "基准",
-            "orders": 200,
-            "revenue": 10000,
-            "variable_cost": 4400,
-            "fixed_cost": 2200,
-            "profit": 3400
-          },
-          {
-            "label": "单量 +20%",
-            "orders": 240,
-            "revenue": 12000,
-            "variable_cost": 5280,
-            "fixed_cost": 2640,
-            "profit": 4080
-          },
-          {
-            "label": "客单价 -10%",
-            "orders": 200,
-            "revenue": 9000,
-            "variable_cost": 4400,
-            "fixed_cost": 2200,
-            "profit": 2400
-          },
-          {
-            "label": "客单价 +10%",
-            "orders": 200,
-            "revenue": 11000,
-            "variable_cost": 4400,
-            "fixed_cost": 2200,
-            "profit": 4400
-          }
-        ]
-      },
-      "aov_source": "roi_reverse",
-      "aov": {
-        "min": 50,
-        "max": 500
-      },
-      "grade": "C",
-      "noise_flags": [],
-      "scores": {
-        "dimensions": {
-          "signal": 7.5,
-          "gap": 5.5,
-          "feasibility": 6.2,
-          "economics": 6.6,
-          "timing": 6.6,
-          "competition": 5.2,
-          "risk": 6.2,
-          "fit": 5.7,
-          "evidence": 4.0,
-          "leverage": 5.2
-        },
-        "total": 61.3,
-        "rank_score": 61.3,
-        "grade": "C",
-        "momentum": 1.0
-      },
-      "analyst_narrative": {
-        "thesis": "Intel、CPUs、AI对应的需求变化不是新闻噪声：需求数据变化说明供给尚未跟上；AI的切入点是垂直数据、系统集成与数据合规（关键卡点）。",
-        "market": "在德国，中小企业数字化团队的痛点与该信号重合：产品社区与内容上的SaaS 订阅不足，垂直数据、系统集成与数据合规（关键卡点）卡住交付。",
-        "verdict": "Intel、CPUs、AI的AI商机应优先推进：垂直数据、系统集成与数据合规（关键卡点）尚未满足，需求数据变化说明供给尚未跟上又打开6–12个月窗口；风险集中在数据隐私与行业合规与研发与算力。30 天内围绕Intel、CPUs、AI锁定首批 20–50 个客户并跑通最小可售版，首单后校准单位经济，6个月左右检验模式；不构成收入承诺。"
-      },
-      "business_canvas": {
-        "customer_segments": [
-          "中小企业数字化团队",
-          "垂直行业从业者",
-          "德国、英国、法国本地用户/买家"
-        ],
-        "value_proposition": "把通用 AI 能力封装成垂直场景可用的工具/服务；信号主体「Intel、CPUs、AI」指向需求数据变化说明供给尚未跟上，本地化供给存在缺口",
-        "channels": [
-          "产品社区与内容",
-          "垂直行业渠道",
-          "德国、英国、法国本地社群/渠道"
-        ],
-        "customer_relationships": "自助试用 + 订阅 + 行业顾问",
-        "revenue_streams": [
-          "SaaS 订阅",
-          "按量/项目服务费",
-          "知识差套利带来的额外溢价/服务费"
-        ],
-        "key_resources": [
-          "垂直数据与工作流理解",
-          "快速产品化能力",
-          "德国、英国、法国本地合规/物流资源"
-        ],
-        "key_activities": [
-          "场景产品化",
-          "模型/工作流集成",
-          "本地化选品与内容运营"
-        ],
-        "key_partners": [
-          "模型/云服务商",
-          "垂直行业服务商",
-          "EU GPSR/CE/VAT相关服务商"
-        ],
-        "cost_structure": [
-          "模型/云成本",
-          "产品研发",
-          "知识差套利本地化成本"
-        ]
-      },
-      "judgment": {
-        "dimensions": [
-          {
-            "id": "signal",
-            "name": "信号强度",
-            "score": 7.5,
-            "rationale": "标题提到Intel、CPUs、AI，且属于需求数据变化说明供给尚未跟上，本地化供给存在缺口，不是泛泛趋势。",
-            "data_used": [
-              "标题实体：Intel、CPUs、AI",
-              "行业：AI",
-              "事件类型：需求变化",
-              "信息差：知识差套利",
-              "区域：德国、英国、法国"
-            ]
-          },
-          {
-            "id": "gap",
-            "name": "信息差",
-            "score": 5.5,
-            "rationale": "知识差套利：知识差套利：专业能力产品化；德国、英国、法国市场的本地法规/术语适配是切入点。",
-            "data_used": [
-              "标题实体：Intel、CPUs、AI",
-              "行业：AI",
-              "事件类型：需求变化",
-              "信息差：知识差套利",
-              "区域：德国、英国、法国"
-            ]
-          },
-          {
-            "id": "feasibility",
-            "name": "可行性",
-            "score": 6.2,
-            "rationale": "可先用AI 工程与模型/云服务 + 自有产品小规模起步，首期投入控制在 20,000–200,000 元。",
-            "data_used": [
-              "标题实体：Intel、CPUs、AI",
-              "行业：AI",
-              "事件类型：需求变化",
-              "信息差：知识差套利",
-              "区域：德国、英国、法国"
-            ]
-          },
-          {
-            "id": "economics",
-            "name": "经济性",
-            "score": 6.6,
-            "rationale": "订阅 + 按量，毛利率约 55%–80%，预计 6 个月回本。",
-            "data_used": [
-              "标题实体：Intel、CPUs、AI",
-              "行业：AI",
-              "事件类型：需求变化",
-              "信息差：知识差套利",
-              "区域：德国、英国、法国"
-            ]
-          },
-          {
-            "id": "timing",
-            "name": "时机",
-            "score": 6.6,
-            "rationale": "信号日期 2026-11-06，按需求变化事件判断窗口约 6–12 个月；需求数据变化说明供给尚未跟上，本地化供给存在缺口。",
-            "data_used": [
-              "标题实体：Intel、CPUs、AI",
-              "行业：AI",
-              "事件类型：需求变化",
-              "信息差：知识差套利",
-              "区域：德国、英国、法国"
-            ]
-          },
-          {
-            "id": "competition",
-            "name": "竞争",
-            "score": 5.2,
-            "rationale": "直接竞品：垂直 AI SaaS；我们的差异是垂直工作流数据与集成深度。",
-            "data_used": [
-              "标题实体：Intel、CPUs、AI",
-              "行业：AI",
-              "事件类型：需求变化",
-              "信息差：知识差套利",
-              "区域：德国、英国、法国"
-            ]
-          },
-          {
-            "id": "risk",
-            "name": "风险",
-            "score": 6.2,
-            "rationale": "主要风险在数据隐私与行业合规与研发与算力，EU GPSR/CE/VAT需提前准备。",
-            "data_used": [
-              "标题实体：Intel、CPUs、AI",
-              "行业：AI",
-              "事件类型：需求变化",
-              "信息差：知识差套利",
-              "区域：德国、英国、法国"
-            ]
-          },
-          {
-            "id": "fit",
-            "name": "匹配度",
-            "score": 5.7,
-            "rationale": "与AI知识包和德国、英国、法国区域规则匹配，行业渠道是主要适配点。",
-            "data_used": [
-              "标题实体：Intel、CPUs、AI",
-              "行业：AI",
-              "事件类型：需求变化",
-              "信息差：知识差套利",
-              "区域：德国、英国、法国"
-            ]
-          },
-          {
-            "id": "evidence",
-            "name": "证据",
-            "score": 4.0,
-            "rationale": "已有 1 条公开来源（Google News · 全球供应链缺口），可支撑初步判断，商业结果需实操观察。",
-            "data_used": [
-              "标题实体：Intel、CPUs、AI",
-              "行业：AI",
-              "事件类型：需求变化",
-              "信息差：知识差套利",
-              "区域：德国、英国、法国"
-            ]
-          },
-          {
-            "id": "leverage",
-            "name": "杠杆",
-            "score": 5.2,
-            "rationale": "规模化杠杆：软件边际成本低；合规与本地服务可形成本地壁垒。",
-            "data_used": [
-              "标题实体：Intel、CPUs、AI",
-              "行业：AI",
-              "事件类型：需求变化",
-              "信息差：知识差套利",
-              "区域：德国、英国、法国"
-            ]
-          }
-        ],
-        "why_opportunity": "Intel、CPUs、AI（需求变化）意味着需求数据变化说明供给尚未跟上，本地化供给存在缺口；在德国、英国、法国，垂直数据、系统集成与数据合规是AI的核心缺口；可用订阅 + 按量切入，窗口约 6–12 个月。",
-        "not_opportunity_if": [
-          "若德国、英国、法国出现「需求是一次性事件或样本不足，或本地支付/物流基础设施无法支撑交付」的情况。",
-          "若数据隐私与行业合规（EU GPSR/CE/VAT）导致进入成本过高，或研发与算力超出可承受范围。",
-          "若垂直 AI SaaS已形成强网络效应，且我们无法做出垂直工作流数据与集成深度差异。"
-        ],
-        "event_type": "需求变化",
-        "primary_industry": "ai"
-      },
-      "competition": {
-        "direct": [
-          "垂直 AI SaaS",
-          "通用 AI 助手"
-        ],
-        "indirect": [
-          "传统软件 + 人工外包",
-          "Excel/人工流程"
-        ],
-        "substitutes": [
-          "人工完成",
-          "开源工具自建"
-        ],
-        "differentiation": "垂直工作流数据与集成深度；结合知识差套利做本地化差异",
-        "moat": "垂直工作流数据与集成深度",
-        "positioning": "垂直场景 AI 工作流工具"
-      },
-      "cross_market": {
-        "target_markets": [
-          "德国",
-          "英国",
-          "法国"
-        ],
-        "arbitrage_type": "知识差套利",
-        "why_migratable": "知识可复用、边际成本低；AI供给可按本地法规/术语适配复制，事件类型（需求变化）决定进入节奏。",
-        "localization_needs": [
-          "多语言 + GDPR/CE",
-          "英/德/法内容与客服",
-          "EU GPSR/CE/VAT"
-        ],
-        "pricing_power": "专业稀缺性带来溢价"
-      },
-      "timing": {
-        "why_now": "信号日期 2026-11-06，Intel、CPUs、AI触发需求变化变化：需求数据变化说明供给尚未跟上，本地化供给存在缺口。",
-        "catalysts": [
-          "需求持续增长",
-          "本地供给不足",
-          "渠道开始放量",
-          "德国、英国、法国本地供给缺口"
-        ],
-        "window_stage": "窗口收窄",
-        "window_months": "6–12",
-        "urgency": "medium",
-        "risks": [
-          "窗口可能被垂直 AI SaaS快速跟进",
-          "EU GPSR/CE/VAT变化影响节奏"
-        ]
-      },
-      "conditions": {
-        "capital_range_cny": [
-          20000,
-          200000
-        ],
-        "skills": [
-          "AI 工程",
-          "垂直行业理解"
-        ],
-        "licenses": "按行业处理数据合规与算法备案要求",
-        "supply_chain": "模型/云服务 + 自有产品",
-        "partners": [
-          "模型/云服务商",
-          "垂直行业服务商"
-        ],
-        "team": "1 名工程 + 1 名行业产品",
-        "time_to_launch_months": 3,
-        "event_entry_requirement": "需求数据变化说明供给尚未跟上，本地化供给存在缺口"
-      },
-      "barriers": {
-        "regulatory": "数据隐私与行业合规",
-        "technical": "场景数据与集成",
-        "capital": "研发与算力",
-        "brand": "先发案例",
-        "channel": "行业渠道",
-        "region_specific": "EU GPSR/CE/VAT",
-        "event_specific": "需求是一次性事件或样本不足，或本地支付/物流基础设施无法支撑交付"
-      },
-      "profit_model": {
-        "revenue_model": "订阅 + 按量",
-        "revenue_streams": [
-          {
-            "id": "product",
-            "name": "主营产品/服务",
-            "monthly_amount_min": 10000,
-            "monthly_amount_max": 100000,
-            "share_pct": 85,
-            "basis": "客单价×理论单量（理论测算）"
-          },
-          {
-            "id": "service",
-            "name": "增值服务",
-            "monthly_amount_min": 1000,
-            "monthly_amount_max": 10000,
-            "share_pct": 10,
-            "basis": "按主营收入 10% 估算"
-          },
-          {
-            "id": "fee",
-            "name": "渠道/分佣",
-            "monthly_amount_min": 500,
-            "monthly_amount_max": 5000,
-            "share_pct": 5,
-            "basis": "按主营收入 5% 估算"
-          }
-        ],
-        "pricing_range": "参考客单价/服务费：10,000–100,000 元/月规模",
-        "gross_margin": "毛利率约 55%–80%",
-        "cost_items": [
-          {
-            "id": "cogs",
-            "name": "商品/服务直接成本",
-            "monthly_amount_min": 4400,
-            "monthly_amount_max": 20000,
-            "basis": "单位成本×理论单量"
-          },
-          {
-            "id": "fixed",
-            "name": "固定成本",
-            "monthly_amount_min": 2200,
-            "monthly_amount_max": 46600,
-            "basis": "单位固定成本×理论单量"
-          }
-        ],
-        "unit_economics": "以中小企业数字化团队为首批客户，单客贡献 = 客单价 × 毛利率 − 获客/履约成本；参考 ROI 默认区间。",
-        "payback_months": {
-          "min": 1.0,
-          "max": 58.8,
-          "target": 6.0,
-          "target_months": 6.0
-        },
-        "scale_levers": "软件边际成本低",
-        "event_effect": "需求数据变化说明供给尚未跟上，本地化供给存在缺口",
-        "currency": "CNY",
-        "aov_source": "roi_reverse",
-        "aov_basis": "与 unit_economics.price_per_unit 同源：ROI 月收入 / 理论月单量",
-        "unit_price": {
-          "min": 50,
-          "max": 500
-        },
-        "monthly_orders": {
-          "min": 200,
-          "max": 200
-        },
-        "monthly_revenue": {
-          "min": 10000,
-          "max": 100000
-        },
-        "monthly_profit": {
-          "min": 3400,
-          "max": 33400
-        },
-        "basis": "ai 行业默认区间 + 标题信号「Intel shifts production capacity 来自消费者到…」；理论测算，非实盘",
-        "formula": "客单价−单位成本=单位毛利；单位毛利−单位固定=单位净贡献；月收入=客单价×月单量；月利润=月收入−月变动−月固定；回本=投资/月利润"
-      },
-      "execution_plan": {
-        "phase_0_30_days": [
-          "锁定德国、英国、法国首批 20–50 个目标客户/买家（中小企业数字化团队），围绕Intel、CPUs、AI事件切入。",
-          "完成场景产品化的最小可售版本，确认模型/云服务 + 自有产品。",
-          "搭建产品社区与内容与本地内容/客服（英/德/法）；搭建本地内容/客服与首批供给，建立小批量履约。"
-        ],
-        "phase_30_90_days": [
-          "小批量投放/试单，目标是首笔收入与 试用转付费 达标。",
-          "按本地法规/术语适配迭代供给，建立垂直工作流数据与集成深度。",
-          "评估软件边际成本低的复制节奏，跟踪需求持续增长。"
-        ],
-        "milestones": [
-          {
-            "name": "首单/首批客户",
-            "target": "30 天内"
-          },
-          {
-            "name": "正向单位经济",
-            "target": "90 天内"
-          },
-          {
-            "name": "可复制模型",
-            "target": "6 个月左右"
-          }
-        ],
-        "first_revenue_path": "通过产品社区与内容向中小企业数字化团队交付SaaS 订阅，先收首批订单/服务费。",
-        "kpis": [
-          "试用转付费",
-          "月度留存"
-        ]
-      },
-      "sources": [
-        {
-          "title": "Intel shifts production capacity 来自消费者到…",
-          "url": "https://news.google.com/rss/articles/CBMiwAJBVV95cUxPWXZ0U3dtOGJGUTItMklhUWZ4cFlnTGpQcVlDaURwdGpselkyWE5KcDdqcGo2NFVnejdPTjVsd25pSW5Wc0xuQnlwcFdTSmdUZTVrbWYxRk80RkZOb0RzdXVLOU84WDJfSV8tMldsdWR3N3VFYjZ4eDhULWxIb05jSmdfbUFsNktVdzY0bExacER6QlpiNmJidkpCcks3TjU1QThBdlA3aHFhNmpsa0pNUVlia29INWROMVBFYlN2OEFjVzA4dFZET2tEa0Z6RkZjOE9aMXhSRnNXckdSa3p5emJ5RkpHQ3d6cjZkNU9hZHY2SU5tTTJoNWZDX2FXSE9uMFZ0ck9BZC1lcjRZbHJzT2ZzOTluR2NvN1RNRDJiSFAzR0JDUUNfZFk2VDNIZnIyVEcxaWdOS1IweGVlWE5LQw?oc=5",
-          "publisher": "Google News · 全球供应链缺口",
-          "date": "2026-10-31",
-          "tier": "public-signal",
-          "fetch_status": "unfetched"
-        }
-      ],
-      "confidence": 70,
-      "status": "auto-discovered",
-      "first_seen": "2026-10-31",
-      "last_seen": "2026-10-31",
-      "relevance_score": 61.0,
-      "source_tier": "maybe",
-      "signal_id": "sig-b2b4e77aae0b",
-      "outbox_file": "",
-      "disclaimer": "自动发现的候选线索：由公开信号自动生成，系统已做商机初筛评估（system_validation）；不代表收入承诺。",
-      "analysis": {
-        "thesis": "英特尔将产能从消费级CPU转向服务器CPU，反映AI算力需求对半导体供给结构的挤压，形成服务器CPU及相关供应链的短期供给缺口与配套商机。",
-        "dominant_driver": [
-          "信号",
-          "时机"
-        ],
-        "strengths": [
-          "头部厂商公开承认'史上最严重供给短缺之一'，信号强度高",
-          "产能转向方向明确，服务器CPU供给紧张可核验",
-          "AI需求驱动，需求侧逻辑清晰",
-          "涉及全球供应链，影响面广"
-        ],
-        "weaknesses": [
-          "仅有单一新闻来源，缺乏一手数据",
-          "缺少具体产能数字、时间表与价格影响",
-          "消费级CPU供给收缩的负面外溢未量化",
-          "商机指向偏宏观，落地路径不清晰"
-        ],
-        "unknowns": [
-          "产能转移的具体比例与持续时间",
-          "服务器CPU缺口的量化规模与交期变化",
-          "下游云厂商与OEM的采购策略调整",
-          "消费级CPU涨价或缺货的传导幅度"
-        ],
-        "causal_chain": [
-          "事实：英特尔公开表示因AI需求空前，将产能从消费级CPU转向服务器CPU。",
-          "变化：服务器CPU供给相对增加但仍短缺，消费级CPU供给被压缩。",
-          "受影响主体：云服务商、服务器OEM、PC厂商及下游渠道商。",
-          "缺口：服务器CPU交期与配额的确定性供给，以及消费级CPU的替代与备货方案。",
-          "切入点：围绕服务器CPU配额撮合、替代方案咨询与供应链风险预警提供服务。"
-        ],
-        "entry_point": "面向服务器OEM与云采购方提供CPU供给缺口监测与替代/配额撮合服务，同时为PC渠道商提供消费级CPU备货预警。",
-        "differentiation": "以头部厂商产能转向的公开信号为锚，做供给侧的先行预警与撮合，而非泛泛的AI算力叙事。",
-        "commercial_structure": {
-          "value_proposition": "提前获知服务器与消费级CPU供给变化，降低断供与涨价风险",
-          "pricing": "订阅制情报服务费+撮合成交佣金",
-          "cost_structure": "数据采集与信源维护、行业分析师人力、渠道关系维护",
-          "channels": "行业媒体、OEM/渠道商社群、供应链展会",
-          "startup_conditions": "需建立稳定信源与下游采购方网络，核验首单撮合"
-        },
-        "evidence_refs": [
-          {
-            "title": "来自消费者到在的AI需求",
-            "url": "https://news.google.com/rss/articles/CBMiwAJBVV95cUxPWXZ0U3dtOGJGUTItMklhUWZ4cFlnTGpQcVlDaURwdGpselkyWE5KcDdqcGo2NFVnejdPTjVsd25pSW5Wc0xuQnlwcFdTSmdUZTVrbWYxRk80RkZOb0RzdXVLOU84WDJfSV8tMldsdWR3N3VFYjZ4eDhULWxIb05jSmdfbUFsNktVdzY0bExacER6QlpiNmJidkpCcks3TjU1QThBdlA3aHFhNmpsa0pNUVlia29INWROMVBFYlN2OEFjVzA4dFZET2tEa0Z6RkZjOE9aMXhSRnNXckdSa3p5emJ5RkpHQ3d6cjZkNU9hZHY2SU5tTTJoNWZDX2FXSE9uMFZ0ck9BZC1lcjRZbHJzT2ZzOTluR2NvN1RNRDJiSFAzR0JDUUNfZFk2VDNIZnIyVEcxaWdOS1IweGVlWE5LQw?oc=5",
-            "publisher": "Google News · 全球供应链缺口",
-            "date": "2026-10-31"
-          }
-        ],
-        "falsifiers": [
-          "英特尔后续澄清产能转移规模有限或短期恢复",
-          "服务器CPU交期与价格无明显变化",
-          "下游OEM表示供给充足、无缺口"
-        ],
-        "confidence": 0.42,
-        "analysis_score": 58.0,
-        "single_axis_strong": false,
-        "scenario": "batch",
-        "not_a_gate": true,
-        "information_value": {
-          "score": 5.6,
-          "dimensions": {
-            "novelty": 6.0,
-            "specificity": 4.0,
-            "impact": 7.0,
-            "urgency": 6.0,
-            "actionability": 5.0
-          },
-          "novelty": 6.0,
-          "specificity": 4.0,
-          "impact": 7.0,
-          "urgency": 6.0,
-          "actionability": 5.0
-        },
-        "key_facts": [
-          {
-            "text": "英特尔因'空前'的AI需求将产能从消费级CPU转向服务器CPU",
-            "fact": "英特尔因'空前'的AI需求将产能从消费级CPU转向服务器CPU",
-            "type": "fact",
-            "source_ref": {
-              "title": "来自消费者到在的AI需求",
-              "url": "https://news.google.com/rss/articles/CBMiwAJBVV95cUxPWXZ0U3dtOGJGUTItMklhUWZ4cFlnTGpQcVlDaURwdGpselkyWE5KcDdqcGo2NFVnejdPTjVsd25pSW5Wc0xuQnlwcFdTSmdUZTVrbWYxRk80RkZOb0RzdXVLOU84WDJfSV8tMldsdWR3N3VFYjZ4eDhULWxIb05jSmdfbUFsNktVdzY0bExacER6QlpiNmJidkpCcks3TjU1QThBdlA3aHFhNmpsa0pNUVlia29INWROMVBFYlN2OEFjVzA4dFZET2tEa0Z6RkZjOE9aMXhSRnNXckdSa3p5emJ5RkpHQ3d6cjZkNU9hZHY2SU5tTTJoNWZDX2FXSE9uMFZ0ck9BZC1lcjRZbHJzT2ZzOTluR2NvN1RNRDJiSFAzR0JDUUNfZFk2VDNIZnIyVEcxaWdOS1IweGVlWE5LQw?oc=5"
-            }
-          },
-          {
-            "text": "公司称正应对'史上最严重供给短缺之一'",
-            "fact": "公司称正应对'史上最严重供给短缺之一'",
-            "type": "fact",
-            "source_ref": {
-              "title": "来自消费者到在的AI需求",
-              "url": "https://news.google.com/rss/articles/CBMiwAJBVV95cUxPWXZ0U3dtOGJGUTItMklhUWZ4cFlnTGpQcVlDaURwdGpselkyWE5KcDdqcGo2NFVnejdPTjVsd25pSW5Wc0xuQnlwcFdTSmdUZTVrbWYxRk80RkZOb0RzdXVLOU84WDJfSV8tMldsdWR3N3VFYjZ4eDhULWxIb05jSmdfbUFsNktVdzY0bExacER6QlpiNmJidkpCcks3TjU1QThBdlA3aHFhNmpsa0pNUVlia29INWROMVBFYlN2OEFjVzA4dFZET2tEa0Z6RkZjOE9aMXhSRnNXckdSa3p5emJ5RkpHQ3d6cjZkNU9hZHY2SU5tTTJoNWZDX2FXSE9uMFZ0ck9BZC1lcjRZbHJzT2ZzOTluR2NvN1RNRDJiSFAzR0JDUUNfZFk2VDNIZnIyVEcxaWdOS1IweGVlWE5LQw?oc=5"
-            }
-          },
-          {
-            "text": "该信号可能压缩消费级CPU供给并推高服务器CPU交期",
-            "fact": "该信号可能压缩消费级CPU供给并推高服务器CPU交期",
-            "type": "inference",
-            "source_ref": {
-              "title": "来自消费者到在的AI需求",
-              "url": "https://news.google.com/rss/articles/CBMiwAJBVV95cUxPWXZ0U3dtOGJGUTItMklhUWZ4cFlnTGpQcVlDaURwdGpselkyWE5KcDdqcGo2NFVnejdPTjVsd25pSW5Wc0xuQnlwcFdTSmdUZTVrbWYxRk80RkZOb0RzdXVLOU84WDJfSV8tMldsdWR3N3VFYjZ4eDhULWxIb05jSmdfbUFsNktVdzY0bExacER6QlpiNmJidkpCcks3TjU1QThBdlA3aHFhNmpsa0pNUVlia29INWROMVBFYlN2OEFjVzA4dFZET2tEa0Z6RkZjOE9aMXhSRnNXckdSa3p5emJ5RkpHQ3d6cjZkNU9hZHY2SU5tTTJoNWZDX2FXSE9uMFZ0ck9BZC1lcjRZbHJzT2ZzOTluR2NvN1RNRDJiSFAzR0JDUUNfZFk2VDNIZnIyVEcxaWdOS1IweGVlWE5LQw?oc=5"
-            }
-          }
-        ],
-        "evidence_quality": {
-          "source_count": 1,
-          "independence": 2.0,
-          "authority": 7.0,
-          "recency": 8.0,
-          "timeliness": 8.0,
-          "score": 4.0,
-          "note": "仅单一新闻源，无一手财报或官方公告佐证，量化数据缺失"
-        }
-      }
-    },
-    {
       "candidate_id": "cand-3adf6d524a8c",
       "title": "关税更新:通胀，与政策",
       "title_zh": "关税更新:通胀，与政策",
@@ -60390,1880 +60392,6 @@
           "timeliness": 7.0,
           "score": 3.2,
           "note": "仅一条 Google News 聚合条目，标题经机器翻译失真，无原文链接与官方文件，权威性与独立性低，时效性尚可。"
-        }
-      }
-    },
-    {
-      "candidate_id": "cand-ddc70a4e6668",
-      "title": "非洲为太阳能之后创纪录增长",
-      "title_zh": "非洲为太阳能之后创纪录增长",
-      "one_liner_zh": "绿色，COMMENTARY: Africa primed for solar breakthrough after r…",
-      "summary_zh": "COMMENTARY: 非洲 primed 为太阳能 breakthrough 之后创纪录 capacity 增长 Reuters",
-      "title_original": "COMMENTARY: Africa primed for solar breakthrough after record capacity growth - Reuters",
-      "translation": {
-        "provider": "glossary",
-        "quality": "medium",
-        "cached": true,
-        "source_lang": "en",
-        "target_lang": "zh",
-        "fallback": false,
-        "template": false,
-        "disclaimer": "系统翻译（自动生成，可能不完美）；质量不参与商机收录/排序，前端可切换原文。"
-      },
-      "translation_method": "glossary",
-      "one_liner": "绿色｜COMMENTARY: Africa primed for solar breakthrough after record capacity growth Reuters（自动发现线索，系统已初筛）",
-      "industry_ids": [
-        "green"
-      ],
-      "primary_industry": "green",
-      "primary_region": "africa",
-      "gap_type_ids": [
-        "infrastructure",
-        "price"
-      ],
-      "gap_inferred": true,
-      "gap_inference": "信号原文未给出明确信息差，按行业/来源/关键词自动推断为「基础设施差、价格差」（推断，非原文）",
-      "region_ids": [
-        "africa",
-        "europe"
-      ],
-      "region_inferred": false,
-      "target_countries": [
-        "尼日利亚",
-        "肯尼亚",
-        "南非",
-        "德国",
-        "英国",
-        "法国"
-      ],
-      "source": {
-        "id": "gn-industry-solar",
-        "name": "Google News · 离网太阳能",
-        "url": "https://news.google.com/rss/articles/CBMiuAFBVV95cUxOclpKYy00WUlUS0pBYnBWOU1xWkF4aTQxZEVrUGNUVi1wS2IzVDFLQk4zeTZNTWNtZVV3OWxEQWZHeHZmbFRsSmRhY0NnN2puaUY2X3F6VHlEc1NKX0FyUV9iUXRmMU55b2NvRWRxQ3kzeXhEUFRycGdPQWZPWHRaQ3d6dGcya0QtdVM3ZFdUTVJKWTlKNTJ3aGVkTjgxdmNoNlR2R2lkSXIwTjdnbElFVmxiUnRfeVU3?oc=5",
-        "cleaned": "非洲为太阳能之后创纪录增长",
-        "raw_title": "COMMENTARY: Africa primed for solar breakthrough after record capacity growth - Reuters",
-        "published_at": "2026-02-27",
-        "summary": "COMMENTARY: Africa primed for solar breakthrough after record capacity growth Reuters"
-      },
-      "evidence": [
-        {
-          "title": "非洲为太阳能之后创纪录增长",
-          "url": "https://news.google.com/rss/articles/CBMiuAFBVV95cUxOclpKYy00WUlUS0pBYnBWOU1xWkF4aTQxZEVrUGNUVi1wS2IzVDFLQk4zeTZNTWNtZVV3OWxEQWZHeHZmbFRsSmRhY0NnN2puaUY2X3F6VHlEc1NKX0FyUV9iUXRmMU55b2NvRWRxQ3kzeXhEUFRycGdPQWZPWHRaQ3d6dGcya0QtdVM3ZFdUTVJKWTlKNTJ3aGVkTjgxdmNoNlR2R2lkSXIwTjdnbElFVmxiUnRfeVU3?oc=5",
-          "source_id": "gn-industry-solar",
-          "publisher": "Google News · 离网太阳能",
-          "date": "2026-02-27",
-          "tier": "public-signal",
-          "verified_by_human": false,
-          "link_status": "public-url",
-          "fetch_status": "unfetched"
-        }
-      ],
-      "system_validation": {
-        "level": "low",
-        "score": 61,
-        "level_thresholds": {
-          "high": 95,
-          "medium": 87
-        },
-        "checks": [
-          {
-            "id": "demand_signal",
-            "name": "需求信号",
-            "passed": false,
-            "note": "相关性 53/100，tier=maybe；14/25",
-            "points": 14
-          },
-          {
-            "id": "gap_clarity",
-            "name": "信息差明确",
-            "passed": true,
-            "note": "信息差：基础设施差、价格差；9/15",
-            "points": 9
-          },
-          {
-            "id": "evidence",
-            "name": "证据链接",
-            "passed": true,
-            "note": "公开链接 1 条（无需人工核验）；8/12",
-            "points": 8
-          },
-          {
-            "id": "source_quality",
-            "name": "来源质量",
-            "passed": true,
-            "note": "来源 Google News · 离网太阳能（compliance=green）；12/12",
-            "points": 12
-          },
-          {
-            "id": "timeliness",
-            "name": "时效",
-            "passed": false,
-            "note": "发布距基准日 252 天；0/15",
-            "points": 0
-          },
-          {
-            "id": "actionability",
-            "name": "可执行性",
-            "passed": true,
-            "note": "行业 1 / 目标国家 6 / ROI 默认区间；10/10",
-            "points": 10
-          },
-          {
-            "id": "specificity",
-            "name": "地理/场景具体性",
-            "passed": true,
-            "note": "区域：非洲、欧洲；8/8",
-            "points": 8
-          },
-          {
-            "id": "competition_window",
-            "name": "竞争/窗口",
-            "passed": false,
-            "note": "新鲜度窗口 252 天；0/5",
-            "points": 0
-          }
-        ],
-        "checks_passed": 5,
-        "checks_total": 8,
-        "notes": "系统自动评估商机信号（需求/信息差/证据/时效/可执行性）；仅代表发现与评估，不代表收入承诺。"
-      },
-      "seven_questions": {
-        "需求": {
-          "question": "需求",
-          "answer": "围绕「COMMENTARY: Africa primed f…」：绿色需求正在被公开讨论，可能存在未被满足的具体场景。",
-          "draft": true
-        },
-        "人群": {
-          "question": "人群",
-          "answer": "从该信号来源的读者/从业者中找最早 100 个种子用户（如原文评论区、相关社群）。",
-          "draft": true
-        },
-        "竞品": {
-          "question": "竞品",
-          "answer": "现有替代方案多为通用商品/服务；需人工对比价格、交付与本地化程度。",
-          "draft": true
-        },
-        "差异": {
-          "question": "差异",
-          "answer": "利用基础设施差、价格差做出本地化/更快/更透明的供给（自动草稿，待人工细化）。",
-          "draft": true
-        },
-        "渠道": {
-          "question": "渠道",
-          "answer": "先用来源媒体/社群做小成本测试，再考虑搜索/平台/私域渠道（自动草稿）。",
-          "draft": true
-        },
-        "成本": {
-          "question": "成本",
-          "answer": "先按行业默认 ROI 估算最小启动成本；真实成本需人工核价。",
-          "draft": true
-        },
-        "跟踪": {
-          "question": "跟踪",
-          "answer": "14 天内观察到询价/预约/加购等可量化信号再投入（自动草稿）。",
-          "draft": true
-        }
-      },
-      "roi": {
-        "capital_min": 80000,
-        "capital_max": 500000,
-        "monthly_revenue_min": 20000,
-        "monthly_revenue_max": 150000,
-        "gross_margin_min": 25,
-        "gross_margin_max": 45,
-        "payback_months": 15,
-        "time_to_revenue_months": 4,
-        "effort": "高",
-        "estimated": true,
-        "note": "行业默认区间估算（自动生成），非承诺；需人工按实际采购/渠道成本重算"
-      },
-      "investment_breakdown": {
-        "currency": "CNY",
-        "theoretical": true,
-        "total_min": 80000,
-        "total_max": 500000,
-        "items": [
-          {
-            "id": "registration",
-            "key": "registration",
-            "name": "注册/主体",
-            "label": "注册/主体",
-            "min": 3200,
-            "max": 20000,
-            "basis": "主体注册/开户/备案等一次性费用",
-            "note": "注册/主体按行业默认比例（4%）估算，需按实际报价调整"
-          },
-          {
-            "id": "compliance",
-            "key": "compliance",
-            "name": "合规/资质",
-            "label": "合规/资质",
-            "min": 6400,
-            "max": 40000,
-            "basis": "许可、认证、检测或合规咨询",
-            "note": "合规/资质按行业默认比例（8%）估算，需按实际报价调整"
-          },
-          {
-            "id": "inventory",
-            "key": "inventory",
-            "name": "首批库存/样品",
-            "label": "首批库存/样品",
-            "min": 24000,
-            "max": 150000,
-            "basis": "首批样品/小批量库存与打样",
-            "note": "首批库存/样品按行业默认比例（30%）估算，需按实际报价调整"
-          },
-          {
-            "id": "channels",
-            "key": "channels",
-            "name": "平台/渠道开通",
-            "label": "平台/渠道开通",
-            "min": 8000,
-            "max": 50000,
-            "basis": "平台入驻、店铺/渠道建设",
-            "note": "平台/渠道开通按行业默认比例（10%）估算，需按实际报价调整"
-          },
-          {
-            "id": "logistics",
-            "key": "logistics",
-            "name": "物流仓储",
-            "label": "物流仓储",
-            "min": 8000,
-            "max": 50000,
-            "basis": "头程/仓储/退换与本地配送",
-            "note": "物流仓储按行业默认比例（10%）估算，需按实际报价调整"
-          },
-          {
-            "id": "tools",
-            "key": "tools",
-            "name": "工具/软件",
-            "label": "工具/软件",
-            "min": 4800,
-            "max": 30000,
-            "basis": "店铺/内容/数据工具订阅",
-            "note": "工具/软件按行业默认比例（6%）估算，需按实际报价调整"
-          },
-          {
-            "id": "marketing",
-            "key": "marketing",
-            "name": "市场推广",
-            "label": "市场推广",
-            "min": 12800,
-            "max": 80000,
-            "basis": "内容投放、达人/社群与冷启动获客",
-            "note": "市场推广按行业默认比例（16%）估算，需按实际报价调整"
-          },
-          {
-            "id": "labor",
-            "key": "labor",
-            "name": "人力/外包",
-            "label": "人力/外包",
-            "min": 8000,
-            "max": 50000,
-            "basis": "运营/客服/设计/外包",
-            "note": "人力/外包按行业默认比例（10%）估算，需按实际报价调整"
-          },
-          {
-            "id": "working_capital",
-            "key": "working_capital",
-            "name": "流动资金",
-            "label": "流动资金",
-            "min": 3200,
-            "max": 20000,
-            "basis": "现金流缓冲与补货周转",
-            "note": "流动资金按行业默认比例（4%）估算，需按实际报价调整"
-          },
-          {
-            "id": "contingency",
-            "key": "contingency",
-            "name": "预备金",
-            "label": "预备金",
-            "min": 1600,
-            "max": 10000,
-            "basis": "汇率/物流/退款等意外预备",
-            "note": "预备金按行业默认比例（2%）估算，需按实际报价调整"
-          }
-        ],
-        "basis": "按 green 行业默认比例拆分；合计严格等于 roi.capital / conditions.capital"
-      },
-      "unit_economics": {
-        "aov_source": "roi_reverse",
-        "aov_basis": "AOV = ROI 月收入区间 / 理论月单量（整数；与 price_per_unit、profit_model.unit_price 同源）",
-        "price_per_unit": {
-          "min": 100,
-          "max": 750,
-          "basis": "整数客单价；月收入锚定 ROI 后按单量反推"
-        },
-        "cost_per_unit": {
-          "min": 75,
-          "max": 413,
-          "items": [
-            {
-              "name": "直接成本",
-              "min": 75,
-              "max": 413,
-              "basis": "按毛利率反推"
-            }
-          ],
-          "basis": "单件采购/交付成本"
-        },
-        "gross_profit_per_unit": {
-          "min": 25,
-          "max": 337
-        },
-        "fixed_cost_per_unit": {
-          "min": 1,
-          "max": 170,
-          "basis": "月固定成本按理论单量摊到每单"
-        },
-        "net_contribution_per_unit": {
-          "min": 24,
-          "max": 167
-        },
-        "gross_margin_pct": {
-          "min": 25.0,
-          "max": 44.9
-        },
-        "monthly_orders": {
-          "min": 200,
-          "max": 200,
-          "basis": "整除 ROI 月收入的理论单量（同口径）"
-        },
-        "monthly_revenue": {
-          "min": 20000,
-          "max": 150000
-        },
-        "monthly_variable_cost": {
-          "min": 15000,
-          "max": 82600
-        },
-        "monthly_fixed_cost": {
-          "min": 200,
-          "max": 34000
-        },
-        "monthly_profit": {
-          "min": 4800,
-          "max": 33400
-        },
-        "breakeven_orders": 8,
-        "payback_months": {
-          "min": 2.4,
-          "max": 104.2,
-          "target": 15.0,
-          "target_months": 15.0
-        },
-        "formula": "客单价−单位成本=单位毛利；单位毛利−单位固定=单位净贡献；月收入=客单价×月单量；月利润=月收入−月变动−月固定；回本=投资/月利润",
-        "assumptions": [
-          "全部为整数理论测算，不含实盘数据；四舍五入后加减仍严格相等。",
-          "月收入锚定 ROI 月收入，单量取能整除收入的整数，客单价随之反推。",
-          "固定成本按理论单量摊到每单，实际人力/工具/渠道成本可能不同。",
-          "未计入汇率、退款、税费与一次性意外支出。"
-        ],
-        "sensitivity": [
-          {
-            "label": "单量 -20%",
-            "orders": 160,
-            "revenue": 16000,
-            "variable_cost": 12000,
-            "fixed_cost": 160,
-            "profit": 3840
-          },
-          {
-            "label": "基准",
-            "orders": 200,
-            "revenue": 20000,
-            "variable_cost": 15000,
-            "fixed_cost": 200,
-            "profit": 4800
-          },
-          {
-            "label": "单量 +20%",
-            "orders": 240,
-            "revenue": 24000,
-            "variable_cost": 18000,
-            "fixed_cost": 240,
-            "profit": 5760
-          },
-          {
-            "label": "客单价 -10%",
-            "orders": 200,
-            "revenue": 18000,
-            "variable_cost": 15000,
-            "fixed_cost": 200,
-            "profit": 2800
-          },
-          {
-            "label": "客单价 +10%",
-            "orders": 200,
-            "revenue": 22000,
-            "variable_cost": 15000,
-            "fixed_cost": 200,
-            "profit": 6800
-          }
-        ]
-      },
-      "aov_source": "roi_reverse",
-      "aov": {
-        "min": 100,
-        "max": 750
-      },
-      "grade": "C",
-      "noise_flags": [],
-      "scores": {
-        "dimensions": {
-          "signal": 7.2,
-          "gap": 5.5,
-          "feasibility": 7.2,
-          "economics": 6.4,
-          "timing": 6.4,
-          "competition": 6.2,
-          "risk": 7.2,
-          "fit": 6.7,
-          "evidence": 4.0,
-          "leverage": 6.2
-        },
-        "total": 64.3,
-        "rank_score": 64.3,
-        "grade": "C",
-        "momentum": 1.0
-      },
-      "analyst_narrative": {
-        "thesis": "COMMENTARY、非洲在尼日利亚、肯尼亚、南非给出需求变化信号，需求数据变化说明供给尚未跟上；绿色要补的是方案回本测算、施工交付与补贴/并网资源（关键卡点）。",
-        "market": "尼日利亚的需求方是有节能/减碳需求的家庭，该信号会放大其对设备/工程收入的需求；供给若停留在继续使用旧设备，方案回本测算、施工交付与补贴/并网资源（关键卡点）就是缺口。",
-        "verdict": "综合看，绿色方向优先级较高：需求数据变化说明供给尚未跟上叠加方案回本测算、施工交付与补贴/并网资源（关键卡点）；风险在能效/补贴与并网政策与设备与工程垫资。30 天内围绕COMMENTARY、非洲锁定首批 20–50 个客户并跑通最小可售版，首单后校准单位经济，约15个月跑通工程 + 运维；不构成收入承诺。"
-      },
-      "business_canvas": {
-        "customer_segments": [
-          "有节能/减碳需求的家庭",
-          "出口制造企业",
-          "尼日利亚、肯尼亚、南非本地用户/买家"
-        ],
-        "value_proposition": "把绿色改造做成可算清回本周期的方案；信号主体「COMMENTARY、非洲」指向需求数据变化说明供给尚未跟上，本地化供给存在缺口",
-        "channels": [
-          "工程/渠道商合作",
-          "园区与企业直销",
-          "尼日利亚、肯尼亚、南非本地社群/渠道"
-        ],
-        "customer_relationships": "项目制交付 + 运维服务",
-        "revenue_streams": [
-          "设备/工程收入",
-          "节能运维服务费",
-          "基础设施差套利带来的额外溢价/服务费"
-        ],
-        "key_resources": [
-          "节能方案与供应链",
-          "工程交付能力",
-          "尼日利亚、肯尼亚、南非本地合规/物流资源"
-        ],
-        "key_activities": [
-          "方案设计",
-          "安装交付与运维",
-          "本地化选品与内容运营"
-        ],
-        "key_partners": [
-          "设备厂商",
-          "工程服务商",
-          "本地进口/认证相关服务商"
-        ],
-        "cost_structure": [
-          "设备采购",
-          "工程安装与售后",
-          "基础设施差套利本地化成本"
-        ]
-      },
-      "judgment": {
-        "dimensions": [
-          {
-            "id": "signal",
-            "name": "信号强度",
-            "score": 7.2,
-            "rationale": "标题提到COMMENTARY、非洲，且属于需求数据变化说明供给尚未跟上，本地化供给存在缺口，不是泛泛趋势。",
-            "data_used": [
-              "标题实体：COMMENTARY、非洲",
-              "行业：绿色",
-              "事件类型：需求变化",
-              "信息差：基础设施差套利",
-              "区域：尼日利亚、肯尼亚、南非"
-            ]
-          },
-          {
-            "id": "gap",
-            "name": "信息差",
-            "score": 5.5,
-            "rationale": "基础设施差套利：基础设施差套利：缺口即机会；尼日利亚、肯尼亚、南非市场的支付/物流/电力适配是切入点。",
-            "data_used": [
-              "标题实体：COMMENTARY、非洲",
-              "行业：绿色",
-              "事件类型：需求变化",
-              "信息差：基础设施差套利",
-              "区域：尼日利亚、肯尼亚、南非"
-            ]
-          },
-          {
-            "id": "feasibility",
-            "name": "可行性",
-            "score": 7.2,
-            "rationale": "可先用能源方案与设备厂商 + 工程队小规模起步，首期投入控制在 80,000–500,000 元。",
-            "data_used": [
-              "标题实体：COMMENTARY、非洲",
-              "行业：绿色",
-              "事件类型：需求变化",
-              "信息差：基础设施差套利",
-              "区域：尼日利亚、肯尼亚、南非"
-            ]
-          },
-          {
-            "id": "economics",
-            "name": "经济性",
-            "score": 6.4,
-            "rationale": "工程 + 运维，毛利率约 25%–45%，预计 15 个月回本。",
-            "data_used": [
-              "标题实体：COMMENTARY、非洲",
-              "行业：绿色",
-              "事件类型：需求变化",
-              "信息差：基础设施差套利",
-              "区域：尼日利亚、肯尼亚、南非"
-            ]
-          },
-          {
-            "id": "timing",
-            "name": "时机",
-            "score": 6.4,
-            "rationale": "信号日期 2026-11-06，按需求变化事件判断窗口约 6–12 个月；需求数据变化说明供给尚未跟上，本地化供给存在缺口。",
-            "data_used": [
-              "标题实体：COMMENTARY、非洲",
-              "行业：绿色",
-              "事件类型：需求变化",
-              "信息差：基础设施差套利",
-              "区域：尼日利亚、肯尼亚、南非"
-            ]
-          },
-          {
-            "id": "competition",
-            "name": "竞争",
-            "score": 6.2,
-            "rationale": "直接竞品：节能改造服务商；我们的差异是方案回本测算与交付案例。",
-            "data_used": [
-              "标题实体：COMMENTARY、非洲",
-              "行业：绿色",
-              "事件类型：需求变化",
-              "信息差：基础设施差套利",
-              "区域：尼日利亚、肯尼亚、南非"
-            ]
-          },
-          {
-            "id": "risk",
-            "name": "风险",
-            "score": 7.2,
-            "rationale": "主要风险在能效/补贴与并网政策与设备与工程垫资，本地进口/认证需提前准备。",
-            "data_used": [
-              "标题实体：COMMENTARY、非洲",
-              "行业：绿色",
-              "事件类型：需求变化",
-              "信息差：基础设施差套利",
-              "区域：尼日利亚、肯尼亚、南非"
-            ]
-          },
-          {
-            "id": "fit",
-            "name": "匹配度",
-            "score": 6.7,
-            "rationale": "与绿色知识包和尼日利亚、肯尼亚、南非区域规则匹配，渠道/园区准入是主要适配点。",
-            "data_used": [
-              "标题实体：COMMENTARY、非洲",
-              "行业：绿色",
-              "事件类型：需求变化",
-              "信息差：基础设施差套利",
-              "区域：尼日利亚、肯尼亚、南非"
-            ]
-          },
-          {
-            "id": "evidence",
-            "name": "证据",
-            "score": 4.0,
-            "rationale": "已有 1 条公开来源（Google News · 离网太阳能），可支撑初步判断，商业结果需实操观察。",
-            "data_used": [
-              "标题实体：COMMENTARY、非洲",
-              "行业：绿色",
-              "事件类型：需求变化",
-              "信息差：基础设施差套利",
-              "区域：尼日利亚、肯尼亚、南非"
-            ]
-          },
-          {
-            "id": "leverage",
-            "name": "杠杆",
-            "score": 6.2,
-            "rationale": "规模化杠杆：标准化方案复制项目；本地网络与履约可形成本地壁垒。",
-            "data_used": [
-              "标题实体：COMMENTARY、非洲",
-              "行业：绿色",
-              "事件类型：需求变化",
-              "信息差：基础设施差套利",
-              "区域：尼日利亚、肯尼亚、南非"
-            ]
-          }
-        ],
-        "why_opportunity": "COMMENTARY、非洲（需求变化）意味着需求数据变化说明供给尚未跟上，本地化供给存在缺口；在尼日利亚、肯尼亚、南非，方案回本测算、施工交付与补贴/并网资源是绿色的核心缺口；可用工程 + 运维切入，窗口约 6–12 个月。",
-        "not_opportunity_if": [
-          "若尼日利亚、肯尼亚、南非出现「需求是一次性事件或样本不足，或本地支付/物流基础设施无法支撑交付」的情况。",
-          "若能效/补贴与并网政策（本地进口/认证）导致进入成本过高，或设备与工程垫资超出可承受范围。",
-          "若节能改造服务商已形成强网络效应，且我们无法做出方案回本测算与交付案例差异。"
-        ],
-        "event_type": "需求变化",
-        "primary_industry": "green"
-      },
-      "competition": {
-        "direct": [
-          "节能改造服务商",
-          "设备品牌"
-        ],
-        "indirect": [
-          "传统能源方案",
-          "用户自行改造"
-        ],
-        "substitutes": [
-          "继续使用旧设备",
-          "简单节能习惯"
-        ],
-        "differentiation": "方案回本测算与交付案例；结合基础设施差套利做本地化差异",
-        "moat": "方案回本测算与交付案例",
-        "positioning": "细分场景节能改造方案商"
-      },
-      "cross_market": {
-        "target_markets": [
-          "尼日利亚",
-          "肯尼亚",
-          "南非"
-        ],
-        "arbitrage_type": "基础设施差套利",
-        "why_migratable": "基础设施模式按区域复制；绿色供给可按支付/物流/电力适配复制，事件类型（需求变化）决定进入节奏。",
-        "localization_needs": [
-          "英语/本地语 + 支付习惯",
-          "英语内容与客服",
-          "本地进口/认证"
-        ],
-        "pricing_power": "刚需但价格受当地收入约束"
-      },
-      "timing": {
-        "why_now": "信号日期 2026-11-06，COMMENTARY、非洲触发需求变化变化：需求数据变化说明供给尚未跟上，本地化供给存在缺口。",
-        "catalysts": [
-          "需求持续增长",
-          "本地供给不足",
-          "渠道开始放量",
-          "尼日利亚、肯尼亚、南非本地供给缺口"
-        ],
-        "window_stage": "窗口收窄",
-        "window_months": "6–12",
-        "urgency": "medium",
-        "risks": [
-          "窗口可能被节能改造服务商快速跟进",
-          "本地进口/认证变化影响节奏"
-        ]
-      },
-      "conditions": {
-        "capital_range_cny": [
-          80000,
-          500000
-        ],
-        "skills": [
-          "能源方案",
-          "工程管理"
-        ],
-        "licenses": "电力/施工相关资质按当地要求",
-        "supply_chain": "设备厂商 + 工程队",
-        "partners": [
-          "设备厂商",
-          "工程服务商"
-        ],
-        "team": "1 名方案 + 1 名工程",
-        "time_to_launch_months": 6,
-        "event_entry_requirement": "需求数据变化说明供给尚未跟上，本地化供给存在缺口"
-      },
-      "barriers": {
-        "regulatory": "能效/补贴与并网政策",
-        "technical": "方案设计与施工",
-        "capital": "设备与工程垫资",
-        "brand": "案例背书",
-        "channel": "渠道/园区准入",
-        "region_specific": "本地进口/认证",
-        "event_specific": "需求是一次性事件或样本不足，或本地支付/物流基础设施无法支撑交付"
-      },
-      "profit_model": {
-        "revenue_model": "工程 + 运维",
-        "revenue_streams": [
-          {
-            "id": "product",
-            "name": "主营产品/服务",
-            "monthly_amount_min": 20000,
-            "monthly_amount_max": 150000,
-            "share_pct": 85,
-            "basis": "客单价×理论单量（理论测算）"
-          },
-          {
-            "id": "service",
-            "name": "增值服务",
-            "monthly_amount_min": 2000,
-            "monthly_amount_max": 15000,
-            "share_pct": 10,
-            "basis": "按主营收入 10% 估算"
-          },
-          {
-            "id": "fee",
-            "name": "渠道/分佣",
-            "monthly_amount_min": 1000,
-            "monthly_amount_max": 7500,
-            "share_pct": 5,
-            "basis": "按主营收入 5% 估算"
-          }
-        ],
-        "pricing_range": "参考客单价/服务费：20,000–150,000 元/月规模",
-        "gross_margin": "毛利率约 25%–45%",
-        "cost_items": [
-          {
-            "id": "cogs",
-            "name": "商品/服务直接成本",
-            "monthly_amount_min": 15000,
-            "monthly_amount_max": 82600,
-            "basis": "单位成本×理论单量"
-          },
-          {
-            "id": "fixed",
-            "name": "固定成本",
-            "monthly_amount_min": 200,
-            "monthly_amount_max": 34000,
-            "basis": "单位固定成本×理论单量"
-          }
-        ],
-        "unit_economics": "以有节能/减碳需求的家庭为首批客户，单客贡献 = 客单价 × 毛利率 − 获客/履约成本；参考 ROI 默认区间。",
-        "payback_months": {
-          "min": 2.4,
-          "max": 104.2,
-          "target": 15.0,
-          "target_months": 15.0
-        },
-        "scale_levers": "标准化方案复制项目",
-        "event_effect": "需求数据变化说明供给尚未跟上，本地化供给存在缺口",
-        "currency": "CNY",
-        "aov_source": "roi_reverse",
-        "aov_basis": "与 unit_economics.price_per_unit 同源：ROI 月收入 / 理论月单量",
-        "unit_price": {
-          "min": 100,
-          "max": 750
-        },
-        "monthly_orders": {
-          "min": 200,
-          "max": 200
-        },
-        "monthly_revenue": {
-          "min": 20000,
-          "max": 150000
-        },
-        "monthly_profit": {
-          "min": 4800,
-          "max": 33400
-        },
-        "basis": "green 行业默认区间 + 标题信号「COMMENTARY: 非洲 primed 为太阳能 breakthrough…」；理论测算，非实盘",
-        "formula": "客单价−单位成本=单位毛利；单位毛利−单位固定=单位净贡献；月收入=客单价×月单量；月利润=月收入−月变动−月固定；回本=投资/月利润"
-      },
-      "execution_plan": {
-        "phase_0_30_days": [
-          "锁定尼日利亚、肯尼亚、南非首批 20–50 个目标客户/买家（有节能/减碳需求的家庭），围绕COMMENTARY、非洲事件切入。",
-          "完成方案设计的最小可售版本，确认设备厂商 + 工程队。",
-          "搭建工程/渠道商合作与本地内容/客服（英语）；搭建本地内容/客服与首批供给，建立小批量履约。"
-        ],
-        "phase_30_90_days": [
-          "小批量投放/试单，目标是首笔收入与 项目回本周期 达标。",
-          "按支付/物流/电力适配迭代供给，建立方案回本测算与交付案例。",
-          "评估标准化方案复制项目的复制节奏，跟踪需求持续增长。"
-        ],
-        "milestones": [
-          {
-            "name": "首单/首批客户",
-            "target": "30 天内"
-          },
-          {
-            "name": "正向单位经济",
-            "target": "90 天内"
-          },
-          {
-            "name": "可复制模型",
-            "target": "15 个月左右"
-          }
-        ],
-        "first_revenue_path": "通过工程/渠道商合作向有节能/减碳需求的家庭交付设备/工程收入，先收首批订单/服务费。",
-        "kpis": [
-          "项目回本周期",
-          "签约转化"
-        ]
-      },
-      "sources": [
-        {
-          "title": "COMMENTARY: 非洲 primed 为太阳能 breakthrough…",
-          "url": "https://news.google.com/rss/articles/CBMiuAFBVV95cUxOclpKYy00WUlUS0pBYnBWOU1xWkF4aTQxZEVrUGNUVi1wS2IzVDFLQk4zeTZNTWNtZVV3OWxEQWZHeHZmbFRsSmRhY0NnN2puaUY2X3F6VHlEc1NKX0FyUV9iUXRmMU55b2NvRWRxQ3kzeXhEUFRycGdPQWZPWHRaQ3d6dGcya0QtdVM3ZFdUTVJKWTlKNTJ3aGVkTjgxdmNoNlR2R2lkSXIwTjdnbElFVmxiUnRfeVU3?oc=5",
-          "publisher": "Google News · 离网太阳能",
-          "date": "2026-02-27",
-          "tier": "public-signal",
-          "fetch_status": "unfetched"
-        }
-      ],
-      "confidence": 66,
-      "status": "auto-discovered",
-      "first_seen": "2026-02-27",
-      "last_seen": "2026-02-27",
-      "relevance_score": 53.0,
-      "source_tier": "maybe",
-      "signal_id": "sig-e694e9b5458b",
-      "outbox_file": "",
-      "disclaimer": "自动发现的候选线索：由公开信号自动生成，系统已做商机初筛评估（system_validation）；不代表收入承诺。",
-      "analysis": {
-        "thesis": "非洲光伏在创纪录装机增长后进入加速拐点，但公开信息仅为一篇评论性报道，商机判断应以‘跟踪核验’为主而非直接下注。",
-        "dominant_driver": [
-          "信号",
-          "时机"
-        ],
-        "strengths": [
-          "信号维度7.2，创纪录装机增长本身是需求侧扩张的先行指标",
-          "可行性7.2，离网太阳能与分布式光伏在非洲具备成熟落地路径",
-          "风险维度7.2，说明该赛道风险已被较充分认知，存在定价空间",
-          "非洲+欧洲双区域标签，隐含欧洲资本/EPC/设备出口的跨境杠杆"
-        ],
-        "weaknesses": [
-          "证据维度仅4.0，全文仅一条新闻聚合摘要，无装机数据、国别拆分与项目清单",
-          "标题为COMMENTARY评论稿，非一手数据或交易信息",
-          "信息差与竞争维度中等（5.5/6.2），难以形成独占性认知",
-          "缺乏政策、电价、融资成本等经济性支撑细节"
-        ],
-        "unknowns": [
-          "‘创纪录增长’的具体装机容量、同比增速与统计口径",
-          "增长集中在哪些国家（南非、埃及、摩洛哥、肯尼亚等）及细分环节（集中式/分布式/离网）",
-          "驱动因素是电价、招标机制、还是离网渗透与矿业/电信负荷需求",
-          "欧洲参与者的角色：设备出口、EPC、还是项目融资",
-          "本地并网、外汇与购电协议违约风险的实际水平"
-        ],
-        "causal_chain": [
-          "事实：路透评论指出非洲在创纪录容量增长后有望迎来太阳能突破。",
-          "变化：装机基数抬升使单位成本下降、项目 pipeline 与供应链关注度同步上升。",
-          "受影响主体：非洲本地开发商与离网运营商、欧洲设备与EPC供应商、跨境项目融资方。",
-          "缺口：公开信息缺少国别装机数据、项目清单与融资结构，无法直接定位可切入的具体标的。",
-          "切入点：以国别装机与招标数据为核验抓手，先锁定2-3个高增长国家的离网/分布式细分环节再谈落地。"
-        ],
-        "entry_point": "先做数据核验型切入：抓取非洲主要国家光伏装机与招标公告，交叉核验‘创纪录增长’的国别分布，锁定离网太阳能与工商业分布式两个可快速落地的细分场景，再对接欧洲设备出口与融资渠道。",
-        "differentiation": "不与泛非洲新能源叙事同质化，而是以‘数据核验+细分环节锁定’为差异点，把一篇评论稿转化为可执行的国别机会清单，降低信息噪声带来的误判。",
-        "commercial_structure": {
-          "value_proposition": "为设备出口商与项目融资方提供非洲光伏国别机会的核验型情报与落地路径筛选",
-          "pricing": "情报订阅/单份国别报告收费，或按项目撮合收取成功佣金",
-          "cost_structure": "数据采集与清洗人力为主，叠加本地合作方网络维护成本",
-          "channels": "行业媒体、跨境贸易促进机构、欧洲设备商渠道、离网太阳能行业协会",
-          "startup_conditions": "需建立国别装机与招标数据库，并至少打通2个本地合作方以核验项目真实性"
-        },
-        "evidence_refs": [
-          {
-            "title": "非洲为太阳能之后创纪录增长",
-            "url": "https://news.google.com/rss/articles/CBMiuAFBVV95cUxOclpKYy00WUlUS0pBYnBWOU1xWkF4aTQxZEVrUGNUVi1wS2IzVDFLQk4zeTZNTWNtZVV3OWxEQWZHeHZmbFRsSmRhY0NnN2puaUY2X3F6VHlEc1NKX0FyUV9iUXRmMU55b2NvRWRxQ3kzeXhEUFRycGdPQWZPWHRaQ3d6dGcya0QtdVM3ZFdUTVJKWTlKNTJ3aGVkTjgxdmNoNlR2R2lkSXIwTjdnbElFVmxiUnRfeVU3?oc=5",
-            "publisher": "Google News · 离网太阳能",
-            "date": "2026-02-27"
-          }
-        ],
-        "falsifiers": [
-          "若后续数据显示非洲光伏装机增速低于全球平均，‘创纪录增长’叙事被证伪",
-          "若增长高度集中于单一国家且由一次性政策驱动，则机会不可复制",
-          "若离网太阳能渗透率停滞或主要运营商出现违约，则切入点失效",
-          "若欧洲设备出口面临关税或本地化要求收紧，跨境杠杆不成立"
-        ],
-        "confidence": 0.42,
-        "analysis_score": 58.0,
-        "single_axis_strong": false,
-        "scenario": "batch",
-        "not_a_gate": true,
-        "information_value": {
-          "score": 3.8,
-          "dimensions": {
-            "novelty": 4.0,
-            "specificity": 2.0,
-            "impact": 6.0,
-            "urgency": 4.0,
-            "actionability": 3.0
-          },
-          "novelty": 4.0,
-          "specificity": 2.0,
-          "impact": 6.0,
-          "urgency": 4.0,
-          "actionability": 3.0
-        },
-        "key_facts": [
-          {
-            "text": "路透发表评论称非洲在创纪录容量增长后有望迎来太阳能突破",
-            "fact": "路透发表评论称非洲在创纪录容量增长后有望迎来太阳能突破",
-            "type": "fact",
-            "source_ref": {
-              "title": "非洲为太阳能之后创纪录增长",
-              "url": "https://news.google.com/rss/articles/CBMiuAFBVV95cUxOclpKYy00WUlUS0pBYnBWOU1xWkF4aTQxZEVrUGNUVi1wS2IzVDFLQk4zeTZNTWNtZVV3OWxEQWZHeHZmbFRsSmRhY0NnN2puaUY2X3F6VHlEc1NKX0FyUV9iUXRmMU55b2NvRWRxQ3kzeXhEUFRycGdPQWZPWHRaQ3d6dGcya0QtdVM3ZFdUTVJKWTlKNTJ3aGVkTjgxdmNoNlR2R2lkSXIwTjdnbElFVmxiUnRfeVU3?oc=5"
-            }
-          },
-          {
-            "text": "该内容为评论稿而非一手装机统计数据",
-            "fact": "该内容为评论稿而非一手装机统计数据",
-            "type": "inference",
-            "source_ref": {
-              "title": "非洲为太阳能之后创纪录增长",
-              "url": "https://news.google.com/rss/articles/CBMiuAFBVV95cUxOclpKYy00WUlUS0pBYnBWOU1xWkF4aTQxZEVrUGNUVi1wS2IzVDFLQk4zeTZNTWNtZVV3OWxEQWZHeHZmbFRsSmRhY0NnN2puaUY2X3F6VHlEc1NKX0FyUV9iUXRmMU55b2NvRWRxQ3kzeXhEUFRycGdPQWZPWHRaQ3d6dGcya0QtdVM3ZFdUTVJKWTlKNTJ3aGVkTjgxdmNoNlR2R2lkSXIwTjdnbElFVmxiUnRfeVU3?oc=5"
-            }
-          },
-          {
-            "text": "来源为Google News离网太阳能聚合频道，指向离网细分场景",
-            "fact": "来源为Google News离网太阳能聚合频道，指向离网细分场景",
-            "type": "inference",
-            "source_ref": {
-              "title": "非洲为太阳能之后创纪录增长",
-              "url": "https://news.google.com/rss/articles/CBMiuAFBVV95cUxOclpKYy00WUlUS0pBYnBWOU1xWkF4aTQxZEVrUGNUVi1wS2IzVDFLQk4zeTZNTWNtZVV3OWxEQWZHeHZmbFRsSmRhY0NnN2puaUY2X3F6VHlEc1NKX0FyUV9iUXRmMU55b2NvRWRxQ3kzeXhEUFRycGdPQWZPWHRaQ3d6dGcya0QtdVM3ZFdUTVJKWTlKNTJ3aGVkTjgxdmNoNlR2R2lkSXIwTjdnbElFVmxiUnRfeVU3?oc=5"
-            }
-          }
-        ],
-        "evidence_quality": {
-          "source_count": 1,
-          "independence": 1.0,
-          "authority": 5.0,
-          "recency": 7.0,
-          "timeliness": 7.0,
-          "score": 3.5,
-          "note": "仅一条Google News聚合条目，标题指向路透评论稿但正文未获取，无数据与国别细节，独立性与可核验性弱，时效性较好。"
-        }
-      }
-    },
-    {
-      "candidate_id": "cand-f77baa13c743",
-      "title": "非洲将是为太阳能需求，行业",
-      "title_zh": "非洲将是为太阳能需求，行业",
-      "one_liner_zh": "绿色，Africa Will Be Next Center for Solar Demand、Say Industry…",
-      "summary_zh": "非洲将是 Next Center 为太阳能需求、Say 行业 Leaders Earth.Org",
-      "title_original": "Africa Will Be Next Center for Solar Demand, Say Industry Leaders - Earth.Org",
-      "translation": {
-        "provider": "glossary",
-        "quality": "medium",
-        "cached": true,
-        "source_lang": "en",
-        "target_lang": "zh",
-        "fallback": false,
-        "template": false,
-        "disclaimer": "系统翻译（自动生成，可能不完美）；质量不参与商机收录/排序，前端可切换原文。"
-      },
-      "translation_method": "glossary",
-      "one_liner": "绿色｜Africa Will Be Next Center for Solar Demand, Say Industry Leaders Earth.Org（自动发现线索，系统已初筛）",
-      "industry_ids": [
-        "green"
-      ],
-      "primary_industry": "green",
-      "primary_region": "africa",
-      "gap_type_ids": [
-        "infrastructure",
-        "price"
-      ],
-      "gap_inferred": true,
-      "gap_inference": "信号原文未给出明确信息差，按行业/来源/关键词自动推断为「基础设施差、价格差」（推断，非原文）",
-      "region_ids": [
-        "africa",
-        "north-america"
-      ],
-      "region_inferred": false,
-      "target_countries": [
-        "尼日利亚",
-        "肯尼亚",
-        "南非",
-        "美国",
-        "加拿大"
-      ],
-      "source": {
-        "id": "gn-industry-solar",
-        "name": "Google News · 离网太阳能",
-        "url": "https://news.google.com/rss/articles/CBMiiwFBVV95cUxQQ0Q5TXlYRUlxZkc5N3lGa0RXYVRoakpFZm1DcDlQa3FaQ3NwdFVxNzE0VDhYLTBJXzUtbFI0dDJCX21HLTJXNWRnQU5CdllZWVBRTXA5dnJOaUlvNXB3TWZXRXdQdEh0djJ3ckNtV2ZVS2dpMGtiZWRmb09QSUVBckV2NXpONUFhb1BN?oc=5",
-        "cleaned": "非洲将是为太阳能需求，行业",
-        "raw_title": "Africa Will Be Next Center for Solar Demand, Say Industry Leaders - Earth.Org",
-        "published_at": "2025-12-08",
-        "summary": "Africa Will Be Next Center for Solar Demand, Say Industry Leaders Earth.Org"
-      },
-      "evidence": [
-        {
-          "title": "非洲将是为太阳能需求，行业",
-          "url": "https://news.google.com/rss/articles/CBMiiwFBVV95cUxQQ0Q5TXlYRUlxZkc5N3lGa0RXYVRoakpFZm1DcDlQa3FaQ3NwdFVxNzE0VDhYLTBJXzUtbFI0dDJCX21HLTJXNWRnQU5CdllZWVBRTXA5dnJOaUlvNXB3TWZXRXdQdEh0djJ3ckNtV2ZVS2dpMGtiZWRmb09QSUVBckV2NXpONUFhb1BN?oc=5",
-          "source_id": "gn-industry-solar",
-          "publisher": "Google News · 离网太阳能",
-          "date": "2025-12-08",
-          "tier": "public-signal",
-          "verified_by_human": false,
-          "link_status": "public-url",
-          "fetch_status": "unfetched"
-        }
-      ],
-      "system_validation": {
-        "level": "low",
-        "score": 63,
-        "level_thresholds": {
-          "high": 95,
-          "medium": 87
-        },
-        "checks": [
-          {
-            "id": "demand_signal",
-            "name": "需求信号",
-            "passed": true,
-            "note": "相关性 59/100，tier=maybe；16/25",
-            "points": 16
-          },
-          {
-            "id": "gap_clarity",
-            "name": "信息差明确",
-            "passed": true,
-            "note": "信息差：基础设施差、价格差；9/15",
-            "points": 9
-          },
-          {
-            "id": "evidence",
-            "name": "证据链接",
-            "passed": true,
-            "note": "公开链接 1 条（无需人工核验）；8/12",
-            "points": 8
-          },
-          {
-            "id": "source_quality",
-            "name": "来源质量",
-            "passed": true,
-            "note": "来源 Google News · 离网太阳能（compliance=green）；12/12",
-            "points": 12
-          },
-          {
-            "id": "timeliness",
-            "name": "时效",
-            "passed": false,
-            "note": "发布距基准日 333 天；0/15",
-            "points": 0
-          },
-          {
-            "id": "actionability",
-            "name": "可执行性",
-            "passed": true,
-            "note": "行业 1 / 目标国家 5 / ROI 默认区间；10/10",
-            "points": 10
-          },
-          {
-            "id": "specificity",
-            "name": "地理/场景具体性",
-            "passed": true,
-            "note": "区域：非洲、北美；8/8",
-            "points": 8
-          },
-          {
-            "id": "competition_window",
-            "name": "竞争/窗口",
-            "passed": false,
-            "note": "新鲜度窗口 333 天；0/5",
-            "points": 0
-          }
-        ],
-        "checks_passed": 6,
-        "checks_total": 8,
-        "notes": "系统自动评估商机信号（需求/信息差/证据/时效/可执行性）；仅代表发现与评估，不代表收入承诺。"
-      },
-      "seven_questions": {
-        "需求": {
-          "question": "需求",
-          "answer": "围绕「Africa Will Be Next Center…」：绿色需求正在被公开讨论，可能存在未被满足的具体场景。",
-          "draft": true
-        },
-        "人群": {
-          "question": "人群",
-          "answer": "从该信号来源的读者/从业者中找最早 100 个种子用户（如原文评论区、相关社群）。",
-          "draft": true
-        },
-        "竞品": {
-          "question": "竞品",
-          "answer": "现有替代方案多为通用商品/服务；需人工对比价格、交付与本地化程度。",
-          "draft": true
-        },
-        "差异": {
-          "question": "差异",
-          "answer": "利用基础设施差、价格差做出本地化/更快/更透明的供给（自动草稿，待人工细化）。",
-          "draft": true
-        },
-        "渠道": {
-          "question": "渠道",
-          "answer": "先用来源媒体/社群做小成本测试，再考虑搜索/平台/私域渠道（自动草稿）。",
-          "draft": true
-        },
-        "成本": {
-          "question": "成本",
-          "answer": "先按行业默认 ROI 估算最小启动成本；真实成本需人工核价。",
-          "draft": true
-        },
-        "跟踪": {
-          "question": "跟踪",
-          "answer": "14 天内观察到询价/预约/加购等可量化信号再投入（自动草稿）。",
-          "draft": true
-        }
-      },
-      "roi": {
-        "capital_min": 80000,
-        "capital_max": 500000,
-        "monthly_revenue_min": 20000,
-        "monthly_revenue_max": 150000,
-        "gross_margin_min": 25,
-        "gross_margin_max": 45,
-        "payback_months": 15,
-        "time_to_revenue_months": 4,
-        "effort": "高",
-        "estimated": true,
-        "note": "行业默认区间估算（自动生成），非承诺；需人工按实际采购/渠道成本重算"
-      },
-      "investment_breakdown": {
-        "currency": "CNY",
-        "theoretical": true,
-        "total_min": 80000,
-        "total_max": 500000,
-        "items": [
-          {
-            "id": "registration",
-            "key": "registration",
-            "name": "注册/主体",
-            "label": "注册/主体",
-            "min": 3200,
-            "max": 20000,
-            "basis": "主体注册/开户/备案等一次性费用",
-            "note": "注册/主体按行业默认比例（4%）估算，需按实际报价调整"
-          },
-          {
-            "id": "compliance",
-            "key": "compliance",
-            "name": "合规/资质",
-            "label": "合规/资质",
-            "min": 6400,
-            "max": 40000,
-            "basis": "许可、认证、检测或合规咨询",
-            "note": "合规/资质按行业默认比例（8%）估算，需按实际报价调整"
-          },
-          {
-            "id": "inventory",
-            "key": "inventory",
-            "name": "首批库存/样品",
-            "label": "首批库存/样品",
-            "min": 24000,
-            "max": 150000,
-            "basis": "首批样品/小批量库存与打样",
-            "note": "首批库存/样品按行业默认比例（30%）估算，需按实际报价调整"
-          },
-          {
-            "id": "channels",
-            "key": "channels",
-            "name": "平台/渠道开通",
-            "label": "平台/渠道开通",
-            "min": 8000,
-            "max": 50000,
-            "basis": "平台入驻、店铺/渠道建设",
-            "note": "平台/渠道开通按行业默认比例（10%）估算，需按实际报价调整"
-          },
-          {
-            "id": "logistics",
-            "key": "logistics",
-            "name": "物流仓储",
-            "label": "物流仓储",
-            "min": 8000,
-            "max": 50000,
-            "basis": "头程/仓储/退换与本地配送",
-            "note": "物流仓储按行业默认比例（10%）估算，需按实际报价调整"
-          },
-          {
-            "id": "tools",
-            "key": "tools",
-            "name": "工具/软件",
-            "label": "工具/软件",
-            "min": 4800,
-            "max": 30000,
-            "basis": "店铺/内容/数据工具订阅",
-            "note": "工具/软件按行业默认比例（6%）估算，需按实际报价调整"
-          },
-          {
-            "id": "marketing",
-            "key": "marketing",
-            "name": "市场推广",
-            "label": "市场推广",
-            "min": 12800,
-            "max": 80000,
-            "basis": "内容投放、达人/社群与冷启动获客",
-            "note": "市场推广按行业默认比例（16%）估算，需按实际报价调整"
-          },
-          {
-            "id": "labor",
-            "key": "labor",
-            "name": "人力/外包",
-            "label": "人力/外包",
-            "min": 8000,
-            "max": 50000,
-            "basis": "运营/客服/设计/外包",
-            "note": "人力/外包按行业默认比例（10%）估算，需按实际报价调整"
-          },
-          {
-            "id": "working_capital",
-            "key": "working_capital",
-            "name": "流动资金",
-            "label": "流动资金",
-            "min": 3200,
-            "max": 20000,
-            "basis": "现金流缓冲与补货周转",
-            "note": "流动资金按行业默认比例（4%）估算，需按实际报价调整"
-          },
-          {
-            "id": "contingency",
-            "key": "contingency",
-            "name": "预备金",
-            "label": "预备金",
-            "min": 1600,
-            "max": 10000,
-            "basis": "汇率/物流/退款等意外预备",
-            "note": "预备金按行业默认比例（2%）估算，需按实际报价调整"
-          }
-        ],
-        "basis": "按 green 行业默认比例拆分；合计严格等于 roi.capital / conditions.capital"
-      },
-      "unit_economics": {
-        "aov_source": "roi_reverse",
-        "aov_basis": "AOV = ROI 月收入区间 / 理论月单量（整数；与 price_per_unit、profit_model.unit_price 同源）",
-        "price_per_unit": {
-          "min": 100,
-          "max": 750,
-          "basis": "整数客单价；月收入锚定 ROI 后按单量反推"
-        },
-        "cost_per_unit": {
-          "min": 75,
-          "max": 413,
-          "items": [
-            {
-              "name": "直接成本",
-              "min": 75,
-              "max": 413,
-              "basis": "按毛利率反推"
-            }
-          ],
-          "basis": "单件采购/交付成本"
-        },
-        "gross_profit_per_unit": {
-          "min": 25,
-          "max": 337
-        },
-        "fixed_cost_per_unit": {
-          "min": 1,
-          "max": 170,
-          "basis": "月固定成本按理论单量摊到每单"
-        },
-        "net_contribution_per_unit": {
-          "min": 24,
-          "max": 167
-        },
-        "gross_margin_pct": {
-          "min": 25.0,
-          "max": 44.9
-        },
-        "monthly_orders": {
-          "min": 200,
-          "max": 200,
-          "basis": "整除 ROI 月收入的理论单量（同口径）"
-        },
-        "monthly_revenue": {
-          "min": 20000,
-          "max": 150000
-        },
-        "monthly_variable_cost": {
-          "min": 15000,
-          "max": 82600
-        },
-        "monthly_fixed_cost": {
-          "min": 200,
-          "max": 34000
-        },
-        "monthly_profit": {
-          "min": 4800,
-          "max": 33400
-        },
-        "breakeven_orders": 8,
-        "payback_months": {
-          "min": 2.4,
-          "max": 104.2,
-          "target": 15.0,
-          "target_months": 15.0
-        },
-        "formula": "客单价−单位成本=单位毛利；单位毛利−单位固定=单位净贡献；月收入=客单价×月单量；月利润=月收入−月变动−月固定；回本=投资/月利润",
-        "assumptions": [
-          "全部为整数理论测算，不含实盘数据；四舍五入后加减仍严格相等。",
-          "月收入锚定 ROI 月收入，单量取能整除收入的整数，客单价随之反推。",
-          "固定成本按理论单量摊到每单，实际人力/工具/渠道成本可能不同。",
-          "未计入汇率、退款、税费与一次性意外支出。"
-        ],
-        "sensitivity": [
-          {
-            "label": "单量 -20%",
-            "orders": 160,
-            "revenue": 16000,
-            "variable_cost": 12000,
-            "fixed_cost": 160,
-            "profit": 3840
-          },
-          {
-            "label": "基准",
-            "orders": 200,
-            "revenue": 20000,
-            "variable_cost": 15000,
-            "fixed_cost": 200,
-            "profit": 4800
-          },
-          {
-            "label": "单量 +20%",
-            "orders": 240,
-            "revenue": 24000,
-            "variable_cost": 18000,
-            "fixed_cost": 240,
-            "profit": 5760
-          },
-          {
-            "label": "客单价 -10%",
-            "orders": 200,
-            "revenue": 18000,
-            "variable_cost": 15000,
-            "fixed_cost": 200,
-            "profit": 2800
-          },
-          {
-            "label": "客单价 +10%",
-            "orders": 200,
-            "revenue": 22000,
-            "variable_cost": 15000,
-            "fixed_cost": 200,
-            "profit": 6800
-          }
-        ]
-      },
-      "aov_source": "roi_reverse",
-      "aov": {
-        "min": 100,
-        "max": 750
-      },
-      "grade": "C",
-      "noise_flags": [],
-      "scores": {
-        "dimensions": {
-          "signal": 7.5,
-          "gap": 5.5,
-          "feasibility": 6.8,
-          "economics": 6.1,
-          "timing": 6.1,
-          "competition": 5.8,
-          "risk": 6.8,
-          "fit": 6.3,
-          "evidence": 4.0,
-          "leverage": 5.8
-        },
-        "total": 62.4,
-        "rank_score": 62.4,
-        "grade": "C",
-        "momentum": 1.0
-      },
-      "analyst_narrative": {
-        "thesis": "非洲 Will、Center、Solar Demand、Say Industry在尼日利亚、肯尼亚、南非给出需求变化信号，需求数据变化说明供给尚未跟上；绿色要补的是方案回本测算、施工交付与补贴/并网资源（关键卡点）。",
-        "market": "尼日利亚的需求方是有节能/减碳需求的家庭，该信号会放大其对设备/工程收入的需求；供给若停留在继续使用旧设备，方案回本测算、施工交付与补贴/并网资源（关键卡点）就是缺口。",
-        "verdict": "综合看，绿色方向优先级较高：需求数据变化说明供给尚未跟上叠加方案回本测算、施工交付与补贴/并网资源（关键卡点）；风险在能效/补贴与并网政策与设备与工程垫资。30 天内围绕非洲 Will、Center、Solar Demand、Say Industry锁定首批 20–50 个客户并跑通最小可售版，首单后校准单位经济，约15个月跑通工程 + 运维；不构成收入承诺。"
-      },
-      "business_canvas": {
-        "customer_segments": [
-          "有节能/减碳需求的家庭",
-          "出口制造企业",
-          "尼日利亚、肯尼亚、南非本地用户/买家"
-        ],
-        "value_proposition": "把绿色改造做成可算清回本周期的方案；信号主体「非洲 Will、Center、Solar Demand、Say Industry」指向需求数据变化说明供给尚未跟上，本地化供给存在缺口",
-        "channels": [
-          "工程/渠道商合作",
-          "园区与企业直销",
-          "尼日利亚、肯尼亚、南非本地社群/渠道"
-        ],
-        "customer_relationships": "项目制交付 + 运维服务",
-        "revenue_streams": [
-          "设备/工程收入",
-          "节能运维服务费",
-          "基础设施差套利带来的额外溢价/服务费"
-        ],
-        "key_resources": [
-          "节能方案与供应链",
-          "工程交付能力",
-          "尼日利亚、肯尼亚、南非本地合规/物流资源"
-        ],
-        "key_activities": [
-          "方案设计",
-          "安装交付与运维",
-          "本地化选品与内容运营"
-        ],
-        "key_partners": [
-          "设备厂商",
-          "工程服务商",
-          "本地进口/认证相关服务商"
-        ],
-        "cost_structure": [
-          "设备采购",
-          "工程安装与售后",
-          "基础设施差套利本地化成本"
-        ]
-      },
-      "judgment": {
-        "dimensions": [
-          {
-            "id": "signal",
-            "name": "信号强度",
-            "score": 7.5,
-            "rationale": "标题提到非洲 Will、Center、Solar Demand、Say Industry，且属于需求数据变化说明供给尚未跟上，本地化供给存在缺口，不是泛泛趋势。",
-            "data_used": [
-              "标题实体：非洲 Will、Center、Solar Demand、Say Industry",
-              "行业：绿色",
-              "事件类型：需求变化",
-              "信息差：基础设施差套利",
-              "区域：尼日利亚、肯尼亚、南非"
-            ]
-          },
-          {
-            "id": "gap",
-            "name": "信息差",
-            "score": 5.5,
-            "rationale": "基础设施差套利：基础设施差套利：缺口即机会；尼日利亚、肯尼亚、南非市场的支付/物流/电力适配是切入点。",
-            "data_used": [
-              "标题实体：非洲 Will、Center、Solar Demand、Say Industry",
-              "行业：绿色",
-              "事件类型：需求变化",
-              "信息差：基础设施差套利",
-              "区域：尼日利亚、肯尼亚、南非"
-            ]
-          },
-          {
-            "id": "feasibility",
-            "name": "可行性",
-            "score": 6.8,
-            "rationale": "可先用能源方案与设备厂商 + 工程队小规模起步，首期投入控制在 80,000–500,000 元。",
-            "data_used": [
-              "标题实体：非洲 Will、Center、Solar Demand、Say Industry",
-              "行业：绿色",
-              "事件类型：需求变化",
-              "信息差：基础设施差套利",
-              "区域：尼日利亚、肯尼亚、南非"
-            ]
-          },
-          {
-            "id": "economics",
-            "name": "经济性",
-            "score": 6.1,
-            "rationale": "工程 + 运维，毛利率约 25%–45%，预计 15 个月回本。",
-            "data_used": [
-              "标题实体：非洲 Will、Center、Solar Demand、Say Industry",
-              "行业：绿色",
-              "事件类型：需求变化",
-              "信息差：基础设施差套利",
-              "区域：尼日利亚、肯尼亚、南非"
-            ]
-          },
-          {
-            "id": "timing",
-            "name": "时机",
-            "score": 6.1,
-            "rationale": "信号日期 2026-11-06，按需求变化事件判断窗口约 6–12 个月；需求数据变化说明供给尚未跟上，本地化供给存在缺口。",
-            "data_used": [
-              "标题实体：非洲 Will、Center、Solar Demand、Say Industry",
-              "行业：绿色",
-              "事件类型：需求变化",
-              "信息差：基础设施差套利",
-              "区域：尼日利亚、肯尼亚、南非"
-            ]
-          },
-          {
-            "id": "competition",
-            "name": "竞争",
-            "score": 5.8,
-            "rationale": "直接竞品：节能改造服务商；我们的差异是方案回本测算与交付案例。",
-            "data_used": [
-              "标题实体：非洲 Will、Center、Solar Demand、Say Industry",
-              "行业：绿色",
-              "事件类型：需求变化",
-              "信息差：基础设施差套利",
-              "区域：尼日利亚、肯尼亚、南非"
-            ]
-          },
-          {
-            "id": "risk",
-            "name": "风险",
-            "score": 6.8,
-            "rationale": "主要风险在能效/补贴与并网政策与设备与工程垫资，本地进口/认证需提前准备。",
-            "data_used": [
-              "标题实体：非洲 Will、Center、Solar Demand、Say Industry",
-              "行业：绿色",
-              "事件类型：需求变化",
-              "信息差：基础设施差套利",
-              "区域：尼日利亚、肯尼亚、南非"
-            ]
-          },
-          {
-            "id": "fit",
-            "name": "匹配度",
-            "score": 6.3,
-            "rationale": "与绿色知识包和尼日利亚、肯尼亚、南非区域规则匹配，渠道/园区准入是主要适配点。",
-            "data_used": [
-              "标题实体：非洲 Will、Center、Solar Demand、Say Industry",
-              "行业：绿色",
-              "事件类型：需求变化",
-              "信息差：基础设施差套利",
-              "区域：尼日利亚、肯尼亚、南非"
-            ]
-          },
-          {
-            "id": "evidence",
-            "name": "证据",
-            "score": 4.0,
-            "rationale": "已有 1 条公开来源（Google News · 离网太阳能），可支撑初步判断，商业结果需实操观察。",
-            "data_used": [
-              "标题实体：非洲 Will、Center、Solar Demand、Say Industry",
-              "行业：绿色",
-              "事件类型：需求变化",
-              "信息差：基础设施差套利",
-              "区域：尼日利亚、肯尼亚、南非"
-            ]
-          },
-          {
-            "id": "leverage",
-            "name": "杠杆",
-            "score": 5.8,
-            "rationale": "规模化杠杆：标准化方案复制项目；本地网络与履约可形成本地壁垒。",
-            "data_used": [
-              "标题实体：非洲 Will、Center、Solar Demand、Say Industry",
-              "行业：绿色",
-              "事件类型：需求变化",
-              "信息差：基础设施差套利",
-              "区域：尼日利亚、肯尼亚、南非"
-            ]
-          }
-        ],
-        "why_opportunity": "非洲 Will、Center、Solar Demand、Say Industry（需求变化）意味着需求数据变化说明供给尚未跟上，本地化供给存在缺口；在尼日利亚、肯尼亚、南非，方案回本测算、施工交付与补贴/并网资源是绿色的核心缺口；可用工程 + 运维切入，窗口约 6–12 个月。",
-        "not_opportunity_if": [
-          "若尼日利亚、肯尼亚、南非出现「需求是一次性事件或样本不足，或本地支付/物流基础设施无法支撑交付」的情况。",
-          "若能效/补贴与并网政策（本地进口/认证）导致进入成本过高，或设备与工程垫资超出可承受范围。",
-          "若节能改造服务商已形成强网络效应，且我们无法做出方案回本测算与交付案例差异。"
-        ],
-        "event_type": "需求变化",
-        "primary_industry": "green"
-      },
-      "competition": {
-        "direct": [
-          "节能改造服务商",
-          "设备品牌"
-        ],
-        "indirect": [
-          "传统能源方案",
-          "用户自行改造"
-        ],
-        "substitutes": [
-          "继续使用旧设备",
-          "简单节能习惯"
-        ],
-        "differentiation": "方案回本测算与交付案例；结合基础设施差套利做本地化差异",
-        "moat": "方案回本测算与交付案例",
-        "positioning": "细分场景节能改造方案商"
-      },
-      "cross_market": {
-        "target_markets": [
-          "尼日利亚",
-          "肯尼亚",
-          "南非"
-        ],
-        "arbitrage_type": "基础设施差套利",
-        "why_migratable": "基础设施模式按区域复制；绿色供给可按支付/物流/电力适配复制，事件类型（需求变化）决定进入节奏。",
-        "localization_needs": [
-          "英语/本地语 + 支付习惯",
-          "英语内容与客服",
-          "本地进口/认证"
-        ],
-        "pricing_power": "刚需但价格受当地收入约束"
-      },
-      "timing": {
-        "why_now": "信号日期 2026-11-06，非洲 Will、Center、Solar Demand、Say Industry触发需求变化变化：需求数据变化说明供给尚未跟上，本地化供给存在缺口。",
-        "catalysts": [
-          "需求持续增长",
-          "本地供给不足",
-          "渠道开始放量",
-          "尼日利亚、肯尼亚、南非本地供给缺口"
-        ],
-        "window_stage": "窗口收窄",
-        "window_months": "6–12",
-        "urgency": "medium",
-        "risks": [
-          "窗口可能被节能改造服务商快速跟进",
-          "本地进口/认证变化影响节奏"
-        ]
-      },
-      "conditions": {
-        "capital_range_cny": [
-          80000,
-          500000
-        ],
-        "skills": [
-          "能源方案",
-          "工程管理"
-        ],
-        "licenses": "电力/施工相关资质按当地要求",
-        "supply_chain": "设备厂商 + 工程队",
-        "partners": [
-          "设备厂商",
-          "工程服务商"
-        ],
-        "team": "1 名方案 + 1 名工程",
-        "time_to_launch_months": 6,
-        "event_entry_requirement": "需求数据变化说明供给尚未跟上，本地化供给存在缺口"
-      },
-      "barriers": {
-        "regulatory": "能效/补贴与并网政策",
-        "technical": "方案设计与施工",
-        "capital": "设备与工程垫资",
-        "brand": "案例背书",
-        "channel": "渠道/园区准入",
-        "region_specific": "本地进口/认证",
-        "event_specific": "需求是一次性事件或样本不足，或本地支付/物流基础设施无法支撑交付"
-      },
-      "profit_model": {
-        "revenue_model": "工程 + 运维",
-        "revenue_streams": [
-          {
-            "id": "product",
-            "name": "主营产品/服务",
-            "monthly_amount_min": 20000,
-            "monthly_amount_max": 150000,
-            "share_pct": 85,
-            "basis": "客单价×理论单量（理论测算）"
-          },
-          {
-            "id": "service",
-            "name": "增值服务",
-            "monthly_amount_min": 2000,
-            "monthly_amount_max": 15000,
-            "share_pct": 10,
-            "basis": "按主营收入 10% 估算"
-          },
-          {
-            "id": "fee",
-            "name": "渠道/分佣",
-            "monthly_amount_min": 1000,
-            "monthly_amount_max": 7500,
-            "share_pct": 5,
-            "basis": "按主营收入 5% 估算"
-          }
-        ],
-        "pricing_range": "参考客单价/服务费：20,000–150,000 元/月规模",
-        "gross_margin": "毛利率约 25%–45%",
-        "cost_items": [
-          {
-            "id": "cogs",
-            "name": "商品/服务直接成本",
-            "monthly_amount_min": 15000,
-            "monthly_amount_max": 82600,
-            "basis": "单位成本×理论单量"
-          },
-          {
-            "id": "fixed",
-            "name": "固定成本",
-            "monthly_amount_min": 200,
-            "monthly_amount_max": 34000,
-            "basis": "单位固定成本×理论单量"
-          }
-        ],
-        "unit_economics": "以有节能/减碳需求的家庭为首批客户，单客贡献 = 客单价 × 毛利率 − 获客/履约成本；参考 ROI 默认区间。",
-        "payback_months": {
-          "min": 2.4,
-          "max": 104.2,
-          "target": 15.0,
-          "target_months": 15.0
-        },
-        "scale_levers": "标准化方案复制项目",
-        "event_effect": "需求数据变化说明供给尚未跟上，本地化供给存在缺口",
-        "currency": "CNY",
-        "aov_source": "roi_reverse",
-        "aov_basis": "与 unit_economics.price_per_unit 同源：ROI 月收入 / 理论月单量",
-        "unit_price": {
-          "min": 100,
-          "max": 750
-        },
-        "monthly_orders": {
-          "min": 200,
-          "max": 200
-        },
-        "monthly_revenue": {
-          "min": 20000,
-          "max": 150000
-        },
-        "monthly_profit": {
-          "min": 4800,
-          "max": 33400
-        },
-        "basis": "green 行业默认区间 + 标题信号「非洲将是 Next Center 为太阳能需求、Say 行业 Leaders」；理论测算，非实盘",
-        "formula": "客单价−单位成本=单位毛利；单位毛利−单位固定=单位净贡献；月收入=客单价×月单量；月利润=月收入−月变动−月固定；回本=投资/月利润"
-      },
-      "execution_plan": {
-        "phase_0_30_days": [
-          "锁定尼日利亚、肯尼亚、南非首批 20–50 个目标客户/买家（有节能/减碳需求的家庭），围绕非洲 Will、Center、Solar Demand、Say Industry事件切入。",
-          "完成方案设计的最小可售版本，确认设备厂商 + 工程队。",
-          "搭建工程/渠道商合作与本地内容/客服（英语）；搭建本地内容/客服与首批供给，建立小批量履约。"
-        ],
-        "phase_30_90_days": [
-          "小批量投放/试单，目标是首笔收入与 项目回本周期 达标。",
-          "按支付/物流/电力适配迭代供给，建立方案回本测算与交付案例。",
-          "评估标准化方案复制项目的复制节奏，跟踪需求持续增长。"
-        ],
-        "milestones": [
-          {
-            "name": "首单/首批客户",
-            "target": "30 天内"
-          },
-          {
-            "name": "正向单位经济",
-            "target": "90 天内"
-          },
-          {
-            "name": "可复制模型",
-            "target": "15 个月左右"
-          }
-        ],
-        "first_revenue_path": "通过工程/渠道商合作向有节能/减碳需求的家庭交付设备/工程收入，先收首批订单/服务费。",
-        "kpis": [
-          "项目回本周期",
-          "签约转化"
-        ]
-      },
-      "sources": [
-        {
-          "title": "非洲将是 Next Center 为太阳能需求、Say 行业 Leaders",
-          "url": "https://news.google.com/rss/articles/CBMiiwFBVV95cUxQQ0Q5TXlYRUlxZkc5N3lGa0RXYVRoakpFZm1DcDlQa3FaQ3NwdFVxNzE0VDhYLTBJXzUtbFI0dDJCX21HLTJXNWRnQU5CdllZWVBRTXA5dnJOaUlvNXB3TWZXRXdQdEh0djJ3ckNtV2ZVS2dpMGtiZWRmb09QSUVBckV2NXpONUFhb1BN?oc=5",
-          "publisher": "Google News · 离网太阳能",
-          "date": "2025-12-08",
-          "tier": "public-signal",
-          "fetch_status": "unfetched"
-        }
-      ],
-      "confidence": 70,
-      "status": "auto-discovered",
-      "first_seen": "2025-12-08",
-      "last_seen": "2025-12-08",
-      "relevance_score": 59.0,
-      "source_tier": "maybe",
-      "signal_id": "sig-98c241e5087d",
-      "outbox_file": "",
-      "disclaimer": "自动发现的候选线索：由公开信号自动生成，系统已做商机初筛评估（system_validation）；不代表收入承诺。",
-      "analysis": {
-        "thesis": "行业领袖公开将非洲定位为下一轮太阳能需求中心，这一信号本身先于订单与产能落地，值得作为非洲离网/分布式太阳能需求拐点的早期观察线索，但当前仅有单一转述型信源，不足以支撑具体市场进入决策。",
-        "dominant_driver": [
-          "信号",
-          "时机"
-        ],
-        "strengths": [
-          "行业领袖集体表态具有前瞻指引价值，往往领先于资本开支与订单",
-          "非洲离网太阳能与电力可及性缺口构成长期结构性需求",
-          "候选在信号维度得分7.5，为全部维度最高，方向性明确",
-          "风险维度6.8、可行性6.8，说明叙事未伴随明显负面或不可行信号"
-        ],
-        "weaknesses": [
-          "证据仅1条且为聚合器转述，无原始报道正文、无数据、无具体企业与项目",
-          "标题为机器翻译残句，语义不完整，需求规模、国别、时间表均缺失",
-          "无价格、装机量、融资额等可量化锚点，经济性判断缺乏支撑",
-          "证据维度仅4.0，为最弱项，结论可核验性低"
-        ],
-        "unknowns": [
-          "具体是哪些行业领袖、在何场合表态，是否具约束力",
-          "非洲内部哪几个国别市场最先起量，是南非、肯尼亚还是尼日利亚",
-          "需求来自集中式电站还是离网/微电网，对应不同供应链",
-          "是否存在配套融资、政策与并网条件",
-          "表态与真实订单/装机数据之间的时滞有多长"
-        ],
-        "causal_chain": [
-          "事实：Earth.Org报道行业领袖称非洲将成为太阳能需求的下一个中心。",
-          "变化：需求重心叙事从传统市场向非洲迁移，预期开始前置。",
-          "受影响主体：组件与逆变器供应商、离网设备商、EPC、开发性金融机构与当地分销商。",
-          "缺口：缺少国别拆分、装机预测、融资结构与落地时间表，叙事无法直接转化为商业模型。",
-          "切入点：以该表态为线索，建立非洲重点国别需求跟踪与渠道/分销卡位的前置调研。"
-        ],
-        "entry_point": "先做轻量核验：锁定2-3个候选国别（如南非、肯尼亚、尼日利亚），用公开装机、招标与离网付费数据交叉核验该表态，再决定是否投入渠道或分销资源。",
-        "differentiation": "不与组件厂商拼价格，而是以'需求拐点早期信息+本地分销/服务网络'为差异点，把信息差转化为渠道卡位优势。",
-        "commercial_structure": {
-          "value_proposition": "为希望进入非洲太阳能市场的供应商提供需求核验、国别优先级与本地渠道对接",
-          "pricing": "前期以调研/咨询订阅收费，后期按渠道撮合或分销分成",
-          "cost_structure": "以人力调研与本地合作方维护为主，轻资产，无库存压力",
-          "channels": "行业媒体、开发性金融机构项目网络、本地分销商与离网服务商",
-          "startup_conditions": "需具备非洲本地合作方与基础需求数据获取能力，启动门槛中等偏低"
-        },
-        "evidence_refs": [
-          {
-            "title": "非洲将是为太阳能需求，行业",
-            "url": "https://news.google.com/rss/articles/CBMiiwFBVV95cUxQQ0Q5TXlYRUlxZkc5N3lGa0RXYVRoakpFZm1DcDlQa3FaQ3NwdFVxNzE0VDhYLTBJXzUtbFI0dDJCX21HLTJXNWRnQU5CdllZWVBRTXA5dnJOaUlvNXB3TWZXRXdQdEh0djJ3ckNtV2ZVS2dpMGtiZWRmb09QSUVBckV2NXpONUFhb1BN?oc=5",
-            "publisher": "Google News · 离网太阳能",
-            "date": "2025-12-08"
-          }
-        ],
-        "falsifiers": [
-          "若后续无任何具体企业宣布非洲新增产能或订单，则该表态仅为公关叙事",
-          "若非洲主要市场装机增速未超全球平均，则'下一中心'判断被证伪",
-          "若需求集中于少数大型电站而非分布式/离网，则渠道卡位逻辑失效"
-        ],
-        "confidence": 0.32,
-        "analysis_score": 58.0,
-        "single_axis_strong": false,
-        "scenario": "batch",
-        "not_a_gate": true,
-        "information_value": {
-          "score": 4.0,
-          "dimensions": {
-            "novelty": 5.0,
-            "specificity": 2.0,
-            "impact": 6.0,
-            "urgency": 4.0,
-            "actionability": 3.0
-          },
-          "novelty": 5.0,
-          "specificity": 2.0,
-          "impact": 6.0,
-          "urgency": 4.0,
-          "actionability": 3.0
-        },
-        "key_facts": [
-          {
-            "text": "Earth.Org报道行业领袖称非洲将成为太阳能需求的下一个中心",
-            "fact": "Earth.Org报道行业领袖称非洲将成为太阳能需求的下一个中心",
-            "type": "fact",
-            "source_ref": {
-              "title": "非洲将是为太阳能需求，行业",
-              "url": "https://news.google.com/rss/articles/CBMiiwFBVV95cUxQQ0Q5TXlYRUlxZkc5N3lGa0RXYVRoakpFZm1DcDlQa3FaQ3NwdFVxNzE0VDhYLTBJXzUtbFI0dDJCX21HLTJXNWRnQU5CdllZWVBRTXA5dnJOaUlvNXB3TWZXRXdQdEh0djJ3ckNtV2ZVS2dpMGtiZWRmb09QSUVBckV2NXpONUFhb1BN?oc=5"
-            }
-          },
-          {
-            "text": "该信息经Google News离网太阳能频道聚合，发布日期为2025-12-08",
-            "fact": "该信息经Google News离网太阳能频道聚合，发布日期为2025-12-08",
-            "type": "fact",
-            "source_ref": {
-              "title": "非洲将是为太阳能需求，行业",
-              "url": "https://news.google.com/rss/articles/CBMiiwFBVV95cUxQQ0Q5TXlYRUlxZkc5N3lGa0RXYVRoakpFZm1DcDlQa3FaQ3NwdFVxNzE0VDhYLTBJXzUtbFI0dDJCX21HLTJXNWRnQU5CdllZWVBRTXA5dnJOaUlvNXB3TWZXRXdQdEh0djJ3ckNtV2ZVS2dpMGtiZWRmb09QSUVBckV2NXpONUFhb1BN?oc=5"
-            }
-          },
-          {
-            "text": "报道未提供装机规模、国别拆分或具体企业名单，需求判断缺乏量化支撑",
-            "fact": "报道未提供装机规模、国别拆分或具体企业名单，需求判断缺乏量化支撑",
-            "type": "inference",
-            "source_ref": {
-              "title": "非洲将是为太阳能需求，行业",
-              "url": "https://news.google.com/rss/articles/CBMiiwFBVV95cUxQQ0Q5TXlYRUlxZkc5N3lGa0RXYVRoakpFZm1DcDlQa3FaQ3NwdFVxNzE0VDhYLTBJXzUtbFI0dDJCX21HLTJXNWRnQU5CdllZWVBRTXA5dnJOaUlvNXB3TWZXRXdQdEh0djJ3ckNtV2ZVS2dpMGtiZWRmb09QSUVBckV2NXpONUFhb1BN?oc=5"
-            }
-          }
-        ],
-        "evidence_quality": {
-          "source_count": 1,
-          "independence": 2.0,
-          "authority": 7.0,
-          "recency": 8.0,
-          "timeliness": 8.0,
-          "score": 3.5,
-          "note": "仅1条证据且为标题级转述，无正文与数据，证据强度不足以支撑商业决策，仅可作线索级信号"
         }
       }
     },
