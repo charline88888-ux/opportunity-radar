@@ -8,6 +8,7 @@ on:
 
 permissions:
   contents: write
+  actions: write
 
 concurrency:
   group: pages-deploy
@@ -48,3 +49,13 @@ jobs:
           commit_message: 'deploy: ${{ github.ref_name }}'
           user_name: 'opportunity-radar-bot'
           user_email: 'bot@users.noreply.github.com'
+
+      # 根目录必须是“当日 live 数据”；tag 部署只负责 /vX.Y.Z/ 归档与 versions。
+      # 发布完成后触发一次 daily，避免 release 归档覆盖当天 live 根目录。
+      - name: Refresh live root after release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh workflow run daily-update.yml --ref main
+          echo "daily-update dispatched to restore live root"
+
