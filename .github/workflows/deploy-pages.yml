@@ -8,7 +8,6 @@ on:
 
 permissions:
   contents: write
-  actions: write
 
 concurrency:
   group: pages-deploy
@@ -34,10 +33,26 @@ jobs:
           python -m unittest discover -s scanner/tests
           test -f "releases/${GITHUB_REF_NAME}/dist/index.html" || (echo "缺少 releases/${GITHUB_REF_NAME}/dist/index.html" && exit 1)
 
+      - name: Fetch current live root from gh-pages
+        run: |
+          git fetch origin gh-pages
+          git worktree add _live origin/gh-pages
+          ls -la _live | head
+
       - name: Assemble Pages site from frozen releases
         run: |
           python scripts/build_site.py --releases releases --out _site --version "${GITHUB_REF_NAME}"
           cat _site/versions.json
+
+      - name: Preserve live root (root = latest daily data, archive = frozen)
+        run: |
+          if [ -f _live/index.html ]; then
+            cp _live/index.html _site/index.html
+            [ -f _live/404.html ] && cp _live/404.html _site/404.html || true
+            echo "preserved live root from gh-pages"
+          else
+            echo "no live root yet; keep frozen root"
+          fi
 
       - name: Publish to gh-pages
         uses: peaceiris/actions-gh-pages@v4
@@ -51,11 +66,5 @@ jobs:
           user_email: 'bot@users.noreply.github.com'
 
       # 根目录必须是“当日 live 数据”；tag 部署只负责 /vX.Y.Z/ 归档与 versions。
-      # 发布完成后触发一次 daily，避免 release 归档覆盖当天 live 根目录。
-      - name: Refresh live root after release
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          gh workflow run daily-update.yml --ref main
-          echo "daily-update dispatched to restore live root"
+      # 先取 gh-pages 的 live root 再覆盖回 _site/index.html，避免 release 归档覆盖当天 live 根目录。
 
