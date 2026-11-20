@@ -1,16 +1,16 @@
 {
   "meta": {
     "data_version": "1.8.0",
-    "as_of": "2026-11-19",
-    "generated_at": "2026-11-19T00:00:00+08:00",
+    "as_of": "2026-11-20",
+    "generated_at": "2026-11-20T00:00:00+08:00",
     "generator": "scanner/candidates.py",
     "method": "按 first_seen 归属窗口；排序同 rank 规则（rank_score/momentum/evidence/last_activity/id）",
-    "total": 60,
+    "total": 64,
     "counts": {
-      "day": 4,
-      "week": 29,
-      "month": 56,
-      "year": 58
+      "day": 3,
+      "week": 33,
+      "month": 57,
+      "year": 62
     },
     "verification_affects_ranking": false,
     "note": "候选发现榜与精选人工榜（rankings.json，80 条）并行；系统评估仅用于发现与排序参考。"
@@ -18,78 +18,59 @@
   "windows": {
     "day": {
       "window": "day",
-      "key": "2026-11-19",
-      "label": "2026年11月19日",
-      "count": 4,
+      "key": "2026-11-20",
+      "label": "2026年11月20日",
+      "count": 3,
       "items": [
         {
-          "candidate_id": "cand-e8a4708f6839",
+          "candidate_id": "cand-60e9d3bdf083",
           "rank": 1,
-          "total": 67.3,
-          "rank_score": 67.3,
+          "total": 70.0,
+          "rank_score": 70.0,
           "grade": "B",
-          "confidence": 74,
-          "title": "钠电正极材料厂商获金投致源战略投资数千万元",
+          "confidence": 66,
+          "title": "耐克终于给出了增长计划，但需要一点时间｜投资日现场直击",
           "industry_ids": [
-            "green"
+            "crossborder"
           ],
           "region_ids": [
             "china",
-            "europe"
+            "north-america"
           ],
-          "first_seen": "2026-11-19"
+          "first_seen": "2026-11-20"
         },
         {
-          "candidate_id": "cand-14c7658c3193",
+          "candidate_id": "cand-d49a08bc2a5f",
           "rank": 2,
-          "total": 67.1,
-          "rank_score": 67.1,
-          "grade": "B",
-          "confidence": 68,
-          "title": "韩国投资者9月净买入102亿美元美股，为4月以来最多",
+          "total": 64.8,
+          "rank_score": 64.8,
+          "grade": "C",
+          "confidence": 88,
+          "title": "中国AI芯片作为新美国规则关闭制造",
           "industry_ids": [
-            "crossborder"
+            "ai"
           ],
           "region_ids": [
-            "east-asia",
+            "china",
             "north-america"
           ],
-          "first_seen": "2026-11-19"
+          "first_seen": "2026-11-20"
         },
         {
-          "candidate_id": "cand-5a2e023cda5f",
+          "candidate_id": "cand-e4d7200feafd",
           "rank": 3,
-          "total": 62.6,
-          "rank_score": 62.6,
+          "total": 62.7,
+          "rank_score": 62.7,
           "grade": "C",
           "confidence": 66,
-          "title": "微软开设行业超过政策",
+          "title": "氪首发丨多地国资押注",
           "industry_ids": [
-            "compliance",
             "crossborder"
           ],
           "region_ids": [
-            "oceania",
-            "north-america"
+            "china"
           ],
-          "first_seen": "2026-11-19"
-        },
-        {
-          "candidate_id": "cand-3f1b4d648aa8",
-          "rank": 4,
-          "total": 61.3,
-          "rank_score": 61.3,
-          "grade": "C",
-          "confidence": 66,
-          "title": "银行的如何银行支持小型企业，推动增长",
-          "industry_ids": [
-            "fintech",
-            "crossborder"
-          ],
-          "region_ids": [
-            "north-america"
-          ],
-          "first_seen": "2026-11-19"
+          "first_seen": "2026-11-20"
         }
       ]
     },
@@ -97,11 +78,28 @@
       "window": "week",
       "key": "2026-W47",
       "label": "2026年第47周",
-      "count": 29,
+      "count": 33,
       "items": [
         {
-          "candidate_id": "cand-57577b59fb28",
+          "candidate_id": "cand-285828b434d4",
           "rank": 1,
+          "total": 75.4,
+          "rank_score": 75.4,
+          "grade": "A",
+          "confidence": 94,
+          "title": "AI需求将推动上升警告",
+          "industry_ids": [
+            "ai"
+          ],
+          "region_ids": [
+            "europe",
+            "north-america"
+          ],
+          "first_seen": "2026-11-19"
+        },
+        {
+          "candidate_id": "cand-57577b59fb28",
+          "rank": 2,
           "total": 74.2,
           "rank_score": 74.2,
           "grade": "B",
@@ -115,22 +113,6 @@
             "sea"
           ],
           "first_seen": "2026-11-16"
-        },
-        {
-          "candidate_id": "cand-7167b8573213",
-          "rank": 2,
-          "total": 73.1,
-          "rank_score": 73.1,
-          "grade": "B",
-          "confidence": 95,
-          "title": "Grab报告增长在新加坡",
-          "industry_ids": [
-            "fintech"
-          ],
-          "region_ids": [
-            "sea"
-          ],
-          "first_seen": "2026-11-18"
         },
         {
           "candidate_id": "cand-9120b8063fe3",
@@ -184,8 +166,42 @@
           "first_seen": "2026-11-18"
         },
         {
-          "candidate_id": "cand-03822b6e8b74",
+          "candidate_id": "cand-06a027ba590d",
           "rank": 6,
+          "total": 71.6,
+          "rank_score": 71.6,
+          "grade": "B",
+          "confidence": 88,
+          "title": "印尼96.7的太阳能由2029与政策",
+          "industry_ids": [
+            "green"
+          ],
+          "region_ids": [
+            "sea"
+          ],
+          "first_seen": "2026-11-19"
+        },
+        {
+          "candidate_id": "cand-9a49ebb8c815",
+          "rank": 7,
+          "total": 71.4,
+          "rank_score": 71.4,
+          "grade": "B",
+          "confidence": 90,
+          "title": "包装行业警告监管是创新",
+          "industry_ids": [
+            "compliance",
+            "ai"
+          ],
+          "region_ids": [
+            "europe",
+            "north-america"
+          ],
+          "first_seen": "2026-11-18"
+        },
+        {
+          "candidate_id": "cand-03822b6e8b74",
+          "rank": 8,
           "total": 71.3,
           "rank_score": 71.3,
           "grade": "B",
@@ -202,7 +218,7 @@
         },
         {
           "candidate_id": "cand-1b78ea052d99",
-          "rank": 7,
+          "rank": 9,
           "total": 70.9,
           "rank_score": 70.9,
           "grade": "B",
@@ -219,24 +235,58 @@
           "first_seen": "2026-11-16"
         },
         {
-          "candidate_id": "cand-e2665df926be",
-          "rank": 8,
-          "total": 69.9,
-          "rank_score": 69.9,
+          "candidate_id": "cand-60e9d3bdf083",
+          "rank": 10,
+          "total": 70.0,
+          "rank_score": 70.0,
           "grade": "B",
-          "confidence": 68,
-          "title": "中小企业销售额增长到4.3%，报告",
+          "confidence": 66,
+          "title": "耐克终于给出了增长计划，但需要一点时间｜投资日现场直击",
           "industry_ids": [
             "crossborder"
           ],
           "region_ids": [
+            "china",
             "north-america"
           ],
-          "first_seen": "2026-11-18"
+          "first_seen": "2026-11-20"
+        },
+        {
+          "candidate_id": "cand-d9361a0e9f6d",
+          "rank": 11,
+          "total": 69.8,
+          "rank_score": 69.8,
+          "grade": "B",
+          "confidence": 66,
+          "title": "投资在印度到支持扩张的8平台",
+          "industry_ids": [
+            "crossborder"
+          ],
+          "region_ids": [
+            "south-asia"
+          ],
+          "first_seen": "2026-11-19"
+        },
+        {
+          "candidate_id": "cand-920e66f7d400",
+          "rank": 12,
+          "total": 69.5,
+          "rank_score": 69.5,
+          "grade": "B",
+          "confidence": 68,
+          "title": "是到线上但不到在关于天然气",
+          "industry_ids": [
+            "crossborder"
+          ],
+          "region_ids": [
+            "europe",
+            "north-america"
+          ],
+          "first_seen": "2026-11-19"
         },
         {
           "candidate_id": "cand-dde09c275eb0",
-          "rank": 9,
+          "rank": 13,
           "total": 69.2,
           "rank_score": 69.2,
           "grade": "B",
@@ -252,42 +302,8 @@
           "first_seen": "2026-11-16"
         },
         {
-          "candidate_id": "cand-8865d0c324b9",
-          "rank": 10,
-          "total": 69.0,
-          "rank_score": 69.0,
-          "grade": "B",
-          "confidence": 66,
-          "title": "食品企业创造68岗位在刚刚月;开设新与帮助的品牌增长",
-          "industry_ids": [
-            "crossborder"
-          ],
-          "region_ids": [
-            "africa",
-            "north-america"
-          ],
-          "first_seen": "2026-11-18"
-        },
-        {
-          "candidate_id": "cand-66acebba8487",
-          "rank": 11,
-          "total": 68.6,
-          "rank_score": 68.6,
-          "grade": "B",
-          "confidence": 72,
-          "title": "工作旅行规则英国商业",
-          "industry_ids": [
-            "crossborder"
-          ],
-          "region_ids": [
-            "europe",
-            "north-america"
-          ],
-          "first_seen": "2026-11-18"
-        },
-        {
           "candidate_id": "cand-f3120da379bd",
-          "rank": 12,
+          "rank": 14,
           "total": 68.4,
           "rank_score": 68.4,
           "grade": "B",
@@ -305,7 +321,7 @@
         },
         {
           "candidate_id": "cand-2f03b30425b3",
-          "rank": 13,
+          "rank": 15,
           "total": 67.5,
           "rank_score": 67.5,
           "grade": "B",
@@ -321,42 +337,59 @@
           "first_seen": "2026-11-17"
         },
         {
-          "candidate_id": "cand-e8a4708f6839",
-          "rank": 14,
-          "total": 67.3,
-          "rank_score": 67.3,
-          "grade": "B",
-          "confidence": 74,
-          "title": "钠电正极材料厂商获金投致源战略投资数千万元",
-          "industry_ids": [
-            "green"
-          ],
-          "region_ids": [
-            "china",
-            "europe"
-          ],
-          "first_seen": "2026-11-19"
-        },
-        {
-          "candidate_id": "cand-14c7658c3193",
-          "rank": 15,
-          "total": 67.1,
-          "rank_score": 67.1,
+          "candidate_id": "cand-89556ac6422d",
+          "rank": 16,
+          "total": 67.4,
+          "rank_score": 67.4,
           "grade": "B",
           "confidence": 68,
-          "title": "韩国投资者9月净买入102亿美元美股，为4月以来最多",
+          "title": "来自6，000到超过520，000在3年.创始人可使用",
           "industry_ids": [
-            "crossborder"
+            "compliance"
           ],
           "region_ids": [
-            "east-asia",
+            "europe",
             "north-america"
           ],
           "first_seen": "2026-11-19"
         },
         {
+          "candidate_id": "cand-80d136da02b3",
+          "rank": 17,
+          "total": 67.2,
+          "rank_score": 67.2,
+          "grade": "B",
+          "confidence": 86,
+          "title": "隐私变化到支持照护与与监管",
+          "industry_ids": [
+            "compliance"
+          ],
+          "region_ids": [
+            "global",
+            "north-america"
+          ],
+          "first_seen": "2026-11-19"
+        },
+        {
+          "candidate_id": "cand-dd6bb00b2507",
+          "rank": 18,
+          "total": 67.1,
+          "rank_score": 67.1,
+          "grade": "B",
+          "confidence": 72,
+          "title": "‘全部在’在为何这头部有在AI",
+          "industry_ids": [
+            "ai",
+            "compliance"
+          ],
+          "region_ids": [
+            "europe"
+          ],
+          "first_seen": "2026-11-19"
+        },
+        {
           "candidate_id": "cand-e63c7b606e87",
-          "rank": 16,
+          "rank": 19,
           "total": 66.4,
           "rank_score": 66.4,
           "grade": "B",
@@ -372,7 +405,7 @@
         },
         {
           "candidate_id": "cand-b54ce157f4ee",
-          "rank": 17,
+          "rank": 20,
           "total": 66.1,
           "rank_score": 66.1,
           "grade": "B",
@@ -389,7 +422,7 @@
         },
         {
           "candidate_id": "cand-dcf728dd581e",
-          "rank": 18,
+          "rank": 21,
           "total": 65.3,
           "rank_score": 65.3,
           "grade": "B",
@@ -405,8 +438,42 @@
           "first_seen": "2026-11-16"
         },
         {
+          "candidate_id": "cand-e2f34986babb",
+          "rank": 22,
+          "total": 65.3,
+          "rank_score": 65.3,
+          "grade": "B",
+          "confidence": 66,
+          "title": "行业在产品创新在增长推动",
+          "industry_ids": [
+            "crossborder"
+          ],
+          "region_ids": [
+            "south-asia",
+            "north-america"
+          ],
+          "first_seen": "2026-11-19"
+        },
+        {
+          "candidate_id": "cand-d49a08bc2a5f",
+          "rank": 23,
+          "total": 64.8,
+          "rank_score": 64.8,
+          "grade": "C",
+          "confidence": 88,
+          "title": "中国AI芯片作为新美国规则关闭制造",
+          "industry_ids": [
+            "ai"
+          ],
+          "region_ids": [
+            "china",
+            "north-america"
+          ],
+          "first_seen": "2026-11-20"
+        },
+        {
           "candidate_id": "cand-5bd97e67576f",
-          "rank": 19,
+          "rank": 24,
           "total": 63.8,
           "rank_score": 63.8,
           "grade": "C",
@@ -422,26 +489,57 @@
           "first_seen": "2026-11-17"
         },
         {
-          "candidate_id": "cand-5a2e023cda5f",
-          "rank": 20,
-          "total": 62.6,
-          "rank_score": 62.6,
+          "candidate_id": "cand-e4d7200feafd",
+          "rank": 25,
+          "total": 62.7,
+          "rank_score": 62.7,
           "grade": "C",
           "confidence": 66,
-          "title": "微软开设行业超过政策",
+          "title": "氪首发丨多地国资押注",
           "industry_ids": [
-            "compliance",
             "crossborder"
           ],
           "region_ids": [
-            "oceania",
-            "north-america"
+            "china"
+          ],
+          "first_seen": "2026-11-20"
+        },
+        {
+          "candidate_id": "cand-f574a00bf492",
+          "rank": 26,
+          "total": 62.2,
+          "rank_score": 62.2,
+          "grade": "C",
+          "confidence": 72,
+          "title": "美妆品牌需求跨线上，线下与这",
+          "industry_ids": [
+            "crossborder"
+          ],
+          "region_ids": [
+            "south-asia"
+          ],
+          "first_seen": "2026-11-19"
+        },
+        {
+          "candidate_id": "cand-72cbb041e5c2",
+          "rank": 27,
+          "total": 62.1,
+          "rank_score": 62.1,
+          "grade": "C",
+          "confidence": 86,
+          "title": "印尼宠物消费宠物消费变化",
+          "industry_ids": [
+            "crossborder"
+          ],
+          "region_ids": [
+            "sea",
+            "europe"
           ],
           "first_seen": "2026-11-19"
         },
         {
           "candidate_id": "cand-4767bfb82fdd",
-          "rank": 21,
+          "rank": 28,
           "total": 61.9,
           "rank_score": 61.9,
           "grade": "C",
@@ -456,25 +554,25 @@
           "first_seen": "2026-11-16"
         },
         {
-          "candidate_id": "cand-c7abd0a133c3",
-          "rank": 22,
-          "total": 61.8,
-          "rank_score": 61.8,
+          "candidate_id": "cand-680a78268439",
+          "rank": 29,
+          "total": 61.7,
+          "rank_score": 61.7,
           "grade": "C",
-          "confidence": 68,
-          "title": "宠物市场到与电商扩张",
+          "confidence": 88,
+          "title": "进口163%关税:影响与关键",
           "industry_ids": [
-            "pet"
+            "crossborder"
           ],
           "region_ids": [
-            "latam",
+            "europe",
             "north-america"
           ],
-          "first_seen": "2026-11-18"
+          "first_seen": "2026-11-19"
         },
         {
           "candidate_id": "cand-de4013237db6",
-          "rank": 23,
+          "rank": 30,
           "total": 61.3,
           "rank_score": 61.3,
           "grade": "C",
@@ -489,25 +587,8 @@
           "first_seen": "2026-11-17"
         },
         {
-          "candidate_id": "cand-3f1b4d648aa8",
-          "rank": 24,
-          "total": 61.3,
-          "rank_score": 61.3,
-          "grade": "C",
-          "confidence": 66,
-          "title": "银行的如何银行支持小型企业，推动增长",
-          "industry_ids": [
-            "fintech",
-            "crossborder"
-          ],
-          "region_ids": [
-            "north-america"
-          ],
-          "first_seen": "2026-11-19"
-        },
-        {
           "candidate_id": "cand-a85663a562b3",
-          "rank": 25,
+          "rank": 31,
           "total": 61.1,
           "rank_score": 61.1,
           "grade": "C",
@@ -523,7 +604,7 @@
         },
         {
           "candidate_id": "cand-cf5bc88ca312",
-          "rank": 26,
+          "rank": 32,
           "total": 60.8,
           "rank_score": 60.8,
           "grade": "C",
@@ -539,50 +620,19 @@
           "first_seen": "2026-11-16"
         },
         {
-          "candidate_id": "cand-ac7be281a322",
-          "rank": 27,
-          "total": 60.7,
-          "rank_score": 60.7,
+          "candidate_id": "cand-8b475e1293a5",
+          "rank": 33,
+          "total": 59.8,
+          "rank_score": 59.8,
           "grade": "C",
-          "confidence": 88,
-          "title": "标准银行面临超过合规",
+          "confidence": 68,
+          "title": "是印度162.5%关税在进口英国",
           "industry_ids": [
-            "fintech"
+            "crossborder"
           ],
           "region_ids": [
-            "africa"
-          ],
-          "first_seen": "2026-11-18"
-        },
-        {
-          "candidate_id": "cand-df83e7f7e34b",
-          "rank": 28,
-          "total": 60.6,
-          "rank_score": 60.6,
-          "grade": "C",
-          "confidence": 72,
-          "title": "银行合作到推动3.1合规与增长",
-          "industry_ids": [
-            "fintech"
-          ],
-          "region_ids": [
+            "south-asia",
             "europe"
-          ],
-          "first_seen": "2026-11-17"
-        },
-        {
-          "candidate_id": "cand-8d0dbfcead4f",
-          "rank": 29,
-          "total": 60.4,
-          "rank_score": 60.4,
-          "grade": "C",
-          "confidence": 66,
-          "title": "印度作为到增长进入利润",
-          "industry_ids": [
-            "ai"
-          ],
-          "region_ids": [
-            "south-asia"
           ],
           "first_seen": "2026-11-18"
         }
@@ -592,11 +642,28 @@
       "window": "month",
       "key": "2026-11",
       "label": "2026年11月",
-      "count": 56,
+      "count": 57,
       "items": [
         {
-          "candidate_id": "cand-57577b59fb28",
+          "candidate_id": "cand-285828b434d4",
           "rank": 1,
+          "total": 75.4,
+          "rank_score": 75.4,
+          "grade": "A",
+          "confidence": 94,
+          "title": "AI需求将推动上升警告",
+          "industry_ids": [
+            "ai"
+          ],
+          "region_ids": [
+            "europe",
+            "north-america"
+          ],
+          "first_seen": "2026-11-19"
+        },
+        {
+          "candidate_id": "cand-57577b59fb28",
+          "rank": 2,
           "total": 74.2,
           "rank_score": 74.2,
           "grade": "B",
@@ -610,22 +677,6 @@
             "sea"
           ],
           "first_seen": "2026-11-16"
-        },
-        {
-          "candidate_id": "cand-7167b8573213",
-          "rank": 2,
-          "total": 73.1,
-          "rank_score": 73.1,
-          "grade": "B",
-          "confidence": 95,
-          "title": "Grab报告增长在新加坡",
-          "industry_ids": [
-            "fintech"
-          ],
-          "region_ids": [
-            "sea"
-          ],
-          "first_seen": "2026-11-18"
         },
         {
           "candidate_id": "cand-9120b8063fe3",
@@ -645,8 +696,24 @@
           "first_seen": "2026-11-18"
         },
         {
-          "candidate_id": "cand-f95d78c18f9f",
+          "candidate_id": "cand-cea187e6358f",
           "rank": 4,
+          "total": 72.7,
+          "rank_score": 72.7,
+          "grade": "B",
+          "confidence": 74,
+          "title": "美国关税到推动上升为与消费者",
+          "industry_ids": [
+            "crossborder"
+          ],
+          "region_ids": [
+            "north-america"
+          ],
+          "first_seen": "2026-11-13"
+        },
+        {
+          "candidate_id": "cand-f95d78c18f9f",
+          "rank": 5,
           "total": 72.1,
           "rank_score": 72.1,
           "grade": "B",
@@ -663,7 +730,7 @@
         },
         {
           "candidate_id": "cand-c9b39015c7be",
-          "rank": 5,
+          "rank": 6,
           "total": 71.9,
           "rank_score": 71.9,
           "grade": "B",
@@ -679,39 +746,20 @@
           "first_seen": "2026-11-18"
         },
         {
-          "candidate_id": "cand-ba4ff83692dd",
-          "rank": 6,
-          "total": 71.7,
-          "rank_score": 71.7,
-          "grade": "B",
-          "confidence": 94,
-          "title": "亚马逊29十亿作为扩张",
-          "industry_ids": [
-            "crossborder"
-          ],
-          "region_ids": [
-            "north-america",
-            "mena"
-          ],
-          "first_seen": "2026-11-12"
-        },
-        {
-          "candidate_id": "cand-9ea1ffd8f283",
+          "candidate_id": "cand-06a027ba590d",
           "rank": 7,
           "total": 71.6,
           "rank_score": 71.6,
           "grade": "B",
-          "confidence": 95,
-          "title": "百万投资在沙特游戏创业公司",
+          "confidence": 88,
+          "title": "印尼96.7的太阳能由2029与政策",
           "industry_ids": [
-            "gaming",
-            "content"
+            "green"
           ],
           "region_ids": [
-            "mena",
-            "north-america"
+            "sea"
           ],
-          "first_seen": "2026-11-12"
+          "first_seen": "2026-11-19"
         },
         {
           "candidate_id": "cand-8a48c27cb835",
@@ -732,8 +780,26 @@
           "first_seen": "2026-11-13"
         },
         {
-          "candidate_id": "cand-03822b6e8b74",
+          "candidate_id": "cand-9a49ebb8c815",
           "rank": 9,
+          "total": 71.4,
+          "rank_score": 71.4,
+          "grade": "B",
+          "confidence": 90,
+          "title": "包装行业警告监管是创新",
+          "industry_ids": [
+            "compliance",
+            "ai"
+          ],
+          "region_ids": [
+            "europe",
+            "north-america"
+          ],
+          "first_seen": "2026-11-18"
+        },
+        {
+          "candidate_id": "cand-03822b6e8b74",
+          "rank": 10,
           "total": 71.3,
           "rank_score": 71.3,
           "grade": "B",
@@ -750,7 +816,7 @@
         },
         {
           "candidate_id": "cand-1b78ea052d99",
-          "rank": 10,
+          "rank": 11,
           "total": 70.9,
           "rank_score": 70.9,
           "grade": "B",
@@ -767,8 +833,43 @@
           "first_seen": "2026-11-16"
         },
         {
+          "candidate_id": "cand-ba4ff83692dd",
+          "rank": 12,
+          "total": 70.7,
+          "rank_score": 70.7,
+          "grade": "B",
+          "confidence": 94,
+          "title": "亚马逊29十亿作为扩张",
+          "industry_ids": [
+            "crossborder"
+          ],
+          "region_ids": [
+            "north-america",
+            "mena"
+          ],
+          "first_seen": "2026-11-12"
+        },
+        {
+          "candidate_id": "cand-9ea1ffd8f283",
+          "rank": 13,
+          "total": 70.6,
+          "rank_score": 70.6,
+          "grade": "B",
+          "confidence": 95,
+          "title": "百万投资在沙特游戏创业公司",
+          "industry_ids": [
+            "gaming",
+            "content"
+          ],
+          "region_ids": [
+            "mena",
+            "north-america"
+          ],
+          "first_seen": "2026-11-12"
+        },
+        {
           "candidate_id": "cand-57d6f8a46061",
-          "rank": 11,
+          "rank": 14,
           "total": 70.0,
           "rank_score": 70.0,
           "grade": "B",
@@ -784,24 +885,25 @@
           "first_seen": "2026-11-07"
         },
         {
-          "candidate_id": "cand-e2665df926be",
-          "rank": 12,
-          "total": 69.9,
-          "rank_score": 69.9,
+          "candidate_id": "cand-60e9d3bdf083",
+          "rank": 15,
+          "total": 70.0,
+          "rank_score": 70.0,
           "grade": "B",
-          "confidence": 68,
-          "title": "中小企业销售额增长到4.3%，报告",
+          "confidence": 66,
+          "title": "耐克终于给出了增长计划，但需要一点时间｜投资日现场直击",
           "industry_ids": [
             "crossborder"
           ],
           "region_ids": [
+            "china",
             "north-america"
           ],
-          "first_seen": "2026-11-18"
+          "first_seen": "2026-11-20"
         },
         {
           "candidate_id": "cand-0c28a9720e2d",
-          "rank": 13,
+          "rank": 16,
           "total": 69.8,
           "rank_score": 69.8,
           "grade": "B",
@@ -817,8 +919,41 @@
           "first_seen": "2026-11-15"
         },
         {
+          "candidate_id": "cand-d9361a0e9f6d",
+          "rank": 17,
+          "total": 69.8,
+          "rank_score": 69.8,
+          "grade": "B",
+          "confidence": 66,
+          "title": "投资在印度到支持扩张的8平台",
+          "industry_ids": [
+            "crossborder"
+          ],
+          "region_ids": [
+            "south-asia"
+          ],
+          "first_seen": "2026-11-19"
+        },
+        {
+          "candidate_id": "cand-920e66f7d400",
+          "rank": 18,
+          "total": 69.5,
+          "rank_score": 69.5,
+          "grade": "B",
+          "confidence": 68,
+          "title": "是到线上但不到在关于天然气",
+          "industry_ids": [
+            "crossborder"
+          ],
+          "region_ids": [
+            "europe",
+            "north-america"
+          ],
+          "first_seen": "2026-11-19"
+        },
+        {
           "candidate_id": "cand-754f3365c98f",
-          "rank": 14,
+          "rank": 19,
           "total": 69.3,
           "rank_score": 69.3,
           "grade": "B",
@@ -836,7 +971,7 @@
         },
         {
           "candidate_id": "cand-dde09c275eb0",
-          "rank": 15,
+          "rank": 20,
           "total": 69.2,
           "rank_score": 69.2,
           "grade": "B",
@@ -852,58 +987,8 @@
           "first_seen": "2026-11-16"
         },
         {
-          "candidate_id": "cand-8865d0c324b9",
-          "rank": 16,
-          "total": 69.0,
-          "rank_score": 69.0,
-          "grade": "B",
-          "confidence": 66,
-          "title": "食品企业创造68岗位在刚刚月;开设新与帮助的品牌增长",
-          "industry_ids": [
-            "crossborder"
-          ],
-          "region_ids": [
-            "africa",
-            "north-america"
-          ],
-          "first_seen": "2026-11-18"
-        },
-        {
-          "candidate_id": "cand-e869383ccc3e",
-          "rank": 17,
-          "total": 68.8,
-          "rank_score": 68.8,
-          "grade": "B",
-          "confidence": 74,
-          "title": "监管在产品(欧盟零毁林法规)",
-          "industry_ids": [
-            "compliance"
-          ],
-          "region_ids": [
-            "europe"
-          ],
-          "first_seen": "2026-11-12"
-        },
-        {
-          "candidate_id": "cand-66acebba8487",
-          "rank": 18,
-          "total": 68.6,
-          "rank_score": 68.6,
-          "grade": "B",
-          "confidence": 72,
-          "title": "工作旅行规则英国商业",
-          "industry_ids": [
-            "crossborder"
-          ],
-          "region_ids": [
-            "europe",
-            "north-america"
-          ],
-          "first_seen": "2026-11-18"
-        },
-        {
           "candidate_id": "cand-f3120da379bd",
-          "rank": 19,
+          "rank": 21,
           "total": 68.4,
           "rank_score": 68.4,
           "grade": "B",
@@ -920,41 +1005,24 @@
           "first_seen": "2026-11-17"
         },
         {
-          "candidate_id": "cand-55ed4a4af26b",
-          "rank": 20,
-          "total": 68.1,
-          "rank_score": 68.1,
+          "candidate_id": "cand-e869383ccc3e",
+          "rank": 22,
+          "total": 67.8,
+          "rank_score": 67.8,
           "grade": "B",
           "confidence": 74,
-          "title": "谷歌面临为AI学校政策",
+          "title": "监管在产品(欧盟零毁林法规)",
           "industry_ids": [
-            "ai"
+            "compliance"
           ],
           "region_ids": [
-            "europe",
-            "north-america"
+            "europe"
           ],
-          "first_seen": "2026-11-09"
-        },
-        {
-          "candidate_id": "cand-f047dfb44bbb",
-          "rank": 21,
-          "total": 67.7,
-          "rank_score": 67.7,
-          "grade": "B",
-          "confidence": 66,
-          "title": "肯尼亚到开设上升银行业数据作为新金融科技规则",
-          "industry_ids": [
-            "fintech"
-          ],
-          "region_ids": [
-            "africa"
-          ],
-          "first_seen": "2026-11-05"
+          "first_seen": "2026-11-12"
         },
         {
           "candidate_id": "cand-2f03b30425b3",
-          "rank": 22,
+          "rank": 23,
           "total": 67.5,
           "rank_score": 67.5,
           "grade": "B",
@@ -970,73 +1038,55 @@
           "first_seen": "2026-11-17"
         },
         {
-          "candidate_id": "cand-4bb042badc91",
-          "rank": 23,
+          "candidate_id": "cand-89556ac6422d",
+          "rank": 24,
           "total": 67.4,
           "rank_score": 67.4,
           "grade": "B",
           "confidence": 68,
-          "title": "月度制造科技扩张与更多",
+          "title": "来自6，000到超过520，000在3年.创始人可使用",
           "industry_ids": [
-            "manufacturing"
-          ],
-          "region_ids": [
-            "global",
-            "north-america"
-          ],
-          "first_seen": "2026-11-13"
-        },
-        {
-          "candidate_id": "cand-e8a4708f6839",
-          "rank": 24,
-          "total": 67.3,
-          "rank_score": 67.3,
-          "grade": "B",
-          "confidence": 74,
-          "title": "钠电正极材料厂商获金投致源战略投资数千万元",
-          "industry_ids": [
-            "green"
-          ],
-          "region_ids": [
-            "china",
-            "europe"
-          ],
-          "first_seen": "2026-11-19"
-        },
-        {
-          "candidate_id": "cand-14c7658c3193",
-          "rank": 25,
-          "total": 67.1,
-          "rank_score": 67.1,
-          "grade": "B",
-          "confidence": 68,
-          "title": "韩国投资者9月净买入102亿美元美股，为4月以来最多",
-          "industry_ids": [
-            "crossborder"
-          ],
-          "region_ids": [
-            "east-asia",
-            "north-america"
-          ],
-          "first_seen": "2026-11-19"
-        },
-        {
-          "candidate_id": "cand-a63fe5374f35",
-          "rank": 26,
-          "total": 66.8,
-          "rank_score": 66.8,
-          "grade": "B",
-          "confidence": 92,
-          "title": "银发猫食品市场到老龄化宠物与增长",
-          "industry_ids": [
-            "pet",
-            "silver"
+            "compliance"
           ],
           "region_ids": [
             "europe",
             "north-america"
           ],
-          "first_seen": "2026-11-15"
+          "first_seen": "2026-11-19"
+        },
+        {
+          "candidate_id": "cand-80d136da02b3",
+          "rank": 25,
+          "total": 67.2,
+          "rank_score": 67.2,
+          "grade": "B",
+          "confidence": 86,
+          "title": "隐私变化到支持照护与与监管",
+          "industry_ids": [
+            "compliance"
+          ],
+          "region_ids": [
+            "global",
+            "north-america"
+          ],
+          "first_seen": "2026-11-19"
+        },
+        {
+          "candidate_id": "cand-dd6bb00b2507",
+          "rank": 26,
+          "total": 67.1,
+          "rank_score": 67.1,
+          "grade": "B",
+          "confidence": 72,
+          "title": "‘全部在’在为何这头部有在AI",
+          "industry_ids": [
+            "ai",
+            "compliance"
+          ],
+          "region_ids": [
+            "europe"
+          ],
+          "first_seen": "2026-11-19"
         },
         {
           "candidate_id": "cand-e63c7b606e87",
@@ -1123,8 +1173,25 @@
           "first_seen": "2026-11-16"
         },
         {
-          "candidate_id": "cand-d93ceb4b8205",
+          "candidate_id": "cand-e2f34986babb",
           "rank": 32,
+          "total": 65.3,
+          "rank_score": 65.3,
+          "grade": "B",
+          "confidence": 66,
+          "title": "行业在产品创新在增长推动",
+          "industry_ids": [
+            "crossborder"
+          ],
+          "region_ids": [
+            "south-asia",
+            "north-america"
+          ],
+          "first_seen": "2026-11-19"
+        },
+        {
+          "candidate_id": "cand-d93ceb4b8205",
+          "rank": 33,
           "total": 65.0,
           "rank_score": 65.0,
           "grade": "B",
@@ -1140,24 +1207,42 @@
           "first_seen": "2026-11-10"
         },
         {
-          "candidate_id": "cand-b8465babea17",
-          "rank": 33,
-          "total": 64.9,
-          "rank_score": 64.9,
+          "candidate_id": "cand-d49a08bc2a5f",
+          "rank": 34,
+          "total": 64.8,
+          "rank_score": 64.8,
           "grade": "C",
-          "confidence": 68,
-          "title": "中国电商为关税.将30%关税销售额?",
+          "confidence": 88,
+          "title": "中国AI芯片作为新美国规则关闭制造",
+          "industry_ids": [
+            "ai"
+          ],
+          "region_ids": [
+            "china",
+            "north-america"
+          ],
+          "first_seen": "2026-11-20"
+        },
+        {
+          "candidate_id": "cand-c99de163c285",
+          "rank": 35,
+          "total": 64.3,
+          "rank_score": 64.3,
+          "grade": "C",
+          "confidence": 60,
+          "title": "新商业22%与领先增长",
           "industry_ids": [
             "crossborder"
           ],
           "region_ids": [
-            "china"
+            "south-asia",
+            "north-america"
           ],
-          "first_seen": "2026-11-13"
+          "first_seen": "2026-11-15"
         },
         {
           "candidate_id": "cand-25923230dafd",
-          "rank": 34,
+          "rank": 36,
           "total": 63.8,
           "rank_score": 63.8,
           "grade": "C",
@@ -1174,7 +1259,7 @@
         },
         {
           "candidate_id": "cand-5bd97e67576f",
-          "rank": 35,
+          "rank": 37,
           "total": 63.8,
           "rank_score": 63.8,
           "grade": "C",
@@ -1190,93 +1275,107 @@
           "first_seen": "2026-11-17"
         },
         {
-          "candidate_id": "cand-c3fcb6de6245",
-          "rank": 36,
-          "total": 63.0,
-          "rank_score": 63.0,
+          "candidate_id": "cand-7f34a303f295",
+          "rank": 38,
+          "total": 63.6,
+          "rank_score": 63.6,
           "grade": "C",
-          "confidence": 60,
-          "title": "新商业22%与领先增长",
+          "confidence": 74,
+          "title": "阿联酋流量规则版权授权之后",
+          "industry_ids": [
+            "content"
+          ],
+          "region_ids": [
+            "mena",
+            "north-america"
+          ],
+          "first_seen": "2026-11-09"
+        },
+        {
+          "candidate_id": "cand-2ddd65fee05d",
+          "rank": 39,
+          "total": 62.8,
+          "rank_score": 62.8,
+          "grade": "C",
+          "confidence": 68,
+          "title": "迪拜法律在与建筑规则",
           "industry_ids": [
             "crossborder"
           ],
           "region_ids": [
-            "south-asia",
+            "mena",
             "north-america"
-          ],
-          "first_seen": "2026-11-15"
-        },
-        {
-          "candidate_id": "cand-6b4bdacf26f1",
-          "rank": 37,
-          "total": 62.6,
-          "rank_score": 62.6,
-          "grade": "C",
-          "confidence": 86,
-          "title": "韩国超过外卖应用规则",
-          "industry_ids": [
-            "local"
-          ],
-          "region_ids": [
-            "east-asia"
           ],
           "first_seen": "2026-11-12"
         },
         {
-          "candidate_id": "cand-35be68ae2bae",
-          "rank": 38,
-          "total": 62.6,
-          "rank_score": 62.6,
-          "grade": "C",
-          "confidence": 72,
-          "title": "可能是最佳工作'的AI表示风投投资人",
-          "industry_ids": [
-            "ai",
-            "compliance"
-          ],
-          "region_ids": [
-            "europe"
-          ],
-          "first_seen": "2026-11-15"
-        },
-        {
-          "candidate_id": "cand-5a2e023cda5f",
-          "rank": 39,
-          "total": 62.6,
-          "rank_score": 62.6,
+          "candidate_id": "cand-e4d7200feafd",
+          "rank": 40,
+          "total": 62.7,
+          "rank_score": 62.7,
           "grade": "C",
           "confidence": 66,
-          "title": "微软开设行业超过政策",
+          "title": "氪首发丨多地国资押注",
           "industry_ids": [
-            "compliance",
             "crossborder"
           ],
           "region_ids": [
-            "oceania",
-            "north-america"
+            "china"
+          ],
+          "first_seen": "2026-11-20"
+        },
+        {
+          "candidate_id": "cand-6d298c563144",
+          "rank": 41,
+          "total": 62.4,
+          "rank_score": 62.4,
+          "grade": "C",
+          "confidence": 66,
+          "title": "阿联酋可在员工低于新规则",
+          "industry_ids": [
+            "crossborder"
+          ],
+          "region_ids": [
+            "mena"
+          ],
+          "first_seen": "2026-11-08"
+        },
+        {
+          "candidate_id": "cand-f574a00bf492",
+          "rank": 42,
+          "total": 62.2,
+          "rank_score": 62.2,
+          "grade": "C",
+          "confidence": 72,
+          "title": "美妆品牌需求跨线上，线下与这",
+          "industry_ids": [
+            "crossborder"
+          ],
+          "region_ids": [
+            "south-asia"
           ],
           "first_seen": "2026-11-19"
         },
         {
-          "candidate_id": "cand-661053f8f890",
-          "rank": 40,
-          "total": 62.5,
-          "rank_score": 62.5,
+          "candidate_id": "cand-72cbb041e5c2",
+          "rank": 43,
+          "total": 62.1,
+          "rank_score": 62.1,
           "grade": "C",
-          "confidence": 68,
-          "title": "肯尼亚到稳定币规则，加密货币",
+          "confidence": 86,
+          "title": "印尼宠物消费宠物消费变化",
           "industry_ids": [
-            "fintech"
+            "crossborder"
           ],
           "region_ids": [
-            "africa",
-            "north-america"
+            "sea",
+            "europe"
           ],
-          "first_seen": "2026-11-12"
+          "first_seen": "2026-11-19"
         },
         {
           "candidate_id": "cand-732278c26d08",
-          "rank": 41,
+          "rank": 44,
           "total": 62.0,
           "rank_score": 62.0,
           "grade": "C",
@@ -1293,7 +1392,7 @@
         },
         {
           "candidate_id": "cand-05ef987559f7",
-          "rank": 42,
+          "rank": 45,
           "total": 61.9,
           "rank_score": 61.9,
           "grade": "C",
@@ -1310,7 +1409,7 @@
         },
         {
           "candidate_id": "cand-4767bfb82fdd",
-          "rank": 43,
+          "rank": 46,
           "total": 61.9,
           "rank_score": 61.9,
           "grade": "C",
@@ -1325,25 +1424,8 @@
           "first_seen": "2026-11-16"
         },
         {
-          "candidate_id": "cand-c7abd0a133c3",
-          "rank": 44,
-          "total": 61.8,
-          "rank_score": 61.8,
-          "grade": "C",
-          "confidence": 68,
-          "title": "宠物市场到与电商扩张",
-          "industry_ids": [
-            "pet"
-          ],
-          "region_ids": [
-            "latam",
-            "north-america"
-          ],
-          "first_seen": "2026-11-18"
-        },
-        {
           "candidate_id": "cand-fee4686663ff",
-          "rank": 45,
+          "rank": 47,
           "total": 61.7,
           "rank_score": 61.7,
           "grade": "C",
@@ -1358,8 +1440,58 @@
           "first_seen": "2026-11-13"
         },
         {
+          "candidate_id": "cand-680a78268439",
+          "rank": 48,
+          "total": 61.7,
+          "rank_score": 61.7,
+          "grade": "C",
+          "confidence": 88,
+          "title": "进口163%关税:影响与关键",
+          "industry_ids": [
+            "crossborder"
+          ],
+          "region_ids": [
+            "europe",
+            "north-america"
+          ],
+          "first_seen": "2026-11-19"
+        },
+        {
+          "candidate_id": "cand-6b4bdacf26f1",
+          "rank": 49,
+          "total": 61.6,
+          "rank_score": 61.6,
+          "grade": "C",
+          "confidence": 86,
+          "title": "韩国超过外卖应用规则",
+          "industry_ids": [
+            "local"
+          ],
+          "region_ids": [
+            "east-asia"
+          ],
+          "first_seen": "2026-11-12"
+        },
+        {
+          "candidate_id": "cand-661053f8f890",
+          "rank": 50,
+          "total": 61.5,
+          "rank_score": 61.5,
+          "grade": "C",
+          "confidence": 68,
+          "title": "肯尼亚到稳定币规则，加密货币",
+          "industry_ids": [
+            "fintech"
+          ],
+          "region_ids": [
+            "africa",
+            "north-america"
+          ],
+          "first_seen": "2026-11-12"
+        },
+        {
           "candidate_id": "cand-0ac922128f07",
-          "rank": 46,
+          "rank": 51,
           "total": 61.4,
           "rank_score": 61.4,
           "grade": "C",
@@ -1376,7 +1508,7 @@
         },
         {
           "candidate_id": "cand-8231d33af9b2",
-          "rank": 47,
+          "rank": 52,
           "total": 61.4,
           "rank_score": 61.4,
           "grade": "C",
@@ -1392,24 +1524,8 @@
           "first_seen": "2026-11-13"
         },
         {
-          "candidate_id": "cand-68790b62196a",
-          "rank": 48,
-          "total": 61.3,
-          "rank_score": 61.3,
-          "grade": "C",
-          "confidence": 68,
-          "title": "市场到与电商推动增长",
-          "industry_ids": [
-            "crossborder"
-          ],
-          "region_ids": [
-            "sea"
-          ],
-          "first_seen": "2026-11-15"
-        },
-        {
           "candidate_id": "cand-de4013237db6",
-          "rank": 49,
+          "rank": 53,
           "total": 61.3,
           "rank_score": 61.3,
           "grade": "C",
@@ -1424,25 +1540,8 @@
           "first_seen": "2026-11-17"
         },
         {
-          "candidate_id": "cand-3f1b4d648aa8",
-          "rank": 50,
-          "total": 61.3,
-          "rank_score": 61.3,
-          "grade": "C",
-          "confidence": 66,
-          "title": "银行的如何银行支持小型企业，推动增长",
-          "industry_ids": [
-            "fintech",
-            "crossborder"
-          ],
-          "region_ids": [
-            "north-america"
-          ],
-          "first_seen": "2026-11-19"
-        },
-        {
           "candidate_id": "cand-a85663a562b3",
-          "rank": 51,
+          "rank": 54,
           "total": 61.1,
           "rank_score": 61.1,
           "grade": "C",
@@ -1458,7 +1557,7 @@
         },
         {
           "candidate_id": "cand-cf5bc88ca312",
-          "rank": 52,
+          "rank": 55,
           "total": 60.8,
           "rank_score": 60.8,
           "grade": "C",
@@ -1474,56 +1573,25 @@
           "first_seen": "2026-11-16"
         },
         {
-          "candidate_id": "cand-ac7be281a322",
-          "rank": 53,
-          "total": 60.7,
-          "rank_score": 60.7,
+          "candidate_id": "cand-8b475e1293a5",
+          "rank": 56,
+          "total": 59.8,
+          "rank_score": 59.8,
           "grade": "C",
-          "confidence": 88,
-          "title": "标准银行面临超过合规",
+          "confidence": 68,
+          "title": "是印度162.5%关税在进口英国",
           "industry_ids": [
-            "fintech"
+            "crossborder"
           ],
           "region_ids": [
-            "africa"
-          ],
-          "first_seen": "2026-11-18"
-        },
-        {
-          "candidate_id": "cand-df83e7f7e34b",
-          "rank": 54,
-          "total": 60.6,
-          "rank_score": 60.6,
-          "grade": "C",
-          "confidence": 72,
-          "title": "银行合作到推动3.1合规与增长",
-          "industry_ids": [
-            "fintech"
-          ],
-          "region_ids": [
+            "south-asia",
             "europe"
-          ],
-          "first_seen": "2026-11-17"
-        },
-        {
-          "candidate_id": "cand-8d0dbfcead4f",
-          "rank": 55,
-          "total": 60.4,
-          "rank_score": 60.4,
-          "grade": "C",
-          "confidence": 66,
-          "title": "印度作为到增长进入利润",
-          "industry_ids": [
-            "ai"
-          ],
-          "region_ids": [
-            "south-asia"
           ],
           "first_seen": "2026-11-18"
         },
         {
           "candidate_id": "cand-18edaad4e58f",
-          "rank": 56,
+          "rank": 57,
           "total": 58.3,
           "rank_score": 58.3,
           "grade": "C",
@@ -1544,11 +1612,28 @@
       "window": "year",
       "key": "2026",
       "label": "2026年",
-      "count": 58,
+      "count": 62,
       "items": [
         {
-          "candidate_id": "cand-57577b59fb28",
+          "candidate_id": "cand-285828b434d4",
           "rank": 1,
+          "total": 75.4,
+          "rank_score": 75.4,
+          "grade": "A",
+          "confidence": 94,
+          "title": "AI需求将推动上升警告",
+          "industry_ids": [
+            "ai"
+          ],
+          "region_ids": [
+            "europe",
+            "north-america"
+          ],
+          "first_seen": "2026-11-19"
+        },
+        {
+          "candidate_id": "cand-57577b59fb28",
+          "rank": 2,
           "total": 74.2,
           "rank_score": 74.2,
           "grade": "B",
@@ -1562,22 +1647,6 @@
             "sea"
           ],
           "first_seen": "2026-11-16"
-        },
-        {
-          "candidate_id": "cand-7167b8573213",
-          "rank": 2,
-          "total": 73.1,
-          "rank_score": 73.1,
-          "grade": "B",
-          "confidence": 95,
-          "title": "Grab报告增长在新加坡",
-          "industry_ids": [
-            "fintech"
-          ],
-          "region_ids": [
-            "sea"
-          ],
-          "first_seen": "2026-11-18"
         },
         {
           "candidate_id": "cand-9120b8063fe3",
@@ -1597,8 +1666,24 @@
           "first_seen": "2026-11-18"
         },
         {
-          "candidate_id": "cand-f95d78c18f9f",
+          "candidate_id": "cand-cea187e6358f",
           "rank": 4,
+          "total": 72.7,
+          "rank_score": 72.7,
+          "grade": "B",
+          "confidence": 74,
+          "title": "美国关税到推动上升为与消费者",
+          "industry_ids": [
+            "crossborder"
+          ],
+          "region_ids": [
+            "north-america"
+          ],
+          "first_seen": "2026-11-13"
+        },
+        {
+          "candidate_id": "cand-f95d78c18f9f",
+          "rank": 5,
           "total": 72.1,
           "rank_score": 72.1,
           "grade": "B",
@@ -1615,7 +1700,7 @@
         },
         {
           "candidate_id": "cand-c9b39015c7be",
-          "rank": 5,
+          "rank": 6,
           "total": 71.9,
           "rank_score": 71.9,
           "grade": "B",
@@ -1631,39 +1716,20 @@
           "first_seen": "2026-11-18"
         },
         {
-          "candidate_id": "cand-ba4ff83692dd",
-          "rank": 6,
-          "total": 71.7,
-          "rank_score": 71.7,
-          "grade": "B",
-          "confidence": 94,
-          "title": "亚马逊29十亿作为扩张",
-          "industry_ids": [
-            "crossborder"
-          ],
-          "region_ids": [
-            "north-america",
-            "mena"
-          ],
-          "first_seen": "2026-11-12"
-        },
-        {
-          "candidate_id": "cand-9ea1ffd8f283",
+          "candidate_id": "cand-06a027ba590d",
           "rank": 7,
           "total": 71.6,
           "rank_score": 71.6,
           "grade": "B",
-          "confidence": 95,
-          "title": "百万投资在沙特游戏创业公司",
+          "confidence": 88,
+          "title": "印尼96.7的太阳能由2029与政策",
           "industry_ids": [
-            "gaming",
-            "content"
+            "green"
           ],
           "region_ids": [
-            "mena",
-            "north-america"
+            "sea"
           ],
-          "first_seen": "2026-11-12"
+          "first_seen": "2026-11-19"
         },
         {
           "candidate_id": "cand-8a48c27cb835",
@@ -1684,8 +1750,26 @@
           "first_seen": "2026-11-13"
         },
         {
-          "candidate_id": "cand-03822b6e8b74",
+          "candidate_id": "cand-9a49ebb8c815",
           "rank": 9,
+          "total": 71.4,
+          "rank_score": 71.4,
+          "grade": "B",
+          "confidence": 90,
+          "title": "包装行业警告监管是创新",
+          "industry_ids": [
+            "compliance",
+            "ai"
+          ],
+          "region_ids": [
+            "europe",
+            "north-america"
+          ],
+          "first_seen": "2026-11-18"
+        },
+        {
+          "candidate_id": "cand-03822b6e8b74",
+          "rank": 10,
           "total": 71.3,
           "rank_score": 71.3,
           "grade": "B",
@@ -1702,7 +1786,7 @@
         },
         {
           "candidate_id": "cand-1b78ea052d99",
-          "rank": 10,
+          "rank": 11,
           "total": 70.9,
           "rank_score": 70.9,
           "grade": "B",
@@ -1719,8 +1803,43 @@
           "first_seen": "2026-11-16"
         },
         {
+          "candidate_id": "cand-ba4ff83692dd",
+          "rank": 12,
+          "total": 70.7,
+          "rank_score": 70.7,
+          "grade": "B",
+          "confidence": 94,
+          "title": "亚马逊29十亿作为扩张",
+          "industry_ids": [
+            "crossborder"
+          ],
+          "region_ids": [
+            "north-america",
+            "mena"
+          ],
+          "first_seen": "2026-11-12"
+        },
+        {
+          "candidate_id": "cand-9ea1ffd8f283",
+          "rank": 13,
+          "total": 70.6,
+          "rank_score": 70.6,
+          "grade": "B",
+          "confidence": 95,
+          "title": "百万投资在沙特游戏创业公司",
+          "industry_ids": [
+            "gaming",
+            "content"
+          ],
+          "region_ids": [
+            "mena",
+            "north-america"
+          ],
+          "first_seen": "2026-11-12"
+        },
+        {
           "candidate_id": "cand-57d6f8a46061",
-          "rank": 11,
+          "rank": 14,
           "total": 70.0,
           "rank_score": 70.0,
           "grade": "B",
@@ -1736,24 +1855,25 @@
           "first_seen": "2026-11-07"
         },
         {
-          "candidate_id": "cand-e2665df926be",
-          "rank": 12,
-          "total": 69.9,
-          "rank_score": 69.9,
+          "candidate_id": "cand-60e9d3bdf083",
+          "rank": 15,
+          "total": 70.0,
+          "rank_score": 70.0,
           "grade": "B",
-          "confidence": 68,
-          "title": "中小企业销售额增长到4.3%，报告",
+          "confidence": 66,
+          "title": "耐克终于给出了增长计划，但需要一点时间｜投资日现场直击",
           "industry_ids": [
             "crossborder"
           ],
           "region_ids": [
+            "china",
             "north-america"
           ],
-          "first_seen": "2026-11-18"
+          "first_seen": "2026-11-20"
         },
         {
           "candidate_id": "cand-0c28a9720e2d",
-          "rank": 13,
+          "rank": 16,
           "total": 69.8,
           "rank_score": 69.8,
           "grade": "B",
@@ -1769,8 +1889,41 @@
           "first_seen": "2026-11-15"
         },
         {
+          "candidate_id": "cand-d9361a0e9f6d",
+          "rank": 17,
+          "total": 69.8,
+          "rank_score": 69.8,
+          "grade": "B",
+          "confidence": 66,
+          "title": "投资在印度到支持扩张的8平台",
+          "industry_ids": [
+            "crossborder"
+          ],
+          "region_ids": [
+            "south-asia"
+          ],
+          "first_seen": "2026-11-19"
+        },
+        {
+          "candidate_id": "cand-920e66f7d400",
+          "rank": 18,
+          "total": 69.5,
+          "rank_score": 69.5,
+          "grade": "B",
+          "confidence": 68,
+          "title": "是到线上但不到在关于天然气",
+          "industry_ids": [
+            "crossborder"
+          ],
+          "region_ids": [
+            "europe",
+            "north-america"
+          ],
+          "first_seen": "2026-11-19"
+        },
+        {
           "candidate_id": "cand-754f3365c98f",
-          "rank": 14,
+          "rank": 19,
           "total": 69.3,
           "rank_score": 69.3,
           "grade": "B",
@@ -1788,7 +1941,7 @@
         },
         {
           "candidate_id": "cand-dde09c275eb0",
-          "rank": 15,
+          "rank": 20,
           "total": 69.2,
           "rank_score": 69.2,
           "grade": "B",
@@ -1804,58 +1957,8 @@
           "first_seen": "2026-11-16"
         },
         {
-          "candidate_id": "cand-8865d0c324b9",
-          "rank": 16,
-          "total": 69.0,
-          "rank_score": 69.0,
-          "grade": "B",
-          "confidence": 66,
-          "title": "食品企业创造68岗位在刚刚月;开设新与帮助的品牌增长",
-          "industry_ids": [
-            "crossborder"
-          ],
-          "region_ids": [
-            "africa",
-            "north-america"
-          ],
-          "first_seen": "2026-11-18"
-        },
-        {
-          "candidate_id": "cand-e869383ccc3e",
-          "rank": 17,
-          "total": 68.8,
-          "rank_score": 68.8,
-          "grade": "B",
-          "confidence": 74,
-          "title": "监管在产品(欧盟零毁林法规)",
-          "industry_ids": [
-            "compliance"
-          ],
-          "region_ids": [
-            "europe"
-          ],
-          "first_seen": "2026-11-12"
-        },
-        {
-          "candidate_id": "cand-66acebba8487",
-          "rank": 18,
-          "total": 68.6,
-          "rank_score": 68.6,
-          "grade": "B",
-          "confidence": 72,
-          "title": "工作旅行规则英国商业",
-          "industry_ids": [
-            "crossborder"
-          ],
-          "region_ids": [
-            "europe",
-            "north-america"
-          ],
-          "first_seen": "2026-11-18"
-        },
-        {
           "candidate_id": "cand-f3120da379bd",
-          "rank": 19,
+          "rank": 21,
           "total": 68.4,
           "rank_score": 68.4,
           "grade": "B",
@@ -1872,41 +1975,24 @@
           "first_seen": "2026-11-17"
         },
         {
-          "candidate_id": "cand-55ed4a4af26b",
-          "rank": 20,
-          "total": 68.1,
-          "rank_score": 68.1,
+          "candidate_id": "cand-e869383ccc3e",
+          "rank": 22,
+          "total": 67.8,
+          "rank_score": 67.8,
           "grade": "B",
           "confidence": 74,
-          "title": "谷歌面临为AI学校政策",
+          "title": "监管在产品(欧盟零毁林法规)",
           "industry_ids": [
-            "ai"
+            "compliance"
           ],
           "region_ids": [
-            "europe",
-            "north-america"
+            "europe"
           ],
-          "first_seen": "2026-11-09"
-        },
-        {
-          "candidate_id": "cand-f047dfb44bbb",
-          "rank": 21,
-          "total": 67.7,
-          "rank_score": 67.7,
-          "grade": "B",
-          "confidence": 66,
-          "title": "肯尼亚到开设上升银行业数据作为新金融科技规则",
-          "industry_ids": [
-            "fintech"
-          ],
-          "region_ids": [
-            "africa"
-          ],
-          "first_seen": "2026-11-05"
+          "first_seen": "2026-11-12"
         },
         {
           "candidate_id": "cand-2f03b30425b3",
-          "rank": 22,
+          "rank": 23,
           "total": 67.5,
           "rank_score": 67.5,
           "grade": "B",
@@ -1922,73 +2008,55 @@
           "first_seen": "2026-11-17"
         },
         {
-          "candidate_id": "cand-4bb042badc91",
-          "rank": 23,
+          "candidate_id": "cand-89556ac6422d",
+          "rank": 24,
           "total": 67.4,
           "rank_score": 67.4,
           "grade": "B",
           "confidence": 68,
-          "title": "月度制造科技扩张与更多",
+          "title": "来自6，000到超过520，000在3年.创始人可使用",
           "industry_ids": [
-            "manufacturing"
-          ],
-          "region_ids": [
-            "global",
-            "north-america"
-          ],
-          "first_seen": "2026-11-13"
-        },
-        {
-          "candidate_id": "cand-e8a4708f6839",
-          "rank": 24,
-          "total": 67.3,
-          "rank_score": 67.3,
-          "grade": "B",
-          "confidence": 74,
-          "title": "钠电正极材料厂商获金投致源战略投资数千万元",
-          "industry_ids": [
-            "green"
-          ],
-          "region_ids": [
-            "china",
-            "europe"
-          ],
-          "first_seen": "2026-11-19"
-        },
-        {
-          "candidate_id": "cand-14c7658c3193",
-          "rank": 25,
-          "total": 67.1,
-          "rank_score": 67.1,
-          "grade": "B",
-          "confidence": 68,
-          "title": "韩国投资者9月净买入102亿美元美股，为4月以来最多",
-          "industry_ids": [
-            "crossborder"
-          ],
-          "region_ids": [
-            "east-asia",
-            "north-america"
-          ],
-          "first_seen": "2026-11-19"
-        },
-        {
-          "candidate_id": "cand-a63fe5374f35",
-          "rank": 26,
-          "total": 66.8,
-          "rank_score": 66.8,
-          "grade": "B",
-          "confidence": 92,
-          "title": "银发猫食品市场到老龄化宠物与增长",
-          "industry_ids": [
-            "pet",
-            "silver"
+            "compliance"
           ],
           "region_ids": [
             "europe",
             "north-america"
           ],
-          "first_seen": "2026-11-15"
+          "first_seen": "2026-11-19"
+        },
+        {
+          "candidate_id": "cand-80d136da02b3",
+          "rank": 25,
+          "total": 67.2,
+          "rank_score": 67.2,
+          "grade": "B",
+          "confidence": 86,
+          "title": "隐私变化到支持照护与与监管",
+          "industry_ids": [
+            "compliance"
+          ],
+          "region_ids": [
+            "global",
+            "north-america"
+          ],
+          "first_seen": "2026-11-19"
+        },
+        {
+          "candidate_id": "cand-dd6bb00b2507",
+          "rank": 26,
+          "total": 67.1,
+          "rank_score": 67.1,
+          "grade": "B",
+          "confidence": 72,
+          "title": "‘全部在’在为何这头部有在AI",
+          "industry_ids": [
+            "ai",
+            "compliance"
+          ],
+          "region_ids": [
+            "europe"
+          ],
+          "first_seen": "2026-11-19"
         },
         {
           "candidate_id": "cand-e63c7b606e87",
@@ -2040,8 +2108,25 @@
           "first_seen": "2026-11-17"
         },
         {
-          "candidate_id": "cand-aeada97784ba",
+          "candidate_id": "cand-fe9339017f16",
           "rank": 30,
+          "total": 66.0,
+          "rank_score": 66.0,
+          "grade": "B",
+          "confidence": 74,
+          "title": "清真食品市场趋势与增长由产品，与地区",
+          "industry_ids": [
+            "culture"
+          ],
+          "region_ids": [
+            "mena",
+            "sea"
+          ],
+          "first_seen": "2026-04-20"
+        },
+        {
+          "candidate_id": "cand-aeada97784ba",
+          "rank": 31,
           "total": 65.6,
           "rank_score": 65.6,
           "grade": "B",
@@ -2059,7 +2144,7 @@
         },
         {
           "candidate_id": "cand-dcf728dd581e",
-          "rank": 31,
+          "rank": 32,
           "total": 65.3,
           "rank_score": 65.3,
           "grade": "B",
@@ -2075,8 +2160,25 @@
           "first_seen": "2026-11-16"
         },
         {
+          "candidate_id": "cand-e2f34986babb",
+          "rank": 33,
+          "total": 65.3,
+          "rank_score": 65.3,
+          "grade": "B",
+          "confidence": 66,
+          "title": "行业在产品创新在增长推动",
+          "industry_ids": [
+            "crossborder"
+          ],
+          "region_ids": [
+            "south-asia",
+            "north-america"
+          ],
+          "first_seen": "2026-11-19"
+        },
+        {
           "candidate_id": "cand-d93ceb4b8205",
-          "rank": 32,
+          "rank": 34,
           "total": 65.0,
           "rank_score": 65.0,
           "grade": "B",
@@ -2092,24 +2194,59 @@
           "first_seen": "2026-11-10"
         },
         {
-          "candidate_id": "cand-b8465babea17",
-          "rank": 33,
-          "total": 64.9,
-          "rank_score": 64.9,
+          "candidate_id": "cand-d49a08bc2a5f",
+          "rank": 35,
+          "total": 64.8,
+          "rank_score": 64.8,
           "grade": "C",
-          "confidence": 68,
-          "title": "中国电商为关税.将30%关税销售额?",
+          "confidence": 88,
+          "title": "中国AI芯片作为新美国规则关闭制造",
+          "industry_ids": [
+            "ai"
+          ],
+          "region_ids": [
+            "china",
+            "north-america"
+          ],
+          "first_seen": "2026-11-20"
+        },
+        {
+          "candidate_id": "cand-ddc70a4e6668",
+          "rank": 36,
+          "total": 64.3,
+          "rank_score": 64.3,
+          "grade": "C",
+          "confidence": 66,
+          "title": "非洲为太阳能之后创纪录增长",
+          "industry_ids": [
+            "green"
+          ],
+          "region_ids": [
+            "africa",
+            "europe"
+          ],
+          "first_seen": "2026-02-27"
+        },
+        {
+          "candidate_id": "cand-c99de163c285",
+          "rank": 37,
+          "total": 64.3,
+          "rank_score": 64.3,
+          "grade": "C",
+          "confidence": 60,
+          "title": "新商业22%与领先增长",
           "industry_ids": [
             "crossborder"
           ],
           "region_ids": [
-            "china"
+            "south-asia",
+            "north-america"
           ],
-          "first_seen": "2026-11-13"
+          "first_seen": "2026-11-15"
         },
         {
           "candidate_id": "cand-a858ea722580",
-          "rank": 34,
+          "rank": 38,
           "total": 63.8,
           "rank_score": 63.8,
           "grade": "C",
@@ -2126,7 +2263,7 @@
         },
         {
           "candidate_id": "cand-25923230dafd",
-          "rank": 35,
+          "rank": 39,
           "total": 63.8,
           "rank_score": 63.8,
           "grade": "C",
@@ -2143,7 +2280,7 @@
         },
         {
           "candidate_id": "cand-5bd97e67576f",
-          "rank": 36,
+          "rank": 40,
           "total": 63.8,
           "rank_score": 63.8,
           "grade": "C",
@@ -2159,93 +2296,124 @@
           "first_seen": "2026-11-17"
         },
         {
-          "candidate_id": "cand-c3fcb6de6245",
-          "rank": 37,
-          "total": 63.0,
-          "rank_score": 63.0,
+          "candidate_id": "cand-6d73dba5d49d",
+          "rank": 41,
+          "total": 63.7,
+          "rank_score": 63.7,
           "grade": "C",
           "confidence": 60,
-          "title": "新商业22%与领先增长",
-          "industry_ids": [
-            "crossborder"
-          ],
-          "region_ids": [
-            "south-asia",
-            "north-america"
-          ],
-          "first_seen": "2026-11-15"
-        },
-        {
-          "candidate_id": "cand-6b4bdacf26f1",
-          "rank": 38,
-          "total": 62.6,
-          "rank_score": 62.6,
-          "grade": "C",
-          "confidence": 86,
-          "title": "韩国超过外卖应用规则",
-          "industry_ids": [
-            "local"
-          ],
-          "region_ids": [
-            "east-asia"
-          ],
-          "first_seen": "2026-11-12"
-        },
-        {
-          "candidate_id": "cand-35be68ae2bae",
-          "rank": 39,
-          "total": 62.6,
-          "rank_score": 62.6,
-          "grade": "C",
-          "confidence": 72,
-          "title": "可能是最佳工作'的AI表示风投投资人",
-          "industry_ids": [
-            "ai",
-            "compliance"
-          ],
-          "region_ids": [
-            "europe"
-          ],
-          "first_seen": "2026-11-15"
-        },
-        {
-          "candidate_id": "cand-5a2e023cda5f",
-          "rank": 40,
-          "total": 62.6,
-          "rank_score": 62.6,
-          "grade": "C",
-          "confidence": 66,
-          "title": "微软开设行业超过政策",
+          "title": "全部建筑产品到是在英国",
           "industry_ids": [
             "compliance",
             "crossborder"
           ],
           "region_ids": [
-            "oceania",
-            "north-america"
+            "europe"
           ],
-          "first_seen": "2026-11-19"
+          "first_seen": "2026-03-03"
         },
         {
-          "candidate_id": "cand-661053f8f890",
-          "rank": 41,
-          "total": 62.5,
-          "rank_score": 62.5,
+          "candidate_id": "cand-7f34a303f295",
+          "rank": 42,
+          "total": 63.6,
+          "rank_score": 63.6,
           "grade": "C",
-          "confidence": 68,
-          "title": "肯尼亚到稳定币规则，加密货币",
+          "confidence": 74,
+          "title": "阿联酋流量规则版权授权之后",
           "industry_ids": [
-            "fintech"
+            "content"
           ],
           "region_ids": [
-            "africa",
+            "mena",
+            "north-america"
+          ],
+          "first_seen": "2026-11-09"
+        },
+        {
+          "candidate_id": "cand-2ddd65fee05d",
+          "rank": 43,
+          "total": 62.8,
+          "rank_score": 62.8,
+          "grade": "C",
+          "confidence": 68,
+          "title": "迪拜法律在与建筑规则",
+          "industry_ids": [
+            "crossborder"
+          ],
+          "region_ids": [
+            "mena",
             "north-america"
           ],
           "first_seen": "2026-11-12"
         },
         {
+          "candidate_id": "cand-e4d7200feafd",
+          "rank": 44,
+          "total": 62.7,
+          "rank_score": 62.7,
+          "grade": "C",
+          "confidence": 66,
+          "title": "氪首发丨多地国资押注",
+          "industry_ids": [
+            "crossborder"
+          ],
+          "region_ids": [
+            "china"
+          ],
+          "first_seen": "2026-11-20"
+        },
+        {
+          "candidate_id": "cand-6d298c563144",
+          "rank": 45,
+          "total": 62.4,
+          "rank_score": 62.4,
+          "grade": "C",
+          "confidence": 66,
+          "title": "阿联酋可在员工低于新规则",
+          "industry_ids": [
+            "crossborder"
+          ],
+          "region_ids": [
+            "mena"
+          ],
+          "first_seen": "2026-11-08"
+        },
+        {
+          "candidate_id": "cand-f574a00bf492",
+          "rank": 46,
+          "total": 62.2,
+          "rank_score": 62.2,
+          "grade": "C",
+          "confidence": 72,
+          "title": "美妆品牌需求跨线上，线下与这",
+          "industry_ids": [
+            "crossborder"
+          ],
+          "region_ids": [
+            "south-asia"
+          ],
+          "first_seen": "2026-11-19"
+        },
+        {
+          "candidate_id": "cand-72cbb041e5c2",
+          "rank": 47,
+          "total": 62.1,
+          "rank_score": 62.1,
+          "grade": "C",
+          "confidence": 86,
+          "title": "印尼宠物消费宠物消费变化",
+          "industry_ids": [
+            "crossborder"
+          ],
+          "region_ids": [
+            "sea",
+            "europe"
+          ],
+          "first_seen": "2026-11-19"
+        },
+        {
           "candidate_id": "cand-732278c26d08",
-          "rank": 42,
+          "rank": 48,
           "total": 62.0,
           "rank_score": 62.0,
           "grade": "C",
@@ -2262,7 +2430,7 @@
         },
         {
           "candidate_id": "cand-05ef987559f7",
-          "rank": 43,
+          "rank": 49,
           "total": 61.9,
           "rank_score": 61.9,
           "grade": "C",
@@ -2279,7 +2447,7 @@
         },
         {
           "candidate_id": "cand-4767bfb82fdd",
-          "rank": 44,
+          "rank": 50,
           "total": 61.9,
           "rank_score": 61.9,
           "grade": "C",
@@ -2294,25 +2462,8 @@
           "first_seen": "2026-11-16"
         },
         {
-          "candidate_id": "cand-c7abd0a133c3",
-          "rank": 45,
-          "total": 61.8,
-          "rank_score": 61.8,
-          "grade": "C",
-          "confidence": 68,
-          "title": "宠物市场到与电商扩张",
-          "industry_ids": [
-            "pet"
-          ],
-          "region_ids": [
-            "latam",
-            "north-america"
-          ],
-          "first_seen": "2026-11-18"
-        },
-        {
           "candidate_id": "cand-fee4686663ff",
-          "rank": 46,
+          "rank": 51,
           "total": 61.7,
           "rank_score": 61.7,
           "grade": "C",
@@ -2327,8 +2478,58 @@
           "first_seen": "2026-11-13"
         },
         {
+          "candidate_id": "cand-680a78268439",
+          "rank": 52,
+          "total": 61.7,
+          "rank_score": 61.7,
+          "grade": "C",
+          "confidence": 88,
+          "title": "进口163%关税:影响与关键",
+          "industry_ids": [
+            "crossborder"
+          ],
+          "region_ids": [
+            "europe",
+            "north-america"
+          ],
+          "first_seen": "2026-11-19"
+        },
+        {
+          "candidate_id": "cand-6b4bdacf26f1",
+          "rank": 53,
+          "total": 61.6,
+          "rank_score": 61.6,
+          "grade": "C",
+          "confidence": 86,
+          "title": "韩国超过外卖应用规则",
+          "industry_ids": [
+            "local"
+          ],
+          "region_ids": [
+            "east-asia"
+          ],
+          "first_seen": "2026-11-12"
+        },
+        {
+          "candidate_id": "cand-661053f8f890",
+          "rank": 54,
+          "total": 61.5,
+          "rank_score": 61.5,
+          "grade": "C",
+          "confidence": 68,
+          "title": "肯尼亚到稳定币规则，加密货币",
+          "industry_ids": [
+            "fintech"
+          ],
+          "region_ids": [
+            "africa",
+            "north-america"
+          ],
+          "first_seen": "2026-11-12"
+        },
+        {
           "candidate_id": "cand-0ac922128f07",
-          "rank": 47,
+          "rank": 55,
           "total": 61.4,
           "rank_score": 61.4,
           "grade": "C",
@@ -2345,7 +2546,7 @@
         },
         {
           "candidate_id": "cand-8231d33af9b2",
-          "rank": 48,
+          "rank": 56,
           "total": 61.4,
           "rank_score": 61.4,
           "grade": "C",
@@ -2361,24 +2562,8 @@
           "first_seen": "2026-11-13"
         },
         {
-          "candidate_id": "cand-68790b62196a",
-          "rank": 49,
-          "total": 61.3,
-          "rank_score": 61.3,
-          "grade": "C",
-          "confidence": 68,
-          "title": "市场到与电商推动增长",
-          "industry_ids": [
-            "crossborder"
-          ],
-          "region_ids": [
-            "sea"
-          ],
-          "first_seen": "2026-11-15"
-        },
-        {
           "candidate_id": "cand-de4013237db6",
-          "rank": 50,
+          "rank": 57,
           "total": 61.3,
           "rank_score": 61.3,
           "grade": "C",
@@ -2393,25 +2578,8 @@
           "first_seen": "2026-11-17"
         },
         {
-          "candidate_id": "cand-3f1b4d648aa8",
-          "rank": 51,
-          "total": 61.3,
-          "rank_score": 61.3,
-          "grade": "C",
-          "confidence": 66,
-          "title": "银行的如何银行支持小型企业，推动增长",
-          "industry_ids": [
-            "fintech",
-            "crossborder"
-          ],
-          "region_ids": [
-            "north-america"
-          ],
-          "first_seen": "2026-11-19"
-        },
-        {
           "candidate_id": "cand-a85663a562b3",
-          "rank": 52,
+          "rank": 58,
           "total": 61.1,
           "rank_score": 61.1,
           "grade": "C",
@@ -2427,7 +2595,7 @@
         },
         {
           "candidate_id": "cand-cf5bc88ca312",
-          "rank": 53,
+          "rank": 59,
           "total": 60.8,
           "rank_score": 60.8,
           "grade": "C",
@@ -2443,56 +2611,8 @@
           "first_seen": "2026-11-16"
         },
         {
-          "candidate_id": "cand-ac7be281a322",
-          "rank": 54,
-          "total": 60.7,
-          "rank_score": 60.7,
-          "grade": "C",
-          "confidence": 88,
-          "title": "标准银行面临超过合规",
-          "industry_ids": [
-            "fintech"
-          ],
-          "region_ids": [
-            "africa"
-          ],
-          "first_seen": "2026-11-18"
-        },
-        {
-          "candidate_id": "cand-df83e7f7e34b",
-          "rank": 55,
-          "total": 60.6,
-          "rank_score": 60.6,
-          "grade": "C",
-          "confidence": 72,
-          "title": "银行合作到推动3.1合规与增长",
-          "industry_ids": [
-            "fintech"
-          ],
-          "region_ids": [
-            "europe"
-          ],
-          "first_seen": "2026-11-17"
-        },
-        {
-          "candidate_id": "cand-8d0dbfcead4f",
-          "rank": 56,
-          "total": 60.4,
-          "rank_score": 60.4,
-          "grade": "C",
-          "confidence": 66,
-          "title": "印度作为到增长进入利润",
-          "industry_ids": [
-            "ai"
-          ],
-          "region_ids": [
-            "south-asia"
-          ],
-          "first_seen": "2026-11-18"
-        },
-        {
           "candidate_id": "cand-2790d3876b67",
-          "rank": 57,
+          "rank": 60,
           "total": 60.2,
           "rank_score": 60.2,
           "grade": "C",
@@ -2508,8 +2628,25 @@
           "first_seen": "2026-05-26"
         },
         {
+          "candidate_id": "cand-8b475e1293a5",
+          "rank": 61,
+          "total": 59.8,
+          "rank_score": 59.8,
+          "grade": "C",
+          "confidence": 68,
+          "title": "是印度162.5%关税在进口英国",
+          "industry_ids": [
+            "crossborder"
+          ],
+          "region_ids": [
+            "south-asia",
+            "europe"
+          ],
+          "first_seen": "2026-11-18"
+        },
+        {
           "candidate_id": "cand-18edaad4e58f",
-          "rank": 58,
+          "rank": 62,
           "total": 58.3,
           "rank_score": 58.3,
           "grade": "C",
